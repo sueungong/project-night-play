@@ -1013,6 +1013,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .app{grid-template-columns:minmax(0,1fr)} .topbar{overflow:hidden} .topbar .crumb{flex:1 1 auto; min-width:0; overflow:hidden; white-space:nowrap}
 @media (max-aspect-ratio: 7/10){   /* 세로로 긴 휴대폰만 — 폴드 펼친 화면(정사각에 가까움)은 어느 방향이든 플레이 */
   #rotateHint{display:flex; position:fixed; inset:0; z-index:9999; background:#0b0f1e; color:var(--ink); flex-direction:column; align-items:center; justify-content:center; gap:14px; text-align:center; padding:24px}
+  #rotateHint #rotGo{height:52px; padding:0 22px; font-size:17px; font-weight:800}
   #rotateHint svg{width:84px; height:84px; color:var(--accent)} #rotateHint b{font-size:20px} #rotateHint span{color:var(--sub); font-size:15px; line-height:1.6}
   .app{visibility:hidden}
 }
@@ -1209,10 +1210,10 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
   .eqfig.unit img.eqimg{width:96px; height:96px} .eqpow{display:none} .bggrid{grid-template-columns:repeat(auto-fill,minmax(44px,1fr)); max-height:calc(100dvh - 190px)} .eqleft .setline,.eqleft .hintline{display:none} }
 </style>
 
-<div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span></div>
+<div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.48 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.49 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1318,6 +1319,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.49: <b>휴대폰 가로 화면 고침</b> — 설치한 앱으로 열었을 때 전체 화면·가로 고정을 건너뛰던 문제. 휴대폰에서는 처음 누를 때 전체 화면과 가로 고정을 함께 걸어, 휴대폰 자동 회전이 꺼져 있어도 가로로 바뀝니다. 세로 화면 안내에 '📱 가로 전체 화면으로 시작' 버튼과 현재 화면 상태 표시를 넣었습니다. 실패하면 이유가 의견 보내기의 오류 기록에 남습니다.
 v0.48: <b>휴대폰 전체 화면 고침</b> — 크롬에서 '앱 설치'로 깔아도 상태 표시줄·아래 버튼 줄이 보이던 문제. 이제 휴대폰(또는 설치한 앱)에서는 화면을 처음 누를 때 저절로 전체 화면·가로 고정이 되고, 다른 앱에 다녀오면 다음 터치 때 다시 전체 화면이 됩니다. ⛶ 버튼으로 끄면 다시 켤 때까지 그대로 둡니다.
 v0.47: <b>의견 보내기</b> — 위쪽 💬 버튼(또는 ⚙ 설정)에서 버그·난이도·불편함·아이디어를 적어 카톡·문자로 공유하거나 복사할 수 있습니다. 버전·기기·진행·최근 전투 기록·오류를 함께 붙여 보내 문제를 바로 찾을 수 있게 했습니다. GitHub 계정이 있으면 이슈로 바로 올릴 수도 있습니다.
 v0.46: <b>더 어려운 밤 · 강해진 보스</b> — 모든 적이 강해졌습니다(황혼 체력 +12%·공격력 +10%, 자정 +18%·+12%, 영원한 밤 +22%·+15%). 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 여기에 더해 체력 ×1.8 / ×2.1 / ×2.4, 공격력 ×1.15 / ×1.2 / ×1.25. 대신 보스가 있는 전투는 턴 제한이 60턴에서 <b>75턴</b>으로 늘었습니다.
@@ -9854,18 +9856,32 @@ function fsStandalone(){ try{ return matchMedia("(display-mode: fullscreen)").ma
 function fsTop(){ try{ return window.top===window; }catch(e){ return false; } }
 function fsApi(){ const d=document.documentElement; return !!(d.requestFullscreen||d.webkitRequestFullscreen); }
 function fsTrue(){ try{ return !fsEl()&&matchMedia("(display-mode: fullscreen)").matches; }catch(e){ return false; } }   // 앱 정보(manifest)대로 이미 전체 화면으로 열림
-// v0.48: 설치한 앱(크롬이 standalone으로 열어 상태 표시줄·내비 바가 보이는 경우)에서도 버튼을 보이고, 휴대폰에서는 첫 터치 때 저절로 전체 화면
-function fsUsable(){ if(fsEl()) return true; return fsTop()&&fsApi()&&!fsTrue(); }   /* 전체 화면 중에는 display-mode가 fullscreen으로 바뀌므로 '나가기' 버튼은 그대로 */
-let fsUserOff=false;
-async function fsEnter(){ const d=document.documentElement; await (d.requestFullscreen||d.webkitRequestFullscreen).call(d,{navigationUI:"hide"}); try{ await screen.orientation.lock("landscape"); }catch(_){} }
-function fsAutoArm(){ try{ if(!fsTop()||!fsApi()||fsTrue()||fsUserOff) return; const mobile=matchMedia("(pointer: coarse)").matches; if(!mobile&&!fsStandalone()) return;
-    const go=()=>{ document.removeEventListener("pointerup",go,true); document.removeEventListener("touchend",go,true); if(fsEl()||fsUserOff) return; fsEnter().then(fsSync,()=>{}); };
-    document.addEventListener("pointerup",go,true); document.addEventListener("touchend",go,true); }catch(e){} }
-document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&!fsEl()) fsAutoArm(); });   // 다른 앱에 다녀오면 전체 화면이 풀리므로 다음 터치 때 다시
-setTimeout(fsAutoArm,0);
+// v0.49: 휴대폰에서는 처음 누를 때(또는 '가로 전체 화면으로 시작' 버튼) 전체 화면 + 가로 고정.
+// 화면 방향 고정(screen.orientation.lock)은 휴대폰 자동 회전이 꺼져 있어도 가로로 돌려 준다. 설치한 앱(display-mode: fullscreen)에서도 다시 시도한다.
+function fsUsable(){ if(fsEl()) return true; return fsTop()&&fsApi(); }
+let fsUserOff=false; const FS_DIAG={};
+function fsMobile(){ try{ return matchMedia("(pointer: coarse)").matches||/Android|iPhone|iPad/i.test(navigator.userAgent||""); }catch(e){ return false; } }
+function fsPortrait(){ return innerHeight>innerWidth; }
+function fsDiagText(){ let dm="browser"; try{ for(const m of ["fullscreen","standalone","minimal-ui"]) if(matchMedia(`(display-mode: ${m})`).matches){ dm=m; break; } }catch(e){}
+  return `화면 ${dm} · 전체 화면 ${fsEl()?"켜짐":"꺼짐"} · 방향 ${(screen.orientation&&screen.orientation.type)||"?"}${FS_DIAG.err?` · ${FS_DIAG.err}`:""}`; }
+function fsHintSync(){ const b=document.getElementById("rotGo"), d=document.getElementById("rotDiag"); if(b) b.hidden=!(fsTop()&&(fsApi()||(screen.orientation&&screen.orientation.lock))); if(d) d.textContent=fsTop()?fsDiagText():""; }
+async function fsEnter(){
+  FS_DIAG.err="";
+  if(!fsEl()&&fsApi()){ const d=document.documentElement; try{ await (d.requestFullscreen||d.webkitRequestFullscreen).call(d,{navigationUI:"hide"}); }catch(e){ FS_DIAG.err="전체 화면 거부: "+(e&&e.name||e); } }
+  if(screen.orientation&&screen.orientation.lock){ try{ await screen.orientation.lock("landscape"); }catch(e){ FS_DIAG.err=(FS_DIAG.err?FS_DIAG.err+" · ":"")+"가로 고정 거부: "+(e&&e.name||e); } }
+  if(FS_DIAG.err){ try{ FB_ERRS.push("전체 화면/가로: "+FS_DIAG.err+" ("+fsDiagText()+")"); if(FB_ERRS.length>8) FB_ERRS.shift(); }catch(e){} }
+  fsSync(); fsHintSync();
+}
+function fsLandscape(force){ if(force) fsUserOff=false; return fsEnter(); }
+function fsAutoArm(){ try{ if(!fsTop()||fsUserOff||!fsMobile()) return;
+    const go=()=>{ document.removeEventListener("pointerup",go,true); document.removeEventListener("touchend",go,true); document.removeEventListener("click",go,true); if(fsUserOff) return; if(fsEl()&&!fsPortrait()) return; fsEnter(); };
+    document.addEventListener("pointerup",go,true); document.addEventListener("touchend",go,true); document.addEventListener("click",go,true); }catch(e){} }
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") fsAutoArm(); });   // 다른 앱에 다녀오면 전체 화면이 풀리므로 다음 터치 때 다시
+addEventListener("resize",()=>{ fsHintSync(); if(fsPortrait()) fsAutoArm(); });
+setTimeout(()=>{ fsAutoArm(); fsHintSync(); if(fsTop()&&fsMobile()&&screen.orientation&&screen.orientation.lock) screen.orientation.lock("landscape").catch(()=>{}); },0);   // 설치한 앱은 터치 없이도 가로 고정이 될 수 있음
 async function toggleFullscreen(){ try{
     if(fsEl()){ fsUserOff=true; await (document.exitFullscreen||document.webkitExitFullscreen).call(document); return; }
-    fsUserOff=false; await fsEnter();
+    fsUserOff=false; await fsEnter(); return;
   }catch(e){ toast(`<span class="tc">전체 화면</span>이 브라우저는 전체 화면을 막고 있습니다. 브라우저 메뉴의 '홈 화면에 추가'로 연 뒤 그 아이콘으로 실행해 주세요.`); }
   fsSync(); }
 function fsSync(){ const b=document.getElementById("fsBtn"); if(!b) return; b.hidden=!fsUsable(); const on=!!fsEl(); b.textContent=on?"🗗":"⛶"; b.title=on?"전체 화면 나가기":"전체 화면"; }
