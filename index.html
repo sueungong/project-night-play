@@ -605,6 +605,7 @@ input[type=checkbox]{accent-color:var(--accent); width:18px; height:18px}
 .prim{display:grid; grid-template-columns:repeat(6,1fr); gap:8px}
 .prim .pbtn{display:flex; flex-direction:column; align-items:center; gap:0; background:var(--panel2); border:1.5px solid var(--line); border-radius:12px; padding:8px 2px; color:var(--ink); cursor:default; position:relative; min-height:72px; justify-content:center}
 .prim .pbtn .pk{font-size:13px; color:var(--muted)} .prim .pbtn .pv{font-size:23px; font-weight:700; line-height:1.15}
+.prim .pbtn .pe{font-size:11px; line-height:1.35; color:var(--sub); text-align:center; padding:3px 4px 0; word-break:keep-all; white-space:nowrap}   /* v0.53: 1포인트당 효과를 바로 보이게(휴대폰엔 마우스 올리기가 없음) */
 .prim .pbtn.can{cursor:pointer; border-color:#a68a35} .prim .pbtn.can:hover{background:var(--raised)}
 .prim .pbtn .plus{position:absolute; top:5px; right:5px; width:16px; height:16px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px #f4c95daa}
 .prim .pbtn .plus::before,.prim .pbtn .plus::after{content:""; position:absolute; left:50%; top:50%; background:var(--accent-ink); transform:translate(-50%,-50%)}
@@ -1214,7 +1215,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.52 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.53 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1320,6 +1321,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.53: <b>능력치 화면(휴대폰)</b> — 기본 능력치 칸마다 1포인트당 효과를 바로 적어 둠(예: 체질 — 체력 +10 · 방어력 +0.5 · 저항 +0.4%, 마법 직업의 힘은 효과 없음). 능력치를 찍을 때 영웅 정보 칸이 맨 위로 튀어 올라가던 문제를 고쳐, 보던 자리 그대로 남습니다(장비 탭도 같음).
 v0.52: <b>주인공 규칙 순서 고침</b> — v0.50 이전 규칙 교실이 칸을 여는 순서대로 규칙을 쌓아, 성직자 주인공은 '축복'이 맨 위에 있어 마나가 많으면 아군이 빈사여도 치유 대신 축복을 쓰던 문제(이미 하던 세이브는 v0.51에서도 순서가 그대로였음). 이제 주인공 규칙은 직업 기본 순서(성직자: 광역 치유 → 치유 → 축복)로 들어가고, 직접 고치지 않은 기존 세이브도 한 번 기본 순서로 바로잡습니다.
 v0.51.1: 주인공에게 보이던 대상 이름 '자동'을 없앴습니다 — 규칙 교실 카드·스킬 자동 추가 알림·총사 도움말에 남아 있던 '자동'을 주인공의 '기본 — …' 표기로 바꿈('자동(스스로 판단)'은 동료에게만).
 v0.51: <b>주인공 자동전투 규칙</b> — 새로 시작하면 규칙 교실 동안 주인공의 규칙 칸이 잠겨 있어(처음엔 1칸) 주인공이 거의 기본공격만 하던 문제. 이제 주인공도 처음부터 직업 기본 규칙이 모두 들어 있고, 규칙 교실은 규칙을 하나씩 설명만 합니다. 진행 중인 세이브도 빠진 기본 규칙이 바로 채워집니다. v0.50에서 낮췄던 황혼 1·2장 난이도는 되돌렸습니다.
@@ -2325,6 +2327,16 @@ function relicOwned(rk){ return progress.inv.some(x=>x.relic===rk)||equippedStor
    같은 직업이라도 어디에 몰았느냐로 관통형·반격형·파밍형이 갈린다. */
 const PRIM=["str","agi","int","con","wil","luk"];
 const PRIM_LABEL={str:"힘",agi:"민첩",int:"지능",con:"체질",wil:"의지",luk:"행운"};
+// v0.53: 1차 능력치 1포인트당 실제 효과(heroDerived 계산식 그대로) — 직업이 마법형인지에 따라 힘·지능이 다름
+function primEffect(cid,k){ const caster=!!(CLASSES[cid]&&CLASSES[cid].caster);
+  switch(k){
+    case "str": return caster?"마법 직업에는 효과 없음(공격은 지능)":"공격력 +1 · 관통 +0.4%";
+    case "agi": return "신속 +0.5 · 치명타 +0.4% · 명중 +0.2% · 회피 +0.5%";
+    case "int": return caster?"마력 +1 · 마나 +4 · 관통 +0.4%":"마나 +4";
+    case "con": return "체력 +10 · 방어력 +0.5 · 저항 +0.4%";
+    case "wil": return "마나 +2 · 치유량 +0.6% · 보호막 +0.8% · 저항 +0.6%";
+    case "luk": return "치명타 +0.3% · 치명 피해 +0.5% · 강화 성공 +0.3% · 좋은 장비·골드 ↑";
+  } return ""; }
 const PRIM_DESC={str:"물리 공격력 · 관통(물리 직업)",agi:"신속 · 치명타 확률 · 명중 · 회피",int:"마력 · 마나 · 관통(마법 직업)",con:"체력 · 방어력 · 상태이상 저항",wil:"치유량 · 보호막 · 마나 · 상태이상 저항",luk:"치명타 피해 · 드롭 등급 · 강화 성공률 · 발동 확률 · 골드"};
 const SEC_LABEL={atk:"공격력",matk:"마력",hp:"체력",def:"방어력",spd:"신속",mp:"마나",crit:"치명타 확률",critdmg:"치명타 피해",acc:"명중",eva:"회피",pen:"관통",ls:"흡혈",res:"상태이상 저항",heal:"치유량",regen:"턴당 마나"};
 const BOSS_RAGE={atk:1.2};   // v0.32: 보스 광폭(체력 50% 아래) — 공격력 배율, 2턴마다 추가 행동
@@ -8569,8 +8581,11 @@ function formSlots(ids,W,H,enemyN){   // battle_fx layout()과 같은 규칙: �
     slot[r+l]={x:W*(0.5+(COLS[r]-0.5)*(0.88+0.12*fz)+fwd*0.065), y:topF+(botF-topF)*fz, sc:(0.84+0.2*fz)*base}; }
   return {pos:out,slot,g,base,hz:g.hz,topF,botF};
 }
+// 다시 그리기 전 안쪽 스크롤 칸들의 위치를 기억했다가(클래스 이름으로 짝지음) 다시 그린 뒤 되돌림
+function keepInnerScroll(root){ const saved=[]; try{ for(const e of root.querySelectorAll("*")) if(e.scrollTop>0&&e.className&&typeof e.className==="string") saved.push([e.className,e.scrollTop]); }catch(e){}
+  return ()=>{ for(const [c,t] of saved){ const sel="."+c.trim().split(/\s+/).map(x=>CSS.escape(x)).join("."); const e=root.querySelector(sel); if(e) e.scrollTop=t; } }; }
 function renderFormation(){
-  const pane=$("partyPane"); const view=$("body-party"); const scrollTop=view.scrollTop; pane.innerHTML="";
+  const pane=$("partyPane"); const view=$("body-party"); const scrollTop=view.scrollTop; const innerKeep=keepInnerScroll(pane); pane.innerHTML="";
   const rids=rosterIds(); if(!rids.includes(partySel)) partySel=(progress.protag&&rids.includes(progress.protag.cid))?progress.protag.cid:rids[0];
   const lock=runBusy()||playing, P=partyIds();
   const board=document.createElement("div"); board.className="panel formboard";
@@ -8621,7 +8636,7 @@ function renderFormation(){
     else { renderParty(); const m=$("partyPane").querySelector(".fmsg"); if(m) m.textContent=r==="protag"?"★ 주인공은 항상 출전해요.":r==="full"?`출전은 ${partyCap()}명까지예요${partyCap()<6?" (자정을 열면 5명, 영원한 밤을 열면 6명)":""} — 대기 영웅을 출전 영웅 위에 놓으면 서로 바뀌어요.`:r==="rowfull"?"그 줄은 4칸이 다 찼어요 — 빈 칸이나 영웅 위에 놓아 주세요.":""; } };
   board.addEventListener("pointerdown",e=>{ const c=e.target.closest(".fchip"); if(!c) return; e.preventDefault(); drag={id:c.dataset.hero,x:e.clientX,y:e.clientY,el:c,ghost:null};
     document.addEventListener("pointermove",move,{passive:false}); document.addEventListener("pointerup",up); });
-  view.scrollTop=scrollTop;
+  view.scrollTop=scrollTop; innerKeep();   // v0.53: 안쪽 칸(영웅 정보 등)의 스크롤도 그대로 — 능력치를 찍을 때 맨 위로 튀지 않게
 }
 /* v0.39 아이템 도트(32×32 "세밀 도트") — 64칸 좌표의 SVG 경로로 실루엣을 설계하고 32칸으로 찍음.
    부위별 5단 명암(왼쪽 위 빛) · 외곽선은 맞닿은 부위의 가장 어두운 색 · 보석 반짝임 · 빛나는 부위는 등급색 번짐.
@@ -9017,7 +9032,7 @@ function bagApply(kind){ const T=bagSelTotals(); if(!T.n) return;
   bagSel.clear(); saveProgress(); renderParty(); }
 function bagQuick(maxTier,keepUp){ bagSel.clear(); for(const it of progress.inv){ if(it.lock||it.slot==="relic") continue; if(rarityTier(it)>maxTier||it.rarity==="set"&&maxTier<5) continue; if(keepUp&&it.slot!=="rune"&&isUpgradeForAnyone(it)) continue; bagSel.add(it.id); } renderParty(); }
 function renderEquip(){
-  const pane=$("equipPane"); const view=$("body-equip"); const scrollTop=view.scrollTop; pane.innerHTML=""; pane.className="eqpane";
+  const pane=$("equipPane"); const view=$("body-equip"); const scrollTop=view.scrollTop; const innerKeep=keepInnerScroll(pane); pane.innerHTML=""; pane.className="eqpane";
   const rids=rosterIds(); if(!rids.includes(partySel)) partySel=(progress.protag&&rids.includes(progress.protag.cid))?progress.protag.cid:rids[0];
   const cid=partySel, h=progress.heroes[cid], D=heroDerived(cid), d=D.stats;
   // ── 왼쪽: 착용 장비 ──
@@ -9083,7 +9098,7 @@ function renderEquip(){
   B.appendChild(autoLootBlock());
   pane.appendChild(B);
   renderCodex();
-  view.scrollTop=scrollTop;
+  view.scrollTop=scrollTop; innerKeep();   // v0.53: 안쪽 칸(영웅 정보 등)의 스크롤도 그대로 — 능력치를 찍을 때 맨 위로 튀지 않게
 }
 
 function secGrid(d){
@@ -9170,8 +9185,8 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   for(const k of PRIM){
     const can=h.pts>0&&!comp;
     const v=D.prim[k]; const b=document.createElement("button"); b.className="pbtn"+(can?" can":"");
-    b.innerHTML=`<span class="pk">${PRIM_LABEL[k]}</span><span class="pv">${v}</span>${can?'<span class="plus" aria-hidden="true"></span>':""}`;
-    b.title=PRIM_DESC[k]; b.disabled=!can;
+    b.innerHTML=`<span class="pk">${PRIM_LABEL[k]}</span><span class="pv">${v}</span><span class="pe">${primEffect(cid,k).split(" · ").map(esc).join("<br>")}</span>${can?'<span class="plus" aria-hidden="true"></span>':""}`;
+    b.title=`${PRIM_LABEL[k]} 1당 — ${primEffect(cid,k)}`; b.disabled=!can;
     b.onclick=()=>{ if(h.pts<=0) return; h.alloc[k]=(h.alloc[k]||0)+1; h.pts--; saveProgress(); renderParty(); };
     pr.appendChild(b);
   }
