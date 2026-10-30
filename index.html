@@ -321,6 +321,17 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .actloot .arow .anm{font-weight:700} .actloot .arow .atag{font-size:11px; padding:0 6px; border-radius:5px; background:#2a3352; color:#c9d2ee; margin-left:4px}
 .actloot .arow .atag.up{background:#173d26; color:#7ee2a0} .actloot .arow .atag.pf{background:#3d300c; color:#ffd76a} .actloot .arow .atag.rec{background:#3a1d3d; color:#f2a6ff}
 .actloot .asum{color:var(--muted); font-size:12.5px}
+/* v0.47 의견 보내기 */
+.fbbtn{padding:0 10px; font-size:17px}
+.fbm .fbcats{display:flex; gap:6px; flex-wrap:wrap; margin:6px 0}
+.fbm .fbcats button{height:34px; padding:0 12px; border-radius:9px; background:var(--raised); border:1px solid var(--line); color:var(--sub); font:inherit; font-size:14px; cursor:pointer}
+.fbm .fbcats button.on{border-color:var(--accent); color:var(--accent); font-weight:700}
+.fbm textarea{width:100%; min-height:110px; resize:vertical; background:var(--panel2); color:var(--ink); border:1px solid var(--line2); border-radius:10px; padding:10px; font:inherit; font-size:15px; box-sizing:border-box}
+.fbm .fbopt{display:flex; gap:8px; align-items:center; margin:8px 0; font-size:13.5px; color:var(--sub)}
+.fbm .fbprev{max-height:120px; overflow:auto; white-space:pre-wrap; font-size:11.5px; color:var(--muted); background:#0d1120; border:1px solid var(--line); border-radius:8px; padding:6px 8px}
+.fbm .fbacts{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+.fbm .fbmsg{min-height:18px; font-size:13px; color:var(--good); margin-top:6px}
+@media (max-height:520px){ .fbm textarea{min-height:64px} .fbm .msub{margin:2px 0} .fbm .fbcats button{height:30px} }
 /* v0.44 재련 창 */
 .rflist{display:flex; flex-direction:column; gap:6px; margin-top:8px}
 .rfrow{display:flex; flex-wrap:wrap; gap:6px; align-items:center; padding:6px 8px; border-radius:8px; background:#151a2b; border:1px solid #2a3150}
@@ -896,7 +907,7 @@ button.dis{background:var(--raised); color:#9fd9ff; border:1px solid #2c4a6b; bo
   .crumb .sep,.crumb .star,.crumb .pname,.crumb > span:not(.diffpill){display:none}
   .crumb b{overflow:hidden; text-overflow:ellipsis}
   .chips{flex-wrap:nowrap; gap:6px} .chips .chip{height:32px; padding:0 8px; font-size:13px} .chips .chip.ess{display:none}
-  .gear{width:40px; height:40px; padding:0; font-size:0; flex:none} .gear::before{content:"⚙"; font-size:18px}
+  .gear{width:40px; height:40px; padding:0; flex:none; font-size:18px} #gearBtn{font-size:0} #gearBtn::before{content:"⚙"; font-size:18px}
   .shell{display:block}
   .rail{position:fixed; left:0; right:0; bottom:0; z-index:40; width:auto; height:calc(64px + env(safe-area-inset-bottom)); padding:0 0 env(safe-area-inset-bottom);
     flex-direction:row; display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:0; border-right:0; border-top:1px solid var(--line); background:#0e1424; overflow:visible}
@@ -1201,12 +1212,13 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.46 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.47 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
     <button class="gear" id="fsBtn" onclick="toggleFullscreen()" title="전체 화면" aria-label="전체 화면" hidden>⛶</button>
     <button class="gear" id="sndBtn" onclick="SND.set({on:!SND.st.on})" title="소리 켜기·끄기 (음량은 ⚙ 설정)" aria-label="소리 켜기·끄기">🔊</button>
+    <button class="gear fbbtn" id="fbBtn" onclick="openFeedback()" title="의견 보내기 — 버그·밸런스·아이디어" aria-label="의견 보내기">💬</button>
     <button class="gear" id="gearBtn" onclick="openSettings()" title="주인공 이름 · 새 소식 · 새 게임">⚙ 설정</button>
   </header>
 
@@ -1306,6 +1318,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.47: <b>의견 보내기</b> — 위쪽 💬 버튼(또는 ⚙ 설정)에서 버그·난이도·불편함·아이디어를 적어 카톡·문자로 공유하거나 복사할 수 있습니다. 버전·기기·진행·최근 전투 기록·오류를 함께 붙여 보내 문제를 바로 찾을 수 있게 했습니다. GitHub 계정이 있으면 이슈로 바로 올릴 수도 있습니다.
 v0.46: <b>더 어려운 밤 · 강해진 보스</b> — 모든 적이 강해졌습니다(황혼 체력 +12%·공격력 +10%, 자정 +18%·+12%, 영원한 밤 +22%·+15%). 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 여기에 더해 체력 ×1.8 / ×2.1 / ×2.4, 공격력 ×1.15 / ×1.2 / ×1.25. 대신 보스가 있는 전투는 턴 제한이 60턴에서 <b>75턴</b>으로 늘었습니다.
 v0.45: <b>부위 강화</b> — 강화가 장비가 아니라 영웅의 부위(무기·보조·투구·갑옷·장갑·신발·망토·반지 2칸·목걸이)에 쌓입니다. 장비를 바꿔 껴도 그 칸의 강화가 새 장비에 그대로 붙어서, 좋은 장비를 주우면 바로 바꿔 끼면 됩니다. 장비 칸을 누르면(빈 칸도) 부위 강화 버튼이 있습니다. 강화 전승은 없앴습니다. 끼고 있던 장비의 강화·금 감·금 메움은 그 부위로 옮겼고, 가방 장비에 있던 강화는 밤의 정수로 돌려드립니다.
 v0.44: <b>장비 개편 — 득템의 재미</b> — 같은 등급이라도 옵션 수가 다르게 붙습니다(일반 0~1 · 고급 1~2 · 희귀 2~3 · 영웅 3~4 · 전설 4 · 세트 3 · 신화 5). 위쪽까지 붙으면 이름 앞에 ★. 옵션 수치 범위가 약 2배로 넓어지고, 줄마다 품질 ●●●○○이 보입니다(맨 위 값은 금색 '완벽', 모든 줄이 품질 90% 이상이면 「완벽한」 장비). 새 옵션 묶음 — 퍼센트 능력치(공격력·체력·방어력 %, 영웅 이상) · 직업 스킬([강타] 피해 +20% 같은, 그 직업만) · 진영(앞줄 받는 피해 감소, 뒷줄 치명타, 같은 가로줄 아군 보호, 일직선·십자 범위 피해 감소) · 조건부(보스 피해, 처치 회복, 첫 턴 신속) · 상태이상(화상 +1턴, 독 +1중첩, 기절 확률, 저항). 전설에는 직업 전용 고유 효과(직업마다 3종)가 하나 더 붙고, 규칙 각인 확률이 50%로 올랐습니다. 드롭: 일반 전투에서도 아주 드물게 전설(0.3%), 장 보스 전설 7%, 자정은 영웅·전설 ×1.3, 영원한 밤 ×1.6. 영웅 이상 무기·보조는 70%가 지금 출전 중인 영웅의 것. 희귀는 30%로 소켓 1칸. 전투가 끝나면 쓰러진 적 자리에 등급색 빛기둥이 솟고(전설은 화면이 금빛), 막·장을 마치면 '전리품' 창에 얻은 장비를 등급 순으로 보여 줍니다(더 좋은 장비·완벽 옵션·최고 품질 기록 표시). 장비마다 주운 곳이 남습니다. <b>강화 전승</b>: 이제 1단계만 깎이고(전에는 2), +2부터 쓸 수 있으며, 가방의 새 장비를 고르면 '장착 + 강화 이어받기' 버튼으로 바로 옮겨 낍니다(비용 없음). <b>재련</b>: 줄마다 '종류 바꾸기' · '수치만'(종류는 그대로, 비용 절반) · 한 줄을 🔒 잠그고 나머지 전부 다시 굴리기. <b>등급 올리기</b>: 희귀 → 영웅(희귀 조각 3 · 정수 15), 영웅 → 전설(영웅 조각 5 · 정수 40) — 조각은 희귀·세트·영웅·전설 장비를 분해하면 나옵니다.
@@ -10690,6 +10703,67 @@ async function maybeLateJoin(){
     }
   } finally { onboardBusy=false; telling=false; goCamp(); setMainBtn(); }
 }
+/* ================= v0.47 의견 보내기 =================
+   테스트하는 사람이 버그·밸런스·아이디어를 적고, 게임 상태(버전·기기·진행·최근 기록·오류)를 붙여
+   카톡·문자 등으로 공유하거나 복사하거나 GitHub 이슈로 올린다. 서버 없이 동작. */
+const FB_ERRS=[];
+try{ addEventListener("error",e=>{ FB_ERRS.push(`${(e.message||"오류").slice(0,160)} @${(e.filename||"").split("/").pop()}:${e.lineno||0}`); if(FB_ERRS.length>8) FB_ERRS.shift(); });
+  addEventListener("unhandledrejection",e=>{ FB_ERRS.push("약속 오류: "+String(e.reason&&e.reason.message||e.reason).slice(0,160)); if(FB_ERRS.length>8) FB_ERRS.shift(); }); }catch(e){}
+const FB_CATS=[["bug","🐞 버그"],["bal","⚖ 난이도·밸런스"],["ui","😣 불편함"],["idea","💡 아이디어"],["etc","💬 그 밖에"]];
+const FB_REPO="sueungong/project-night-play";
+let fbCat="bug";
+function gameVersion(){ const v=document.querySelector(".brand .ver"); return v?v.textContent.split("·")[0].trim():"?"; }
+function fbDevice(){ const ua=navigator.userAgent||""; const os=/Android [\d.]+/.exec(ua)||/iPhone OS [\d_]+/.exec(ua)||/Windows NT [\d.]+/.exec(ua)||/Mac OS X [\d_]+/.exec(ua); const br=/(SamsungBrowser|Edg|CriOS|Chrome|Firefox|Version)\/[\d.]+/.exec(ua);
+  const where=(()=>{ try{ return window.top===window?(matchMedia("(display-mode: fullscreen), (display-mode: standalone)").matches?"홈 화면 앱":"웹 주소"):"Claude 안"; }catch(e){ return "Claude 안"; } })();
+  return `${os?os[0].replace(/_/g,"."):"?"} · ${br?br[0]:"?"} · 화면 ${innerWidth}×${innerHeight}@${(devicePixelRatio||1).toFixed(1)} · ${where}`; }
+function fbState(){
+  const L=[]; try{
+    const pg=progress.protag, D=DIFFS[progress.diff]||DIFFS[0];
+    L.push(`버전 ${gameVersion()} · ${new Date().toLocaleString("ko-KR")}`);
+    L.push(`기기 ${fbDevice()}`);
+    L.push(`진행 ${progressSummary(progress)} · 연 난이도 ${DIFFS[progress.diffMax].name} · 고른 난이도 ${D.name}`);
+    if(pg) L.push(`주인공 ${pg.name}(${jobName(pg.cid)})`);
+    L.push(`출전 ${partyIds().map(c=>`${jobName(c)} Lv${progress.heroes[c].level}`).join(", ")}`);
+    if(runState){ const R=REGIONS[runState.regionKey]; L.push(`지금 던전 ${DIFFS[runState.d].name} ${R?R.chapter+" "+R.name:runState.regionKey}${runState.act?` ${runState.act}막`:""} · ${runState.zone+1}구역${curTurn?` · 턴 ${curTurn}`:""}${runState.mode?` · ${runState.mode}`:""}`); }
+    else L.push(`지금 위치 등불 도시 (${(REGIONS[progress.lastRegion]||{}).name||""})`);
+    L.push(`골드 ${progress.gold} · 정수 ${progress.ess} · 가방 ${progress.inv.length}칸 · 속도 ${(($("speed")||{}).value)||"?"}`);
+    if(FB_ERRS.length) L.push(`오류 ${FB_ERRS.length}건: ${FB_ERRS.join(" | ")}`);
+    const lg=$("log"); if(lg){ const lines=[...lg.children].slice(-15).map(x=>x.textContent.replace(/\s+/g," ").trim()).filter(Boolean); if(lines.length) L.push("최근 기록:\n"+lines.map(x=>"· "+x.slice(0,140)).join("\n")); }
+  }catch(e){ L.push("상태 읽기 실패: "+e.message); }
+  return L.join("\n");
+}
+function fbText(msg,withState){ const cat=(FB_CATS.find(x=>x[0]===fbCat)||FB_CATS[0])[1];
+  return `[프로젝트 나이트 의견] ${cat}\n${(msg||"").trim()||"(내용 없음)"}${withState?"\n\n— 게임 상태 —\n"+fbState():""}`; }
+async function fbCopy(t){ try{ await navigator.clipboard.writeText(t); return true; }catch(e){}
+  try{ const ta=document.createElement("textarea"); ta.value=t; ta.style.cssText="position:fixed;left:-9999px;top:0"; document.body.appendChild(ta); ta.select(); const ok=document.execCommand("copy"); ta.remove(); return ok; }catch(e){ return false; } }
+function openFeedback(){
+  let draft=""; try{ draft=safeGet("pn_fb_draft")||""; }catch(e){}
+  const m=openModal(`<h2>💬 의견 보내기</h2>
+    <p class="msub">버그·난이도·불편한 점·아이디어 무엇이든 좋아요. 적은 뒤 <b>공유하기</b>(카톡·문자 등)나 <b>복사하기</b>로 개발자에게 보내 주세요.</p>
+    <div class="fbcats" role="radiogroup">${FB_CATS.map(([k,l])=>`<button data-c="${k}" class="${fbCat===k?"on":""}" role="radio" aria-checked="${fbCat===k}">${l}</button>`).join("")}</div>
+    <textarea id="fbText" maxlength="1500" placeholder="예) 자정 3장 보스에서 계속 져요 / 장비 창 버튼이 손가락에 너무 작아요 / 이런 직업이 있으면 좋겠어요">${esc(draft)}</textarea>
+    <label class="fbopt"><input type="checkbox" id="fbState" checked> 게임 상태 함께 보내기 (버전·기기·진행·최근 전투 기록·오류 — 개인 정보 없음)</label>
+    <div class="fbacts"><button class="btn" id="fbShare">📤 공유하기</button><button class="btn ghost" id="fbCopy">📋 복사하기</button><button class="btn ghost" id="fbGh" title="GitHub 계정이 있으면 이슈로 바로 올릴 수 있어요">GitHub 이슈로</button></div>
+    <div class="fbmsg" id="fbMsg" aria-live="polite"></div>
+    <details><summary class="msub" style="cursor:pointer">함께 보낼 게임 상태 보기</summary><div class="fbprev" id="fbPrev"></div></details>
+    <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small fbm");
+  const ta=m.querySelector("#fbText"), st=m.querySelector("#fbState"), msg=m.querySelector("#fbMsg");
+  m.querySelector("#fbPrev").textContent=fbState();
+  const say=t=>{ msg.textContent=t; };
+  ta.oninput=()=>{ try{ safeSet("pn_fb_draft",ta.value); }catch(e){} };
+  for(const b of m.querySelectorAll(".fbcats button")) b.onclick=()=>{ fbCat=b.dataset.c; for(const x of m.querySelectorAll(".fbcats button")){ x.classList.toggle("on",x===b); x.setAttribute("aria-checked",x===b); } };
+  const done=()=>{ try{ safeSet("pn_fb_draft",""); }catch(e){} };
+  m.querySelector("#fbShare").onclick=async()=>{ const t=fbText(ta.value,st.checked);
+    if(navigator.share){ try{ await navigator.share({title:"프로젝트 나이트 의견",text:t}); say("✓ 보냈어요. 고마워요!"); done(); return; }catch(e){ if(e&&e.name==="AbortError"){ say("공유를 취소했어요."); return; } } }
+    const ok=await fbCopy(t); say(ok?"이 기기에서는 공유가 안 돼서 복사해 두었어요 — 카톡·문자에 붙여 넣어 보내 주세요.":"복사도 안 돼요 — 위 내용을 길게 눌러 직접 복사해 주세요."); if(ok) done(); };
+  m.querySelector("#fbCopy").onclick=async()=>{ const ok=await fbCopy(fbText(ta.value,st.checked)); say(ok?"✓ 복사했어요 — 카톡·문자·메일에 붙여 넣어 보내 주세요.":"복사가 안 돼요 — 내용을 길게 눌러 직접 복사해 주세요."); if(ok) done(); };
+  m.querySelector("#fbGh").onclick=()=>{ const cat=(FB_CATS.find(x=>x[0]===fbCat)||FB_CATS[0])[1]; const first=(ta.value.trim().split("\n")[0]||"의견").slice(0,60);
+    let body=fbText(ta.value,st.checked); if(body.length>5000) body=body.slice(0,5000)+"\n…(길어서 잘림)";
+    const url=`https://github.com/${FB_REPO}/issues/new?title=${encodeURIComponent(`${cat} ${first}`)}&body=${encodeURIComponent(body)}`;
+    const w=window.open(url,"_blank","noopener"); say(w?"GitHub 창에서 '제출'을 누르면 올라가요.":"새 창이 막혔어요 — 공유하기나 복사하기를 써 주세요."); };
+  m.querySelector("#mclose").onclick=closeModal; m.addEventListener("click",e=>{ if(e.target===m) closeModal(); });
+  setTimeout(()=>ta.focus(),40);
+}
 function openSettings(){
   if(onboardBusy) return;
   const pg=progress.protag;
@@ -10708,6 +10782,7 @@ function openSettings(){
     <div class="sblock"><div class="slabel">그래픽</div><div class="srow" id="gfxSeg" style="display:flex;gap:6px;flex-wrap:wrap">${[["auto","자동"],["high","높음"],["low","저사양"]].map(([k,l])=>`<button class="btn ${GFX.mode===k?"":"ghost"}" data-gfx="${k}">${l}</button>`).join("")}</div>
       <p class="msub">자동: 처음 몇 초 동안 재 보고 느리면 저사양으로 바꿉니다${GFX.mode==="auto"?` (지금 <b>${GFX.low?"저사양":"높음"}</b>)`:""}. 저사양: 초당 20장 · 화면 해상도 1배 · 그림자·흐림·앞쪽 날씨 끔 — 버벅이면 저사양으로 두세요.</p></div>
     ${helpBlockHTML()}
+    <div class="sblock"><div class="slabel">의견 보내기</div><p class="msub">버그·난이도·불편한 점·아이디어를 게임 상태와 함께 보낼 수 있어요.</p><div class="srow"><button class="btn" onclick="closeModal();openFeedback()">💬 의견 보내기</button></div></div>
     <div class="sblock"><div class="slabel">새 소식 (업데이트 내역)</div><div class="news">${(document.getElementById("newsTpl")||{}).innerHTML||""}</div></div>
     <div class="sblock"><div class="slabel">새 게임</div><p class="msub">레벨·장비·골드·증표·엔딩 기록이 모두 지워지고 프롤로그부터 다시 시작합니다. 클라우드 저장도 함께 초기화되어 <b>다른 컴퓨터에서도</b> 처음부터 시작합니다. 되돌릴 수 없습니다.</p><button id="newGame" class="dangerb">처음부터 다시 시작</button></div>
     <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`, "settings");
