@@ -1214,7 +1214,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.50 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.51 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1320,7 +1320,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
-v0.50: <b>후퇴 · 황혼 앞부분 완화</b> — 던전 전장 위에 '↩ 후퇴' 버튼(두 번 눌러 확인). 전투 중에도 쓸 수 있고, 결과는 패배와 같습니다(이번 입장에서 얻은 경험치·골드·장비를 모두 잃고 등불 도시로). 황혼 1장 적 체력·공격력 -20%, 2장 -10%, 그리고 v0.46의 강화 배율을 황혼 1~3장에서는 서서히(15% → 40% → 70%) 적용해 처음 시작한 파티도 1장 막을 깰 수 있게 했습니다. 4장부터는 그대로 어렵습니다.
+v0.51: <b>주인공 자동전투 규칙</b> — 새로 시작하면 규칙 교실 동안 주인공의 규칙 칸이 잠겨 있어(처음엔 1칸) 주인공이 거의 기본공격만 하던 문제. 이제 주인공도 처음부터 직업 기본 규칙이 모두 들어 있고, 규칙 교실은 규칙을 하나씩 설명만 합니다. 진행 중인 세이브도 빠진 기본 규칙이 바로 채워집니다. v0.50에서 낮췄던 황혼 1·2장 난이도는 되돌렸습니다.
+v0.50: <b>후퇴 · 황혼 앞부분 완화</b> — 던전 전장 위에 '↩ 후퇴' 버튼(두 번 눌러 확인). 전투 중에도 쓸 수 있고, 결과는 패배와 같습니다(이번 입장에서 얻은 경험치·골드·장비를 모두 잃고 등불 도시로). (황혼 1·2장 완화는 v0.51에서 되돌림)
 v0.49: <b>휴대폰 가로 화면 고침</b> — 설치한 앱으로 열었을 때 전체 화면·가로 고정을 건너뛰던 문제. 휴대폰에서는 처음 누를 때 전체 화면과 가로 고정을 함께 걸어, 휴대폰 자동 회전이 꺼져 있어도 가로로 바뀝니다. 세로 화면 안내에 '📱 가로 전체 화면으로 시작' 버튼과 현재 화면 상태 표시를 넣었습니다. 실패하면 이유가 의견 보내기의 오류 기록에 남습니다.
 v0.48: <b>휴대폰 전체 화면 고침</b> — 크롬에서 '앱 설치'로 깔아도 상태 표시줄·아래 버튼 줄이 보이던 문제. 이제 휴대폰(또는 설치한 앱)에서는 화면을 처음 누를 때 저절로 전체 화면·가로 고정이 되고, 다른 앱에 다녀오면 다음 터치 때 다시 전체 화면이 됩니다. ⛶ 버튼으로 끄면 다시 켤 때까지 그대로 둡니다.
 v0.47: <b>의견 보내기</b> — 위쪽 💬 버튼(또는 ⚙ 설정)에서 버그·난이도·불편함·아이디어를 적어 카톡·문자로 공유하거나 복사할 수 있습니다. 버전·기기·진행·최근 전투 기록·오류를 함께 붙여 보내 문제를 바로 찾을 수 있게 했습니다. GitHub 계정이 있으면 이슈로 바로 올릴 수도 있습니다.
@@ -2163,10 +2164,6 @@ const DIFF_SCALE=[
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
 const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.1,atk:1.2},{hp:2.4,atk:1.25}];
-// v0.50: 황혼 앞 장은 배우는 구간 — 위 배율을 장마다 서서히 적용(1장 15% → 2장 40% → 3장 70% → 4장부터 전부)
-const EARLY_RAMP=[0.15,0.4,0.7];
-const EARLY_EASE=[{hp:0.8,atk:0.8},{hp:0.9,atk:0.9}];   // 황혼 1·2장 적 자체를 조금 약하게(장비 없는 Lv1~3 파티가 1장 막을 거의 깨도록)
-function diffRamp(d,ch){ return d===0&&ch<EARLY_RAMP.length?EARLY_RAMP[ch]:1; }
 const TURN_LIMIT=60, BOSS_TURN_LIMIT=75;   // 보스가 있는 전투는 75턴까지
 const AFFIXES={
   rage:  {name:"분노", desc:"체력 50% 이하에서 공격력 +30%"},
@@ -2254,10 +2251,8 @@ function buildMobUnit(spec,idx,d,rk){
   const m=MOBS[spec.key], D=DIFFS[d], ch=REGION_KEYS.indexOf(rk);
   const sc=spec.eg?EG_SCALE[ch]:DIFF_SCALE[d][ch];
   let hp=m.stats.hp*sc.hp, atk=m.stats.atk*sc.atk;
-  const rp=spec.eg?1:diffRamp(d,ch), lerp=(k)=>1+(k-1)*rp;
-  { const K=DIFF_K[d]||DIFF_K[0]; hp*=lerp(K.hp); atk*=lerp(K.atk); }
-  if(!spec.eg&&d===0&&EARLY_EASE[ch]){ hp*=EARLY_EASE[ch].hp; atk*=EARLY_EASE[ch].atk; }
-  if(m.boss||spec.finalBoss||spec.named){ const K=BOSS_K[d]||BOSS_K[0]; hp*=lerp(K.hp); atk*=lerp(K.atk); }
+  { const K=DIFF_K[d]||DIFF_K[0]; hp*=K.hp; atk*=K.atk; }
+  if(m.boss||spec.finalBoss||spec.named){ const K=BOSS_K[d]||BOSS_K[0]; hp*=K.hp; atk*=K.atk; }
   if(spec.chief){ hp*=3.2; atk*=1.3; }
   if(spec.elite){ hp*=2.0; atk*=1.25; }
   if(spec.scale){ hp*=spec.scale.hp||1; atk*=spec.scale.atk||1; }      // 최종 콘텐츠(탑 층·레이드 단계·원정 걸음) 배율
@@ -5529,7 +5524,7 @@ const TUT={
       .sort((a,b)=>score(a.r)-score(b.r)||b.i-a.i); },
   total(){ return this.plan().length+1; },
   learning(){ return !!(progress&&progress.protag)&&this.st().rl<this.total(); },
-  ruleLock(cid){ return !!cid&&cid===this.cid()&&this.learning(); },
+  ruleLock(cid){ return false; },   // v0.51: 규칙 칸을 잠그지 않음 — 주인공도 처음부터 기본 규칙이 모두 들어 있고, 규칙 교실은 하나씩 '설명'만
   openCount(){ return Math.min(this.st().rl,this.plan().length); },
   applyRules(){ const cid=this.cid(); if(!cid) return;
     if(!this.learning()){   // 수료: 배운 규칙(직접 바꾼 것 포함)은 그대로 두고, 빠진 기본 규칙·그동안 얻은 스킬(스킬북·전직)을 채워 넣음
@@ -5538,7 +5533,10 @@ const TUT={
       partyRules[cid]=out; ensureRuleSlots(cid); saveRules();
       try{ for(const [sid,ar] of [...addAdvRules(cid,advInfo(cid)), ...(progress.heroes[cid].learned||[]).filter(sid=>!partyRules[cid].some(r=>r.enabled&&r.skill===sid)).map(sid=>[sid,autoAddRule(cid,sid)])]) logAutoRule(cid,sid,ar); }catch(e){}
       saveRules(); return; }
-    const k=this.openCount(); partyRules[cid]=this.plan().slice(0,k).sort((a,b)=>a.i-b.i).map(x=>({...x.r})); saveRules(); },
+    // 배우는 중에도 기본 규칙 전부(이미 직접 고친 규칙은 그대로 두고 빠진 것만 채움)
+    { const cur=(partyRules[cid]||[]).filter(r=>r.enabled); const out=cur.length?cur.map(r=>({...r})):[];
+      for(const r of CLASSES[cid].default_rules) if(r.enabled&&!out.some(x=>x.skill===r.skill&&x.c1===r.c1)) out.push({...r});
+      partyRules[cid]=out; ensureRuleSlots(cid); saveRules(); } },
   // 새 게임(주인공을 막 만든 직후) — 규칙 교실을 처음부터
   begin(){ const t=this.st(); t.rl=0; t.seen={}; t.demo={}; t.wins=0; this.applyRules(); saveProgress(); },
   // 예전 세이브는 다 배운 것으로
@@ -5555,15 +5553,15 @@ const TUT={
       if(n===1) body=`<h2>📜 자동전투 규칙이란?</h2>
         <p class="msub">이 게임의 전투는 자동이에요. 대신 <b>${nm}</b>님이 '어떤 상황에서 어떤 스킬을 쓸지'를 미리 정해 둡니다. 그게 <b>규칙</b>이에요.</p>
         <p class="msub">규칙 한 칸 = <b>"만약 [조건]이면 → [스킬]"</b>. 전투 중 ${nm}님 차례가 오면 이 칸을 확인해서, 조건이 맞고 마나가 충분하면 그 스킬을 씁니다. 안 맞으면 기본공격을 해요.</p>`;
-      else body=`<h2>📜 ${n}번째 칸이 열렸어요</h2>
-        <p class="msub">이제 규칙이 ${n}개예요. 규칙이 여러 개면 <b>위(1번)부터 차례로</b> 확인해서, <b>처음 맞는 하나만</b> 씁니다. 그 아래 규칙은 그 턴에는 보지 않아요.</p>
-        <p class="msub">새 규칙 <b>${esc(sk.name)}</b>${jo(sk.name,"은","는")} <b>${pos}번</b> 칸에 들어갑니다. ${pos===1?`맨 위라서 '${esc(COND[cur.r.c1].label)}'이면 다른 규칙보다 <b>먼저</b> 써요. 위급하거나 꼭 먼저 써야 하는 스킬은 위에 두세요.`:`위의 규칙(${open.slice(0,pos-1).map(x=>esc(SKILLS[x.r.skill].name)).join(", ")})이 먼저 맞으면 이 규칙은 그 턴엔 차례가 오지 않아요. 아래로 갈수록 '평소에 쓰는' 규칙이에요.`}</p>`;
+      else body=`<h2>📜 ${n}번째 규칙 — ${esc(sk.name)}</h2>
+        <p class="msub">규칙이 여러 개면 <b>위(1번)부터 차례로</b> 확인해서, <b>처음 맞는 하나만</b> 씁니다. 그 아래 규칙은 그 턴에는 보지 않아요.</p>
+        <p class="msub">이번에 볼 규칙 <b>${esc(sk.name)}</b>${jo(sk.name,"은","는")} 지금까지 본 규칙 중 <b>${pos}번째</b>예요. ${pos===1?`맨 위라서 '${esc(COND[cur.r.c1].label)}'이면 다른 규칙보다 <b>먼저</b> 써요. 위급하거나 꼭 먼저 써야 하는 스킬은 위에 두세요.`:`위의 규칙(${open.slice(0,pos-1).map(x=>esc(SKILLS[x.r.skill].name)).join(", ")})이 먼저 맞으면 이 규칙은 그 턴엔 차례가 오지 않아요. 아래로 갈수록 '평소에 쓰는' 규칙이에요.`}</p>`;
       return head+body+`<div class="tutlist">${list}</div>
         <div class="tutskill">${skillCardHTML(cur.r.skill)}<span class="w">조건 '${esc(COND[cur.r.c1].label)}' — ${esc(condHint(cur.r.c1))}</span></div>
         ${replay?"":`<p class="tnote">▶ 다음 전투에서 이 규칙이 실제로 발동하는 순간 잠깐 멈춰서 보여 드릴게요.</p>`}`;
     }
     const fullN=heroRuleCountFull(cid);
-    return head+`<h2>📜 규칙 칸이 모두 열렸어요 (${fullN}칸)</h2>
+    return head+`<h2>📜 규칙 교실 끝 (규칙 칸 ${fullN}칸)</h2>
       <p class="msub">기본은 다 배웠어요. 이제 자동전투 탭에서 마음대로 짜 보세요. 알아 두면 좋은 것들:</p>
       <ul class="tutul">
         <li><b>두 번째 조건</b> — 조건 옆 '+ 조건'에서 <b>그리고</b>(둘 다 맞아야) / <b>또는</b>(하나만 맞아도)를 붙일 수 있어요. 예: "적이 3마리 이상 <b>그리고</b> 내 마나 30% 이상 → 광역 스킬"</li>
@@ -5589,8 +5587,8 @@ const TUT={
     });
     if(!replay){ t.rl=n; t.wins=0; this.applyRules(); saveProgress(); renderRules(); }   // 창을 닫은 뒤에 반영(창이 떠 있을 때 새로 고침하면 그 수업을 다시 봄)
     this.busy=false; setMainBtn();
-    if(!replay&&n===this.total()){ logLine(`<span class="win">📜 규칙 교실 수료! 규칙 칸 ${heroRuleCountFull(this.cid())}칸이 모두 열렸습니다. 이제부터 던전에 들어갈 때 횃불 1개가 듭니다.</span>`); renderHud(); }
-    else if(!replay) logLine(`<span class="win">📜 규칙 교실 ${n}/${this.total()} — 규칙 칸 ${this.openCount()}칸</span>`);
+    if(!replay&&n===this.total()){ logLine(`<span class="win">📜 규칙 교실 수료! 이제부터 던전에 들어갈 때 횃불 1개가 듭니다.</span>`); renderHud(); }
+    else if(!replay) logLine(`<span class="win">📜 규칙 교실 ${n}/${this.total()}</span>`);
     if(runState&&!playing&&!replay) scheduleAuto();
     return res;
   },
@@ -9580,6 +9578,7 @@ function logAutoRule(cid,sid,ar){
 }
 // 예전 세이브: 이미 가진 전직·스킬북 스킬 중 규칙에 없는 것을 한 번만 채워 줌
 function autoRulePass(){
+  try{ if(progress&&progress.protag&&TUT.learning()) TUT.applyRules(); }catch(e){}   // v0.51: 규칙 교실 중인 세이브 — 주인공에게 빠진 기본 규칙을 채움
   if(!progress||progress.autoRules>=1) return;
   const added=[];
   for(const cid of rosterIds()){
