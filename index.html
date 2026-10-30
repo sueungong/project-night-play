@@ -1214,7 +1214,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.51 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.51.1 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1320,6 +1320,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.51.1: 주인공에게 보이던 대상 이름 '자동'을 없앴습니다 — 규칙 교실 카드·스킬 자동 추가 알림·총사 도움말에 남아 있던 '자동'을 주인공의 '기본 — …' 표기로 바꿈('자동(스스로 판단)'은 동료에게만).
 v0.51: <b>주인공 자동전투 규칙</b> — 새로 시작하면 규칙 교실 동안 주인공의 규칙 칸이 잠겨 있어(처음엔 1칸) 주인공이 거의 기본공격만 하던 문제. 이제 주인공도 처음부터 직업 기본 규칙이 모두 들어 있고, 규칙 교실은 규칙을 하나씩 설명만 합니다. 진행 중인 세이브도 빠진 기본 규칙이 바로 채워집니다. v0.50에서 낮췄던 황혼 1·2장 난이도는 되돌렸습니다.
 v0.50: <b>후퇴 · 황혼 앞부분 완화</b> — 던전 전장 위에 '↩ 후퇴' 버튼(두 번 눌러 확인). 전투 중에도 쓸 수 있고, 결과는 패배와 같습니다(이번 입장에서 얻은 경험치·골드·장비를 모두 잃고 등불 도시로). (황혼 1·2장 완화는 v0.51에서 되돌림)
 v0.49: <b>휴대폰 가로 화면 고침</b> — 설치한 앱으로 열었을 때 전체 화면·가로 고정을 건너뛰던 문제. 휴대폰에서는 처음 누를 때 전체 화면과 가로 고정을 함께 걸어, 휴대폰 자동 회전이 꺼져 있어도 가로로 바뀝니다. 세로 화면 안내에 '📱 가로 전체 화면으로 시작' 버튼과 현재 화면 상태 표시를 넣었습니다. 실패하면 이유가 의견 보내기의 오류 기록에 남습니다.
@@ -1779,7 +1780,7 @@ const CLASSES = {
       {enabled:false,c1:0,logic:0,c2:0,skill:"fist",target:0},
       {enabled:false,c1:0,logic:0,c2:0,skill:"fist",target:0}]},
   gunner:{ name:"총사", sprite:"gunner", row:"back", role:"후열 · 사격", res:"ammo",
-    tip:"총사가 표식을 걸면, 대상을 '자동'으로 둔 아군 규칙은 표식된 적부터 노립니다. 도적의 그림자 습격·심판관의 단죄·대마법사의 유성우가 표식된 적에게 더 강해집니다.",
+    tip:"총사가 표식을 걸면, 동료들은 표식된 적부터 노립니다(주인공은 규칙 대상을 '표식된 적'으로 골라 두세요). 도적의 그림자 습격·심판관의 단죄·대마법사의 유성우가 표식된 적에게 더 강해집니다.",
     pitch:"화약 무기를 다루는 뒷줄 사수. 탄창 8발을 아껴 쓰며 한 명씩 끊어 내고, 표식을 걸어 파티 전체의 화력을 한 곳에 모은다.",
     join:"「총알값은 각자 계산이야. 맞히면 내 실력, 빗나가면 바람 탓.」",
     lateScene:["— 수몰 도시, 기울어진 등대 —", "등대 꼭대기에서 총성이 울리고, 발밑의 조개가 정확히 반으로 쪼개졌다.", "총사: 「경고 사격이야. …사실 갈매기를 노렸는데 너희가 지나갔어.」", "총사: 「사과하는 뜻으로 같이 가 줄게.」"],
@@ -5542,7 +5543,7 @@ const TUT={
   // 예전 세이브는 다 배운 것으로
   markOld(p){ if(!p.tut){ p.tut={rl:99,seen:{},demo:{},wins:0}; for(const k of Object.keys(COACH)) if(k!=="torch") p.tut.seen[k]=true; } },
   ruleCard(r,cls,no){ const sk=SKILLS[r.skill]||{name:r.skill};
-    return `<div class="tutrule ${cls||""}"><span class="no">${no}</span><span class="w">만약</span><b class="c">${esc(COND[r.c1].label)}</b>${r.logic?`<span class="w">${r.logic===1?"그리고":"또는"}</span><b class="c">${esc(COND[r.c2].label)}</b>`:""}<span class="w">이면 →</span><b class="s">${esc(sk.name)}</b>${r.target?`<span class="w">(${esc(TARGET[r.target])})</span>`:""}</div>`; },
+    return `<div class="tutrule ${cls||""}"><span class="no">${no}</span><span class="w">만약</span><b class="c">${esc(COND[r.c1].label)}</b>${r.logic?`<span class="w">${r.logic===1?"그리고":"또는"}</span><b class="c">${esc(COND[r.c2].label)}</b>`:""}<span class="w">이면 →</span><b class="s">${esc(sk.name)}</b><span class="w">(${esc(targetLabel(r,this.cid()))})</span></div>`; },
   lessonHTML(n,replay){
     const cid=this.cid(), P=this.plan(), L=P.length, nm=esc(progress.protag.name), C=CLASSES[cid], basicName=SKILLS[C.skills[0]].name;
     const head=`<div class="tuthead"><span class="tutstep">규칙 교실 ${n} / ${L+1}</span></div>`;
@@ -5565,7 +5566,7 @@ const TUT={
       <p class="msub">기본은 다 배웠어요. 이제 자동전투 탭에서 마음대로 짜 보세요. 알아 두면 좋은 것들:</p>
       <ul class="tutul">
         <li><b>두 번째 조건</b> — 조건 옆 '+ 조건'에서 <b>그리고</b>(둘 다 맞아야) / <b>또는</b>(하나만 맞아도)를 붙일 수 있어요. 예: "적이 3마리 이상 <b>그리고</b> 내 마나 30% 이상 → 광역 스킬"</li>
-        <li><b>대상</b> — 누구에게 쓸지 고릅니다(체력 비율이 가장 낮은 적·아군, 자신…). '자동'이면 스킬에 맞게 알아서.</li>
+        <li><b>대상</b> — 누구에게 쓸지 고릅니다(체력 비율이 가장 낮은 적·아군, 자신…). '기본'은 스킬마다 정해진 대상(공격은 맨 앞 적, 치유는 체력 비율이 가장 낮은 아군 등)이고, 빈사 적·표식된 적 같은 대상은 직접 골라야 노립니다.</li>
         <li><b>순서 바꾸기</b> — 오른쪽 ↑↓로 칸을 옮겨요. 위에 있을수록 먼저 확인!</li>
         <li><b>켜기·끄기</b> — 번호 아래 체크를 끄면 그 칸은 건너뜁니다. 지우지 않고 잠깐 쉬게 할 때.</li>
         <li><b>발동 횟수</b> — 던전을 한 번 돌고 나면 칸마다 '몇 번 썼는지'가 나와요. 0번인 칸은 조건이 너무 까다롭거나 위 칸에 가려진 거예요.</li>
@@ -5772,6 +5773,8 @@ function targetCat(S){ const st=S.type;
   if(["heal","buff_atk","buff_def","restore_mp"].includes(st)) return S.aoe?"allyAll":(st==="heal"?"heal":"buff");
   if(st==="debuff"||S.aoe) return "foeAll";
   return "foe"; }
+// 규칙의 대상 이름 — 주인공은 '기본 — …', 동료만 '자동(스스로 판단)' (TARGET[0] '자동'을 주인공에게 보이지 않게)
+function targetLabel(r,cid){ try{ const T=targetChoices(SKILLS[r.skill]||{},cid?isCompanion(cid):false); const o=T.opts.find(x=>x.v===(r.target|0))||T.opts[0]; return o.label; }catch(e){ return TARGET[r.target|0]; } }
 function targetChoices(S,comp){ const c=targetCat(S||{}), T=i=>({v:i,label:TARGET[i]});
   const auto=comp?"자동(스스로 판단)":null;
   switch(c){
@@ -9574,7 +9577,7 @@ function logAutoRule(cid,sid,ar){
   if(ar.failed&&TUT.ruleLock(cid)){ logLine(`<span class="r">📜 '${esc(SKILLS[sid].name)}'은(는) 규칙 교실을 마치면 빈 칸에 넣어 드려요.</span>`); return; }
   if(ar.failed){ logLine(`<span class="r">📜 ${esc(heroDisplayName(cid))}의 자동전투 규칙 칸이 꽉 차서 '${esc(SKILLS[sid].name)}'을(를) 넣지 못했습니다. 자동전투 탭에서 직접 넣어 주세요.</span>`); return; }
   const r=partyRules[cid][ar.pos-1];
-  logLine(`<span class="win">📜 ${esc(heroDisplayName(cid))} 자동전투 규칙 ${ar.pos}번에 '${esc(SKILLS[sid].name)}' 추가 — ${esc(COND[r.c1].label)} → ${esc(TARGET[r.target])}. (자동전투 탭에서 바꿀 수 있어요)</span>`);
+  logLine(`<span class="win">📜 ${esc(heroDisplayName(cid))} 자동전투 규칙 ${ar.pos}번에 '${esc(SKILLS[sid].name)}' 추가 — ${esc(COND[r.c1].label)} → ${esc(targetLabel(r,cid))}. (자동전투 탭에서 바꿀 수 있어요)</span>`);
 }
 // 예전 세이브: 이미 가진 전직·스킬북 스킬 중 규칙에 없는 것을 한 번만 채워 줌
 function autoRulePass(){
