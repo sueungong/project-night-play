@@ -1198,6 +1198,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .icell .ic-up{position:absolute; right:2px; top:0; font-size:11px; color:var(--good); text-shadow:0 1px 0 #000}
 .icell .ic-lock{position:absolute; left:2px; bottom:0; font-size:10px}
 .eqmid{display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0}
+.eqenh{display:flex; flex-direction:column; align-items:center; gap:2px; text-align:center; font-size:12.5px; color:var(--sub); margin-top:2px} .eqenh b{color:var(--accent); font-weight:700} .eqenh span{color:var(--muted); font-size:12px; line-height:1.35}
+@media (max-height:560px){ .eqenh span{display:none} }
 .eqfig.unit{width:auto; padding:0; border:0; gap:0; background:none; position:relative; display:block}
 .eqfig.unit img.eqimg{width:clamp(112px,11vw,144px); height:clamp(112px,11vw,144px); position:relative; z-index:1; display:block}
 .eqfig .eqaura{position:absolute; z-index:0; pointer-events:none; image-rendering:pixelated; opacity:.45}
@@ -1232,7 +1234,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.55.2 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.55.3 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1339,6 +1341,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.55.3: <b>부위 강화 정리</b> — 강화 실패로 '금이 가는' 것과 수리를 없앴습니다(실패는 단계 하락만: +6까지 없음 · +7~11 한 단계 · +12부터 두 단계). 장비 탭 가운데에 부위 강화 합과 강화 덕에 오른 능력치가 나오고, 명함에도 부위별 +N과 합계가 적힙니다. 구역 사이 회복은 체력·마나 각 10%로(v0.55.2의 '없음'에서 조정). 막을 깬 뒤 전리품 창의 '장비 탭에서 보기'가 파티 탭으로 가던 오류, 명함 이름 앞에 [undefined]가 붙던 오류를 고쳤습니다.
 v0.55.2: <b>구역 사이 회복 없음 · 패배해도 경험치 절반 · 전투 화면 단추 정리</b> — 구역을 깨도 체력·마나가 저절로 차지 않습니다(직전 구역을 마친 상태 그대로 다음 구역으로, 쉼터·회복 기술로만 회복). 전멸·후퇴해도 그때까지 쌓은 경험치의 절반은 가져갑니다(골드는 잃음). 후퇴·속도·설정·기록 단추는 전장 오른쪽 아래로 옮기고 위쪽엔 경험치·골드·장비만 남겨, 폴드·큰 화면에서 글자가 세로로 꺾이던 문제를 고쳤습니다. 이미 깬 막에 들어가면 속도가 '빠르게'로 시작합니다. 던전 고르기 창에서 고른 막의 보스가 어떤 조건에 어떤 기술을 쓰는지 보입니다. 장비 탭의 부위 강화는 칸 옆 단추(단계·성공률)로 바로 할 수 있고, 장비 창에 특수 옵션·소켓이 두 번 적히던 문제를 고쳤습니다.
 v0.55.1: 휴대폰에서 전투 중 앱을 나갔다 오면(브라우저가 페이지를 다시 불러오면) 영웅만 서 있고 진행이 멈춰 있던 문제 — 전투에 들어간 상태도 저장하고, 이어받을 때 그 구역을 바로 다시 시작합니다. '구역 자동 진행'이 켜져 있으면 구역 사이에서 이어받아도 저절로 다음으로 갑니다. 첫 구역 도중에 앱이 꺼지면 던전과 쓴 횃불이 통째로 사라지던 문제도 같이 고쳤습니다.
 v0.55: <b>진영 6자리 · 빗나감 표시 · 자동 정리 몫 유지</b> — 진영이 앞줄 3칸 · 뒷줄 3칸(모두 6자리)으로 바뀌었습니다(예전 4번째 칸에 있던 영웅은 빈 칸으로 옮겨짐). 공격이 빗나가면 머리 위에 '빗나감'이 뜹니다 — 전투 화면에선 체력 글자가 숨겨져 있어 빗나가도 아무 표시가 없던 탓에 기술이 맞고도 피가 안 닳는 것처럼 보였습니다. 패배·후퇴해도 던전에서 주운 장비를 자동 판매·분해해 얻은 골드·정수·조각은 가져갑니다.
@@ -2191,6 +2194,7 @@ const DIFF_SCALE=[
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
 const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.1,atk:1.2},{hp:2.4,atk:1.25}];
+const ZONE_REGEN=0.10;   // v0.55.3: 구역 사이 체력·마나 회복 비율
 const TURN_LIMIT=60, BOSS_TURN_LIMIT=75;   // 보스가 있는 전투는 75턴까지
 const AFFIXES={
   rage:  {name:"분노", desc:"체력 50% 이하에서 공격력 +30%"},
@@ -2648,7 +2652,16 @@ function enhTier(l){ let t=ENH_TIERS[0]; for(const x of ENH_TIERS) if(l>=x.min) 
 /* v0.45 부위 강화 — 강화는 장비가 아니라 영웅의 '부위'(무기·보조·투구 … 목걸이, 유물 제외)에 쌓인다.
    장비를 바꿔 껴도 그 부위의 강화가 그대로 새 장비에 붙는다. 금 감·금 메움도 부위에 남는다. */
 const ENH_SLOTS=["weapon","offhand","helm","armor","gloves","boots","cape","ring1","ring2","amulet"];
-function slotEnh(cid,sk){ const H=progress.heroes[cid]; if(!H||!ENH_SLOTS.includes(sk)) return {l:0,gilt:false,gilded:false}; const e=H.senh||{}, g=H.sgilt||{}, d=H.sgild||{}; return {l:e[sk]|0, gilt:!!g[sk], gilded:!!d[sk]}; }
+let ENH_IGNORE=false;   // v0.55.3: 부위 강화를 뺀 능력치를 계산할 때(강화로 얼마나 세졌는지 보여 주기)
+function slotEnh(cid,sk){ const H=progress.heroes[cid]; if(!H||!ENH_SLOTS.includes(sk)||ENH_IGNORE) return {l:0,gilt:false,gilded:false}; const e=H.senh||{}; return {l:e[sk]|0, gilt:false, gilded:false}; }   // v0.55.3: 금 감·금 메움 없음
+// 부위 강화 요약: 단계 합 · 강화 덕에 오른 주요 능력치(강화를 뺀 값과의 차이)
+function enhSummary(cid){ const H=progress.heroes[cid]; if(!H) return null; const sum=ENH_SLOTS.reduce((a,k)=>a+slotEnh(cid,k).l,0);
+  const A=heroDerived(cid).stats; ENH_IGNORE=true; let B; try{ B=heroDerived(cid).stats; } finally{ ENH_IGNORE=false; }
+  const gain={}; for(const k of ["atk","hp","def","spd","mp"]) gain[k]=(A[k]||0)-(B[k]||0); for(const k of ["crit","acc","eva","pen","res","critdmg","ls"]) gain[k]=+(((A[k]||0)-(B[k]||0))*100).toFixed(1);
+  return {sum,gain}; }
+function enhSummaryText(cid){ const S=enhSummary(cid); if(!S) return ""; const L=[["atk","공격"],["hp","체력"],["def","방어"],["spd","신속"],["mp","마나"]].filter(([k])=>S.gain[k]).map(([k,l])=>`${l} +${S.gain[k]}`);
+  const P=[["crit","치명"],["acc","명중"],["eva","회피"],["pen","관통"],["res","저항"]].filter(([k])=>S.gain[k]).map(([k,l])=>`${l} +${S.gain[k]}%`);
+  return L.concat(P).join(" · "); }
 function setSlotEnh(cid,sk,o){ const H=progress.heroes[cid]; H.senh=H.senh||{}; H.sgilt=H.sgilt||{}; H.sgild=H.sgild||{};
   if(o.l!=null) H.senh[sk]=Math.max(0,Math.min(ENH_MAX,o.l)); if(o.gilt!=null){ if(o.gilt) H.sgilt[sk]=true; else delete H.sgilt[sk]; } if(o.gilded!=null){ if(o.gilded) H.sgild[sk]=true; else delete H.sgild[sk]; } }
 function slotOfItem(cid,id){ const eq=progress.heroes[cid].equip; return Object.keys(eq).find(k=>eq[k]===id)||null; }
@@ -2657,10 +2670,10 @@ function itemEnh(it){ if(!it||it.noEnh) return null; try{ for(const c of CLASS_I
 function enhCost(cid,sk){ const l=slotEnh(cid,sk).l; const dc=(typeof equippedStore!=="undefined"&&equippedStore.some(x=>x&&x.relic==="gold"&&relicStar(x)>=3))?0.9:1;
   const t=(typeof bestLootTier==="function"&&progress)?bestLootTier():0;   // 비용은 지금까지 연 콘텐츠 수준을 따름(낀 장비와 무관)
   return {gold:Math.round(20*(1+0.35*t)*Math.pow(l+1,1.3)*dc), ess:Math.ceil((2+Math.floor(l*l/2))*dc)}; }
-function enhFailRule(l){ return l<6?{drop:0,gilt:0}:l<9?{drop:1,gilt:0}:l<12?{drop:1,gilt:0.03}:{drop:2,gilt:0.05}; }
+function enhFailRule(l){ return l<6?{drop:0,gilt:0}:l<12?{drop:1,gilt:0}:{drop:2,gilt:0}; }   // v0.55.3: '금이 감'(능력치 -10%·수리) 없앰 — 실패는 단계 하락만 }
 function repairCost(cid,sk){ return {gold:Math.round(enhCost(cid,sk).gold*1.5), ess:4}; }
-function enhMul(E){ return E?(1+0.06*E.l)*(E.gilt?0.9:1)*(E.gilded?1.03:1):1; }
-function enhMulHalf(E){ return E?(1+0.03*E.l)*(E.gilt?0.9:1)*(E.gilded?1.03:1):1; }
+function enhMul(E){ return E?(1+0.06*E.l):1; }
+function enhMulHalf(E){ return E?(1+0.03*E.l):1; }
 function reforgeCost(it){ return {ess:3+2*Math.min(it.rarity==="set"?3:4,RAR_IDX[it.rarity]||0)+(it.rerolls||0)}; }
 // 아이템 능력치 합산: 기본 + 접사 + 운명 보너스. E = 끼운 부위의 강화(+1당 6%, 금 간 부위 -10%, 금으로 메운 부위 +3%)
 function effStats(it,E){
@@ -9046,7 +9059,7 @@ function eqSlotBtn(cid,sk){ const it=findEquipped(cid,sk), s=SLOTS.find(x=>x.key
   const up=runBusy()?0:slotBetterCount(cid,sk); const b=document.createElement("button"); b.className="eqslot"+(it?"":" empty")+(up?" hasup":"");
   b.innerHTML=it?iconCell(it,{enh:it.noEnh?null:E}):`<span class="icell r-none ghost${E.gilt?" gilt":""}"><img src="${slotGhostURL(sk,cid)}" alt="">${E.l?`<b class="ic-enh ${enhTier(E.l).cls}">+${E.l}</b>`:""}</span>`;
   b.innerHTML+=`<span class="eqsl">${esc(s.label)}${!it&&sk==="offhand"&&W.two?" ✕":""}</span>${up?`<span class="equp" title="가방에 더 좋은 ${esc(s.label)} ${up}개">▲${up}</span>`:""}`;
-  b.title=(it?[itemLabel(it),itemSummary(it)].concat(itemExtraText(it)):[`${s.label} — 비어 있음`]).concat(ENH_SLOTS.includes(sk)?[`부위 강화 +${E.l}${E.gilt?" (금 감)":""}`]:[]).join("\n");
+  b.title=(it?[itemLabel(it),itemSummary(it)].concat(itemExtraText(it)):[`${s.label} — 비어 있음`]).concat(ENH_SLOTS.includes(sk)?[`부위 강화 +${E.l} (장비 능력치 +${E.l*6}%)`]:[]).join("\n");
   b.onclick=()=>openWornItem(cid,sk);
   return b; }
 // v0.55.2: 칸 옆 강화 단추 — 위: 현재 단계(+N, 재질 색), 아래: 성공률(또는 수리·최대). 누르면 바로 강화(비용은 길게 누르거나 칸을 눌러 확인)
@@ -9066,7 +9079,7 @@ function enhSideBtn(cid,sk){
 }
 // 부위 창: 끼운 장비 정보 + 부위 강화(빈 칸도 강화할 수 있음)
 function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find(x=>x.key===sk); const E=slotEnh(cid,sk), canE=ENH_SLOTS.includes(sk);
-  const enhLine=canE?`<div class="statline">🔨 부위 강화 <b class="enh ${enhTier(E.l).cls}">+${E.l}</b> (${enhTier(E.l).name})${E.gilt?' · <span class="gilt">금 감 — 능력치 -10%, 수리 가능</span>':E.gilded?" · 금으로 메움 +3%":""} — 이 칸에 무엇을 끼든 강화가 그대로 붙습니다</div>`:"";
+  const enhLine=canE?`<div class="statline">🔨 부위 강화 <b class="enh ${enhTier(E.l).cls}">+${E.l}</b> (${enhTier(E.l).name}) — 이 칸에 끼는 장비의 능력치 +${E.l*6}% (치명·회피 같은 확률형은 +${E.l*3}%) · 장비를 바꿔 껴도 그대로</div>`:"";
   const head=it?`<div class="imhead">${iconCell(it,{enh:it.noEnh?null:E})}<div><h2 class="${rarityCls(it)}">${it.noEnh?"":enhTag(E)}${esc(itemDisplayName(it))}</h2><div class="statline">${esc(rarityLabel(it))} · ${esc(s.label)}${itemClassText(it)?" · "+esc(itemClassText(it)):""} · <span class="wornchip">${esc(heroDisplayName(cid))} 착용 중</span></div></div></div>`
     :`<div class="imhead"><span class="icell r-none ghost"><img src="${slotGhostURL(sk,cid)}" alt=""></span><div><h2>${esc(s.label)} <small style="color:var(--muted)">비어 있음</small></h2><div class="statline">${esc(heroDisplayName(cid))}의 ${esc(s.label)} 칸</div></div></div>`;
   const m=openModal(`${head}
@@ -9112,6 +9125,8 @@ function renderEquip(){
   mid.appendChild(eqFigure(cid));
   const nm=document.createElement("div"); nm.className="eqname"; nm.innerHTML=`<b>${heroNameHTML(cid)}</b><span>Lv.${h.level}${h.awaken?` ✦${h.awaken}`:""} · ${esc(WEAPONS[D.wtype].name)}</span>`; mid.appendChild(nm);
   const ps=document.createElement("div"); ps.className="eqpow"; ps.innerHTML=[["공격",d.atk],["체력",d.hp],["방어",d.def],["신속",d.spd],["치명",pct(d.crit)+"%"],["명중",pct(d.acc)+"%"]].map(([k,v])=>`<span><i>${k}</i><b>${v}</b></span>`).join(""); mid.appendChild(ps);
+  { const S=enhSummary(cid); const es=document.createElement("div"); es.className="eqenh"; const t=enhSummaryText(cid);
+    es.innerHTML=S.sum?`<b>🔨 부위 강화 합 +${S.sum}</b><span>${t?esc("강화로 오른 능력치 — "+t):"끼운 장비가 없어 아직 효과 없음"}</span>`:`<b>🔨 부위 강화 없음</b><span>칸 옆 단추로 강화하면 그 칸에 끼는 장비 능력치가 단계마다 +6%</span>`; mid.appendChild(es); }
   doll.append(cl,mid,cr); L.appendChild(doll);
   const {sets}=heroEquipTotals(cid);
   for(const [k,n] of Object.entries(sets)){ const S=SETS[k]; const sl=document.createElement("div"); sl.className="setline"+(n>=2?"":" off");
@@ -9615,7 +9630,7 @@ function unequip(cid,slot,quiet){
 }
 /* ---- 명함: 영웅 한 장 요약 그림 ---- */
 function makeNameCard(cid){
-  const c=CLASSES[cid], h=progress.heroes[cid], D=heroDerived(cid), d=D.stats, tt=heroTitle(cid);
+  const c=CLASSES[cid], h=progress.heroes[cid], D=heroDerived(cid), d=D.stats;
   const W=640,H=400, cv=document.createElement("canvas"); cv.width=W; cv.height=H; const g=cv.getContext("2d");
   g.fillStyle="#0a0d16"; g.fillRect(0,0,W,H);
   const grd=g.createLinearGradient(0,0,W,H); grd.addColorStop(0,"#1a2140"); grd.addColorStop(1,"#0d1120"); g.fillStyle=grd; g.fillRect(8,8,W-16,H-16);
@@ -9623,7 +9638,7 @@ function makeNameCard(cid){
   const img=new Image(); img.src=heroIcon(cid);
   const draw=()=>{
     g.imageSmoothingEnabled=false; { const lk=heroLook(cid), A=lk&&lk.aura&&auraNew(lk,lk.aura); if(A) g.drawImage(A.cv,28-AURA_OX*7,40-AURA_OY*7,AURA_W*7,AURA_H*7); } g.drawImage(img,28,40,112,112);
-    g.fillStyle="#f4c95d"; g.font="bold 24px sans-serif"; g.fillText(`${tt?"["+tt.name+"] ":""}${heroDisplayName(cid)}`,160,66);
+    g.fillStyle="#f4c95d"; g.font="bold 24px sans-serif"; g.fillText(heroDisplayName(cid),160,66);   // v0.55.3: '[undefined]'가 앞에 붙던 오류(칭호는 아랫줄에 이미 있음)
     g.fillStyle="#8b96bd"; g.font="14px sans-serif"; g.fillText(`${heroTitle(cid)} · Lv.${h.level}${h.awaken?" ✦"+h.awaken:""} · ${WEAPONS[D.wtype].name}`,160,90);
     g.fillStyle="#e9ecf8"; g.font="13px sans-serif";
     const st=[`공격력 ${d.atk}`,`체력 ${d.hp}`,`방어력 ${d.def}`,`신속 ${d.spd}`,`마나 ${d.mp}`,`치명타 확률 ${pct(d.crit)}%`,`치명타 피해 ${pct(d.critdmg)}%`,`명중 ${pct(d.acc)}%`,`회피 ${pct(d.eva)}%`,`관통 ${pct(d.pen)}%`,`상태이상 저항 ${pct(d.res)}%`,`흡혈 ${pct(d.ls)}%`];
@@ -9631,7 +9646,8 @@ function makeNameCard(cid){
     g.fillStyle="#f4c95d"; g.font="bold 13px sans-serif"; g.fillText("장비",28,186);
     g.font="12px sans-serif"; let y=204;
     const col={common:"#aab3cf",fine:"#6fdc8c",rare:"#5eaaff",epic:"#c98bff",legend:"#ffb347",set:"#45e0cf",mythic:"#ff7ad9"};
-    for(const s of SLOTS){ const it=findEquipped(cid,s.key); if(!it) continue; g.fillStyle=col[it.mythic?"mythic":it.rarity]||"#aab3cf"; g.fillText(`${s.label}: ${itemLabel(it)}`,28,y); y+=16; if(y>H-30) break; }
+    { const S=enhSummary(cid); if(S&&S.sum){ g.fillStyle="#c7cfec"; g.fillText(`부위 강화 합 +${S.sum}${enhSummaryText(cid)?" — "+enhSummaryText(cid):""}`.slice(0,46),28,y); y+=16; } }   // v0.55.3
+    for(const s of SLOTS){ const it=findEquipped(cid,s.key); if(!it) continue; const E=ENH_SLOTS.includes(s.key)&&!it.noEnh?slotEnh(cid,s.key).l:0; g.fillStyle=col[it.mythic?"mythic":it.rarity]||"#aab3cf"; g.fillText(`${s.label}: ${E?"+"+E+" ":""}${itemLabel(it)}`,28,y); y+=16; if(y>H-30) break; }
     g.fillStyle="#f4c95d"; g.font="bold 13px sans-serif"; g.fillText("자동전투 규칙",330,186);
     g.fillStyle="#c7cfec"; g.font="12px sans-serif"; let y2=204;
     partyRules[cid].filter(r=>r.enabled).slice(0,8).forEach((r,i)=>{ const t=`${i+1}. ${COND[r.c1].label}${r.logic===1?" + ":r.logic===2?" / ":""}${r.logic?COND[r.c2].label:""} → ${SKILLS[r.skill].name}`; g.fillText(t.length>40?t.slice(0,39)+"…":t,330,y2); y2+=16; });
@@ -10349,7 +10365,7 @@ function showActLoot(notes,title){
     document.body.appendChild(p);
     let t=setTimeout(()=>p.remove(),12000);
     p.addEventListener("pointerenter",()=>clearTimeout(t)); p.addEventListener("pointerleave",()=>{ clearTimeout(t); t=setTimeout(()=>p.remove(),5000); });
-    p.querySelector(".ax").onclick=()=>p.remove(); p.querySelector("#alEq").onclick=()=>{ p.remove(); try{ showTab("party"); }catch(e){} };
+    p.querySelector(".ax").onclick=()=>p.remove(); p.querySelector("#alEq").onclick=()=>{ p.remove(); try{ showTab("equip"); }catch(e){} };   // v0.55.3: 파티 탭으로 가던 오류
     return p;
   }catch(e){ return null; }
 }
@@ -10425,8 +10441,11 @@ function advanceZone(){
   runState.zone++;
   for(const u of runState.party){
     if(!u.alive){ u.hp=0; u.buffs={}; u.dots={}; continue; }   // v0.32: 쓰러진 동료는 다음 구역에서 저절로 일어나지 않음 — 부활 스킬·쉼터·회복 이벤트로만
-    u.buffs={}; u.dots={}; u.taunted_by="";   // v0.55.2: 구역 사이 회복 없음 — 직전 구역을 마친 체력·마나 그대로 다음 구역으로(효과·지속 피해만 풀림)
+    u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*ZONE_REGEN));   // v0.55.3: 구역 사이 회복은 체력·마나 각 10%만(원래 25%·50%)
+    u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*ZONE_REGEN));
+    u.buffs={}; u.dots={}; u.taunted_by="";
   }
+  logLine(`<span class="r">구역 사이에서 잠시 숨을 골랐다 (체력·마나 ${Math.round(ZONE_REGEN*100)}% 회복).</span>`);
   spawnField([...runState.party]);
   setZoneLine();
   saveProgress();   // 다음 구역 번호까지 저장 — 새로 고침해도 같은 자리에서 이어짐
@@ -11249,7 +11268,7 @@ async function coopLoop(){
       else if(run.mode==="raid"){ if(z.phase>=3){ coopEnd("clear"); return; } }
       else if(z.boss||z.actEnd){ coopEnd("clear"); return; } }
     // 구역 사이 정비(혼자 하기와 같은 규칙)
-    for(const u of run.party){ if(!u.alive){ u.hp=0; continue; } u.buffs={}; u.dots={}; u.taunted_by=""; }   // v0.55.2: 구역 사이 회복 없음(혼자 하기와 같은 규칙)
+    for(const u of run.party){ if(!u.alive){ u.hp=0; continue; } u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*ZONE_REGEN)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*ZONE_REGEN)); u.buffs={}; u.dots={}; u.taunted_by=""; }   // v0.55.3: 혼자 하기와 같은 규칙(각 10%)
     run.z++; coopPushRoom(); saveProgress(); setMainBtn();
     // 방장과 보조 맞추기: 방장이 아니면 방장이 다음 구역에 들어설 때까지(최대 25초) 기다림
     if(!COOP.isHost&&run.z<run.zones.length){ const t0=Date.now();
