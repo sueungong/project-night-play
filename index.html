@@ -605,6 +605,7 @@ input[type=checkbox]{accent-color:var(--accent); width:18px; height:18px}
 .prim{display:grid; grid-template-columns:repeat(6,1fr); gap:8px}
 .prim .pbtn{display:flex; flex-direction:column; align-items:center; gap:0; background:var(--panel2); border:1.5px solid var(--line); border-radius:12px; padding:8px 2px; color:var(--ink); cursor:default; position:relative; min-height:72px; justify-content:center}
 .prim .pbtn .pk{font-size:13px; color:var(--muted)} .prim .pbtn .pv{font-size:23px; font-weight:700; line-height:1.15}
+.updbar{position:fixed; left:50%; top:max(8px,env(safe-area-inset-top)); transform:translateX(-50%); z-index:10000; background:var(--accent); color:var(--accent-ink); border:0; border-radius:12px; padding:10px 16px; font:inherit; font-size:14px; font-weight:800; box-shadow:0 6px 20px #000a; cursor:pointer}
 .pinfo{margin-top:8px; font-size:12.5px; color:var(--muted); line-height:1.5; min-height:19px} .pinfo b{color:var(--accent); font-weight:700}   /* v0.53.1: 누른 능력치의 1포인트당 효과 한 줄 */
 .prim .pbtn.can{cursor:pointer; border-color:#a68a35} .prim .pbtn.can:hover{background:var(--raised)}
 .prim .pbtn .plus{position:absolute; top:5px; right:5px; width:16px; height:16px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px #f4c95daa}
@@ -1215,7 +1216,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.53.1 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.53.2 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1321,6 +1322,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.53.2: 휴대폰 주소(홈 화면 앱)에서 새 버전이 올라오면 위쪽에 '⟳ 새 버전이 있어요' 버튼이 뜹니다 — 누르면 바로 새 버전으로 바뀝니다(브라우저가 예전 파일을 잠시 붙들고 있던 문제).
 v0.53: <b>능력치 화면(휴대폰)</b> — 능력치 칸을 누르면 칸 아래 한 줄에 1포인트당 효과가 나옵니다(포인트가 있으면 찍고 무엇이 올랐는지, 없으면 효과만. 예: 체질 — 체력 +10 · 방어력 +0.5 · 상태이상 저항 +0.4%, 마법 직업의 힘은 효과 없음). 칸 모양은 예전 그대로. 능력치를 찍을 때 영웅 정보 칸이 맨 위로 튀어 올라가던 문제를 고쳐, 보던 자리 그대로 남습니다(장비 탭도 같음).
 v0.52: <b>주인공 규칙 순서 고침</b> — v0.50 이전 규칙 교실이 칸을 여는 순서대로 규칙을 쌓아, 성직자 주인공은 '축복'이 맨 위에 있어 마나가 많으면 아군이 빈사여도 치유 대신 축복을 쓰던 문제(이미 하던 세이브는 v0.51에서도 순서가 그대로였음). 이제 주인공 규칙은 직업 기본 순서(성직자: 광역 치유 → 치유 → 축복)로 들어가고, 직접 고치지 않은 기존 세이브도 한 번 기본 순서로 바로잡습니다.
 v0.51.1: 주인공에게 보이던 대상 이름 '자동'을 없앴습니다 — 규칙 교실 카드·스킬 자동 추가 알림·총사 도움말에 남아 있던 '자동'을 주인공의 '기본 — …' 표기로 바꿈('자동(스스로 판단)'은 동료에게만).
@@ -9948,6 +9950,13 @@ function pwaSetup(){ try{ let top=false; try{ top=window.top===window; }catch(e)
       const ml=document.createElement("link"); ml.rel="manifest"; ml.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:"application/manifest+json"})); document.head.appendChild(ml); };
     im.src=SPRITES[CLASSES.knight.sprite]; }catch(e){} }
 setTimeout(()=>{ fsSync(); pwaSetup(); },0);
+// v0.53.2 웹 주소(휴대폰 앱)용 새 버전 확인: 브라우저가 예전 파일을 붙들고 있어도(최대 10분 캐시) 새 버전이 올라오면 알려 주고 누르면 바로 바꿈
+let updBusy=false, updShown=false;
+async function checkUpdate(){ try{ if(updBusy||updShown||!/^https?:/.test(location.protocol)||window.top!==window) return; updBusy=true;
+    const r=await fetch(location.pathname+"?chk="+Date.now(),{cache:"no-store"}); const t=await r.text(); const m=/class="ver">(v[\d.]+)/.exec(t); const cur=gameVersion();
+    if(m&&cur&&m[1]!==cur){ updShown=true; const b=document.createElement("button"); b.className="updbar"; b.innerHTML=`⟳ 새 버전 ${esc(m[1])}이(가) 있어요 — 눌러서 업데이트`;
+      b.onclick=()=>{ location.replace(location.pathname+"?u="+Date.now()); }; document.body.appendChild(b); } }catch(e){} finally{ updBusy=false; } }
+setTimeout(checkUpdate,3000); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") checkUpdate(); });
 function dungeonTab(){
   if(runBusy()||playing||telling){ showTab("dungeon"); return; }
   showTab("dungeon"); openDungeonPicker();
