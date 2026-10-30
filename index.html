@@ -1253,7 +1253,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.56 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.56.1 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1360,6 +1360,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.56.1: 가방은 기본 150칸(정액 +50) — 넘쳐도 줍기는 되지만 던전·최종 콘텐츠·함께하기에는 정리한 뒤 들어갑니다. 최종 콘텐츠는 주간 입장 횟수가 생겼습니다 — 탑 10 · 레이드 5 · 원정 5(월요일 초기화), 다 쓰면 입장권으로(정액은 매주 5장).
 v0.56: <b>새벽 상점 — 광고 · 30일 정액 · 아트 패스</b> — 상점에 💎 새벽 상점 탭이 생겼습니다. 광고(시험용 5초 자리): 횃불 +1(하루 5회) · 막을 깬 뒤 24시간 안에 전리품 2배·금화 2배(하루 3회, 전리품 창에서도) · 30분 동안 모든 전투 '빠르게'(하루 2회). 30일 정액(💎 300): 횃불 최대 15개·1.5배 충전, '빠르게' 상시, 이미 깬 막은 '매우 빠르게' 자동, 최종 콘텐츠 주간 첫 보상 한 번 더, 매일 💎 10, 명함 틀·이름 옆 🌙. 아트 패스(30일 시즌·30단계): 던전 입장 20 · 우두머리 처치 40 · 막 돌파 60 · 증표 100 경험치, 100마다 1단계. 무료 트랙은 골드·정수·💎·장비·명함 스티커·오라 색·칭호, 유료 트랙(💎 200)은 매 단계 💎와 전설 장비·시즌 외형·글자체·장식·칭호. 외형 보상은 외형 자체가 아직 없어 '준비 중'으로 받아 둡니다. 결제·실제 광고는 출시 때 붙습니다(지금은 관리자 시험 단추).
 v0.55.7: 세트 장비는 한 부위 = 1개로 셉니다(전에는 목걸이를 2개분으로 세어 3개 끼고 4/6이 되던 혼란). 장비 탭의 유물 칸을 투구·무기와 같은 높이로. 전장의 후퇴·속도·설정·기록 단추는 오른쪽 가장자리에 세로로 — 유닛 자리를 건드리지 않고 상태 아이콘도 안 가립니다(속도는 1×·1.5×·2×로 짧게).
 v0.55.6: <b>보스 겹바 · 장비 탭 정리 · 전장 단추 자리</b> — 보스 체력은 색이 다른 여러 겹(중간보스 5겹 · 보스 8겹, 난이도마다 +1)으로 나와 한 방이 작아도 줄어드는 게 보입니다(바 옆 ×N = 남은 겹). 장비 탭은 유물 칸을 가운데 위로 올려 좌우 5칸씩 맞추고, 칸 옆 강화 단추는 단계만 작게, 능력치와 부위 강화 요약은 인형 아래 한 줄씩으로 정리했습니다(큰 화면에서 글자가 세로로 꺾이던 문제). 전장 오른쪽 아래 단추 줄이 적의 상태 아이콘을 가리지 않도록 적 쪽 자리를 그만큼 위로 잡습니다.
@@ -5671,6 +5672,20 @@ function passClaimable(){ const P=passState(); let n=0; for(let L=1;L<=passLevel
 // ---- 속도: 광고 30분 · 정액 ----
 function speedBoostOn(){ return subActive()||adFastOn(); }
 function speedSubFastest(){ return subActive()&&speedRoomClearedBase(); }   // 정액: 이미 깬 막에서만 '매우 빠르게'
+// ---- 가방 칸(v0.56.1): 기본 150칸 · 정액 +50. 넘치면 줍는 건 되지만 던전·최종 콘텐츠·함께하기에 못 들어감(정리 뒤 입장) ----
+const BAG_BASE=150, BAG_SUB=50;
+function bagCap(){ return BAG_BASE+(subActive()?BAG_SUB:0); }
+function bagOver(){ return progress&&progress.inv.length>bagCap(); }
+function bagGate(){ if(!bagOver()) return true; toast(`<span class="tc">🎒 가방이 가득</span>${progress.inv.length}/${bagCap()}칸 — 장비 탭에서 판매·분해로 ${progress.inv.length-bagCap()}개를 정리한 뒤 들어갈 수 있어요.`,"",4200); logLine(`<span class="r">🎒 가방 ${progress.inv.length}/${bagCap()}칸 — 정리한 뒤 입장할 수 있습니다.</span>`); return false; }
+// ---- 최종 콘텐츠 주간 입장 횟수(v0.56.1): 탑 10 · 레이드 5 · 원정 5 (매주 월요일 초기화) · 다 쓰면 입장권(정액은 매주 5장) ----
+const EG_WEEKLY={tower:10, raid:5, exped:5}, SUB_TICKETS=5;
+function egEntries(){ const E=egState(); E.ent=E.ent&&E.ent.wk===E.wk?E.ent:{wk:E.wk,tower:0,raid:0,exped:0}; return E.ent; }
+function egTickets(){ const E=egState(); if(subActive()&&E.tkWk!==E.wk){ E.tkWk=E.wk; E.tickets=(E.tickets|0)+SUB_TICKETS; logLine(`<span class="gain">🌙 정액 — 이번 주 최종 콘텐츠 입장권 +${SUB_TICKETS}</span>`); } return E.tickets|0; }
+function egLeft(m){ return Math.max(0,EG_WEEKLY[m]-(egEntries()[m]|0)); }
+function egCanEnter(m){ return egLeft(m)>0||egTickets()>0; }
+function egEntryUse(m){ const ent=egEntries(); if(egLeft(m)>0){ ent[m]++; return "주간"; } const E=egState(); if((E.tickets|0)>0){ E.tickets--; logLine(`<span class="r">🎟 입장권 1장 사용 — 남은 입장권 ${E.tickets}장</span>`); return "입장권"; } return null; }
+function egEntryText(m){ const l=egLeft(m), t=egTickets(); return `이번 주 입장 ${l}/${EG_WEEKLY[m]}${t?` · 입장권 ${t}장`:""}`; }
+function egGate(m){ if(egCanEnter(m)) return true; toast(`<span class="tc">${EG_MODES[m].icon} 이번 주 입장을 다 썼어요</span>${EG_MODES[m].name}은 주 ${EG_WEEKLY[m]}회 · 월요일에 다시 채워집니다${subActive()?"":" · 정액은 매주 입장권 5장"}`,"",4200); return false; }
 // ---- 새벽 상점 화면 ----
 function gemShopBlock(){
   const box=document.createElement("div"); box.className="gemshop"; const gem=progress.gem||0; const P=passState(); const lv=passLevel(P); const A=adsToday();
@@ -5678,7 +5693,7 @@ function gemShopBlock(){
   box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>유료 재화 · 출시 뒤 결제로 충전 · 증표·첫 돌파·패스로도 조금씩</span>${isAdmin()?`<button class="ghostbtn" id="gsAdd">관리자 +100</button>`:""}</div>
   <div class="gscards">
     <div class="gscard sub${sub?" on":""}"><h3>🌙 30일 정액</h3>${sub?`<div class="gsst">사용 중 · ${subDaysLeft()}일 남음</div>`:""}
-      <ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 '빠르게' 상시 · 이미 깬 막은 '매우 빠르게'로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>
+      <ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 '빠르게' 상시 · 이미 깬 막은 '매우 빠르게'로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>가방 +${BAG_SUB}칸 (기본 ${BAG_BASE})</li><li>매주 최종 콘텐츠 입장권 ${SUB_TICKETS}장</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>
       <div class="gsbtns"><button class="btn" id="gsSub" ${gem<SUB_GEM?"disabled":""}>💎 ${SUB_GEM} — ${sub?"30일 연장":"시작"}</button>${isAdmin()?`<button class="ghostbtn" id="gsSubAdm">관리자 시험 30일</button>`:""}</div></div>
     <div class="gscard pass${P.paid?" on":""}"><h3>🎟 아트 패스 — 시즌 ${P.season}</h3><div class="gsst">${lv}/${PASS_LEVELS}단계 · ${passDaysLeft()}일 남음 · ${P.paid?"유료 트랙 열림":"무료 트랙"}${passClaimable()?` · <b>받을 보상 ${passClaimable()}</b>`:""}</div>
       <div class="pbar"><i style="width:${Math.min(100,(P.xp%PASS_XP))}%"></i></div>
@@ -9288,7 +9303,7 @@ function renderEquip(){
   const FILT={all:()=>true, weapon:it=>it.slot==="weapon", offhand:it=>it.slot==="offhand", armor:it=>["armor","helm","cape"].includes(it.slot),
     acc:it=>["gloves","boots"].includes(it.slot), jewel:it=>it.slot==="ring"||it.slot==="amulet", rune:it=>it.slot==="rune"||it.slot==="relic"};
   const head=document.createElement("div"); head.className="bghead"; head.id="invHead";
-  head.innerHTML=`<h2 class="ph">가방 <small>${progress.inv.length}칸</small></h2>`;
+  head.innerHTML=`<h2 class="ph">가방 <small${bagOver()?' style="color:var(--bad)"':""}>${progress.inv.length}/${bagCap()}칸</small></h2>`;
   const pk=document.createElement("button"); pk.className="ghostbtn"+(bagPick?" on":""); pk.textContent=bagPick?"✓ 고르는 중":"여러 개 골라 정리"; pk.onclick=()=>{ bagPick=!bagPick; bagSel.clear(); bagArm=null; renderParty(); }; head.appendChild(pk);
   B.appendChild(head);
   const fb=document.createElement("div"); fb.className="filters";
@@ -10244,7 +10259,7 @@ function mainButton(){
   if($("dpick")) closeModal();   // 던전 선택 창이 열려 있으면 닫고 진행
   if(typeof COOP!=="undefined"&&COOP.run) return;
   retreatArm=false;
-  if(!runState){ if(TUT.learning()&&TUT.st().rl<1){ TUT.lesson(1); return; } if(!torchCanEnter()){ openTorch(true); return; } }
+  if(!runState){ if(TUT.learning()&&TUT.st().rl<1){ TUT.lesson(1); return; } if(!bagGate()) return; if(egModeOf()&&!egGate(egModeOf())) return; if(!torchCanEnter()){ openTorch(true); return; } }
   if(!runState){ if(egModeOf()) startEg(egModeOf()); else startRun(); }
   else enterZone();
 }
@@ -10695,6 +10710,7 @@ function egCampHtml(){
   if(m==="raid"){ const B=MOBS[REGIONS[W.raid].boss]; info=`이번 주 군단장 <b>${esc(B.name)}</b> · 추가 저주 ${an(W.raidAffix)} · 주간 첫 처치 보상 ${E.raidDone?"받음":"<b style='color:var(--good)'>남음</b>"}`; }
   if(m==="exped") info=`이번 주 지도 ${W.acts.map(k=>esc(REGIONS[k].name)).join(" → ")} → <b>${esc(MOBS[REGIONS[W.raid].boss].name)}</b> · 이번 주 최고 ${E.expedBest}/${EX_STEPS+1}걸음`;
   const left=7-((Math.floor((Date.now()+9*3600e3)/86400e3)+3)%7);
+  info+=` · ${egEntryText(m)}`;
   return `<span>${M.icon} <b>${esc(M.name)}</b></span><span class="sep" style="color:#5d6890">/</span><span>${info}</span>${ctl}<span>새벽 파편 <b style="color:#ffcf7a">${E.shards}</b> · 별의 정수 <b style="color:#9fd0ff">${egMat().star}</b> · 혼 <b style="color:#d6b3ff">${Object.values(egMat().soul).reduce((a,b)=>a+b,0)}</b></span><span class="spacer"></span><span style="color:var(--muted);font-size:13px">${left}일 뒤 새 주</span>`;
 }
 function egTier(){ return REGIONS.altar.lootTier+DIFFS[2].loot+6; }
@@ -10707,7 +10723,7 @@ function startEg(m){
     eg:{wk:W.wk, W, relics:[], curses:[], coins:0, start, top:start-1} };
   runState.party=buildParty(EG_PARTY);
   $("log").innerHTML=""; logSink=null; curTurn=0; $("result").textContent=""; $("result").className="result";
-  ruleHits={}; ruleHitsSeen=true; torchSpend(EG_MODES[m].name);
+  ruleHits={}; ruleHitsSeen=true; torchSpend(EG_MODES[m].name); egEntryUse(m);
   spawnField([...runState.party]);
   showTab("dungeon"); setZoneLine(); renderHud(); renderDiffSel();
   const M=EG_MODES[m];
@@ -11353,6 +11369,8 @@ async function coopToggleReady(){
 async function coopHostStart(){
   if(!COOP.isHost||!COOP.nr||COOP.run) return;
   if(!torchCanEnter()){ COOP.notice="🔥 횃불이 없어 출발할 수 없습니다 — 횃불을 채운 뒤 다시 눌러 주세요."; coopRender(); openTorch(true); return; }
+  if(bagOver()){ COOP.notice=`🎒 가방이 가득(${progress.inv.length}/${bagCap()}) — 정리한 뒤 출발할 수 있습니다.`; coopRender(); return; }
+  if(COOP.mode&&!egCanEnter(COOP.mode)){ COOP.notice=`${EG_MODES[COOP.mode].icon} 이번 주 ${EG_MODES[COOP.mode].name} 입장을 다 썼습니다(주 ${EG_WEEKLY[COOP.mode]}회).`; coopRender(); return; }
   if(!COOP.ready||COOP.packN!==COOP.mem.length){ COOP.ready=true; await coopRepack(); coopPushRoom(); }
   const peers=coopPeers(COOP.nr);
   const me=coopMyPeer(COOP.nr);
@@ -11397,7 +11415,7 @@ async function coopStartRun(hp,R){
   COOP.lastRunId=R.id;
   const party=await coopBuildParty(R);
   if(!party.length) return;
-  torchSpend("함께하기"); const coopBank=R.mode?null:runBankTake();
+  torchSpend("함께하기"); if(R.mode) egEntryUse(R.mode); const coopBank=R.mode?null:runBankTake();
   const zones=coopGenZones(R);
   const W=R.mode?egWeekInfo(R.wk):null;
   COOP.run={ id:R.id, seed:R.seed>>>0, rk:R.mode?(zones[0].rk||W.raid):R.rk, d:R.d, zones, z:0, party, gains:{exp:0,gold:0,items:0,shards:0}, myCid:coopHero(), done:false,
