@@ -1214,7 +1214,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.51.1 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.52 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1320,6 +1320,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.52: <b>주인공 규칙 순서 고침</b> — v0.50 이전 규칙 교실이 칸을 여는 순서대로 규칙을 쌓아, 성직자 주인공은 '축복'이 맨 위에 있어 마나가 많으면 아군이 빈사여도 치유 대신 축복을 쓰던 문제(이미 하던 세이브는 v0.51에서도 순서가 그대로였음). 이제 주인공 규칙은 직업 기본 순서(성직자: 광역 치유 → 치유 → 축복)로 들어가고, 직접 고치지 않은 기존 세이브도 한 번 기본 순서로 바로잡습니다.
 v0.51.1: 주인공에게 보이던 대상 이름 '자동'을 없앴습니다 — 규칙 교실 카드·스킬 자동 추가 알림·총사 도움말에 남아 있던 '자동'을 주인공의 '기본 — …' 표기로 바꿈('자동(스스로 판단)'은 동료에게만).
 v0.51: <b>주인공 자동전투 규칙</b> — 새로 시작하면 규칙 교실 동안 주인공의 규칙 칸이 잠겨 있어(처음엔 1칸) 주인공이 거의 기본공격만 하던 문제. 이제 주인공도 처음부터 직업 기본 규칙이 모두 들어 있고, 규칙 교실은 규칙을 하나씩 설명만 합니다. 진행 중인 세이브도 빠진 기본 규칙이 바로 채워집니다. v0.50에서 낮췄던 황혼 1·2장 난이도는 되돌렸습니다.
 v0.50: <b>후퇴 · 황혼 앞부분 완화</b> — 던전 전장 위에 '↩ 후퇴' 버튼(두 번 눌러 확인). 전투 중에도 쓸 수 있고, 결과는 패배와 같습니다(이번 입장에서 얻은 경험치·골드·장비를 모두 잃고 등불 도시로). (황혼 1·2장 완화는 v0.51에서 되돌림)
@@ -5534,10 +5535,8 @@ const TUT={
       partyRules[cid]=out; ensureRuleSlots(cid); saveRules();
       try{ for(const [sid,ar] of [...addAdvRules(cid,advInfo(cid)), ...(progress.heroes[cid].learned||[]).filter(sid=>!partyRules[cid].some(r=>r.enabled&&r.skill===sid)).map(sid=>[sid,autoAddRule(cid,sid)])]) logAutoRule(cid,sid,ar); }catch(e){}
       saveRules(); return; }
-    // 배우는 중에도 기본 규칙 전부(이미 직접 고친 규칙은 그대로 두고 빠진 것만 채움)
-    { const cur=(partyRules[cid]||[]).filter(r=>r.enabled); const out=cur.length?cur.map(r=>({...r})):[];
-      for(const r of CLASSES[cid].default_rules) if(r.enabled&&!out.some(x=>x.skill===r.skill&&x.c1===r.c1)) out.push({...r});
-      partyRules[cid]=out; ensureRuleSlots(cid); saveRules(); } },
+    // 배우는 중에도 기본 규칙 전부 — 직업 기본 순서 그대로(예: 성직자는 광역 치유 → 치유 → 축복). 그 밖에 넣어 둔 규칙은 뒤에
+    protagDefaultRules(cid); },
   // 새 게임(주인공을 막 만든 직후) — 규칙 교실을 처음부터
   begin(){ const t=this.st(); t.rl=0; t.seen={}; t.demo={}; t.wins=0; this.applyRules(); saveProgress(); },
   // 예전 세이브는 다 배운 것으로
@@ -9580,8 +9579,19 @@ function logAutoRule(cid,sid,ar){
   logLine(`<span class="win">📜 ${esc(heroDisplayName(cid))} 자동전투 규칙 ${ar.pos}번에 '${esc(SKILLS[sid].name)}' 추가 — ${esc(COND[r.c1].label)} → ${esc(targetLabel(r,cid))}. (자동전투 탭에서 바꿀 수 있어요)</span>`);
 }
 // 예전 세이브: 이미 가진 전직·스킬북 스킬 중 규칙에 없는 것을 한 번만 채워 줌
+// v0.52: 주인공 규칙을 직업 기본 순서로. v0.50까지 규칙 교실이 칸을 하나씩 열며 순서를 바꿔 놓아(성직자: 축복이 맨 위 → 마나가 많으면 치유 대신 축복)
+// 기본 규칙만 들어 있는(직접 고치지 않은) 주인공은 기본 순서·전부로 되돌린다. 직접 바꾼 규칙이 있으면 건드리지 않음
+function isDefaultRule(cid,r){ return CLASSES[cid].default_rules.some(d=>d.enabled&&d.skill===r.skill&&d.c1===r.c1&&(d.logic|0)===(r.logic|0)&&(!d.logic||d.c2===r.c2)); }
+function protagDefaultRules(cid){ const basic=CLASSES[cid].skills[0];
+  const extra=(partyRules[cid]||[]).filter(r=>r.enabled&&!isDefaultRule(cid,r)).map(r=>({...r}));
+  const out=CLASSES[cid].default_rules.filter(d=>d.enabled&&!(d.skill===basic&&d.c1===0&&!d.logic)).map(d=>({...d})).concat(extra);
+  partyRules[cid]=out; ensureRuleSlots(cid); saveRules(); }
 function autoRulePass(){
-  try{ if(progress&&progress.protag&&TUT.learning()) TUT.applyRules(); }catch(e){}   // v0.51: 규칙 교실 중인 세이브 — 주인공에게 빠진 기본 규칙을 채움
+  try{ const cid=progress&&progress.protag&&progress.protag.cid;
+    if(cid&&TUT.learning()) TUT.applyRules();
+    else if(cid&&!progress.rulesFixV){ const en=(partyRules[cid]||[]).filter(r=>r.enabled); if(en.every(r=>isDefaultRule(cid,r)||(r.skill===CLASSES[cid].skills[0]&&r.c1===0&&!r.logic))) protagDefaultRules(cid); }
+    if(progress&&progress.protag) progress.rulesFixV=1;
+  }catch(e){}
   if(!progress||progress.autoRules>=1) return;
   const added=[];
   for(const cid of rosterIds()){
