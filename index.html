@@ -1233,12 +1233,27 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .mfoot{display:flex; gap:8px; margin-top:12px; align-items:center} .mfoot .spacer{flex:1}
 @media (max-height:560px){ .eqpane{gap:8px} .eqpane .panel{padding:8px; gap:6px} .eqdoll{padding:6px; gap:6px} .eqcol{gap:3px; display:flex; align-content:center} .eqpair{gap:3px} .enhside{width:28px; height:38px} .enhside b{font-size:11px} .icell{--ic:38px} .eqslot .eqsl{display:none} .eqtop{margin-bottom:2px} .eqenh{padding-top:3px; font-size:12px}
   .eqfig.unit img.eqimg{width:96px; height:96px} .eqpow{display:none} .bggrid{grid-template-columns:repeat(auto-fill,minmax(44px,1fr)); max-height:calc(100dvh - 190px)} .eqleft .setline,.eqleft .hintline{display:none} }
+/* v0.56 새벽 상점 · 아트 패스 */
+.submoon{font-size:.8em}
+.gemshop{display:flex; flex-direction:column; gap:10px} .gshead{display:flex; align-items:center; gap:10px; flex-wrap:wrap} .gshead b{font-size:16px; color:var(--accent)} .gshead span{font-size:12.5px; color:var(--muted)}
+.gscards{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px}
+.gscard{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px} .gscard h3{margin:0; font-size:15px} .gscard.on{border-color:var(--accent)}
+.gscard ul{margin:0; padding-left:18px; font-size:12.5px; color:var(--sub); line-height:1.5} .gscard .gsst{font-size:12.5px; color:var(--muted)} .gscard .gsst b{color:var(--accent)} .gsbtns{display:flex; gap:6px; flex-wrap:wrap; margin-top:auto}
+.adrow{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; column-gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line)} .adrow:first-of-type{border-top:0} .adrow span{font-size:13px} .adrow small{font-size:11.5px; color:var(--muted)} .adrow button{grid-row:1/3; grid-column:2}
+.pbar{height:6px; background:var(--bg); border-radius:3px; overflow:hidden; border:1px solid #00000060} .pbar i{display:block; height:100%; background:var(--accent)}
+.modal.passm .mpanel{max-width:960px; width:min(96vw,960px)}
+.ptracks{display:flex; flex-direction:column; gap:8px} .ptrack{display:grid; grid-template-columns:40px minmax(0,1fr); gap:6px; align-items:center} .ptrack.dim{opacity:.6} .plab{font-size:12.5px; font-weight:700; color:var(--sub); text-align:center}
+.pcells{display:flex; gap:4px; overflow-x:auto; padding:4px 2px; scrollbar-width:thin}
+.pcell{flex:0 0 88px; min-height:72px; border:1px solid var(--line); border-radius:8px; background:var(--bg); padding:4px 5px; display:flex; flex-direction:column; gap:2px; font-size:11px; color:var(--sub); position:relative}
+.pcell b{font-size:12px; color:var(--ink)} .pcell span{line-height:1.3; flex:1} .pcell i{font-style:normal; font-size:11px; color:var(--muted); align-self:flex-end}
+.pcell.can{border-color:var(--accent); cursor:pointer; background:#2a2410} .pcell.can i.go{color:var(--accent); font-weight:800} .pcell.got{opacity:.55} .pcell.far{opacity:.75} .pcell.lock{opacity:.5}
+@media (max-height:560px){ .gscards{grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:6px} .gscard{padding:8px; gap:5px} .gscard ul{font-size:12px} .pcell{flex-basis:80px; min-height:60px} }
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.55.7 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.56 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1345,6 +1360,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.56: <b>새벽 상점 — 광고 · 30일 정액 · 아트 패스</b> — 상점에 💎 새벽 상점 탭이 생겼습니다. 광고(시험용 5초 자리): 횃불 +1(하루 5회) · 막을 깬 뒤 24시간 안에 전리품 2배·금화 2배(하루 3회, 전리품 창에서도) · 30분 동안 모든 전투 '빠르게'(하루 2회). 30일 정액(💎 300): 횃불 최대 15개·1.5배 충전, '빠르게' 상시, 이미 깬 막은 '매우 빠르게' 자동, 최종 콘텐츠 주간 첫 보상 한 번 더, 매일 💎 10, 명함 틀·이름 옆 🌙. 아트 패스(30일 시즌·30단계): 던전 입장 20 · 우두머리 처치 40 · 막 돌파 60 · 증표 100 경험치, 100마다 1단계. 무료 트랙은 골드·정수·💎·장비·명함 스티커·오라 색·칭호, 유료 트랙(💎 200)은 매 단계 💎와 전설 장비·시즌 외형·글자체·장식·칭호. 외형 보상은 외형 자체가 아직 없어 '준비 중'으로 받아 둡니다. 결제·실제 광고는 출시 때 붙습니다(지금은 관리자 시험 단추).
 v0.55.7: 세트 장비는 한 부위 = 1개로 셉니다(전에는 목걸이를 2개분으로 세어 3개 끼고 4/6이 되던 혼란). 장비 탭의 유물 칸을 투구·무기와 같은 높이로. 전장의 후퇴·속도·설정·기록 단추는 오른쪽 가장자리에 세로로 — 유닛 자리를 건드리지 않고 상태 아이콘도 안 가립니다(속도는 1×·1.5×·2×로 짧게).
 v0.55.6: <b>보스 겹바 · 장비 탭 정리 · 전장 단추 자리</b> — 보스 체력은 색이 다른 여러 겹(중간보스 5겹 · 보스 8겹, 난이도마다 +1)으로 나와 한 방이 작아도 줄어드는 게 보입니다(바 옆 ×N = 남은 겹). 장비 탭은 유물 칸을 가운데 위로 올려 좌우 5칸씩 맞추고, 칸 옆 강화 단추는 단계만 작게, 능력치와 부위 강화 요약은 인형 아래 한 줄씩으로 정리했습니다(큰 화면에서 글자가 세로로 꺾이던 문제). 전장 오른쪽 아래 단추 줄이 적의 상태 아이콘을 가리지 않도록 적 쪽 자리를 그만큼 위로 잡습니다.
 v0.55.5: 근접 돌진·투사체가 닿기 전에 몹이 먼저 쓰러지고 숫자가 뜨던 어긋남을 고쳤습니다 — 이제 피해 숫자·체력바·쓰러짐이 공격이 닿는 순간에 맞춰 나옵니다('이미 죽은 몹을 때리는' 것처럼 보이던 원인).
@@ -2775,6 +2791,8 @@ function masteryOpts(sid,i){ const s=SKILLS[sid], kind=masteryKind(s);
     if(v.k==="mpc"&&!(s.mp>0)) return MASTERY_ALT["mpc_"+kind];
     return v; }); }
 const TITLES=[
+  {key:"pass_free", name:"밤의 길손",   stat:"passFree", need:1, eff:{}, desc:"아트 패스 무료 트랙 30단계 · 효과 없음(장식)"},
+  {key:"pass_paid", name:"새벽의 수호자", stat:"passPaid", need:1, eff:{}, desc:"아트 패스 유료 트랙 30단계 · 효과 없음(장식)"},
   {key:"undying",  name:"불사신",     stat:"lowSurvive", need:30,  eff:{hp_pct:0.03},  desc:"체력 20% 이하로 전투를 30번 살아 넘김 · 체력 +3%"},
   {key:"executioner",name:"처형인",   stat:"kills",      need:300, eff:{atk_pct:0.03}, desc:"적 300마리 처치 · 공격력 +3%"},
   {key:"shield",   name:"방패의 세농", stat:"dmgTaken",   need:40000,eff:{def_pct:0.05},desc:"피해 4만 받아내기 · 방어력 +5%"},
@@ -2896,7 +2914,7 @@ function heroTitle(cid){
 }
 function heroNameHTML(cid){
   const sub=advInfo(cid)?`${esc(CLASSES[cid].name)} 계열`:"";
-  if(isProtag(cid)) return `<span class="star">★</span> ${esc(progress.protag.name)}<span class="jsub">${esc(jobName(cid))}${sub?" · "+sub:""}</span>`;
+  if(isProtag(cid)) return `<span class="star">★</span> ${esc(progress.protag.name)}${typeof subActive==="function"&&subActive()?' <span class="submoon" title="30일 정액">🌙</span>':""}<span class="jsub">${esc(jobName(cid))}${sub?" · "+sub:""}</span>`;
   if(heroOwnName(cid)) return `${esc(heroOwnName(cid))}<span class="jsub">${esc(jobName(cid))}${sub?" · "+sub:""}</span>`;
   return advInfo(cid)?`${esc(jobName(cid))}<span class="jsub">${sub}</span>`:esc(CLASSES[cid].name);
 }
@@ -5524,68 +5542,177 @@ function heroDerived(cid){
 // 10개를 넘는 몫은 광고 보기·새벽 결정(유료 재화)으로만. 규칙 교실(첫 튜토리얼) 동안은 들지 않음.
 const TORCH={ max:10, every:20*60*1000, adDaily:5, gemCost:30, gemGive:5, dev:typeof location!=="undefined"&&location.protocol==="file:" };
 function torchState(){
-  if(!progress.torch||typeof progress.torch.n!=="number") progress.torch={n:TORCH.max,t:Date.now()};
+  if(!progress.torch||typeof progress.torch.n!=="number") progress.torch={n:torchMax(),t:Date.now()};
   const T=progress.torch, now=Date.now();
   if(T.t>now) T.t=now;   // 시계를 되돌린 경우
-  if(T.n>=TORCH.max) T.t=now;
-  else { const k=Math.floor((now-T.t)/TORCH.every); if(k>0){ T.n=Math.min(TORCH.max,T.n+k); T.t=T.n>=TORCH.max?now:T.t+k*TORCH.every; } }
+  if(T.n>=torchMax()) T.t=now;
+  else { const k=Math.floor((now-T.t)/torchEvery()); if(k>0){ T.n=Math.min(torchMax(),T.n+k); T.t=T.n>=torchMax()?now:T.t+k*torchEvery(); } }
   return T;
 }
-function torchNextMs(){ const T=torchState(); return T.n>=TORCH.max?0:Math.max(0,TORCH.every-(Date.now()-T.t)); }
-function torchFullMs(){ const T=torchState(); return T.n>=TORCH.max?0:torchNextMs()+(TORCH.max-T.n-1)*TORCH.every; }
+function torchNextMs(){ const T=torchState(); return T.n>=torchMax()?0:Math.max(0,torchEvery()-(Date.now()-T.t)); }
+function torchFullMs(){ const T=torchState(); return T.n>=torchMax()?0:torchNextMs()+(torchMax()-T.n-1)*torchEvery(); }
 function fmtWait(ms){ const s=Math.ceil(ms/1000), m=Math.floor(s/60); if(m>=60) return `${Math.floor(m/60)}시간 ${m%60}분`; return m>0?`${m}분 ${String(s%60).padStart(2,"0")}초`:`${s}초`; }
 function torchFree(){ return TORCH.dev||TUT.learning(); }
 function torchCanEnter(){ return torchFree()||torchState().n>0; }
 function torchSpend(why){
   if(torchFree()) return true;
   const T=torchState(); if(T.n<=0) return false;
-  if(T.n>=TORCH.max) T.t=Date.now();
+  if(T.n>=torchMax()) T.t=Date.now();
   T.n--; saveProgress();
   logLine(`<span class="r">🔥 횃불 1개 사용 (${esc(why||"던전 입장")}) — 남은 횃불 ${T.n}개</span>`);
   return true;
 }
-function torchAdd(n){ const T=torchState(); T.n+=n; if(T.n>=TORCH.max) T.t=Date.now(); saveProgress(); }
-function adsToday(){ const d=new Date().toDateString(); if(!progress.ads||progress.ads.d!==d) progress.ads={d,n:0}; return progress.ads; }
+function torchAdd(n){ const T=torchState(); T.n+=n; if(T.n>=torchMax()) T.t=Date.now(); saveProgress(); }
 function torchChipHTML(){
   const T=torchState(), free=torchFree();
-  const sub=free?"무료":T.n>=TORCH.max?"가득":fmtWait(torchNextMs()).replace(/ \d+초$/,"");
-  return `<span class="chip torch${T.n<=0&&!free?" empty":""}" id="torchChip" role="button" tabindex="0" onclick="openTorch()" title="횃불 — 던전에 들어갈 때마다 1개. ${TORCH.every/60000}분마다 1개씩 최대 ${TORCH.max}개까지 차오름"><span class="tico">🔥</span><b>${T.n}</b><span class="tmax">/${TORCH.max}</span><small>${esc(sub)}</small></span>`;
+  const sub=free?"무료":T.n>=torchMax()?"가득":fmtWait(torchNextMs()).replace(/ \d+초$/,"");
+  return `<span class="chip torch${T.n<=0&&!free?" empty":""}" id="torchChip" role="button" tabindex="0" onclick="openTorch()" title="횃불 — 던전에 들어갈 때마다 1개. ${torchEvery()/60000}분마다 1개씩 최대 ${torchMax()}개까지 차오름"><span class="tico">🔥</span><b>${T.n}</b><span class="tmax">/${torchMax()}</span><small>${esc(sub)}</small></span>`;
 }
 function openTorch(blocked){
   if(onboardBusy) return;
   const T=torchState(), A=adsToday(), free=torchFree(), gem=progress.gem||0;
   const m=openModal(`<h2>🔥 횃불</h2>
     ${blocked?`<p class="tnote warn">횃불이 다 떨어졌습니다. 던전에 들어가려면 횃불이 1개 필요해요.</p>`:""}
-    <div class="torchbig"><span class="tico">🔥</span><b>${T.n}</b><span>/ ${TORCH.max}</span></div>
+    <div class="torchbig"><span class="tico">🔥</span><b>${T.n}</b><span>/ ${torchMax()}</span></div>
     <p class="msub">던전 · 최종 콘텐츠 · 함께하기에 <b>들어갈 때마다 1개</b>를 씁니다. 구역을 이어 갈 때는 들지 않아요.<br>
-      <b>${TORCH.every/60000}분마다 1개씩</b>, 최대 <b>${TORCH.max}개</b>까지 저절로 차오릅니다. ${T.n>=TORCH.max?"지금은 가득 찼어요.":`다음 1개까지 <b>${fmtWait(torchNextMs())}</b> · 가득 차기까지 ${fmtWait(torchFullMs())}`}</p>
+      <b>${torchEvery()/60000}분마다 1개씩</b>, 최대 <b>${torchMax()}개</b>까지 저절로 차오릅니다. ${T.n>=torchMax()?"지금은 가득 찼어요.":`다음 1개까지 <b>${fmtWait(torchNextMs())}</b> · 가득 차기까지 ${fmtWait(torchFullMs())}`}</p>
     ${free&&!TORCH.dev?`<p class="tnote">📜 규칙 교실(첫 안내)을 마칠 때까지는 횃불이 들지 않아요.</p>`:""}
     <div class="torchbuy">
-      <button class="btn" id="tAd" ${A.n>=TORCH.adDaily?"disabled":""}>📺 광고 보고 횃불 1개 <small>오늘 ${A.n}/${TORCH.adDaily}</small></button>
+      <button class="btn" id="tAd" ${adLeft("torch")?"":"disabled"}>📺 광고 보고 횃불 1개 <small>오늘 ${A.torch}/${AD_DAILY.torch}</small></button>
       <button class="btn" id="tGem" ${gem<TORCH.gemCost?"disabled":""}>💎 새벽 결정 ${TORCH.gemCost}개 → 횃불 ${TORCH.gemGive}개 <small>보유 ${gem}</small></button>
     </div>
-    <p class="mhint">횃불은 ${TORCH.max}개를 넘어서도 쌓을 수 있지만, 저절로 차오르는 건 ${TORCH.max}개까지예요. 💎 새벽 결정은 유료 재화로, 출시 버전에서 살 수 있게 됩니다.</p>
+    <p class="mhint">횃불은 ${torchMax()}개를 넘어서도 쌓을 수 있지만, 저절로 차오르는 건 ${torchMax()}개까지예요. 💎 새벽 결정은 유료 재화로, 출시 버전에서 살 수 있게 됩니다.</p>
     ${isAdmin()?`<div class="sblock"><div class="slabel">관리자</div><div class="srow" style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost" id="tFill">횃불 가득</button><button class="btn ghost" id="tZero">횃불 0개</button><button class="btn ghost" id="tGemAdd">새벽 결정 +100</button></div></div>`:""}
     <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`, "small torchm");
   m.onclick=e=>{ if(e.target===m) closeModal(); }; m.tabIndex=-1; m.focus(); m.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
   m.querySelector("#mclose").onclick=closeModal;
-  m.querySelector("#tAd").onclick=()=>playFakeAd();
+  m.querySelector("#tAd").onclick=()=>playFakeAd("torch",openTorch);
   m.querySelector("#tGem").onclick=()=>{ if((progress.gem||0)<TORCH.gemCost) return; progress.gem-=TORCH.gemCost; torchAdd(TORCH.gemGive); logLine(`<span class="gain">💎 새벽 결정 ${TORCH.gemCost}개로 횃불 ${TORCH.gemGive}개를 채웠습니다.</span>`); closeModal(); openTorch(); };
   if(isAdmin()){
-    m.querySelector("#tFill").onclick=()=>{ const T2=torchState(); T2.n=Math.max(T2.n,TORCH.max); T2.t=Date.now(); saveProgress(); closeModal(); openTorch(); };
+    m.querySelector("#tFill").onclick=()=>{ const T2=torchState(); T2.n=Math.max(T2.n,torchMax()); T2.t=Date.now(); saveProgress(); closeModal(); openTorch(); };
     m.querySelector("#tZero").onclick=()=>{ const T2=torchState(); T2.n=0; T2.t=Date.now(); saveProgress(); closeModal(); openTorch(); };
     m.querySelector("#tGemAdd").onclick=()=>{ progress.gem=(progress.gem||0)+100; saveProgress(); closeModal(); openTorch(); };
   }
 }
-// 광고 자리(시험용): 실제 광고 대신 5초 기다리면 1개. 출시 버전에서 광고 SDK로 바꿈
-function playFakeAd(){
-  const A=adsToday(); if(A.n>=TORCH.adDaily) return;
-  closeModal();
+/* ================= v0.56 상품: 광고 · 30일 정액 · 아트 패스 =================
+   원칙: 전투력에 직접 닿는 건 팔지 않는다(시간·편의·외형만). 결제·광고 SDK는 서버·앱 포장 뒤 — 지금은 💎·관리자 시험 단추로만 켠다. */
+const SUB_DAYS=30, SUB_GEM=300, SUB_DAILY_GEM=10, SUB_TORCH_MAX=15, SUB_TORCH_SPEED=1.5;
+const PASS_T0=Date.UTC(2026,10,1,-9), PASS_DAYS=30, PASS_LEVELS=30, PASS_XP=100, PASS_GEM=200;
+const AD_DAILY={torch:5, loot:3, fast:2}, AD_FAST_MS=30*60*1000;
+function subActive(){ return !!(progress&&progress.sub&&progress.sub.until>Date.now()); }
+function subDaysLeft(){ return subActive()?Math.ceil((progress.sub.until-Date.now())/86400e3):0; }
+function subStart(days,why){ const now=Date.now(); const base=subActive()?progress.sub.until:now; progress.sub=Object.assign({},progress.sub||{},{until:base+days*86400e3});
+  logLine(`<span class="win">🌙 30일 정액 ${subActive()&&base>now?"연장":"시작"} — ${esc(why||"")} · ${subDaysLeft()}일 남음</span>`); subDailyGem(); saveProgress(); }
+function subDailyGem(){ if(!subActive()) return; const d=new Date().toDateString(); if(progress.sub.lastGem===d) return; progress.sub.lastGem=d; progress.gem=(progress.gem||0)+SUB_DAILY_GEM;
+  logLine(`<span class="gain">🌙 정액 — 오늘의 새벽 결정 💎 +${SUB_DAILY_GEM}</span>`); saveProgress(); }
+function torchMax(){ return subActive()?SUB_TORCH_MAX:TORCH.max; }
+function torchEvery(){ return subActive()?Math.round(TORCH.every/SUB_TORCH_SPEED):TORCH.every; }
+function egFirstN(){ return subActive()?2:1; }   // 최종 콘텐츠 '이번 주 첫 보상' 횟수 — 정액이면 한 번 더
+// ---- 광고(보상형) ----
+function adsToday(){ const d=new Date().toDateString(); if(!progress.ads||progress.ads.d!==d) progress.ads={d,torch:0,loot:0,fast:0}; for(const k of Object.keys(AD_DAILY)) progress.ads[k]=progress.ads[k]|0; return progress.ads; }
+function adLeft(k){ return Math.max(0,AD_DAILY[k]-(adsToday()[k]|0)); }
+function adFastOn(){ return !!(progress&&progress.adFastUntil>Date.now()); }
+function lastRunClaimable(){ const L=progress&&progress.lastRun; return !!(L&&!L.claimed&&Date.now()-L.t<24*3600e3&&(L.gold>0||(L.items||[]).length)); }
+// 막을 깼을 때 — 광고로 2배 받을 수 있는 몫을 기억(24시간 안에 한 번)
+function rememberLastRun(gold,notes){ try{ const all=progress.inv.concat(equippedStore); const items=(notes||[]).map(n=>all.find(x=>x&&x.id===n.id)).filter(Boolean).map(it=>({slot:it.slot,rarity:it.rarity,tier:it.tier|0,set:it.set||null,rune:it.rune||null}));
+  progress.lastRun={t:Date.now(), gold:gold|0, items, claimed:false}; }catch(e){} }
+function adClaimLoot(){ const L=progress.lastRun; if(!lastRunClaimable()) return; L.claimed=true; const got=[];
+  for(const s of L.items){ let it=null; try{ if(s.rune) it=makeRune(); else if(s.set&&SETS[s.set]) it=makeSetItem(s.set,s.tier,{slot:s.slot}); else if(s.slot!=="relic") it=makeItem(true,s.tier,{slot:s.slot,rarity:s.rarity}); }catch(e){ it=null; }
+    if(it){ const r=takeLoot([it]); got.push(...r.kept.map(x=>itemDisplayName(x))); } }
+  progress.gold+=L.gold; logLine(`<span class="gain">📺 광고 보상 — 전리품 2배(${L.items.length}개 더) · 금화 2배(+${L.gold}G)${got.length?` · ${esc(got.slice(0,3).join(", "))}${got.length>3?" 외":""}`:""}</span>`); saveProgress(); }
+function playFakeAd(kind,after){
+  kind=kind||"torch"; if(adLeft(kind)<=0) return; closeModal();
   const m=openModal(`<h2>📺 광고</h2><div class="fakead"><span>광고 자리</span><small>출시 버전에서는 여기에 실제 광고가 나옵니다</small><b id="adLeft">5</b></div>
     <div class="mfoot"><button id="adStop" class="btn ghost">그만 보기 (보상 없음)</button></div>`, "small");
   let left=5; const tick=setInterval(()=>{ left--; const el=$("adLeft"); if(el) el.textContent=String(left);
-    if(left<=0){ clearInterval(tick); const A2=adsToday(); A2.n++; torchAdd(1); logLine(`<span class="gain">📺 광고 보상 — 횃불 +1 (오늘 ${A2.n}/${TORCH.adDaily})</span>`); closeModal(); openTorch(); } },1000);
-  m.querySelector("#adStop").onclick=()=>{ clearInterval(tick); closeModal(); openTorch(); };
+    if(left<=0){ clearInterval(tick); const A=adsToday(); A[kind]++;
+      if(kind==="torch"){ torchAdd(1); logLine(`<span class="gain">📺 광고 보상 — 횃불 +1 (오늘 ${A.torch}/${AD_DAILY.torch})</span>`); }
+      else if(kind==="loot") adClaimLoot();
+      else if(kind==="fast"){ progress.adFastUntil=Math.max(progress.adFastUntil||0,Date.now())+AD_FAST_MS; logLine(`<span class="gain">📺 광고 보상 — 30분 동안 모든 전투에서 '빠르게' (${fmtWait(progress.adFastUntil-Date.now())} 남음)</span>`); speedRefresh(); }
+      saveProgress(); closeModal(); if(after) after(); } },1000);
+  m.querySelector("#adStop").onclick=()=>{ clearInterval(tick); closeModal(); if(after) after(); };
+}
+// ---- 아트 패스(30일 시즌 · 30단계 · 무료/유료 트랙) ----
+function passSeason(){ return Math.max(1,Math.floor((Date.now()-PASS_T0)/(PASS_DAYS*86400e3))+1); }
+function passDaysLeft(){ const s=passSeason(); return Math.max(0,Math.ceil((PASS_T0+s*PASS_DAYS*86400e3-Date.now())/86400e3)); }
+function passState(){ const s=passSeason(); let P=progress.pass; if(!P||P.season!==s) P=progress.pass={season:s, xp:0, paid:false, got:{}}; P.got=P.got||{}; return P; }
+function passLevel(P){ return Math.min(PASS_LEVELS,Math.floor((P||passState()).xp/PASS_XP)+1); }
+function passXpAdd(n,why){ if(!progress||!progress.protag) return; const P=passState(); const l0=passLevel(P); P.xp=Math.min(PASS_LEVELS*PASS_XP,P.xp+n); const l1=passLevel(P);
+  if(l1>l0) logLine(`<span class="win">🎟 아트 패스 ${l1}단계! (${esc(why||"")}) — 상점 › 새벽 상점에서 보상을 받으세요</span>`); }
+const PASS_COS={cape:"시즌 망토 외형", wpn:"시즌 무기 외형", fxc:"스킬 이펙트 색 테마", font:"UI 글자체", fire:"모닥불 장식", sticker:"명함 스티커", aura:"오라 색"};
+function passReward(level,paid){   // 단계별 보상 — 무료: 재화·장비·스티커·오라 색·칭호 / 유료: 더 많은 재화·전설 장비·시즌 외형·글자체·장식·칭호
+  const L=level, R=[]; const add=(k,v,n)=>R.push({k,v,n});
+  if(!paid){
+    if(L%5===0) add("gem",20,"💎 20");
+    else if(L%2===0) add("gold",120*L,`골드 ${120*L}`); else add("ess",6+L,`밤의 정수 ${6+L}`);
+    if(L===5) add("item","rare","희귀 장비 1개"); if(L===15) add("item","epic","영웅 장비 1개"); if(L===25) add("item","epic","영웅 장비 1개");
+    if(L===10) add("cos","sticker",PASS_COS.sticker); if(L===20) add("cos","aura",PASS_COS.aura); if(L===30) add("title","pass_free","칭호 '밤의 길손'");
+  } else {
+    add("gem",10,"💎 10");
+    if(L%3===0) add("gold",300*L,`골드 ${300*L}`); if(L%4===0) add("ess",20+2*L,`밤의 정수 ${20+2*L}`);
+    if(L===10||L===20||L===30) add("item","legend","전설 장비 1개"); if(L===15) add("item","epic","영웅 장비 1개");
+    if(L===5) add("cos","cape",PASS_COS.cape); if(L===12) add("cos","wpn",PASS_COS.wpn); if(L===18) add("cos","fxc",PASS_COS.fxc); if(L===24) add("cos","font",PASS_COS.font); if(L===27) add("cos","fire",PASS_COS.fire);
+    if(L===30) add("title","pass_paid","칭호 '새벽의 수호자'");
+  }
+  return R;
+}
+function passGive(r,season){ switch(r.k){
+  case "gem": progress.gem=(progress.gem||0)+r.v; return `💎 +${r.v}`;
+  case "gold": progress.gold+=r.v; return `골드 +${r.v}`;
+  case "ess": progress.ess+=r.v; return `밤의 정수 +${r.v}`;
+  case "item": { const it=makeItem(true,bestLootTier(),{rarity:r.v,luck:partyLuck()}); const t=takeLoot([it]); for(const x of t.kept) lootToast(x,"아트 패스"); return `${rarityLabel(it)} ${itemDisplayName(it)}`; }
+  case "cos": { const C=progress.cosmetics=progress.cosmetics||{}; C[`s${season}_${r.v}`]=true; return `${PASS_COS[r.v]} (외형은 준비 중 — 열리면 바로 적용)`; }
+  case "title": { for(const c of rosterIds()){ const h=progress.heroes[c]; h.stats=h.stats||{}; h.stats[r.v==="pass_free"?"passFree":"passPaid"]=1; } return r.n; }
+  } return ""; }
+function passClaim(level,paid){ const P=passState(); if(level>passLevel(P)) return false; if(paid&&!P.paid) return false; const key=(paid?"p":"f")+level; if(P.got[key]) return false;
+  P.got[key]=true; const txt=passReward(level,paid).map(r=>passGive(r,P.season)).filter(Boolean).join(" · "); logLine(`<span class="gain">🎟 아트 패스 ${paid?"유료":"무료"} ${level}단계 보상 — ${esc(txt)}</span>`); saveProgress(); return true; }
+function passClaimAll(){ const P=passState(); let n=0; for(let L=1;L<=passLevel(P);L++){ if(passClaim(L,false)) n++; if(P.paid&&passClaim(L,true)) n++; } return n; }
+function passClaimable(){ const P=passState(); let n=0; for(let L=1;L<=passLevel(P);L++){ if(!P.got["f"+L]) n++; if(P.paid&&!P.got["p"+L]) n++; } return n; }
+// ---- 속도: 광고 30분 · 정액 ----
+function speedBoostOn(){ return subActive()||adFastOn(); }
+function speedSubFastest(){ return subActive()&&speedRoomClearedBase(); }   // 정액: 이미 깬 막에서만 '매우 빠르게'
+// ---- 새벽 상점 화면 ----
+function gemShopBlock(){
+  const box=document.createElement("div"); box.className="gemshop"; const gem=progress.gem||0; const P=passState(); const lv=passLevel(P); const A=adsToday();
+  const sub=subActive();
+  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>유료 재화 · 출시 뒤 결제로 충전 · 증표·첫 돌파·패스로도 조금씩</span>${isAdmin()?`<button class="ghostbtn" id="gsAdd">관리자 +100</button>`:""}</div>
+  <div class="gscards">
+    <div class="gscard sub${sub?" on":""}"><h3>🌙 30일 정액</h3>${sub?`<div class="gsst">사용 중 · ${subDaysLeft()}일 남음</div>`:""}
+      <ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 '빠르게' 상시 · 이미 깬 막은 '매우 빠르게'로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>
+      <div class="gsbtns"><button class="btn" id="gsSub" ${gem<SUB_GEM?"disabled":""}>💎 ${SUB_GEM} — ${sub?"30일 연장":"시작"}</button>${isAdmin()?`<button class="ghostbtn" id="gsSubAdm">관리자 시험 30일</button>`:""}</div></div>
+    <div class="gscard pass${P.paid?" on":""}"><h3>🎟 아트 패스 — 시즌 ${P.season}</h3><div class="gsst">${lv}/${PASS_LEVELS}단계 · ${passDaysLeft()}일 남음 · ${P.paid?"유료 트랙 열림":"무료 트랙"}${passClaimable()?` · <b>받을 보상 ${passClaimable()}</b>`:""}</div>
+      <div class="pbar"><i style="width:${Math.min(100,(P.xp%PASS_XP))}%"></i></div>
+      <ul><li>던전 입장·보스 처치·막 돌파·증표로 단계가 오릅니다</li><li>무료: 골드·정수·💎·장비(희귀·영웅)·명함 스티커·오라 색·칭호</li><li>유료: 매 단계 💎, 전설 장비, 시즌 한정 망토·무기 외형·이펙트 색·글자체·모닥불 장식·칭호</li></ul>
+      <div class="gsbtns"><button class="btn" id="gsPass">보상 보기</button>${P.paid?"":`<button class="btn" id="gsPassBuy" ${gem<PASS_GEM?"disabled":""}>💎 ${PASS_GEM} — 유료 트랙 열기</button>`}${isAdmin()&&!P.paid?`<button class="ghostbtn" id="gsPassAdm">관리자 시험</button>`:""}</div></div>
+    <div class="gscard ads"><h3>📺 광고</h3>
+      <div class="adrow"><span>횃불 +1</span><small>오늘 ${A.torch}/${AD_DAILY.torch}</small><button class="btn" id="adTorch" ${adLeft("torch")?"":"disabled"}>보기</button></div>
+      <div class="adrow"><span>마지막 돌파 전리품 2배 · 금화 2배</span><small>${lastRunClaimable()?`받을 수 있음 · 오늘 ${A.loot}/${AD_DAILY.loot}`:`막을 깬 뒤 24시간 안에 · 오늘 ${A.loot}/${AD_DAILY.loot}`}</small><button class="btn" id="adLoot" ${adLeft("loot")&&lastRunClaimable()?"":"disabled"}>보기</button></div>
+      <div class="adrow"><span>30분 동안 모든 전투 '빠르게'</span><small>${adFastOn()?`켜짐 · ${fmtWait(progress.adFastUntil-Date.now())} 남음`:`오늘 ${A.fast}/${AD_DAILY.fast}`}</small><button class="btn" id="adFast" ${adLeft("fast")?"":"disabled"}>보기</button></div></div>
+    <div class="gscard torch"><h3>🔥 횃불</h3><div class="gsst">💎 ${TORCH.gemCost} → 횃불 ${TORCH.gemGive}개</div><div class="gsbtns"><button class="btn" id="gsTorch">횃불 창 열기</button></div></div>
+  </div>`;
+  const q=s=>box.querySelector(s);
+  if(q("#gsAdd")) q("#gsAdd").onclick=()=>{ progress.gem=(progress.gem||0)+100; saveProgress(); renderShop(); };
+  q("#gsSub").onclick=()=>{ if((progress.gem||0)<SUB_GEM) return; progress.gem-=SUB_GEM; subStart(SUB_DAYS,`💎 ${SUB_GEM}`); renderShop(); renderHud(); };
+  if(q("#gsSubAdm")) q("#gsSubAdm").onclick=()=>{ subStart(SUB_DAYS,"관리자 시험"); renderShop(); renderHud(); };
+  q("#gsPass").onclick=()=>openPass();
+  if(q("#gsPassBuy")) q("#gsPassBuy").onclick=()=>{ if((progress.gem||0)<PASS_GEM) return; progress.gem-=PASS_GEM; passState().paid=true; logLine(`<span class="win">🎟 아트 패스 유료 트랙을 열었습니다 (시즌 ${passState().season})</span>`); saveProgress(); openPass(); };
+  if(q("#gsPassAdm")) q("#gsPassAdm").onclick=()=>{ passState().paid=true; saveProgress(); renderShop(); };
+  q("#adTorch").onclick=()=>playFakeAd("torch",renderShop); q("#adLoot").onclick=()=>playFakeAd("loot",renderShop); q("#adFast").onclick=()=>playFakeAd("fast",renderShop);
+  q("#gsTorch").onclick=()=>openTorch();
+  return box;
+}
+function openPass(){
+  const P=passState(), lv=passLevel(P);
+  const cell=(L,paid)=>{ const R=passReward(L,paid); const got=P.got[(paid?"p":"f")+L], can=L<=lv&&(!paid||P.paid)&&!got, lock=paid&&!P.paid;
+    return `<div class="pcell${got?" got":can?" can":""}${L>lv?" far":""}${lock?" lock":""}" data-l="${L}" data-p="${paid?1:0}"><b>${L}</b><span>${R.map(r=>esc(r.n)).join("<br>")}</span>${got?`<i>✓</i>`:can?`<i class="go">받기</i>`:lock?`<i>🔒</i>`:""}</div>`; };
+  const m=openModal(`<h2>🎟 아트 패스 — 시즌 ${P.season}</h2><p class="sub">${lv}/${PASS_LEVELS}단계 · 경험치 ${P.xp%PASS_XP}/${PASS_XP} · ${passDaysLeft()}일 남음 · 시즌이 끝나면 못 받은 보상과 한정 외형은 사라집니다</p>
+    <div class="ptracks"><div class="ptrack"><div class="plab">무료</div><div class="pcells">${Array.from({length:PASS_LEVELS},(_,i)=>cell(i+1,false)).join("")}</div></div>
+    <div class="ptrack${P.paid?"":" dim"}"><div class="plab">유료${P.paid?"":" 🔒"}</div><div class="pcells">${Array.from({length:PASS_LEVELS},(_,i)=>cell(i+1,true)).join("")}</div></div></div>
+    <div class="mfoot"><button class="btn" id="pAll" ${passClaimable()?"":"disabled"}>받을 수 있는 보상 모두 받기 (${passClaimable()})</button><span class="spacer"></span><button class="btn ghost" id="pClose">닫기</button></div>`,"passm");
+  m.querySelector("#pClose").onclick=closeModal; m.addEventListener("click",e=>{ if(e.target===m) closeModal(); });
+  m.querySelector("#pAll").onclick=()=>{ passClaimAll(); closeModal(); openPass(); if(!$("body-shop").hidden) renderShop(); };
+  m.querySelectorAll(".pcell.can").forEach(c=>c.onclick=()=>{ if(passClaim(+c.dataset.l,c.dataset.p==="1")){ closeModal(); openPass(); if(!$("body-shop").hidden) renderShop(); } });
+  const first=m.querySelector(".pcell.can")||m.querySelector(`.pcell[data-l="${lv}"]`); if(first) try{ first.scrollIntoView({block:"nearest",inline:"center"}); }catch(e){}
 }
 
 /* ================= v0.33 튜토리얼 ================= */
@@ -5721,7 +5848,7 @@ const COACH={
     {sel:".field", t:"전장", x:"왼쪽이 우리 파티, 오른쪽에서 적이 나타나요. 전투는 자동으로 진행되고, 여러분은 '규칙'으로 싸우는 방식을 정해요."},
     {sel:"#tab-dungeon", t:"던전", x:"누르면 갈 곳을 고르는 창이 열려요 — 난이도(황혼부터, 10장을 깨면 다음 난이도), 장(지역), 막(한 장은 3막, 3막 끝에 보스)을 차례로 고르고 '입장'. 깬 막은 다시 골라 반복 사냥할 수 있어요."},
     {sel:"#fSpeed", t:"전투 속도", x:"전장 위 이 버튼을 누를 때마다 보통 → 조금 빠르게 → 빠르게 → 매우 빠르게로 바뀌어요. 전투 중에도 바꿀 수 있어요."},
-    {sel:"#torchChip,.fhgear", t:"🔥 횃불", x:`던전에 들어갈 때마다 1개를 써요. ${TORCH.every/60000}분마다 1개씩, 최대 ${TORCH.max}개까지 저절로 차올라요. 지금은 배우는 중이라 들지 않아요!`},
+    {sel:"#torchChip,.fhgear", t:"🔥 횃불", x:`던전에 들어갈 때마다 1개를 써요. ${torchEvery()/60000}분마다 1개씩, 최대 ${torchMax()}개까지 저절로 차올라요. 지금은 배우는 중이라 들지 않아요!`},
     {sel:".rail", t:"메뉴", x:"파티, 장비, 상점, 특성, 자동전투, 도감, 함께하기. 처음 열 때마다 이렇게 안내해 드려요."},
     {sel:"#fNext", t:"던전으로", x:"준비가 되면 전장 아래 이 버튼(또는 왼쪽 '던전' 메뉴)! 갈 곳을 고르는 창이 열려요. 그 전에 이 게임에서 가장 중요한 '자동전투 규칙'부터 배워 볼게요."}]},
   battle:{ name:"첫 전투", steps:[
@@ -5771,7 +5898,7 @@ const COACH={
     {sel:"#tab-dungeon", t:"최종 콘텐츠", x:"영원한 밤 10장을 모두 깨면 던전 창의 '최종 콘텐츠' 탭에 🗼 밤의 탑 · 👑 군단장 레이드 · 🧭 밤의 원정이 열려요. 매주 내용이 바뀌고, 새벽 파편과 별의 정수로 최종 장비를 키워요."},
     {sel:"#tab-party", t:"별자리", x:"별의 정수는 파티 탭 영웅 카드의 '별자리'에서 써요."}]},
   torch:{ name:"횃불", steps:[
-    {sel:"#torchChip,.fhgear", t:"🔥 횃불", x:`이제부터 던전에 들어갈 때마다 횃불 1개를 써요. ${TORCH.every/60000}분마다 1개씩 최대 ${TORCH.max}개까지 차오르고, 다 쓰면 광고를 보거나 새벽 결정으로 채울 수 있어요. 눌러서 남은 시간을 확인하세요.`}]}
+    {sel:"#torchChip,.fhgear", t:"🔥 횃불", x:`이제부터 던전에 들어갈 때마다 횃불 1개를 써요. ${torchEvery()/60000}분마다 1개씩 최대 ${torchMax()}개까지 차오르고, 다 쓰면 광고를 보거나 새벽 결정으로 채울 수 있어요. 눌러서 남은 시간을 확인하세요.`}]}
 };
 function coachTarget(sel){
   if(!sel) return null; if(typeof sel==="function") sel=sel();
@@ -9655,6 +9782,7 @@ function makeNameCard(cid){
   g.fillStyle="#0a0d16"; g.fillRect(0,0,W,H);
   const grd=g.createLinearGradient(0,0,W,H); grd.addColorStop(0,"#1a2140"); grd.addColorStop(1,"#0d1120"); g.fillStyle=grd; g.fillRect(8,8,W-16,H-16);
   g.strokeStyle="#f4c95d"; g.lineWidth=2; g.strokeRect(8,8,W-16,H-16);
+  if(subActive()){ g.strokeStyle="#9db7ff"; g.lineWidth=1; g.strokeRect(13,13,W-26,H-26); g.fillStyle="#9db7ff"; g.font="bold 14px sans-serif"; g.textAlign="right"; g.fillText("🌙 정액",W-22,32); g.textAlign="left"; }   // v0.56: 정액 명함 틀
   const img=new Image(); img.src=heroIcon(cid);
   const draw=()=>{
     g.imageSmoothingEnabled=false; { const lk=heroLook(cid), A=lk&&lk.aura&&auraNew(lk,lk.aura); if(A) g.drawImage(A.cv,28-AURA_OX*7,40-AURA_OY*7,AURA_W*7,AURA_H*7); } g.drawImage(img,28,40,112,112);
@@ -9806,13 +9934,13 @@ function renderShop(){
   if(!Array.isArray(progress.shopStock)||!progress.shopStock.length) genStock();
   const mkOpen=progress.diffMax>=2;
   if(mkOpen&&(!progress.market||!Array.isArray(progress.market.goods))) genMarket();
-  const tabs=[["gear","🛡 오늘의 장비"],["book","📖 스킬북"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]);
+  const tabs=[["gear","🛡 오늘의 장비"],["book","📖 스킬북"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]).concat([["gem","💎 새벽 상점"]]);
   if(!tabs.some(t=>t[0]===shopTab)) shopTab="gear";
   const gearUp=progress.shopStock.filter(e=>!e.sold&&shopBest(e.item)).length;
   const bookLeft=SKILLBOOKS.filter(bk=>rosterIds().includes(bk.cls)&&!progress.heroes[bk.cls].learned.includes(bk.skill)).length;
   const mkLeft=mkOpen?progress.market.goods.filter(g=>!g.sold).length:0;
   const head=document.createElement("div"); head.className="shophead";
-  head.innerHTML=`<h2 class="ph">등불 도시 상점</h2><div class="shtabs" role="tablist">${tabs.map(([k,l])=>{ const n=k==="gear"?(gearUp?`<i class="up">▲${gearUp}</i>`:""):k==="book"?(bookLeft?`<i>${bookLeft}</i>`:""):k==="market"?(mkOpen?(mkLeft?`<i>${mkLeft}</i>`:""):`<i class="lk">🔒</i>`):"";
+  head.innerHTML=`<h2 class="ph">등불 도시 상점</h2><div class="shtabs" role="tablist">${tabs.map(([k,l])=>{ const n=k==="gear"?(gearUp?`<i class="up">▲${gearUp}</i>`:""):k==="book"?(bookLeft?`<i>${bookLeft}</i>`:""):k==="gem"?(passClaimable()||lastRunClaimable()?`<i class="up">!</i>`:""):k==="market"?(mkOpen?(mkLeft?`<i>${mkLeft}</i>`:""):`<i class="lk">🔒</i>`):"";
     return `<button role="tab" data-t="${k}" class="${shopTab===k?"on":""}" aria-selected="${shopTab===k}">${l}${n}</button>`; }).join("")}</div>`;
   head.querySelectorAll(".shtabs button").forEach(b=>b.onclick=()=>{ shopTab=b.dataset.t; renderShop(); });
   pane.appendChild(head);
@@ -9830,6 +9958,7 @@ function renderShop(){
   } else if(shopTab==="book"){ body.appendChild(shopBookCards()); }
   else if(shopTab==="market"){ body.appendChild(marketBlock()); }
   else if(shopTab==="dawn"){ body.appendChild(egExchangeBlock()); }
+  else if(shopTab==="gem"){ body.appendChild(gemShopBlock()); }
 }
 function marketBlock(){
   const box=document.createElement("div"); box.className="market";
@@ -9944,7 +10073,7 @@ function scheduleAuto(){
 }
 function setAutoAdv(on){ autoAdv=!!on; const c=$("autoAdv"); if(c) c.checked=autoAdv; safeSet("pn_autoadv",autoAdv?"1":"0"); if(autoAdv&&runState&&!playing&&!telling) scheduleAuto(); try{ setMainBtn(); }catch(e){} }
 /* v0.32 전투 속도 4단계(일반) + 즉시(관리자 전용). tier: free 누구나 · paid 나중에 유료 상품 · admin 관리자만 */
-const SPEEDS=[{v:700,label:"보통",tier:"free"},{v:500,label:"조금 빠르게",tier:"free"},{v:320,label:"빠르게",tier:"cleared"},{v:160,label:"매우 빠르게",tier:"admin"},{v:0,label:"즉시",tier:"admin"}];
+const SPEEDS=[{v:700,label:"보통",tier:"free"},{v:500,label:"조금 빠르게",tier:"free"},{v:320,label:"빠르게",tier:"cleared"},{v:160,label:"매우 빠르게",tier:"sub"},{v:0,label:"즉시",tier:"admin"}];
 const SPEED_DEFAULT=320;
 const SPEED_SHORT={"보통":"1×","조금 빠르게":"1.5×","빠르게":"2×","매우 빠르게":"3×","즉시":"즉시"};   // v0.55.7: 전장 옆 작은 단추용
 const ADMIN={on:false};
@@ -9952,12 +10081,13 @@ function isAdmin(){ return ADMIN.on; }
 function hasPaid(tier){ return false; }   // 유료 상품(나중): 결제한 속도 단계를 여기서 열어 줌
 /* v0.43 속도 제한(일반 플레이어): 처음 깨는 막은 '조금 빠르게'까지, 이미 깬 막은 '빠르게'까지. 관리자는 전부.
    함께하기·최종 콘텐츠는 '깬 막'으로 봄. 마을에서는 지금 고른 막 기준 */
-function speedRoomCleared(){ try{
+function speedRoomCleared(){ return speedRoomClearedBase()||speedBoostOn(); }   // v0.56: 정액·광고 30분이면 어디서나 '빠르게'
+function speedRoomClearedBase(){ try{
     if(typeof COOP!=="undefined"&&COOP.run) return true;
     if(typeof runState!=="undefined"&&runState){ if(runState.mode) return true; return actsDone(runState.d,runState.regionKey)>=(runState.act||3); }
     if(!progress) return false; if(typeof egModeOf==="function"&&egModeOf()) return true; return actsDone(progress.diff,progress.lastRegion)>=curAct();
   }catch(e){ return false; } }
-function speedAllowed(o){ return isAdmin()||o.tier==="free"||(o.tier==="cleared"&&speedRoomCleared())||(o.tier==="paid"&&hasPaid(o)); }
+function speedAllowed(o){ return isAdmin()||o.tier==="free"||(o.tier==="cleared"&&speedRoomCleared())||(o.tier==="sub"&&speedSubFastest())||(o.tier==="paid"&&hasPaid(o)); }
 function speedRefresh(){ try{ buildSpeedOptions(); }catch(e){} }
 let speedForced=null;   // 코드(점검·봇)에서 setSpeed로 정한, 목록에 없는 속도 — 목록을 다시 만들어도 유지
 function buildSpeedOptions(){ const sel=$("speed"); if(!sel) return; const cur=sel.value, sig=SPEEDS.map(o=>speedAllowed(o)?1:0).join("")+"|"+speedForced;
@@ -9985,7 +10115,7 @@ function onSpeedChanged(){ if(instantMode()){ if(bannerRes&&!$("saybox").classLi
 // v0.33 모닥불 쉼터: 마을에서는 보유한 영웅이 모두 모닥불 둘레에 앉아 쉼(출전하지 않는 영웅도). 누르면 파티·장비로
 function campUnits(){ if(!progress||!progress.protag) return [...buildParty()]; const inP=new Set(battleIds()); return rosterIds().map(c=>{ const u=buildHeroUnit(c); u._bench=!inP.has(c); return u; }); }
 function goCamp(){
-  const had=!!runState; try{ SND.scene("town"); }catch(e){}
+  const had=!!runState; try{ SND.scene("town"); }catch(e){} try{ subDailyGem(); }catch(e){}
   runState=null; runPending=false; retreatArm=false; logSink=null; curTurn=0;
   markAct(null); const ab=$("actbar"); if(ab) ab.hidden=true;
   // 이 창에서 끝낸 던전이면 저장에서도 지운다. (이 창이 굴린 게 아닌 기록은 저장 시각을 새로 찍지 않고 메모리에서만 비움
@@ -10125,7 +10255,8 @@ function startRun(){
   $("log").innerHTML=""; logSink=null; curTurn=0;
   $("result").textContent=""; $("result").className="result";
   ruleHits={}; ruleHitsSeen=true; torchSpend("던전 입장"); runState.bank=runBankTake();
-  try{ if(speedRoomCleared()&&parseInt($("speed").value,10)>320) setSpeed(320); }catch(e){}   // v0.55.2: 이미 깬 막은 '빠르게'로 시작(더 빠른 속도를 골라 뒀다면 그대로)
+  try{ const want=speedSubFastest()?160:speedRoomCleared()?320:0; if(want&&parseInt($("speed").value,10)>want) setSpeed(want); }catch(e){}   // v0.55.2: 이미 깬 막은 '빠르게'로 · v0.56: 정액이면 '매우 빠르게'
+  passXpAdd(20,"던전 입장");
   spawnField([...runState.party]);   // v0.33: 입장하자마자 그 막 무대로(이야기 자막 동안 마을 모닥불이 남지 않게)
   showTab("dungeon"); setZoneLine(); renderHud();
   const nb=runState.zones.filter(z=>z.type==="battle").length;
@@ -10385,11 +10516,12 @@ function showActLoot(notes,title){
       return `<div class="arow ${it.mythic?"legend":it.rarity}">${iconCell(it)}<div><span class="anm ${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span>${n.up.length?`<span class="atag up" title="${esc(n.up.join("·"))}에게 더 좋음">▲ ${n.up.length>2?n.up.length+"명":esc(n.up.join("·"))}</span>`:""}${n.perfect?`<span class="atag pf">✦ 완벽 옵션</span>`:""}${n.record?`<span class="atag rec">최고 품질 기록</span>`:""}
         <div class="asum">${esc(SLOT_LABEL[it.slot]||it.slot)}${Q!=null?` · 품질 ${Math.round(Q*100)}%`:""}${it.from?` · ${esc(it.from)}`:""}</div></div></div>`; }).join("");
     const p=document.createElement("div"); p.id="actLoot"; p.className="actloot"; p.setAttribute("role","status");
-    p.innerHTML=`<div class="ahead"><b>🎁 ${esc(title||"이번 막 전리품")}</b><span class="asum">${list.length}개 · 등급 순</span><button class="ax" aria-label="닫기">✕</button></div><div class="alist">${rows}</div>${list.length>12?`<div class="asum">외 ${list.length-12}개</div>`:""}<div class="afoot"><button class="btn ghost" id="alEq">장비 탭에서 보기</button></div>`;
+    p.innerHTML=`<div class="ahead"><b>🎁 ${esc(title||"이번 막 전리품")}</b><span class="asum">${list.length}개 · 등급 순</span><button class="ax" aria-label="닫기">✕</button></div><div class="alist">${rows}</div>${list.length>12?`<div class="asum">외 ${list.length-12}개</div>`:""}<div class="afoot">${lastRunClaimable()&&adLeft("loot")?`<button class="btn" id="alAd">📺 광고 보고 전리품·금화 2배</button>`:""}<button class="btn ghost" id="alEq">장비 탭에서 보기</button></div>`;
     document.body.appendChild(p);
     let t=setTimeout(()=>p.remove(),12000);
     p.addEventListener("pointerenter",()=>clearTimeout(t)); p.addEventListener("pointerleave",()=>{ clearTimeout(t); t=setTimeout(()=>p.remove(),5000); });
     p.querySelector(".ax").onclick=()=>p.remove(); p.querySelector("#alEq").onclick=()=>{ p.remove(); try{ showTab("equip"); }catch(e){} };   // v0.55.3: 파티 탭으로 가던 오류
+    { const ab=p.querySelector("#alAd"); if(ab) ab.onclick=()=>{ clearTimeout(t); p.remove(); playFakeAd("loot"); }; }
     return p;
   }catch(e){ return null; }
 }
@@ -10410,6 +10542,7 @@ function endZoneBattle(ev,zone){
         knightFell:!P.some(u=>u.id==="knight")||!!(P.find(u=>u.id==="knight")||{})._fell, chests:runState.chests, elites:runState.elites, tokens:tokenCount() };
     }
     const rw=battleRewards(zone,runState.d,runState.regionKey);
+    if(zone.boss||zone.mid||zone.named) passXpAdd(40,zone.boss?"보스 처치":"우두머리 처치");   // v0.56
     progress.gold+=rw.gold; runState.gains.gold+=rw.gold; runState.gains.exp+=rw.exp;
     progress.ess+=rw.ess||0;
     logLine(`<span class="gain">구역 돌파! 경험치 +${rw.exp} (전원) · 골드 +${rw.gold}${rw.ess?` · 밤의 정수 +${rw.ess}`:""}</span>`);
@@ -10489,6 +10622,7 @@ function clearAct(){
     logLine(`<span class="win">🔓 ${act+1}막 '${esc(actName(rk,act+1))}' 열림!</span>`);
     (progress.actSel=progress.actSel||{})[actKey(d,rk)]=act+1; story=actStory(d,rk,act,"clear"); }
   const loot=runState&&runState.loot; if(runState) runState.loot=[];
+  rememberLastRun(runState.gains.gold,loot); passXpAdd(60,`${act}막 돌파`);   // v0.56
   saveProgress(); renderRegionSel(); goCamp();
   for(const line of story) logLine(`<span class="story">${esc(line)}</span>`);
   (async()=>{ if(story.length){ telling=true; setMainBtn(); await showNarration(story); telling=false; setMainBtn(); } showActLoot(loot,`${act}막 전리품`); })();
@@ -10509,7 +10643,7 @@ function clearRun(){
   if(TOKENS[rk]&&!progress.tokens[rk]){
     const cond=TOKEN_COND[rk], m=runState.bossMetrics||{};
     if(cond&&cond.test(m)){
-      progress.tokens[rk]=true;
+      progress.tokens[rk]=true; passXpAdd(100,"증표");
       const tk=TOKENS[rk];
       logLine(`<span class="win">${tk.icon} 군단장의 증표 획득 — 《${tk.name}》 (${tokenCount()}/7)</span>`);
       logLine(`<span class="story">증표가 희미하게 빛난다. 일곱 개를 모두 모으면, 다른 결말이 열릴 것 같다.</span>`);
@@ -10539,6 +10673,7 @@ function clearRun(){
   saveProgress();
   renderRegionSel();
   const loot=runState&&runState.loot; if(runState) runState.loot=[];
+  rememberLastRun(runState.gains.gold,loot); passXpAdd(60,"장 클리어");   // v0.56
   goCamp();
   // 다음 난이도는 엔딩을 보기 전에 바로 연다 — 엔딩 선택 도중 창을 닫거나 새로 고쳐도 해금이 사라지지 않게
   if(first&&last){ const more=unlockNext(); playEnding(d,()=>more); return; }
@@ -10630,14 +10765,14 @@ function egEnd(res){
   const R=runState, E=egState(), M=EG_MODES[R.mode]; let msg="", win=res==="clear"; const items=[];
   if(R.mode==="tower"){ msg=`${M.icon} ${M.name} — ${R.eg.top}층까지 올랐다 (이번 주 최고 ${E.towerBest}층)`; win=R.eg.top>=R.eg.start; }
   if(R.mode==="raid"){ const ph=(R.zones[R.zone]||{}).phase||1;
-    if(res==="clear"){ E.raidClears++; E.allRaid++; const first=!E.raidDone; E.raidDone=true;
+    if(res==="clear"){ E.raidClears++; E.allRaid++; const first=E.raidClears<=egFirstN(); E.raidDone=E.raidClears>=egFirstN();   // v0.56: 정액이면 첫 보상 한 번 더
       egSoul(R.eg.W.raid,first?3:1); egStar(2,"레이드 처치");
       if(first){ egShards(30,"이번 주 첫 레이드 처치"); const sk=setOfRegion(R.eg.W.raid); if(sk) items.push(makeSetItem(sk,egTier())); items.push(makeItem(true,egTier(),{rarity:"legend",luck:partyLuck()})); }
       else { egShards(6,"레이드 처치"); if(Math.random()<0.35) items.push(makeItem(true,egTier(),{luck:partyLuck()})); }
       msg=`${M.icon} 군단장 레이드 — ${MOBS[REGIONS[R.eg.W.raid].boss].name} 처치!${first?" (이번 주 첫 처치)":""}`; }
     else msg=`${M.icon} 군단장 레이드 — ${ph}단계에서 물러났다`; }
   if(R.mode==="exped"){ const st=win?EX_STEPS+1:R.zone; E.expedBest=Math.max(E.expedBest,st);
-    if(win){ E.expedClears++; E.allExped++; const first=E.expedClears===1; egShards(first?20:8, first?"이번 주 첫 원정 완주":"원정 완주"); egStar(first?8:4,"원정 완주"); if(first) items.push(makeItem(true,egTier(),{rarity:"legend",luck:partyLuck()})); else if(Math.random()<0.4) items.push(makeItem(true,egTier(),{luck:partyLuck()})); }
+    if(win){ E.expedClears++; E.allExped++; const first=E.expedClears<=egFirstN(); egShards(first?20:8, first?"이번 주 첫 원정 완주":"원정 완주"); egStar(first?8:4,"원정 완주"); if(first) items.push(makeItem(true,egTier(),{rarity:"legend",luck:partyLuck()})); else if(Math.random()<0.4) items.push(makeItem(true,egTier(),{luck:partyLuck()})); }
     else egShards(Math.floor(st/2),"원정 걸음");
     msg=`${M.icon} 밤의 원정 — ${win?"원정 완주!":`${st}/${EX_STEPS+1}걸음에서 돌아왔다`} (유물 ${R.eg.relics.length}개)`; }
   if(items.length){ const lr=takeLoot(items); for(const it of lr.kept){ R.gains.items++; logLine(`<span class="gain">최종 보상: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`); lootToast(it,"최종 콘텐츠 보상"); } autoLootLog(lr); }
@@ -11402,12 +11537,12 @@ function coopAutoNode(run,z){
 function coopEgEnd(run,res){
   const E=egState(), M=EG_MODES[run.mode], g=run.gains; let msg="", win=res==="clear"; const items=[];
   if(run.mode==="tower"){ msg=`${M.icon} 함께 ${M.name} — ${run.eg.top}층까지 (이번 주 내 최고 ${E.towerBest}층)`; win=run.eg.top>=run.eg.start; }
-  if(run.mode==="raid"){ if(win){ E.raidClears++; E.allRaid++; const first=!E.raidDone; E.raidDone=true; coopShards(run,first?30:6); egSoul(run.eg.W.raid,first?3:1); egStar(2,"레이드 처치");
+  if(run.mode==="raid"){ if(win){ E.raidClears++; E.allRaid++; const first=E.raidClears<=egFirstN(); E.raidDone=E.raidClears>=egFirstN(); coopShards(run,first?30:6); egSoul(run.eg.W.raid,first?3:1); egStar(2,"레이드 처치");
       if(first){ const sk=setOfRegion(run.eg.W.raid); if(sk) items.push(makeSetItem(sk,egTier())); items.push(makeItem(true,egTier(),{rarity:"legend",luck:partyLuck()})); }
       msg=`${M.icon} 함께 레이드 — ${MOBS[REGIONS[run.eg.W.raid].boss].name} 처치!${first?" (이번 주 첫 처치)":""}`; }
     else msg=`${M.icon} 함께 레이드 — ${((run.zones[run.z]||{}).phase)||1}단계에서 물러났다`; }
   if(run.mode==="exped"){ const st=win?EX_STEPS+1:run.z; E.expedBest=Math.max(E.expedBest,st);
-    if(win){ E.expedClears++; E.allExped++; const first=E.expedClears===1; coopShards(run,first?20:8); egStar(first?8:4,"원정 완주"); if(first) items.push(makeItem(true,egTier(),{rarity:"legend",luck:partyLuck()})); }
+    if(win){ E.expedClears++; E.allExped++; const first=E.expedClears<=egFirstN(); coopShards(run,first?20:8); egStar(first?8:4,"원정 완주"); if(first) items.push(makeItem(true,egTier(),{rarity:"legend",luck:partyLuck()})); }
     else coopShards(run,Math.floor(st/2));
     msg=`${M.icon} 함께 원정 — ${win?"완주!":`${st}/${EX_STEPS+1}걸음`} (유물 ${run.eg.relics.length}개)`; }
   if(items.length){ const lr=takeLoot(items); for(const it of lr.kept){ g.items++; logLine(`<span class="gain">내 최종 보상: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`); lootToast(it,"함께하기 최종 보상"); } }
