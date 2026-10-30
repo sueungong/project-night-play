@@ -1138,11 +1138,13 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .fhgear{display:none}
 /* v0.55.2: 후퇴·속도·설정·기록은 전장 오른쪽 아래 한 줄로 — 위 머리줄에 다 넣으면 폴드·큰 화면에서 글자가 세로로 꺾이던 문제 */
 .fieldfoot{display:flex; align-items:center; justify-content:flex-end; gap:6px; position:relative; z-index:3; margin-top:6px}
-.field.stage .fieldfoot{position:absolute; right:10px; bottom:12px; margin:0; z-index:7}
+.field.stage .fieldfoot{position:absolute; right:8px; top:48px; bottom:auto; margin:0; z-index:7; flex-direction:column; align-items:flex-end; gap:6px}   /* v0.55.7: 오른쪽 가장자리 세로 줄 — 유닛 자리를 안 건드리고 아이콘도 안 가림 */
+.field.stage .fieldfoot .logbtn{width:40px; height:40px; padding:0; flex-direction:column; justify-content:center; gap:1px; font-size:10px; line-height:1; border-radius:10px}
+.field.stage .fieldfoot .logbtn svg{width:16px; height:16px} .field.stage .fieldfoot .fspeed b{font-size:10.5px} .field.stage .fieldfoot .fspeed .fsi{font-size:13px}
+.field.stage .fieldfoot #logBtn .dot{position:absolute; top:4px; right:4px}
 .field.stage .fieldhead{flex-wrap:nowrap} .field.stage .zoneline{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .frun{white-space:nowrap; flex:none} .logbtn{white-space:nowrap; flex:none}
-@media (max-height:440px){ .field.stage .fieldfoot{bottom:8px; right:6px} }
-@media (max-width:1000px){ .field.stage .fnext{left:calc(50% - 90px)} }   /* 좁은 화면: 다음 구역 단추를 조금 왼쪽으로 — 오른쪽 아래 단추 줄과 안 겹치게 */
+@media (max-height:440px){ .field.stage .fieldfoot{top:40px; right:6px; gap:4px} .field.stage .fieldfoot .logbtn{width:36px; height:36px} }
 /* v0.32: 갤럭시 S21급(가로 800×360, 주소창 빼면 ~300) — 전투 중에는 머리줄을 접고 전장에 세로 공간을 몰아 줌. 설정은 전장 오른쪽 위 ⚙ */
 @media (max-height:440px){
   body:has(#dkRun:not([hidden])) .topbar{display:none} .app > .shell{grid-row:2}
@@ -1172,13 +1174,13 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .eqpick button{width:auto!important; flex:none; padding:5px 8px!important; gap:6px!important; font-size:13px!important; border-radius:10px!important}
 .eqpick button img{width:32px!important; height:32px!important}
 .eqpick button .sub,.eqpick button .bdg .in,.eqpick button .bdg .out{display:none}
-.eqdoll{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; align-items:center; background:radial-gradient(ellipse at 50% 60%,#1d2846 0%,#111729 70%); border:1px solid var(--line); border-radius:14px; padding:12px}
+.eqdoll{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; align-items:start; background:radial-gradient(ellipse at 50% 60%,#1d2846 0%,#111729 70%); border:1px solid var(--line); border-radius:14px; padding:12px}
 .eqcol{display:flex; flex-direction:column; gap:8px}
 .eqpair{display:flex; align-items:flex-start; gap:4px}
 .enhside{display:flex; align-items:center; justify-content:center; width:34px; height:var(--ic,56px); padding:0; border-radius:8px; border:1px solid var(--line2); background:rgba(14,20,40,.82); color:var(--sub); cursor:pointer; line-height:1}
 .enhside b{font-size:12.5px; font-weight:800} .enhside:hover:not(:disabled){border-color:var(--accent); color:var(--ink)}
 .enhside:disabled{opacity:.55; cursor:default} .enhside.none{display:none} .enhside.max{border-color:var(--accent)}
-.eqtop{display:flex; justify-content:center; margin-bottom:4px}
+.eqtop{display:flex; justify-content:center; margin-bottom:10px}
 .eqenh{display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12.5px; color:var(--sub); padding:4px 4px 0} .eqenh b{color:var(--accent); font-weight:700; white-space:nowrap} .eqenh span{color:var(--muted)}
 .eqslot{position:relative; display:flex; flex-direction:column; align-items:center; gap:2px; background:none; border:0; padding:0; cursor:pointer; color:var(--sub)}
 .eqslot .eqsl{font-size:11.5px; line-height:1}
@@ -1236,7 +1238,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.55.6 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.55.7 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1264,7 +1266,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
         <div class="dgrid" id="dgrid">
           <div class="field" aria-label="전장">
             <div class="fieldhead"><span class="zoneline" id="zoneline"></span><span class="spacer"></span><span class="result" id="result"></span><span class="frun" id="fRun" hidden></span></div>
-            <div class="fieldfoot" id="fieldfoot"><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(골드는 잃고 주운 장비·경험치 절반은 가져가 등불 도시로)">↩ 후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜">⏩ <b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
+            <div class="fieldfoot" id="fieldfoot"><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(골드는 잃고 주운 장비·경험치 절반은 가져가 등불 도시로)"><span class="fsi">↩</span>후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜"><span class="fsi">⏩</span><b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
             <div class="actbar" id="actbar" hidden></div>
             <div class="toasts" id="toasts" aria-live="polite"></div>
             <div class="saybox" id="saybox" hidden></div>
@@ -1343,6 +1345,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.55.7: 세트 장비는 한 부위 = 1개로 셉니다(전에는 목걸이를 2개분으로 세어 3개 끼고 4/6이 되던 혼란). 장비 탭의 유물 칸을 투구·무기와 같은 높이로. 전장의 후퇴·속도·설정·기록 단추는 오른쪽 가장자리에 세로로 — 유닛 자리를 건드리지 않고 상태 아이콘도 안 가립니다(속도는 1×·1.5×·2×로 짧게).
 v0.55.6: <b>보스 겹바 · 장비 탭 정리 · 전장 단추 자리</b> — 보스 체력은 색이 다른 여러 겹(중간보스 5겹 · 보스 8겹, 난이도마다 +1)으로 나와 한 방이 작아도 줄어드는 게 보입니다(바 옆 ×N = 남은 겹). 장비 탭은 유물 칸을 가운데 위로 올려 좌우 5칸씩 맞추고, 칸 옆 강화 단추는 단계만 작게, 능력치와 부위 강화 요약은 인형 아래 한 줄씩으로 정리했습니다(큰 화면에서 글자가 세로로 꺾이던 문제). 전장 오른쪽 아래 단추 줄이 적의 상태 아이콘을 가리지 않도록 적 쪽 자리를 그만큼 위로 잡습니다.
 v0.55.5: 근접 돌진·투사체가 닿기 전에 몹이 먼저 쓰러지고 숫자가 뜨던 어긋남을 고쳤습니다 — 이제 피해 숫자·체력바·쓰러짐이 공격이 닿는 순간에 맞춰 나옵니다('이미 죽은 몹을 때리는' 것처럼 보이던 원인).
 v0.55.4: <b>부위 강화 정리</b> — 강화 실패로 '금이 가는' 것과 수리를 없앴고, 실패 시 하락은 어느 단계든 한 단계만입니다(+6까지는 하락 없음). 대신 윗단계 성공률을 크게 낮췄습니다 — +10 45% · +11 35% · +12 28% · +13 20% · +14 14% · +15 8%(행운으로 조금 오름). 장비 탭 가운데에 부위 강화 합과 강화 덕에 오른 능력치가 나오고, 명함에도 부위별 +N과 합계가 적힙니다. 구역 사이 회복은 체력·마나 각 10%로(v0.55.2의 '없음'에서 조정). 막을 깬 뒤 전리품 창의 '장비 탭에서 보기'가 파티 탭으로 가던 오류, 명함 이름 앞에 [undefined]가 붙던 오류를 고쳤습니다.
@@ -2559,7 +2562,7 @@ const ENGRAVES={
   e_smoke:  {cond:14, act:"blind_all",   text:"아군이 쓰러져 있음 → 적 전체 실명 (1턴)"},
   e_cleanse:{cond:24, act:"cleanse",     text:"내가 상태이상 중 → 상태이상 해제"},
 };
-// 세트 장비: 6부위(무기·갑옷·투구·장갑·신발·목걸이), 2/4/6 효과. 목걸이는 세트 2개분으로 센다. 6세트는 '규칙을 바꾸는' 효과만
+// 세트 장비: 6부위(무기·갑옷·투구·장갑·신발·목걸이), 2/4/6 효과. 한 부위 = 1개 (v0.55.7: 목걸이 2개분 규칙 없앰 — 3개 끼고 4/6으로 보이던 혼란). 6세트는 '규칙을 바꾸는' 효과만
 const SETS={
   moon:  {name:"달그림자", regions:["swamp","volcano"], pieces:{weapon:"달그림자 검",armor:"달그림자 망토갑",helm:"달그림자 두건",gloves:"달그림자 장갑",boots:"달그림자 신발",amulet:"달그림자 펜던트"},
           b2:{desc:"체력 +8%",eff:{hp_pct:0.08}}, b4:{desc:"달빛 장막 — 전투 시작 시 2턴간 받는 피해 -30%",eff:{flag:"moon_veil"}}, b6:{desc:"그림자의 축복 — 전투 시작 시 은신(첫 공격 확정 치명타)",eff:{flag:"ambush"}}},
@@ -5436,7 +5439,7 @@ function heroEquipTotals(cid){
     if(it.unique) uniques.push(it.unique);
     if(it.engrave) engraves.push(it.engrave);
     if(it.proc) procs.push(it.proc);                       // 예전 세이브 호환
-    if(it.set) sets[it.set]=(sets[it.set]||0)+(it.slot==="amulet"?2:1);
+    if(it.set) sets[it.set]=(sets[it.set]||0)+1;
     for(const r of (it.sockets||[])) if(r){ runes.push(runeK(r)); for(const [k,v] of Object.entries(runeStat(runeK(r),runeR(r)))) t[k]=(t[k]||0)+v; }   // v0.36: 끼운 룬의 능력치도 더함(카드 표시대로)
     if(it.slot==="weapon") wtype=it.wtype||null;
     if(it.slot==="offhand") offhand=it;
@@ -7971,7 +7974,7 @@ const WX = (()=>{
     //        아이콘·바까지 포함한 칸끼리 겹치면 위아래(안 되면 옆)로 밀어 겹침이 없게
     const belowEst = (mob ? 40 : 62) * base + (mob ? 6 : 10), botF = bot - belowEst, topF = hz + (botF - hz) * (mob ? 0.16 : 0.28);   // 낮은 화면은 안쪽(지평선 가까이)까지 써서 세로로 넓게
     // v0.55.6: 오른쪽 아래 단추 줄(후퇴·속도·기록)이 적의 상태 아이콘을 가리지 않게 — 적 쪽만 그 높이만큼 위로
-    const ftEl = f.querySelector(".fieldfoot"), footRes = ftEl && ftEl.offsetHeight ? ftEl.offsetHeight + (mob ? 6 : 10) : 0, botE = botF - footRes;
+    const footRes = 0, botE = botF;   // v0.55.7: 단추 줄을 오른쪽 가장자리 세로로 옮겨 자리를 비워 둘 필요가 없어짐
     const items = [];
     for(const key of Object.keys(COLS)){ const row = $("row-" + key); const n = row.children.length; const enemy = key.startsWith("enemy");
       [...row.children].forEach((el, i) => {
@@ -7980,14 +7983,14 @@ const WX = (()=>{
         const ln = el.dataset.lane === undefined || el.dataset.lane === "" ? -1 : +el.dataset.lane;   // v0.43: 가로줄 4칸 — 같은 가로줄이면 양쪽이 같은 높이(일직선 공격을 읽을 수 있게)
         const fz = ln >= 0 ? ln / Math.max(1, LANES - 1) : FZ[i], fwd = ln >= 0 ? (ln % 2 ? 1 : -1) * (mob ? 0.55 : 0.3) : (n === 1 ? 0 : OFF[i]);
         const x = arR.width * (0.5 + (COLS[key] - 0.5) * (0.88 + 0.12 * fz) + (enemy ? -1 : 1) * fwd * 0.065);
-        const y = topF + ((enemy ? botE : botF) - topF) * fz;
+        const y = topF + (botE - topF) * fz;
         items.push({el, enemy, x, y}); }); }
     f.classList.toggle("nolbl", mob && items.length > 8);   // v0.32: 낮은 화면에 여럿이면 이름은 눌렀을 때만(바·아이콘만 남겨 유닛을 크게)
     let shrink = 1;
     const scOf = y => (0.84 + 0.2 * Math.max(0, Math.min(1, (y - topF) / Math.max(1, botF - topF)))) * base * shrink;
     // v0.54: 줄여야 할 때(좁은 화면에 몬스터가 많을 때)도 영웅 크기는 그대로 — 몬스터만 줄임. 적 수에 따라 영웅까지 전투마다 작아지던 문제
     const put = it => { const k = it.enemy ? shrink : 1; it.sc = scOf(it.y) / shrink * k; it.el.style.setProperty("--s", it.sc.toFixed(3)); it.el.style.setProperty("--bs", k.toFixed(2)); };
-    const W = arR.width, yLo = it => hz + it.sh * (mob ? 0.4 : 0.55), yHi = it => arR.height - it.bh - 2 - (it.enemy ? footRes : 0);
+    const W = arR.width, yLo = it => hz + it.sh * (mob ? 0.4 : 0.55), yHi = it => arR.height - it.bh - 2 - footRes;
     const xLo = it => it.enemy ? W * 0.56 + it.bw / 2 : it.bw / 2 + 2, xHi = it => it.enemy ? W - it.bw / 2 - 2 : W * 0.44 - it.bw / 2;   // 가운데 12%는 비워 둠
     const clamp = it => { it.y = Math.max(yLo(it), Math.min(yHi(it), it.y)); it.x = Math.max(xLo(it), Math.min(xHi(it), it.x)); };
     const start = items.map(it => [it.x, it.y]);
@@ -9455,9 +9458,9 @@ function setInfoHTML(it,cid,pv){
   const S=SETS[it.set]; if(!S) return "";
   const cur=heroEquipTotals(cid).sets[it.set]||0;
   // 착용 시 개수: 같은 부위의 같은 세트 조각을 바꾸면 그대로
-  let after=cur; if(pv&&canEquip(cid,it)){ const w=it.slot==="amulet"?2:1; after=cur+w-((pv.prev&&pv.prev.set===it.set)?(pv.prev.slot==="amulet"?2:1):0); }
+  let after=cur; if(pv&&canEquip(cid,it)){ after=cur+1-((pv.prev&&pv.prev.set===it.set)?1:0); }
   const seg=(m,txt)=>`<span class="${after>=m?"on":""}">${m}세트 ${esc(txt)}</span>`;
-  return `<div class="setinfo">◆ <b>${esc(S.name)}</b> 세트 — ${seg(2,S.b2.desc)} · ${seg(4,S.b4.desc)} · ${seg(6,S.b6.desc)}<br>${esc(heroDisplayName(cid))}: 지금 ${cur}/6${canEquip(cid,it)?` → 착용 시 <b>${after}/6</b>`:""} · 도감 ${codexCount(it.set)}/6${it.slot==="amulet"?" · 목걸이는 2부위로 셈":""}</div>`;
+  return `<div class="setinfo">◆ <b>${esc(S.name)}</b> 세트 — ${seg(2,S.b2.desc)} · ${seg(4,S.b4.desc)} · ${seg(6,S.b6.desc)}<br>${esc(heroDisplayName(cid))}: 지금 ${cur}/6${canEquip(cid,it)?` → 착용 시 <b>${after}/6</b>`:""} · 도감 ${codexCount(it.set)}/6</div>`;
 }
 function itemRow(it,cid,pv){
   cid=cid||partySel||rosterIds()[0];
@@ -9943,6 +9946,7 @@ function setAutoAdv(on){ autoAdv=!!on; const c=$("autoAdv"); if(c) c.checked=aut
 /* v0.32 전투 속도 4단계(일반) + 즉시(관리자 전용). tier: free 누구나 · paid 나중에 유료 상품 · admin 관리자만 */
 const SPEEDS=[{v:700,label:"보통",tier:"free"},{v:500,label:"조금 빠르게",tier:"free"},{v:320,label:"빠르게",tier:"cleared"},{v:160,label:"매우 빠르게",tier:"admin"},{v:0,label:"즉시",tier:"admin"}];
 const SPEED_DEFAULT=320;
+const SPEED_SHORT={"보통":"1×","조금 빠르게":"1.5×","빠르게":"2×","매우 빠르게":"3×","즉시":"즉시"};   // v0.55.7: 전장 옆 작은 단추용
 const ADMIN={on:false};
 function isAdmin(){ return ADMIN.on; }
 function hasPaid(tier){ return false; }   // 유료 상품(나중): 결제한 속도 단계를 여기서 열어 줌
@@ -9972,7 +9976,7 @@ if(safeGet("pn_admin")===ADMIN_KEY) setTimeout(()=>setAdmin(true),0);
 (async()=>{ try{ if(typeof window!=="undefined"&&window.claude&&window.claude.use){ const u=await window.claude.use("user"); if(u&&u.isOwner&&u.isOwner()) setAdmin(true); } }catch(e){} })();
 function cycleSpeed(){ const sel=$("speed"); if(!sel) return; const o=[...sel.options], i=o.findIndex(x=>x.value===sel.value); setSpeed(o[(i+1)%o.length].value); }
 function renderSpeedSeg(){
-  const sel=$("speed"), seg=$("speedSeg"); { const fs=$("fSpeed"); if(fs&&sel){ const op=[...sel.options].find(x=>x.value===sel.value); fs.querySelector("b").textContent=op?op.textContent:""; } } if(!seg) return; seg.innerHTML="";
+  const sel=$("speed"), seg=$("speedSeg"); { const fs=$("fSpeed"); if(fs&&sel){ const op=[...sel.options].find(x=>x.value===sel.value); fs.querySelector("b").textContent=op?(SPEED_SHORT[op.textContent]||op.textContent):""; } } if(!seg) return; seg.innerHTML="";
   for(const o of sel.options){ const b=document.createElement("button"); b.textContent=o.textContent; b.className=o.value===sel.value?"on":""; b.onclick=()=>setSpeed(o.value); seg.appendChild(b); }
 }
 function setSpeed(v){ const sel=$("speed"); if(!sel) return; { const o=SPEEDS.find(x=>x.v===+v); speedForced=o&&speedAllowed(o)?null:String(+v); sel._sig=null; } if(![...sel.options].some(o=>o.value===String(v))){ if(!isFinite(+v)) return; const o=SPEEDS.find(x=>x.v===+v); const op=document.createElement("option"); op.value=String(+v); op.textContent=o?o.label:("점검 "+v); sel.appendChild(op); }   // 코드(점검·봇)에서 부르는 속도는 그대로 허용
