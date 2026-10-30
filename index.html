@@ -1216,7 +1216,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.53.2 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.54 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1243,7 +1243,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
         <div class="steps" id="zoneSteps"></div>
         <div class="dgrid" id="dgrid">
           <div class="field" aria-label="전장">
-            <div class="fieldhead"><span class="zoneline" id="zoneline"></span><span class="spacer"></span><span class="result" id="result"></span><span class="frun" id="fRun" hidden></span><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(이번 입장에서 얻은 것을 모두 잃고 등불 도시로)">↩ 후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜">⏩ <b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
+            <div class="fieldhead"><span class="zoneline" id="zoneline"></span><span class="spacer"></span><span class="result" id="result"></span><span class="frun" id="fRun" hidden></span><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(경험치·골드는 잃고 주운 장비는 가져가 등불 도시로)">↩ 후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜">⏩ <b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
             <div class="actbar" id="actbar" hidden></div>
             <div class="toasts" id="toasts" aria-live="polite"></div>
             <div class="saybox" id="saybox" hidden></div>
@@ -1322,6 +1322,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.54: <b>패배·후퇴해도 장비는 가져감</b> — 전멸·턴 제한·후퇴 때 이번 입장의 경험치·골드는 잃지만, 주운 장비(룬·유물 포함)는 가방에 남습니다(함께하기도 같음). 그리고 적이 많은 전투에서 화면에 다 안 들어가면 영웅·몬스터를 모두 줄이던 탓에 전투마다 크기가 달라지던 문제를 고쳤습니다 — 영웅 크기는 이제 늘 같고, 좁은 화면에 몬스터가 아주 많을 때만 몬스터를 조금 줄입니다.
 v0.53.2: 휴대폰 주소(홈 화면 앱)에서 새 버전이 올라오면 위쪽에 '⟳ 새 버전이 있어요' 버튼이 뜹니다 — 누르면 바로 새 버전으로 바뀝니다(브라우저가 예전 파일을 잠시 붙들고 있던 문제).
 v0.53: <b>능력치 화면(휴대폰)</b> — 능력치 칸을 누르면 칸 아래 한 줄에 1포인트당 효과가 나옵니다(포인트가 있으면 찍고 무엇이 올랐는지, 없으면 효과만. 예: 체질 — 체력 +10 · 방어력 +0.5 · 상태이상 저항 +0.4%, 마법 직업의 힘은 효과 없음). 칸 모양은 예전 그대로. 능력치를 찍을 때 영웅 정보 칸이 맨 위로 튀어 올라가던 문제를 고쳐, 보던 자리 그대로 남습니다(장비 탭도 같음).
 v0.52: <b>주인공 규칙 순서 고침</b> — v0.50 이전 규칙 교실이 칸을 여는 순서대로 규칙을 쌓아, 성직자 주인공은 '축복'이 맨 위에 있어 마나가 많으면 아군이 빈사여도 치유 대신 축복을 쓰던 문제(이미 하던 세이브는 v0.51에서도 순서가 그대로였음). 이제 주인공 규칙은 직업 기본 순서(성직자: 광역 치유 → 치유 → 축복)로 들어가고, 직접 고치지 않은 기존 세이브도 한 번 기본 순서로 바로잡습니다.
@@ -3675,6 +3676,9 @@ function bankSenhMigrate(B){ try{ const eq=Array.isArray(B.eq)?B.eq:[], inv=Arra
   for(const it of inv.concat(eq)) if(it){ it.enh=0; delete it.gilt; delete it.gilded; }
   B.ess=(B.ess||0)+ref; B.senhV=1; }catch(e){} }
 function runBankTake(){ return JSON.parse(JSON.stringify({gold:progress.gold, ess:progress.ess, inv:progress.inv, heroes:progress.heroes, codex:progress.codex, eq:equippedStore, rules:partyRules, frag:progress.frag||{}, senhV:1})); }
+// v0.54: 패배·후퇴 — 경험치·골드·정수 등은 들어가기 전으로 되돌리되, 이번 입장에서 주운 장비(가방에 새로 들어온 것)는 가져감
+function runRestoreKeepItems(B){ if(!B) return 0; const had=new Set((B.inv||[]).map(x=>x&&x.id)); const got=progress.inv.filter(x=>x&&!had.has(x.id));
+  runBankRestore(B); const ids=new Set(progress.inv.map(x=>x&&x.id)); for(const it of got) if(!ids.has(it.id)) progress.inv.push(it); return got.length; }
 function runBankRestore(B){ if(!B) return; if(!B.senhV) bankSenhMigrate(B); progress.gold=B.gold; progress.ess=B.ess; progress.inv=B.inv; progress.heroes=B.heroes; if(B.frag) progress.frag=B.frag; if(B.codex) progress.codex=B.codex; equippedStore=Array.isArray(B.eq)?B.eq:equippedStore; if(B.rules) partyRules=B.rules; saveRules(); }
 function runSnapshot(){
   let rs=null; try{ rs=runState; }catch(e){ return null; }   // 엔진만 떼어 쓰는 시험 환경에는 runState가 없음
@@ -5667,7 +5671,7 @@ const COACH={
     {sel:"#row-enemy-front .unit .utags,#row-party-front .unit .utags", t:"상태 아이콘", x:"MP 바 아래 작은 아이콘이 상태예요 — 빨간 테는 나쁜 효과(독·출혈·기절…), 파란 테는 좋은 효과. 구석 숫자는 중첩 수."},
     {sel:".arena", t:"차례", x:"신속이 높은 순서로 한 명씩 행동해요. 지금 행동하는 캐릭터 머리 위에 쓰는 기술 이름이 떠요."},
     {sel:"#logBtn", t:"전투 기록", x:"누가 몇 번 규칙으로 무엇을 했는지 전부 적혀 있어요. 궁금할 때만 열어 보세요."},
-    {t:"이기거나 지거나", x:"던전에 들어가면 막을 끝까지 돌파해야 그동안 얻은 경험치·골드·장비를 가져가요. 전멸하면 이번에 얻은 것을 모두 잃어요. 중간에 물러날 수는 없어요."},
+    {t:"이기거나 지거나", x:"던전에 들어가면 막을 끝까지 돌파해야 그동안 얻은 경험치·골드를 가져가요. 전멸하거나 '↩ 후퇴'하면 경험치·골드는 잃지만, 주운 장비는 가져가요."},
     {t:"쓰러짐", x:"쓰러진 동료는 다음 구역에서 저절로 일어나지 않아요. 부활 스킬이나 '쉼터'에서만 일어나요. 그럼 시작해 볼까요!"}]},
   party:{ name:"파티", steps:[
     {sel:".formboard", t:"진영", x:"출전은 최대 4명. 영웅을 앞줄·뒷줄·대기로 끌어다 놓거나, 영웅끼리 끌어서 자리를 바꿔요. 앞줄이 살아 있으면 뒷줄은 근접 공격을 받지 않아요. 대기 중인 영웅은 경험치를 받지 않아요."},
@@ -7921,14 +7925,16 @@ const WX = (()=>{
     f.classList.toggle("nolbl", mob && items.length > 8);   // v0.32: 낮은 화면에 여럿이면 이름은 눌렀을 때만(바·아이콘만 남겨 유닛을 크게)
     let shrink = 1;
     const scOf = y => (0.84 + 0.2 * Math.max(0, Math.min(1, (y - topF) / Math.max(1, botF - topF)))) * base * shrink;
-    const put = it => { it.sc = scOf(it.y); it.el.style.setProperty("--s", it.sc.toFixed(3)); it.el.style.setProperty("--bs", shrink.toFixed(2)); };
+    // v0.54: 줄여야 할 때(좁은 화면에 몬스터가 많을 때)도 영웅 크기는 그대로 — 몬스터만 줄임. 적 수에 따라 영웅까지 전투마다 작아지던 문제
+    const put = it => { const k = it.enemy ? shrink : 1; it.sc = scOf(it.y) / shrink * k; it.el.style.setProperty("--s", it.sc.toFixed(3)); it.el.style.setProperty("--bs", k.toFixed(2)); };
     const W = arR.width, yLo = it => hz + it.sh * (mob ? 0.4 : 0.55), yHi = it => arR.height - it.bh - 2;
     const xLo = it => it.enemy ? W * 0.56 + it.bw / 2 : it.bw / 2 + 2, xHi = it => it.enemy ? W - it.bw / 2 - 2 : W * 0.44 - it.bw / 2;   // 가운데 12%는 비워 둠
     const clamp = it => { it.y = Math.max(yLo(it), Math.min(yHi(it), it.y)); it.x = Math.max(xLo(it), Math.min(xHi(it), it.x)); };
     const start = items.map(it => [it.x, it.y]);
-    for(let attempt = 0; attempt < 8; attempt++){   // 칸이 모자라면(여럿이 함께·좁은 화면) 조금씩 작게 해서 다시
+    for(let attempt = 0; attempt < 8; attempt++){   // 칸이 모자라면(좁은 화면) 몬스터를 조금씩 작게 해서 다시
       shrink = 1 - 0.1 * attempt; items.forEach((it, k) => { it.x = start[k][0]; it.y = start[k][1]; put(it); });
-      for(const it of items){ const im = it.el.querySelector("img"), ub = it.el.querySelector(".ubelow"); it.sh = im ? im.offsetHeight : 80; it.bh = ub ? ub.offsetHeight : 40; it.bw = Math.max(im ? im.offsetWidth * 0.8 : 70, (ub ? ub.offsetWidth : 80) * shrink, (mob ? 84 : 104) * shrink) + 6; it.bh = it.bh * shrink + 3; }   // 아이콘 4개+n 이 들어갈 너비는 늘 확보
+      for(const it of items){ const im = it.el.querySelector("img"), ub = it.el.querySelector(".ubelow"); const sk = it.enemy ? shrink : 1; it.sh = im ? im.offsetHeight : 80; it.bh = ub ? ub.offsetHeight : 40; it.bw = Math.max(im ? im.offsetWidth * 0.8 : 70, (ub ? ub.offsetWidth : 80) * sk, (mob ? 84 : 104) * sk) + 6; it.bh = it.bh * sk + 3; }
+  // 아이콘 4개+n 이 들어갈 너비는 늘 확보
       items.forEach(clamp);
       let left = 0;
       for(let iter = 0; iter < 80; iter++){ left = 0;
@@ -9813,7 +9819,7 @@ function setMainBtn(){
     else if(show){ const nz=runState.zones[runState.zone]; fn.innerHTML=`다음 구역 ▶<small>${runState.zone+1}구역 · ${zoneKind(nz)}</small>`; } }
   const td=$("tab-dungeon"); if(td&&curView==="dungeon") td.classList.toggle("on",runBusy()||!!$("dpick"));
 }
-// v0.50 후퇴: 전투 중에도 가능. 결과는 패배와 같다 — 이번 입장에서 얻은 것을 모두 잃고 등불 도시로(최종 콘텐츠는 그 자리에서 끝)
+// v0.50 후퇴: 전투 중에도 가능. 결과는 패배와 같다 — 경험치·골드는 잃고 주운 장비는 가져감(v0.54), 등불 도시로(최종 콘텐츠는 그 자리에서 끝)
 let retreatReq=false;
 function retreatRun(){
   if(!runState||telling||(typeof TUT!=="undefined"&&TUT.busy)||retreatReq) return;
@@ -9828,8 +9834,8 @@ function doRetreat(){
   logSink=null; markAct(null);
   if(runState.mode){ logLine(`<span class="lose">↩ 후퇴했다.</span>`); egEnd("retreat"); return; }
   const g=runState.gains, region=REGIONS[runState.regionKey];
-  runBankRestore(runState.bank);
-  logLine(`<span class="lose">↩ 후퇴 — 패배와 같이 이번 입장에서 얻은 것(경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개)을 모두 잃고 등불 도시로 돌아간다.</span>`);
+  const kept=runRestoreKeepItems(runState.bank);
+  logLine(`<span class="lose">↩ 후퇴 — 패배와 같이 이번 입장에서 얻은 경험치 ${g.exp} · 골드 ${g.gold}는 잃고${kept?`, 주운 장비 ${kept}개는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
   $("result").textContent=`후퇴(패배) — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
   saveProgress(); goCamp();
 }
@@ -10320,15 +10326,15 @@ function endZoneBattle(ev,zone){
     }
   } else if(runState.mode){ egEnd(ev.result==="lose"?"lose":"draw");
   } else if(ev.result==="lose"){
-    runBankRestore(runState.bank);
-    logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 것(경험치 ${runState.gains.exp} · 골드 ${runState.gains.gold} · 장비 ${runState.gains.items}개)을 모두 잃고 등불 도시로 돌아간다.</span>`);
+    const kept=runRestoreKeepItems(runState.bank);
+    logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 경험치 ${runState.gains.exp} · 골드 ${runState.gains.gold}는 잃고${kept?`, 주운 장비 ${kept}개는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
     logLine(`<span class="r">능력치·장비·스킬북·규칙 — 네 가지 중 무엇이든 강해질 길이 있습니다.</span>`);
     $("result").textContent=`패배 — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
     saveProgress();
     goCamp();
   } else {
-    runBankRestore(runState.bank);
-    logLine(`<span class="lose">⌛ 턴 제한(${ev.max||TURN_LIMIT}턴) — 승부를 내지 못해 패배. 이번 입장에서 얻은 것을 모두 잃고 등불 도시로 돌아간다.</span>`);
+    const kept=runRestoreKeepItems(runState.bank);
+    logLine(`<span class="lose">⌛ 턴 제한(${ev.max||TURN_LIMIT}턴) — 승부를 내지 못해 패배. 경험치·골드는 잃고${kept?`, 주운 장비 ${kept}개는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
     $("result").textContent=`패배(턴 제한) — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
     saveProgress(); goCamp();
   }
@@ -11244,7 +11250,7 @@ async function coopBattle(run,z){
 function coopEnd(res){
   const run=COOP.run; if(!run) return;
   if(run.mode){ coopEgEnd(run,res); return; }
-  if(res!=="clear"&&res!=="gone"&&res!=="err"&&run.bank){ runBankRestore(run.bank); logLine(`<span class="lose">이번 함께하기에서 얻은 것을 모두 잃었다.</span>`); }
+  if(res!=="clear"&&res!=="gone"&&res!=="err"&&run.bank){ const kept=runRestoreKeepItems(run.bank); logLine(`<span class="lose">이번 함께하기에서 얻은 경험치·골드는 잃었다${kept?` — 주운 장비 ${kept}개는 가져간다`:""}.</span>`); }
   const R=REGIONS[run.rk], D=DIFFS[run.d], g=run.gains;
   if(res==="clear"){ progress.coopClears=(progress.coopClears||0)+1;
     logLine(`<span class="win">★ 함께하기 클리어 — ${D.icon} ${D.name} · ${R.chapter} ${esc(R.name)}!</span>`);
