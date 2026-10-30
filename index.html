@@ -1216,7 +1216,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.54 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.55 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1322,6 +1322,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.55: <b>진영 6자리 · 빗나감 표시 · 자동 정리 몫 유지</b> — 진영이 앞줄 3칸 · 뒷줄 3칸(모두 6자리)으로 바뀌었습니다(예전 4번째 칸에 있던 영웅은 빈 칸으로 옮겨짐). 공격이 빗나가면 머리 위에 '빗나감'이 뜹니다 — 전투 화면에선 체력 글자가 숨겨져 있어 빗나가도 아무 표시가 없던 탓에 기술이 맞고도 피가 안 닳는 것처럼 보였습니다. 패배·후퇴해도 던전에서 주운 장비를 자동 판매·분해해 얻은 골드·정수·조각은 가져갑니다.
 v0.54: <b>패배·후퇴해도 장비는 가져감</b> — 전멸·턴 제한·후퇴 때 이번 입장의 경험치·골드는 잃지만, 주운 장비(룬·유물 포함)는 가방에 남습니다(함께하기도 같음). 그리고 적이 많은 전투에서 화면에 다 안 들어가면 영웅·몬스터를 모두 줄이던 탓에 전투마다 크기가 달라지던 문제를 고쳤습니다 — 영웅 크기는 이제 늘 같고, 좁은 화면에 몬스터가 아주 많을 때만 몬스터를 조금 줄입니다.
 v0.53.2: 휴대폰 주소(홈 화면 앱)에서 새 버전이 올라오면 위쪽에 '⟳ 새 버전이 있어요' 버튼이 뜹니다 — 누르면 바로 새 버전으로 바뀝니다(브라우저가 예전 파일을 잠시 붙들고 있던 문제).
 v0.53: <b>능력치 화면(휴대폰)</b> — 능력치 칸을 누르면 칸 아래 한 줄에 1포인트당 효과가 나옵니다(포인트가 있으면 찍고 무엇이 올랐는지, 없으면 효과만. 예: 체질 — 체력 +10 · 방어력 +0.5 · 상태이상 저항 +0.4%, 마법 직업의 힘은 효과 없음). 칸 모양은 예전 그대로. 능력치를 찍을 때 영웅 정보 칸이 맨 위로 튀어 올라가던 문제를 고쳐, 보던 자리 그대로 남습니다(장비 탭도 같음).
@@ -2699,7 +2700,7 @@ const LIMITS=[
   ["연계","연계 중첩은 최대 5."],
   ["전투 시간","전투가 60턴(보스가 있는 전투는 75턴)을 넘기면 승부가 나지 않은 것으로 보고 패배합니다. 끝나기 10턴 전부터 기록에 남은 턴이 표시됩니다."],
   ["출전 인원","처음 4명 → 자정을 열면 5명 → 영원한 밤을 열면 6명(함께하기와 같은 최대 인원). 최종 콘텐츠도 혼자 6명까지. 주인공은 항상 출전. 인원이 4명보다 많으면 적의 체력·공격력이 조금씩 높아집니다."],
-  ["진영(가로줄)","앞줄·뒷줄이 각각 가로줄 4칸(한 줄에 최대 4명). 같은 가로줄의 앞칸에 아군이 서 있으면 그 뒤 칸은 근접 공격을 받지 않습니다 — 앞칸이 비어 있는 가로줄의 뒷칸은 근접 공격에 노출됩니다. 그래서 앞 3명·뒤 3명이 가장 안전합니다. 적도 같은 규칙입니다."],
+  ["진영(가로줄)","앞줄·뒷줄이 각각 가로줄 3칸(한 줄에 최대 3명, 모두 6자리). 같은 가로줄의 앞칸에 아군이 서 있으면 그 뒤 칸은 근접 공격을 받지 않습니다 — 앞칸이 비어 있는 가로줄의 뒷칸은 근접 공격에 노출됩니다. 그래서 앞 3명·뒤 3명이 가장 안전합니다. 적도 같은 규칙입니다."],
   ["장비 옵션","등급별 추가 옵션 수: 일반 0~1 · 고급 1~2 · 희귀 2~3 · 영웅 3~4 · 전설 4 · 세트 3 · 신화 5 (범위 위쪽은 30%, 이름 앞 ★). 같은 옵션은 한 장비에 한 번만. 품질 ●○ = 범위 안 위치, 94% 이상 '완벽'. 새 묶음은 희귀 이상(퍼센트·상태이상은 영웅 이상), 직업 스킬은 무기·보조·반지, 진영은 갑옷·망토·목걸이에만. 직업 스킬 옵션·직업 전용 고유 효과는 그 직업이 낄 때만 효과가 있습니다."],
   ["장비 드롭","[일반·고급·희귀·영웅·전설] 일반 몹 50·32·14·3.7·0.3% · 정예/우두머리 25·35·28·11·1% · 중간보스 10·30·38·19·3% · 장 보스 0·25·40·28·7% · 보물상자 20·35·30·13·2%. 자정은 영웅·전설 ×1.3, 영원한 밤 ×1.6, 행운은 희귀 이상을 조금씩 올림. 영웅 이상 무기·보조는 70%가 출전 중인 영웅의 것."],
   ["부위 강화","강화는 장비가 아니라 영웅의 부위(무기·보조·투구·갑옷·장갑·신발·망토·반지 2·목걸이, 유물 제외)에 쌓입니다. 장비를 바꿔 껴도 그 칸의 강화가 새 장비에 그대로 붙고(+1당 능력치 +6%, 퍼센트 능력치는 +3%), 가방의 장비에는 강화가 없습니다. 비용은 지금까지 연 콘텐츠 수준을 따릅니다. 금이 가도(능력치 -10%) 그 부위에 남고, 수리하면 +3%."],
@@ -3677,8 +3678,14 @@ function bankSenhMigrate(B){ try{ const eq=Array.isArray(B.eq)?B.eq:[], inv=Arra
   B.ess=(B.ess||0)+ref; B.senhV=1; }catch(e){} }
 function runBankTake(){ return JSON.parse(JSON.stringify({gold:progress.gold, ess:progress.ess, inv:progress.inv, heroes:progress.heroes, codex:progress.codex, eq:equippedStore, rules:partyRules, frag:progress.frag||{}, senhV:1})); }
 // v0.54: 패배·후퇴 — 경험치·골드·정수 등은 들어가기 전으로 되돌리되, 이번 입장에서 주운 장비(가방에 새로 들어온 것)는 가져감
-function runRestoreKeepItems(B){ if(!B) return 0; const had=new Set((B.inv||[]).map(x=>x&&x.id)); const got=progress.inv.filter(x=>x&&!had.has(x.id));
-  runBankRestore(B); const ids=new Set(progress.inv.map(x=>x&&x.id)); for(const it of got) if(!ids.has(it.id)) progress.inv.push(it); return got.length; }
+// v0.55: 패배·후퇴 — 주운 장비 + 그 장비를 자동 정리해 얻은 골드·정수·조각도 가져간다(던전에서 나온 것이므로). 돌려주는 값은 기록용 문구
+function runRestoreKeepItems(B){ if(!B) return ""; const had=new Set((B.inv||[]).map(x=>x&&x.id)); const got=progress.inv.filter(x=>x&&!had.has(x.id));
+  runBankRestore(B); const ids=new Set(progress.inv.map(x=>x&&x.id)); for(const it of got) if(!ids.has(it.id)) progress.inv.push(it);
+  const A=B.auto||{}; if(A.gold) progress.gold+=A.gold; if(A.ess) progress.ess+=A.ess; if(A.frag) fragAdd(A.frag);
+  const parts=[]; if(got.length) parts.push(`주운 장비 ${got.length}개`);
+  const ap=[A.gold?`${A.gold}G`:"", A.ess?`${A.ess}정수`:"", fragText(A.frag)].filter(Boolean).join(" · "); if(ap) parts.push(`자동 정리 몫 ${ap}`);
+  return parts.join("와 "); }
+function activeRunBank(){ if(typeof runState!=="undefined"&&runState&&!runState.mode&&runState.bank) return runState.bank; if(typeof COOP!=="undefined"&&COOP.run&&!COOP.run.mode&&COOP.run.bank) return COOP.run.bank; return null; }
 function runBankRestore(B){ if(!B) return; if(!B.senhV) bankSenhMigrate(B); progress.gold=B.gold; progress.ess=B.ess; progress.inv=B.inv; progress.heroes=B.heroes; if(B.frag) progress.frag=B.frag; if(B.codex) progress.codex=B.codex; equippedStore=Array.isArray(B.eq)?B.eq:equippedStore; if(B.rules) partyRules=B.rules; saveRules(); }
 function runSnapshot(){
   let rs=null; try{ rs=runState; }catch(e){ return null; }   // 엔진만 떼어 쓰는 시험 환경에는 runState가 없음
@@ -4295,7 +4302,7 @@ class Sim {
         if(want>=0&&!used[r].has(want)){ take(u,r,want); continue; }
         let f=free(r); if(!f.length){ r=r==="front"?"back":"front"; f=free(r); }
         if(!f.length){ u.lane=0; continue; }
-        const mid=side==="enemy"?[1,2,0,3]:[0,1,2,3]; const pick=want>=0?f.reduce((b,i)=>Math.abs(i-want)<Math.abs(b-want)?i:b,f[0]):mid.find(i=>f.includes(i));
+        const mid=side==="enemy"?[1,0,2]:[0,1,2]; const pick=want>=0?f.reduce((b,i)=>Math.abs(i-want)<Math.abs(b-want)?i:b,f[0]):mid.find(i=>f.includes(i));
         take(u,r,pick); } } }
   shapeTargets(u,skill){ const all=this.foes(u), vis=all.filter(x=>!x.buffs.stealth), pool=vis.length?vis:all; if(!pool.length) return [];
     const at=L=>pool.filter(x=>x.lane===L), lanes=[...new Set(pool.map(x=>x.lane))].sort((a,b)=>a-b);
@@ -5806,8 +5813,8 @@ function targetChoices(S,comp){ const c=targetCat(S||{}), T=i=>({v:i,label:TARGE
     default: return {opts:[{v:0,label:auto||"기본 — 맨 앞 적"},T(1),T(3),T(2),T(8),T(9),T(10)],hint:"'기본'은 맨 앞 적. 빈사 적 마무리·표식·띄운 적·독이 많이 쌓인 적은 직접 골라야 노립니다"}; } }
 // v0.35 배치: 앞줄·뒷줄은 플레이어가 영웅마다 정함(처음엔 직업 기본 줄)
 function heroRow(cid){ const r=(progress.heroes[cid]||{}).row; return r==="front"||r==="back"?r:CLASSES[cid].row; }
-/* v0.43 진영 = 앞줄·뒷줄 × 가로줄 4칸(위 0 → 아래 3). 같은 가로줄의 앞줄에 아군이 서 있으면 그 뒤(뒷줄)는 근접 공격을 받지 않음 */
-const LANES=4;
+/* v0.43 진영 = 앞줄·뒷줄 × 가로줄 (v0.55: 3칸, 위 0 → 아래 2). 같은 가로줄의 앞줄에 아군이 서 있으면 그 뒤(뒷줄)는 근접 공격을 받지 않음 */
+const LANES=3;   // v0.55: 가로줄 3칸(앞 3 · 뒤 3 = 6자리)
 function partyCap(){ return partyCapFor(progress?progress.diff:0); }
 function heroLane(cid){ const l=(progress.heroes[cid]||{}).lane; return Number.isInteger(l)&&l>=0&&l<LANES?l:-1; }
 function normalizeFormation(){ if(!progress||!progress.heroes) return; const ids=partyIds(), used={front:new Set(),back:new Set()};
@@ -7669,7 +7676,7 @@ const POP = (()=>{
       x.globalAlpha = t > 0.75 ? (1 - t) / 0.25 : 1;
       if(p.crit){ burst(px, py, p.P0, t); if(t < 0.1){ x.fillStyle = "rgba(255,240,200,.35)"; x.fillRect(px - p.P0 * 14, py - p.P0 * 7, p.P0 * 28, p.P0 * 14); } }
       if(p.canv){ x.save(); x.translate(Math.round(px), Math.round(py)); x.rotate(p.rot * (st < 1 ? 1.6 - st * 0.6 : 1)); const w = p.canv.width * sc, hh = p.canv.height * sc; x.drawImage(p.canv, Math.round(-w / 2), Math.round(-hh / 2), Math.round(w), Math.round(hh)); x.restore(); }
-      else { x.font = '700 12px "Noto Sans KR", sans-serif'; x.textAlign = "center"; x.lineWidth = 3; x.strokeStyle = "#12141f"; x.strokeText(p.label, px, py); x.fillStyle = "#cfd6e6"; x.fillText(p.label, px, py); } }
+      else { x.font = `800 ${Math.max(13, Math.round(p.P0 * 5.5))}px "Noto Sans KR", sans-serif`; x.textAlign = "center"; x.lineWidth = 4; x.strokeStyle = "#12141f"; x.strokeText(p.label, px, py); x.fillStyle = "#cfd6e6"; x.fillText(p.label, px, py); } }
     x.globalAlpha = 1; if(pops.length) raf = requestAnimationFrame(draw); else x.clearRect(0, 0, W, H); }
   function reset(){ pops.length = 0; for(const k in recent) delete recent[k]; }
   return {add, reset};
@@ -7918,7 +7925,7 @@ const WX = (()=>{
         const FZ = n === 1 ? [0.55] : n === 2 ? [0.15, 0.95] : n === 3 ? [0.0, 0.5, 1.0] : Array.from({length: n}, (_, j) => j / (n - 1));
         const OFF = n === 2 ? [0.5, -0.5] : n === 3 ? [-0.5, 0.75, -0.5] : Array.from({length: n}, (_, j) => (j % 2 ? 1 : -1) * (mob ? 0.95 : 0.45));   // 한 줄에 넷 이상이면 낮은 화면에선 좌우로 크게 엇갈려 위아래로 덜 쌓이게
         const ln = el.dataset.lane === undefined || el.dataset.lane === "" ? -1 : +el.dataset.lane;   // v0.43: 가로줄 4칸 — 같은 가로줄이면 양쪽이 같은 높이(일직선 공격을 읽을 수 있게)
-        const fz = ln >= 0 ? ln / 3 : FZ[i], fwd = ln >= 0 ? (ln % 2 ? 1 : -1) * (mob ? 0.55 : 0.3) : (n === 1 ? 0 : OFF[i]);
+        const fz = ln >= 0 ? ln / Math.max(1, LANES - 1) : FZ[i], fwd = ln >= 0 ? (ln % 2 ? 1 : -1) * (mob ? 0.55 : 0.3) : (n === 1 ? 0 : OFF[i]);
         const x = arR.width * (0.5 + (COLS[key] - 0.5) * (0.88 + 0.12 * fz) + (enemy ? -1 : 1) * fwd * 0.065);
         const y = topF + (botF - topF) * fz;
         items.push({el, enemy, x, y}); }); }
@@ -7933,7 +7940,7 @@ const WX = (()=>{
     const start = items.map(it => [it.x, it.y]);
     for(let attempt = 0; attempt < 8; attempt++){   // 칸이 모자라면(좁은 화면) 몬스터를 조금씩 작게 해서 다시
       shrink = 1 - 0.1 * attempt; items.forEach((it, k) => { it.x = start[k][0]; it.y = start[k][1]; put(it); });
-      for(const it of items){ const im = it.el.querySelector("img"), ub = it.el.querySelector(".ubelow"); const sk = it.enemy ? shrink : 1; it.sh = im ? im.offsetHeight : 80; it.bh = ub ? ub.offsetHeight : 40; it.bw = Math.max(im ? im.offsetWidth * 0.8 : 70, (ub ? ub.offsetWidth : 80) * sk, (mob ? 84 : 104) * sk) + 6; it.bh = it.bh * sk + 3; }
+      for(const it of items){ const im = it.el.querySelector("img"), ub = it.el.querySelector(".ubelow"); const sk = it.enemy ? shrink : 1; it.sh = im ? im.offsetHeight : 80; it.bh = ub ? ub.offsetHeight : 40; it.bw = Math.max(im ? im.offsetWidth * 0.8 : 70, (ub ? ub.offsetWidth : 80) * sk, (mob ? 84 : 104) * sk) + 6; it.bh = it.bh * sk + 6; }
   // 아이콘 4개+n 이 들어갈 너비는 늘 확보
       items.forEach(clamp);
       let left = 0;
@@ -7943,7 +7950,8 @@ const WX = (()=>{
           const oh = Math.min(A.y + A.bh, B.y + B.bh) - Math.max(A.y - A.sh * 0.85, B.y - B.sh * 0.85);
           if(ow <= 0 || oh <= 0) continue; left++;
           const [U, D] = A.y <= B.y ? [A, B] : [B, A];
-          if(oh <= ow * 1.4){ const d = oh / 2 + 1; U.y -= d; D.y += d; }
+          const stuck = iter > 20 && (U.y <= yLo(U) + 0.5 || D.y >= yHi(D) - 0.5);   // v0.55: 위아래로 밀어도 안 풀리면(한쪽이 끝에 닿음) 옆으로
+          if(oh <= ow * 1.4 && !stuck){ const d = oh / 2 + 1; U.y -= d; D.y += d; }
           else { const [L, R] = A.x <= B.x ? [A, B] : [B, A]; const d = ow / 2 + 1; L.x -= d; R.x += d; }
           clamp(A); clamp(B); }
         if(!left) break; }
@@ -8488,6 +8496,7 @@ function takeLoot(items){
     if(m==="sell"){ r.sold++; r.gold+=sellPrice(it); progress.gold+=sellPrice(it); r.names.push(it.name); }
     else if(m==="dis"){ r.dis++; r.ess+=dismantleGive(it,r.frag=r.frag||{}); r.names.push(it.name); }
     else { progress.inv.push(it); r.kept.push(it); } }
+  const B=activeRunBank(); if(B&&(r.gold||r.ess||r.frag)){ const A=B.auto=B.auto||{gold:0,ess:0,frag:{}}; A.gold+=r.gold; A.ess+=r.ess; for(const [k,v] of Object.entries(r.frag||{})) A.frag[k]=(A.frag[k]||0)+v; }
   return r;
 }
 function autoLootLog(r){
@@ -8602,8 +8611,8 @@ function renderFormation(){
   board.innerHTML=`<div class="fbh"><h2 class="ph">진영</h2><span>출전 ${P.length}/${cap} · 끌어서 칸 옮기기 · 같은 가로줄 앞칸에 영웅이 있으면 뒷칸은 근접 공격을 안 받아요${lock?" — 🔒 던전 진행 중":""}</span></div>`;
   const st=document.createElement("div"); st.className="fstage";
   st.innerHTML=`<span class="fzlab zl-back">뒷줄</span><span class="fzlab zl-front">앞줄</span><div class="ffoe">적이 오는 쪽 ▶</div>`
-    +[0,1,2,3].map(l=>`<div class="flane" data-lane="${l}"></div>`).join("")
-    +["back","front"].map(r=>[0,1,2,3].map(l=>`<div class="fzone fslot" data-row="${r}" data-lane="${l}"><i>${l+1}</i></div>`).join("")).join("");
+    +[...Array(LANES).keys()].map(l=>`<div class="flane" data-lane="${l}"></div>`).join("")
+    +["back","front"].map(r=>[...Array(LANES).keys()].map(l=>`<div class="fzone fslot" data-row="${r}" data-lane="${l}"><i>${l+1}</i></div>`).join("")).join("");
   formStageURL().then(u=>{ st.style.backgroundImage=`url(${u})`; });
   const pool=((REGIONS[progress.lastRegion]||REGIONS.swamp).pool||[]).slice(0,3);
   const ghosts=pool.map(q=>{ const M=MOBS[q.key]; if(!M) return null; const im=document.createElement("img"); im.className="fghost"; im.src=SPRITES[M.sprite]; im.alt=""; st.appendChild(im); return im; }).filter(Boolean);
@@ -8612,8 +8621,8 @@ function renderFormation(){
   const lay=()=>{ const W=st.clientWidth, H=st.clientHeight; if(!W||!H) return; const L=formSlots(P,W,H,ghosts.length), g=L.g;
     st.style.backgroundSize=`${STAGE.w*g.s}px ${STAGE.h*g.s}px`; st.style.backgroundPosition=`${g.ox}px ${g.oy}px`;
     // v0.43: 진영은 또렷한 칸 — 가로줄 4개를 무대 전체 높이로 고르게, 왼쪽 뒷줄 · 그 오른쪽 앞줄 · 오른쪽은 적(같은 가로줄 높이)
-    const top=30, bot=H-4, lh=(bot-top)/4, cw=Math.min(W*0.21,lh*1.9), CX={back:W*0.14,front:W*0.36}, sz=Math.min(88,lh*0.86);
-    const SL={}; for(const r of ["back","front"]) for(let l=0;l<4;l++) SL[r+l]={x:CX[r],y:top+lh*l,h:lh};
+    const top=30, bot=H-4, lh=(bot-top)/LANES, cw=Math.min(W*0.21,lh*1.9), CX={back:W*0.14,front:W*0.36}, sz=Math.min(88,lh*0.86);
+    const SL={}; for(const r of ["back","front"]) for(let l=0;l<LANES;l++) SL[r+l]={x:CX[r],y:top+lh*l,h:lh};
     for(const z of st.querySelectorAll(".fslot")){ const p=SL[z.dataset.row+z.dataset.lane]; z.style.left=(p.x-cw/2)+"px"; z.style.width=cw+"px"; z.style.top=(p.y+2)+"px"; z.style.height=(lh-4)+"px"; }
     for(const b of st.querySelectorAll(".flane")){ const l=+b.dataset.lane; b.style.top=(top+lh*l+lh*0.5)+"px"; }
     heroes.forEach(el=>{ const c=el.dataset.hero, p=SL[heroRow(c)+heroLane(c)]; if(!p) return; el.style.left=p.x+"px"; el.style.top=(p.y+lh-3)+"px"; el.style.setProperty("--fs",(sz/88).toFixed(3)); el.style.zIndex="20"; });
@@ -9835,7 +9844,7 @@ function doRetreat(){
   if(runState.mode){ logLine(`<span class="lose">↩ 후퇴했다.</span>`); egEnd("retreat"); return; }
   const g=runState.gains, region=REGIONS[runState.regionKey];
   const kept=runRestoreKeepItems(runState.bank);
-  logLine(`<span class="lose">↩ 후퇴 — 패배와 같이 이번 입장에서 얻은 경험치 ${g.exp} · 골드 ${g.gold}는 잃고${kept?`, 주운 장비 ${kept}개는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
+  logLine(`<span class="lose">↩ 후퇴 — 패배와 같이 이번 입장에서 얻은 경험치 ${g.exp} · 골드 ${g.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
   $("result").textContent=`후퇴(패배) — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
   saveProgress(); goCamp();
 }
@@ -10193,6 +10202,7 @@ function handleFx(fx,ev){
   if(fx.kind==="miss"){
     logLine(`<span class="fx">↳ ${tn} — <span class="r">${esc(fx.label||"빗나감")}</span></span>`);
     const el=$("u-"+fx.target); if(el){ el.classList.remove("missed"); void el.offsetWidth; el.classList.add("missed"); setTimeout(()=>el.classList.remove("missed"),700); }
+    popNum(fx.target,"빗나감");   // v0.55: 무대 화면에선 체력 글자가 숨겨져 빗나감이 안 보였음 — 머리 위에 띄움
     return;
   }
   if(fx.kind==="damage"){
@@ -10327,14 +10337,14 @@ function endZoneBattle(ev,zone){
   } else if(runState.mode){ egEnd(ev.result==="lose"?"lose":"draw");
   } else if(ev.result==="lose"){
     const kept=runRestoreKeepItems(runState.bank);
-    logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 경험치 ${runState.gains.exp} · 골드 ${runState.gains.gold}는 잃고${kept?`, 주운 장비 ${kept}개는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
+    logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 경험치 ${runState.gains.exp} · 골드 ${runState.gains.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
     logLine(`<span class="r">능력치·장비·스킬북·규칙 — 네 가지 중 무엇이든 강해질 길이 있습니다.</span>`);
     $("result").textContent=`패배 — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
     saveProgress();
     goCamp();
   } else {
     const kept=runRestoreKeepItems(runState.bank);
-    logLine(`<span class="lose">⌛ 턴 제한(${ev.max||TURN_LIMIT}턴) — 승부를 내지 못해 패배. 경험치·골드는 잃고${kept?`, 주운 장비 ${kept}개는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
+    logLine(`<span class="lose">⌛ 턴 제한(${ev.max||TURN_LIMIT}턴) — 승부를 내지 못해 패배. 경험치·골드는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
     $("result").textContent=`패배(턴 제한) — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
     saveProgress(); goCamp();
   }
@@ -11250,7 +11260,7 @@ async function coopBattle(run,z){
 function coopEnd(res){
   const run=COOP.run; if(!run) return;
   if(run.mode){ coopEgEnd(run,res); return; }
-  if(res!=="clear"&&res!=="gone"&&res!=="err"&&run.bank){ const kept=runRestoreKeepItems(run.bank); logLine(`<span class="lose">이번 함께하기에서 얻은 경험치·골드는 잃었다${kept?` — 주운 장비 ${kept}개는 가져간다`:""}.</span>`); }
+  if(res!=="clear"&&res!=="gone"&&res!=="err"&&run.bank){ const kept=runRestoreKeepItems(run.bank); logLine(`<span class="lose">이번 함께하기에서 얻은 경험치·골드는 잃었다${kept?` — ${kept}는 가져간다`:""}.</span>`); }
   const R=REGIONS[run.rk], D=DIFFS[run.d], g=run.gains;
   if(res==="clear"){ progress.coopClears=(progress.coopClears||0)+1;
     logLine(`<span class="win">★ 함께하기 클리어 — ${D.icon} ${D.name} · ${R.chapter} ${esc(R.name)}!</span>`);
