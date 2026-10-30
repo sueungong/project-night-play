@@ -115,6 +115,7 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 }
 .dock{display:none!important}   /* v0.35: 아래 조작대 없앰 — 던전 선택은 '던전' 버튼, 속도·진행은 전장 위 */
 .fspeed{white-space:nowrap} .fspeed b{font-weight:700; color:var(--ink)}
+.fretreat{color:var(--bad)!important; border-color:#6b3d3d!important; white-space:nowrap} .fretreat.arm{background:var(--bad)!important; color:#1a0703!important; font-weight:800}
 .frun{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--sub); background:rgba(10,14,28,.72); border:1px solid var(--line); border-radius:10px; padding:3px 10px}
 .frun b{color:var(--accent)} .fauto{display:inline-flex; align-items:center; gap:5px; font-size:13px; color:var(--sub); cursor:pointer; white-space:nowrap}
 .fnext{position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:7; height:52px; padding:0 26px; border-radius:14px; border:0; background:var(--accent); color:var(--accent-ink); font-size:17px; font-weight:800; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 6px 20px #0008}
@@ -1213,7 +1214,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.49 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.50 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1240,7 +1241,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
         <div class="steps" id="zoneSteps"></div>
         <div class="dgrid" id="dgrid">
           <div class="field" aria-label="전장">
-            <div class="fieldhead"><span class="zoneline" id="zoneline"></span><span class="spacer"></span><span class="result" id="result"></span><span class="frun" id="fRun" hidden></span><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜">⏩ <b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
+            <div class="fieldhead"><span class="zoneline" id="zoneline"></span><span class="spacer"></span><span class="result" id="result"></span><span class="frun" id="fRun" hidden></span><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(이번 입장에서 얻은 것을 모두 잃고 등불 도시로)">↩ 후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜">⏩ <b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
             <div class="actbar" id="actbar" hidden></div>
             <div class="toasts" id="toasts" aria-live="polite"></div>
             <div class="saybox" id="saybox" hidden></div>
@@ -1319,6 +1320,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.50: <b>후퇴 · 황혼 앞부분 완화</b> — 던전 전장 위에 '↩ 후퇴' 버튼(두 번 눌러 확인). 전투 중에도 쓸 수 있고, 결과는 패배와 같습니다(이번 입장에서 얻은 경험치·골드·장비를 모두 잃고 등불 도시로). 황혼 1장 적 체력·공격력 -20%, 2장 -10%, 그리고 v0.46의 강화 배율을 황혼 1~3장에서는 서서히(15% → 40% → 70%) 적용해 처음 시작한 파티도 1장 막을 깰 수 있게 했습니다. 4장부터는 그대로 어렵습니다.
 v0.49: <b>휴대폰 가로 화면 고침</b> — 설치한 앱으로 열었을 때 전체 화면·가로 고정을 건너뛰던 문제. 휴대폰에서는 처음 누를 때 전체 화면과 가로 고정을 함께 걸어, 휴대폰 자동 회전이 꺼져 있어도 가로로 바뀝니다. 세로 화면 안내에 '📱 가로 전체 화면으로 시작' 버튼과 현재 화면 상태 표시를 넣었습니다. 실패하면 이유가 의견 보내기의 오류 기록에 남습니다.
 v0.48: <b>휴대폰 전체 화면 고침</b> — 크롬에서 '앱 설치'로 깔아도 상태 표시줄·아래 버튼 줄이 보이던 문제. 이제 휴대폰(또는 설치한 앱)에서는 화면을 처음 누를 때 저절로 전체 화면·가로 고정이 되고, 다른 앱에 다녀오면 다음 터치 때 다시 전체 화면이 됩니다. ⛶ 버튼으로 끄면 다시 켤 때까지 그대로 둡니다.
 v0.47: <b>의견 보내기</b> — 위쪽 💬 버튼(또는 ⚙ 설정)에서 버그·난이도·불편함·아이디어를 적어 카톡·문자로 공유하거나 복사할 수 있습니다. 버전·기기·진행·최근 전투 기록·오류를 함께 붙여 보내 문제를 바로 찾을 수 있게 했습니다. GitHub 계정이 있으면 이슈로 바로 올릴 수도 있습니다.
@@ -2161,6 +2163,10 @@ const DIFF_SCALE=[
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
 const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.1,atk:1.2},{hp:2.4,atk:1.25}];
+// v0.50: 황혼 앞 장은 배우는 구간 — 위 배율을 장마다 서서히 적용(1장 15% → 2장 40% → 3장 70% → 4장부터 전부)
+const EARLY_RAMP=[0.15,0.4,0.7];
+const EARLY_EASE=[{hp:0.8,atk:0.8},{hp:0.9,atk:0.9}];   // 황혼 1·2장 적 자체를 조금 약하게(장비 없는 Lv1~3 파티가 1장 막을 거의 깨도록)
+function diffRamp(d,ch){ return d===0&&ch<EARLY_RAMP.length?EARLY_RAMP[ch]:1; }
 const TURN_LIMIT=60, BOSS_TURN_LIMIT=75;   // 보스가 있는 전투는 75턴까지
 const AFFIXES={
   rage:  {name:"분노", desc:"체력 50% 이하에서 공격력 +30%"},
@@ -2248,8 +2254,10 @@ function buildMobUnit(spec,idx,d,rk){
   const m=MOBS[spec.key], D=DIFFS[d], ch=REGION_KEYS.indexOf(rk);
   const sc=spec.eg?EG_SCALE[ch]:DIFF_SCALE[d][ch];
   let hp=m.stats.hp*sc.hp, atk=m.stats.atk*sc.atk;
-  { const K=DIFF_K[d]||DIFF_K[0]; hp*=K.hp; atk*=K.atk; }
-  if(m.boss||spec.finalBoss||spec.named){ const K=BOSS_K[d]||BOSS_K[0]; hp*=K.hp; atk*=K.atk; }
+  const rp=spec.eg?1:diffRamp(d,ch), lerp=(k)=>1+(k-1)*rp;
+  { const K=DIFF_K[d]||DIFF_K[0]; hp*=lerp(K.hp); atk*=lerp(K.atk); }
+  if(!spec.eg&&d===0&&EARLY_EASE[ch]){ hp*=EARLY_EASE[ch].hp; atk*=EARLY_EASE[ch].atk; }
+  if(m.boss||spec.finalBoss||spec.named){ const K=BOSS_K[d]||BOSS_K[0]; hp*=lerp(K.hp); atk*=lerp(K.atk); }
   if(spec.chief){ hp*=3.2; atk*=1.3; }
   if(spec.elite){ hp*=2.0; atk*=1.25; }
   if(spec.scale){ hp*=spec.scale.hp||1; atk*=spec.scale.atk||1; }      // 최종 콘텐츠(탑 층·레이드 단계·원정 걸음) 배율
@@ -9756,8 +9764,9 @@ function setMainBtn(){
   else if(!runState){ const r=curRegion(); b.innerHTML=`<span class="mb1">▶ 던전 입장</span><span class="mb2">${esc(r.chapter)} ${esc(r.name)} · ${curAct()}막${torchFree()?"":" · 🔥1"}</span>`; }
   else if(busy) b.innerHTML=`<span class="mb1">진행 중…</span><span class="mb2">${runState.zone+1}구역 · ${zoneKind(runState.zones[runState.zone])}</span>`;
   else { const nz=runState.zones[runState.zone]; b.innerHTML=`<span class="mb1">다음 구역으로 ▶</span><span class="mb2">${nz?`${runState.zone+1}구역 · ${zoneKind(nz)}`:""}</span>`; }
-  const rb=$("retreatBtn"); rb.hidden=true;   // v0.33: 후퇴 없음 — 이기거나 지거나
-  if(0) rb.hidden=!runState; rb.disabled=busy; rb.classList.toggle("arm",retreatArm&&!busy); rb.textContent=retreatArm&&!busy?"정말 후퇴? 한 번 더":"후퇴";
+  const rb=$("retreatBtn"); rb.hidden=true;
+  { const fr=$("fRetreat"); if(fr){ const can=!!runState&&!telling&&!(typeof TUT!=="undefined"&&TUT.busy)&&!retreatReq; fr.hidden=!runState; fr.disabled=!can;
+      fr.classList.toggle("arm",retreatArm&&can); fr.textContent=retreatArm&&can?"한 번 더 누르면 후퇴":"↩ 후퇴"; } }   // v0.50: 전장 위 후퇴 — 패배와 같은 결과
   if(runState){ const g=runState.gains; $("dkGains").innerHTML=`경험치 <b>+${g.exp.toLocaleString("ko-KR")}</b> · 골드 <b>+${g.gold.toLocaleString("ko-KR")}</b> · 장비 <b>${g.items}</b>개`; }
   else if(progress) $("dkParty").innerHTML=battleIds().map(c=>`<span title="${esc(heroTitle(c))}"><img src="${heroIcon(c)}" alt="${esc(heroDisplayName(c))}"></span>`).join("");
   if(progress){ renderDiffSeg(); renderSteps(); }
@@ -9770,15 +9779,24 @@ function setMainBtn(){
     else if(show){ const nz=runState.zones[runState.zone]; fn.innerHTML=`다음 구역 ▶<small>${runState.zone+1}구역 · ${zoneKind(nz)}</small>`; } }
   const td=$("tab-dungeon"); if(td&&curView==="dungeon") td.classList.toggle("on",runBusy()||!!$("dpick"));
 }
-function retreatRun(){ return;   // v0.33: 후퇴 없음(이기거나 지거나)
-  if(!runState||playing||telling) return;
+// v0.50 후퇴: 전투 중에도 가능. 결과는 패배와 같다 — 이번 입장에서 얻은 것을 모두 잃고 등불 도시로(최종 콘텐츠는 그 자리에서 끝)
+let retreatReq=false;
+function retreatRun(){
+  if(!runState||telling||(typeof TUT!=="undefined"&&TUT.busy)||retreatReq) return;
   if(!retreatArm){ retreatArm=true; setMainBtn(); setTimeout(()=>{ if(retreatArm){ retreatArm=false; setMainBtn(); } },4000); return; }
   retreatArm=false;
-  if(runState.mode){ logSink=null; egEnd("retreat"); return; }
+  if(playing){ retreatReq=true; setMainBtn(); return; }   // 전투 재생 중: 다음 장면에서 멈추고 후퇴(runBattle이 처리)
+  doRetreat();
+}
+function doRetreat(){
+  retreatReq=false;
+  if(!runState) return;
+  logSink=null; markAct(null);
+  if(runState.mode){ logLine(`<span class="lose">↩ 후퇴했다.</span>`); egEnd("retreat"); return; }
   const g=runState.gains, region=REGIONS[runState.regionKey];
-  logSink=null;
-  logLine(`<span class="lose">↩ 후퇴 — 등불 도시로 돌아간다. 이번에 얻은 보상(경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개)은 유지됩니다.</span>`);
-  $("result").textContent=`후퇴 — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
+  runBankRestore(runState.bank);
+  logLine(`<span class="lose">↩ 후퇴 — 패배와 같이 이번 입장에서 얻은 것(경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개)을 모두 잃고 등불 도시로 돌아간다.</span>`);
+  $("result").textContent=`후퇴(패배) — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
   saveProgress(); goCamp();
 }
 // '구역 자동 진행': 구역을 마치면 버튼을 누르지 않아도 다음 구역으로
@@ -10061,6 +10079,7 @@ async function runBattle(z){
   const events=sim.run();
   let n=0;
   for(const ev of events){
+    if(retreatReq) break;   // v0.50: 후퇴 — 남은 장면은 건너뜀
     if(ev.type==="say"){ handleEvent(ev,z); await showSay(ev.who, ev.text); continue; }
     if(ev.type==="action"){ const cw=KA.cast(ev); if(cw){ markAct(ev.actor,ev.shape?[...new Set((ev.effects||[]).map(f=>f.target))]:[],ev.skillName); await sleep(ev.shape?Math.max(cw,speedMs(420)):cw); } }   // v0.43: 범위 모양 기술은 모으는 동안 맞을 칸을 빨갛게   // v0.36: 스킬 시전 연출(기를 모았다가 발동) — 모으는 동안에도 머리 위에 기술 이름
     handleEvent(ev,z);
@@ -10070,7 +10089,9 @@ async function runBattle(z){
     else if(d===0&&++n%40===0) await new Promise(r=>setTimeout(r,0));   // 즉시 모드: 가끔 숨을 돌려 화면이 굳지 않게
   }
   flushLogScroll();
-  playing=false; $("resetBtn").disabled=false; markAct(null); setMainBtn();
+  playing=false; $("resetBtn").disabled=false; markAct(null);
+  if(retreatReq){ try{ KA.reset(); POP.reset(); }catch(e){} doRetreat(); }
+  setMainBtn();
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
