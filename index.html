@@ -139,6 +139,11 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .dpsel{background:#0e1428; border:1px solid var(--line); border-radius:12px; padding:10px 12px; display:flex; flex-direction:column; gap:8px}
 .dph{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap} .dph b{font-size:16px} .dph span{font-size:13px; color:var(--muted)}
 .dpactbtns{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+.dpboss{margin-top:8px; border-top:1px solid var(--line); padding-top:6px} .dpboss summary{display:flex; align-items:center; gap:8px; cursor:pointer; list-style:none; font-size:13.5px} .dpboss summary::-webkit-details-marker{display:none}
+.dpboss summary img{width:26px; height:26px; image-rendering:pixelated} .dpboss summary b{color:var(--ink)} .dpboss summary span{color:var(--muted); font-size:12.5px} .dpboss summary::after{content:"▾"; color:var(--muted); margin-left:auto} .dpboss[open] summary::after{content:"▴"}
+.dpboss ul{list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:4px} .dpboss li{display:grid; grid-template-columns:minmax(90px,auto) auto minmax(0,1fr); gap:0 8px; align-items:baseline; font-size:12.5px; color:var(--sub)}
+.dpboss li i{font-style:normal; color:var(--muted)} .dpboss li i::after{content:" →"} .dpboss li b{color:var(--ink); white-space:nowrap} .dpboss li em{font-style:normal; color:var(--accent)}
+@media (max-width:640px){ .dpboss li{grid-template-columns:auto minmax(0,1fr)} .dpboss li span{grid-column:1/-1} }
 .dpactbtns button{display:flex; flex-direction:column; align-items:flex-start; gap:2px; padding:8px 10px; border-radius:10px; background:var(--panel); border:1px solid var(--line); color:var(--sub); font-size:14px; cursor:pointer; text-align:left}
 .dpactbtns button b{color:var(--ink)} .dpactbtns button small{font-size:12px; color:var(--muted)}
 .dpactbtns button.on{border-color:var(--accent); background:#2a2410; color:var(--ink)} .dpactbtns button:disabled{opacity:.45; cursor:not-allowed}
@@ -1130,6 +1135,13 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .field.stage .saybox.npc{width:max-content; max-width:min(560px, 80%)}
 .field.stage .actbar{display:none!important}
 .fhgear{display:none}
+/* v0.55.2: 후퇴·속도·설정·기록은 전장 오른쪽 아래 한 줄로 — 위 머리줄에 다 넣으면 폴드·큰 화면에서 글자가 세로로 꺾이던 문제 */
+.fieldfoot{display:flex; align-items:center; justify-content:flex-end; gap:6px; position:relative; z-index:3; margin-top:6px}
+.field.stage .fieldfoot{position:absolute; right:10px; bottom:12px; margin:0; z-index:7}
+.field.stage .fieldhead{flex-wrap:nowrap} .field.stage .zoneline{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.frun{white-space:nowrap; flex:none} .logbtn{white-space:nowrap; flex:none}
+@media (max-height:440px){ .field.stage .fieldfoot{bottom:8px; right:6px} }
+@media (max-width:1000px){ .field.stage .fnext{left:calc(50% - 90px)} }   /* 좁은 화면: 다음 구역 단추를 조금 왼쪽으로 — 오른쪽 아래 단추 줄과 안 겹치게 */
 /* v0.32: 갤럭시 S21급(가로 800×360, 주소창 빼면 ~300) — 전투 중에는 머리줄을 접고 전장에 세로 공간을 몰아 줌. 설정은 전장 오른쪽 위 ⚙ */
 @media (max-height:440px){
   body:has(#dkRun:not([hidden])) .topbar{display:none} .app > .shell{grid-row:2}
@@ -1161,6 +1173,10 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .eqpick button .sub,.eqpick button .bdg .in,.eqpick button .bdg .out{display:none}
 .eqdoll{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; align-items:center; background:radial-gradient(ellipse at 50% 60%,#1d2846 0%,#111729 70%); border:1px solid var(--line); border-radius:14px; padding:12px}
 .eqcol{display:flex; flex-direction:column; gap:8px}
+.eqpair{display:flex; align-items:flex-start; gap:5px}
+.enhside{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; width:44px; height:var(--ic,56px); padding:0; border-radius:9px; border:1px solid var(--line2); background:rgba(14,20,40,.82); color:var(--sub); cursor:pointer; line-height:1}
+.enhside b{font-size:13.5px; font-weight:800} .enhside small{font-size:10.5px; color:var(--muted)} .enhside:hover:not(:disabled){border-color:var(--accent); color:var(--ink)}
+.enhside:disabled{opacity:.55; cursor:default} .enhside.none{opacity:.25} .enhside.gilt{border-color:#6b3d3d} .enhside.gilt small{color:var(--bad)} .enhside.max small{color:var(--accent)}
 .eqslot{position:relative; display:flex; flex-direction:column; align-items:center; gap:2px; background:none; border:0; padding:0; cursor:pointer; color:var(--sub)}
 .eqslot .eqsl{font-size:11.5px; line-height:1}
 .eqslot .equp{position:absolute; top:-5px; right:-6px; background:var(--good); color:#06160c; font-size:11px; font-weight:800; border-radius:8px; padding:0 4px}
@@ -1209,14 +1225,14 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .imbody,.imrow{margin-top:8px} .imacts{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px} .imacts button{border-radius:8px; padding:6px 10px; border:1px solid var(--line2); background:var(--panel); color:var(--ink); cursor:pointer} .imacts button.good{border-color:var(--good); color:var(--good)}
 .imrow .item{border:0; background:none; padding:0} .imrow .item .ihead{display:none} .imrow .item .more{display:block!important}
 .mfoot{display:flex; gap:8px; margin-top:12px; align-items:center} .mfoot .spacer{flex:1}
-@media (max-height:560px){ .eqpane{gap:8px} .eqpane .panel{padding:8px; gap:6px} .eqdoll{padding:6px; gap:6px} .eqcol{gap:4px; display:grid; grid-template-columns:repeat(2,auto); align-content:center} .icell{--ic:42px} .eqslot .eqsl{display:none}
+@media (max-height:560px){ .eqpane{gap:8px} .eqpane .panel{padding:8px; gap:6px} .eqdoll{padding:6px; gap:6px} .eqcol{gap:3px; display:flex; align-content:center} .eqpair{gap:3px} .enhside{width:36px; height:38px} .enhside b{font-size:11.5px} .enhside small{font-size:9px} .icell{--ic:38px} .eqslot .eqsl{display:none}
   .eqfig.unit img.eqimg{width:96px; height:96px} .eqpow{display:none} .bggrid{grid-template-columns:repeat(auto-fill,minmax(44px,1fr)); max-height:calc(100dvh - 190px)} .eqleft .setline,.eqleft .hintline{display:none} }
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.55.1 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.55.2 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1243,7 +1259,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
         <div class="steps" id="zoneSteps"></div>
         <div class="dgrid" id="dgrid">
           <div class="field" aria-label="전장">
-            <div class="fieldhead"><span class="zoneline" id="zoneline"></span><span class="spacer"></span><span class="result" id="result"></span><span class="frun" id="fRun" hidden></span><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(경험치·골드는 잃고 주운 장비는 가져가 등불 도시로)">↩ 후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜">⏩ <b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
+            <div class="fieldhead"><span class="zoneline" id="zoneline"></span><span class="spacer"></span><span class="result" id="result"></span><span class="frun" id="fRun" hidden></span></div>
+            <div class="fieldfoot" id="fieldfoot"><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(골드는 잃고 주운 장비·경험치 절반은 가져가 등불 도시로)">↩ 후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜">⏩ <b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
             <div class="actbar" id="actbar" hidden></div>
             <div class="toasts" id="toasts" aria-live="polite"></div>
             <div class="saybox" id="saybox" hidden></div>
@@ -1322,6 +1339,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.55.2: <b>구역 사이 회복 없음 · 패배해도 경험치 절반 · 전투 화면 단추 정리</b> — 구역을 깨도 체력·마나가 저절로 차지 않습니다(직전 구역을 마친 상태 그대로 다음 구역으로, 쉼터·회복 기술로만 회복). 전멸·후퇴해도 그때까지 쌓은 경험치의 절반은 가져갑니다(골드는 잃음). 후퇴·속도·설정·기록 단추는 전장 오른쪽 아래로 옮기고 위쪽엔 경험치·골드·장비만 남겨, 폴드·큰 화면에서 글자가 세로로 꺾이던 문제를 고쳤습니다. 이미 깬 막에 들어가면 속도가 '빠르게'로 시작합니다. 던전 고르기 창에서 고른 막의 보스가 어떤 조건에 어떤 기술을 쓰는지 보입니다. 장비 탭의 부위 강화는 칸 옆 단추(단계·성공률)로 바로 할 수 있고, 장비 창에 특수 옵션·소켓이 두 번 적히던 문제를 고쳤습니다.
 v0.55.1: 휴대폰에서 전투 중 앱을 나갔다 오면(브라우저가 페이지를 다시 불러오면) 영웅만 서 있고 진행이 멈춰 있던 문제 — 전투에 들어간 상태도 저장하고, 이어받을 때 그 구역을 바로 다시 시작합니다. '구역 자동 진행'이 켜져 있으면 구역 사이에서 이어받아도 저절로 다음으로 갑니다. 첫 구역 도중에 앱이 꺼지면 던전과 쓴 횃불이 통째로 사라지던 문제도 같이 고쳤습니다.
 v0.55: <b>진영 6자리 · 빗나감 표시 · 자동 정리 몫 유지</b> — 진영이 앞줄 3칸 · 뒷줄 3칸(모두 6자리)으로 바뀌었습니다(예전 4번째 칸에 있던 영웅은 빈 칸으로 옮겨짐). 공격이 빗나가면 머리 위에 '빗나감'이 뜹니다 — 전투 화면에선 체력 글자가 숨겨져 있어 빗나가도 아무 표시가 없던 탓에 기술이 맞고도 피가 안 닳는 것처럼 보였습니다. 패배·후퇴해도 던전에서 주운 장비를 자동 판매·분해해 얻은 골드·정수·조각은 가져갑니다.
 v0.54: <b>패배·후퇴해도 장비는 가져감</b> — 전멸·턴 제한·후퇴 때 이번 입장의 경험치·골드는 잃지만, 주운 장비(룬·유물 포함)는 가방에 남습니다(함께하기도 같음). 그리고 적이 많은 전투에서 화면에 다 안 들어가면 영웅·몬스터를 모두 줄이던 탓에 전투마다 크기가 달라지던 문제를 고쳤습니다 — 영웅 크기는 이제 늘 같고, 좁은 화면에 몬스터가 아주 많을 때만 몬스터를 조금 줄입니다.
@@ -3680,10 +3698,13 @@ function bankSenhMigrate(B){ try{ const eq=Array.isArray(B.eq)?B.eq:[], inv=Arra
 function runBankTake(){ return JSON.parse(JSON.stringify({gold:progress.gold, ess:progress.ess, inv:progress.inv, heroes:progress.heroes, codex:progress.codex, eq:equippedStore, rules:partyRules, frag:progress.frag||{}, senhV:1})); }
 // v0.54: 패배·후퇴 — 경험치·골드·정수 등은 들어가기 전으로 되돌리되, 이번 입장에서 주운 장비(가방에 새로 들어온 것)는 가져감
 // v0.55: 패배·후퇴 — 주운 장비 + 그 장비를 자동 정리해 얻은 골드·정수·조각도 가져간다(던전에서 나온 것이므로). 돌려주는 값은 기록용 문구
-function runRestoreKeepItems(B){ if(!B) return ""; const had=new Set((B.inv||[]).map(x=>x&&x.id)); const got=progress.inv.filter(x=>x&&!had.has(x.id));
+// v0.55.2: 패배·후퇴해도 그때까지 쌓은 경험치의 절반은 가져감(막을 돌파하면 전부) — exp: 이번 입장에서 쌓은 경험치, expIds: 받을 영웅(없으면 출전 전원)
+const DEFEAT_EXP=0.5;
+function runRestoreKeepItems(B,exp,expIds){ if(!B) return ""; const had=new Set((B.inv||[]).map(x=>x&&x.id)); const got=progress.inv.filter(x=>x&&!had.has(x.id));
   runBankRestore(B); const ids=new Set(progress.inv.map(x=>x&&x.id)); for(const it of got) if(!ids.has(it.id)) progress.inv.push(it);
   const A=B.auto||{}; if(A.gold) progress.gold+=A.gold; if(A.ess) progress.ess+=A.ess; if(A.frag) fragAdd(A.frag);
-  const parts=[]; if(got.length) parts.push(`주운 장비 ${got.length}개`);
+  const parts=[]; const kx=Math.floor((exp||0)*DEFEAT_EXP); if(kx>0){ grantExp(kx,expIds); parts.push(`경험치 ${kx.toLocaleString("ko-KR")}(절반)`); }
+  if(got.length) parts.push(`주운 장비 ${got.length}개`);
   const ap=[A.gold?`${A.gold}G`:"", A.ess?`${A.ess}정수`:"", fragText(A.frag)].filter(Boolean).join(" · "); if(ap) parts.push(`자동 정리 몫 ${ap}`);
   return parts.join("와 "); }
 function activeRunBank(){ if(typeof runState!=="undefined"&&runState&&!runState.mode&&runState.bank) return runState.bank; if(typeof COOP!=="undefined"&&COOP.run&&!COOP.run.mode&&COOP.run.bank) return COOP.run.bank; return null; }
@@ -3715,7 +3736,7 @@ function resumeRun(R){
   if(!R.mode) progress.lastRegion=R.regionKey; progress.diff=R.d;
   setZoneLine();
   spawnField([...runState.party]); setMainBtn(); renderRegionSel();
-  logLine(`<span class="win">↩ 진행 중이던 ${R.mode?esc(EG_MODES[R.mode].name):"던전"}을 이어갑니다 — ${R.mode?EG_MODES[R.mode].icon:DIFFS[R.d].icon} ${esc(zoneLabel())}</span>`);
+  logLine(`<span class="win">↩ 진행 중이던 ${R.mode?esc(EG_MODES[R.mode].name):"던전"}을 이어갑니다 — ${esc(zoneLabel())}</span>`);
   if(R.busy||autoAdv) resumeContinue();
   return true;
 }
@@ -5689,7 +5710,7 @@ const COACH={
     {sel:"#row-enemy-front .unit .utags,#row-party-front .unit .utags", t:"상태 아이콘", x:"MP 바 아래 작은 아이콘이 상태예요 — 빨간 테는 나쁜 효과(독·출혈·기절…), 파란 테는 좋은 효과. 구석 숫자는 중첩 수."},
     {sel:".arena", t:"차례", x:"신속이 높은 순서로 한 명씩 행동해요. 지금 행동하는 캐릭터 머리 위에 쓰는 기술 이름이 떠요."},
     {sel:"#logBtn", t:"전투 기록", x:"누가 몇 번 규칙으로 무엇을 했는지 전부 적혀 있어요. 궁금할 때만 열어 보세요."},
-    {t:"이기거나 지거나", x:"던전에 들어가면 막을 끝까지 돌파해야 그동안 얻은 경험치·골드를 가져가요. 전멸하거나 '↩ 후퇴'하면 경험치·골드는 잃지만, 주운 장비는 가져가요."},
+    {t:"이기거나 지거나", x:"던전에 들어가면 막을 끝까지 돌파해야 그동안 얻은 경험치·골드를 가져가요. 전멸하거나 '↩ 후퇴'하면 골드는 잃지만, 주운 장비와 그때까지 쌓은 경험치의 절반은 가져가요."},
     {t:"쓰러짐", x:"쓰러진 동료는 다음 구역에서 저절로 일어나지 않아요. 부활 스킬이나 '쉼터'에서만 일어나요. 그럼 시작해 볼까요!"}]},
   party:{ name:"파티", steps:[
     {sel:".formboard", t:"진영", x:"출전은 최대 4명. 영웅을 앞줄·뒷줄·대기로 끌어다 놓거나, 영웅끼리 끌어서 자리를 바꿔요. 앞줄이 살아 있으면 뒷줄은 근접 공격을 받지 않아요. 대기 중인 영웅은 경험치를 받지 않아요."},
@@ -9028,13 +9049,28 @@ function eqSlotBtn(cid,sk){ const it=findEquipped(cid,sk), s=SLOTS.find(x=>x.key
   b.title=(it?[itemLabel(it),itemSummary(it)].concat(itemExtraText(it)):[`${s.label} — 비어 있음`]).concat(ENH_SLOTS.includes(sk)?[`부위 강화 +${E.l}${E.gilt?" (금 감)":""}`]:[]).join("\n");
   b.onclick=()=>openWornItem(cid,sk);
   return b; }
+// v0.55.2: 칸 옆 강화 단추 — 위: 현재 단계(+N, 재질 색), 아래: 성공률(또는 수리·최대). 누르면 바로 강화(비용은 길게 누르거나 칸을 눌러 확인)
+function enhSideBtn(cid,sk){
+  const b=document.createElement("button"); b.className="enhside"; const it=findEquipped(cid,sk);
+  if(!ENH_SLOTS.includes(sk)||(it&&it.noEnh)){ b.className+=" none"; b.disabled=true; b.innerHTML=`<b>—</b>`; b.title="강화할 수 없는 부위"; return b; }
+  const E=slotEnh(cid,sk), l=E.l, t=enhTier(l), s0=(SLOTS.find(x=>x.key===sk)||{label:sk}).label;
+  if(E.gilt){ const c=repairCost(cid,sk); b.className+=" gilt"; b.innerHTML=`<b class="enh ${t.cls}">+${l}</b><small>수리</small>`; b.title=`${s0} — 금이 감(능력치 -10%) · 수리: 골드 ${c.gold} · 정수 ${c.ess}`; b.disabled=progress.gold<c.gold||progress.ess<c.ess||runBusy();
+    b.onclick=e=>{ e.stopPropagation(); progress.gold-=c.gold; progress.ess-=c.ess; setSlotEnh(cid,sk,{gilt:false,gilded:true}); saveProgress(); renderParty(); logLine(`<span class="win">🔧 ${esc(heroDisplayName(cid))}의 ${esc(s0)} — 균열을 금으로 메웠다 (+3%, 금 무늬가 남는다)</span>`); }; return b; }
+  if(l>=ENH_MAX){ b.className+=" max"; b.disabled=true; b.innerHTML=`<b class="enh ${t.cls}">+${l}</b><small>최대</small>`; b.title=`${s0} — 최대 강화`; return b; }
+  const c=enhCost(cid,sk), rate=Math.min(1,ENH_RATE[l]+enhLuck(cid)), fr=enhFailRule(l);
+  b.innerHTML=`<b class="enh ${t.cls}">+${l}</b><small>${Math.round(rate*100)}%</small>`;
+  b.title=`${s0} 강화 +${l+1} — 성공 ${Math.round(rate*100)}% · 골드 ${c.gold} · 정수 ${c.ess}${fr.drop?` · 실패 시 ${fr.drop}단계 하락`:""}${fr.gilt?` · ${Math.round(fr.gilt*100)}% 확률로 금이 감`:""}`;
+  b.disabled=progress.gold<c.gold||progress.ess<c.ess||runBusy();
+  b.onclick=e=>{ e.stopPropagation(); tryEnhance(cid,sk); };
+  return b;
+}
 // 부위 창: 끼운 장비 정보 + 부위 강화(빈 칸도 강화할 수 있음)
 function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find(x=>x.key===sk); const E=slotEnh(cid,sk), canE=ENH_SLOTS.includes(sk);
   const enhLine=canE?`<div class="statline">🔨 부위 강화 <b class="enh ${enhTier(E.l).cls}">+${E.l}</b> (${enhTier(E.l).name})${E.gilt?' · <span class="gilt">금 감 — 능력치 -10%, 수리 가능</span>':E.gilded?" · 금으로 메움 +3%":""} — 이 칸에 무엇을 끼든 강화가 그대로 붙습니다</div>`:"";
   const head=it?`<div class="imhead">${iconCell(it,{enh:it.noEnh?null:E})}<div><h2 class="${rarityCls(it)}">${it.noEnh?"":enhTag(E)}${esc(itemDisplayName(it))}</h2><div class="statline">${esc(rarityLabel(it))} · ${esc(s.label)}${itemClassText(it)?" · "+esc(itemClassText(it)):""} · <span class="wornchip">${esc(heroDisplayName(cid))} 착용 중</span></div></div></div>`
     :`<div class="imhead"><span class="icell r-none ghost"><img src="${slotGhostURL(sk,cid)}" alt=""></span><div><h2>${esc(s.label)} <small style="color:var(--muted)">비어 있음</small></h2><div class="statline">${esc(heroDisplayName(cid))}의 ${esc(s.label)} 칸</div></div></div>`;
   const m=openModal(`${head}
-    <div class="imbody">${enhLine}${it?itemStatHTML(it)+itemExtraText(it).map(x=>`<div class="statline">${esc(x)}</div>`).join("")+(it.set?setInfoHTML(it,cid,null):""):""}</div><div class="imacts"></div><div class="mfoot"><button class="ghostbtn" id="imClose">닫기</button></div>`,"itemm");
+    <div class="imbody">${enhLine}${it?itemStatHTML(it)+(it.set?setInfoHTML(it,cid,null):""):""}</div><div class="imacts"></div><div class="mfoot"><button class="ghostbtn" id="imClose">닫기</button></div>`,"itemm");
   const acts=m.querySelector(".imacts");
   if(canE&&!(it&&it.noEnh)){ acts.appendChild(enhButton(cid,sk)); if(E.gilt) acts.appendChild(repairButton(cid,sk)); }
   if(it&&(it.affixes||[]).length){ const rb=document.createElement("button"); rb.textContent=`재련 (정수 ${reforgeCost(it).ess}~)`; rb.onclick=()=>openReforge(it); acts.appendChild(rb); }
@@ -9068,8 +9104,10 @@ function renderEquip(){
   const L=document.createElement("div"); L.className="panel eqleft";
   const picker=heroTabs(); picker.classList.add("eqpick"); L.appendChild(picker);
   const doll=document.createElement("div"); doll.className="eqdoll";
-  const cl=document.createElement("div"); cl.className="eqcol"; for(const k of DOLL_L) cl.appendChild(eqSlotBtn(cid,k));
-  const cr=document.createElement("div"); cr.className="eqcol"; for(const k of DOLL_R) cr.appendChild(eqSlotBtn(cid,k));
+  // v0.55.2: 부위 강화 단추를 칸 바로 옆에 — 왼쪽 칸은 오른쪽에, 오른쪽 칸은 왼쪽에 (칸을 눌러 창을 열지 않아도 강화·수치가 보임)
+  const pair=(k,side)=>{ const r=document.createElement("div"); r.className="eqpair "+side; const sb=eqSlotBtn(cid,k), eb=enhSideBtn(cid,k); if(side==="l") r.append(sb,eb); else r.append(eb,sb); return r; };
+  const cl=document.createElement("div"); cl.className="eqcol"; for(const k of DOLL_L) cl.appendChild(pair(k,"l"));
+  const cr=document.createElement("div"); cr.className="eqcol"; for(const k of DOLL_R) cr.appendChild(pair(k,"r"));
   const mid=document.createElement("div"); mid.className="eqmid";
   mid.appendChild(eqFigure(cid));
   const nm=document.createElement("div"); nm.className="eqname"; nm.innerHTML=`<b>${heroNameHTML(cid)}</b><span>Lv.${h.level}${h.awaken?` ✦${h.awaken}`:""} · ${esc(WEAPONS[D.wtype].name)}</span>`; mid.appendChild(nm);
@@ -9081,7 +9119,7 @@ function renderEquip(){
   if(progress._senhNote){ const n=document.createElement("div"); n.className="hintline"; n.style.color="var(--accent)";
     n.innerHTML=`🔨 강화가 <b>부위 강화</b>로 바뀌었습니다 — 끼고 있던 장비의 강화는 그 부위로 옮겼고, 이제 장비를 바꿔 껴도 강화가 그대로 붙습니다.${progress._senhNote.ref?` 가방 장비에 있던 강화는 밤의 정수 ${progress._senhNote.ref}로 돌려드렸습니다.`:""} <button class="mini" id="senhOk">확인</button>`;
     L.appendChild(n); setTimeout(()=>{ const b=$("senhOk"); if(b) b.onclick=()=>{ delete progress._senhNote; saveProgress(); renderParty(); }; },0); }
-  const tip=document.createElement("div"); tip.className="hintline"; tip.textContent=runBusy()?"🔒 던전 진행 중 — 장비는 마을에서 바꿀 수 있어요":"칸을 누르면 정보·강화 · ▲ = 가방에 더 좋은 장비"; L.appendChild(tip);
+  const tip=document.createElement("div"); tip.className="hintline"; tip.textContent=runBusy()?"🔒 던전 진행 중 — 장비는 마을에서 바꿀 수 있어요":"칸을 누르면 정보 · 옆 단추로 부위 강화 · ▲ = 가방에 더 좋은 장비"; L.appendChild(tip);
   pane.appendChild(L);
   // ── 오른쪽: 가방 ──
   const B=document.createElement("div"); B.className="panel eqbag";
@@ -9854,8 +9892,8 @@ function doRetreat(){
   logSink=null; markAct(null);
   if(runState.mode){ logLine(`<span class="lose">↩ 후퇴했다.</span>`); egEnd("retreat"); return; }
   const g=runState.gains, region=REGIONS[runState.regionKey];
-  const kept=runRestoreKeepItems(runState.bank);
-  logLine(`<span class="lose">↩ 후퇴 — 패배와 같이 이번 입장에서 얻은 경험치 ${g.exp} · 골드 ${g.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
+  const kept=runRestoreKeepItems(runState.bank,g.exp);
+  logLine(`<span class="lose">↩ 후퇴 — 패배와 같이 이번 입장에서 얻은 골드 ${g.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
   $("result").textContent=`후퇴(패배) — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
   saveProgress(); goCamp();
 }
@@ -10006,7 +10044,7 @@ function renderDungeonPicker(){
     const R=REGIONS[rk], ca=curAct(), dn=actsDone(progress.diff,rk), n=(progress.cl[progress.diff]||{})[rk]||0;
     const acts=[1,2,3].map(a=>{ const op=actOpen(progress.diff,rk,a); return `<button class="${a===ca?"on":""}" ${op?`onclick="dpSetAct(${a})"`:"disabled"}>${op?"":"🔒 "}<b>${a}막</b> ${esc(actName(rk,a))}${a<=dn?" ✓":""}<small>${esc(a<3?ACTS[rk][a-1].mid.label:bossLabel(rk))}</small></button>`; }).join("");
     const wd=wardsFor(progress.diff,rk,false);
-    body=`<div class="dpgrid">${cards}</div><div class="dpsel"><div class="dph"><b>${esc(R.chapter)} ${esc(R.name)}</b><span>${n?`클리어 ${n}회`:dn?`${dn}/3막`:"첫 도전"}${wd.length?` · 🛡 ${wd.map(w=>WARDS[w].name).join("·")}`:""}</span></div><div class="dpactbtns">${acts}</div></div>`;
+    body=`<div class="dpgrid">${cards}</div><div class="dpsel"><div class="dph"><b>${esc(R.chapter)} ${esc(R.name)}</b><span>${n?`클리어 ${n}회`:dn?`${dn}/3막`:"첫 도전"}${wd.length?` · 🛡 ${wd.map(w=>WARDS[w].name).join("·")}`:""}</span></div><div class="dpactbtns">${acts}</div>${bossInfoHTML(rk,ca)}</div>`;
   } else {
     const cur=egModeOf()||"tower";
     body=`<div class="dpeg">${EG_KEYS.map(k=>`<button class="dpc eg${k===cur?" on":""}" onclick="dpSetEg('${k}')"><span class="dpegi">${EG_MODES[k].icon}</span><span class="dpt"><b>${esc(EG_MODES[k].name)}</b></span><span class="dpd">${esc(EG_MODES[k].desc)}</span></button>`).join("")}</div>`
@@ -10022,6 +10060,16 @@ function dpSetDiff(i){ if(i==="eg"){ dpTab="eg"; if(!egModeOf()){ progress.egMod
   dpTab=i; progress.egMode=null; if(i!==progress.diff){ $("diffSel").value=String(i); progress.diff=i; if(!regionUnlocked(progress.lastRegion)) progress.lastRegion="swamp"; saveProgress(); renderRegionSel(); goCamp(); } else { saveProgress(); goCamp(); } renderDungeonPicker(); }
 function dpSetRegion(k){ progress.egMode=null; progress.lastRegion=k; saveProgress(); goCamp(); renderDungeonPicker(); }
 function dpSetAct(a){ setAct(a); renderDungeonPicker(); }
+// v0.55.2: 고른 막의 우두머리(1·2막 중간보스 · 3막 보스)가 쓰는 기술 — 조건 → 기술 · 대상 · 효과 (몬스터 규칙 그대로 읽어 줌)
+function bossInfoHTML(rk,a){ try{
+  const key=a<3?ACTS[rk][a-1].mid.key:REGIONS[rk].boss, B=MOBS[key]; if(!B||!B.rules) return "";
+  const rows=B.rules.filter(r=>r.enabled!==false&&r.skill!=="basic_attack").map(r=>{ const S=skillSpec(r.skill); if(!S) return "";
+    const cond=COND[r.c1|0]?COND[r.c1|0].label:"항상", tg=S.tags.filter(t=>t.c==="tgt"||t.c==="rng").map(t=>t.t).join("·");
+    const eff=[S.main].concat(S.rows.filter(x=>x.k==="st").map(x=>x.t)).filter(Boolean).join(" · ");
+    return `<li><i>${esc(cond)}</i><b>${esc(S.name)}</b><span>${tg?`<em>${esc(tg)}</em> `:""}${esc(eff)}</span></li>`; }).join("");
+  const small=innerHeight<=560;
+  return `<details class="dpboss"${small?"":" open"}><summary><img src="${SPRITES[B.sprite]}" alt=""><b>${esc(a<3?"중간보스":"보스")} ${esc(B.name)}</b><span>쓰는 기술 ${B.rules.filter(r=>r.skill!=="basic_attack").length}개</span></summary><ul>${rows}</ul></details>`;
+}catch(e){ return ""; } }
 function dpSetEg(k){ progress.egMode=k; saveProgress(); goCamp(); renderDungeonPicker(); }
 function dpEnter(){ closeModal(); mainButton(); setMainBtn(); }
 function mainButton(){
@@ -10040,6 +10088,7 @@ function startRun(){
   $("log").innerHTML=""; logSink=null; curTurn=0;
   $("result").textContent=""; $("result").className="result";
   ruleHits={}; ruleHitsSeen=true; torchSpend("던전 입장"); runState.bank=runBankTake();
+  try{ if(speedRoomCleared()&&parseInt($("speed").value,10)>320) setSpeed(320); }catch(e){}   // v0.55.2: 이미 깬 막은 '빠르게'로 시작(더 빠른 속도를 골라 뒀다면 그대로)
   spawnField([...runState.party]);   // v0.33: 입장하자마자 그 막 무대로(이야기 자막 동안 마을 모닥불이 남지 않게)
   showTab("dungeon"); setZoneLine(); renderHud();
   const nb=runState.zones.filter(z=>z.type==="battle").length;
@@ -10077,10 +10126,10 @@ async function resolveRest(){
     else u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.5));
     u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*0.5));
   }
-  logLine(`<span class="heal">파티 전원 체력·마나 50% 회복 (쓰러진 동료도 일어남) — 이어서 구역 정비 회복도 받습니다</span>`);
+  logLine(`<span class="heal">파티 전원 체력·마나 50% 회복 (쓰러진 동료도 일어남)</span>`);
   spawnField([...runState.party]);
   playing=true; setMainBtn();
-  await showBanner(`<span class="txt narr">🔥 쉼터 — 모닥불 곁에서 숨을 고른다. 체력·마나 50% 회복 (+구역 정비)</span>`, 1600);
+  await showBanner(`<span class="txt narr">🔥 쉼터 — 모닥불 곁에서 숨을 고른다. 체력·마나 50% 회복</span>`, 1600);
   playing=false;
   advanceZone();
 }
@@ -10349,15 +10398,15 @@ function endZoneBattle(ev,zone){
     }
   } else if(runState.mode){ egEnd(ev.result==="lose"?"lose":"draw");
   } else if(ev.result==="lose"){
-    const kept=runRestoreKeepItems(runState.bank);
-    logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 경험치 ${runState.gains.exp} · 골드 ${runState.gains.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
+    const kept=runRestoreKeepItems(runState.bank,runState.gains.exp);
+    logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 골드 ${runState.gains.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
     logLine(`<span class="r">능력치·장비·스킬북·규칙 — 네 가지 중 무엇이든 강해질 길이 있습니다.</span>`);
     $("result").textContent=`패배 — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
     saveProgress();
     goCamp();
   } else {
-    const kept=runRestoreKeepItems(runState.bank);
-    logLine(`<span class="lose">⌛ 턴 제한(${ev.max||TURN_LIMIT}턴) — 승부를 내지 못해 패배. 경험치·골드는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
+    const kept=runRestoreKeepItems(runState.bank,runState.gains.exp);
+    logLine(`<span class="lose">⌛ 턴 제한(${ev.max||TURN_LIMIT}턴) — 승부를 내지 못해 패배. 골드는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
     $("result").textContent=`패배(턴 제한) — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
     saveProgress(); goCamp();
   }
@@ -10376,11 +10425,8 @@ function advanceZone(){
   runState.zone++;
   for(const u of runState.party){
     if(!u.alive){ u.hp=0; u.buffs={}; u.dots={}; continue; }   // v0.32: 쓰러진 동료는 다음 구역에서 저절로 일어나지 않음 — 부활 스킬·쉼터·회복 이벤트로만
-    u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.25));
-    u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*0.50));
-    u.buffs={}; u.dots={}; u.taunted_by="";
+    u.buffs={}; u.dots={}; u.taunted_by="";   // v0.55.2: 구역 사이 회복 없음 — 직전 구역을 마친 체력·마나 그대로 다음 구역으로(효과·지속 피해만 풀림)
   }
-  logLine(`<span class="r">구역 사이에서 잠시 정비했다 (체력·마나 일부 회복).</span>`);
   spawnField([...runState.party]);
   setZoneLine();
   saveProgress();   // 다음 구역 번호까지 저장 — 새로 고침해도 같은 자리에서 이어짐
@@ -11203,8 +11249,7 @@ async function coopLoop(){
       else if(run.mode==="raid"){ if(z.phase>=3){ coopEnd("clear"); return; } }
       else if(z.boss||z.actEnd){ coopEnd("clear"); return; } }
     // 구역 사이 정비(혼자 하기와 같은 규칙)
-    for(const u of run.party){ if(!u.alive){ u.hp=0; continue; } u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.25));   // v0.32: 쓰러진 동료는 그대로
-      u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*0.5)); u.buffs={}; u.dots={}; u.taunted_by=""; }
+    for(const u of run.party){ if(!u.alive){ u.hp=0; continue; } u.buffs={}; u.dots={}; u.taunted_by=""; }   // v0.55.2: 구역 사이 회복 없음(혼자 하기와 같은 규칙)
     run.z++; coopPushRoom(); saveProgress(); setMainBtn();
     // 방장과 보조 맞추기: 방장이 아니면 방장이 다음 구역에 들어설 때까지(최대 25초) 기다림
     if(!COOP.isHost&&run.z<run.zones.length){ const t0=Date.now();
@@ -11273,7 +11318,7 @@ async function coopBattle(run,z){
 function coopEnd(res){
   const run=COOP.run; if(!run) return;
   if(run.mode){ coopEgEnd(run,res); return; }
-  if(res!=="clear"&&res!=="gone"&&res!=="err"&&run.bank){ const kept=runRestoreKeepItems(run.bank); logLine(`<span class="lose">이번 함께하기에서 얻은 경험치·골드는 잃었다${kept?` — ${kept}는 가져간다`:""}.</span>`); }
+  if(res!=="clear"&&res!=="gone"&&res!=="err"&&run.bank){ const kept=runRestoreKeepItems(run.bank,run.gains.exp,[...new Set([run.myCid].concat((run.myCids||[]).length&&run.mode?coopHeroList(+(COOP.hostRun||{}).k||coopHeroCount()):[]))]); logLine(`<span class="lose">이번 함께하기에서 얻은 골드는 잃었다${kept?` — ${kept}는 가져간다`:""}.</span>`); }
   const R=REGIONS[run.rk], D=DIFFS[run.d], g=run.gains;
   if(res==="clear"){ progress.coopClears=(progress.coopClears||0)+1;
     logLine(`<span class="win">★ 함께하기 클리어 — ${D.icon} ${D.name} · ${R.chapter} ${esc(R.name)}!</span>`);
