@@ -681,7 +681,7 @@ input[type=checkbox]{accent-color:var(--accent); width:18px; height:18px}
 .autoloot button.arm{background:#4a2020; border-color:#ff8577; color:#ffb0a8}
 .rar-common{color:var(--r-common)} .rar-fine{color:var(--r-fine)} .rar-rare{color:var(--r-rare)} .rar-epic{color:var(--r-epic)} .rar-legend{color:var(--r-legend); text-shadow:0 0 6px #ffb34755} .rar-mythic{color:var(--r-mythic); text-shadow:0 0 7px #ff7ad977} .rar-set{color:var(--r-set)}
 .rsq{width:32px; height:32px; flex:none; border-radius:8px; border:2px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; background:var(--bg)}
-.enh{color:#f4c95d; font-weight:700} .enh.m-iron{color:#b4bddc} .enh.m-steel{color:#dfe6f3} .enh.m-mithril{color:#8fd0ff} .enh.m-obsidian{color:#c9a7ff; text-shadow:0 0 5px #c9a7ff66} .enh.m-starsteel{color:#fff1b8; text-shadow:0 0 7px #f4c95d}
+.enh{color:#f4c95d; font-weight:700} .enh.m-iron{color:#b4bddc} .enh.m-steel{color:#dfe6f3} .enh.m-mithril{color:#8fd0ff} .enh.m-obsidian{color:#c9a7ff; text-shadow:0 0 5px #c9a7ff66} .enh.m-starsteel{color:#fff1b8; text-shadow:0 0 7px #f4c95d} .enh.m-abyss{color:#ff9bd6; text-shadow:0 0 8px #b04cff}
 .gilt{color:#c9a24a; font-size:12px} .clsreq{color:var(--muted); font-weight:400; font-size:12.5px; margin-left:4px}
 .hero .title{color:#ffb347; font-weight:700} .hero .awk{color:#ffd97a}
 .stance{display:flex; gap:6px; align-items:center; flex-wrap:wrap; font-size:14px}
@@ -1261,7 +1261,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.58 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.59 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1368,6 +1368,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.59: <b>🌑 밤의 심연</b> — 함께하기 전용 최종 콘텐츠(2명 이상, 주 5회). 다섯 층에 법칙이 하나씩 붙습니다: 1층 🔇침묵(마법사·성직자·음유시인의 공격이 안 통함) · 2층 🔄역전(치유받으면 다음 차례에 공격 못함) · 3층 🪞거울(준 피해의 25%가 되돌아옴) · 4층 ♊쌍둥이(둘을 함께 쓰러뜨려야 함) · 5층 🌑심연(네 법칙이 턴마다 돌아감). 깬 층마다 각자 동행의 증표(그 주 처음 깬 층은 2배 · 증표 상점은 다음 업데이트)를 받고, 1~4층은 25%로 · 5층은 확정으로 심연 룬(전설보다 높은 능력치 + 법칙을 무시하는 각인)이 나옵니다. 5층을 깨면 심연 핵(이번 주 첫 클리어) 또는 핵 조각(3개 = 핵 1). 심연 핵으로 +15 부위의 한계를 열면 +18(심연철)까지 강화할 수 있습니다(+16~+18 성공률 5·3·2%).<br>
 v0.58: <b>🎨 외형 상점</b> — 상점에 '🎨 외형' 탭이 생겼습니다. 망토 8 · 무기 외형 8 · 오라 색 10 · 이펙트 테마 8 · 전투 숫자 6 · 치명타 연출 8 · 명함 틀 9 · 명함 스티커 24 · 모닥불 장식 16가지를 움직이는 미리보기로 보고 💎 새벽 결정으로 삽니다(전투력은 그대로). 망토·무기·오라 색은 주인공에게, 이펙트·숫자·치명타는 내 화면의 전투에, 틀·스티커는 명함에, 장식은 마을 쉼터 모닥불 곁에 보입니다. 아트 패스 시즌 1 외형(별빛 베일 · 달빛 무기 · 룬 마법진 · 둥근 숫자 · 달빛 수정 · 달 스티커 · 달빛 오라)도 받으면 바로 착용할 수 있습니다.<br>
 v0.57: <b>동료 규칙도 직접</b> — 동료(주인공이 아닌 영웅)의 자동전투 규칙도 주인공처럼 직접 짭니다. 동료는 더 이상 규칙을 스스로 다시 짜지 않고(능력치·특성·전직·숙련은 그대로 스스로), 전직·스킬북으로 새 스킬이 생기면 빈 칸에 넣어 줍니다. 처음엔 자동전투 탭의 '작전 성향대로 채우기'로 시작할 수 있습니다. 대상 고르기도 모두 같아졌습니다('자동(스스로 판단)' 없음).
 v0.56.1: 가방은 기본 30칸(정액 +20) — 가득 차면 새 장비를 줍지 못합니다(자동 판매·분해는 칸을 쓰지 않고, 같은 룬은 몇 개든 1칸). 입장 때 가득 차 있으면 알려 줍니다. 최종 콘텐츠는 주간 입장 횟수가 생겼습니다 — 탑 10 · 레이드 5 · 원정 5(월요일 초기화), 다 쓰면 입장권으로(정액은 매주 5장).
@@ -2334,7 +2335,7 @@ function buildMobUnit(spec,idx,d,rk){
   const u=makeUnit(`${spec.key}_${idx}`,name,"enemy",m.row,st,skills,m.rules.map(r=>({...r})),m.passive||"",m.sprite,!!(m.boss||spec.chief||spec.finalBoss),[],(spec.finalBoss||spec.named)?(m.quotes||null):null);
   u.isBossKind=!!(m.boss||spec.finalBoss||spec.named); u.finalBoss=!!spec.finalBoss; u.named=!!spec.named;
   if(u.isBossKind){ u.lane=Number.isInteger(m.lane)?m.lane:(m.row==="back"?2:1); u.lanePin=true; }   // v0.43: 보스는 정해진 가로줄에 — 그 줄의 영웅을 노리는 기술을 미리 읽을 수 있게
-  u.tint=m.tint||""; u.elite=!!(spec.elite||spec.chief); u.affixes=spec.affixes||[];
+  u.tint=m.tint||""; u.elite=!!(spec.elite||spec.chief); u.affixes=spec.affixes||[]; if(spec.twin) u.twin=true;
   for(const a of u.affixes) applyAffix(u,a);
   u.immune={}; u.wards=wardsFor(d,rk,u.isBossKind); for(const w of u.wards) WARDS[w].f(u);
   if(d>=2&&u.wards.length) u.res=Math.min(0.75,u.res+0.1);
@@ -2627,8 +2628,9 @@ const RUNE_KEYS=Object.keys(RUNES);
 // v0.38: 룬 등급 — 일반~전설. 높을수록 능력치가 큼(조건 해금은 같음). 소켓에는 "룬@등급"으로 저장(예전 저장 "룬"은 희귀)
 const RUNE_RAR={common:{w:44,m:1},fine:{w:30,m:1.5},rare:{w:17,m:2},epic:{w:7,m:3},legend:{w:2,m:4}};
 function runeK(s){ return String(s||"").split("@")[0]; }
-function runeR(s){ const r=String(s||"").split("@")[1]; return RUNE_RAR[r]?r:"rare"; }
-function runeStat(k,rar){ const R=RUNES[k]; if(!R) return {}; const m=(RUNE_RAR[rar]||RUNE_RAR.rare).m, o={}; for(const [a,v] of Object.entries(R.stat)) o[a]=Math.max(1,Math.round(v*m)); return o; }
+function runeR(s){ const r=String(s||"").split("#")[0].split("@")[1]; return RUNE_RAR[r]?r:"rare"; }
+function runeAb(s){ const a=String(s||"").split("#")[1]; return a?a.split("+").filter(t=>ABYSS_LAWS[t]):[]; }   // v0.59 심연 룬 각인(소켓 글자 "룬@legend#silence+mirror")
+function runeStat(k,rar,ab){ const R=RUNES[k]; if(!R) return {}; const m=ab?5:(RUNE_RAR[rar]||RUNE_RAR.rare).m, o={}; for(const [a,v] of Object.entries(R.stat)) o[a]=Math.max(1,Math.round(v*m)); return o; }
 function rollRuneRar(d){ const W=Object.entries(RUNE_RAR).map(([k,x],i)=>({key:k,w:x.w*(i>=2?1+0.6*(d||0):1)})); return weightedPick(W); }
 /* 군단장 유물 — 7군단장 각각의 유물. 그 군단장의 특기를 조건으로 연다 + 작은 패시브. 지역 보스에게서 드물게 */
 const RELICS={
@@ -2680,8 +2682,10 @@ const STAR_BIG_COST=10;
 function starOpen(cid){ return progress.heroes[cid].level>=STAR_LV; }
 /* 강화 15단계 · 재질 5티어 (v0.55.4: 금 감 없음 · 실패는 한 단계 하락만) */
 const ENH_MAX=15;
-const ENH_RATE=[1,1,1,0.95,0.9,0.85,0.75,0.65,0.55,0.45,0.35,0.28,0.2,0.14,0.08];   // v0.55.4: 윗단계 성공률 크게 낮춤(+10→45% … +14→8%) — 하락이 한 단계뿐인 대신
-const ENH_TIERS=[{min:0,name:"철",cls:"m-iron"},{min:4,name:"강철",cls:"m-steel"},{min:7,name:"미스릴",cls:"m-mithril"},{min:10,name:"흑요석",cls:"m-obsidian"},{min:13,name:"별철",cls:"m-starsteel"}];
+const ENH_RATE=[1,1,1,0.95,0.9,0.85,0.75,0.65,0.55,0.45,0.35,0.28,0.2,0.14,0.08,0.05,0.03,0.02];   // v0.59: +16~+18은 심연 핵으로 연 부위만   // v0.55.4: 윗단계 성공률 크게 낮춤(+10→45% … +14→8%) — 하락이 한 단계뿐인 대신
+const ENH_TIERS=[{min:0,name:"철",cls:"m-iron"},{min:4,name:"강철",cls:"m-steel"},{min:7,name:"미스릴",cls:"m-mithril"},{min:10,name:"흑요석",cls:"m-obsidian"},{min:13,name:"별철",cls:"m-starsteel"},{min:16,name:"심연철",cls:"m-abyss"}];
+const ENH_ABYSS=18;   // v0.59: 심연 핵으로 부위 한계를 열면 +18까지
+function slotMax(cid,sk){ const H=progress&&progress.heroes[cid]; return H&&H.sopen&&H.sopen[sk]?ENH_ABYSS:ENH_MAX; }
 function enhTier(l){ let t=ENH_TIERS[0]; for(const x of ENH_TIERS) if(l>=x.min) t=x; return t; }
 /* v0.45 부위 강화 — 강화는 장비가 아니라 영웅의 '부위'(무기·보조·투구 … 목걸이, 유물 제외)에 쌓인다.
    장비를 바꿔 껴도 그 부위의 강화가 그대로 새 장비에 붙는다. 금 감·금 메움도 부위에 남는다. */
@@ -2697,7 +2701,7 @@ function enhSummaryText(cid){ const S=enhSummary(cid); if(!S) return ""; const L
   const P=[["crit","치명"],["acc","명중"],["eva","회피"],["pen","관통"],["res","저항"]].filter(([k])=>S.gain[k]).map(([k,l])=>`${l} +${S.gain[k]}%`);
   return L.concat(P).join(" · "); }
 function setSlotEnh(cid,sk,o){ const H=progress.heroes[cid]; H.senh=H.senh||{}; H.sgilt=H.sgilt||{}; H.sgild=H.sgild||{};
-  if(o.l!=null) H.senh[sk]=Math.max(0,Math.min(ENH_MAX,o.l)); if(o.gilt!=null){ if(o.gilt) H.sgilt[sk]=true; else delete H.sgilt[sk]; } if(o.gilded!=null){ if(o.gilded) H.sgild[sk]=true; else delete H.sgild[sk]; } }
+  if(o.l!=null) H.senh[sk]=Math.max(0,Math.min(slotMax(cid,sk),o.l)); if(o.gilt!=null){ if(o.gilt) H.sgilt[sk]=true; else delete H.sgilt[sk]; } if(o.gilded!=null){ if(o.gilded) H.sgild[sk]=true; else delete H.sgild[sk]; } }
 function slotOfItem(cid,id){ const eq=progress.heroes[cid].equip; return Object.keys(eq).find(k=>eq[k]===id)||null; }
 // 장비가 끼워진 자리의 강화(가방에 있으면 강화 없음)
 function itemEnh(it){ if(!it||it.noEnh) return null; try{ for(const c of CLASS_IDS){ const sk=slotOfItem(c,it.id); if(sk&&ENH_SLOTS.includes(sk)) return slotEnh(c,sk); } }catch(e){} return null; }
@@ -4236,7 +4240,9 @@ class Sim {
     this.lastSkill={party:null,enemy:null}; // 메아리가 따라 할 직전 아군 스킬
     this.beat={party:false,enemy:false};    // 군악사 강박 턴
     this._momSpent=0; this._launchNow=false;
+    this.law=null; this._abLaw=null;   // v0.59 밤의 심연 법칙
   }
+  lawOn(k){ return this.law===k||(this.law==="abyss"&&this._abLaw===k); }
   /* ---- v0.26 연계 도우미 ---- */
   opp(side){ return side==="party"?"enemy":"party"; }
   isAir(u){ return !!(u&&u.buffs&&u.buffs.air); }
@@ -4666,6 +4672,9 @@ class Sim {
     }
     target.hp=Math.max(0,target.hp-d);
     target._dmgTaken=(target._dmgTaken||0)+d;
+    if(this.law&&d>0&&target.side==="enemy"){ if(target.twin) target._twinHit=true;   // v0.59 쌍둥이 · 거울
+      const a=this._actor; if(a&&a.side==="party"&&a.alive&&!this._reflecting&&this.lawOn("mirror")){ const rd=Math.floor(d*0.25*(a.traits&&a.traits.ab_mirror?0.5:1));
+        if(rd>0){ this._reflecting=true; const pa=this._actor; this._actor=target; this.hit(a,rd,fx,{label:"거울 — 되돌아온 피해"}); this._actor=pa; this._reflecting=false; } } }
     if(d>0&&this.hasPassive(target,"monk_inner")) target._inner=Math.min(Math.floor(target.hp_max*0.3),(target._inner||0)+Math.floor(d*0.3));
     if(d>0&&target.hp>0&&target.traits&&target.traits.hit_shield&&this.rand()<0.25){ const cap=Math.floor(target.hp_max*0.4), add=Math.floor(target.hp_max*0.08); const bf=target.shield||0; target.shield=Math.min(cap,bf+add); if(target.shield>bf) fx.push(this.fxBuff(target,`보호막 ${target.shield}`)); }
     let killed=target.hp<=0;
@@ -4838,6 +4847,8 @@ class Sim {
           const prevA=this._actor; this._actor=def; this._countering=true; this.hit(att,cr.dmg,fx,{crit:cr.crit,label:"흐름 — 받아넘기기"}); this._countering=false; this._actor=prevA; }
         return; }
     }
+    if(this.law&&this.lawOn("silence")&&att.side==="party"&&def.side==="enemy"&&MAGIC_CLS.has(att.cls)&&!(att.traits&&att.traits.ab_silence)){   // v0.59 침묵
+      fx.push({target:def.id,kind:"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:"침묵 — 마법 면역"}); return; }
     const r=this.calcDamage(att,def,skill);
     if(r.crit){ att._critsTotal=(att._critsTotal||0)+1; att._critNow=true; }
     const pzBefore=def.dots.poison?Object.assign({},def.dots.poison):null;
@@ -5074,6 +5085,7 @@ class Sim {
     const act=this.pickAction(u);
     const {skill,targets}=act;
     if(!targets.length){ this.events.push({type:"log",text:`${u.name}: 행동할 대상이 없다.`}); return; }
+    if(u._revLock){ u._revLock=false; if(this.law&&this.lawOn("reverse")&&targets.some(t=>t.side!==u.side)){ this.events.push({type:"log",text:`🔄 역전 — 치유받은 ${u.name}은(는) 이번 차례에 공격하지 못한다.`}); return; } }   // v0.59
     u._mpBefore=u.mp; u._kills=0; this._actor=u; this._acting=u; this._curSkill=skill; u._critNow=false;
     if(u.side==="party"&&skill.id){ u._skillUse[skill.id]=(u._skillUse[skill.id]||0)+1; }
     const fx=[];
@@ -5256,6 +5268,7 @@ class Sim {
     this.events.push({type:"action",actor:u.id,actorName:u.name,side:u.side,
       ruleNo:act.ruleNo, ruleText:act.rule?this.ruleText(act.rule):"",
       skillName:skill.name+(skill.shape&&SHAPES[skill.shape]?` · ${SHAPES[skill.shape].n}`:""), shape:skill.shape||null, actorMp:u.mp, effects:fx});
+    if(this.law&&this.lawOn("reverse")&&u.side==="party") for(const f of fx) if(f.kind==="heal"&&f.amount>0&&f.target!==u.id){ const t=this.byId(f.target); if(t&&t.side==="party"&&!(t.traits&&t.traits.ab_reverse)) t._revLock=true; }   // v0.59 역전
     this.checkQuotes();
     this._actor=null; this._acting=null; this._curSkill=null;
     if(this._chargeTarget){ const ct=this._chargeTarget; this._chargeTarget=null;
@@ -5324,6 +5337,14 @@ class Sim {
       this.events.push({type:"log",text:`${u.name}의 대합창 — 아군 전체의 공격력이 2턴간 오른다.`}); }
   }
   // 행동 순서: 띄움·휘청이면 맨 뒤, 군악사 오라 아래 앞줄은 신속 +2
+  // v0.59 쌍둥이: 하나만 다치면 다른 쪽만큼 회복 · 하나가 쓰러져도 다른 하나가 살아 있으면 되살아남
+  twinsRoundEnd(){ const tw=this.units.filter(x=>x.side==="enemy"&&x.twin); for(const x of tw){ const hit=x._twinHit; x._twinHit=false; x._tw=hit; }
+    if(tw.length<2||!this.lawOn("twins")) return; const [a,b]=tw;
+    const fix=(lo,hi,dead)=>{ const pct=hi.hp/hi.hp_max, nh=Math.max(1,Math.round(lo.hp_max*pct)); if(!dead&&nh<=lo.hp) return; const was=lo.hp;
+      if(dead){ lo.alive=true; lo.dots={}; lo.buffs={}; } lo.hp=nh; this.events.push({type:"action",auto:true,actor:lo.id,actorName:lo.name,side:"enemy",ruleNo:0,ruleText:"",skillName:"♊ 쌍둥이의 끈",actorMp:lo.mp,
+        effects:[{target:lo.id,kind:dead?"revive":"heal",amount:dead?nh:nh-was,crit:false,killed:false,hp:lo.hp,mp:lo.mp,label:dead?"쌍둥이의 끈 — 되살아남":"쌍둥이의 끈"}]}); };
+    if(a.alive&&!b.alive) fix(b,a,true); else if(b.alive&&!a.alive) fix(a,b,true);
+    else if(a.alive&&b.alive){ if(a._tw&&!b._tw) fix(a,b,false); else if(b._tw&&!a._tw) fix(b,a,false); } }
   ordSpd(x){ let v=x.spd; if(x.buffs.air||x.buffs.stagger) v-=1000;
     if(x.row==="front"&&this.units.some(b=>b.alive&&b.side===x.side&&b._aura&&this.hasPassive(b,"downbeat"))) v+=2; return v; }
   sideAlive(side){ return this.units.some(x=>x.alive&&x.side===side); }
@@ -5364,6 +5385,7 @@ class Sim {
         }
       }
       this.turnStart();
+      if(this.law==="abyss"){ const R=["silence","reverse","mirror","twins"]; this._abLaw=R[(this.turn-1)%4]; const L=ABYSS_LAWS[this._abLaw]; this.events.push({type:"log",text:`🌑 심연의 법칙 — 이번 턴은 ${L.icon} ${L.n}: ${L.d}`}); }
       this.turnStart26();
       for(const u of this.units) if(u.alive&&u._hasteTurns){ if(--u._hasteTurns===0) u.spd-=4; }
       if(this.turn===2) for(const u of this.units) if(u._fsp){ u.spd-=u._fsp; u._fsp=0; }
@@ -5421,6 +5443,7 @@ class Sim {
         this.tickBuffs(u,had);
         if(this.over()) break;
       }
+      if(this.law&&!this.over()) this.twinsRoundEnd();
     }
     let result="draw";
     if(this.sideAlive("party")&&!this.sideAlive("enemy")) result="win";
@@ -5448,12 +5471,13 @@ const AURA_SLOTS=["weapon","offhand","helm","armor","gloves","boots","cape","rin
 function enhTierIdx(l){ let i=0; ENH_TIERS.forEach((x,k)=>{ if(l>=x.min) i=k; }); return i; }
 function heroAvgEnh(cid){ let s=0; for(const sl of AURA_SLOTS) s+=slotEnh(cid,sl).l; return s/AURA_SLOTS.length; }
 function heroLook(cid){ const h=progress.heroes[cid]; if(!h) return null; const spr=(h.adv&&HERO_DOTS[h.adv])?h.adv:cid; const ar=findEquipped(cid,"armor"), hm=findEquipped(cid,"helm"), oh=findEquipped(cid,"offhand");
-  const lk={spr, w:heroWeaponType(cid), ar:ar?ar.rarity:null, hm:hm?hm.rarity:null, aura:enhTierIdx(Math.floor(heroAvgEnh(cid)))};
+  const lk={spr, w:heroWeaponType(cid), ar:ar?ar.rarity:null, hm:hm?hm.rarity:null, aura:Math.min(4,enhTierIdx(Math.floor(heroAvgEnh(cid))))};
   if(HERO_DOTS[spr]&&HERO_DOTS[spr].shield){ if(oh) lk.sh=oh.rarity; else lk.ns=true; }
-  if(isProtag(cid)){ lk.pc=true; const E=cosEq(); if(E.cape!=="cape_crimson") lk.cp=E.cape; if(E.wskin!=="ws_steel") lk.ws=E.wskin; if(E.aura!=="aura_base") lk.ac=E.aura; }   // 주인공: 진홍 망토 · v0.58 외형   // 방패를 드는 그림: 보조장비를 끼면 방패, 안 끼면 빈손
+  if(isProtag(cid)){ lk.pc=true; const E=typeof cosEq==="function"?cosEq():null; if(E){ if(E.cape!=="cape_crimson") lk.cp=E.cape; if(E.wskin!=="ws_steel") lk.ws=E.wskin; if(E.aura!=="aura_base") lk.ac=E.aura; } }   // 주인공: 진홍 망토 · v0.58 외형   // 방패를 드는 그림: 보조장비를 끼면 방패, 안 끼면 빈손
   return lk; }
 function equippedItems(cid){ return heroSlots().map(s=>findEquipped(cid,s)).filter(Boolean); }
 function heroEquipTotals(cid){
+  const abyss=new Set();   // v0.59 심연 룬 각인
   const t={}; const procs=[]; const sets={}; const pct={}; const conds=[]; const uniques=[]; const cuniqs=[]; const runes=[]; let wtype=null, offhand=null, relic=null, relicSt=1, mythic=null; const engraves=[];
   for(const sk of heroSlots()){ const it=findEquipped(cid,sk); if(!it) continue;
     const st=effStats(it,it.noEnh?null:slotEnh(cid,sk));   // v0.45: 부위 강화
@@ -5469,13 +5493,13 @@ function heroEquipTotals(cid){
     if(it.engrave) engraves.push(it.engrave);
     if(it.proc) procs.push(it.proc);                       // 예전 세이브 호환
     if(it.set) sets[it.set]=(sets[it.set]||0)+1;
-    for(const r of (it.sockets||[])) if(r){ runes.push(runeK(r)); for(const [k,v] of Object.entries(runeStat(runeK(r),runeR(r)))) t[k]=(t[k]||0)+v; }   // v0.36: 끼운 룬의 능력치도 더함(카드 표시대로)
+    for(const r of (it.sockets||[])) if(r){ runes.push(runeK(r)); const ab=runeAb(r); for(const x of ab) abyss.add(x); for(const [k,v] of Object.entries(runeStat(runeK(r),runeR(r),ab.length>0))) t[k]=(t[k]||0)+v; }   // v0.36: 끼운 룬의 능력치도 더함(카드 표시대로)
     if(it.slot==="weapon") wtype=it.wtype||null;
     if(it.slot==="offhand") offhand=it;
     if(it.slot==="relic"){ relic=it.relic; relicSt=relicStar(it); }
     if(it.mythic) mythic=it.mythic;
   }
-  return {t,procs,sets,pct,conds,uniques,cuniqs,runes,wtype,offhand,relic,relicSt,mythic,engraves};
+  return {t,procs,sets,pct,conds,uniques,cuniqs,runes,wtype,offhand,relic,relicSt,mythic,engraves,abyss:[...abyss]};
 }
 function setEffects(sets){
   const out=[];
@@ -5535,6 +5559,7 @@ function heroDerived(cid){
   if(traits.relic_bark) traits.dmg_cut=(traits.dmg_cut||0)+0.08;
   if(E.mythic&&MYTHIC[E.mythic]){ const My=MYTHIC[E.mythic]; for(const f of My.flags) traits[f]=true; if(My.amp) traits.skill_amp=(traits.skill_amp||0)+My.amp; }
   if(E.relic&&RELICS[E.relic]) for(const [k,v] of Object.entries(RELICS[E.relic].stat)){ /* 유물 능력치는 이미 effStats에 포함(아이템 base) */ }
+  for(const x of (E.abyss||[])) traits["ab_"+x]=true; if(traits.ab_twins) traits.aoe_mult=(traits.aoe_mult||1)*1.1;   // v0.59 심연 룬
   const unlocks=new Set(); for(const r of E.runes) if(RUNES[r]) unlocks.add(RUNES[r].cond); if(E.relic&&RELICS[E.relic]) unlocks.add(RELICS[E.relic].cond);
   // v0.26 직업 자원(최대치·시작값)
   const rk=c.res, of=(off&&off.flags)||{};
@@ -5686,18 +5711,18 @@ function speedSubFastest(){ return subActive()&&speedRoomClearedBase(); }   // �
 const BAG_BASE=30, BAG_SUB=20;   // v0.56.2: 기본 30칸 · 정액 +20. 가득 차면 더 못 줍는다(자동 판매·분해는 칸을 안 씀)
 function bagCap(){ return BAG_BASE+(subActive()?BAG_SUB:0); }
 // v0.56.3: 칸 수는 묶음으로 센다 — 같은 룬(종류·등급)은 몇 개든 1칸
-function runeKeyOf(it){ return it&&it.slot==="rune"?"rune|"+it.rune+"|"+it.rarity:null; }
+function runeKeyOf(it){ return it&&it.slot==="rune"?"rune|"+it.rune+"|"+it.rarity+(it.abyss&&it.abyss.length?"|"+it.abyss.join("+"):""):null; }
 function bagUsed(){ if(!progress) return 0; const keys=new Set(); let n=0; for(const it of progress.inv){ if(!it) continue; const k=runeKeyOf(it); if(k){ if(!keys.has(k)){ keys.add(k); n++; } } else n++; } return n; }
 function bagHasRoom(it){ const k=runeKeyOf(it); if(k&&progress.inv.some(x=>runeKeyOf(x)===k)) return true; return bagUsed()<bagCap(); }
 function bagOver(){ return progress&&bagUsed()>=bagCap(); }
 function bagGate(){ if(!bagOver()) return true; toast(`<span class="tc">🎒 가방이 가득</span>${bagUsed()}/${bagCap()}칸 — 이대로 들어가면 새 장비를 못 줍습니다. 장비 탭에서 판매·분해하거나 자동 정리를 켜 두세요.`,"",4200); return true; }
 // ---- 최종 콘텐츠 주간 입장 횟수(v0.56.1): 탑 10 · 레이드 5 · 원정 5 (매주 월요일 초기화) · 다 쓰면 입장권(정액은 매주 5장) ----
-const EG_WEEKLY={tower:10, raid:5, exped:5}, SUB_TICKETS=5;
+const EG_WEEKLY={tower:10, raid:5, exped:5, abyss:5}, SUB_TICKETS=5;
 function egEntries(){ const E=egState(); E.ent=E.ent&&E.ent.wk===E.wk?E.ent:{wk:E.wk,tower:0,raid:0,exped:0}; return E.ent; }
 function egTickets(){ const E=egState(); if(subActive()&&E.tkWk!==E.wk){ E.tkWk=E.wk; E.tickets=(E.tickets|0)+SUB_TICKETS; logLine(`<span class="gain">🌙 정액 — 이번 주 최종 콘텐츠 입장권 +${SUB_TICKETS}</span>`); } return E.tickets|0; }
 function egLeft(m){ return Math.max(0,EG_WEEKLY[m]-(egEntries()[m]|0)); }
 function egCanEnter(m){ return egLeft(m)>0||egTickets()>0; }
-function egEntryUse(m){ const ent=egEntries(); if(egLeft(m)>0){ ent[m]++; return "주간"; } const E=egState(); if((E.tickets|0)>0){ E.tickets--; logLine(`<span class="r">🎟 입장권 1장 사용 — 남은 입장권 ${E.tickets}장</span>`); return "입장권"; } return null; }
+function egEntryUse(m){ const ent=egEntries(); if(egLeft(m)>0){ ent[m]=(ent[m]|0)+1; return "주간"; } const E=egState(); if((E.tickets|0)>0){ E.tickets--; logLine(`<span class="r">🎟 입장권 1장 사용 — 남은 입장권 ${E.tickets}장</span>`); return "입장권"; } return null; }
 function egEntryText(m){ const l=egLeft(m), t=egTickets(); return `이번 주 입장 ${l}/${EG_WEEKLY[m]}${t?` · 입장권 ${t}장`:""}`; }
 function egGate(m){ if(egCanEnter(m)) return true; toast(`<span class="tc">${EG_MODES[m].icon} 이번 주 입장을 다 썼어요</span>${EG_MODES[m].name}은 주 ${EG_WEEKLY[m]}회 · 월요일에 다시 채워집니다${subActive()?"":" · 정액은 매주 입장권 5장"}`,"",4200); return false; }
 // ---- 새벽 상점 화면 ----
@@ -6269,7 +6294,10 @@ function makeSetItem(setKey,lootTier,opt={}){
   if(opt.from) it.from=opt.from;
   return finishItem(it);
 }
-function makeRune(key,rar,d){ const k=runeK(key)||RUNE_KEYS[ri(0,RUNE_KEYS.length-1)]; const R=RUNES[k]; const ra=rar||(key&&String(key).includes("@")?runeR(key):rollRuneRar(d)); return {id:newItemId(), slot:"rune", rune:k, rarity:ra, tier:0, name:R.name, base:runeStat(k,ra), affixes:[], enh:0}; }
+function makeRune(key,rar,d,ab){ const k=runeK(key)||RUNE_KEYS[ri(0,RUNE_KEYS.length-1)]; const R=RUNES[k]; const ra=rar||(key&&String(key).includes("@")?runeR(key):rollRuneRar(d)); ab=ab||runeAb(key);
+  const it={id:newItemId(), slot:"rune", rune:k, rarity:ab.length?"legend":ra, tier:0, name:R.name, base:runeStat(k,ra,ab.length>0), affixes:[], enh:0};
+  if(ab.length){ it.abyss=ab; it.name="심연의 "+R.name; } return it; }
+function runeSock(it){ return it.rune+"@"+(RUNE_RAR[it.rarity]?it.rarity:"rare")+(it.abyss&&it.abyss.length?"#"+it.abyss.join("+"):""); }
 function makeRelic(rk){ const R=RELICS[rk]; return {id:newItemId(), slot:"relic", relic:rk, rarity:"legend", tier:0, name:R.name, base:Object.assign({},R.stat), affixes:[], enh:0, noEnh:true}; }
 function itemSummary(it){
   const parts=Object.entries(effStats(it,itemEnh(it))).map(([k,v])=>statText(k,v));
@@ -6286,7 +6314,7 @@ function itemExtraText(it){
   if(it.mythic&&MYTHIC[it.mythic]) parts.push("🌠 신화 — "+MYTHIC[it.mythic].desc);
   if(it.rune&&RUNES[it.rune]) parts.push("◈ 조건 해금: "+COND[RUNES[it.rune].cond].label);
   if(it.fate){ const F=FATES[it.fate.key]; parts.push(it.fate.done?`🔓 운명 — ${F.btxt}`:`🔒 운명 — ${F.text(it.fate.need)} (${it.fate.prog}/${it.fate.need}) → ${F.btxt}`); }
-  if(it.sockets&&it.sockets.length) parts.push("소켓: "+it.sockets.map(r=>r?`${RUNES[runeK(r)].name}(${RARITIES[RAR_IDX[runeR(r)]].label})`:"빈 칸").join(", "));
+  if(it.sockets&&it.sockets.length) parts.push("소켓: "+it.sockets.map(r=>r?`${runeAb(r).length?"심연의 ":""}${RUNES[runeK(r)].name}(${runeAb(r).length?"심연 · "+runeAb(r).map(x=>ABYSS_LAWS[x].n).join("·"):RARITIES[RAR_IDX[runeR(r)]].label})`:"빈 칸").join(", "));
   return parts;
 }
 // v0.23: 장비 능력치를 '기본 / 추가 옵션 / 특수 옵션' 세 줄로 나눠 보여 줌(강화·금 간 배율 반영)
@@ -6496,6 +6524,30 @@ const EG_MODES={
   exped:{ name:"밤의 원정", icon:"🧭", desc:"갈림길을 골라 가며 원정 유물을 모으고, 끝에서 군단장과 싸웁니다. 지도는 매주 바뀝니다." },
 };
 const EG_KEYS=["tower","raid","exped"];
+EG_MODES.abyss={ name:"밤의 심연", icon:"🌑", coopOnly:true, desc:"함께하기 전용. 다섯 층마다 법칙이 다르고, 깬 층마다 동행의 증표를 받습니다. 5층을 깨면 심연 핵." };   // v0.59
+const COOP_EG_KEYS=EG_KEYS.concat(["abyss"]);
+/* v0.59 밤의 심연 — 층마다 법칙(전투 규칙)이 하나씩. 5층(심연)은 앞 네 법칙이 턴마다 돌아가며 */
+const ABYSS_LAWS={
+  silence:{n:"침묵", icon:"🔇", d:"적이 마법사·성직자·음유시인의 공격 피해를 받지 않습니다 (제어·치유·강화는 그대로)"},
+  reverse:{n:"역전", icon:"🔄", d:"아군에게 치유받은 영웅은 다음 차례에 공격하지 못합니다"},
+  mirror: {n:"거울", icon:"🪞", d:"적이 받은 피해의 25%를 때린 영웅에게 되돌립니다"},
+  twins:  {n:"쌍둥이", icon:"♊", d:"쌍둥이 둘 중 하나만 다치면 턴이 끝날 때 다른 쪽만큼 회복하고, 하나가 쓰러져도 다른 하나가 살아 있으면 턴이 끝날 때 되살아납니다"},
+  abyss:  {n:"심연", icon:"🌑", d:"침묵·역전·거울·쌍둥이가 턴마다 돌아가며 적용됩니다"}};
+const ABYSS_FLOORS=["silence","reverse","mirror","twins","abyss"];
+const ABYSS_TOK=[4,6,8,10,15], ABYSS_RUNE_P=0.25;
+const ABYSS_TUNE={hp:[1.7,1.85,2.0,2.15,2.4], atk:[1.22,1.27,1.32,1.37,1.45], boss:{hp:2.6,atk:1.12}};
+const MAGIC_CLS=new Set(["mage","priest","bard"]);
+function abyssZones(W){ return ABYSS_FLOORS.map((law,i)=>egMarkZ(abyssFloor(i+1,law,W))); }
+function abyssFloor(f,law,W){ const rk=REGION_KEYS[((W.wk*3+f*2)%10+10)%10], R=REGIONS[rk], sc={hp:ABYSS_TUNE.hp[f-1],atk:ABYSS_TUNE.atk[f-1]}, L=ABYSS_LAWS[law];
+  const mob=(o)=>Object.assign({key:weightedPick(R.pool),affixes:pickAffixes(f>=3?1:0),scale:sc},o||{});
+  let mobs;
+  if(law==="silence") mobs=[mob({elite:true}),mob(),mob(),mob()];
+  else if(law==="reverse") mobs=[mob({elite:true}),mob({elite:true}),mob(),mob()];
+  else if(law==="mirror") mobs=[mob({elite:true}),mob({elite:true}),mob({elite:true})];
+  else if(law==="twins"){ const k=weightedPick(R.pool); mobs=[mob({key:k,elite:true,twin:true,title:`쌍둥이 ${MOBS[k].name} 갑`}),mob({key:k,elite:true,twin:true,title:`쌍둥이 ${MOBS[k].name} 을`}),mob(),mob()]; }
+  else { const k=weightedPick(R.pool); mobs=[{key:R.boss,finalBoss:true,enrage:true,affixes:pickAffixes(1),title:`심연의 ${MOBS[R.boss].name}`,scale:{hp:+(sc.hp*ABYSS_TUNE.boss.hp).toFixed(3),atk:+(sc.atk*ABYSS_TUNE.boss.atk).toFixed(3)}},
+    mob({key:k,elite:true,twin:true,title:`쌍둥이 ${MOBS[k].name} 갑`}),mob({key:k,elite:true,twin:true,title:`쌍둥이 ${MOBS[k].name} 을`})]; }
+  return {type:"battle", eg:"abyss", floor:f, law, rk, label:`${f}층 ${L.icon} ${L.n}`, mobs, boss:f===5, mid:f<5, lootBonus:3+f, rewardMul:1.4}; }
 const RAID_BOSSES=["swamp","volcano","sunken","forest","gold","desert","temple"];   // 일곱 군단장
 function egWeekInfo(wk){
   wk=wk==null?weekId():wk;
@@ -9562,7 +9614,7 @@ function enhSideBtn(cid,sk){
   const E=slotEnh(cid,sk), l=E.l, t=enhTier(l), s0=(SLOTS.find(x=>x.key===sk)||{label:sk}).label;
   if(E.gilt){ const c=repairCost(cid,sk); b.className+=" gilt"; b.innerHTML=`<b class="enh ${t.cls}">+${l}</b><small>수리</small>`; b.title=`${s0} — 금이 감(능력치 -10%) · 수리: 골드 ${c.gold} · 정수 ${c.ess}`; b.disabled=progress.gold<c.gold||progress.ess<c.ess||runBusy();
     b.onclick=e=>{ e.stopPropagation(); progress.gold-=c.gold; progress.ess-=c.ess; setSlotEnh(cid,sk,{gilt:false,gilded:true}); saveProgress(); renderParty(); logLine(`<span class="win">🔧 ${esc(heroDisplayName(cid))}의 ${esc(s0)} — 균열을 금으로 메웠다 (+3%, 금 무늬가 남는다)</span>`); }; return b; }
-  if(l>=ENH_MAX){ b.className+=" max"; b.disabled=true; b.innerHTML=`<b class="enh ${t.cls}">+${l}</b>`; b.title=`${s0} — 최대 강화`; return b; }
+  if(l>=slotMax(cid,sk)){ b.className+=" max"; b.disabled=true; b.innerHTML=`<b class="enh ${t.cls}">+${l}</b>`; b.title=`${s0} — 최대 강화${l<ENH_ABYSS?" · 칸을 눌러 심연 핵으로 한계를 열 수 있습니다":""}`; return b; }
   const c=enhCost(cid,sk), rate=Math.min(1,ENH_RATE[l]+enhLuck(cid)), fr=enhFailRule(l);
   b.innerHTML=`<b class="enh ${t.cls}">+${l}</b>`;   // v0.55.6: 단추엔 단계만 — 성공률·비용은 칸을 눌러 여는 창과 도움말에
   b.title=`${s0} 강화 +${l+1} — 성공 ${Math.round(rate*100)}% · 골드 ${c.gold} · 정수 ${c.ess}${fr.drop?` · 실패 시 ${fr.drop}단계 하락`:""}${fr.gilt?` · ${Math.round(fr.gilt*100)}% 확률로 금이 감`:""}`;
@@ -9572,7 +9624,9 @@ function enhSideBtn(cid,sk){
 }
 // 부위 창: 끼운 장비 정보 + 부위 강화(빈 칸도 강화할 수 있음)
 function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find(x=>x.key===sk); const E=slotEnh(cid,sk), canE=ENH_SLOTS.includes(sk);
-  const enhLine=canE?`<div class="statline">🔨 부위 강화 <b class="enh ${enhTier(E.l).cls}">+${E.l}</b> (${enhTier(E.l).name}) — 이 칸에 끼는 장비의 능력치 +${E.l*6}% (치명·회피 같은 확률형은 +${E.l*3}%) · 장비를 바꿔 껴도 그대로</div>`:"";
+  const opened=canE&&slotMax(cid,sk)>ENH_MAX, canOpen=canE&&!opened&&E.l>=ENH_MAX;
+  const enhLine=canE?`<div class="statline">🔨 부위 강화 <b class="enh ${enhTier(E.l).cls}">+${E.l}</b> (${enhTier(E.l).name}) — 이 칸에 끼는 장비의 능력치 +${E.l*6}% (치명·회피 같은 확률형은 +${E.l*3}%) · 장비를 바꿔 껴도 그대로${opened?` · 🌑 한계 열림(+${ENH_ABYSS}까지)`:""}</div>`
+    +(canOpen?`<div class="statline">🌑 심연 핵 ${progress.abyssCore|0}개 <button class="mini" id="abOpen" ${(progress.abyssCore|0)<1||runBusy()?"disabled":""}>심연 핵 1개로 이 부위 한계 열기 (+${ENH_ABYSS}까지)</button></div>`:""):"";
   const head=it?`<div class="imhead">${iconCell(it,{enh:it.noEnh?null:E})}<div><h2 class="${rarityCls(it)}">${it.noEnh?"":enhTag(E)}${esc(itemDisplayName(it))}</h2><div class="statline">${esc(rarityLabel(it))} · ${esc(s.label)}${itemClassText(it)?" · "+esc(itemClassText(it)):""} · <span class="wornchip">${esc(heroDisplayName(cid))} 착용 중</span></div></div></div>`
     :`<div class="imhead"><span class="icell r-none ghost"><img src="${slotGhostURL(sk,cid)}" alt=""></span><div><h2>${esc(s.label)} <small style="color:var(--muted)">비어 있음</small></h2><div class="statline">${esc(heroDisplayName(cid))}의 ${esc(s.label)} 칸</div></div></div>`;
   const m=openModal(`${head}
@@ -9585,6 +9639,8 @@ function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find
   fb.onclick=()=>{ closeModal(); invSlot=sk; invFilter="all"; invSort="best"; renderParty(); }; acts.appendChild(fb);
   if(it){ const ub=document.createElement("button"); ub.textContent="해제"; ub.onclick=()=>{ closeModal(); unequip(cid,sk); }; acts.appendChild(ub); }
   m.querySelector("#imClose").onclick=closeModal; m.addEventListener("click",e=>{ if(e.target===m) closeModal(); });
+  { const ob=m.querySelector("#abOpen"); if(ob) ob.onclick=()=>{ if((progress.abyssCore|0)<1||runBusy()) return; progress.abyssCore--; const H=progress.heroes[cid]; H.sopen=H.sopen||{}; H.sopen[sk]=true;
+      logLine(`<span class="win">🌑 ${esc(heroDisplayName(cid))}의 ${esc(s.label)} — 심연 핵으로 한계를 열었다 (+${ENH_ABYSS}까지 강화 가능 · 남은 핵 ${progress.abyssCore})</span>`); saveProgress(); renderParty(); closeModal(); openWornItem(cid,sk); }; }   // v0.59
   acts.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; setTimeout(()=>{ if($("modal")===m&&b.classList.contains("enhb")) openWornItem(cid,sk); },0); }); }
 function openBagItem(it){ const cid=partySel; invOpen=it.id; const row=itemRow(it,cid); row.classList.add("open"); invOpen=null;
   const m=openModal(`<div class="imhead">${iconCell(it)}<div><h2 class="${rarityCls(it)}">${esc(itemDisplayName(it))}</h2><div class="statline">${esc(rarityLabel(it))} · ${esc(SLOT_LABEL[it.slot]||it.slot)}${itemClassText(it)?" · "+esc(itemClassText(it)):""} · <span class="bagchip">가방</span></div></div></div><div class="imbody">${itemStatHTML(it)}</div><div class="imrow"></div><div class="mfoot"><button class="ghostbtn" id="imLock"></button><span class="spacer"></span><button class="ghostbtn" id="imClose">닫기</button></div>`,"itemm");
@@ -9880,7 +9936,7 @@ function codexBlock(){
 function enhButton(cid,sk){
   const b=document.createElement("button"); b.className="enhb";
   const E=slotEnh(cid,sk), l=E.l, s0=(SLOTS.find(x=>x.key===sk)||{label:sk}).label;
-  if(l>=ENH_MAX){ b.textContent=`${s0} 최대 강화`; b.disabled=true; return b; }
+  if(l>=slotMax(cid,sk)){ b.textContent=`${s0} 최대 강화`; b.disabled=true; return b; }
   const c=enhCost(cid,sk), rate=Math.min(1,ENH_RATE[l]+enhLuck(cid));
   const fr=enhFailRule(l);
   b.textContent=`${s0} 강화 +${l+1} (${Math.round(rate*100)}%)`;
@@ -9899,7 +9955,7 @@ function repairButton(cid,sk){
   return b;
 }
 function tryEnhance(cid,sk){
-  const E=slotEnh(cid,sk), l=E.l; if(!ENH_SLOTS.includes(sk)||l>=ENH_MAX||E.gilt) return;
+  const E=slotEnh(cid,sk), l=E.l; if(!ENH_SLOTS.includes(sk)||l>=slotMax(cid,sk)||E.gilt) return;
   const c=enhCost(cid,sk);
   if(progress.gold<c.gold||progress.ess<c.ess) return;
   progress.gold-=c.gold; progress.ess-=c.ess;
@@ -9975,7 +10031,7 @@ function itemRow(it,cid,pv){
     if(!targets.length){ const n=document.createElement("span"); n.textContent="빈 소켓이 있는 장비 없음 (영웅 이상 장비)"; acts.appendChild(n); }
     else { const s=sel(targets.map(x=>({label:runeTargetLabel(x)})),0,()=>{}); s.style.maxWidth="420px"; s.title="누가 낀 장비인지 · 부위 · 장비 · 빈 소켓 수"; acts.appendChild(s);
       const b=document.createElement("button"); b.textContent="룬 장착"; b.onclick=()=>{ const t=targets[parseInt(s.value,10)||0]; const si=t.sockets.findIndex(r=>!r); if(si<0) return;
-        t.sockets[si]=it.rune+"@"+(RUNE_RAR[it.rarity]?it.rarity:"rare"); const i=progress.inv.findIndex(x=>x.id===it.id); if(i>=0) progress.inv.splice(i,1); saveProgress(); renderParty(); renderRules();
+        t.sockets[si]=runeSock(it); const i=progress.inv.findIndex(x=>x.id===it.id); if(i>=0) progress.inv.splice(i,1); saveProgress(); renderParty(); renderRules();
         const ow=itemOwner(t.id);
         logLine(`<span class="win">◈ ${ow?esc(heroDisplayName(ow))+"의 ":"인벤토리의 "}${esc(itemLabel(t))}에 ${esc(RUNES[it.rune].name)} 장착 — ${ow?`${esc(heroDisplayName(ow))}${jo(heroDisplayName(ow),"이","가")} 조건 '${esc(COND[RUNES[it.rune].cond].label)}'을(를) 쓸 수 있습니다`:`조건 '${esc(COND[RUNES[it.rune].cond].label)}'은(는) 이 장비를 낀 영웅만 쓸 수 있습니다`}</span>`); };
       acts.appendChild(b); }
@@ -11715,6 +11771,7 @@ async function coopHostStart(){
   const notReady=COOP.mem.filter(pe=>{ if(pe===me) return false; const p=peers.find(x=>x.peer===pe); return !(p&&p.presence&&p.presence.ready&&p.presence.snapz); });
   if(notReady.length){ COOP.notice="모두 '준비 완료'를 눌러야 출발할 수 있습니다."; coopRender(); return; }
   if(COOP.mode&&!egOpen()){ COOP.notice="최종 콘텐츠는 방장이 영원한 밤 10장을 모두 깬 뒤에 열립니다."; coopRender(); return; }
+  if(COOP.mode==="abyss"&&COOP.mem.length<2){ COOP.notice="🌑 밤의 심연은 2명 이상 함께해야 들어갈 수 있습니다."; coopRender(); return; }   // v0.59
   COOP.hostRun={ id:coopRid(8), seed:(Math.random()*0xFFFFFFFF)>>>0, rk:COOP.rk, d:COOP.mode?2:COOP.d, act:COOP.mode?3:((COOP.rk===progress.lastRegion&&COOP.d===progress.diff)?curAct():Math.min(3,actsDone(COOP.d,COOP.rk)+1)), mem:COOP.mem.slice(), mode:COOP.mode||null, wk:weekId(), k:coopHeroCount(COOP.mem.length), st:COOP.mode==="tower"?Math.max(1,COOP.egStart||1):1, picks:[] };
   coopPushRoom(); coopPushLobby();
   // 내 화면도 같은 기록으로 시작(내 상태는 방금 보냈으니 snap은 직접 만든다)
@@ -11743,6 +11800,7 @@ function coopGenZones(R){
   if(R.mode){ const W=egWeekInfo(R.wk);
     if(R.mode==="tower") return [coopSeeded(R.seed^0x51ed,()=>towerFloor(R.st||1,W))];
     if(R.mode==="raid") return coopSeeded(R.seed,()=>raidZones(W));
+    if(R.mode==="abyss") return coopSeeded(R.seed^0xab55,()=>abyssZones(W));
     return expedMap(W,R.seed).map((o,i)=>o.length===1?o[0]:{type:"choice",step:i,label:`갈림길 ${i+1}/${EX_STEPS+1}`,opts:o}); }
   return coopSeeded(R.seed,()=>genRun(R.rk,R.d,R.act||3));
 }
@@ -11781,6 +11839,7 @@ async function coopLoop(){
         run.zones.push(coopSeeded(run.seed^(0x51ed+f*7919),()=>towerFloor(f+1,run.eg.W))); }
       else if(run.mode==="exped"){ run.eg.coins+=z.kind==="elite"?6:3; run.eg.steps=(z.step||0)+1; if(z.boss){ coopEnd("clear"); return; } }
       else if(run.mode==="raid"){ if(z.phase>=3){ coopEnd("clear"); return; } }
+      else if(run.mode==="abyss"){ run.eg.top=z.floor; abyssFloorReward(run,z); if(z.floor>=5){ coopEnd("clear"); return; } }
       else if(z.boss||z.actEnd){ coopEnd("clear"); return; } }
     // 구역 사이 정비(혼자 하기와 같은 규칙)
     for(const u of run.party){ if(!u.alive){ u.hp=0; continue; } u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*ZONE_REGEN)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*ZONE_REGEN)); u.buffs={}; u.dots={}; u.taunted_by=""; }   // v0.55.3: 혼자 하기와 같은 규칙(각 10%)
@@ -11809,8 +11868,10 @@ async function coopBattle(run,z){
   if(relicBase) egApplyRelics(run.party,run.eg.relics);
   const seed=(run.seed+7919*(run.z+1))>>>0;
   applyZoneAllies(z,run.party);
-  const sim=new Sim(run.party,enemies,seed);
+  const sim=new Sim(run.party,enemies,seed); if(z.law) sim.law=z.law;   // v0.59 밤의 심연 법칙
   spawnField(sim.units);
+  if(z.law){ const L=ABYSS_LAWS[z.law]; logLine(`<span class="sk">${L.icon} ${z.floor}층의 법칙 — ${L.n}: ${esc(L.d)}</span>`);
+    if(!instantMode()&&!(!COOP.isHost&&coopHostZone()!=null&&coopHostZone()>run.z)) await showBanner(`<span class="txt narr">${L.icon} ${z.floor}층 · ${L.n}<br><small>${esc(L.d)}</small></span>`, 2200); }
   logLine(`<span class="r">[전투 시작] 적 ${enemies.length}마리 · 난수 시드 ${seed} (모두 같음)</span>`);
   const events=sim.run(); let n=0, endEv=null;
   for(const ev of events){
@@ -11866,6 +11927,18 @@ function coopEnd(res){
 
 // ---------- 함께하기 최종 콘텐츠 ----------
 function coopShards(run,n){ if(!n) return; const E=egState(); E.shards+=n; run.gains.shards=(run.gains.shards||0)+n; }
+// v0.59 밤의 심연 보상 — 층마다 동행의 증표(그 주 처음 깬 층은 2배) · 1~4층 25% 심연 룬 · 5층 확정 심연 룬(각인 2개) + 심연 핵(주 첫 클리어) 또는 핵 조각
+function abyssWeek(){ const E=egState(); if(!E.ab||E.ab.wk!==E.wk) E.ab={wk:E.wk, first:{}, clears:0, best:0}; return E.ab; }
+function abyssRune(f,law){ const tags=law==="abyss"?(()=>{ const p=["silence","reverse","mirror","twins"]; const a=p.splice(ri(0,3),1)[0], b=p[ri(0,2)]; return [a,b]; })():[law]; return makeRune(null,"legend",2,tags); }
+function abyssFloorReward(run,z){ const f=z.floor, A=abyssWeek(), first=!A.first[f]; A.first[f]=true; A.best=Math.max(A.best,f);
+  const tok=ABYSS_TOK[f-1]*(first?2:1); progress.coopTok=(progress.coopTok|0)+tok; run.gains.tok=(run.gains.tok||0)+tok;
+  logLine(`<span class="gain">🤝 ${f}층 돌파 — 동행의 증표 +${tok}${first?" (이번 주 처음 · 2배)":""} (보유 ${progress.coopTok})</span>`);
+  if(f===5||Math.random()<ABYSS_RUNE_P){ const it=abyssRune(f,z.law); const lr=takeLoot([it]); for(const x of lr.kept){ run.gains.items++; logLine(`<span class="gain">🌑 심연 룬: ${esc(x.name)} — 각인 ${x.abyss.map(t=>ABYSS_LAWS[t].n).join("·")}</span>`); lootToast(x,"밤의 심연"); } }
+  if(f===5){ A.clears++; const firstClear=A.clears<=egFirstN();
+    if(firstClear){ progress.abyssCore=(progress.abyssCore|0)+1; logLine(`<span class="win">🌑 심연 핵 +1 (이번 주 첫 클리어) — 장비 탭에서 +15 부위를 눌러 한계를 엽니다 (보유 ${progress.abyssCore})</span>`); }
+    else { progress.abyssFrag=(progress.abyssFrag|0)+1; if(progress.abyssFrag>=3){ progress.abyssFrag-=3; progress.abyssCore=(progress.abyssCore|0)+1; logLine(`<span class="win">🌑 핵 조각 3개가 모여 심연 핵 +1 (보유 ${progress.abyssCore})</span>`); }
+      else logLine(`<span class="gain">🌑 심연 핵 조각 +1 (${progress.abyssFrag}/3)</span>`); } }
+  saveProgress(); }
 async function coopPick(run,z){
   const lab=x=>EG_NODE_LABEL[x.kind||x.type]||x.label, step=z.step;
   if(COOP.isHost){ telling=true; setMainBtn(); spawnField([...run.party]);
@@ -11901,9 +11974,10 @@ function coopEgEnd(run,res){
     if(win){ E.expedClears++; E.allExped++; const first=E.expedClears<=egFirstN(); coopShards(run,first?20:8); egStar(first?8:4,"원정 완주"); if(first) items.push(makeItem(true,egTier(),{rarity:"legend",luck:partyLuck()})); }
     else coopShards(run,Math.floor(st/2));
     msg=`${M.icon} 함께 원정 — ${win?"완주!":`${st}/${EX_STEPS+1}걸음`} (유물 ${run.eg.relics.length}개)`; }
+  if(run.mode==="abyss"){ const A=abyssWeek(); msg=`${M.icon} 밤의 심연 — ${win?"5층 심연까지 돌파!":(run.eg.top|0)?`${run.eg.top|0}층까지 (깬 층의 보상은 받았습니다)`:"1층에서 물러났다"}`; win=win||(run.eg.top|0)>0; }
   if(items.length){ const lr=takeLoot(items); for(const it of lr.kept){ g.items++; logLine(`<span class="gain">내 최종 보상: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`); lootToast(it,"함께하기 최종 보상"); } }
   logLine(`<span class="${win?"win":"lose"}">${esc(msg)}</span>`);
-  logLine(`<span class="gain">이번 함께하기에서 내가 얻은 것 — 경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개 · 새벽 파편 ${g.shards||0}</span>`);
+  logLine(`<span class="gain">이번 함께하기에서 내가 얻은 것 — 경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개${run.mode==="abyss"?` · 동행의 증표 ${g.tok||0}`:` · 새벽 파편 ${g.shards||0}`}</span>`);
   $("result").textContent=msg; $("result").className="result "+(win?"win":"lose");
   COOP.run=null; if(COOP.isHost) COOP.hostRun=null; COOP.ready=false; COOP.mySnaps=null; COOP.mySnapz=null;
   saveProgress(); coopPushRoom(); coopPushLobby(); goCamp(); coopRender();
@@ -11953,9 +12027,9 @@ function renderCoop(){
         <div class="ph-sub">${q.job?esc(String(q.job).slice(0,10)):""} Lv.${+q.lv||1}${ack}${q.ready&&+q.nh>1?` · 영웅 ${+q.nh}명`:""}</div><div class="${q.ready?"ok":"wait"}">${q.ready?"준비 완료":"준비 중"}</div></div></div>`; }).join("");
     const waiting=peers.filter(p=>!memIds.includes(p.peer)).length;
     const R=COOP.rk&&REGIONS[COOP.rk];
-    const egSel=COOP.isHost&&egOpen()?`<label>콘텐츠 <select id="coopMode"><option value="">일반 던전</option>${EG_KEYS.map(k=>`<option value="${k}" ${COOP.mode===k?"selected":""}>${EG_MODES[k].icon} ${EG_MODES[k].name}</option>`).join("")}</select></label>`:"";
+    const egSel=COOP.isHost&&egOpen()?`<label>콘텐츠 <select id="coopMode"><option value="">일반 던전</option>${COOP_EG_KEYS.map(k=>`<option value="${k}" ${COOP.mode===k?"selected":""}>${EG_MODES[k].icon} ${EG_MODES[k].name}</option>`).join("")}</select></label>`:"";
     const kNow=coopHeroCount(memIds.length);
-    const egInfo=COOP.mode?`<div class="ph-sub">${EG_MODES[COOP.mode].icon} <b>${esc(EG_MODES[COOP.mode].name)}</b> — ${esc(EG_MODES[COOP.mode].desc)} 지금 인원 ${memIds.length}명 → 한 사람이 영웅 <b>${kNow}명</b>씩(모두 합쳐 최대 6명). 6명이면 적도 그만큼 강해집니다.${COOP.mode==="exped"?" 원정의 길은 방장이 고르고, 상자·상인은 자동으로 처리됩니다.":""}</div>`:"";
+    const egInfo=COOP.mode?`<div class="ph-sub">${EG_MODES[COOP.mode].icon} <b>${esc(EG_MODES[COOP.mode].name)}</b> — ${esc(EG_MODES[COOP.mode].desc)} 지금 인원 ${memIds.length}명 → 한 사람이 영웅 <b>${kNow}명</b>씩(모두 합쳐 최대 6명). 6명이면 적도 그만큼 강해집니다.${COOP.mode==="exped"?" 원정의 길은 방장이 고르고, 상자·상인은 자동으로 처리됩니다.":""}${COOP.mode==="abyss"?`<br>${ABYSS_FLOORS.map((k,i)=>`${i+1}층 ${ABYSS_LAWS[k].icon} <b>${ABYSS_LAWS[k].n}</b>`).join(" · ")} · ${esc(egEntryText("abyss"))} · 동행의 증표 ${progress.coopTok|0} · 심연 핵 ${progress.abyssCore|0} (조각 ${progress.abyssFrag|0}/3)`:""}</div>`:"";
     const hostCtl=COOP.isHost&&COOP.mode?`<div class="coop-row">${egSel}${COOP.mode==="tower"&&egState().towerCk?`<label>시작 <select id="coopEgStart"><option value="1">1층</option><option value="${egState().towerCk+1}" ${COOP.egStart>1?"selected":""}>${egState().towerCk+1}층(내 체크포인트)</option></select></label>`:""}
         <button class="btn coop-go" id="coopStart" ${COOP.run?"disabled":""}>▶ 함께 출발</button></div>${egInfo}`
       :COOP.isHost?`<div class="coop-row">${egSel}<label>난이도 <select id="coopDiff">${[0,1,2].filter(d=>d<=progress.diffMax).map(d=>`<option value="${d}" ${d===COOP.d?"selected":""}>${DIFFS[d].icon} ${DIFFS[d].name}</option>`).join("")}</select></label>
