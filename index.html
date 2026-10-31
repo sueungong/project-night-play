@@ -1253,7 +1253,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.56.3 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.57 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1360,6 +1360,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.57: <b>동료 규칙도 직접</b> — 동료(주인공이 아닌 영웅)의 자동전투 규칙도 주인공처럼 직접 짭니다. 동료는 더 이상 규칙을 스스로 다시 짜지 않고(능력치·특성·전직·숙련은 그대로 스스로), 전직·스킬북으로 새 스킬이 생기면 빈 칸에 넣어 줍니다. 처음엔 자동전투 탭의 '작전 성향대로 채우기'로 시작할 수 있습니다. 대상 고르기도 모두 같아졌습니다('자동(스스로 판단)' 없음).
 v0.56.1: 가방은 기본 30칸(정액 +20) — 가득 차면 새 장비를 줍지 못합니다(자동 판매·분해는 칸을 쓰지 않고, 같은 룬은 몇 개든 1칸). 입장 때 가득 차 있으면 알려 줍니다. 최종 콘텐츠는 주간 입장 횟수가 생겼습니다 — 탑 10 · 레이드 5 · 원정 5(월요일 초기화), 다 쓰면 입장권으로(정액은 매주 5장).
 v0.56: <b>새벽 상점 — 광고 · 30일 정액 · 아트 패스</b> — 상점에 💎 새벽 상점 탭이 생겼습니다. 광고(시험용 5초 자리): 횃불 +1(하루 5회) · 막을 깬 뒤 24시간 안에 전리품 2배·금화 2배(하루 3회, 전리품 창에서도) · 30분 동안 모든 전투 '빠르게'(하루 2회). 30일 정액(💎 300): 횃불 최대 15개·1.5배 충전, '빠르게' 상시, 이미 깬 막은 '매우 빠르게' 자동, 최종 콘텐츠 주간 첫 보상 한 번 더, 매일 💎 10, 명함 틀·이름 옆 🌙. 아트 패스(30일 시즌·30단계): 던전 입장 20 · 우두머리 처치 40 · 막 돌파 60 · 증표 100 경험치, 100마다 1단계. 무료 트랙은 골드·정수·💎·장비·명함 스티커·오라 색·칭호, 유료 트랙(💎 200)은 매 단계 💎와 전설 장비·시즌 외형·글자체·장식·칭호. 외형 보상은 외형 자체가 아직 없어 '준비 중'으로 받아 둡니다. 결제·실제 광고는 출시 때 붙습니다(지금은 관리자 시험 단추).
 v0.55.7: 세트 장비는 한 부위 = 1개로 셉니다(전에는 목걸이를 2개분으로 세어 3개 끼고 4/6이 되던 혼란). 장비 탭의 유물 칸을 투구·무기와 같은 높이로. 전장의 후퇴·속도·설정·기록 단추는 오른쪽 가장자리에 세로로 — 유닛 자리를 건드리지 않고 상태 아이콘도 안 가립니다(속도는 1×·1.5×·2×로 짧게).
@@ -5997,7 +5998,7 @@ function targetCat(S){ const st=S.type;
   if(st==="debuff"||S.aoe) return "foeAll";
   return "foe"; }
 // 규칙의 대상 이름 — 주인공은 '기본 — …', 동료만 '자동(스스로 판단)' (TARGET[0] '자동'을 주인공에게 보이지 않게)
-function targetLabel(r,cid){ try{ const T=targetChoices(SKILLS[r.skill]||{},cid?isCompanion(cid):false); const o=T.opts.find(x=>x.v===(r.target|0))||T.opts[0]; return o.label; }catch(e){ return TARGET[r.target|0]; } }
+function targetLabel(r,cid){ try{ const T=targetChoices(SKILLS[r.skill]||{},false); const o=T.opts.find(x=>x.v===(r.target|0))||T.opts[0]; return o.label; }catch(e){ return TARGET[r.target|0]; } }
 function targetChoices(S,comp){ const c=targetCat(S||{}), T=i=>({v:i,label:TARGET[i]});
   const auto=comp?"자동(스스로 판단)":null;
   switch(c){
@@ -6086,7 +6087,7 @@ function buildHeroUnit(cid){
     u.cls=cid; Object.assign(u,d.res); u.look=heroLook(cid); u.lane=heroLane(cid);
     if(d.traits.relic_noburn) u.immune={burn:true};
     u.skillsEx=heroSkillsEx(cid,d.wtype);
-    if(!isCompanion(cid)) u.simpleAuto=true;   // v0.33: 동료는 '자동'이 스스로 판단(표식→띄움→빈사), 주인공은 직접 고름
+    u.simpleAuto=true;   // v0.57: 동료 규칙도 플레이어가 짬 — 대상 고르기도 주인공과 같게('자동(스스로 판단)' 없음)
     if(d.traits.no_counter_passive&&u.passive==="counter30") u.passive="";
     for(const k of d.uniques) if(UNIQUES[k]) UNIQUES[k].apply(u);
     return u;
@@ -6386,7 +6387,8 @@ function companionThink(cid){
   if(h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)){ h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&progress.heroes[cid].adv) addAdvRules(cid,advInfo(cid)); msgs.push(`✦ ${who} 스스로 각성 ${h.awaken}! (특성 +${TRAIT_AWAKEN})`); }
   // 2) 전직
   if(!h.adv&&h.level>=ADV_LEVEL){ const key=COMPANION.adv[cid][st]; const a=ADV[cid].find(x=>x.key===key)||ADV[cid][0]; h.adv=a.key;
-    msgs.push(`⭐ ${who}${jo(who,"이","가")} 스스로 전직 → ${a.name} (${S.name}) — ${a.desc}`); }
+    msgs.push(`⭐ ${who}${jo(who,"이","가")} 스스로 전직 → ${a.name} (${S.name}) — ${a.desc}`);
+    try{ const ar=addAdvRules(cid,a); for(const [sid,x] of ar) msgs.push(x&&x.failed?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — 규칙 칸이 모자라 넣지 못함(자동전투 탭에서 직접)`:`📜 ${who}: 새 스킬 '${SKILLS[sid].name}'을(를) 규칙에 넣음 — 순서는 자동전투 탭에서`); }catch(e){} }
   // 3) 능력치 배분
   if(h.pts>0){ const R=COMPANION.alloc[cid][st]; const add={};
     while(h.pts>0){ const tot=PRIM.reduce((a,k)=>a+(h.alloc[k]||0),0)+1; let best=null, bd=-1e9;
@@ -6400,10 +6402,7 @@ function companionThink(cid){
   for(const [sid,m] of Object.entries(h.mastery||{})){ if(!SKILLS[sid]) continue; const kind=masteryKind(SKILLS[sid]); m.pick=m.pick||{};
     for(let i=0;i<3;i++) if((m.xp||0)>=MASTERY_STEPS[i]&&!m.pick[i]){ const k=COMPANION.mastery[kind][st][i]; m.pick[i]=k;
       msgs.push(`📘 ${who}의 '${SKILLS[sid].name}' 숙련 ${MASTERY_STEPS[i]} — ${masteryOpts(sid,i)[k==="a"?0:1].t} (스스로 선택)`); } }
-  // 6) 자동전투 규칙 — 이전 주인공(keepBuild)은 플레이어가 짜 둔 규칙을 그대로 씀
-  if(h.keepBuild) return msgs;
-  const nr=companionRules(cid); const before=JSON.stringify(partyRules[cid]);
-  if(before!==JSON.stringify(nr)){ partyRules[cid]=nr; msgs.push(`📜 ${who}${jo(who,"이","가")} 자동전투 규칙을 스스로 다시 짰다 (${S.name}, ${nr.filter(r=>r.enabled).length}칸)`); }
+  // 6) 자동전투 규칙 — v0.57부터 플레이어가 직접 짠다(동료가 다시 짜지 않음). 전직으로 생긴 스킬만 빈 칸에 넣어 줌(주인공과 같음)
   return msgs;
 }
 function companionsThink(){ const out=[]; for(const c of rosterIds()) out.push(...companionThink(c)); return out; }
@@ -8499,7 +8498,7 @@ function heroPickBtn(cid,on,sub,onclick){
 function renderCharPick(){
   const box=$("charpick"); box.innerHTML="";
   const rids=rosterIds(); if(rids.length&&!rids.includes(selected)) selected=rids[0];
-  for(const cid of rids) box.appendChild(heroPickBtn(cid,cid===selected,isCompanion(cid)?`동료 · ${STANCES[heroStance(cid)].name}`:"직접 설정",()=>{ selected=cid; renderCharPick(); renderRules(); }));
+  for(const cid of rids) box.appendChild(heroPickBtn(cid,cid===selected,isProtag(cid)?"주인공":"동료",()=>{ selected=cid; renderCharPick(); renderRules(); }));
   const advSel=advInfo(selected);
   $("passive").textContent="패시브 — "+CLASSES[selected].passive_name
     +(advSel&&advSel.passive_name?("  /  "+advSel.passive_name):"");
@@ -8545,17 +8544,17 @@ function renderRules(){
   side.appendChild(det);
   // 왼쪽: 규칙 목록
   ensureRuleSlots(selected);
-  const ro=isCompanion(selected)||runBusy();
+  const ro=runBusy();   // v0.57: 동료 규칙도 직접 짬(던전 중에만 읽기 전용)
   const head=document.createElement("div"); head.className="viewhead";
   head.innerHTML=`<h2 class="ph">${esc(heroDisplayName(selected))}의 규칙</h2><span style="font-size:13.5px;color:var(--muted)">사용 ${rules.filter(r=>r.enabled).length} / ${rules.length}칸</span>`;
   col.appendChild(head);
   const how=document.createElement("div"); how.className="howto";
   how.innerHTML=`<b>읽는 법</b><span>매 턴 <b>1번부터 차례로</b> 확인해서, <b>처음 맞는 규칙 하나</b>만 씁니다. 아무것도 안 맞으면 기본공격.</span>`;
   col.appendChild(how);
-  if(ro&&runBusy()&&!isCompanion(selected)){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML="🔒 던전 진행 중에는 규칙을 볼 수만 있어요. 바꾸려면 마을로 돌아온 뒤에."; col.appendChild(n); }
-  else if(ro){ const n=document.createElement("div"); n.className="compnote";
-    n.innerHTML=`🧭 ${esc(heroDisplayName(selected))}${jo(heroDisplayName(selected),"은","는")} 동료입니다 — 규칙은 작전 성향 '<b>${esc(STANCES[heroStance(selected)].name)}</b>'에 맞춰 스스로 짭니다. 성향은 파티·장비에서 바꿀 수 있어요. (읽기 전용)`;
-    col.appendChild(n); }
+  if(ro){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML="🔒 던전 진행 중에는 규칙을 볼 수만 있어요. 바꾸려면 마을로 돌아온 뒤에."; col.appendChild(n); }
+  else if(isCompanion(selected)){ const n=document.createElement("div"); n.className="compnote";   // v0.57: 동료 규칙도 직접 — 성향대로 한 번에 채우는 단추만
+    n.innerHTML=`🧭 동료의 규칙도 직접 정합니다. 처음이라면 <button class="ghostbtn" id="compFill">작전 성향 '${esc(STANCES[heroStance(selected)].name)}'대로 채우기</button>로 시작해 고쳐 보세요.`;
+    col.appendChild(n); n.querySelector("#compFill").onclick=()=>{ partyRules[selected]=companionRules(selected); ensureRuleSlots(selected); saveRules(); renderRules(); logLine(`<span class="r">📜 ${esc(heroDisplayName(selected))}의 규칙을 작전 성향대로 채웠습니다.</span>`); }; }
   const list=document.createElement("div"); list.className="rules"; col.appendChild(list);
   const condOpts=COND.map((c,i)=>({label:c.label+(c.lock&&!DV.unlocks.includes(i)?" 🔒":""), locked:!!c.lock&&!DV.unlocks.includes(i)}));
   const myRes=CLASSES[selected].res||"";
@@ -8584,7 +8583,7 @@ function renderRules(){
       Math.max(0,skills.indexOf(r.skill)), v=>{ r.skill=skills[v]; saveRules(); });
     sk.className="sk";
     const tg=document.createElement("select"); tg.className="tg";
-    const fillTg=()=>{ const T=targetChoices(SKILLS[r.skill]||{},ro); if(!T.opts.some(o=>o.v===r.target)){ r.target=T.opts[0].v; saveRules(); }
+    const fillTg=()=>{ const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)){ r.target=T.opts[0].v; saveRules(); }
       tg.innerHTML=""; for(const o of T.opts){ const op=document.createElement("option"); op.value=String(o.v); op.textContent=o.label; tg.appendChild(op); }
       tg.value=String(r.target); tg.disabled=ro||T.opts.length<2; tg.title=T.hint; };
     tg.onchange=()=>{ r.target=+tg.value; saveRules(); };
@@ -8634,7 +8633,7 @@ function masteryRow(cid,sid){
   return row;
 }
 function moveRule(i,d){
-  if(isCompanion(selected)) return;
+  if(runBusy()) return;
   const rules=partyRules[selected]; const j=i+d;
   if(j<0||j>=rules.length) return;
   [rules[i],rules[j]]=[rules[j],rules[i]];
@@ -9942,9 +9941,9 @@ function shopBookCards(){ const wrap=document.createElement("div"); wrap.classNa
       b.onclick=()=>{
         if(progress.gold<bk.price){ logLine(`<span class="r">골드가 부족합니다 (${bk.price}G 필요).</span>`); return; }
         progress.gold-=bk.price; progress.heroes[bk.cls].learned.push(bk.skill);
-        if(isCompanion(bk.cls)) runCompanions(); else { const ar=autoAddRule(bk.cls,bk.skill); saveRules(); logAutoRule(bk.cls,bk.skill,ar); }
+        { const ar=autoAddRule(bk.cls,bk.skill); saveRules(); logAutoRule(bk.cls,bk.skill,ar); }   // v0.57: 동료도 같음
         saveProgress(); renderShop(); renderRules();
-        logLine(`<span class="gain">📖 ${esc(heroDisplayName(bk.cls))}${jo(heroDisplayName(bk.cls),"이","가")} '${esc(s.name)}'을(를) 배웠다!${isCompanion(bk.cls)?"":" 자동전투 탭에서 규칙에 넣어 보세요."}</span>`);
+        logLine(`<span class="gain">📖 ${esc(heroDisplayName(bk.cls))}${jo(heroDisplayName(bk.cls),"이","가")} '${esc(s.name)}'을(를) 배웠다! 자동전투 탭에서 순서를 정해 보세요.</span>`);
         toast(`<span class="tc">스킬북</span><b>${esc(heroDisplayName(bk.cls))}</b> — '${esc(s.name)}' 배움`,"good"); };
       acts.appendChild(b); }
     row.appendChild(acts); cards.appendChild(row); }
