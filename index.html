@@ -1247,7 +1247,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .gscards{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px}
 .gscard{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px} .gscard h3{margin:0; font-size:15px} .gscard.on{border-color:var(--accent)}
 .gscard ul{margin:0; padding-left:18px; font-size:12.5px; color:var(--sub); line-height:1.5} .gscard .gsst{font-size:12.5px; color:var(--muted)} .gscard .gsst b{color:var(--accent)} .gsbtns{display:flex; gap:6px; flex-wrap:wrap; margin-top:auto}
-.adrow{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; column-gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line)} .adrow:first-of-type{border-top:0} .adrow span{font-size:13px} .adrow small{font-size:11.5px; color:var(--muted)} .adrow button{grid-row:1/3; grid-column:2}
+.adrow{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; column-gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line)} .adrow:first-of-type{border-top:0} .adrow span{font-size:13px} .adrow small{font-size:11.5px; color:var(--muted)} .adrow button{grid-row:1/3; grid-column:2} .adrow .cosst{grid-row:1/3; grid-column:2} .adrow select{margin:2px 2px 0 0; max-width:100%}
 .pbar{height:6px; background:var(--bg); border-radius:3px; overflow:hidden; border:1px solid #00000060} .pbar i{display:block; height:100%; background:var(--accent)}
 .modal.passm .mpanel{max-width:960px; width:min(96vw,960px)}
 .ptracks{display:flex; flex-direction:column; gap:8px} .ptrack{display:grid; grid-template-columns:40px minmax(0,1fr); gap:6px; align-items:center} .ptrack.dim{opacity:.6} .plab{font-size:12.5px; font-weight:700; color:var(--sub); text-align:center}
@@ -1261,7 +1261,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.59 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.60 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1368,7 +1368,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
-v0.59: <b>🌑 밤의 심연</b> — 함께하기 전용 최종 콘텐츠(2명 이상, 주 5회). 다섯 층에 법칙이 하나씩 붙습니다: 1층 🔇침묵(마법사·성직자·음유시인의 공격이 안 통함) · 2층 🔄역전(치유받으면 다음 차례에 공격 못함) · 3층 🪞거울(준 피해의 25%가 되돌아옴) · 4층 ♊쌍둥이(둘을 함께 쓰러뜨려야 함) · 5층 🌑심연(네 법칙이 턴마다 돌아감). 깬 층마다 각자 동행의 증표(그 주 처음 깬 층은 2배 · 증표 상점은 다음 업데이트)를 받고, 1~4층은 25%로 · 5층은 확정으로 심연 룬(전설보다 높은 능력치 + 법칙을 무시하는 각인)이 나옵니다. 5층을 깨면 심연 핵(이번 주 첫 클리어) 또는 핵 조각(3개 = 핵 1). 심연 핵으로 +15 부위의 한계를 열면 +18(심연철)까지 강화할 수 있습니다(+16~+18 성공률 5·3·2%).<br>
+v0.60: <b>🤝 동행의 증표 상점</b> — 상점에 '🤝 증표' 탭이 생겼습니다. 밤의 심연에서 모은 증표로 동행 명함 틀(300) · 명함 스티커 '맞잡은 손'(120) · 칭호 '동행자'(150, 장식) · 칭호 '심연을 건넌 자'(400, 체력 +3% · 5층을 깬 뒤) · 심연 룬(각인을 골라서 1개 100 · 2개 260) · 아직 없는 군단장 유물 고르기(300) · 고른 군단장의 혼(40) · 심연 핵 조각(150, 주 2개까지)을 교환합니다.<br>
+v0.59: <b>🌑 밤의 심연</b> — 함께하기 전용 최종 콘텐츠(2명 이상, 주 5회). 다섯 층에 법칙이 하나씩 붙습니다: 1층 🔇침묵(마법사·성직자·음유시인의 공격이 안 통함) · 2층 🔄역전(치유받으면 다음 차례에 공격 못함) · 3층 🪞거울(준 피해의 25%가 되돌아옴) · 4층 ♊쌍둥이(둘을 함께 쓰러뜨려야 함) · 5층 🌑심연(네 법칙이 턴마다 돌아감). 깬 층마다 각자 동행의 증표(그 주 처음 깬 층은 2배)를 받고, 1~4층은 25%로 · 5층은 확정으로 심연 룬(전설보다 높은 능력치 + 법칙을 무시하는 각인)이 나옵니다. 5층을 깨면 심연 핵(이번 주 첫 클리어) 또는 핵 조각(3개 = 핵 1). 심연 핵으로 +15 부위의 한계를 열면 +18(심연철)까지 강화할 수 있습니다(+16~+18 성공률 5·3·2%).<br>
 v0.58: <b>🎨 외형 상점</b> — 상점에 '🎨 외형' 탭이 생겼습니다. 망토 8 · 무기 외형 8 · 오라 색 10 · 이펙트 테마 8 · 전투 숫자 6 · 치명타 연출 8 · 명함 틀 9 · 명함 스티커 24 · 모닥불 장식 16가지를 움직이는 미리보기로 보고 💎 새벽 결정으로 삽니다(전투력은 그대로). 망토·무기·오라 색은 주인공에게, 이펙트·숫자·치명타는 내 화면의 전투에, 틀·스티커는 명함에, 장식은 마을 쉼터 모닥불 곁에 보입니다. 아트 패스 시즌 1 외형(별빛 베일 · 달빛 무기 · 룬 마법진 · 둥근 숫자 · 달빛 수정 · 달 스티커 · 달빛 오라)도 받으면 바로 착용할 수 있습니다.<br>
 v0.57: <b>동료 규칙도 직접</b> — 동료(주인공이 아닌 영웅)의 자동전투 규칙도 주인공처럼 직접 짭니다. 동료는 더 이상 규칙을 스스로 다시 짜지 않고(능력치·특성·전직·숙련은 그대로 스스로), 전직·스킬북으로 새 스킬이 생기면 빈 칸에 넣어 줍니다. 처음엔 자동전투 탭의 '작전 성향대로 채우기'로 시작할 수 있습니다. 대상 고르기도 모두 같아졌습니다('자동(스스로 판단)' 없음).
 v0.56.1: 가방은 기본 30칸(정액 +20) — 가득 차면 새 장비를 줍지 못합니다(자동 판매·분해는 칸을 쓰지 않고, 같은 룬은 몇 개든 1칸). 입장 때 가득 차 있으면 알려 줍니다. 최종 콘텐츠는 주간 입장 횟수가 생겼습니다 — 탑 10 · 레이드 5 · 원정 5(월요일 초기화), 다 쓰면 입장권으로(정액은 매주 5장).
@@ -2806,6 +2807,8 @@ function masteryOpts(sid,i){ const s=SKILLS[sid], kind=masteryKind(s);
     if(v.k==="mpc"&&!(s.mp>0)) return MASTERY_ALT["mpc_"+kind];
     return v; }); }
 const TITLES=[
+  {key:"coop_t1", name:"동행자", stat:"coopT1", need:1, eff:{}, desc:"동행의 증표 상점 · 효과 없음(장식)"},
+  {key:"coop_t2", name:"심연을 건넌 자", stat:"coopT2", need:1, eff:{hp_pct:0.03}, desc:"동행의 증표 상점(밤의 심연 5층을 깬 뒤) · 체력 +3%"},
   {key:"pass_free", name:"밤의 길손",   stat:"passFree", need:1, eff:{}, desc:"아트 패스 무료 트랙 30단계 · 효과 없음(장식)"},
   {key:"pass_paid", name:"새벽의 수호자", stat:"passPaid", need:1, eff:{}, desc:"아트 패스 유료 트랙 30단계 · 효과 없음(장식)"},
   {key:"undying",  name:"불사신",     stat:"lowSurvive", need:30,  eff:{hp_pct:0.03},  desc:"체력 20% 이하로 전투를 30번 살아 넘김 · 체력 +3%"},
@@ -5764,7 +5767,7 @@ function cosShopBlock(){
     if(own) act=cat.max?`<button class="btn${on?" ghost":""}" data-eq="${c.id}">${on?"빼기":"달기"}</button>`:on?`<span class="cosst on">착용 중</span>`:`<button class="btn" data-eq="${c.id}">착용</button>`;
     else if(c.src==="pass") act=`<span class="cosst">🎟 아트 패스 시즌 1</span>`;
     else if(c.src==="sub") act=`<span class="cosst">🌙 정액 중에만</span>`;
-    else if(c.src==="coop") act=`<span class="cosst">🤝 함께하기 전용 · 준비 중</span>`;
+    else if(c.src==="coop") act=`<span class="cosst">🤝 증표 상점에서</span>`;
     else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`;
     return `<div class="coscard${on?" on":""}"><div class="cospv"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
   const n=cat.max?(E[cat.k]||[]).length:0;
@@ -5817,6 +5820,50 @@ function cosPvDraw(S,c,g,now,cv){ const T=now/1000;
     case "sticker": cosStickerDraw(g,c.id.slice(3),now,0); break;
     case "deco": { const d=cosDecoFrame(c.id.slice(3),now); if(d) g.drawImage(d,0,0); break; }
   } }
+/* v0.60 🤝 동행의 증표 상점 — 밤의 심연에서 모은 증표로: 외형 · 칭호 · 심연 룬(각인 골라서) · 군단장 유물·혼 · 심연 핵 조각 */
+const TOK_PRICE={fr_coop:300, st_pact:120, t_coop:150, t_abyss:400, rune1:100, rune2:260, relic:300, soul:40, frag:150};
+const TOK_FRAG_WEEK=2;   // 핵 조각은 주 2개까지
+let tokArm=null;
+function tokWeek(){ const E=egState(); if(!E.tk||E.tk.wk!==E.wk) E.tk={wk:E.wk, frag:0}; return E.tk; }
+function tokShopBlock(){
+  const box=document.createElement("div"); box.className="gemshop tokshop"; const tok=progress.coopTok|0, A=abyssWeek(), W=tokWeek();
+  const btn=(k,dis)=>{ const pr=TOK_PRICE[k]; return `<button class="btn${tokArm===k?" arm":""}" data-tk="${k}" ${dis||tok<pr?"disabled":""}>${tokArm===k?"한 번 더 누르면 교환":"🤝 "+pr}</button>`; };
+  const own=id=>!!(progress.cosmetics||{})[id], hasT=s=>rosterIds().every(c=>((progress.heroes[c].stats||{})[s]|0)>=1);
+  const lawOpts=["silence","reverse","mirror","twins"].map(k=>`<option value="${k}">${ABYSS_LAWS[k].icon} ${ABYSS_LAWS[k].n}</option>`).join("");
+  const missing=Object.keys(RELICS).filter(rk=>!relicOwned(rk));
+  const row=(t,s,b)=>`<div class="adrow"><span>${t}</span><small>${s}</small>${b}</div>`;
+  box.innerHTML=`<div class="gshead"><b>🤝 동행의 증표 ${tok.toLocaleString("ko-KR")}</b><span>밤의 심연에서 층마다 받습니다(그 주 처음 깬 층은 2배)</span></div>
+  <div class="gscards">
+    <div class="gscard"><h3>외형 · 칭호</h3>
+      ${row("🤝 동행 명함 틀","두 사람 색으로 땋은 테두리",own("fr_coop")?`<span class="cosst on">보유</span>`:btn("fr_coop"))}
+      ${row("명함 스티커 '맞잡은 손'","함께하기에서만",own("st_pact")?`<span class="cosst on">보유</span>`:btn("st_pact"))}
+      ${row("칭호 '동행자'","장식 · 효과 없음",hasT("coopT1")?`<span class="cosst on">보유</span>`:btn("t_coop"))}
+      ${row("칭호 '심연을 건넌 자'",`체력 +3% · 5층을 한 번이라도 깬 뒤 ${(progress.abyssEver|0)?"":"(아직)"}`,hasT("coopT2")?`<span class="cosst on">보유</span>`:btn("t_abyss",!(progress.abyssEver|0)))}</div>
+    <div class="gscard"><h3>심연 룬</h3>
+      ${row(`각인 1개 <select id="tkLaw1">${lawOpts}</select>`,"룬 종류는 무작위 · 전설보다 높은 능력치",btn("rune1"))}
+      ${row(`각인 2개 <select id="tkLaw2a">${lawOpts}</select><select id="tkLaw2b">${lawOpts}</select>`,"5층 룬과 같은 등급",btn("rune2"))}</div>
+    <div class="gscard"><h3>군단장 유물</h3>
+      ${row(`유물 고르기 ${missing.length?`<select id="tkRelic">${missing.map(rk=>`<option value="${rk}">${esc(RELICS[rk].name)}</option>`).join("")}</select>`:""}`,missing.length?"아직 없는 군단장 유물 하나":"일곱 유물을 모두 가졌습니다",btn("relic",!missing.length))}
+      ${row(`군단장의 혼 <select id="tkSoul">${RAID_BOSSES.map(rk=>`<option value="${rk}">${esc(MOBS[REGIONS[rk].boss].name)} (${egMat().soul[rk]|0})</option>`).join("")}</select>`,"유물 각성·신화 무기 재료 · 고른 군단장 것",btn("soul"))}</div>
+    <div class="gscard"><h3>🌑 심연 핵 조각</h3>
+      ${row("핵 조각 1개",`3개 = 심연 핵 1 · 이번 주 ${W.frag}/${TOK_FRAG_WEEK} · 보유 조각 ${progress.abyssFrag|0}/3 · 핵 ${progress.abyssCore|0}`,btn("frag",W.frag>=TOK_FRAG_WEEK))}</div>
+  </div>`;
+  const keep={}; for(const id of ["tkLaw1","tkLaw2a","tkLaw2b","tkRelic","tkSoul"]){ const el=box.querySelector("#"+id); if(el){ if(tokShopBlock.sel&&tokShopBlock.sel[id]&&[...el.options].some(o=>o.value===tokShopBlock.sel[id])) el.value=tokShopBlock.sel[id]; el.onchange=()=>{ (tokShopBlock.sel=tokShopBlock.sel||{})[id]=el.value; tokArm=null; renderShop(); }; } }
+  box.querySelectorAll("[data-tk]").forEach(b=>b.onclick=()=>{ const k=b.dataset.tk; if(tokArm!==k){ tokArm=k; renderShop(); return; } tokArm=null; tokBuy(k,box); renderShop(); });
+  return box;
+}
+tokShopBlock.sel={};
+function tokBuy(k,box){ const pr=TOK_PRICE[k]; if((progress.coopTok|0)<pr) return false; const v=id=>{ const el=box.querySelector("#"+id); return el?el.value:null; }; let msg="";
+  if(k==="fr_coop"||k==="st_pact"){ const C=progress.cosmetics=progress.cosmetics||{}; if(C[k]) return false; C[k]=true; if(typeof cosWear==="function") cosWear(k,true); msg=`${COS_BY[k].name} — 🎨 외형 탭에서 착용`; }
+  else if(k==="t_coop"||k==="t_abyss"){ if(k==="t_abyss"&&!(progress.abyssEver|0)) return false; const s=k==="t_coop"?"coopT1":"coopT2"; for(const c of rosterIds()){ const h=progress.heroes[c]; h.stats=h.stats||{}; h.stats[s]=1; } msg=`칭호 '${k==="t_coop"?"동행자":"심연을 건넌 자"}'`; }
+  else if(k==="rune1"||k==="rune2"){ const tags=k==="rune1"?[v("tkLaw1")]:[...new Set([v("tkLaw2a"),v("tkLaw2b")])]; if(k==="rune2"&&tags.length<2){ logLine(`<span class="r">각인 2개는 서로 달라야 합니다.</span>`); return false; }
+    const it=makeRune(null,"legend",2,tags); if(!bagHasRoom(it)){ logLine(`<span class="r">가방이 가득 찼습니다.</span>`); return false; } progress.inv.push(it); lootToast(it,"증표 상점"); msg=`${it.name} (각인 ${tags.map(t=>ABYSS_LAWS[t].n).join("·")})`; }
+  else if(k==="relic"){ const rk=v("tkRelic"); if(!RELICS[rk]||relicOwned(rk)) return false; const it=makeRelic(rk); if(!bagHasRoom(it)){ logLine(`<span class="r">가방이 가득 찼습니다.</span>`); return false; } progress.inv.push(it); codexRecord(it); lootToast(it,"증표 상점"); msg=RELICS[rk].name; }
+  else if(k==="soul"){ const rk=v("tkSoul"); if(!RAID_BOSSES.includes(rk)) return false; const m=egMat(); m.soul[rk]=(m.soul[rk]|0)+1; msg=`${MOBS[REGIONS[rk].boss].name}의 혼 1 (보유 ${m.soul[rk]})`; }
+  else if(k==="frag"){ const W=tokWeek(); if(W.frag>=TOK_FRAG_WEEK) return false; W.frag++; progress.abyssFrag=(progress.abyssFrag|0)+1; msg="심연 핵 조각 1";
+    if(progress.abyssFrag>=3){ progress.abyssFrag-=3; progress.abyssCore=(progress.abyssCore|0)+1; msg+=` → 조각 3개가 모여 심연 핵 +1 (보유 ${progress.abyssCore})`; } }
+  else return false;
+  progress.coopTok-=pr; logLine(`<span class="win">🤝 증표 상점 — ${esc(msg)} (증표 -${pr} · 남은 ${progress.coopTok})</span>`); saveProgress(); return true; }
 function openPass(){
   const P=passState(), lv=passLevel(P);
   const cell=(L,paid)=>{ const R=passReward(L,paid); const got=P.got[(paid?"p":"f")+L], can=L<=lv&&(!paid||P.paid)&&!got, lock=paid&&!P.paid;
@@ -8072,8 +8119,8 @@ const COS=[
   ...[["fr_base","기본 — 금 한 줄","free"],["fr_sub","🌙 정액 — 은빛 이중선","sub"],["fr_stars","✦ 별자리"],["fr_obsidian","🖤 흑요석"],["fr_flame","🔥 불꽃"],["fr_vine","🌿 숲의 덩굴"],["fr_dragon","🐉 용의 비늘"],["fr_bone","💀 해골"],["fr_coop","🤝 동행","coop"]].map(([id,name,src])=>({id,cat:"frame",name,note:"",src})),
 ];
 // 스티커 24 · 장식 16 (그림은 아래 COSART)
-const COS_STICKERS=[["moon","달","glow"],["star","별","spin"],["skull","해골","chatter"],["crown","왕관","shine"],["torch","횃불","flicker"],["heart","하트","beat"],["sword","검","shine"],["shield","방패","bob"],["potion","물약","bubble"],["key","열쇠","swing"],["gem","보석","shine"],["sun","해","spin"],["bolt","번개","flash"],["flower","꽃","swing"],["paw","고양이 발","bob"],["scroll","두루마리","bob"],["ring","반지","shine"],["flag","깃발","wave"],["note","음표","hop"],["fire","불꽃","flicker"],["snow","눈송이","spin"],["venom","독 병","bubble"],["dragon","용 머리","blink"],["lamp","등불","glow"]];
-for(const [k,n] of COS_STICKERS) COS.push({id:"st_"+k,cat:"sticker",name:n,note:"",src:k==="moon"?"pass":undefined});
+const COS_STICKERS=[["moon","달","glow"],["star","별","spin"],["skull","해골","chatter"],["crown","왕관","shine"],["torch","횃불","flicker"],["heart","하트","beat"],["sword","검","shine"],["shield","방패","bob"],["potion","물약","bubble"],["key","열쇠","swing"],["gem","보석","shine"],["sun","해","spin"],["bolt","번개","flash"],["flower","꽃","swing"],["paw","고양이 발","bob"],["scroll","두루마리","bob"],["ring","반지","shine"],["flag","깃발","wave"],["note","음표","hop"],["fire","불꽃","flicker"],["snow","눈송이","spin"],["venom","독 병","bubble"],["dragon","용 머리","blink"],["lamp","등불","glow"],["pact","맞잡은 손","beat"]];
+for(const [k,n] of COS_STICKERS) COS.push({id:"st_"+k,cat:"sticker",name:n,note:k==="pact"?"함께하기 전용":"",src:k==="moon"?"pass":k==="pact"?"coop":undefined});
 const COS_DECOS=[["duck","고무 오리","둥실둥실 떠 있음"],["scare","허수아비","바람에 흔들흔들"],["cat","자는 고양이","숨쉬며 Z가 떠오름"],["barrel","술통","가끔 펄쩍 뜀"],["snowman","눈사람","눈을 깜빡 · 눈송이"],["pumpkin","호박 등불","속불이 일렁"],["laundry","빨랫줄 속옷","바람에 펄럭"],["fish","낚시 의자","찌가 까딱까딱"],["shroom","거대 버섯","말랑하게 출렁"],["slime","애완 슬라임","찌부 · 쭉"],["dog","뼈다귀 문 개","꼬리 살랑"],["lamp","등불 기둥","불빛이 일렁"],["rock","돌무더기 꽃","꽃이 살랑"],["crystal","달빛 수정","반짝 · 은은한 빛"],["totem","해골 토템","눈구멍에 녹색 불"],["doll","졸고 있는 군단장 인형","코 풍선이 부풀었다 팡"]];
 for(const [k,n,note] of COS_DECOS) COS.push({id:"dc_"+k,cat:"deco",name:n,note,src:k==="crystal"?"pass":undefined});
 const COS_BY=Object.fromEntries(COS.map(c=>[c.id,c]));
@@ -8210,7 +8257,8 @@ const COS_ST_ART={
   ring:[["...b....","..aba...",".a...a..",".a...a..","..aaa..."],{a:"#ffd23f",b:"#ff6b5b"}],flag:[["a.......","abbbb...","abbbbb..","abbbb...","a.......","a.......","a......."],{a:"#8b7355",b:"#c43e42"}],
   note:[["....a...","....aa..","....a.a.","....a...","..aaa...",".aaaa...","..aa...."],{a:"#5cd696"}],fire:[["...a....","..aa....",".abba...",".abba...","abccba..",".abba...","..aa...."],{a:"#ff6b5b",b:"#ff9a3c",c:"#ffd23f"}],
   snow:[["...a....",".a.a.a..","..aaa...","aaaaaaa.","..aaa...",".a.a.a..","...a...."],{a:"#dfe6ff"}],venom:[["..aa....",".bbbb...",".bccb...",".bccb...",".bbbb..."],{a:"#a07040",b:"#4fb04f",c:"#b6ff5a"}],
-  dragon:[["..aa....",".aaaa.b.","aacaaab.","aaaaaab.",".aaaaa..","..aa.a.."],{a:"#c43e42",b:"#ffd23f",c:"#ffffff"}],lamp:[["..aa....",".bbbb...",".bccb...",".bccb...",".bbbb...","..a....."],{a:"#8b7355",b:"#c9a24a",c:"#ffd23f"}]};
+  dragon:[["..aa....",".aaaa.b.","aacaaab.","aaaaaab.",".aaaaa..","..aa.a.."],{a:"#c43e42",b:"#ffd23f",c:"#ffffff"}],lamp:[["..aa....",".bbbb...",".bccb...",".bccb...",".bbbb...","..a....."],{a:"#8b7355",b:"#c9a24a",c:"#ffd23f"}],
+  pact:[["a......b","aa....bb",".aaabbb.",".aabbab.",".abbaab.","..bbaa..","..b..a.."],{a:"#5c9dff",b:"#ff9a3c"}]};
 // 스티커 한 장(14×14 캔버스 g에, 움직임 kind)
 function cosStickerDraw(g,k,t,ph){ const A=COS_ST_ART[k]; if(!A) return; const kind=(COS_STICKERS.find(x=>x[0]===k)||[])[2]; const D=COSART.dot(A[0],A[1]); const T=t/1000+(ph||0);
   g.save(); g.translate(7,7);
@@ -10342,7 +10390,7 @@ function renderShop(){
   if(!Array.isArray(progress.shopStock)||!progress.shopStock.length) genStock();
   const mkOpen=progress.diffMax>=2;
   if(mkOpen&&(!progress.market||!Array.isArray(progress.market.goods))) genMarket();
-  const tabs=[["gear","🛡 오늘의 장비"],["book","📖 스킬북"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]).concat([["gem","💎 새벽 상점"],["cos","🎨 외형"]]);
+  const tabs=[["gear","🛡 오늘의 장비"],["book","📖 스킬북"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]).concat((egOpen()||(progress.coopTok|0)>0)?[["tok","🤝 증표"]]:[]).concat([["gem","💎 새벽 상점"],["cos","🎨 외형"]]);
   if(!tabs.some(t=>t[0]===shopTab)) shopTab="gear";
   const gearUp=progress.shopStock.filter(e=>!e.sold&&shopBest(e.item)).length;
   const bookLeft=SKILLBOOKS.filter(bk=>rosterIds().includes(bk.cls)&&!progress.heroes[bk.cls].learned.includes(bk.skill)).length;
@@ -10368,6 +10416,7 @@ function renderShop(){
   else if(shopTab==="dawn"){ body.appendChild(egExchangeBlock()); }
   else if(shopTab==="gem"){ body.appendChild(gemShopBlock()); }
   else if(shopTab==="cos"){ body.appendChild(cosShopBlock()); }
+  else if(shopTab==="tok"){ body.appendChild(tokShopBlock()); }
 }
 function marketBlock(){
   const box=document.createElement("div"); box.className="market";
@@ -11934,7 +11983,7 @@ function abyssFloorReward(run,z){ const f=z.floor, A=abyssWeek(), first=!A.first
   const tok=ABYSS_TOK[f-1]*(first?2:1); progress.coopTok=(progress.coopTok|0)+tok; run.gains.tok=(run.gains.tok||0)+tok;
   logLine(`<span class="gain">🤝 ${f}층 돌파 — 동행의 증표 +${tok}${first?" (이번 주 처음 · 2배)":""} (보유 ${progress.coopTok})</span>`);
   if(f===5||Math.random()<ABYSS_RUNE_P){ const it=abyssRune(f,z.law); const lr=takeLoot([it]); for(const x of lr.kept){ run.gains.items++; logLine(`<span class="gain">🌑 심연 룬: ${esc(x.name)} — 각인 ${x.abyss.map(t=>ABYSS_LAWS[t].n).join("·")}</span>`); lootToast(x,"밤의 심연"); } }
-  if(f===5){ A.clears++; const firstClear=A.clears<=egFirstN();
+  if(f===5){ A.clears++; progress.abyssEver=(progress.abyssEver|0)+1; const firstClear=A.clears<=egFirstN();
     if(firstClear){ progress.abyssCore=(progress.abyssCore|0)+1; logLine(`<span class="win">🌑 심연 핵 +1 (이번 주 첫 클리어) — 장비 탭에서 +15 부위를 눌러 한계를 엽니다 (보유 ${progress.abyssCore})</span>`); }
     else { progress.abyssFrag=(progress.abyssFrag|0)+1; if(progress.abyssFrag>=3){ progress.abyssFrag-=3; progress.abyssCore=(progress.abyssCore|0)+1; logLine(`<span class="win">🌑 핵 조각 3개가 모여 심연 핵 +1 (보유 ${progress.abyssCore})</span>`); }
       else logLine(`<span class="gain">🌑 심연 핵 조각 +1 (${progress.abyssFrag}/3)</span>`); } }
