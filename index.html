@@ -1264,7 +1264,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.62 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.63 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1371,6 +1371,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.63: <b>함께하기 보상 단순하게</b> — 동행의 증표와 증표 상점(동행 명함 틀 · '맞잡은 손' 스티커 · 칭호 '동행자'·'심연을 건넌 자' · 공명석 · 유물·혼 · 핵 조각 교환)을 모두 없앴습니다. 이제 밤의 심연을 함께하면 공명석·새벽 파편·별의 정수가 1.5배이고, 깬 층마다 장비 1개(영웅 또는 전설, 수문장은 전설)를 더 받습니다. 상점 '🌑 심연' 탭에는 심연 공명만 남았습니다.<br>
 v0.62: <b>🌑 밤의 심연 — 끝없는 층</b> — 최종 콘텐츠를 새로 짰습니다. 밤의 탑 · 군단장 레이드 · 밤의 원정은 없어지고(모아 둔 새벽 파편·혼·별의 정수는 그대로), 밤의 심연이 끝없이 내려가는 공허가 됐습니다. 혼자도(영웅 최대 6명), 함께도 들어갈 수 있습니다(주 10회). 층마다 법칙이 붙고(침묵→역전→거울→쌍둥이 차례), 11층부터 법칙이 둘, 21층부터 셋 겹칩니다. 10층마다 <b>공허의 수문장</b>(네 법칙이 턴마다 돌아감)이 지키고, 처음 쓰러뜨리면 그 층이 체크포인트가 됩니다(계속 남음 · 다음엔 그다음 층부터, 원하면 더 위 체크포인트부터). 캠페인에 나오지 않는 공허의 것들(눈알 군체 · 공허 촉수 · 거울 인형 · 쌍둥이 인형 · 공허의 수문장)과 거꾸로 매달린 성당이 있는 새 무대, 새 전투·수문장 음악. 보상은 일반 전투에선 안 나오는 것만 — 처음 깬 층: 그 층 법칙의 공명석 6 · 새벽 파편 2 / 다시 깬 층: 공명석 2 · 파편 1 · 수문장 첫 처치: 심연석 10 · 파편 10 · 별의 정수 4 · <b>심연 핵 1</b> / 수문장 반복: 핵 조각(주 3개까지). 함께하면 공명석 1.5배 + 동행의 증표. 함께 시작할 수 있는 층은 참가자 모두가 연 체크포인트 중 가장 낮은 곳까지이고, 기록·첫 돌파 보상은 각자 기준입니다.<br>
 v0.61: <b>🌑 심연 공명</b> — 심연 룬을 없애고, 밤의 심연 1~4층에서 그 층의 공명석(🔇침묵·🔄역전·🪞거울·♊쌍둥이)을, 5층에서 어느 줄기에나 쓰는 심연석을 3개씩(그 주 처음 깬 층은 2배) 받습니다. 상점 '🌑 심연' 탭에서 네 줄기를 키우면 내 영웅 모두가 모든 콘텐츠에서 세집니다 — 침묵(딜러): 스킬 피해 · 역전(힐러): 치유량·보호막 · 거울(탱커): 받는 피해 감소 · 쌍둥이(광역): 광역 피해. 단계가 오를수록 공명석이 더 들고(3+단계) 효과는 조금씩 줄며, 10·20·30단계마다 특수 효과(스킬 마나 -5% · 전투 시작 보호막 3% · 반격 +4% · 치명타 피해 +8%)가 하나씩 쌓입니다. 가지고 있던 심연 룬은 각인 1개당 공명석 3개로 바꿔 드렸습니다(박힌 룬은 전설 룬으로 남음). 증표 상점의 룬은 공명석(25)으로 바뀌었습니다.<br>
 v0.60: <b>🤝 동행의 증표 상점</b> — 상점에 '🤝 증표' 탭이 생겼습니다. 밤의 심연에서 모은 증표로 동행 명함 틀(300) · 명함 스티커 '맞잡은 손'(120) · 칭호 '동행자'(150, 장식) · 칭호 '심연을 건넌 자'(400, 체력 +3% · 5층을 깬 뒤) · 심연 룬(각인을 골라서 1개 100 · 2개 260) · 아직 없는 군단장 유물 고르기(300) · 고른 군단장의 혼(40) · 심연 핵 조각(150, 주 2개까지)을 교환합니다.<br>
@@ -2849,8 +2850,6 @@ function masteryOpts(sid,i){ const s=SKILLS[sid], kind=masteryKind(s);
     if(v.k==="mpc"&&!(s.mp>0)) return MASTERY_ALT["mpc_"+kind];
     return v; }); }
 const TITLES=[
-  {key:"coop_t1", name:"동행자", stat:"coopT1", need:1, eff:{}, desc:"동행의 증표 상점 · 효과 없음(장식)"},
-  {key:"coop_t2", name:"심연을 건넌 자", stat:"coopT2", need:1, eff:{hp_pct:0.03}, desc:"동행의 증표 상점(밤의 심연 수문장을 쓰러뜨린 뒤) · 체력 +3%"},
   {key:"pass_free", name:"밤의 길손",   stat:"passFree", need:1, eff:{}, desc:"아트 패스 무료 트랙 30단계 · 효과 없음(장식)"},
   {key:"pass_paid", name:"새벽의 수호자", stat:"passPaid", need:1, eff:{}, desc:"아트 패스 유료 트랙 30단계 · 효과 없음(장식)"},
   {key:"undying",  name:"불사신",     stat:"lowSurvive", need:30,  eff:{hp_pct:0.03},  desc:"체력 20% 이하로 전투를 30번 살아 넘김 · 체력 +3%"},
@@ -5811,7 +5810,6 @@ function cosShopBlock(){
     if(own) act=cat.max?`<button class="btn${on?" ghost":""}" data-eq="${c.id}">${on?"빼기":"달기"}</button>`:on?`<span class="cosst on">착용 중</span>`:`<button class="btn" data-eq="${c.id}">착용</button>`;
     else if(c.src==="pass") act=`<span class="cosst">🎟 아트 패스 시즌 1</span>`;
     else if(c.src==="sub") act=`<span class="cosst">🌙 정액 중에만</span>`;
-    else if(c.src==="coop") act=`<span class="cosst">🤝 증표 상점에서</span>`;
     else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`;
     return `<div class="coscard${on?" on":""}"><div class="cospv"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
   const n=cat.max?(E[cat.k]||[]).length:0;
@@ -5864,57 +5862,19 @@ function cosPvDraw(S,c,g,now,cv){ const T=now/1000;
     case "sticker": cosStickerDraw(g,c.id.slice(3),now,0); break;
     case "deco": { const d=cosDecoFrame(c.id.slice(3),now); if(d) g.drawImage(d,0,0); break; }
   } }
-/* v0.60 🤝 동행의 증표 상점 — 밤의 심연에서 모은 증표로: 외형 · 칭호 · 심연 룬(각인 골라서) · 군단장 유물·혼 · 심연 핵 조각 */
-const TOK_PRICE={fr_coop:300, st_pact:120, t_coop:150, t_abyss:400, stone:25, relic:300, soul:40, frag:150};
-const TOK_FRAG_WEEK=2;   // 핵 조각은 주 2개까지
-let tokArm=null;
-function tokWeek(){ const E=egState(); if(!E.tk||E.tk.wk!==E.wk) E.tk={wk:E.wk, frag:0}; return E.tk; }
-function tokShopBlock(){
-  const box=document.createElement("div"); box.className="gemshop tokshop"; const tok=progress.coopTok|0, A=abyssWeek(), W=tokWeek();
-  const btn=(k,dis)=>{ const pr=TOK_PRICE[k]; return `<button class="btn${tokArm===k?" arm":""}" data-tk="${k}" ${dis||tok<pr?"disabled":""}>${tokArm===k?"한 번 더 누르면 교환":"🤝 "+pr}</button>`; };
-  const own=id=>!!(progress.cosmetics||{})[id], hasT=s=>rosterIds().every(c=>((progress.heroes[c].stats||{})[s]|0)>=1);
-  const lawOpts=["silence","reverse","mirror","twins"].map(k=>`<option value="${k}">${ABYSS_LAWS[k].icon} ${ABYSS_LAWS[k].n}</option>`).join("");
-  const missing=Object.keys(RELICS).filter(rk=>!relicOwned(rk));
-  const row=(t,s,b)=>`<div class="adrow"><span>${t}</span><small>${s}</small>${b}</div>`;
+function resoBlock(){   // v0.63: 동행의 증표 상점을 없애고 심연 공명만
+  const box=document.createElement("div"); box.className="gemshop tokshop";
   const R=resoState();
   const reso=RESO_LINES.map(k=>{ const L=R.lv[k]|0, c=resoCost(L), have=(R.st[k]|0)+(R.st.abyss|0), U=resoUnits(L), m=Math.min(3,Math.floor(L/10)), Q=RESO[k];
     const now=k==="silence"?`스킬 피해 +${+(U*1).toFixed(1)}%`:k==="reverse"?`치유량·보호막 +${+(U*1.5).toFixed(1)}%`:k==="mirror"?`받는 피해 -${+(U*0.6).toFixed(1)}%`:`광역 피해 +${+(U*1).toFixed(1)}%`;
     return `<div class="reso"><div class="rh"><b>${Q.icon} ${Q.n}</b><small>${Q.role}</small><span class="rl">${L}단계</span></div>
       <div class="rv">${L?now:`단계마다 ${esc(Q.unit)}`}${m?` · ${esc(Q.mile)}${m>1?" ×"+m:""}`:""}</div>
       <div class="rf"><small>${Q.icon}석 ${R.st[k]|0}${L<30?` · ${10*(Math.floor(L/10)+1)}단계: ${esc(Q.mile)}`:""}</small><button class="btn" data-reso="${k}" ${have<c?"disabled":""}>올리기 · ${c}개</button></div></div>`; }).join("");
-  box.innerHTML=`<div class="gshead"><b>🌑 심연 공명</b><span>밤의 심연 1~4층에서 그 층의 공명석, 5층에서 심연석(어느 줄기에나)을 받습니다 · 내 영웅 모두에게 · 모든 콘텐츠에서 · 심연석 ${R.st.abyss|0}</span></div>
-  <div class="resos">${reso}</div>
-  <div class="gshead"><b>🤝 동행의 증표 ${tok.toLocaleString("ko-KR")}</b><span>밤의 심연에서 층마다 받습니다(그 주 처음 깬 층은 2배)</span></div>
-  <div class="gscards">
-    <div class="gscard"><h3>외형 · 칭호</h3>
-      ${row("🤝 동행 명함 틀","두 사람 색으로 땋은 테두리",own("fr_coop")?`<span class="cosst on">보유</span>`:btn("fr_coop"))}
-      ${row("명함 스티커 '맞잡은 손'","함께하기에서만",own("st_pact")?`<span class="cosst on">보유</span>`:btn("st_pact"))}
-      ${row("칭호 '동행자'","장식 · 효과 없음",hasT("coopT1")?`<span class="cosst on">보유</span>`:btn("t_coop"))}
-      ${row("칭호 '심연을 건넌 자'",`체력 +3% · 10층 수문장을 쓰러뜨린 뒤 ${(progress.abyssEver|0)?"":"(아직)"}`,hasT("coopT2")?`<span class="cosst on">보유</span>`:btn("t_abyss",!(progress.abyssEver|0)))}</div>
-    <div class="gscard"><h3>공명석</h3>
-      ${row(`공명석 1개 <select id="tkStone">${lawOpts}</select>`,"고른 줄기의 공명석",btn("stone"))}</div>
-    <div class="gscard"><h3>군단장 유물</h3>
-      ${row(`유물 고르기 ${missing.length?`<select id="tkRelic">${missing.map(rk=>`<option value="${rk}">${esc(RELICS[rk].name)}</option>`).join("")}</select>`:""}`,missing.length?"아직 없는 군단장 유물 하나":"일곱 유물을 모두 가졌습니다",btn("relic",!missing.length))}
-      ${row(`군단장의 혼 <select id="tkSoul">${RAID_BOSSES.map(rk=>`<option value="${rk}">${esc(MOBS[REGIONS[rk].boss].name)} (${egMat().soul[rk]|0})</option>`).join("")}</select>`,"유물 각성·신화 무기 재료 · 고른 군단장 것",btn("soul"))}</div>
-    <div class="gscard"><h3>🌑 심연 핵 조각</h3>
-      ${row("핵 조각 1개",`3개 = 심연 핵 1 · 이번 주 ${W.frag}/${TOK_FRAG_WEEK} · 보유 조각 ${progress.abyssFrag|0}/3 · 핵 ${progress.abyssCore|0}`,btn("frag",W.frag>=TOK_FRAG_WEEK))}</div>
-  </div>`;
-  const keep={}; for(const id of ["tkStone","tkRelic","tkSoul"]){ const el=box.querySelector("#"+id); if(el){ if(tokShopBlock.sel&&tokShopBlock.sel[id]&&[...el.options].some(o=>o.value===tokShopBlock.sel[id])) el.value=tokShopBlock.sel[id]; el.onchange=()=>{ (tokShopBlock.sel=tokShopBlock.sel||{})[id]=el.value; tokArm=null; renderShop(); }; } }
+  box.innerHTML=`<div class="gshead"><b>🌑 심연 공명</b><span>밤의 심연에서 깬 층의 법칙 공명석, 수문장에게서 심연석(어느 줄기에나)을 받습니다 · 내 영웅 모두에게 · 모든 콘텐츠에서 · 심연석 ${R.st.abyss|0}</span></div>
+  <div class="resos">${reso}</div>`;
   box.querySelectorAll("[data-reso]").forEach(b=>b.onclick=()=>{ if(runBusy()) return; resoUp(b.dataset.reso); renderShop(); });
-  box.querySelectorAll("[data-tk]").forEach(b=>b.onclick=()=>{ const k=b.dataset.tk; if(tokArm!==k){ tokArm=k; renderShop(); return; } tokArm=null; tokBuy(k,box); renderShop(); });
   return box;
 }
-tokShopBlock.sel={};
-function tokBuy(k,box){ const pr=TOK_PRICE[k]; if((progress.coopTok|0)<pr) return false; const v=id=>{ const el=box.querySelector("#"+id); return el?el.value:null; }; let msg="";
-  if(k==="fr_coop"||k==="st_pact"){ const C=progress.cosmetics=progress.cosmetics||{}; if(C[k]) return false; C[k]=true; if(typeof cosWear==="function") cosWear(k,true); msg=`${COS_BY[k].name} — 🎨 외형 탭에서 착용`; }
-  else if(k==="t_coop"||k==="t_abyss"){ if(k==="t_abyss"&&!(progress.abyssEver|0)) return false; const s=k==="t_coop"?"coopT1":"coopT2"; for(const c of rosterIds()){ const h=progress.heroes[c]; h.stats=h.stats||{}; h.stats[s]=1; } msg=`칭호 '${k==="t_coop"?"동행자":"심연을 건넌 자"}'`; }
-  else if(k==="stone"){ const t=v("tkStone"); if(!RESO[t]) return false; const R=resoState(); R.st[t]=(R.st[t]|0)+1; msg=`${RESO[t].icon} ${RESO[t].n}석 1 (보유 ${R.st[t]})`; }
-  else if(k==="relic"){ const rk=v("tkRelic"); if(!RELICS[rk]||relicOwned(rk)) return false; const it=makeRelic(rk); if(!bagHasRoom(it)){ logLine(`<span class="r">가방이 가득 찼습니다.</span>`); return false; } progress.inv.push(it); codexRecord(it); lootToast(it,"증표 상점"); msg=RELICS[rk].name; }
-  else if(k==="soul"){ const rk=v("tkSoul"); if(!RAID_BOSSES.includes(rk)) return false; const m=egMat(); m.soul[rk]=(m.soul[rk]|0)+1; msg=`${MOBS[REGIONS[rk].boss].name}의 혼 1 (보유 ${m.soul[rk]})`; }
-  else if(k==="frag"){ const W=tokWeek(); if(W.frag>=TOK_FRAG_WEEK) return false; W.frag++; progress.abyssFrag=(progress.abyssFrag|0)+1; msg="심연 핵 조각 1";
-    if(progress.abyssFrag>=3){ progress.abyssFrag-=3; progress.abyssCore=(progress.abyssCore|0)+1; msg+=` → 조각 3개가 모여 심연 핵 +1 (보유 ${progress.abyssCore})`; } }
-  else return false;
-  progress.coopTok-=pr; logLine(`<span class="win">🤝 증표 상점 — ${esc(msg)} (증표 -${pr} · 남은 ${progress.coopTok})</span>`); saveProgress(); return true; }
 function openPass(){
   const P=passState(), lv=passLevel(P);
   const cell=(L,paid)=>{ const R=passReward(L,paid); const got=P.got[(paid?"p":"f")+L], can=L<=lv&&(!paid||P.paid)&&!got, lock=paid&&!P.paid;
@@ -8209,11 +8169,11 @@ const COS=[
   ...[["fx_base","기본 베기","free"],["fx_claw","발톱 세 줄"],["fx_bolt","번개 갈라짐"],["fx_sakura","벚꽃 흩날림"],["fx_ink","먹 붓질"],["fx_rune","룬 마법진","pass"],["fx_star","별 폭발"],["fx_blood","핏방울 튀김"]].map(([id,name,src])=>({id,cat:"fx",name,note:"",src})),
   ...[["font_base","기본 도트 (3×5)","free"],["font_bold","굵은 도트 (4×6)"],["font_round","둥근 (5×7)","pass"],["font_italic","기울임 (4×5)"],["font_rune","룬 문자풍"],["font_shadow","두꺼운 그림자"]].map(([id,name,src])=>({id,cat:"font",name,note:"",src})),
   ...[["crit_stamp","기본 도장","커졌다가 비스듬히 박힘","free"],["crit_ring","충격파 링","링이 퍼지며 숫자가 커짐"],["crit_band","'치명타!' 띠","붉은 띠가 가로질러 지나감"],["crit_stars","별 파편","별이 튀어 나감"],["crit_bolt","번개 낙뢰","번개가 꽂히고 번쩍"],["crit_blood","핏빛 튀김","숫자가 터지며 핏방울"],["crit_freeze","정지 + 확대","한순간 하얗게 멈추고 크게"],["crit_coins","금화 튐","동전이 우스꽝스럽게 쏟아짐"]].map(([id,name,note,src])=>({id,cat:"crit",name,note,src})),
-  ...[["fr_base","기본 — 금 한 줄","free"],["fr_sub","🌙 정액 — 은빛 이중선","sub"],["fr_stars","✦ 별자리"],["fr_obsidian","🖤 흑요석"],["fr_flame","🔥 불꽃"],["fr_vine","🌿 숲의 덩굴"],["fr_dragon","🐉 용의 비늘"],["fr_bone","💀 해골"],["fr_coop","🤝 동행","coop"]].map(([id,name,src])=>({id,cat:"frame",name,note:"",src})),
+  ...[["fr_base","기본 — 금 한 줄","free"],["fr_sub","🌙 정액 — 은빛 이중선","sub"],["fr_stars","✦ 별자리"],["fr_obsidian","🖤 흑요석"],["fr_flame","🔥 불꽃"],["fr_vine","🌿 숲의 덩굴"],["fr_dragon","🐉 용의 비늘"],["fr_bone","💀 해골"]].map(([id,name,src])=>({id,cat:"frame",name,note:"",src})),
 ];
 // 스티커 24 · 장식 16 (그림은 아래 COSART)
-const COS_STICKERS=[["moon","달","glow"],["star","별","spin"],["skull","해골","chatter"],["crown","왕관","shine"],["torch","횃불","flicker"],["heart","하트","beat"],["sword","검","shine"],["shield","방패","bob"],["potion","물약","bubble"],["key","열쇠","swing"],["gem","보석","shine"],["sun","해","spin"],["bolt","번개","flash"],["flower","꽃","swing"],["paw","고양이 발","bob"],["scroll","두루마리","bob"],["ring","반지","shine"],["flag","깃발","wave"],["note","음표","hop"],["fire","불꽃","flicker"],["snow","눈송이","spin"],["venom","독 병","bubble"],["dragon","용 머리","blink"],["lamp","등불","glow"],["pact","맞잡은 손","beat"]];
-for(const [k,n] of COS_STICKERS) COS.push({id:"st_"+k,cat:"sticker",name:n,note:k==="pact"?"함께하기 전용":"",src:k==="moon"?"pass":k==="pact"?"coop":undefined});
+const COS_STICKERS=[["moon","달","glow"],["star","별","spin"],["skull","해골","chatter"],["crown","왕관","shine"],["torch","횃불","flicker"],["heart","하트","beat"],["sword","검","shine"],["shield","방패","bob"],["potion","물약","bubble"],["key","열쇠","swing"],["gem","보석","shine"],["sun","해","spin"],["bolt","번개","flash"],["flower","꽃","swing"],["paw","고양이 발","bob"],["scroll","두루마리","bob"],["ring","반지","shine"],["flag","깃발","wave"],["note","음표","hop"],["fire","불꽃","flicker"],["snow","눈송이","spin"],["venom","독 병","bubble"],["dragon","용 머리","blink"],["lamp","등불","glow"]];
+for(const [k,n] of COS_STICKERS) COS.push({id:"st_"+k,cat:"sticker",name:n,note:"",src:k==="moon"?"pass":undefined});
 const COS_DECOS=[["duck","고무 오리","둥실둥실 떠 있음"],["scare","허수아비","바람에 흔들흔들"],["cat","자는 고양이","숨쉬며 Z가 떠오름"],["barrel","술통","가끔 펄쩍 뜀"],["snowman","눈사람","눈을 깜빡 · 눈송이"],["pumpkin","호박 등불","속불이 일렁"],["laundry","빨랫줄 속옷","바람에 펄럭"],["fish","낚시 의자","찌가 까딱까딱"],["shroom","거대 버섯","말랑하게 출렁"],["slime","애완 슬라임","찌부 · 쭉"],["dog","뼈다귀 문 개","꼬리 살랑"],["lamp","등불 기둥","불빛이 일렁"],["rock","돌무더기 꽃","꽃이 살랑"],["crystal","달빛 수정","반짝 · 은은한 빛"],["totem","해골 토템","눈구멍에 녹색 불"],["doll","졸고 있는 군단장 인형","코 풍선이 부풀었다 팡"]];
 for(const [k,n,note] of COS_DECOS) COS.push({id:"dc_"+k,cat:"deco",name:n,note,src:k==="crystal"?"pass":undefined});
 const COS_BY=Object.fromEntries(COS.map(c=>[c.id,c]));
@@ -10483,7 +10443,7 @@ function renderShop(){
   if(!Array.isArray(progress.shopStock)||!progress.shopStock.length) genStock();
   const mkOpen=progress.diffMax>=2;
   if(mkOpen&&(!progress.market||!Array.isArray(progress.market.goods))) genMarket();
-  const tabs=[["gear","🛡 오늘의 장비"],["book","📖 스킬북"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]).concat((egOpen()||(progress.coopTok|0)>0)?[["tok","🌑 심연"]]:[]).concat([["gem","💎 새벽 상점"],["cos","🎨 외형"]]);
+  const tabs=[["gear","🛡 오늘의 장비"],["book","📖 스킬북"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]).concat(egOpen()?[["tok","🌑 심연"]]:[]).concat([["gem","💎 새벽 상점"],["cos","🎨 외형"]]);
   if(!tabs.some(t=>t[0]===shopTab)) shopTab="gear";
   const gearUp=progress.shopStock.filter(e=>!e.sold&&shopBest(e.item)).length;
   const bookLeft=SKILLBOOKS.filter(bk=>rosterIds().includes(bk.cls)&&!progress.heroes[bk.cls].learned.includes(bk.skill)).length;
@@ -10509,7 +10469,7 @@ function renderShop(){
   else if(shopTab==="dawn"){ body.appendChild(egExchangeBlock()); }
   else if(shopTab==="gem"){ body.appendChild(gemShopBlock()); }
   else if(shopTab==="cos"){ body.appendChild(cosShopBlock()); }
-  else if(shopTab==="tok"){ body.appendChild(tokShopBlock()); }
+  else if(shopTab==="tok"){ body.appendChild(resoBlock()); }
 }
 function marketBlock(){
   const box=document.createElement("div"); box.className="market";
@@ -12082,7 +12042,6 @@ function coopEnd(res){
 // v0.62 함께 심연: 시작할 수 있는 가장 깊은 층 = 참가자 모두의 체크포인트 중 가장 낮은 곳 + 1
 function coopAbyssMax(){ let mn=abyssRec().ck; const me=COOP.nr?coopMyPeer(COOP.nr):null; for(const pe of COOP.mem||[]){ if(pe===me) continue; const p=COOP.nr&&coopPeers(COOP.nr).find(x=>x.peer===pe); const c=p&&p.presence?(+p.presence.abck||0):0; mn=Math.min(mn,c); } return mn+1; }
 function coopShards(run,n){ if(!n) return; const E=egState(); E.shards+=n; run.gains.shards=(run.gains.shards||0)+n; }
-// v0.59 밤의 심연 보상 — 층마다 동행의 증표(그 주 처음 깬 층은 2배) · 1~4층 25% 심연 룬 · 5층 확정 심연 룬(각인 2개) + 심연 핵(주 첫 클리어) 또는 핵 조각
 function resoState(){ const R=progress.reso=progress.reso||{}; R.st=R.st||{}; R.lv=R.lv||{}; return R; }
 // 공명 올리기: 그 줄기의 공명석을 먼저, 모자라면 심연석(아무 줄기)을 씀
 function resoUp(k){ const R=resoState(), L=R.lv[k]|0, c=resoCost(L), own=R.st[k]|0, wild=R.st.abyss|0; if(own+wild<c) return false;
@@ -12098,15 +12057,16 @@ function resoMigrate(p){ if(!p||p.resoMig) return; p.resoMig=1; const R=p.reso=p
 function abyssRec(){ const A=progress.abyss=progress.abyss||{}; A.best=A.best|0; A.ck=A.ck|0; return A; }
 function abyssStartFloor(){ const A=abyssRec(); const s=progress.abyssStart|0; return s>=1&&s<=A.ck+1&&(s-1)%10===0?s:A.ck+1; }
 function abyssSetStart(f){ progress.abyssStart=f; saveProgress(); setMainBtn(); renderDungeonPicker(); }
-// 층 보상 — 그 층을 처음 깨면 '첫 돌파', 이미 깼으면 '반복'(각자 기준) · 함께면 공명석 1.5배 + 동행의 증표
+// 층 보상 — 그 층을 처음 깨면 '첫 돌파', 이미 깼으면 '반복'(각자 기준) · v0.63: 함께면 공명석·새벽 파편·별의 정수 1.5배 + 층마다 장비 1개 더
 function abyssReward(z,coop,gains){ const f=z.floor, A=abyssRec(), first=f>A.best, boss=f%10===0, R=resoState(), E=egState(), m=egMat(); const out=[];
   const st=(k,n)=>{ n=coop?Math.ceil(n*1.5):n; R.st[k]=(R.st[k]|0)+n; gains.st=(gains.st||0)+n; out.push(`${k==="abyss"?"🌑 심연":RESO[k].icon+" "+RESO[k].n}석 +${n}`); };
   if(boss) st("abyss",first?10:3); else for(const k of z.laws||[z.law]) if(RESO[k]) st(k,first?6:2);
-  const sh=boss?(first?10:3):(first?2:1); E.shards+=sh; gains.shards=(gains.shards||0)+sh; out.push(`새벽 파편 +${sh}`);
-  if(boss){ const sn=first?4:1; m.star+=sn; out.push(`별의 정수 +${sn}`); progress.abyssEver=(progress.abyssEver|0)+1;
+  const mul=n=>coop?Math.ceil(n*1.5):n;
+  const sh=mul(boss?(first?10:3):(first?2:1)); E.shards+=sh; gains.shards=(gains.shards||0)+sh; out.push(`새벽 파편 +${sh}`);
+  if(boss){ const sn=mul(first?4:1); m.star+=sn; out.push(`별의 정수 +${sn}`); progress.abyssEver=(progress.abyssEver|0)+1;
     if(first){ progress.abyssCore=(progress.abyssCore|0)+1; out.push(`<b>심연 핵 +1</b>`); }
     else { const W=abyssWeek(); if((W.frag|0)<3){ W.frag=(W.frag|0)+1; progress.abyssFrag=(progress.abyssFrag|0)+1; out.push(`핵 조각 +1 (이번 주 ${W.frag}/3)`); if(progress.abyssFrag>=3){ progress.abyssFrag-=3; progress.abyssCore=(progress.abyssCore|0)+1; out.push(`조각 3개 → <b>심연 핵 +1</b>`); } } } }
-  if(coop){ const t=boss?(first?10:5):(first?4:2); progress.coopTok=(progress.coopTok|0)+t; gains.tok=(gains.tok||0)+t; out.push(`🤝 증표 +${t}`); }
+  if(coop){ const it=makeItem(true,egTier(),{rarity:boss?"legend":Math.random()<0.35?"legend":"epic",luck:partyLuck(),src:boss?"boss":"elite"}); const lr=takeLoot([it]); for(const x of lr.kept){ gains.items=(gains.items||0)+1; lootToast(x,"함께 보너스"); } if(lr.kept.length) out.push(`함께 보너스 장비 [${rarityLabel(it)}] ${esc(itemDisplayName(it))}`); }
   if(first){ A.best=f; if(boss) A.ck=Math.max(A.ck,f); }
   logLine(`<span class="gain">🌑 ${f}층 ${first?"첫 돌파":"반복"} — ${out.join(" · ")}${first&&boss?` · 체크포인트 ${f}층`:""}</span>`);
   saveProgress(); }
@@ -12149,7 +12109,7 @@ function coopEgEnd(run,res){
   if(run.mode==="abyss"){ const A=abyssRec(), t=run.eg.top|0; msg=`${M.icon} 함께 밤의 심연 — ${t>=run.eg.start?`${t}층까지 내려갔다`:`${run.eg.start}층에서 물러났다`} (내 최고 ${A.best}층)`; win=t>=run.eg.start; }
   if(items.length){ const lr=takeLoot(items); for(const it of lr.kept){ g.items++; logLine(`<span class="gain">내 최종 보상: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`); lootToast(it,"함께하기 최종 보상"); } }
   logLine(`<span class="${win?"win":"lose"}">${esc(msg)}</span>`);
-  logLine(`<span class="gain">이번 함께하기에서 내가 얻은 것 — 경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개${run.mode==="abyss"?` · 동행의 증표 ${g.tok||0} · 공명석 ${g.st||0}`:` · 새벽 파편 ${g.shards||0}`}</span>`);
+  logLine(`<span class="gain">이번 함께하기에서 내가 얻은 것 — 경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개${run.mode==="abyss"?` · 공명석 ${g.st||0} · 새벽 파편 ${g.shards||0}`:` · 새벽 파편 ${g.shards||0}`}</span>`);
   $("result").textContent=msg; $("result").className="result "+(win?"win":"lose");
   COOP.run=null; if(COOP.isHost) COOP.hostRun=null; COOP.ready=false; COOP.mySnaps=null; COOP.mySnapz=null;
   saveProgress(); coopPushRoom(); coopPushLobby(); goCamp(); coopRender();
@@ -12201,7 +12161,7 @@ function renderCoop(){
     const R=COOP.rk&&REGIONS[COOP.rk];
     const egSel=COOP.isHost&&egOpen()?`<label>콘텐츠 <select id="coopMode"><option value="">일반 던전</option>${COOP_EG_KEYS.map(k=>`<option value="${k}" ${COOP.mode===k?"selected":""}>${EG_MODES[k].icon} ${EG_MODES[k].name}</option>`).join("")}</select></label>`:"";
     const kNow=coopHeroCount(memIds.length);
-    const egInfo=COOP.mode?`<div class="ph-sub">${EG_MODES[COOP.mode].icon} <b>${esc(EG_MODES[COOP.mode].name)}</b> — ${esc(EG_MODES[COOP.mode].desc)} 지금 인원 ${memIds.length}명 → 한 사람이 영웅 <b>${kNow}명</b>씩(모두 합쳐 최대 6명). 6명이면 적도 그만큼 강해집니다.${COOP.mode==="exped"?" 원정의 길은 방장이 고르고, 상자·상인은 자동으로 처리됩니다.":""}${COOP.mode==="abyss"?`<br>내 최고 ${abyssRec().best}층 · 체크포인트 ${abyssRec().ck}층 · 함께 시작할 수 있는 곳: ${coopAbyssMax()}층까지(모두가 연 체크포인트 중 가장 낮은 곳) · ${esc(egEntryText("abyss"))} · 동행의 증표 ${progress.coopTok|0} · 심연 핵 ${progress.abyssCore|0} (조각 ${progress.abyssFrag|0}/3)`:""}</div>`:"";
+    const egInfo=COOP.mode?`<div class="ph-sub">${EG_MODES[COOP.mode].icon} <b>${esc(EG_MODES[COOP.mode].name)}</b> — ${esc(EG_MODES[COOP.mode].desc)} 지금 인원 ${memIds.length}명 → 한 사람이 영웅 <b>${kNow}명</b>씩(모두 합쳐 최대 6명). 6명이면 적도 그만큼 강해집니다.${COOP.mode==="exped"?" 원정의 길은 방장이 고르고, 상자·상인은 자동으로 처리됩니다.":""}${COOP.mode==="abyss"?`<br>내 최고 ${abyssRec().best}층 · 체크포인트 ${abyssRec().ck}층 · 함께 시작할 수 있는 곳: ${coopAbyssMax()}층까지(모두가 연 체크포인트 중 가장 낮은 곳) · ${esc(egEntryText("abyss"))} · 함께하면 공명석·파편·별의 정수 1.5배 + 층마다 장비 1개 더 · 심연 핵 ${progress.abyssCore|0} (조각 ${progress.abyssFrag|0}/3)`:""}</div>`:"";
     const hostCtl=COOP.isHost&&COOP.mode?`<div class="coop-row">${egSel}${COOP.mode==="abyss"?`<label>시작 <select id="coopEgStart">${Array.from({length:Math.floor((coopAbyssMax()-1)/10)+1},(_,i)=>i*10+1).map(f=>`<option value="${f}" ${f===(COOP.egStart||1)?"selected":""}>${f}층</option>`).join("")}</select></label>`:""}${COOP.mode==="tower"&&egState().towerCk?`<label>시작 <select id="coopEgStart"><option value="1">1층</option><option value="${egState().towerCk+1}" ${COOP.egStart>1?"selected":""}>${egState().towerCk+1}층(내 체크포인트)</option></select></label>`:""}
         <button class="btn coop-go" id="coopStart" ${COOP.run?"disabled":""}>▶ 함께 출발</button></div>${egInfo}`
       :COOP.isHost?`<div class="coop-row">${egSel}<label>난이도 <select id="coopDiff">${[0,1,2].filter(d=>d<=progress.diffMax).map(d=>`<option value="${d}" ${d===COOP.d?"selected":""}>${DIFFS[d].icon} ${DIFFS[d].name}</option>`).join("")}</select></label>
