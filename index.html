@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png">
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793461699104"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1265,7 +1265,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.65 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.66 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1372,6 +1372,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.66: <b>☁ 서버 연결(휴대폰 테스트 주소)</b> — 휴대폰 테스트 주소(GitHub Pages)에서도 함께하기(로비·방·채팅·같이 던전)와 서버 저장이 됩니다. 처음엔 가입 없이 손님 계정으로 들어가고, ⚙ 설정 → 계정에서 Google 계정을 연결하면 다른 휴대폰·PC에서도 같은 진행으로 이어 할 수 있습니다.<br>
 v0.65: <b>🌠 낙성 기록</b> — 낙성 강림에 이야기가 생겼습니다. 별들은 왜 장막 아래로 내려왔는지, 해는 왜 미쳤는지. 처음 들어갈 때, 사도를 처음 쓰러뜨릴 때, 3·5단계를 깰 때마다 숨은 이야기가 한 장씩 열립니다(모두 7장). 연 이야기는 낙성 강림 화면의 '🌠 낙성 기록'에서 다시 읽을 수 있습니다.<br>
 v0.64: <b>🌠 낙성 강림</b> — 새 최종 콘텐츠. 엔딩 뒤 장막이 얇아지며 하늘 너머에서 별이 떨어집니다. 별이 떨어지는 첨탑 꼭대기에 얼굴을 베일 속에 감춘 <b>낙성의 사도</b>가 한 주에 하나씩 내려옵니다(주 5회 · 혼자도, 함께도). 첫 사도 둘: <b>장막의 사도</b>(1·5·9…턴마다 최대 체력 25% 장막 — 2턴 안에 못 깨면 '장막 붕괴'로 아군 모두 45% 피해, 깨면 1턴 휘청) · <b>되감는 사도</b>(2턴 동안 최대 체력 15%를 못 깎으면 체력을 되감음). 사도마다 강림 단계가 있어 깰수록 다음 단계가 열리고 강해집니다. 보상: <b>사도의 혼</b>(이번 주 첫 처치 3 · 이후 1 · 새 단계 +2) · 새벽 파편 · 별의 정수 · 새 단계는 전설 장비, 함께하면 1.5배 + 장비 1개 더. 신화 무기·유물 각성 재료가 군단장의 혼에서 사도의 혼으로 바뀌었고(신화 무기 7 · 각성 3/5 · 다시 벼리기 2), 가지고 있던 군단장의 혼은 1:1로 바꿔 드렸습니다. 함께할 때 단계는 모두가 연 단계 중 가장 낮은 곳까지 고를 수 있습니다.<br>
 v0.63: <b>함께하기 보상 단순하게</b> — 동행의 증표와 증표 상점(동행 명함 틀 · '맞잡은 손' 스티커 · 칭호 '동행자'·'심연을 건넌 자' · 공명석 · 유물·혼 · 핵 조각 교환)을 모두 없앴습니다. 이제 밤의 심연을 함께하면 공명석·새벽 파편·별의 정수가 1.5배이고, 깬 층마다 장비 1개(영웅 또는 전설, 수문장은 전설)를 더 받습니다. 상점 '🌑 심연' 탭에는 심연 공명만 남았습니다.<br>
@@ -11737,13 +11738,14 @@ function openSettings(){
     <div class="sblock"><div class="slabel">그래픽</div><div class="srow" id="gfxSeg" style="display:flex;gap:6px;flex-wrap:wrap">${[["auto","자동"],["high","높음"],["low","저사양"]].map(([k,l])=>`<button class="btn ${GFX.mode===k?"":"ghost"}" data-gfx="${k}">${l}</button>`).join("")}</div>
       <p class="msub">자동: 처음 몇 초 동안 재 보고 느리면 저사양으로 바꿉니다${GFX.mode==="auto"?` (지금 <b>${GFX.low?"저사양":"높음"}</b>)`:""}. 저사양: 초당 20장 · 화면 해상도 1배 · 그림자·흐림·앞쪽 날씨 끔 — 버벅이면 저사양으로 두세요.</p></div>
     ${helpBlockHTML()}
+    ${window.PNNet?window.PNNet.settingsHTML():""}
     <div class="sblock"><div class="slabel">의견 보내기</div><p class="msub">버그·난이도·불편한 점·아이디어를 게임 상태와 함께 보낼 수 있어요.</p><div class="srow"><button class="btn" onclick="closeModal();openFeedback()">💬 의견 보내기</button></div></div>
     <div class="sblock"><div class="slabel">새 소식 (업데이트 내역)</div><div class="news">${(document.getElementById("newsTpl")||{}).innerHTML||""}</div></div>
     <div class="sblock"><div class="slabel">새 게임</div><p class="msub">레벨·장비·골드·증표·엔딩 기록이 모두 지워지고 프롤로그부터 다시 시작합니다. 클라우드 저장도 함께 초기화되어 <b>다른 컴퓨터에서도</b> 처음부터 시작합니다. 되돌릴 수 없습니다.</p><button id="newGame" class="dangerb">처음부터 다시 시작</button></div>
     <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`, "settings");
   m.onclick=e=>{ if(e.target===m) closeModal(); };
   m.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
-  m.querySelector("#mclose").onclick=closeModal;
+  m.querySelector("#mclose").onclick=closeModal; if(window.PNNet) window.PNNet.bindSettings();   // v0.66 휴대폰 테스트 배포본: 계정(Google 연결)
   for(const b of m.querySelectorAll("[data-gfx]")) b.onclick=()=>{ GFX.set(b.dataset.gfx); closeModal(); openSettings(); };
   for(const b of m.querySelectorAll("[data-help]")) b.onclick=()=>helpOpen(b.dataset.help);
   for(const b of m.querySelectorAll("[data-spd]")) b.onclick=()=>{ setSpeed(+b.dataset.spd); closeModal(); openSettings(); };
