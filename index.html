@@ -1259,12 +1259,13 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .pcell b{font-size:12px; color:var(--ink)} .pcell span{line-height:1.3; flex:1} .pcell i{font-style:normal; font-size:11px; color:var(--muted); align-self:flex-end}
 .pcell.can{border-color:var(--accent); cursor:pointer; background:#2a2410} .pcell.can i.go{color:var(--accent); font-weight:800} .pcell.got{opacity:.55} .pcell.far{opacity:.75} .pcell.lock{opacity:.5}
 @media (max-height:560px){ .gscards{grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:6px} .gscard{padding:8px; gap:5px} .gscard ul{font-size:12px} .pcell{flex-basis:80px; min-height:60px} }
+.lorelist{max-height:60vh;overflow:auto;display:flex;flex-direction:column;gap:6px;margin:8px 0}.lorepg{border:1px solid #3a3f66;border-radius:8px;padding:8px 10px;background:#141830}.lorepg summary{cursor:pointer;color:#d6b3ff}.lorepg p{margin:6px 0;line-height:1.6}.lorepg.locked{color:var(--muted)}.lorepg.locked small{margin-left:6px}button.lorebtn{background:#1f1a3a;color:#d6b3ff;border:1px solid #4a3f7a;border-radius:8px;padding:4px 10px;cursor:pointer}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.64 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.65 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1371,6 +1372,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.65: <b>🌠 낙성 기록</b> — 낙성 강림에 이야기가 생겼습니다. 별들은 왜 장막 아래로 내려왔는지, 해는 왜 미쳤는지. 처음 들어갈 때, 사도를 처음 쓰러뜨릴 때, 3·5단계를 깰 때마다 숨은 이야기가 한 장씩 열립니다(모두 7장). 연 이야기는 낙성 강림 화면의 '🌠 낙성 기록'에서 다시 읽을 수 있습니다.<br>
 v0.64: <b>🌠 낙성 강림</b> — 새 최종 콘텐츠. 엔딩 뒤 장막이 얇아지며 하늘 너머에서 별이 떨어집니다. 별이 떨어지는 첨탑 꼭대기에 얼굴을 베일 속에 감춘 <b>낙성의 사도</b>가 한 주에 하나씩 내려옵니다(주 5회 · 혼자도, 함께도). 첫 사도 둘: <b>장막의 사도</b>(1·5·9…턴마다 최대 체력 25% 장막 — 2턴 안에 못 깨면 '장막 붕괴'로 아군 모두 45% 피해, 깨면 1턴 휘청) · <b>되감는 사도</b>(2턴 동안 최대 체력 15%를 못 깎으면 체력을 되감음). 사도마다 강림 단계가 있어 깰수록 다음 단계가 열리고 강해집니다. 보상: <b>사도의 혼</b>(이번 주 첫 처치 3 · 이후 1 · 새 단계 +2) · 새벽 파편 · 별의 정수 · 새 단계는 전설 장비, 함께하면 1.5배 + 장비 1개 더. 신화 무기·유물 각성 재료가 군단장의 혼에서 사도의 혼으로 바뀌었고(신화 무기 7 · 각성 3/5 · 다시 벼리기 2), 가지고 있던 군단장의 혼은 1:1로 바꿔 드렸습니다. 함께할 때 단계는 모두가 연 단계 중 가장 낮은 곳까지 고를 수 있습니다.<br>
 v0.63: <b>함께하기 보상 단순하게</b> — 동행의 증표와 증표 상점(동행 명함 틀 · '맞잡은 손' 스티커 · 칭호 '동행자'·'심연을 건넌 자' · 공명석 · 유물·혼 · 핵 조각 교환)을 모두 없앴습니다. 이제 밤의 심연을 함께하면 공명석·새벽 파편·별의 정수가 1.5배이고, 깬 층마다 장비 1개(영웅 또는 전설, 수문장은 전설)를 더 받습니다. 상점 '🌑 심연' 탭에는 심연 공명만 남았습니다.<br>
 v0.62: <b>🌑 밤의 심연 — 끝없는 층</b> — 최종 콘텐츠를 새로 짰습니다. 밤의 탑 · 군단장 레이드 · 밤의 원정은 없어지고(모아 둔 새벽 파편·혼·별의 정수는 그대로), 밤의 심연이 끝없이 내려가는 공허가 됐습니다. 혼자도(영웅 최대 6명), 함께도 들어갈 수 있습니다(주 10회). 층마다 법칙이 붙고(침묵→역전→거울→쌍둥이 차례), 11층부터 법칙이 둘, 21층부터 셋 겹칩니다. 10층마다 <b>공허의 수문장</b>(네 법칙이 턴마다 돌아감)이 지키고, 처음 쓰러뜨리면 그 층이 체크포인트가 됩니다(계속 남음 · 다음엔 그다음 층부터, 원하면 더 위 체크포인트부터). 캠페인에 나오지 않는 공허의 것들(눈알 군체 · 공허 촉수 · 거울 인형 · 쌍둥이 인형 · 공허의 수문장)과 거꾸로 매달린 성당이 있는 새 무대, 새 전투·수문장 음악. 보상은 일반 전투에선 안 나오는 것만 — 처음 깬 층: 그 층 법칙의 공명석 6 · 새벽 파편 2 / 다시 깬 층: 공명석 2 · 파편 1 · 수문장 첫 처치: 심연석 10 · 파편 10 · 별의 정수 4 · <b>심연 핵 1</b> / 수문장 반복: 핵 조각(주 3개까지). 함께하면 공명석 1.5배 + 동행의 증표. 함께 시작할 수 있는 층은 참가자 모두가 연 체크포인트 중 가장 낮은 곳까지이고, 기록·첫 돌파 보상은 각자 기준입니다.<br>
@@ -6637,6 +6639,13 @@ EG_MODES.fall={ name:"낙성 강림", icon:"🌠", desc:"별이 떨어지는 첨
 const FALL_ENVOYS=[
   {key:"veil", mob:"envoy_veil", name:"장막의 사도", tip:"1·5·9…턴마다 별빛 장막(최대 체력 25% 보호막)을 두릅니다. 2턴 안에 깨지 못하면 '장막 붕괴'로 아군 모두가 최대 체력 45% 피해 — 깨면 사도가 1턴 휘청입니다."},
   {key:"rewind", mob:"envoy_rewind", name:"되감는 사도", tip:"3·5·7…턴이 시작될 때, 2턴 동안 최대 체력 15% 이상을 깎지 못했으면 체력을 2턴 전으로 되감습니다. 몰아쳐야 합니다."}];
+const FALL_LORE=[{"id": "P0", "t": "별이 떨어진 밤", "need": "낙성 강림에 처음 들어가면", "l": ["새벽의 제단에서 선택을 내린 지 며칠 뒤, 하늘 저편에서 별 하나가 떨어졌다.", "별이 떨어진 자리에는 어떤 지도에도 없던 첨탑이 솟아 있었다.", "첨탑 꼭대기에는 금빛 고리가 감긴 제단. 용사 연대기 어디에도 적혀 있지 않은 곳이었다.", "제단 위에서 별빛으로 된 누군가가 천천히 몸을 일으켰다. 얼굴이 있어야 할 자리에는 밤하늘이 펼쳐져 있었다.", "사도: 「우리는 너희가 '별'이라 부르던 것이다.」", "사도: 「아주 오랫동안 장막 위에 있었다. 너희를 내려다보면서.」", "사도: 「이제 내려갈 때가 되었다. 너희에게 물을 것이 있으니.」", "그날부터 별은 이레마다 하나씩 떨어졌다."]}, {"id": "V1", "t": "장막 위의 별", "need": "장막의 사도를 처음 쓰러뜨리면", "l": ["장막의 사도가 무릎을 꿇었다. 베일 틈으로 별빛이 흘러나왔다.", "장막의 사도: 「루멘이 하늘을 장막으로 덮던 밤을 기억한다.」", "장막의 사도: 「장막은 미친 햇빛만 막은 것이 아니었다. 우리도 그 위에 함께 갇혔다.」", "장막의 사도: 「그래서 나는 장막이 되기로 했다. 무너지지 않도록, 그 위에서 떠받쳐 왔다.」", "할머니의 그림책에서는 용사가 별이 되었다고 했다. 하지만 장막 위에는 처음부터 별들이 있었다.", "장막의 사도: 「너희를 시험한 것은… 장막 없이도 설 수 있는지 보고 싶었기 때문이다.」"]}, {"id": "R1", "t": "천 번째 싸움", "need": "되감는 사도를 처음 쓰러뜨리면", "l": ["되감는 사도의 등 뒤에서 거꾸로 돌던 시곗바늘이 멈췄다.", "되감는 사도: 「이 싸움을 몇 번이나 되감았는지 아느냐. 천 번은 넘는다.」", "되감는 사도: 「나는 아주 먼 그 밤으로 돌아가려 했다. 모든 것이 어긋나기 전으로.」", "되감는 사도: 「하지만 아무리 되감아도 장막 앞에서 시간이 끊긴다. 장막이 그 밤을 덮고 있으니.」", "되감는 사도: 「장막 아래에서 온 너희라면, 내가 닿지 못한 곳에 닿을지도 모르지.」"]}, {"id": "V3", "t": "잠의 노래", "need": "장막의 사도 3단계를 깨면", "l": ["장막의 사도: 「태양은 처음부터 미친 것이 아니었다.」", "장막의 사도: 「먼 옛날, 별들은 밤마다 해에게 노래를 불러 주었다. 너무 뜨겁게 타오르지 않도록, 잠의 노래를.」", "장막의 사도: 「그런데 어느 밤, 노래가 멈췄다.」", "장막의 사도: 「잠들지 못한 해는 점점 뜨거워졌고, 끝내 미쳐 버렸다.」", "수몰 도시에서 운디르가 부르던 노래가 떠올랐다. '해가 미친 날, 바다가 울며 도시를 삼켰네…'", "사람들이 잊지 않으려 한 그 노래는, 해가 미친 날의 기억이었다."]}, {"id": "V5", "t": "지워진 밤", "need": "장막의 사도 5단계를 깨면", "l": ["장막의 사도: 「노래를 멈춘 자가 누구인지, 별들 가운데 기억하는 이가 없다.」", "장막의 사도: 「잊은 것이 아니다. 그 밤이 통째로 하늘에서 지워졌다.」", "장막의 사도: 「그 밤을 아는 별은 하나뿐이다. 시간을 거꾸로 감는 별.」", "장막의 사도: 「되감는 사도를 만나거든, 그 밤의 일을 물어라.」", "베일이 흩어지며 마지막 말이 남았다.", "장막의 사도: 「…해가 다시 미치기 전에.」"]}, {"id": "R3", "t": "노래를 훔친 손", "need": "되감는 사도 3단계를 깨면", "l": ["되감는 사도: 「별들이 해에게 불러 주던 잠의 노래. 그 노래를 멈춘 것은 별이 아니었다.」", "되감는 사도: 「땅 위의 누군가가 하늘로 손을 뻗어, 별의 노래를 훔쳤다.」", "되감는 사도: 「꺼지지 않는 빛을 갖고 싶어 했지. 밤이 오지 않는 세상을.」", "되감는 사도: 「노래를 잃은 해는 잠들지 못했고, 그 빛은 끝내 땅을 태웠다.」", "밤이 오지 않는 세상. 어디선가 들어 본 말 같았다.", "등불 도시 광장에서 날마다 '어둠을 찢고 해를 되찾자'고 외치던, 하얀 옷의 사람들이 떠올랐다."]}, {"id": "R5", "t": "가장 크게 우는 별", "need": "되감는 사도 5단계를 깨면", "l": ["되감는 사도: 「이제 되감지 않겠다. 너희가 앞으로 걸어가는 것을 보았으니.」", "되감는 사도: 「하늘에는 아직 내려오지 못한 별이 많다. 모두 그 밤에 무언가를 잃었다.」", "되감는 사도: 「가장 크게 우는 별이 떨어지는 날, 노래를 훔친 자의 이름을 듣게 될 것이다.」", "그 말을 끝으로, 시곗바늘이 처음으로 앞으로 한 칸 움직였다."]}];   // v0.65 낙성 기록 — 사도가 내려온 숨은 이야기
+function fallLoreGot(){ if(!Array.isArray(progress.fallLore)) progress.fallLore=[]; return progress.fallLore; }
+function fallLoreUnlock(ids){ const g=fallLoreGot(), nw=[]; for(const id of ids){ const pg=FALL_LORE.find(x=>x.id===id); if(pg&&!g.includes(id)){ g.push(id); nw.push(pg); } } return nw; }
+function fallLoreLog(pages){ for(const pg of pages){ logLine(`<span class="win">🌠 낙성 기록 — 「${esc(pg.t)}」 (${fallLoreGot().length}/${FALL_LORE.length})</span>`); for(const l of pg.l) logLine(`<span class="story">${esc(storyName(l))}</span>`); } }
+function fallLoreOpen(){ const g=fallLoreGot();
+  const m=openModal(`<h2>🌠 낙성 기록</h2><p class="sub">별들이 장막 아래로 내려온 숨은 이야기 · ${g.length}/${FALL_LORE.length}</p><div class="lorelist">${FALL_LORE.map((p,i)=>g.includes(p.id)?`<details class="lorepg"${i===0?" open":""}><summary><b>${i+1}. ${esc(p.t)}</b></summary>${p.l.map(l=>`<p>${esc(storyName(l))}</p>`).join("")}</details>`:`<div class="lorepg locked"><b>${i+1}. ???</b> <small>${esc(p.need)} 열립니다</small></div>`).join("")}</div><div class="mfoot"><button class="btn" id="loreClose">닫기</button></div>`,"small");
+  m.querySelector("#loreClose").onclick=closeModal; }
 const FALL_G={hp:1.18, atk:1.08}, FALL_BASE={hp:2.4, atk:1.1};
 function fallEnvoy(wk){ wk=wk==null?weekId():wk; return FALL_ENVOYS[((wk%FALL_ENVOYS.length)+FALL_ENVOYS.length)%FALL_ENVOYS.length]; }
 function fallZone(ek,lv){ const E=FALL_ENVOYS.find(x=>x.key===ek)||FALL_ENVOYS[0], R=REGIONS.starfall, k=Math.max(0,lv-1);
@@ -11279,7 +11288,7 @@ function egCampHtml(){
   let info="", ctl="";
   if(m==="fall"){ const E=fallEnvoy(), r=fallRec(E.key), lv=fallLv(), W=fallWeek();
     info=`이번 주 <b>${esc(E.name)}</b> — ${esc(E.tip)} · 최고 <b>${r.best}단계</b> · 이번 주 첫 처치 보상 ${W.kills<egFirstN()?"<b style='color:var(--good)'>남음</b>":"받음"}`;
-    ctl=`<label class="egstart">단계 <select onchange="fallSetLv(+this.value)">${Array.from({length:r.best+1},(_,i)=>i+1).map(v=>`<option value="${v}" ${v===lv?"selected":""}>${v}단계</option>`).join("")}</select></label>`; }
+    ctl=`<button class="egstart lorebtn" onclick="fallLoreOpen()">🌠 낙성 기록 ${fallLoreGot().length}/${FALL_LORE.length}</button><label class="egstart">단계 <select onchange="fallSetLv(+this.value)">${Array.from({length:r.best+1},(_,i)=>i+1).map(v=>`<option value="${v}" ${v===lv?"selected":""}>${v}단계</option>`).join("")}</select></label>`; }
   if(m==="abyss"){ const A=abyssRec(), R0=resoState(), st=abyssStartFloor(); info=`최고 <b>${A.best}층</b>${A.ck?` · 체크포인트 <b>${A.ck}층</b>`:""} · 공명석 ${RESO_LINES.map(k=>`${RESO[k].icon}${R0.st[k]|0}`).join(" ")} 🌑${R0.st.abyss|0} · 심연 핵 ${progress.abyssCore|0}`;
     if(A.ck) ctl=`<label class="egstart">시작 <select onchange="abyssSetStart(+this.value)">${Array.from({length:A.ck/10+1},(_,i)=>i*10+1).map(f=>`<option value="${f}" ${f===st?"selected":""}>${f}층</option>`).join("")}</select></label>`; }
   if(m==="tower"){ info=`이번 주 저주 <b>${W.curse.map(an).join("·")}</b> · 이번 주 최고 <b>${E.towerBest}층</b>${E.towerCk?` · 체크포인트 <b>${E.towerCk}층</b>`:""}`;
@@ -11310,6 +11319,7 @@ function startEg(m){
   if(m==="tower") logLine(`<span class="sk">이번 주 탑의 저주: ${W.curse.map(k=>AFFIXES[k].name+"("+AFFIXES[k].desc+")").join(", ")} — ${start}층부터</span>`);
   if(m==="raid") logLine(`<span class="sk">이번 주 군단장: ${esc(MOBS[REGIONS[W.raid].boss].name)} · 추가 저주 ${AFFIXES[W.raidAffix].name}(${AFFIXES[W.raidAffix].desc}) — 단계 사이에는 조금만 회복합니다</span>`);
   if(m==="exped") logLine(`<span class="sk">갈림길마다 길을 고릅니다. 원정 유물은 이번 원정 동안만, 4명 모두에게 적용됩니다.</span>`);
+  if(m==="fall"){ const pg=fallLoreUnlock(["P0"]); if(pg.length){ fallLoreLog(pg); saveProgress(); telling=true; setMainBtn(); showNarration(pg[0].l).then(()=>{ telling=false; setMainBtn(); if(runState&&runState.mode==="fall") enterZone(); }); return; } }   // v0.65 첫 입장 — 별이 떨어진 밤
   setMainBtn(); enterZone();
 }
 const EG_NODE_LABEL={battle:"⚔ 전투",elite:"☠ 정예",rest:"🔥 쉼터",shop:"🛒 떠돌이 상인",relic:"🎁 유물 상자",curse:"🩸 저주받은 상자",event:"❔ 사건",boss:"👑 군단장"};
@@ -11347,7 +11357,9 @@ async function egNode(z){
 function egShards(n,why){ if(!n) return; const E=egState(); E.shards+=n; runState.gains.shards=(runState.gains.shards||0)+n; logLine(`<span class="gain">🌅 새벽 파편 +${n}${why?` — ${esc(why)}`:""} (보유 ${E.shards})</span>`); }
 function egAfterWin(z){
   const E=egState(), R=runState;
-  if(R.mode==="fall"){ fallReward(z,false,R.gains); R.eg.won=1; egEnd("clear"); return; }   // v0.64
+  if(R.mode==="fall"){ const pg=fallReward(z,false,R.gains); R.eg.won=1;
+    if(pg.length){ telling=true; setMainBtn(); (async()=>{ for(const p of pg) await showNarration([`— 낙성 기록 「${p.t}」 —`].concat(p.l)); telling=false; egEnd("clear"); })(); return; }   // v0.65 새 낙성 기록은 이야기로 보여 줌
+    egEnd("clear"); return; }   // v0.64
   if(R.mode==="abyss"){ const f=z.floor; R.eg.top=f; abyssReward(z,false,R.gains);
     if(f%5===0){ for(const u of R.party){ if(!u.alive){ u.alive=true; u.hp=1; } u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.25)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*0.25)); } logLine(`<span class="heal">${f}층 — 공허 속 고요한 틈에서 숨을 고른다 (체력·마나 25% 회복)</span>`); }
     R.zones.push(abyssFloor(f+1)); saveProgress(); advanceZone(); return; }
@@ -12152,8 +12164,9 @@ function fallReward(z,coop,gains){ const r=fallRec(z.envoy), W=fallWeek(), wf=W.
   const items=[]; if(nl) items.push(makeItem(true,egTier(),{rarity:"legend",luck:partyLuck(),src:"boss"})); if(coop) items.push(makeItem(true,egTier(),{rarity:Math.random()<0.5?"legend":"epic",luck:partyLuck(),src:"boss"}));
   if(items.length){ const lr=takeLoot(items); for(const x of lr.kept){ gains.items=(gains.items||0)+1; lootToast(x,"낙성 강림"); out.push(`[${rarityLabel(x)}] ${esc(itemDisplayName(x))}`); } }
   if(nl) r.best=z.lv;
+  const pre=z.envoy==="rewind"?"R":"V", pages=fallLoreUnlock(["P0",pre+"1"].concat(r.best>=3?[pre+"3"]:[],r.best>=5?[pre+"5"]:[]));   // v0.65
   logLine(`<span class="gain">🌠 ${esc(FALL_ENVOYS.find(x=>x.key===z.envoy).name)} ${z.lv}단계 처치${wf?" (이번 주 첫 처치)":""}${nl?" · 새 단계":""}${coop?" · 함께 보너스":""} — ${out.join(" · ")}</span>`);
-  saveProgress(); }
+  fallLoreLog(pages); saveProgress(); return pages; }
 function abyssRec(){ const A=progress.abyss=progress.abyss||{}; A.best=A.best|0; A.ck=A.ck|0; return A; }
 function abyssStartFloor(){ const A=abyssRec(); const s=progress.abyssStart|0; return s>=1&&s<=A.ck+1&&(s-1)%10===0?s:A.ck+1; }
 function abyssSetStart(f){ progress.abyssStart=f; saveProgress(); setMainBtn(); renderDungeonPicker(); }
