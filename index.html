@@ -1247,7 +1247,10 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .gscards{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px}
 .gscard{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px} .gscard h3{margin:0; font-size:15px} .gscard.on{border-color:var(--accent)}
 .gscard ul{margin:0; padding-left:18px; font-size:12.5px; color:var(--sub); line-height:1.5} .gscard .gsst{font-size:12.5px; color:var(--muted)} .gscard .gsst b{color:var(--accent)} .gsbtns{display:flex; gap:6px; flex-wrap:wrap; margin-top:auto}
-.adrow{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; column-gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line)} .adrow:first-of-type{border-top:0} .adrow span{font-size:13px} .adrow small{font-size:11.5px; color:var(--muted)} .adrow button{grid-row:1/3; grid-column:2} .adrow .cosst{grid-row:1/3; grid-column:2} .adrow select{margin:2px 2px 0 0; max-width:100%}
+.adrow{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; column-gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line)} .adrow:first-of-type{border-top:0} .adrow span{font-size:13px} .adrow small{font-size:11.5px; color:var(--muted)} .adrow button{grid-row:1/3; grid-column:2} .adrow .cosst{grid-row:1/3; grid-column:2}
+.resos{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px} .reso{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:10px 12px; display:flex; flex-direction:column; gap:6px}
+.reso .rh{display:flex; align-items:baseline; gap:6px} .reso .rh small{color:var(--muted); font-size:12px} .reso .rl{margin-left:auto; color:var(--accent); font-weight:700}
+.reso .rv{font-size:13px; color:var(--sub)} .reso .rf{display:flex; align-items:center; gap:8px; justify-content:space-between} .reso .rf small{color:var(--muted); font-size:11.5px} .reso .rf .btn{font-size:12.5px; padding:5px 10px} .adrow select{margin:2px 2px 0 0; max-width:100%}
 .pbar{height:6px; background:var(--bg); border-radius:3px; overflow:hidden; border:1px solid #00000060} .pbar i{display:block; height:100%; background:var(--accent)}
 .modal.passm .mpanel{max-width:960px; width:min(96vw,960px)}
 .ptracks{display:flex; flex-direction:column; gap:8px} .ptrack{display:grid; grid-template-columns:40px minmax(0,1fr); gap:6px; align-items:center} .ptrack.dim{opacity:.6} .plab{font-size:12.5px; font-weight:700; color:var(--sub); text-align:center}
@@ -1261,7 +1264,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.60 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.61 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1368,6 +1371,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.61: <b>🌑 심연 공명</b> — 심연 룬을 없애고, 밤의 심연 1~4층에서 그 층의 공명석(🔇침묵·🔄역전·🪞거울·♊쌍둥이)을, 5층에서 어느 줄기에나 쓰는 심연석을 3개씩(그 주 처음 깬 층은 2배) 받습니다. 상점 '🌑 심연' 탭에서 네 줄기를 키우면 내 영웅 모두가 모든 콘텐츠에서 세집니다 — 침묵(딜러): 스킬 피해 · 역전(힐러): 치유량·보호막 · 거울(탱커): 받는 피해 감소 · 쌍둥이(광역): 광역 피해. 단계가 오를수록 공명석이 더 들고(3+단계) 효과는 조금씩 줄며, 10·20·30단계마다 특수 효과(스킬 마나 -5% · 전투 시작 보호막 3% · 반격 +4% · 치명타 피해 +8%)가 하나씩 쌓입니다. 가지고 있던 심연 룬은 각인 1개당 공명석 3개로 바꿔 드렸습니다(박힌 룬은 전설 룬으로 남음). 증표 상점의 룬은 공명석(25)으로 바뀌었습니다.<br>
 v0.60: <b>🤝 동행의 증표 상점</b> — 상점에 '🤝 증표' 탭이 생겼습니다. 밤의 심연에서 모은 증표로 동행 명함 틀(300) · 명함 스티커 '맞잡은 손'(120) · 칭호 '동행자'(150, 장식) · 칭호 '심연을 건넌 자'(400, 체력 +3% · 5층을 깬 뒤) · 심연 룬(각인을 골라서 1개 100 · 2개 260) · 아직 없는 군단장 유물 고르기(300) · 고른 군단장의 혼(40) · 심연 핵 조각(150, 주 2개까지)을 교환합니다.<br>
 v0.59: <b>🌑 밤의 심연</b> — 함께하기 전용 최종 콘텐츠(2명 이상, 주 5회). 다섯 층에 법칙이 하나씩 붙습니다: 1층 🔇침묵(마법사·성직자·음유시인의 공격이 안 통함) · 2층 🔄역전(치유받으면 다음 차례에 공격 못함) · 3층 🪞거울(준 피해의 25%가 되돌아옴) · 4층 ♊쌍둥이(둘을 함께 쓰러뜨려야 함) · 5층 🌑심연(네 법칙이 턴마다 돌아감). 깬 층마다 각자 동행의 증표(그 주 처음 깬 층은 2배)를 받고, 1~4층은 25%로 · 5층은 확정으로 심연 룬(전설보다 높은 능력치 + 법칙을 무시하는 각인)이 나옵니다. 5층을 깨면 심연 핵(이번 주 첫 클리어) 또는 핵 조각(3개 = 핵 1). 심연 핵으로 +15 부위의 한계를 열면 +18(심연철)까지 강화할 수 있습니다(+16~+18 성공률 5·3·2%).<br>
 v0.58: <b>🎨 외형 상점</b> — 상점에 '🎨 외형' 탭이 생겼습니다. 망토 8 · 무기 외형 8 · 오라 색 10 · 이펙트 테마 8 · 전투 숫자 6 · 치명타 연출 8 · 명함 틀 9 · 명함 스티커 24 · 모닥불 장식 16가지를 움직이는 미리보기로 보고 💎 새벽 결정으로 삽니다(전투력은 그대로). 망토·무기·오라 색은 주인공에게, 이펙트·숫자·치명타는 내 화면의 전투에, 틀·스티커는 명함에, 장식은 마을 쉼터 모닥불 곁에 보입니다. 아트 패스 시즌 1 외형(별빛 베일 · 달빛 무기 · 룬 마법진 · 둥근 숫자 · 달빛 수정 · 달 스티커 · 달빛 오라)도 받으면 바로 착용할 수 있습니다.<br>
@@ -4052,6 +4056,7 @@ function migrateProgress(p){
   if(out.protag&&!pt.includes(out.protag.cid)) pt.unshift(out.protag.cid);
   if(!pt.length) pt=out.roster.slice();
   out.party=pt.slice(0,Math.min(6,EG_PARTY_MAXFOR(out)));
+  if(typeof resoMigrate==="function") resoMigrate(out);   // v0.61 심연 룬 → 공명석
   return out;
 }
 function expNeed(level){ return Math.round(120*Math.pow(level,1.5)); }
@@ -4228,7 +4233,7 @@ class Sim {
     this.seed=seed>>>0; this.rand=mulberry32(this.seed);
     for(const u of this.units){ u.buffs={}; u.dots={}; u.taunted_by=""; u._half=false; u._saidDefeat=false;
       u._lampUsed=false; u._undyingUsed=false; u._iceUsed=false; u._acted=false; if(!u.traits) u.traits={};
-      u.shield=u.startShield?Math.floor(u.hp_max*u.startShield):0; u._rampage=0; u._angelUsed=false; u._kills=0; u._countering=false; u._fell=false; u._ledger=0; u._starUsed=false;
+      u.shield=(u.startShield?Math.floor(u.hp_max*u.startShield):0)+(u.traits&&u.traits.reso_shield?Math.floor(u.hp_max*0.03*u.traits.reso_shield):0); u._rampage=0; u._angelUsed=false; u._kills=0; u._countering=false; u._fell=false; u._ledger=0; u._starUsed=false;
       u._combo=0; u._coat=0; u._vanishUsed=false; u._comboKill=0; u._restealth=false; u._critCombo=0; u._oathHit=false; u._oathDone=false; u._kingStk=0;
       u._killsTotal=0; u._bossKills=0; u._critsTotal=0; u._healDone=0; u._dmgTaken=0; u._counters=0; u._lastCrit=false; u._critNow=false;
       u._encore=0; u._ledgerAct=0; u._encoreArmed=false; u._ledgerArmed=false; if(u._hasteTurns){ u.spd-=4; u._hasteTurns=0; } if(u._fsp){ u.spd-=u._fsp; u._fsp=0; } u._lastWardUsed=false; u._starRevUsed=false; u._fellRecent=false; u._bursted=false; u._skillUse={};
@@ -4460,7 +4465,7 @@ class Sim {
   }
   buffMult(u,key){ return u.buffs[key]?1+u.buffs[key].value:1; }
   resCost(u,s){ return Math.max(0,(s.resCost||0)-((u.traits&&u.traits.cresc_cheap&&s.type==="crescendo")?1:0)); }
-  mpCost(u,skill){ let c=skill.mp; if(skill.type==="stealth"&&u.traits.stealth_long) return 0; if(u.traits.mana_cycle) c*=0.75; if(u.traits.swift_heal&&skill.type==="heal") c*=0.85; return Math.ceil(c); }
+  mpCost(u,skill){ let c=skill.mp; if(skill.type==="stealth"&&u.traits.stealth_long) return 0; if(u.traits.mana_cycle) c*=0.75; if(u.traits.reso_mp) c*=1-0.05*u.traits.reso_mp; if(u.traits.swift_heal&&skill.type==="heal") c*=0.85; return Math.ceil(c); }
   usable(u,skill){
     if(u.mp<this.mpCost(u,skill)) return false;
     const st=skill.type;
@@ -5560,6 +5565,7 @@ function heroDerived(cid){
   if(E.relic&&RELICS[E.relic]&&RELICS[E.relic].flag) traits[RELICS[E.relic].flag]=true;
   if(E.relic&&E.relicSt>=3&&RELIC_AWAKE[E.relic]) traits[RELIC_AWAKE[E.relic].flag]=true;
   if(traits.relic_bark) traits.dmg_cut=(traits.dmg_cut||0)+0.08;
+  resoApply(traits);   // v0.61 심연 공명
   if(E.mythic&&MYTHIC[E.mythic]){ const My=MYTHIC[E.mythic]; for(const f of My.flags) traits[f]=true; if(My.amp) traits.skill_amp=(traits.skill_amp||0)+My.amp; }
   if(E.relic&&RELICS[E.relic]) for(const [k,v] of Object.entries(RELICS[E.relic].stat)){ /* 유물 능력치는 이미 effStats에 포함(아이템 base) */ }
   for(const x of (E.abyss||[])) traits["ab_"+x]=true; if(traits.ab_twins) traits.aoe_mult=(traits.aoe_mult||1)*1.1;   // v0.59 심연 룬
@@ -5821,7 +5827,7 @@ function cosPvDraw(S,c,g,now,cv){ const T=now/1000;
     case "deco": { const d=cosDecoFrame(c.id.slice(3),now); if(d) g.drawImage(d,0,0); break; }
   } }
 /* v0.60 🤝 동행의 증표 상점 — 밤의 심연에서 모은 증표로: 외형 · 칭호 · 심연 룬(각인 골라서) · 군단장 유물·혼 · 심연 핵 조각 */
-const TOK_PRICE={fr_coop:300, st_pact:120, t_coop:150, t_abyss:400, rune1:100, rune2:260, relic:300, soul:40, frag:150};
+const TOK_PRICE={fr_coop:300, st_pact:120, t_coop:150, t_abyss:400, stone:25, relic:300, soul:40, frag:150};
 const TOK_FRAG_WEEK=2;   // 핵 조각은 주 2개까지
 let tokArm=null;
 function tokWeek(){ const E=egState(); if(!E.tk||E.tk.wk!==E.wk) E.tk={wk:E.wk, frag:0}; return E.tk; }
@@ -5832,23 +5838,31 @@ function tokShopBlock(){
   const lawOpts=["silence","reverse","mirror","twins"].map(k=>`<option value="${k}">${ABYSS_LAWS[k].icon} ${ABYSS_LAWS[k].n}</option>`).join("");
   const missing=Object.keys(RELICS).filter(rk=>!relicOwned(rk));
   const row=(t,s,b)=>`<div class="adrow"><span>${t}</span><small>${s}</small>${b}</div>`;
-  box.innerHTML=`<div class="gshead"><b>🤝 동행의 증표 ${tok.toLocaleString("ko-KR")}</b><span>밤의 심연에서 층마다 받습니다(그 주 처음 깬 층은 2배)</span></div>
+  const R=resoState();
+  const reso=RESO_LINES.map(k=>{ const L=R.lv[k]|0, c=resoCost(L), have=(R.st[k]|0)+(R.st.abyss|0), U=resoUnits(L), m=Math.min(3,Math.floor(L/10)), Q=RESO[k];
+    const now=k==="silence"?`스킬 피해 +${+(U*1).toFixed(1)}%`:k==="reverse"?`치유량·보호막 +${+(U*1.5).toFixed(1)}%`:k==="mirror"?`받는 피해 -${+(U*0.6).toFixed(1)}%`:`광역 피해 +${+(U*1).toFixed(1)}%`;
+    return `<div class="reso"><div class="rh"><b>${Q.icon} ${Q.n}</b><small>${Q.role}</small><span class="rl">${L}단계</span></div>
+      <div class="rv">${L?now:`단계마다 ${esc(Q.unit)}`}${m?` · ${esc(Q.mile)}${m>1?" ×"+m:""}`:""}</div>
+      <div class="rf"><small>${Q.icon}석 ${R.st[k]|0}${L<30?` · ${10*(Math.floor(L/10)+1)}단계: ${esc(Q.mile)}`:""}</small><button class="btn" data-reso="${k}" ${have<c?"disabled":""}>올리기 · ${c}개</button></div></div>`; }).join("");
+  box.innerHTML=`<div class="gshead"><b>🌑 심연 공명</b><span>밤의 심연 1~4층에서 그 층의 공명석, 5층에서 심연석(어느 줄기에나)을 받습니다 · 내 영웅 모두에게 · 모든 콘텐츠에서 · 심연석 ${R.st.abyss|0}</span></div>
+  <div class="resos">${reso}</div>
+  <div class="gshead"><b>🤝 동행의 증표 ${tok.toLocaleString("ko-KR")}</b><span>밤의 심연에서 층마다 받습니다(그 주 처음 깬 층은 2배)</span></div>
   <div class="gscards">
     <div class="gscard"><h3>외형 · 칭호</h3>
       ${row("🤝 동행 명함 틀","두 사람 색으로 땋은 테두리",own("fr_coop")?`<span class="cosst on">보유</span>`:btn("fr_coop"))}
       ${row("명함 스티커 '맞잡은 손'","함께하기에서만",own("st_pact")?`<span class="cosst on">보유</span>`:btn("st_pact"))}
       ${row("칭호 '동행자'","장식 · 효과 없음",hasT("coopT1")?`<span class="cosst on">보유</span>`:btn("t_coop"))}
       ${row("칭호 '심연을 건넌 자'",`체력 +3% · 5층을 한 번이라도 깬 뒤 ${(progress.abyssEver|0)?"":"(아직)"}`,hasT("coopT2")?`<span class="cosst on">보유</span>`:btn("t_abyss",!(progress.abyssEver|0)))}</div>
-    <div class="gscard"><h3>심연 룬</h3>
-      ${row(`각인 1개 <select id="tkLaw1">${lawOpts}</select>`,"룬 종류는 무작위 · 전설보다 높은 능력치",btn("rune1"))}
-      ${row(`각인 2개 <select id="tkLaw2a">${lawOpts}</select><select id="tkLaw2b">${lawOpts}</select>`,"5층 룬과 같은 등급",btn("rune2"))}</div>
+    <div class="gscard"><h3>공명석</h3>
+      ${row(`공명석 1개 <select id="tkStone">${lawOpts}</select>`,"고른 줄기의 공명석",btn("stone"))}</div>
     <div class="gscard"><h3>군단장 유물</h3>
       ${row(`유물 고르기 ${missing.length?`<select id="tkRelic">${missing.map(rk=>`<option value="${rk}">${esc(RELICS[rk].name)}</option>`).join("")}</select>`:""}`,missing.length?"아직 없는 군단장 유물 하나":"일곱 유물을 모두 가졌습니다",btn("relic",!missing.length))}
       ${row(`군단장의 혼 <select id="tkSoul">${RAID_BOSSES.map(rk=>`<option value="${rk}">${esc(MOBS[REGIONS[rk].boss].name)} (${egMat().soul[rk]|0})</option>`).join("")}</select>`,"유물 각성·신화 무기 재료 · 고른 군단장 것",btn("soul"))}</div>
     <div class="gscard"><h3>🌑 심연 핵 조각</h3>
       ${row("핵 조각 1개",`3개 = 심연 핵 1 · 이번 주 ${W.frag}/${TOK_FRAG_WEEK} · 보유 조각 ${progress.abyssFrag|0}/3 · 핵 ${progress.abyssCore|0}`,btn("frag",W.frag>=TOK_FRAG_WEEK))}</div>
   </div>`;
-  const keep={}; for(const id of ["tkLaw1","tkLaw2a","tkLaw2b","tkRelic","tkSoul"]){ const el=box.querySelector("#"+id); if(el){ if(tokShopBlock.sel&&tokShopBlock.sel[id]&&[...el.options].some(o=>o.value===tokShopBlock.sel[id])) el.value=tokShopBlock.sel[id]; el.onchange=()=>{ (tokShopBlock.sel=tokShopBlock.sel||{})[id]=el.value; tokArm=null; renderShop(); }; } }
+  const keep={}; for(const id of ["tkStone","tkRelic","tkSoul"]){ const el=box.querySelector("#"+id); if(el){ if(tokShopBlock.sel&&tokShopBlock.sel[id]&&[...el.options].some(o=>o.value===tokShopBlock.sel[id])) el.value=tokShopBlock.sel[id]; el.onchange=()=>{ (tokShopBlock.sel=tokShopBlock.sel||{})[id]=el.value; tokArm=null; renderShop(); }; } }
+  box.querySelectorAll("[data-reso]").forEach(b=>b.onclick=()=>{ if(runBusy()) return; resoUp(b.dataset.reso); renderShop(); });
   box.querySelectorAll("[data-tk]").forEach(b=>b.onclick=()=>{ const k=b.dataset.tk; if(tokArm!==k){ tokArm=k; renderShop(); return; } tokArm=null; tokBuy(k,box); renderShop(); });
   return box;
 }
@@ -5856,8 +5870,7 @@ tokShopBlock.sel={};
 function tokBuy(k,box){ const pr=TOK_PRICE[k]; if((progress.coopTok|0)<pr) return false; const v=id=>{ const el=box.querySelector("#"+id); return el?el.value:null; }; let msg="";
   if(k==="fr_coop"||k==="st_pact"){ const C=progress.cosmetics=progress.cosmetics||{}; if(C[k]) return false; C[k]=true; if(typeof cosWear==="function") cosWear(k,true); msg=`${COS_BY[k].name} — 🎨 외형 탭에서 착용`; }
   else if(k==="t_coop"||k==="t_abyss"){ if(k==="t_abyss"&&!(progress.abyssEver|0)) return false; const s=k==="t_coop"?"coopT1":"coopT2"; for(const c of rosterIds()){ const h=progress.heroes[c]; h.stats=h.stats||{}; h.stats[s]=1; } msg=`칭호 '${k==="t_coop"?"동행자":"심연을 건넌 자"}'`; }
-  else if(k==="rune1"||k==="rune2"){ const tags=k==="rune1"?[v("tkLaw1")]:[...new Set([v("tkLaw2a"),v("tkLaw2b")])]; if(k==="rune2"&&tags.length<2){ logLine(`<span class="r">각인 2개는 서로 달라야 합니다.</span>`); return false; }
-    const it=makeRune(null,"legend",2,tags); if(!bagHasRoom(it)){ logLine(`<span class="r">가방이 가득 찼습니다.</span>`); return false; } progress.inv.push(it); lootToast(it,"증표 상점"); msg=`${it.name} (각인 ${tags.map(t=>ABYSS_LAWS[t].n).join("·")})`; }
+  else if(k==="stone"){ const t=v("tkStone"); if(!RESO[t]) return false; const R=resoState(); R.st[t]=(R.st[t]|0)+1; msg=`${RESO[t].icon} ${RESO[t].n}석 1 (보유 ${R.st[t]})`; }
   else if(k==="relic"){ const rk=v("tkRelic"); if(!RELICS[rk]||relicOwned(rk)) return false; const it=makeRelic(rk); if(!bagHasRoom(it)){ logLine(`<span class="r">가방이 가득 찼습니다.</span>`); return false; } progress.inv.push(it); codexRecord(it); lootToast(it,"증표 상점"); msg=RELICS[rk].name; }
   else if(k==="soul"){ const rk=v("tkSoul"); if(!RAID_BOSSES.includes(rk)) return false; const m=egMat(); m.soul[rk]=(m.soul[rk]|0)+1; msg=`${MOBS[REGIONS[rk].boss].name}의 혼 1 (보유 ${m.soul[rk]})`; }
   else if(k==="frag"){ const W=tokWeek(); if(W.frag>=TOK_FRAG_WEEK) return false; W.frag++; progress.abyssFrag=(progress.abyssFrag|0)+1; msg="심연 핵 조각 1";
@@ -6581,7 +6594,24 @@ const ABYSS_LAWS={
   twins:  {n:"쌍둥이", icon:"♊", d:"쌍둥이 둘 중 하나만 다치면 턴이 끝날 때 다른 쪽만큼 회복하고, 하나가 쓰러져도 다른 하나가 살아 있으면 턴이 끝날 때 되살아납니다"},
   abyss:  {n:"심연", icon:"🌑", d:"침묵·역전·거울·쌍둥이가 턴마다 돌아가며 적용됩니다"}};
 const ABYSS_FLOORS=["silence","reverse","mirror","twins","abyss"];
-const ABYSS_TOK=[4,6,8,10,15], ABYSS_RUNE_P=0.25;
+/* v0.61 심연 공명 — 층마다 그 법칙의 공명석 · 네 줄기를 키우면 내 영웅 모두가 모든 콘텐츠에서 세짐(줄기마다 역할이 다름).
+   단계가 오를수록 공명석이 더 들고(3+단계) 효과는 조금씩 줄어듦(10단계까지 1 · 20까지 0.5 · 그 뒤 0.25씩) · 10단계마다 특수 효과(3번까지) */
+const RESO_LINES=["silence","reverse","mirror","twins"];
+const RESO={
+  silence:{n:"침묵", icon:"🔇", role:"딜러", unit:"스킬 피해 +1%", mile:"스킬 마나 소모 -5%"},
+  reverse:{n:"역전", icon:"🔄", role:"힐러", unit:"치유량·보호막 +1.5%", mile:"전투 시작 보호막 체력 3%"},
+  mirror: {n:"거울", icon:"🪞", role:"탱커", unit:"받는 피해 -0.6%", mile:"반격 확률 +4%"},
+  twins:  {n:"쌍둥이", icon:"♊", role:"광역", unit:"광역 피해 +1%", mile:"치명타 피해 +8%"}};
+function resoUnits(L){ return Math.min(L,10)+0.5*Math.max(0,Math.min(L,20)-10)+0.25*Math.max(0,L-20); }
+function resoCost(L){ return 3+L; }
+function resoLv(k){ const R=(typeof progress!=="undefined"&&progress&&progress.reso)||null; return R&&R.lv?(R.lv[k]|0):0; }
+function resoApply(traits){ const U=k=>resoUnits(resoLv(k)), M=k=>Math.min(3,Math.floor(resoLv(k)/10));
+  if(resoLv("silence")){ traits.skill_amp=(traits.skill_amp||0)+0.01*U("silence"); traits.reso_mp=M("silence"); }
+  if(resoLv("reverse")){ traits.heal_pct=(traits.heal_pct||0)+0.015*U("reverse"); traits.shield_pct=(traits.shield_pct||0)+0.015*U("reverse"); traits.reso_shield=M("reverse"); }
+  if(resoLv("mirror")){ traits.dmg_cut=1-(1-(traits.dmg_cut||0))*(1-0.006*U("mirror")); traits.counter=(traits.counter||0)+0.04*M("mirror"); }
+  if(resoLv("twins")){ traits.aoe_mult=(traits.aoe_mult||1)*(1+0.01*U("twins")); traits.crit_dmg=(traits.crit_dmg||0)+0.08*M("twins"); }
+  return traits; }
+const ABYSS_TOK=[4,6,8,10,15], RESO_STONE=3;
 const ABYSS_TUNE={hp:[1.7,1.85,2.0,2.15,2.4], atk:[1.22,1.27,1.32,1.37,1.45], boss:{hp:2.6,atk:1.12}};
 const MAGIC_CLS=new Set(["mage","priest","bard"]);
 function abyssZones(W){ return ABYSS_FLOORS.map((law,i)=>egMarkZ(abyssFloor(i+1,law,W))); }
@@ -10390,7 +10420,7 @@ function renderShop(){
   if(!Array.isArray(progress.shopStock)||!progress.shopStock.length) genStock();
   const mkOpen=progress.diffMax>=2;
   if(mkOpen&&(!progress.market||!Array.isArray(progress.market.goods))) genMarket();
-  const tabs=[["gear","🛡 오늘의 장비"],["book","📖 스킬북"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]).concat((egOpen()||(progress.coopTok|0)>0)?[["tok","🤝 증표"]]:[]).concat([["gem","💎 새벽 상점"],["cos","🎨 외형"]]);
+  const tabs=[["gear","🛡 오늘의 장비"],["book","📖 스킬북"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]).concat((egOpen()||(progress.coopTok|0)>0)?[["tok","🌑 심연"]]:[]).concat([["gem","💎 새벽 상점"],["cos","🎨 외형"]]);
   if(!tabs.some(t=>t[0]===shopTab)) shopTab="gear";
   const gearUp=progress.shopStock.filter(e=>!e.sold&&shopBest(e.item)).length;
   const bookLeft=SKILLBOOKS.filter(bk=>rosterIds().includes(bk.cls)&&!progress.heroes[bk.cls].learned.includes(bk.skill)).length;
@@ -11977,12 +12007,24 @@ function coopEnd(res){
 // ---------- 함께하기 최종 콘텐츠 ----------
 function coopShards(run,n){ if(!n) return; const E=egState(); E.shards+=n; run.gains.shards=(run.gains.shards||0)+n; }
 // v0.59 밤의 심연 보상 — 층마다 동행의 증표(그 주 처음 깬 층은 2배) · 1~4층 25% 심연 룬 · 5층 확정 심연 룬(각인 2개) + 심연 핵(주 첫 클리어) 또는 핵 조각
+function resoState(){ const R=progress.reso=progress.reso||{}; R.st=R.st||{}; R.lv=R.lv||{}; return R; }
+// 공명 올리기: 그 줄기의 공명석을 먼저, 모자라면 심연석(아무 줄기)을 씀
+function resoUp(k){ const R=resoState(), L=R.lv[k]|0, c=resoCost(L), own=R.st[k]|0, wild=R.st.abyss|0; if(own+wild<c) return false;
+  const a=Math.min(own,c); R.st[k]=own-a; R.st.abyss=wild-(c-a); R.lv[k]=L+1; saveProgress();
+  logLine(`<span class="win">${RESO[k].icon} ${RESO[k].n} 공명 ${L+1}단계${(L+1)%10===0&&L+1<=30?` — ${esc(RESO[k].mile)}`:""}</span>`); return true; }
+// v0.61: 예전 심연 룬은 공명석으로 바꿔 줌(각인 1개당 3개 · 박힌 룬은 각인만 떼고 전설 룬으로 남김)
+function resoMigrate(p){ if(!p||p.resoMig) return; p.resoMig=1; const R=p.reso=p.reso||{}; R.st=R.st||{}; R.lv=R.lv||{}; let n=0;
+  const give=tags=>{ for(const t of tags) if(RESO[t]){ R.st[t]=(R.st[t]|0)+3; n+=3; } };
+  p.inv=(p.inv||[]).filter(it=>{ if(it&&it.slot==="rune"&&Array.isArray(it.abyss)&&it.abyss.length){ give(it.abyss); return false; } return true; });
+  for(const it of [...(p.inv||[]),...(p._equipped||[])]) if(it&&Array.isArray(it.sockets)) it.sockets=it.sockets.map(r=>{ if(r&&String(r).includes("#")){ give(String(r).split("#")[1].split("+")); return String(r).split("#")[0]; } return r; });
+  if(n) p.resoMigN=n; }
 function abyssWeek(){ const E=egState(); if(!E.ab||E.ab.wk!==E.wk) E.ab={wk:E.wk, first:{}, clears:0, best:0}; return E.ab; }
 function abyssRune(f,law){ const tags=law==="abyss"?(()=>{ const p=["silence","reverse","mirror","twins"]; const a=p.splice(ri(0,3),1)[0], b=p[ri(0,2)]; return [a,b]; })():[law]; return makeRune(null,"legend",2,tags); }
 function abyssFloorReward(run,z){ const f=z.floor, A=abyssWeek(), first=!A.first[f]; A.first[f]=true; A.best=Math.max(A.best,f);
   const tok=ABYSS_TOK[f-1]*(first?2:1); progress.coopTok=(progress.coopTok|0)+tok; run.gains.tok=(run.gains.tok||0)+tok;
   logLine(`<span class="gain">🤝 ${f}층 돌파 — 동행의 증표 +${tok}${first?" (이번 주 처음 · 2배)":""} (보유 ${progress.coopTok})</span>`);
-  if(f===5||Math.random()<ABYSS_RUNE_P){ const it=abyssRune(f,z.law); const lr=takeLoot([it]); for(const x of lr.kept){ run.gains.items++; logLine(`<span class="gain">🌑 심연 룬: ${esc(x.name)} — 각인 ${x.abyss.map(t=>ABYSS_LAWS[t].n).join("·")}</span>`); lootToast(x,"밤의 심연"); } }
+  { const k=f<5?z.law:"abyss", n=RESO_STONE*(first?2:1); const R=resoState(); R.st[k]=(R.st[k]|0)+n; run.gains.st=(run.gains.st||0)+n;   // v0.61 공명석(심연 룬 대신)
+    logLine(`<span class="gain">${f<5?RESO[k].icon+" "+RESO[k].n:"🌑 심연"}석 +${n}${first?" (2배)":""} — 상점 🌑 심연 탭의 공명에 씁니다 (보유 ${R.st[k]})</span>`); }
   if(f===5){ A.clears++; progress.abyssEver=(progress.abyssEver|0)+1; const firstClear=A.clears<=egFirstN();
     if(firstClear){ progress.abyssCore=(progress.abyssCore|0)+1; logLine(`<span class="win">🌑 심연 핵 +1 (이번 주 첫 클리어) — 장비 탭에서 +15 부위를 눌러 한계를 엽니다 (보유 ${progress.abyssCore})</span>`); }
     else { progress.abyssFrag=(progress.abyssFrag|0)+1; if(progress.abyssFrag>=3){ progress.abyssFrag-=3; progress.abyssCore=(progress.abyssCore|0)+1; logLine(`<span class="win">🌑 핵 조각 3개가 모여 심연 핵 +1 (보유 ${progress.abyssCore})</span>`); }
@@ -12026,7 +12068,7 @@ function coopEgEnd(run,res){
   if(run.mode==="abyss"){ const A=abyssWeek(); msg=`${M.icon} 밤의 심연 — ${win?"5층 심연까지 돌파!":(run.eg.top|0)?`${run.eg.top|0}층까지 (깬 층의 보상은 받았습니다)`:"1층에서 물러났다"}`; win=win||(run.eg.top|0)>0; }
   if(items.length){ const lr=takeLoot(items); for(const it of lr.kept){ g.items++; logLine(`<span class="gain">내 최종 보상: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`); lootToast(it,"함께하기 최종 보상"); } }
   logLine(`<span class="${win?"win":"lose"}">${esc(msg)}</span>`);
-  logLine(`<span class="gain">이번 함께하기에서 내가 얻은 것 — 경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개${run.mode==="abyss"?` · 동행의 증표 ${g.tok||0}`:` · 새벽 파편 ${g.shards||0}`}</span>`);
+  logLine(`<span class="gain">이번 함께하기에서 내가 얻은 것 — 경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개${run.mode==="abyss"?` · 동행의 증표 ${g.tok||0} · 공명석 ${g.st||0}`:` · 새벽 파편 ${g.shards||0}`}</span>`);
   $("result").textContent=msg; $("result").className="result "+(win?"win":"lose");
   COOP.run=null; if(COOP.isHost) COOP.hostRun=null; COOP.ready=false; COOP.mySnaps=null; COOP.mySnapz=null;
   saveProgress(); coopPushRoom(); coopPushLobby(); goCamp(); coopRender();
