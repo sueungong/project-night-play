@@ -109,7 +109,19 @@
     }
   }
   function note(t) { try { if (typeof window.toast === "function") window.toast(esc(t)); else alert(t); } catch (e) {} }
-  window.PNNet = {
+  // ---------- v0.67 영웅 빌려 쓰기 ----------
+  // lend/<uid> = 내가 빌려줄 영웅(누구나 읽음, 나만 씀) · credits/<빌려준 사람>/<번호> = 빌려 간 기록(남이 하나씩 추가, 주인만 읽고 지움)
+  const lend = {
+    publish: async entry => { const u = await ready; if (!u) return false; await rtdb.ref("lend/" + safeKey(u.uid)).set({ u: u.uid, j: JSON.stringify(entry), at: TS }); return true; },
+    list: async () => { const u = await ready; if (!u) return [];
+      const s = await rtdb.ref("lend").orderByChild("at").limitToLast(40).once("value"); const out = [];
+      s.forEach(c => { const v = c.val(); if (!v || v.u === u.uid) return; try { const e = JSON.parse(v.j); e.uid = v.u; e.at = v.at || 0; out.push(e); } catch (x) {} });
+      return out.sort((a, b) => b.at - a.at); },
+    credit: async lender => { const u = await ready; if (!u || !lender || lender === u.uid) return; try { await rtdb.ref("credits/" + safeKey(lender)).push({ from: u.uid, at: TS }); } catch (e) { console.warn("[PNNet] credit", e); } },
+    collect: async () => { const u = await ready; if (!u) return 0; const r = rtdb.ref("credits/" + safeKey(u.uid));
+      const s = await r.once("value"); const n = s.exists() ? Object.keys(s.val() || {}).length : 0; if (n) await r.remove(); return n; }
+  };
+  window.PNNet = { lend,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
     bindSettings: () => bind(document.getElementById("pnAcct")),
     ready, get user() { return user; }

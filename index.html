@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793461699104"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793464133425"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1260,12 +1260,13 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .pcell.can{border-color:var(--accent); cursor:pointer; background:#2a2410} .pcell.can i.go{color:var(--accent); font-weight:800} .pcell.got{opacity:.55} .pcell.far{opacity:.75} .pcell.lock{opacity:.5}
 @media (max-height:560px){ .gscards{grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:6px} .gscard{padding:8px; gap:5px} .gscard ul{font-size:12px} .pcell{flex-basis:80px; min-height:60px} }
 .lorelist{max-height:60vh;overflow:auto;display:flex;flex-direction:column;gap:6px;margin:8px 0}.lorepg{border:1px solid #3a3f66;border-radius:8px;padding:8px 10px;background:#141830}.lorepg summary{cursor:pointer;color:#d6b3ff}.lorepg p{margin:6px 0;line-height:1.6}.lorepg.locked{color:var(--muted)}.lorepg.locked small{margin-left:6px}button.lorebtn{background:#1f1a3a;color:#d6b3ff;border:1px solid #4a3f7a;border-radius:8px;padding:4px 10px;cursor:pointer}
+.bwlist{display:flex;flex-direction:column;gap:6px;max-height:46vh;overflow:auto}.bwrow{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid #3a3f66;border-radius:8px;padding:6px 10px;background:#141830}.bwrow.on{border-color:#d6b3ff}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.66 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.67 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1372,6 +1373,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.67: <b>🤝 영웅 빌려 쓰기</b> — 휴대폰 테스트 주소에서, 최종 콘텐츠(밤의 심연·낙성 강림)를 혼자 할 때 다른 사람의 영웅 1명을 빌려 데려갈 수 있습니다(출전 칸 하나 · 그 주인이 정한 장비·규칙 그대로 · 경험치·전리품은 내 영웅만). 내 영웅을 누가 빌려 가면 <b>🤝 우정 점수</b> 2점(하루 20점까지) — 외형 상점에서 💎 대신 쓸 수 있습니다(💎 10 = 🤝 1). 빌려줄 내 영웅은 최종 콘텐츠 화면의 🤝 버튼에서 고릅니다.<br>
 v0.66: <b>☁ 서버 연결(휴대폰 테스트 주소)</b> — 휴대폰 테스트 주소(GitHub Pages)에서도 함께하기(로비·방·채팅·같이 던전)와 서버 저장이 됩니다. 처음엔 가입 없이 손님 계정으로 들어가고, ⚙ 설정 → 계정에서 Google 계정을 연결하면 다른 휴대폰·PC에서도 같은 진행으로 이어 할 수 있습니다.<br>
 v0.65: <b>🌠 낙성 기록</b> — 낙성 강림에 이야기가 생겼습니다. 별들은 왜 장막 아래로 내려왔는지, 해는 왜 미쳤는지. 처음 들어갈 때, 사도를 처음 쓰러뜨릴 때, 3·5단계를 깰 때마다 숨은 이야기가 한 장씩 열립니다(모두 7장). 연 이야기는 낙성 강림 화면의 '🌠 낙성 기록'에서 다시 읽을 수 있습니다.<br>
 v0.64: <b>🌠 낙성 강림</b> — 새 최종 콘텐츠. 엔딩 뒤 장막이 얇아지며 하늘 너머에서 별이 떨어집니다. 별이 떨어지는 첨탑 꼭대기에 얼굴을 베일 속에 감춘 <b>낙성의 사도</b>가 한 주에 하나씩 내려옵니다(주 5회 · 혼자도, 함께도). 첫 사도 둘: <b>장막의 사도</b>(1·5·9…턴마다 최대 체력 25% 장막 — 2턴 안에 못 깨면 '장막 붕괴'로 아군 모두 45% 피해, 깨면 1턴 휘청) · <b>되감는 사도</b>(2턴 동안 최대 체력 15%를 못 깎으면 체력을 되감음). 사도마다 강림 단계가 있어 깰수록 다음 단계가 열리고 강해집니다. 보상: <b>사도의 혼</b>(이번 주 첫 처치 3 · 이후 1 · 새 단계 +2) · 새벽 파편 · 별의 정수 · 새 단계는 전설 장비, 함께하면 1.5배 + 장비 1개 더. 신화 무기·유물 각성 재료가 군단장의 혼에서 사도의 혼으로 바뀌었고(신화 무기 7 · 각성 3/5 · 다시 벼리기 2), 가지고 있던 군단장의 혼은 1:1로 바꿔 드렸습니다. 함께할 때 단계는 모두가 연 단계 중 가장 낮은 곳까지 고를 수 있습니다.<br>
@@ -5855,23 +5857,26 @@ function gemShopBlock(){
 }
 /* v0.58 🎨 외형 상점 — 종류별로 고르고, 움직이는 미리보기 · 💎 두 번 눌러 구매 · 산 것은 여기서 착용 */
 let cosCat="cape", cosArm=null, cosPvRaf=0;
+let cosPay="gem";   // v0.67 외형 값: 💎 새벽 결정 또는 🤝 우정 점수
 function cosShopBlock(){
   const box=document.createElement("div"); box.className="cosshop"; const gem=progress.gem||0, E=cosEq();
   const cat=COS_CATS.find(c=>c.k===cosCat)||COS_CATS[0]; const items=COS.filter(c=>c.cat===cat.k);
+  const fr=progress.friend|0, payFr=cosPay==="fr"&&(fr>0||lendOn()), price=c=>payFr?Math.ceil(cosPrice(c)/FRIEND_RATE):cosPrice(c), have=payFr?fr:gem;
   const card=c=>{ const own=cosOwned(c.id), on=Array.isArray(E[cat.k])?E[cat.k].includes(c.id):E[cat.k]===c.id; let act;
     if(own) act=cat.max?`<button class="btn${on?" ghost":""}" data-eq="${c.id}">${on?"빼기":"달기"}</button>`:on?`<span class="cosst on">착용 중</span>`:`<button class="btn" data-eq="${c.id}">착용</button>`;
     else if(c.src==="pass") act=`<span class="cosst">🎟 아트 패스 시즌 1</span>`;
     else if(c.src==="sub") act=`<span class="cosst">🌙 정액 중에만</span>`;
-    else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`;
+    else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${have<price(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":(payFr?"🤝 ":"💎 ")+price(c).toLocaleString("ko-KR")}</button>`;
     return `<div class="coscard${on?" on":""}"><div class="cospv"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
   const n=cat.max?(E[cat.k]||[]).length:0;
-  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>${esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span></div>
+  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b>${fr>0||lendOn()?`<span class="egbtns"><button class="${payFr?"":"on"}" data-pay="gem">💎로 사기</button><button class="${payFr?"on":""}" data-pay="fr">🤝 우정 점수 ${fr}로 사기</button></span>`:""}<span>${esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span></div>
     <div class="coscats">${COS_CATS.map(c=>`<button data-k="${c.k}" class="${c.k===cat.k?"on":""}">${c.n}</button>`).join("")}</div>
     <div class="cosgrid">${items.map(card).join("")}</div>`;
   box.querySelectorAll(".coscats button").forEach(b=>b.onclick=()=>{ cosCat=b.dataset.k; cosArm=null; renderShop(); });
   box.querySelectorAll("[data-buy]").forEach(b=>b.onclick=()=>{ const c=COS_BY[b.dataset.buy]; if(!c) return; if(cosArm!==c.id){ cosArm=c.id; renderShop(); return; }
-    cosArm=null; const pr=cosPrice(c); if((progress.gem||0)<pr) return; progress.gem-=pr; (progress.cosmetics=progress.cosmetics||{})[c.id]=true; cosWear(c.id,true);
-    logLine(`<span class="win">🎨 '${esc(c.name)}'을(를) 샀습니다 (💎 ${pr})</span>`); saveProgress(); renderShop(); });
+    cosArm=null; const pr=price(c); if(payFr){ if((progress.friend|0)<pr) return; progress.friend-=pr; } else { if((progress.gem||0)<pr) return; progress.gem-=pr; } (progress.cosmetics=progress.cosmetics||{})[c.id]=true; cosWear(c.id,true);
+    logLine(`<span class="win">🎨 '${esc(c.name)}'을(를) 샀습니다 (${payFr?"🤝":"💎"} ${pr})</span>`); saveProgress(); renderShop(); });
+  box.querySelectorAll("[data-pay]").forEach(b=>b.onclick=()=>{ cosPay=b.dataset.pay; cosArm=null; renderShop(); });
   box.querySelectorAll("[data-eq]").forEach(b=>b.onclick=()=>{ cosWear(b.dataset.eq); saveProgress(); renderShop(); });
   cosPreviewRun(box); return box;
 }
@@ -10709,6 +10714,7 @@ function onSpeedChanged(){ if(instantMode()){ if(bannerRes&&!$("saybox").classLi
 // v0.33 모닥불 쉼터: 마을에서는 보유한 영웅이 모두 모닥불 둘레에 앉아 쉼(출전하지 않는 영웅도). 누르면 파티·장비로
 function campUnits(){ if(!progress||!progress.protag) return [...buildParty()]; const inP=new Set(battleIds()); return rosterIds().map(c=>{ const u=buildHeroUnit(c); u._bench=!inP.has(c); return u; }); }
 function goCamp(){
+  try{ lendPublish(); }catch(e){}
   const had=!!runState; try{ SND.scene("town"); }catch(e){} try{ subDailyGem(); }catch(e){}
   runState=null; runPending=false; retreatArm=false; logSink=null; curTurn=0;
   markAct(null); const ab=$("actbar"); if(ab) ab.hidden=true;
@@ -11183,7 +11189,9 @@ function endZoneBattle(ev,zone){
 }
 // 던전 도중 변경(규칙·장비·능력치·전직·특성·스킬북·레벨업)을 다음 전투에 반영 — 체력·마나 비율과 생존 상태는 유지
 function refreshParty(old){
-  const np=buildParty();
+  const bw=(typeof runState!=="undefined"&&runState&&runState.eg&&runState.eg.borrow)||null;   // v0.67 빌린 영웅은 출전 칸 하나를 차지하고 계속 따라옴
+  const np=bw?buildParty(Math.max(1,partyCapFor(runState.d,runState.mode)-1)):buildParty();
+  if(bw){ const u=borrowUnit(bw,0), o=old.find(x=>x.borrowed); if(o){ u.alive=o.alive; u.hp=o.alive?Math.max(1,Math.min(u.hp_max,o.hp)):0; u.mp=Math.min(u.mp_max,o.mp); } np.push(u); }
   for(const u of np){ const o=old.find(x=>x.id===u.id); if(!o) continue;
     u.alive=o.alive;
     u.hp=o.alive?Math.max(1,Math.min(u.hp_max,Math.round(u.hp_max*o.hp/Math.max(1,o.hp_max)))):0;
@@ -11284,14 +11292,53 @@ function clearRun(){
 function egModeOf(){ return progress&&progress.egMode&&EG_KEYS.includes(progress.egMode)&&egOpen()?progress.egMode:null; }
 function egTowerStart(){ const E=egState(); const s=progress.egStart||1; return s>1&&s<=E.towerCk+1?s:1; }
 function egSetStart(f){ progress.egStart=f; saveProgress(); setMainBtn(); renderSteps(); }
+/* v0.67 영웅 빌려 쓰기 — 최종 콘텐츠(혼자)에서 다른 사람 영웅 1명을 출전 칸 하나에 데려감(그 주인이 정한 장비·규칙 그대로).
+   내 영웅이 빌려 가면 '우정 점수'(하루 최대 FRIEND_DAY_MAX) → 외형 상점에서 💎 대신 쓸 수 있음. 서버(휴대폰 테스트 주소)가 있을 때만 */
+const FRIEND_PER=2, FRIEND_DAY_MAX=20, FRIEND_RATE=10;   // 빌려 갈 때마다 2점 · 하루 20점까지 · 외형 값 💎 10 = 🤝 1
+const LEND={pubAt:0};
+function lendOn(){ return !!(window.PNNet&&window.PNNet.lend&&window.PNNet.user); }
+function borrowModeOk(m){ return m==="abyss"||m==="fall"; }
+function lendCid(){ const c=progress.lendCid; return c&&rosterIds().includes(c)?c:(progress.protag&&progress.protag.cid)||rosterIds()[0]; }
+async function lendPublish(force){ if(!lendOn()||!progress||!progress.protag) return; const now=Date.now(); if(!force&&now-LEND.pubAt<300000) return; LEND.pubAt=now;
+  try{ const cid=lendCid(), h=progress.heroes[cid]; const z=await coopPack([coopSnap(cid)]);
+    await window.PNNet.lend.publish({v:1, nick:coopNick(), cid, job:jobName(cid), lv:h.level, z}); }catch(e){ console.warn("lendPublish",e); } }
+function friendAdd(n){ const d=new Date(Date.now()+9*3600e3).toISOString().slice(0,10); const D=progress.friendDay&&progress.friendDay.d===d?progress.friendDay:{d,n:0};
+  const g=Math.max(0,Math.min(n,FRIEND_DAY_MAX-D.n)); D.n+=g; progress.friendDay=D; progress.friend=(progress.friend|0)+g; return g; }
+async function lendCollect(){ if(!lendOn()) return; try{ const n=await window.PNNet.lend.collect(); if(!n) return; const g=friendAdd(n*FRIEND_PER);
+  logLine(`<span class="win">🤝 내 영웅을 ${n}번 빌려 갔습니다 — 우정 점수 +${g}${g<n*FRIEND_PER?` (오늘 받을 수 있는 ${FRIEND_DAY_MAX}점을 다 받았어요)`:""} · 보유 ${progress.friend|0}</span>`); saveProgress(); }catch(e){ console.warn("lendCollect",e); } }
+async function lendBoot(){ if(!window.PNNet||!window.PNNet.ready) return; await window.PNNet.ready; if(!lendOn()) return; await lendCollect(); lendPublish(true); setInterval(()=>{ if(!runState) lendCollect(); },600000); }
+function borrowUnit(b,idx){ const u=JSON.parse(JSON.stringify(b.snap)); u.id="bw"+(idx||0); u.side="party"; u.borrowed=true; u.coopNick=b.nick; u.mine=false;
+  u.name=String(`${b.nick}의 ${b.job||""}`).slice(0,28)+` Lv.${b.lv|0}`; return u; }
+function borrowCtlHtml(m){ if(!lendOn()||!borrowModeOk(m)) return ""; const b=progress.borrowSel;
+  return `<button class="egstart lorebtn" onclick="borrowOpen()">🤝 ${b?`빌린 영웅 <b>${esc(b.nick)}의 ${esc(b.job)} Lv.${b.lv|0}</b>`:"영웅 빌리기"}</button>`; }
+async function borrowOpen(){ if(!lendOn()) return;
+  const m=openModal(`<h2>🤝 영웅 빌려 쓰기</h2><p class="sub">최종 콘텐츠(혼자)에 다른 사람 영웅 1명을 데려갑니다 — 출전 칸 하나를 차지하고, 그 주인이 정한 장비·규칙 그대로 싸웁니다. 경험치·전리품은 내 영웅만 받습니다.</p>
+    <div class="sblock"><div class="slabel">내가 빌려줄 영웅</div><div class="srow"><select id="lendSel">${rosterIds().map(c=>`<option value="${c}" ${c===lendCid()?"selected":""}>${esc(heroDisplayName(c))} · ${esc(jobName(c))} Lv.${progress.heroes[c].level}</option>`).join("")}</select></div>
+      <p class="msub">누가 빌려 갈 때마다 🤝 우정 점수 ${FRIEND_PER}점(하루 ${FRIEND_DAY_MAX}점까지) — 외형 상점에서 💎 대신 쓸 수 있어요. 지금 <b>${progress.friend|0}</b>점</p></div>
+    <div class="sblock"><div class="slabel">빌릴 영웅</div><div id="bwList" class="bwlist"><p class="msub">불러오는 중…</p></div></div>
+    <div class="mfoot">${progress.borrowSel?`<button class="btn ghost" id="bwNone">빌리지 않기</button>`:""}<button class="btn" id="bwClose">닫기</button></div>`,"small");
+  m.querySelector("#bwClose").onclick=closeModal;
+  const nb=m.querySelector("#bwNone"); if(nb) nb.onclick=()=>{ progress.borrowSel=null; saveProgress(); closeModal(); renderDungeonPicker(); setMainBtn(); };
+  m.querySelector("#lendSel").onchange=e=>{ progress.lendCid=e.target.value; saveProgress(); lendPublish(true); };
+  let L=[]; try{ L=await window.PNNet.lend.list(); }catch(e){ L=null; }
+  const box=m.querySelector("#bwList"); if(!box) return;
+  if(!L){ box.innerHTML=`<p class="msub">목록을 불러오지 못했습니다. 잠시 뒤 다시 열어 주세요.</p>`; return; }
+  if(!L.length){ box.innerHTML=`<p class="msub">아직 빌려줄 영웅을 올린 사람이 없어요.</p>`; return; }
+  const cur=progress.borrowSel;
+  box.innerHTML=L.slice(0,30).map((e,i)=>`<div class="bwrow${cur&&cur.uid===e.uid?" on":""}"><span><b>${esc(String(e.nick||"?").slice(0,12))}</b>의 ${esc(String(e.job||"").slice(0,12))} · Lv.${e.lv|0}</span><button class="btn${cur&&cur.uid===e.uid?" ghost":""}" data-bw="${i}">${cur&&cur.uid===e.uid?"빌리는 중":"빌리기"}</button></div>`).join("");
+  box.querySelectorAll("[data-bw]").forEach(b=>b.onclick=async()=>{ const e=L[+b.dataset.bw]; const sn=await coopUnpack(e.z); const snap=Array.isArray(sn)?sn[0]:null;
+    if(!snap||typeof snap!=="object"||!CLASSES[snap.cls]){ toast("이 영웅 정보를 읽지 못했습니다"); return; }
+    progress.borrowSel={uid:e.uid, nick:String(e.nick||"?").slice(0,12), job:String(e.job||"").slice(0,12), lv:e.lv|0, cid:snap.cls, snap}; saveProgress(); closeModal(); renderDungeonPicker(); setMainBtn(); });
+}
 function egCampHtml(){
   const m=egModeOf(); if(!m) return ""; const E=egState(), W=egWeekInfo(), M=EG_MODES[m], an=k=>AFFIXES[k].name;
   let info="", ctl="";
   if(m==="fall"){ const E=fallEnvoy(), r=fallRec(E.key), lv=fallLv(), W=fallWeek();
     info=`이번 주 <b>${esc(E.name)}</b> — ${esc(E.tip)} · 최고 <b>${r.best}단계</b> · 이번 주 첫 처치 보상 ${W.kills<egFirstN()?"<b style='color:var(--good)'>남음</b>":"받음"}`;
-    ctl=`<button class="egstart lorebtn" onclick="fallLoreOpen()">🌠 낙성 기록 ${fallLoreGot().length}/${FALL_LORE.length}</button><label class="egstart">단계 <select onchange="fallSetLv(+this.value)">${Array.from({length:r.best+1},(_,i)=>i+1).map(v=>`<option value="${v}" ${v===lv?"selected":""}>${v}단계</option>`).join("")}</select></label>`; }
+    ctl=borrowCtlHtml("fall")+`<button class="egstart lorebtn" onclick="fallLoreOpen()">🌠 낙성 기록 ${fallLoreGot().length}/${FALL_LORE.length}</button><label class="egstart">단계 <select onchange="fallSetLv(+this.value)">${Array.from({length:r.best+1},(_,i)=>i+1).map(v=>`<option value="${v}" ${v===lv?"selected":""}>${v}단계</option>`).join("")}</select></label>`; }
   if(m==="abyss"){ const A=abyssRec(), R0=resoState(), st=abyssStartFloor(); info=`최고 <b>${A.best}층</b>${A.ck?` · 체크포인트 <b>${A.ck}층</b>`:""} · 공명석 ${RESO_LINES.map(k=>`${RESO[k].icon}${R0.st[k]|0}`).join(" ")} 🌑${R0.st.abyss|0} · 심연 핵 ${progress.abyssCore|0}`;
-    if(A.ck) ctl=`<label class="egstart">시작 <select onchange="abyssSetStart(+this.value)">${Array.from({length:A.ck/10+1},(_,i)=>i*10+1).map(f=>`<option value="${f}" ${f===st?"selected":""}>${f}층</option>`).join("")}</select></label>`; }
+    ctl=borrowCtlHtml("abyss");
+    if(A.ck) ctl+=`<label class="egstart">시작 <select onchange="abyssSetStart(+this.value)">${Array.from({length:A.ck/10+1},(_,i)=>i*10+1).map(f=>`<option value="${f}" ${f===st?"selected":""}>${f}층</option>`).join("")}</select></label>`; }
   if(m==="tower"){ info=`이번 주 저주 <b>${W.curse.map(an).join("·")}</b> · 이번 주 최고 <b>${E.towerBest}층</b>${E.towerCk?` · 체크포인트 <b>${E.towerCk}층</b>`:""}`;
     if(E.towerCk) ctl=`<span class="egbtns"><button class="${egTowerStart()===1?"on":""}" onclick="egSetStart(1)">1층부터</button><button class="${egTowerStart()>1?"on":""}" onclick="egSetStart(${E.towerCk+1})">${E.towerCk+1}층부터</button></span>`; }
   if(m==="raid"){ const B=MOBS[REGIONS[W.raid].boss]; info=`이번 주 군단장 <b>${esc(B.name)}</b> · 추가 저주 ${an(W.raidAffix)} · 주간 첫 처치 보상 ${E.raidDone?"받음":"<b style='color:var(--good)'>남음</b>"}`; }
@@ -11310,7 +11357,9 @@ function startEg(m){
   else { const map=expedMap(W,(weekRng(31,W.wk)()*4294967296)>>>0); zones=map.map((o,i)=>o.length===1?o[0]:{type:"choice",step:i,label:`갈림길 ${i+1}/${EX_STEPS+1}`,opts:o}); }
   runState={ mode:m, regionKey:zones[0].rk||W.raid, d:2, zones, zone:0, party:[], gains:{exp:0,gold:0,items:0,shards:0}, chests:0, elites:0,
     eg:{wk:W.wk, W, relics:[], curses:[], coins:0, start, top:start-1} };
-  runState.party=buildParty(EG_PARTY);
+  const bw=borrowModeOk(m)&&lendOn()&&progress.borrowSel&&progress.borrowSel.snap?progress.borrowSel:null;   // v0.67 빌린 영웅
+  if(bw){ runState.eg.borrow={uid:bw.uid, nick:bw.nick, job:bw.job, lv:bw.lv, snap:bw.snap}; window.PNNet.lend.credit(bw.uid); }
+  runState.party=bw?refreshParty([]):buildParty(EG_PARTY);
   $("log").innerHTML=""; logSink=null; curTurn=0; $("result").textContent=""; $("result").className="result";
   ruleHits={}; ruleHitsSeen=true; torchSpend(EG_MODES[m].name); egEntryUse(m);
   spawnField([...runState.party]);
@@ -11319,6 +11368,7 @@ function startEg(m){
   logLine(`<span class="zone">⟡ ${M.icon} ${esc(M.name)} — ${esc(M.desc)}</span>`);
   if(m==="tower") logLine(`<span class="sk">이번 주 탑의 저주: ${W.curse.map(k=>AFFIXES[k].name+"("+AFFIXES[k].desc+")").join(", ")} — ${start}층부터</span>`);
   if(m==="raid") logLine(`<span class="sk">이번 주 군단장: ${esc(MOBS[REGIONS[W.raid].boss].name)} · 추가 저주 ${AFFIXES[W.raidAffix].name}(${AFFIXES[W.raidAffix].desc}) — 단계 사이에는 조금만 회복합니다</span>`);
+  if(bw) logLine(`<span class="win">🤝 ${esc(bw.nick)}의 ${esc(bw.job)} Lv.${bw.lv|0}을(를) 빌려 함께 갑니다 (출전 칸 하나 · 그 주인의 장비·규칙 그대로)</span>`);
   if(m==="exped") logLine(`<span class="sk">갈림길마다 길을 고릅니다. 원정 유물은 이번 원정 동안만, 4명 모두에게 적용됩니다.</span>`);
   if(m==="fall"){ const pg=fallLoreUnlock(["P0"]); if(pg.length){ fallLoreLog(pg); saveProgress(); telling=true; setMainBtn(); showNarration(pg[0].l).then(()=>{ telling=false; setMainBtn(); if(runState&&runState.mode==="fall") enterZone(); }); return; } }   // v0.65 첫 입장 — 별이 떨어진 밤
   setMainBtn(); enterZone();
@@ -11807,6 +11857,7 @@ function start(snap){
   const needOnboard=!progress.prologueSeen||!progress.protag;
   if(needOnboard){ telling=true; setMainBtn(); }      // 클라우드 확인 전엔 입장 금지(다른 기기 진행이 있을 수 있음)
   const ci=Promise.resolve().then(cloudInit).catch(()=>{});
+  setTimeout(()=>{ lendBoot().catch(()=>{}); },3000);   // v0.67 빌려 쓰기: 내 영웅 올리기 · 빌려 간 만큼 우정 점수
   (async()=>{
     await Promise.race([ci, new Promise(r=>setTimeout(r,4000))]);
     bootDone=true;
