@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793530006685"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793530661596"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1292,7 +1292,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.72 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.72.1 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1399,6 +1399,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.72.1: 걸린 효과 글자 자리 — 진형(아군 '>>' · 적 '<<')에 맞춰 위·아래 줄은 아군 오른쪽·적 왼쪽, 가운데 줄은 아군 왼쪽·적 오른쪽에 뜹니다. 그쪽이 다른 캐릭터나 버튼을 가리거나 화면 밖이면 덜 가리는 쪽으로 옮깁니다.<br>
 v0.72: <b>그래픽 다듬기 2차</b> — 배경: 먼 곳은 공기에 바래 흐릿하게, 가까운 곳·가장자리는 조금 어둡게(캐릭터가 더 또렷이). 스킬 이펙트: 도트 둘레로 같은 색 빛이 은은하게 번짐. 장비 아이콘: 위·왼쪽 빛과 부드러운 외곽선. (저사양 모드에서는 배경·이펙트 다듬기가 꺼져 가볍게 돕니다.) <b>걸린 효과 보기</b>는 누른 캐릭터 왼쪽에 투명 배경 글자로 뜹니다(왼쪽에 자리가 없으면 오른쪽).<br>
 v0.71.1: 누르면 보이는 걸린 효과를 영웅 머리 위 대신 <b>전장 위쪽 가운데에 하나만</b> 띄웁니다(휴대폰에서 다른 영웅을 가리지 않게 · 다른 영웅을 누르면 바뀜 · 누르거나 3.5초 뒤 사라짐).<br>
 v0.71: <b>걸린 효과 보기 · 음유시인 오라 · 몬스터 도트 다듬기</b> — 전투 중 영웅(적도)을 누르면 지금 걸린 효과가 아이콘·이름·남은 턴으로 잠깐 뜹니다(오라는 '켜짐'). 음유시인의 노래(오라)를 켜면 <b>같은 편 모두</b>에게 ♪ 아이콘이 붙고, 발밑에 노래 색 빛 고리(용기 주황 · 수호 파랑 · 진군 금빛 · 비웃음 보라)와 떠오르는 음표가 보입니다. 시인이 쓰러지면 꺼지고 되살아나면 다시 켜집니다. 몬스터 도트에도 영웅과 같은 다듬기(약하게)를 넣었습니다.<br>
@@ -9065,9 +9066,16 @@ function buffPeek(div,id){   // v0.72 누른 캐릭터 왼쪽에 투명 배경�
     return `<span class="ub ${v.cls==="bad"?"bad":""}"><i style="background-image:url(${statusIcon(kind)})"></i>${esc(k.replace(/^♪\s*/,""))}${left?`<small>${left}</small>`:""}</span>`; });
   if(sh) rows.unshift(`<span class="ub"><i style="background-image:url(${statusIcon("shield")})"></i>보호막 ${sh}</span>`);
   box.innerHTML=rows.length?rows.join(""):`<span class="ub none">효과 없음</span>`;
-  const img=div.querySelector("img"), ur=div.getBoundingClientRect(), ir=img?img.getBoundingClientRect():ur, fr=(div.closest(".field")||document.body).getBoundingClientRect();
-  box.classList.remove("rt"); box.style.left=box.style.right=""; box.style.top=Math.round(ir.top-ur.top+ir.height*0.15)+"px"; box.classList.add("on");
-  const w=box.offsetWidth; if(ir.left-w-4<fr.left){ box.classList.add("rt"); box.style.left=Math.round(ir.right-ur.left+2)+"px"; } else box.style.right=Math.round(ur.right-ir.left+2)+"px";
+  const img=div.querySelector("img"), ur=div.getBoundingClientRect(), ir=img?img.getBoundingClientRect():ur, fld=div.closest(".field"), fr=(fld||document.body).getBoundingClientRect();
+  box.style.left=box.style.right=""; box.style.top=Math.round(ir.top-ur.top+ir.height*0.15)+"px"; box.classList.add("on");
+  // v0.72.1 자리: 진형이 '>>'(적은 '<<') — 가운데 줄은 아군 왼쪽·적 오른쪽, 위·아래 줄은 아군 오른쪽·적 왼쪽. 그쪽이 다른 캐릭터·버튼에 가리거나 화면 밖이면 덜 가리는 쪽으로
+  const u=curUnits.find(x=>x.id===id), mid=u&&u.lane===1, enemy=u&&u.side==="enemy"; let side=(mid!==enemy)?"L":"R";
+  const w=box.offsetWidth, h=box.offsetHeight, top=ir.top+ir.height*0.15;
+  const rectOf=sd=>sd==="L"?{l:ir.left-w-4,r:ir.left-4,t:top,b:top+h}:{l:ir.right+4,r:ir.right+4+w,t:top,b:top+h};
+  const others=[...(fld||document).querySelectorAll(".unit:not(.dead) img")].filter(x=>x!==img).map(x=>x.getBoundingClientRect()).concat([...document.querySelectorAll(".fside button,.fieldfoot button,#fSpeed,#logBtn")].map(x=>x.getBoundingClientRect()).filter(r=>r.width));
+  const cost=sd=>{ const q=rectOf(sd); let c=(q.l<fr.left||q.r>fr.right)?1e6:0; for(const o of others){ const ox=Math.max(0,Math.min(q.r,o.right)-Math.max(q.l,o.left)), oy=Math.max(0,Math.min(q.b,o.bottom)-Math.max(q.t,o.top)); c+=ox*oy; } return c; };
+  const alt=side==="L"?"R":"L"; if(cost(alt)<cost(side)) side=alt;
+  box.classList.toggle("rt",side==="R"); if(side==="R") box.style.left=Math.round(ir.right-ur.left+4)+"px"; else box.style.right=Math.round(ur.right-ir.left+4)+"px";
   clearTimeout(box._t); box._t=setTimeout(()=>box.classList.remove("on"),3500); }
 // v0.71 음유시인 오라: 켜 둔 노래가 같은 편 모두에게 — 아이콘(♪)과 발밑 빛·음표로 보임. 시인이 쓰러지면 꺼지고 되살아나면 다시
 let SONGUI={};
