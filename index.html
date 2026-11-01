@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793536267322"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793538058621"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1321,7 +1321,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.75 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.76 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1428,6 +1428,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.76: <b>배경음악 '위잉' 진동 소리</b> — 전투·보스 곡의 베이스와 북이 41~60Hz의 아주 낮은 소리였는데, 휴대폰 스피커는 이 소리를 내지 못하고 떨기만 해서 진동처럼 들렸습니다. 베이스를 한 옥타브 올리고 튕기듯 줄어들게 바꿨고, 배경음에서 75Hz 아래를 걷어냈습니다.<br>
 v0.75: <b>🎨 꾸미기 모드</b> — 상점 외형 탭의 '🪪 명함 꾸미기'(명함 창의 🎨 꾸미기)와 '🔥 쉼터 꾸미기'에서 스티커·모닥불 장식을 끌어서 옮기고 '확정'하면 그 자리에 그대로 남습니다. <b>무기 외형</b>이 이제 한손검뿐 아니라 지팡이·책·쌍단검·너클·쌍권총·류트에서도 모양까지 바뀝니다. 외형 미리보기를 크게 키웠고, <b>산 오라는 강화가 +0이어도 보입니다</b>(강화가 오르면 더 커짐).<br>
 v0.74: <b>💎 새벽 결정 값 정함</b> — 충전 묶음 6가지(1,200원 💎60 ~ 119,000원 💎7,300, 큰 묶음일수록 덤) · <b>30일 정액 6,600원</b> · <b>아트 패스 유료 트랙 11,000원</b>(이제 💎가 아니라 현금 상품). 결제는 출시 뒤 연결 — 지금은 눌러도 안내만 나옵니다. 배경음악에서 마디마다 들리던 '위잉' 하는 울렁임을 고쳤습니다.<br>
 v0.73: <b>화면 디자인 새로(A안 — 정돈된 밤)</b> — 판·창은 은은한 그라데이션과 얇은 빛 테두리, 주요 버튼은 금빛·나머지는 투명 테두리, 고른 탭은 금빛 알약, 위쪽 막대 칩은 둥근 알약, 왼쪽 메뉴는 고른 곳에 금빛 세로줄. 창을 열면 뒤쪽이 살짝 흐려집니다.<br>
@@ -7407,7 +7408,7 @@ const CHIP = (() => {
     for (const [dt, fb] of [[0.047, 0.42], [0.071, 0.38]]) { const dl = ctx.createDelay(0.2); dl.delayTime.value = dt; const g = ctx.createGain(); g.gain.value = fb; const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1800;
       revLp.connect(dl); dl.connect(lp); lp.connect(g); g.connect(dl); lp.connect(master); }
     const bus = (lpHz, wet) => { const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = lpHz; f.Q.value = 0.5; f.connect(master); const w = ctx.createGain(); w.gain.value = wet; f.connect(w); w.connect(rev); return f; };
-    bgmBus = bus(3800, 0.22); sfxBus = bus(4800, 0.1);
+    bgmBus = bus(3800, 0.22); { const hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 75; hp.Q.value = 0.6; hp.connect(bgmBus); bgmBus = hp; } sfxBus = bus(4800, 0.1);   // v0.76: 배경음 초저음(75Hz 아래) 걷어냄
     bgmG = ctx.createGain(); bgmG.gain.value = vols.bgm; bgmG.connect(bgmBus);
     sfxG = ctx.createGain(); sfxG.gain.value = vols.sfx; sfxG.connect(sfxBus);
     noiseBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
@@ -7428,8 +7429,10 @@ const CHIP = (() => {
     osc.frequency.setValueAtTime(o.f, t); if (o.f2) osc.frequency.exponentialRampToValueAtTime(Math.max(20, o.f2), t + (o.sd ?? d));
     if (o.vib) { const l = ctx.createOscillator(), lg = ctx.createGain(); l.frequency.value = o.vib[0]; lg.gain.value = o.f * o.vib[1]; l.connect(lg); lg.connect(osc.frequency); l.start(t); l.stop(t + d + r + 0.02); }
     g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + a);
+    if (o.dec) { g.gain.setTargetAtTime(v * 0.12, t + a, o.dec); g.gain.setTargetAtTime(0, t + d, r / 4); }   // v0.76: 튕기듯 서서히 줄어드는 소리(베이스)
+    else {
     if (o.sus != null) g.gain.linearRampToValueAtTime(v * o.sus, t + Math.min(d, a + 0.06));
-    g.gain.setValueAtTime(v * (o.sus ?? 1), t + d); if (o.xf) g.gain.linearRampToValueAtTime(0, t + d + r); else g.gain.exponentialRampToValueAtTime(0.0001, t + d + r);
+    g.gain.setValueAtTime(v * (o.sus ?? 1), t + d); if (o.xf) g.gain.linearRampToValueAtTime(0, t + d + r); else g.gain.exponentialRampToValueAtTime(0.0001, t + d + r); }
     let node = osc; if (o.lp) { const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = o.lp; node.connect(f); node = f; }
     node.connect(g); g.connect(dest); osc.start(t); osc.stop(t + d + r + 0.03);
   }
@@ -7688,16 +7691,16 @@ const CHIP = (() => {
     const e = mel[i % mel.length]; if (e) tone(bgmG, { w: S.lead.w, f: mtof(e.m + (S.lead.tr || 0)), t, d: Math.max(0.05, e.len * sp * 0.92), v: S.lead.v, vib: S.lead.vib, r: S.lead.r, a: S.lead.a, lp: S.lead.lp, sus: 0.8 });
     if (k === 0) for (const P of [S.pad, S.pad2]) if (P) for (const iv of C.iv.slice(0, 3)) tone(bgmG, { w: P.w, f: mtof(12 * (P.oct + 1) + C.root + iv), t, d: 16 * sp, v: P.v, a: P.a, lp: P.lp, r: Math.max(0.035, P.a), xf: 1 });   // v0.74: 다음 화음이 a초 동안 올라오는 만큼 이전 화음이 똑같이 내려감(마디마다 줄었다 부푸는 '위잉' 없앰)
     if (k === 0 && S.bell) { const f = mtof(12 * (S.bell.oct + 1) + C.root); tone(bgmG, { w: "tri", f, t, d: 0.05, v: S.bell.v, r: 1.6 }); tone(bgmG, { w: "sine", f: f * 2.76, t, d: 0.03, v: S.bell.v * 0.35, r: 0.9 }); }
-    const bp = S.bass.pat.split(" ")[k]; if (bp && bp !== ".") { const base = 12 * (S.bass.oct + 1) + C.root; const n = bp === "R" ? base : bp === "O" ? base + 12 : bp === "5" ? base + 7 : base;
-      let len = 1; const P = S.bass.pat.split(" "); while (k + len < 16 && P[k + len] === ".") len++; tone(bgmG, { w: S.bass.w, f: mtof(n), t, d: len * sp * 0.85, v: S.bass.v, lp: S.bass.lp, r: 0.03 });
-      if (S.bass.dbl) tone(bgmG, { w: S.bass.dbl.w, f: mtof(n + 12), t, d: len * sp * 0.85, v: S.bass.dbl.v, lp: S.bass.dbl.lp, r: 0.05 }); }
+    const bp = S.bass.pat.split(" ")[k]; if (bp && bp !== ".") { let base = 12 * (S.bass.oct + 1) + C.root; while (mtof(base) < 90) base += 12; /* v0.76: 41~60Hz 저음은 휴대폰 스피커가 못 내고 떨기만 함('위잉' 진동) — 옥타브 올림 */ const n = bp === "R" ? base : bp === "O" ? base + 12 : bp === "5" ? base + 7 : base;
+      let len = 1; const P = S.bass.pat.split(" "); while (k + len < 16 && P[k + len] === ".") len++; tone(bgmG, { w: S.bass.w, f: mtof(n), t, d: len * sp * 0.85, v: S.bass.v * 0.7, lp: S.bass.lp, r: 0.08, a: 0.012, dec: Math.min(0.35, len * sp * 0.4) });   // v0.76: 긴 베이스는 튕기듯 줄어듦(계속 우는 '위잉' 대신)
+      if (S.bass.dbl) tone(bgmG, { w: S.bass.dbl.w, f: mtof(n + 12), t, d: len * sp * 0.85, v: S.bass.dbl.v, lp: S.bass.dbl.lp, r: 0.08, dec: Math.min(0.3, len * sp * 0.35) }); }
     const ap = S.arp.pat.split(" ")[k]; if (ap && ap !== ".") { const n = 12 * (S.arp.oct + 1) + C.root + C.iv[(+ap - 1) % C.iv.length]; let len = 1; const P = S.arp.pat.split(" "); while (k + len < 16 && P[k + len] === ".") len++;
       tone(bgmG, { w: S.arp.w, f: mtof(n), t, d: len * sp * 0.8, v: S.arp.v, r: 0.03 }); }
     const dp = ((bar % 4 === 0 && S.drum.patA) ? S.drum.patA : S.drum.pat).split(" ")[k], dv = S.drum.v;
     // v0.32: 하이햇·심벌(쉬익·치직 소리)은 뺌 — 낮은 북·팀파니·부드러운 스네어만
-    if (dp === "T" || dp === "C") { tone(bgmG, { w: "sine", f: 92, f2: 48, t, d: 0.5, v: 0.55 * dv, r: 0.4 }); tone(bgmG, { w: "tri", f: 140, f2: 70, t, d: 0.12, v: 0.12 * dv, r: 0.2 }); }
-    if (dp === "t") tone(bgmG, { w: "sine", f: 115, f2: 62, t, d: 0.22, v: 0.34 * dv, r: 0.18 });
-    if (dp === "k") tone(bgmG, { w: "sine", f: 120, f2: 42, t, d: 0.1, v: 0.48 * dv, r: 0.06 });
+    if (dp === "T" || dp === "C") { tone(bgmG, { w: "sine", f: 110, f2: 68, t, d: 0.42, v: 0.5 * dv, r: 0.3 }); tone(bgmG, { w: "tri", f: 140, f2: 70, t, d: 0.12, v: 0.12 * dv, r: 0.2 }); }
+    if (dp === "t") tone(bgmG, { w: "sine", f: 130, f2: 76, t, d: 0.2, v: 0.32 * dv, r: 0.15 });
+    if (dp === "k") tone(bgmG, { w: "sine", f: 150, f2: 70, t, d: 0.08, v: 0.42 * dv, r: 0.05 });
     if (dp === "s") { noise(bgmG, { f: 900, q: 0.6, t, d: 0.05, v: 0.22 * dv, r: 0.08 }); tone(bgmG, { w: "tri", f: 190, f2: 120, t, d: 0.06, v: 0.2 * dv, r: 0.05 }); }
   }
   function pump() { if (!song) return; const sp = 60 / song.bpm / 4; if (nextT < now() - 0.02) { const miss = Math.ceil((now() + 0.03 - nextT) / sp); step += miss; nextT += miss * sp; }   // v0.32: 화면이 바빠 밀렸으면 지난 음은 건너뜀
