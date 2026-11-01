@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793534091387"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793534990798"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1246,6 +1246,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .gemshop{display:flex; flex-direction:column; gap:10px} .gshead{display:flex; align-items:center; gap:10px; flex-wrap:wrap} .gshead b{font-size:16px; color:var(--accent)} .gshead span{font-size:12.5px; color:var(--muted)}
 .gscards{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px}
 .gscard{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px} .gscard h3{margin:0; font-size:15px} .gscard.on{border-color:var(--accent)}
+.gscard.packs{grid-column:1/-1} .gpacks{display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:6px} .gpack{display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 4px; border:1px solid var(--line); border-radius:10px; background:var(--panel2,#141830); color:inherit; font:inherit; cursor:pointer} .gpack b{font-size:14px} .gpack small{font-size:11px; color:var(--accent)} .gpack span{font-size:12.5px; color:var(--sub)}
 .gscard ul{margin:0; padding-left:18px; font-size:12.5px; color:var(--sub); line-height:1.5} .gscard .gsst{font-size:12.5px; color:var(--muted)} .gscard .gsst b{color:var(--accent)} .gsbtns{display:flex; gap:6px; flex-wrap:wrap; margin-top:auto}
 .adrow{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; column-gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line)} .adrow:first-of-type{border-top:0} .adrow span{font-size:13px} .adrow small{font-size:11.5px; color:var(--muted)} .adrow button{grid-row:1/3; grid-column:2} .adrow .cosst{grid-row:1/3; grid-column:2}
 .resos{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px} .reso{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:10px 12px; display:flex; flex-direction:column; gap:6px}
@@ -1316,7 +1317,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.73 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.74 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1423,6 +1424,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.74: <b>💎 새벽 결정 값 정함</b> — 충전 묶음 6가지(1,200원 💎60 ~ 119,000원 💎7,300, 큰 묶음일수록 덤) · <b>30일 정액 6,600원</b> · <b>아트 패스 유료 트랙 11,000원</b>(이제 💎가 아니라 현금 상품). 결제는 출시 뒤 연결 — 지금은 눌러도 안내만 나옵니다. 배경음악에서 마디마다 들리던 '위잉' 하는 울렁임을 고쳤습니다.<br>
 v0.73: <b>화면 디자인 새로(A안 — 정돈된 밤)</b> — 판·창은 은은한 그라데이션과 얇은 빛 테두리, 주요 버튼은 금빛·나머지는 투명 테두리, 고른 탭은 금빛 알약, 위쪽 막대 칩은 둥근 알약, 왼쪽 메뉴는 고른 곳에 금빛 세로줄. 창을 열면 뒤쪽이 살짝 흐려집니다.<br>
 v0.72.1: 걸린 효과 글자 자리 — 진형(아군 '>>' · 적 '<<')에 맞춰 위·아래 줄은 아군 오른쪽·적 왼쪽, 가운데 줄은 아군 왼쪽·적 오른쪽에 뜹니다. 그쪽이 다른 캐릭터나 버튼을 가리거나 화면 밖이면 덜 가리는 쪽으로 옮깁니다.<br>
 v0.72: <b>그래픽 다듬기 2차</b> — 배경: 먼 곳은 공기에 바래 흐릿하게, 가까운 곳·가장자리는 조금 어둡게(캐릭터가 더 또렷이). 스킬 이펙트: 도트 둘레로 같은 색 빛이 은은하게 번짐. 장비 아이콘: 위·왼쪽 빛과 부드러운 외곽선. (저사양 모드에서는 배경·이펙트 다듬기가 꺼져 가볍게 돕니다.) <b>걸린 효과 보기</b>는 누른 캐릭터 왼쪽에 투명 배경 글자로 뜹니다(왼쪽에 자리가 없으면 오른쪽).<br>
@@ -5797,8 +5799,12 @@ function openTorch(blocked){
 }
 /* ================= v0.56 상품: 광고 · 30일 정액 · 아트 패스 =================
    원칙: 전투력에 직접 닿는 건 팔지 않는다(시간·편의·외형만). 결제·광고 SDK는 서버·앱 포장 뒤 — 지금은 💎·관리자 시험 단추로만 켠다. */
-const SUB_DAYS=30, SUB_GEM=300, SUB_DAILY_GEM=10, SUB_TORCH_MAX=15, SUB_TORCH_SPEED=1.5;
-const PASS_T0=Date.UTC(2026,10,1,-9), PASS_DAYS=30, PASS_LEVELS=30, PASS_XP=100, PASS_GEM=200;
+const SUB_DAYS=30, SUB_WON=6600, SUB_DAILY_GEM=10, SUB_TORCH_MAX=15, SUB_TORCH_SPEED=1.5;
+const PASS_T0=Date.UTC(2026,10,1,-9), PASS_DAYS=30, PASS_LEVELS=30, PASS_XP=100, PASS_WON=11000;
+// v0.74 💎 새벽 결정 묶음(원 · 기본 💎 · 덤 💎) — 1💎 ≈ 20원 기준, 큰 묶음일수록 덤이 많음. 결제는 출시 뒤 연결(지금은 눌러도 안내만, 관리자는 시험 지급)
+const GEM_PACKS=[[1200,60,0],[5900,300,20],[12000,600,60],[33000,1650,250],[59000,2950,550],[119000,5950,1350]];
+const won=n=>n.toLocaleString("ko-KR")+"원";
+function payLater(what){ toast(`💳 ${what} — 결제는 출시 뒤에 연결됩니다 (지금은 시험판)`); }
 const AD_DAILY={torch:5, loot:3, fast:2}, AD_FAST_MS=30*60*1000;
 function subActive(){ return !!(progress&&progress.sub&&progress.sub.until>Date.now()); }
 function subDaysLeft(){ return subActive()?Math.ceil((progress.sub.until-Date.now())/86400e3):0; }
@@ -5894,15 +5900,16 @@ function egGate(m){ if(egCanEnter(m)) return true; toast(`<span class="tc">${EG_
 function gemShopBlock(){
   const box=document.createElement("div"); box.className="gemshop"; const gem=progress.gem||0; const P=passState(); const lv=passLevel(P); const A=adsToday();
   const sub=subActive();
-  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>유료 재화 · 출시 뒤 결제로 충전 · 증표·첫 돌파·패스로도 조금씩</span>${isAdmin()?`<button class="ghostbtn" id="gsAdd">관리자 +100</button>`:""}</div>
+  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>유료 재화 · 아래에서 충전(결제는 출시 뒤 연결) · 증표·첫 돌파·패스로도 조금씩</span>${isAdmin()?`<button class="ghostbtn" id="gsAdd">관리자 +100</button>`:""}</div>
   <div class="gscards">
+    <div class="gscard packs"><h3>💎 새벽 결정 충전</h3><div class="gpacks">${GEM_PACKS.map(([w,g,b],i)=>`<button class="gpack" data-pk="${i}"><b>💎 ${(g+b).toLocaleString("ko-KR")}</b>${b?`<small>${g.toLocaleString("ko-KR")} + 덤 ${b.toLocaleString("ko-KR")}</small>`:"<small>&nbsp;</small>"}<span>${won(w)}</span></button>`).join("")}</div>${isAdmin()?`<div class="gsst">관리자: 누르면 결제 없이 시험 지급</div>`:""}</div>
     <div class="gscard sub${sub?" on":""}"><h3>🌙 30일 정액</h3>${sub?`<div class="gsst">사용 중 · ${subDaysLeft()}일 남음</div>`:""}
       <ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 '빠르게' 상시 · 이미 깬 막은 '매우 빠르게'로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>가방 +${BAG_SUB}칸 (기본 ${BAG_BASE}칸)</li><li>매주 최종 콘텐츠 입장권 ${SUB_TICKETS}장</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>
-      <div class="gsbtns"><button class="btn" id="gsSub" ${gem<SUB_GEM?"disabled":""}>💎 ${SUB_GEM} — ${sub?"30일 연장":"시작"}</button>${isAdmin()?`<button class="ghostbtn" id="gsSubAdm">관리자 시험 30일</button>`:""}</div></div>
+      <div class="gsbtns"><button class="btn" id="gsSub">${won(SUB_WON)} — ${sub?"30일 연장":"시작"}</button>${isAdmin()?`<button class="ghostbtn" id="gsSubAdm">관리자 시험 30일</button>`:""}</div></div>
     <div class="gscard pass${P.paid?" on":""}"><h3>🎟 아트 패스 — 시즌 ${P.season}</h3><div class="gsst">${lv}/${PASS_LEVELS}단계 · ${passDaysLeft()}일 남음 · ${P.paid?"유료 트랙 열림":"무료 트랙"}${passClaimable()?` · <b>받을 보상 ${passClaimable()}</b>`:""}</div>
       <div class="pbar"><i style="width:${Math.min(100,(P.xp%PASS_XP))}%"></i></div>
       <ul><li>던전 입장·보스 처치·막 돌파·증표로 단계가 오릅니다</li><li>무료: 골드·정수·💎·장비(희귀·영웅)·명함 스티커·오라 색·칭호</li><li>유료: 매 단계 💎, 전설 장비, 시즌 한정 망토·무기 외형·이펙트 색·글자체·모닥불 장식·칭호</li></ul>
-      <div class="gsbtns"><button class="btn" id="gsPass">보상 보기</button>${P.paid?"":`<button class="btn" id="gsPassBuy" ${gem<PASS_GEM?"disabled":""}>💎 ${PASS_GEM} — 유료 트랙 열기</button>`}${isAdmin()&&!P.paid?`<button class="ghostbtn" id="gsPassAdm">관리자 시험</button>`:""}</div></div>
+      <div class="gsbtns"><button class="btn" id="gsPass">보상 보기</button>${P.paid?"":`<button class="btn" id="gsPassBuy">${won(PASS_WON)} — 유료 트랙 열기</button>`}${isAdmin()&&!P.paid?`<button class="ghostbtn" id="gsPassAdm">관리자 시험</button>`:""}</div></div>
     <div class="gscard ads"><h3>📺 광고</h3>
       <div class="adrow"><span>횃불 +1</span><small>오늘 ${A.torch}/${AD_DAILY.torch}</small><button class="btn" id="adTorch" ${adLeft("torch")?"":"disabled"}>보기</button></div>
       <div class="adrow"><span>마지막 돌파 전리품 2배 · 금화 2배</span><small>${lastRunClaimable()?`받을 수 있음 · 오늘 ${A.loot}/${AD_DAILY.loot}`:`막을 깬 뒤 24시간 안에 · 오늘 ${A.loot}/${AD_DAILY.loot}`}</small><button class="btn" id="adLoot" ${adLeft("loot")&&lastRunClaimable()?"":"disabled"}>보기</button></div>
@@ -5911,10 +5918,13 @@ function gemShopBlock(){
   </div>`;
   const q=s=>box.querySelector(s);
   if(q("#gsAdd")) q("#gsAdd").onclick=()=>{ progress.gem=(progress.gem||0)+100; saveProgress(); renderShop(); };
-  q("#gsSub").onclick=()=>{ if((progress.gem||0)<SUB_GEM) return; progress.gem-=SUB_GEM; subStart(SUB_DAYS,`💎 ${SUB_GEM}`); renderShop(); renderHud(); };
+  q("#gsSub").onclick=()=>payLater(`30일 정액 ${won(SUB_WON)}`);
+  box.querySelectorAll("[data-pk]").forEach(b=>b.onclick=()=>{ const [w,g,bn]=GEM_PACKS[+b.dataset.pk];
+    if(!isAdmin()) return payLater(`💎 ${(g+bn).toLocaleString("ko-KR")} ${won(w)}`);
+    progress.gem=(progress.gem||0)+g+bn; logLine(`<span class="gain">💎 관리자 시험 지급 +${g+bn} (${won(w)} 묶음)</span>`); saveProgress(); renderShop(); renderHud(); });
   if(q("#gsSubAdm")) q("#gsSubAdm").onclick=()=>{ subStart(SUB_DAYS,"관리자 시험"); renderShop(); renderHud(); };
   q("#gsPass").onclick=()=>openPass();
-  if(q("#gsPassBuy")) q("#gsPassBuy").onclick=()=>{ if((progress.gem||0)<PASS_GEM) return; progress.gem-=PASS_GEM; passState().paid=true; logLine(`<span class="win">🎟 아트 패스 유료 트랙을 열었습니다 (시즌 ${passState().season})</span>`); saveProgress(); openPass(); };
+  if(q("#gsPassBuy")) q("#gsPassBuy").onclick=()=>payLater(`아트 패스 유료 트랙 ${won(PASS_WON)}`);
   if(q("#gsPassAdm")) q("#gsPassAdm").onclick=()=>{ passState().paid=true; saveProgress(); renderShop(); };
   q("#adTorch").onclick=()=>playFakeAd("torch",renderShop); q("#adLoot").onclick=()=>playFakeAd("loot",renderShop); q("#adFast").onclick=()=>playFakeAd("fast",renderShop);
   q("#gsTorch").onclick=()=>openTorch();
@@ -6010,11 +6020,11 @@ function openPass(){   // v0.69 아트 패스 화면 다시 — 단계 줄 하�
   const m=openModal(`<div class="phead"><div><h2>🎟 아트 패스 <small>시즌 ${P.season}</small></h2><p class="sub">${passDaysLeft()}일 남음 · 시즌이 끝나면 못 받은 보상과 한정 외형은 사라집니다</p></div>
       <div class="plv"><b>${lv}<small>/${PASS_LEVELS}단계</small></b><div class="pbar2"><i style="width:${lv>=PASS_LEVELS?100:Math.round(xp/PASS_XP*100)}%"></i></div><small>${lv>=PASS_LEVELS?"모든 단계 달성":`다음 단계까지 ${PASS_XP-xp}`}</small></div></div>
     <div class="pgrid"><div class="prow-lab"><span>무료</span><span class="mid"></span><span class="${P.paid?"on":""}">유료${P.paid?"":" 🔒"}</span></div><div class="pscroll" id="pScroll">${cols}</div></div>
-    <div class="mfoot"><button class="btn" id="pAll" ${nC?"":"disabled"}>${nC?`받을 수 있는 보상 모두 받기 (${nC})`:"받을 보상 없음"}</button>${P.paid?"":`<button class="btn ghost" id="pBuy" ${(progress.gem||0)<PASS_GEM?"disabled":""}>💎 ${PASS_GEM} — 유료 트랙 열기</button>`}<span class="spacer"></span><button class="btn ghost" id="pClose">닫기</button></div>`,"passm");
+    <div class="mfoot"><button class="btn" id="pAll" ${nC?"":"disabled"}>${nC?`받을 수 있는 보상 모두 받기 (${nC})`:"받을 보상 없음"}</button>${P.paid?"":`<button class="btn ghost" id="pBuy">${won(PASS_WON)} — 유료 트랙 열기</button>`}<span class="spacer"></span><button class="btn ghost" id="pClose">닫기</button></div>`,"passm");
   m.querySelector("#pClose").onclick=closeModal; m.addEventListener("click",e=>{ if(e.target===m) closeModal(); });
   const again=()=>{ const sc=m.querySelector("#pScroll"), x=sc?sc.scrollLeft:0; closeModal(); openPass(); const s2=$("pScroll"); if(s2) s2.scrollLeft=x; if(!$("body-shop").hidden) renderShop(); };
   m.querySelector("#pAll").onclick=()=>{ passClaimAll(); again(); };
-  const pb=m.querySelector("#pBuy"); if(pb) pb.onclick=()=>{ if((progress.gem||0)<PASS_GEM) return; progress.gem-=PASS_GEM; passState().paid=true; logLine(`<span class="win">🎟 아트 패스 유료 트랙을 열었습니다 (시즌 ${passState().season})</span>`); saveProgress(); again(); };
+  const pb=m.querySelector("#pBuy"); if(pb) pb.onclick=()=>payLater(`아트 패스 유료 트랙 ${won(PASS_WON)}`);
   m.querySelectorAll(".pc.can").forEach(c=>c.onclick=()=>{ if(passClaim(+c.dataset.l,c.dataset.p==="1")) again(); });
   try{ cosPreviewRun(m); }catch(e){}
   const sc=m.querySelector("#pScroll"), first=m.querySelector(".pc.can")||m.querySelector(".pcol.now");
@@ -7412,7 +7422,7 @@ const CHIP = (() => {
     if (o.vib) { const l = ctx.createOscillator(), lg = ctx.createGain(); l.frequency.value = o.vib[0]; lg.gain.value = o.f * o.vib[1]; l.connect(lg); lg.connect(osc.frequency); l.start(t); l.stop(t + d + r + 0.02); }
     g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + a);
     if (o.sus != null) g.gain.linearRampToValueAtTime(v * o.sus, t + Math.min(d, a + 0.06));
-    g.gain.setValueAtTime(v * (o.sus ?? 1), t + d); g.gain.exponentialRampToValueAtTime(0.0001, t + d + r);
+    g.gain.setValueAtTime(v * (o.sus ?? 1), t + d); if (o.xf) g.gain.linearRampToValueAtTime(0, t + d + r); else g.gain.exponentialRampToValueAtTime(0.0001, t + d + r);
     let node = osc; if (o.lp) { const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = o.lp; node.connect(f); node = f; }
     node.connect(g); g.connect(dest); osc.start(t); osc.stop(t + d + r + 0.03);
   }
@@ -7669,7 +7679,7 @@ const CHIP = (() => {
   function schedStep(S, i, t) {
     const sp = 60 / S.bpm / 4, bar = Math.floor(i / 16) % S.chords.length, k = i % 16, C = chord(S.chords[bar]);
     const e = mel[i % mel.length]; if (e) tone(bgmG, { w: S.lead.w, f: mtof(e.m + (S.lead.tr || 0)), t, d: Math.max(0.05, e.len * sp * 0.92), v: S.lead.v, vib: S.lead.vib, r: S.lead.r, a: S.lead.a, lp: S.lead.lp, sus: 0.8 });
-    if (k === 0) for (const P of [S.pad, S.pad2]) if (P) for (const iv of C.iv.slice(0, 3)) tone(bgmG, { w: P.w, f: mtof(12 * (P.oct + 1) + C.root + iv), t, d: 16 * sp * 0.97, v: P.v, a: P.a, lp: P.lp, r: 0.4, sus: 0.85 });
+    if (k === 0) for (const P of [S.pad, S.pad2]) if (P) for (const iv of C.iv.slice(0, 3)) tone(bgmG, { w: P.w, f: mtof(12 * (P.oct + 1) + C.root + iv), t, d: 16 * sp, v: P.v, a: P.a, lp: P.lp, r: Math.max(0.035, P.a), xf: 1 });   // v0.74: 다음 화음이 a초 동안 올라오는 만큼 이전 화음이 똑같이 내려감(마디마다 줄었다 부푸는 '위잉' 없앰)
     if (k === 0 && S.bell) { const f = mtof(12 * (S.bell.oct + 1) + C.root); tone(bgmG, { w: "tri", f, t, d: 0.05, v: S.bell.v, r: 1.6 }); tone(bgmG, { w: "sine", f: f * 2.76, t, d: 0.03, v: S.bell.v * 0.35, r: 0.9 }); }
     const bp = S.bass.pat.split(" ")[k]; if (bp && bp !== ".") { const base = 12 * (S.bass.oct + 1) + C.root; const n = bp === "R" ? base : bp === "O" ? base + 12 : bp === "5" ? base + 7 : base;
       let len = 1; const P = S.bass.pat.split(" "); while (k + len < 16 && P[k + len] === ".") len++; tone(bgmG, { w: S.bass.w, f: mtof(n), t, d: len * sp * 0.85, v: S.bass.v, lp: S.bass.lp, r: 0.03 });
