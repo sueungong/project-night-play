@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793514872372"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793519966955"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1283,12 +1283,14 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .lorelist{max-height:60vh;overflow:auto;display:flex;flex-direction:column;gap:6px;margin:8px 0}.lorepg{border:1px solid #3a3f66;border-radius:8px;padding:8px 10px;background:#141830}.lorepg summary{cursor:pointer;color:#d6b3ff}.lorepg p{margin:6px 0;line-height:1.6}.lorepg.locked{color:var(--muted)}.lorepg.locked small{margin-left:6px}button.lorebtn{background:#1f1a3a;color:#d6b3ff;border:1px solid #4a3f7a;border-radius:8px;padding:4px 10px;cursor:pointer}
 .bwlist{display:flex;flex-direction:column;gap:6px;max-height:46vh;overflow:auto}.bwrow{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid #3a3f66;border-radius:8px;padding:6px 10px;background:#141830}.bwrow.on{border-color:#d6b3ff}
 .eqquick{display:flex;gap:8px;justify-content:center;margin:6px 0;flex-wrap:wrap}.eqquick .btn{padding:6px 12px;font-size:13px}
+.tutdots{display:flex;gap:5px;align-items:center;margin-left:10px}.tutdots i{width:8px;height:8px;border-radius:50%;background:#2a3352}.tutdots i.done{background:#8a7232}.tutdots i.on{background:var(--accent);box-shadow:0 0 0 3px #f4c95d33}
+.tutbig{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:17px;padding:12px 14px;margin:6px 0 10px;border-radius:12px;background:#221d0e;border:2px solid var(--accent)} .tutbig .w{color:var(--muted);font-size:15px} .tutbig .c{color:#d7ecff;background:#1d2f4a;border:1px solid #3b5f8f;border-radius:8px;padding:2px 10px} .tutbig .s{color:var(--accent);font-weight:800}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.69 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.70 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1316,7 +1318,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
         <div class="dgrid" id="dgrid">
           <div class="field" aria-label="전장">
             <div class="fieldhead"><span class="zoneline" id="zoneline"></span><span class="spacer"></span><span class="result" id="result"></span><span class="frun" id="fRun" hidden></span></div>
-            <div class="fieldfoot" id="fieldfoot"><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(골드는 잃고 주운 장비·경험치 절반은 가져가 등불 도시로)"><span class="fsi">↩</span>후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜"><span class="fsi">⏩</span><b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
+            <div class="fieldfoot" id="fieldfoot"><button class="logbtn fretreat" id="fRetreat" hidden onclick="retreatRun()" title="후퇴 — 패배와 같음(골드는 잃고 주운 장비·잡은 몬스터의 경험치는 가져가 등불 도시로)"><span class="fsi">↩</span>후퇴</button><button class="logbtn fspeed" id="fSpeed" onclick="cycleSpeed()" title="전투 속도 — 누를 때마다 바뀜"><span class="fsi">⏩</span><b></b></button><button class="logbtn fhgear" onclick="openSettings()" title="설정 · 소리" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><button class="logbtn" id="logBtn" onclick="toggleLog()" aria-expanded="false" aria-controls="logPanel" title="전투 기록 열기·닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16H7zM10 8h4M10 12h4M10 16h2"/></svg>기록<span class="dot"></span></button></div>
             <div class="actbar" id="actbar" hidden></div>
             <div class="toasts" id="toasts" aria-live="polite"></div>
             <div class="saybox" id="saybox" hidden></div>
@@ -1395,6 +1397,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.70: <b>난이도 바로잡기 · 규칙 교실 새로 · 도트 다듬기</b> — 처음 1-1막이 거의 깨지지 않던 문제를 고쳤습니다(구역 사이 회복을 줄인 뒤 적 수치를 다시 맞추지 않았던 탓). 구역 사이 회복은 체력·마나 각 <b>15%</b>, 지거나 후퇴해도 <b>잡은 몬스터의 경험치는 그대로</b> 가져갑니다(골드는 잃음). 황혼 1장 적을 다시 맞춰 Lv1 새 파티가 1막을 처음에 대략 4번 중 3번 깨도록 했습니다. <b>도발</b>: 한 줄·십자·후열 전체처럼 모양 있는 공격도 이제 도발한 영웅을 노립니다(원거리 공격은 전처럼 절반만 끌려옴, 적 전체를 한꺼번에 치는 광역은 못 막음). <b>규칙 교실</b>: 어떤 직업으로 시작하든 1-1막 전투마다 주인공 규칙 하나씩 — 그 규칙의 조건이 꼭 맞는 상황(적 3마리, 다친 동료, 낮은 체력·마나 등)을 만들어 실제로 쓰이는 순간 멈춰 보여 줍니다. 설명도 "만약 [조건]이면 → [스킬]" 한 줄 중심으로 짧게 정리했고, 마지막에 동료 규칙도 자동전투 탭에서 미리 확인·조정하라고 안내합니다. <b>영웅 도트</b>: 크기는 그대로, 위·왼쪽에서 빛이 드는 명암과 부드러운 외곽선, 무기 끝 반짝임을 넣었습니다.<br>
 v0.69: <b>🎟 아트 패스 화면 새로</b> — 단계 줄 하나를 사이에 두고 위는 무료·아래는 유료 보상이 함께 넘어갑니다. 보상은 그림 아이콘으로(💎·금화·정수·장비 등급 색), 망토·무기 외형 같은 한정 외형은 실제 모습이 움직이는 미리보기로 보입니다. 지금 단계·다음 단계까지 남은 경험치 막대, 받을 수 있는 칸은 금빛으로 빛나고, 화면 아래에서 바로 유료 트랙을 열 수 있습니다.<br>
 v0.68: <b>🤝 우정 상점 · 한 번에 장착/해제</b> — 우정 점수는 이제 상점의 <b>🤝 우정 상점</b>에서만 씁니다(횃불 1개 🤝6 · 하루 3번, 금화 1,500 🤝4 · 하루 5번 — 다른 재화로 바꾸거나 외형을 살 수는 없음). 장비 탭에 <b>⬆ 좋은 장비 한 번에 장착</b>(가방에서 그 영웅에게 더 좋은 장비를 부위마다 골라 낌)과 <b>⬇ 모두 해제</b>(두 번 눌러 확인) 단추가 생겼습니다.<br>
 v0.67: <b>🤝 영웅 빌려 쓰기</b> — 휴대폰 테스트 주소에서, 최종 콘텐츠(밤의 심연·낙성 강림)를 혼자 할 때 다른 사람의 영웅 1명을 빌려 데려갈 수 있습니다(출전 칸 하나 · 그 주인이 정한 장비·규칙 그대로 · 경험치·전리품은 내 영웅만). 내 영웅을 누가 빌려 가면 <b>🤝 우정 점수</b> 2점(하루 20점까지). 빌려줄 내 영웅은 최종 콘텐츠 화면의 🤝 버튼에서 고릅니다.<br>
@@ -2326,14 +2329,14 @@ const DIFFS=[
 ];
 // 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06
 const DIFF_SCALE=[
-  [{hp:1.597,atk:1.116},{hp:2.037,atk:1.973},{hp:1.135,atk:1.949},{hp:1.903,atk:1.308},{hp:1.252,atk:3.242},{hp:2.946,atk:3.729},{hp:2.127,atk:3.559},{hp:2.978,atk:3.568},{hp:2.345,atk:4.054},{hp:0.958,atk:5.226}],
+  [{hp:1.198,atk:0.915},{hp:2.037,atk:1.973},{hp:1.135,atk:1.949},{hp:1.903,atk:1.308},{hp:1.252,atk:3.242},{hp:2.946,atk:3.729},{hp:2.127,atk:3.559},{hp:2.978,atk:3.568},{hp:2.345,atk:4.054},{hp:0.958,atk:5.226}],
   [{hp:54.261,atk:31.163},{hp:38.258,atk:33.551},{hp:19.497,atk:21.439},{hp:24.398,atk:17.562},{hp:7.297,atk:31.749},{hp:17.938,atk:20.384},{hp:14.662,atk:15.469},{hp:20.926,atk:19.077},{hp:9.966,atk:27.727},{hp:9.654,atk:26.187}],
   [{hp:334.942,atk:165.443},{hp:144.849,atk:187.372},{hp:171.169,atk:97.33},{hp:168.458,atk:82.573},{hp:93.288,atk:121.723},{hp:167.754,atk:123.834},{hp:121.397,atk:80.718},{hp:78.828,atk:164.151},{hp:47.32,atk:153.97},{hp:27.5,atk:159.5}]
 ];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
 const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.1,atk:1.2},{hp:2.4,atk:1.25}];
-const ZONE_REGEN=0.10;   // v0.55.3: 구역 사이 체력·마나 회복 비율
+const ZONE_REGEN=0.15;   // v0.55.3: 구역 사이 체력·마나 회복 비율 · v0.70: 10% → 15%
 const TURN_LIMIT=60, BOSS_TURN_LIMIT=75;   // 보스가 있는 전투는 75턴까지
 const AFFIXES={
   rage:  {name:"분노", desc:"체력 50% 이하에서 공격력 +30%"},
@@ -3857,11 +3860,11 @@ function runBankTake(){ return JSON.parse(JSON.stringify({gold:progress.gold, es
 // v0.54: 패배·후퇴 — 경험치·골드·정수 등은 들어가기 전으로 되돌리되, 이번 입장에서 주운 장비(가방에 새로 들어온 것)는 가져감
 // v0.55: 패배·후퇴 — 주운 장비 + 그 장비를 자동 정리해 얻은 골드·정수·조각도 가져간다(던전에서 나온 것이므로). 돌려주는 값은 기록용 문구
 // v0.55.2: 패배·후퇴해도 그때까지 쌓은 경험치의 절반은 가져감(막을 돌파하면 전부) — exp: 이번 입장에서 쌓은 경험치, expIds: 받을 영웅(없으면 출전 전원)
-const DEFEAT_EXP=0.5;
+const DEFEAT_EXP=1;   // v0.70: 잡은 몬스터의 경험치는 지거나 후퇴해도 그대로(전에는 절반)
 function runRestoreKeepItems(B,exp,expIds){ if(!B) return ""; const had=new Set((B.inv||[]).map(x=>x&&x.id)); const got=progress.inv.filter(x=>x&&!had.has(x.id));
   runBankRestore(B); const ids=new Set(progress.inv.map(x=>x&&x.id)); for(const it of got) if(!ids.has(it.id)) progress.inv.push(it);
   const A=B.auto||{}; if(A.gold) progress.gold+=A.gold; if(A.ess) progress.ess+=A.ess; if(A.frag) fragAdd(A.frag);
-  const parts=[]; const kx=Math.floor((exp||0)*DEFEAT_EXP); if(kx>0){ grantExp(kx,expIds); parts.push(`경험치 ${kx.toLocaleString("ko-KR")}(절반)`); }
+  const parts=[]; const kx=Math.floor((exp||0)*DEFEAT_EXP); if(kx>0){ grantExp(kx,expIds); parts.push(`경험치 ${kx.toLocaleString("ko-KR")}`); }
   if(got.length) parts.push(`주운 장비 ${got.length}개`);
   const ap=[A.gold?`${A.gold}G`:"", A.ess?`${A.ess}정수`:"", fragText(A.frag)].filter(Boolean).join(" · "); if(ap) parts.push(`자동 정리 몫 ${ap}`);
   return parts.join("와 "); }
@@ -4272,7 +4275,7 @@ function skillSpec(sid,sx){
     case "restore_mp": main=`내 마나 +${s.value}`; tags.push({c:"tgt",t:"자신"}); break;
     case "buff_atk": main=`공격력 +${P(s.value)}% · ${s.duration}턴`; tags.push({c:"tgt",t:s.range==="self"?"자신":"아군 1명"}); break;
     case "buff_def": main=`받는 피해 -${P(s.value)}% · ${s.duration}턴`; tags.push({c:"tgt",t:s.aoe?"아군 전체":s.range==="self"?"자신":"아군 1명"}); break;
-    case "taunt": main=`적 전체의 공격을 나에게 끌어옴 · ${s.duration}턴`; tags.push({c:"tgt",t:"적 전체"}); R("etc","원거리 공격은 절반만 끌려옴"); R("if","표식된 적이 있으면 → 1턴 더"); break;
+    case "taunt": main=`적 전체의 공격을 나에게 끌어옴 · ${s.duration}턴`; tags.push({c:"tgt",t:"적 전체"}); R("etc","원거리 공격은 절반만 끌려옴 · 한 줄·십자 같은 범위 공격도 나를 노림 · 적 전체를 한꺼번에 치는 광역 공격은 못 막음"); R("if","표식된 적이 있으면 → 1턴 더"); break;
     case "aura": { const A=AURA[s.aura]||[0,0], f=x=>+(x*100).toFixed(1); tags.push({c:"tgt",t:"아군 전체"});
       main=({courage:`오라 — 아군 공격력 +${f(A[0])}%`,guard:`오라 — 아군 받는 피해 -${f(A[0])}% · 매 턴 그 절반만큼 재생`,march:`오라 — 아군 기본공격 ${f(A[0])}% 확률로 한 번 더`,mock:`오라 — 적 공격력 -${f(A[0])}% · 명중 -${f(A[0]*0.625)}%`}[s.aura]||"오라");
       R("if",`공명 1당 → ${f(A[1])}%p 더`); R("etc","오라는 하나만 켜짐 · 전투 끝까지 유지"); break; }
@@ -4502,6 +4505,13 @@ class Sim {
     const at=L=>pool.filter(x=>x.lane===L), lanes=[...new Set(pool.map(x=>x.lane))].sort((a,b)=>a-b);
     const crowd=()=>lanes.reduce((b,L)=>at(L).length>at(b).length?L:b,lanes[0]);
     const back=pool.filter(x=>x.row==="back"), front=pool.filter(x=>x.row==="front"), any=p=>p[this.ri(0,p.length-1)];
+    // v0.70 도발: 범위 모양 기술도 도발한 영웅을 겨냥(한 명 겨냥은 그 영웅에게, 줄·십자는 그 영웅을 중심으로) — 원거리는 절반만 끌려옴(보통 공격과 같음)
+    if(u.taunted_by){ const t=this.byId(u.taunted_by); if(t&&t.alive&&pool.includes(t)&&(skill.range!=="ranged"||this.ri(0,1)===0)){
+      switch(skill.shape){
+        case "line": case "lane_rand": return at(t.lane);
+        case "cross": return pool.filter(x=>x.lane===t.lane||(x.row===t.row&&Math.abs(x.lane-t.lane)===1));
+        case "back_rand": case "back_hpmax": case "front_defmax": case "back_all": case "front_all": return [t];   // 한 줄 전체를 노리던 공격도 도발한 영웅 한 명에게
+      } } }
     switch(skill.shape){
       case "line": return at(at(u.lane).length?u.lane:crowd());   // 자기 앞 가로줄이 비면 영웅이 가장 많은 가로줄
       case "lane_rand": return at(any(lanes));
@@ -6013,35 +6023,49 @@ const TUT={
   markOld(p){ if(!p.tut){ p.tut={rl:99,seen:{},demo:{},wins:0}; for(const k of Object.keys(COACH)) if(k!=="torch") p.tut.seen[k]=true; } },
   ruleCard(r,cls,no){ const sk=SKILLS[r.skill]||{name:r.skill};
     return `<div class="tutrule ${cls||""}"><span class="no">${no}</span><span class="w">만약</span><b class="c">${esc(COND[r.c1].label)}</b>${r.logic?`<span class="w">${r.logic===1?"그리고":"또는"}</span><b class="c">${esc(COND[r.c2].label)}</b>`:""}<span class="w">이면 →</span><b class="s">${esc(sk.name)}</b><span class="w">(${esc(targetLabel(r,this.cid()))})</span></div>`; },
+  // v0.70 이번 전투에서 이 규칙이 꼭 쓰이도록 만들어 주는 상황(설명 + 실제 준비)
+  sitText(r){ const c=[r.c1].concat(r.logic===1?[r.c2]:[]).map(i=>COND[i]).filter(Boolean); const out=[];
+    for(const x of c){ const t=x.type, v=x.value;
+      if(t==="self_hp_below") out.push("내 체력이 낮은 채로 시작해요");
+      else if(t==="ally_hp_below") out.push("다친 동료가 있는 채로 시작해요");
+      else if(t==="allies2_below") out.push("동료 여럿이 다친 채로 시작해요");
+      else if(t==="enemy_cnt_gte") out.push(`적이 ${Math.max(3,v)}마리 나와요`);
+      else if(t==="self_mp_below") out.push("마나가 거의 없는 채로 시작해요");
+      else if(t==="self_mp_above") out.push("마나를 가득 채우고 시작해요");
+      else if(t==="enemy_hp_below") out.push("이미 다친 적이 섞여 나와요");
+      else if(t==="self_combo_gte") out.push("공격할 때마다 연계가 쌓여요");
+      else if(t==="self_mom_gte") out.push("싸울수록 기세가 쌓여요");
+      else if(t==="self_res_gte") out.push("노래할수록 공명이 쌓여요");
+      else if(t==="self_ammo_lte") out.push("쏘다 보면 탄창이 줄어요");
+    }
+    return out.length?[...new Set(out)].join(" · "):"전투가 시작되면 바로 맞아요"; },
   lessonHTML(n,replay){
     const cid=this.cid(), P=this.plan(), L=P.length, nm=esc(progress.protag.name), C=CLASSES[cid], basicName=SKILLS[C.skills[0]].name;
-    const head=`<div class="tuthead"><span class="tutstep">규칙 교실 ${n} / ${L+1}</span></div>`;
+    const dots=Array.from({length:L+1},(_,i)=>`<i class="${i+1<n?"done":i+1===n?"on":""}"></i>`).join("");
+    const head=`<div class="tuthead"><span class="tutstep">규칙 교실 ${n} / ${L+1}</span><span class="tutdots">${dots}</span></div>`;
+    const all=P.slice().sort((a,b)=>a.i-b.i);
+    const list=(cur)=>all.map((x,j)=>this.ruleCard(x.r,x===cur?"new":"",j+1)).join("")+`<div class="tutrule fall"><span class="no">–</span><span class="w">아무것도 안 맞으면 →</span><b class="s">${esc(basicName)}</b><span class="w">(마나 없이)</span></div>`;
     if(n<=L){
-      const cur=P[n-1], open=P.slice(0,n).sort((a,b)=>a.i-b.i), pos=open.indexOf(cur)+1, sk=SKILLS[cur.r.skill];
-      const list=open.map((x,j)=>this.ruleCard(x.r,x===cur?"new":"",j+1)).join("")+`<div class="tutrule fall"><span class="no">–</span><span class="w">아무것도 안 맞으면 →</span><b class="s">${esc(basicName)}</b><span class="w">(기본공격 · 마나 없이)</span></div>`;
-      let body="";
-      if(n===1) body=`<h2>📜 자동전투 규칙이란?</h2>
-        <p class="msub">이 게임의 전투는 자동이에요. 대신 <b>${nm}</b>님이 '어떤 상황에서 어떤 스킬을 쓸지'를 미리 정해 둡니다. 그게 <b>규칙</b>이에요.</p>
-        <p class="msub">규칙 한 칸 = <b>"만약 [조건]이면 → [스킬]"</b>. 전투 중 ${nm}님 차례가 오면 이 칸을 확인해서, 조건이 맞고 마나가 충분하면 그 스킬을 씁니다. 안 맞으면 기본공격을 해요.</p>`;
-      else body=`<h2>📜 ${n}번째 규칙 — ${esc(sk.name)}</h2>
-        <p class="msub">규칙이 여러 개면 <b>위(1번)부터 차례로</b> 확인해서, <b>처음 맞는 하나만</b> 씁니다. 그 아래 규칙은 그 턴에는 보지 않아요.</p>
-        <p class="msub">이번에 볼 규칙 <b>${esc(sk.name)}</b>${jo(sk.name,"은","는")} 지금까지 본 규칙 중 <b>${pos}번째</b>예요. ${pos===1?`맨 위라서 '${esc(COND[cur.r.c1].label)}'이면 다른 규칙보다 <b>먼저</b> 써요. 위급하거나 꼭 먼저 써야 하는 스킬은 위에 두세요.`:`위의 규칙(${open.slice(0,pos-1).map(x=>esc(SKILLS[x.r.skill].name)).join(", ")})이 먼저 맞으면 이 규칙은 그 턴엔 차례가 오지 않아요. 아래로 갈수록 '평소에 쓰는' 규칙이에요.`}</p>`;
-      return head+body+`<div class="tutlist">${list}</div>
-        <div class="tutskill">${skillCardHTML(cur.r.skill)}<span class="w">조건 '${esc(COND[cur.r.c1].label)}' — ${esc(condHint(cur.r.c1))}</span></div>
-        ${replay?"":`<p class="tnote">▶ 다음 전투에서 이 규칙이 실제로 발동하는 순간 잠깐 멈춰서 보여 드릴게요.</p>`}`;
+      const cur=P[n-1], sk=SKILLS[cur.r.skill], cl=COND[cur.r.c1].label+(cur.r.logic?(cur.r.logic===1?" 그리고 ":" 또는 ")+COND[cur.r.c2].label:"");
+      const intro=n===1?`<p class="msub">전투는 자동이에요. 대신 <b>${nm}</b>님이 <b>"만약 [조건]이면 → [스킬]"</b> 규칙을 정해 둡니다. 차례가 오면 <b>위에서부터</b> 확인해서 <b>처음 맞는 규칙 하나</b>를 써요. 하나도 안 맞으면 기본공격.</p>`:"";
+      return head+`<h2>📜 ${n===1?"자동전투 규칙":"규칙 "+n}: ${esc(sk.name)}</h2>${intro}
+        <div class="tutbig"><span class="w">만약</span><b class="c">${esc(cl)}</b><span class="w">이면 →</span><b class="s">${esc(sk.name)}</b></div>
+        ${replay?"":`<p class="tnote">▶ 이번 전투: <b>${esc(this.sitText(cur.r))}</b>. 이 규칙이 쓰이는 순간 잠깐 멈춰서 보여 드릴게요.</p>`}
+        <div class="tutlist">${list(cur)}</div>
+        <div class="tutskill">${skillCardHTML(cur.r.skill)}<span class="w">${esc(condHint(cur.r.c1))}</span></div>`;
     }
-    const fullN=heroRuleCountFull(cid);
-    return head+`<h2>📜 규칙 교실 끝 (규칙 칸 ${fullN}칸)</h2>
-      <p class="msub">기본은 다 배웠어요. 이제 자동전투 탭에서 마음대로 짜 보세요. 알아 두면 좋은 것들:</p>
+    const comp=rosterIds().filter(c=>c!==cid);
+    return head+`<h2>📜 규칙 교실 끝!</h2>
+      <p class="msub">${nm}님의 규칙 ${L}개가 모두 실제 전투에서 쓰이는 걸 봤어요. 이제 자동전투 탭에서 마음대로 바꿔 보세요.</p>
+      <div class="tutlist">${list(null)}</div>
+      ${comp.length?`<p class="tnote warn">⚠ <b>동료(${comp.map(c=>esc(jobName(c))).join("·")})도 같은 규칙으로 싸워요.</b> 기본 규칙이 들어 있지만, 동료마다 스킬과 역할이 다르니 <b>자동전투 탭에서 동료를 하나씩 골라 미리 확인·조정</b>해 두세요. 새 동료가 합류할 때도 마찬가지예요.</p>`:""}
       <ul class="tutul">
-        <li><b>두 번째 조건</b> — 조건 옆 '+ 조건'에서 <b>그리고</b>(둘 다 맞아야) / <b>또는</b>(하나만 맞아도)를 붙일 수 있어요. 예: "적이 3마리 이상 <b>그리고</b> 내 마나 30% 이상 → 광역 스킬"</li>
-        <li><b>대상</b> — 누구에게 쓸지 고릅니다(체력 비율이 가장 낮은 적·아군, 자신…). '기본'은 스킬마다 정해진 대상(공격은 맨 앞 적, 치유는 체력 비율이 가장 낮은 아군 등)이고, 빈사 적·표식된 적 같은 대상은 직접 골라야 노립니다.</li>
-        <li><b>순서 바꾸기</b> — 오른쪽 ↑↓로 칸을 옮겨요. 위에 있을수록 먼저 확인!</li>
-        <li><b>켜기·끄기</b> — 번호 아래 체크를 끄면 그 칸은 건너뜁니다. 지우지 않고 잠깐 쉬게 할 때.</li>
-        <li><b>발동 횟수</b> — 던전을 한 번 돌고 나면 칸마다 '몇 번 썼는지'가 나와요. 0번인 칸은 조건이 너무 까다롭거나 위 칸에 가려진 거예요.</li>
-        <li><b>새 스킬</b> — 전직하거나 상점에서 스킬북을 사면 빈 칸에 자동으로 들어가요(나중에 위치를 바꿔 주세요).</li>
-        <li><b>동료</b>는 규칙을 스스로 짭니다. 파티 탭에서 '작전 성향'만 정해 주세요.</li>
-      </ul>`;
+        <li><b>순서</b> — 위에 있을수록 먼저 확인해요. 위급할 때 쓸 스킬은 위로.</li>
+        <li><b>조건 두 개</b> — '+ 조건'으로 <b>그리고</b>(둘 다) / <b>또는</b>(하나만)을 붙일 수 있어요.</li>
+        <li><b>대상</b> — 누구에게 쓸지(체력이 가장 낮은 적 등) 칸마다 고를 수 있어요.</li>
+        <li><b>발동 횟수</b> — 던전을 돌고 나면 칸마다 몇 번 썼는지 보여요. 0번이면 조건이 까다롭거나 위 칸에 가려진 거예요.</li>
+      </ul>
+`;
   },
   async lesson(n,replay){
     const t=this.st(); n=n||t.rl+1; if(n>this.total()) return "stop";
@@ -6049,11 +6073,11 @@ const TUT={
     try{ SND.fx("levelup"); }catch(e){}
     const res=await new Promise(res=>{
       const last=n===this.total();
-      const m=openModal(this.lessonHTML(n,replay)+`<div class="mfoot">${last&&!replay?`<button id="tutRules" class="btn ghost">자동전투 탭에서 직접 보기</button>`:""}${replay?`<button id="tutClose" class="btn ghost">닫기</button>`:""}<button id="tutOk" class="btn">${replay?(last?"끝":"다음 수업 ▶"):last?"알겠어요!":"알겠어요 — 전투에서 확인"}</button></div>`, "small tutm");
+      const m=openModal(this.lessonHTML(n,replay)+`<div class="mfoot">${last&&!replay?`<button id="tutRules" class="btn ghost">동료 규칙 확인하러 가기</button>`:""}${replay?`<button id="tutClose" class="btn ghost">닫기</button>`:""}<button id="tutOk" class="btn">${replay?(last?"끝":"다음 수업 ▶"):last?"알겠어요!":"알겠어요 — 전투에서 확인"}</button></div>`, "small tutm");
       const done=v=>{ closeModal(); res(v); };
       m.querySelector("#tutOk").onclick=()=>done(replay&&last?"stop":"ok");
       const cl=m.querySelector("#tutClose"); if(cl) cl.onclick=()=>done("stop");
-      const go=m.querySelector("#tutRules"); if(go) go.onclick=()=>{ done("ok"); setTimeout(()=>{ selected=this.cid(); showTab("rules"); },50); };
+      const go=m.querySelector("#tutRules"); if(go) go.onclick=()=>{ done("ok"); setTimeout(()=>{ const comp=rosterIds().filter(c=>c!==this.cid()); selected=comp[0]||this.cid(); showTab("rules"); },50); };
     });
     if(!replay){ t.rl=n; t.wins=0; this.applyRules(); saveProgress(); renderRules(); }   // 창을 닫은 뒤에 반영(창이 떠 있을 때 새로 고침하면 그 수업을 다시 봄)
     this.busy=false; setMainBtn();
@@ -6064,8 +6088,37 @@ const TUT={
   },
   async replayLessons(){ for(let n=1;n<=this.total();n++){ if(await this.lesson(n,true)==='stop') break; } },
   // 전투에서 이겼을 때: 지금 배우는 규칙이 한 번이라도 발동했으면(또는 두 번 이겼으면) 다음 칸
-  onWin(){ if(!this.learning()) return; const t=this.st(); if(t.rl<1) return; t.wins=(t.wins||0)+1;
-    if(t.demo[t.rl]||t.wins>=2) this.pend=true; },
+  onWin(){},   // v0.70: 수업은 1-1막 구역마다 붙어 있음(TUT.annotate) — 이긴 횟수로 넘기지 않음
+  // v0.70 규칙 교실 1-1막: 전투 구역마다 수업 하나 — 그 규칙의 조건이 꼭 맞는 상황을 만들어 줌
+  annotate(zones){ const L=this.plan().length; let k=Math.max(1,this.st().rl); if(k>L) return;
+    const bats=zones.filter(z=>z.type==="battle"&&!z.actEnd&&!z.boss);
+    while(bats.length<L-k+1){ const src=bats[bats.length-1]||zones.find(z=>z.type==="battle"); if(!src) break; const cp=JSON.parse(JSON.stringify(src)); cp.actEnd=false; cp.boss=false; cp.named=false; cp.mid=false; zones.splice(zones.indexOf(bats[bats.length-1]||src)+1,0,cp); bats.push(cp); }
+    for(const z of bats){ if(k>L) break; const r=this.plan()[k-1].r; z.tut=k;
+      const need=[r.c1].concat(r.logic===1?[r.c2]:[]).map(i=>COND[i]).filter(c=>c&&c.type==="enemy_cnt_gte").reduce((a,c)=>Math.max(a,c.value),0);
+      if(need) while(z.mobs.length<Math.max(3,need)) z.mobs.push({...z.mobs[z.mobs.length%Math.max(1,z.mobs.length)]});
+      z.label=`${z.label} · 📜 규칙 ${k}`; k++; }
+    for(const z of zones) if(z.type==="battle"&&!z.tut) z.tutEase=true; },
+  afterSim(){ const q=this._post; this._post=null; if(!q) return; const u=q.me; if(q.combo!=null) u._combo=Math.max(u._combo||0,q.combo); if(q.mom!=null) u._mom=Math.min(u.momMax||q.mom,Math.max(u._mom||0,q.mom)); if(q.res!=null) u._res=Math.min(u.resMax||q.res,Math.max(u._res||0,q.res)); if(q.ammo!=null&&u.ammoMax) u._ammo=Math.min(u._ammo,q.ammo); },
+  async zoneSetup(z,enemies){ if(!z.tut||!this.learning()) return; const t=this.st();
+    if(t.rl<z.tut){ await this.lesson(z.tut); setMainBtn(); }
+    const cur=this.plan()[z.tut-1]; if(!cur) return; const r=cur.r, cid=this.cid(), P=runState.party.filter(u=>u.alive), me=P.find(u=>u.id===cid); if(!me) return;
+    for(const e of enemies){ e.hp_max=e.hp=Math.round(e.hp_max*1.3); e.atk=Math.max(1,Math.round(e.atk*0.5)); }   // 배우는 전투: 오래 버티고 덜 아프게
+    const others=P.filter(u=>u!==me); const post={me}; me.mp=me.mp_max; me.spd+=30;   // 마나가 모자라 못 쓰는 일이 없게(마나 조건 수업은 아래에서 따로 맞춤) · 주인공이 먼저 움직여 상황이 바뀌기 전에 규칙이 맞게(이 전투만)
+    for(const i of [r.c1].concat(r.logic===1?[r.c2]:[])){ const c=COND[i]; if(!c) continue; const v=+c.value||0;
+      if(c.type==="self_hp_below") me.hp=Math.max(1,Math.floor(me.hp_max*(v-10)/100));
+      else if(c.type==="ally_hp_below"){ const a=others[0]||me; a.hp=Math.max(1,Math.floor(a.hp_max*(v-15)/100)); }
+      else if(c.type==="allies2_below"){ for(const a of (others.length>=2?others.slice(0,2):[me].concat(others)).slice(0,2)) a.hp=Math.max(1,Math.floor(a.hp_max*(v-15)/100)); }
+      else if(c.type==="self_mp_below") me.mp=Math.floor(me.mp_max*Math.max(0,v-20)/100);
+      else if(c.type==="self_mp_above") me.mp=me.mp_max;
+      else if(c.type==="enemy_hp_below"&&enemies[0]) enemies[0].hp=Math.max(1,Math.floor(enemies[0].hp_max*(v-10)/100));
+      else if(c.type==="self_combo_gte") post.combo=v-2;   // 연계·기세·공명은 전투가 시작될 때 0으로 돌아가므로 시작한 뒤에 넣음(TUT.afterSim)
+      else if(c.type==="self_mom_gte") post.mom=v-2;
+      else if(c.type==="self_res_gte") post.res=v-3;
+      else if(c.type==="self_ammo_lte") post.ammo=v;
+    }
+    this._post=post;
+    if(r.logic===1&&[r.c1,r.c2].some(i=>COND[i]&&COND[i].type==="self_mp_above")) me.mp=me.mp_max;
+    logLine(`<span class="win">📜 규칙 교실 ${z.tut} — ${esc(SKILLS[r.skill].name)}: ${esc(this.sitText(r))}</span>`); },
   async flush(){ if(!this.pend||this.busy||!this.learning()) return false; this.pend=false; await this.lesson(); return true; },
   // 전투 기록 이벤트를 보고 설명할 순간인지
   check(ev){ if(!this.learning()||!ev||ev.side!=="party"||ev.auto) return null;
@@ -6088,7 +6141,7 @@ const TUT={
     const t=this.st();
     if(curView==="dungeon"&&!t.seen.camp&&t.rl<1){ await coachRun("camp"); }
     if(t.rl<1&&this.total()>1){ await this.lesson(1); return; }
-    if(await this.flush()) return;
+    if(this.learning()&&t.rl>=this.plan().length){ await this.lesson(this.total()); return; }   // v0.70 1-1막에서 모든 규칙을 본 뒤 → 마지막 정리 + 동료 규칙 안내
     if(curView!=="dungeon") return;
     if(!t.seen.diff&&progress.diffMax>=1){ await coachRun("diff"); return; }
     if(!t.seen.eg&&typeof egOpen==="function"&&egOpen()){ await coachRun("eg"); return; }
@@ -6122,7 +6175,7 @@ const COACH={
     {sel:"#row-enemy-front .unit .utags,#row-party-front .unit .utags", t:"상태 아이콘", x:"MP 바 아래 작은 아이콘이 상태예요 — 빨간 테는 나쁜 효과(독·출혈·기절…), 파란 테는 좋은 효과. 구석 숫자는 중첩 수."},
     {sel:".arena", t:"차례", x:"신속이 높은 순서로 한 명씩 행동해요. 지금 행동하는 캐릭터 머리 위에 쓰는 기술 이름이 떠요."},
     {sel:"#logBtn", t:"전투 기록", x:"누가 몇 번 규칙으로 무엇을 했는지 전부 적혀 있어요. 궁금할 때만 열어 보세요."},
-    {t:"이기거나 지거나", x:"던전에 들어가면 막을 끝까지 돌파해야 그동안 얻은 경험치·골드를 가져가요. 전멸하거나 '↩ 후퇴'하면 골드는 잃지만, 주운 장비와 그때까지 쌓은 경험치의 절반은 가져가요."},
+    {t:"이기거나 지거나", x:"던전에 들어가면 막을 끝까지 돌파해야 그동안 얻은 경험치·골드를 가져가요. 전멸하거나 '↩ 후퇴'하면 골드는 잃지만, 주운 장비와 그때까지 잡은 몬스터의 경험치는 그대로 가져가요."},
     {t:"쓰러짐", x:"쓰러진 동료는 다음 구역에서 저절로 일어나지 않아요. 부활 스킬이나 '쉼터'에서만 일어나요. 그럼 시작해 볼까요!"}]},
   party:{ name:"파티", steps:[
     {sel:".formboard", t:"진영", x:"출전은 최대 4명. 영웅을 앞줄·뒷줄·대기로 끌어다 놓거나, 영웅끼리 끌어서 자리를 바꿔요. 앞줄이 살아 있으면 뒷줄은 근접 공격을 받지 않아요. 대기 중인 영웅은 경험치를 받지 않아요."},
@@ -7755,6 +7808,20 @@ function lookFromKey(k){ const a=String(k||"").split("|"); const o={spr:a[0],w:a
   for(const t of a.slice(3)){ if(t[0]==="p"){ o.pc=true; o.cf=+t.slice(1)||0; } else if(t[0]==="c") o.cp=t.slice(1); else if(t[0]==="s") o.ws=t.slice(1); } return o; }
 // 주인공 망토(v0.28): 진홍색, 어깨~무릎, 등 뒤로 흘러내리며 끝자락이 바람에 일렁임(4장 번갈아) + 금 단추
 const PROTAG_CAPE=[[222,78,88],[178,52,64],[124,34,48]], PROTAG_CLASP=[240,200,90];
+// v0.70 그래픽 다듬기(시안 A) — 16×16 그대로, 위·왼쪽에서 빛: 윗면·왼면은 밝게, 아랫면·오른면은 어둡게 · 외곽선은 옆 색을 살짝 머금게 · 무기 끝에 반짝임 한 점
+function heroPolish(px,OUT,wcells){ const W=16, src=px.map(r=>r.slice());
+  const isO=c=>c&&Math.abs(c[0]-OUT[0])+Math.abs(c[1]-OUT[1])+Math.abs(c[2]-OUT[2])<30;
+  const at=(x,y)=>x<0||y<0||x>=W||y>=W?null:src[y][x]; const edge=c=>!c||isO(c);
+  const mul=(c,f)=>[0,1,2].map(i=>Math.max(0,Math.min(255,Math.round(c[i]*f))));
+  const mix=(a,b,f)=>[0,1,2].map(i=>Math.round(a[i]+(b[i]-a[i])*f));
+  for(let y=0;y<W;y++) for(let x=0;x<W;x++){ const c=src[y][x]; if(!c) continue;
+    if(isO(c)){ const n=[at(x,y-1),at(x-1,y),at(x,y+1),at(x+1,y)].filter(q=>q&&!isO(q)); if(!n.length) continue;
+      const outer=!at(x,y-1)||!at(x-1,y)||!at(x,y+1)||!at(x+1,y); px[y][x]=mix(OUT,mul(n[0],0.55),outer?0.28:0.42); continue; }
+    let f=1; if(edge(at(x,y-1))) f*=1.13; if(edge(at(x-1,y))) f*=1.05; if(edge(at(x,y+1))) f*=0.82; if(edge(at(x+1,y))) f*=0.9;
+    px[y][x]=mul(c,f); }
+  if(wcells&&wcells.length){ let best=null; for(const [x,y] of wcells){ const c=src[y]&&src[y][x]; if(!c||isO(c)) continue; const mx=Math.max(...c), mn=Math.min(...c); if(mx<130||(mx-mn)/mx>0.35) continue; if(!best||y<best[1]) best=[x,y]; }
+    if(best) px[best[1]][best[0]]=mix(px[best[1]][best[0]],[255,255,255],0.65); }
+}
 function lookSprite(look){
   if(!look||typeof document==="undefined") return null; const key=lookKey(look)+(look.bob?"|b":"")+(look.blink?"|k":""); if(LOOK_CACHE[key]) return LOOK_CACHE[key];
   const D=HERO_DOTS[look.spr]; if(!D) return null; const px=Array.from({length:16},()=>Array(16).fill(null)); const body=new Set(); const OUT=[18,20,32];
@@ -7786,6 +7853,7 @@ function lookSprite(look){
   if(look.blink){ const E=D.pal.e; if(E) for(let y=0;y<16;y++) for(let x=0;x<16;x++) if(px[y][x]===E) px[y][x]=[206,160,124]; }
   if(look.bob){ const old=px.map(r=>r.slice()); for(let y=0;y<=14;y++) if(y<14) px[y]=Array(16).fill(null);
     for(let y=13;y>=0;y--) for(let x=0;x<16;x++) if(old[y][x]) px[y+1][x]=old[y][x]; }
+  heroPolish(px,OUT,wcells);   // v0.70 그래픽 다듬기(시안 A): 빛 방향 명암 · 부드러운 외곽선 · 쇠붙이 반짝임 한 점
   const cv=document.createElement("canvas"); cv.width=cv.height=16; const c=cv.getContext("2d"); const im=c.createImageData(16,16); const mask=[];
   for(let y=0;y<16;y++) for(let x=0;x<16;x++){ const v=px[y][x]; if(!v) continue; const i=(y*16+x)*4; im.data[i]=v[0]; im.data[i+1]=v[1]; im.data[i+2]=v[2]; im.data[i+3]=255; mask.push([x,y]); }
   if(look.bob) wcells=wcells.map(([x,y])=>[x,y<=13?y+1:y]);
@@ -10893,7 +10961,7 @@ function mainButton(){
   if($("dpick")) closeModal();   // 던전 선택 창이 열려 있으면 닫고 진행
   if(typeof COOP!=="undefined"&&COOP.run) return;
   retreatArm=false;
-  if(!runState){ if(TUT.learning()&&TUT.st().rl<1){ TUT.lesson(1); return; } if(!bagGate()) return; if(egModeOf()&&!egGate(egModeOf())) return; if(!torchCanEnter()){ openTorch(true); return; } }
+  if(!runState){ if(TUT.learning()&&TUT.st().rl<1){ TUT.lesson(1); return; } if(TUT.learning()&&TUT.st().rl>=TUT.plan().length&&!TUT.busy){ TUT.lesson(TUT.total()); return; } if(!bagGate()) return; if(egModeOf()&&!egGate(egModeOf())) return; if(!torchCanEnter()){ openTorch(true); return; } }
   if(!runState){ if(egModeOf()) startEg(egModeOf()); else startRun(); }
   else enterZone();
 }
@@ -10901,6 +10969,7 @@ function startRun(){
   const rk=progress.lastRegion, d=progress.diff, act=curAct();
   runState={ regionKey:rk, d, act, zones:genRun(rk,d,act), zone:0,
     party:buildParty(), gains:{exp:0,gold:0,items:0}, chests:0, elites:0 };
+  if(TUT.learning()&&d===0&&rk===REGION_KEYS[0]&&act===1) TUT.annotate(runState.zones);   // v0.70 규칙 교실은 1-1막 전투마다
   $("log").innerHTML=""; logSink=null; curTurn=0;
   $("result").textContent=""; $("result").className="result";
   ruleHits={}; ruleHitsSeen=true; torchSpend("던전 입장"); runState.bank=runBankTake();
@@ -10997,9 +11066,11 @@ async function runBattle(z){
   const enemies=soloScaleEnemies(z.mobs.map((m,i)=>buildMobUnit(m,i,runState.d,runState.regionKey)),runState.party.length,!!runState.mode);
   const seed=(Math.random()*0xFFFFFFFF)>>>0;
   runState.party=applyZoneAllies(z,refreshParty(runState.party));
+  if(z.tut) await TUT.zoneSetup(z,enemies);
+  else if(z.tutEase&&TUT.learning()) for(const e of enemies) e.atk=Math.max(1,Math.round(e.atk*0.7));   // 규칙 교실 중인 첫 막: 나머지 전투도 조금 덜 아프게   // v0.70 규칙 교실: 이 전투에서 배울 규칙이 꼭 쓰이게
   if(z.garon) logLine(`<span class="heal">🛡 가론의 방패 — 아군 전체가 최대 체력 ${Math.round(GARON_SHIELD*100)}%의 보호막을 두르고 시작합니다</span>`);
   if(runState.mode==="exped"){ egApplyRelics(runState.party, runState.eg.relics); for(const c of runState.eg.curses) for(const e of enemies){ if(e.affixes.includes(c)) continue; applyAffix(e,c); e.affixes.push(c); } }
-  const sim=new Sim(runState.party,enemies,seed); if(z.law) sim.law=z.law;   // v0.62 심연 법칙(혼자)
+  const sim=new Sim(runState.party,enemies,seed); if(z.law) sim.law=z.law; if(z.tut) TUT.afterSim();   // v0.62 심연 법칙(혼자)
   if(z.envoy){ const E=FALL_ENVOYS.find(x=>x.key===z.envoy); logLine(`<span class="sk">🌠 ${esc(E.name)} — ${esc(E.tip)}</span>`); if(!instantMode()) showBanner(`<span class="txt narr">🌠 ${esc(z.label)}<br><small>${esc(E.tip)}</small></span>`, 2600); }
   spawnField(sim.units);
   if(z.law){ const LL=(Array.isArray(z.law)?z.law:[z.law]).map(k=>ABYSS_LAWS[k]); for(const L of LL) logLine(`<span class="sk">${L.icon} 법칙 — ${L.n}: ${esc(L.d)}</span>`);
@@ -11252,7 +11323,7 @@ function advanceZone(){
   runState.zone++;
   for(const u of runState.party){
     if(!u.alive){ u.hp=0; u.buffs={}; u.dots={}; continue; }   // v0.32: 쓰러진 동료는 다음 구역에서 저절로 일어나지 않음 — 부활 스킬·쉼터·회복 이벤트로만
-    u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*ZONE_REGEN));   // v0.55.3: 구역 사이 회복은 체력·마나 각 10%만(원래 25%·50%)
+    u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*ZONE_REGEN));   // 구역 사이 회복: 체력·마나 각 ZONE_REGEN
     u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*ZONE_REGEN));
     u.buffs={}; u.dots={}; u.taunted_by="";
   }
