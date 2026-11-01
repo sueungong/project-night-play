@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793528546704"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793530006685"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1285,14 +1285,14 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .eqquick{display:flex;gap:8px;justify-content:center;margin:6px 0;flex-wrap:wrap}.eqquick .btn{padding:6px 12px;font-size:13px}
 .tutdots{display:flex;gap:5px;align-items:center;margin-left:10px}.tutdots i{width:8px;height:8px;border-radius:50%;background:#2a3352}.tutdots i.done{background:#8a7232}.tutdots i.on{background:var(--accent);box-shadow:0 0 0 3px #f4c95d33}
 .tutbig{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:17px;padding:12px 14px;margin:6px 0 10px;border-radius:12px;background:#221d0e;border:2px solid var(--accent)} .tutbig .w{color:var(--muted);font-size:15px} .tutbig .c{color:#d7ecff;background:#1d2f4a;border:1px solid #3b5f8f;border-radius:8px;padding:2px 10px} .tutbig .s{color:var(--accent);font-weight:800}
-.bpeek{position:absolute; top:40px; left:50%; transform:translateX(-50%); display:none; flex-wrap:wrap; align-items:center; justify-content:center; gap:4px 10px; max-width:min(92%,560px); background:#0d1120ee; border:1px solid #3a4470; border-radius:10px; padding:6px 12px; z-index:60; box-shadow:0 4px 14px #0009}
-.bpeek.on{display:flex} .bpeek>b{font-size:12.5px; color:#9fd0ff; margin-right:4px} .bpeek>b.e{color:#ffb0a8} .ub{display:flex; align-items:center; gap:5px; font-size:11.5px; color:#dfe6ff} .ub.bad{color:#ffb0a8} .ub.none{color:var(--muted)} .ub i{width:12px; height:12px; background-size:contain; image-rendering:pixelated; flex:none} .ub small{color:var(--muted); font-size:10.5px; margin-left:2px}
+.ubuffs{position:absolute; display:none; flex-direction:column; align-items:flex-end; gap:1px; z-index:45; pointer-events:none; white-space:nowrap} .ubuffs.rt{align-items:flex-start} .ubuffs.on{display:flex}
+.ubuffs .ub{text-shadow:0 0 2px #000,0 0 3px #000,1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000; font-weight:700} .ub{display:flex; align-items:center; gap:4px; font-size:12px; color:#f2f5ff} .ub.bad{color:#ffb0a8} .ub.none{color:var(--muted)} .ub i{width:14px; height:14px; filter:drop-shadow(0 0 1px #000); background-size:contain; image-rendering:pixelated; flex:none} .ub small{color:#c8d0ea; font-size:10.5px; margin-left:1px}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.71.1 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.72 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1399,6 +1399,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.72: <b>그래픽 다듬기 2차</b> — 배경: 먼 곳은 공기에 바래 흐릿하게, 가까운 곳·가장자리는 조금 어둡게(캐릭터가 더 또렷이). 스킬 이펙트: 도트 둘레로 같은 색 빛이 은은하게 번짐. 장비 아이콘: 위·왼쪽 빛과 부드러운 외곽선. (저사양 모드에서는 배경·이펙트 다듬기가 꺼져 가볍게 돕니다.) <b>걸린 효과 보기</b>는 누른 캐릭터 왼쪽에 투명 배경 글자로 뜹니다(왼쪽에 자리가 없으면 오른쪽).<br>
 v0.71.1: 누르면 보이는 걸린 효과를 영웅 머리 위 대신 <b>전장 위쪽 가운데에 하나만</b> 띄웁니다(휴대폰에서 다른 영웅을 가리지 않게 · 다른 영웅을 누르면 바뀜 · 누르거나 3.5초 뒤 사라짐).<br>
 v0.71: <b>걸린 효과 보기 · 음유시인 오라 · 몬스터 도트 다듬기</b> — 전투 중 영웅(적도)을 누르면 지금 걸린 효과가 아이콘·이름·남은 턴으로 잠깐 뜹니다(오라는 '켜짐'). 음유시인의 노래(오라)를 켜면 <b>같은 편 모두</b>에게 ♪ 아이콘이 붙고, 발밑에 노래 색 빛 고리(용기 주황 · 수호 파랑 · 진군 금빛 · 비웃음 보라)와 떠오르는 음표가 보입니다. 시인이 쓰러지면 꺼지고 되살아나면 다시 켜집니다. 몬스터 도트에도 영웅과 같은 다듬기(약하게)를 넣었습니다.<br>
 v0.70: <b>난이도 바로잡기 · 규칙 교실 새로 · 도트 다듬기</b> — 처음 1-1막이 거의 깨지지 않던 문제를 고쳤습니다(구역 사이 회복을 줄인 뒤 적 수치를 다시 맞추지 않았던 탓). 구역 사이 회복은 체력·마나 각 <b>15%</b>, 지거나 후퇴해도 <b>잡은 몬스터의 경험치는 그대로</b> 가져갑니다(골드는 잃음). 황혼 1장 적을 다시 맞춰 Lv1 새 파티가 1막을 처음에 대략 4번 중 3번 깨도록 했습니다. <b>도발</b>: 한 줄·십자·후열 전체처럼 모양 있는 공격도 이제 도발한 영웅을 노립니다(원거리 공격은 전처럼 절반만 끌려옴, 적 전체를 한꺼번에 치는 광역은 못 막음). <b>규칙 교실</b>: 어떤 직업으로 시작하든 1-1막 전투마다 주인공 규칙 하나씩 — 그 규칙의 조건이 꼭 맞는 상황(적 3마리, 다친 동료, 낮은 체력·마나 등)을 만들어 실제로 쓰이는 순간 멈춰 보여 줍니다. 설명도 "만약 [조건]이면 → [스킬]" 한 줄 중심으로 짧게 정리했고, 마지막에 동료 규칙도 자동전투 탭에서 미리 확인·조정하라고 안내합니다. <b>영웅 도트</b>: 크기는 그대로, 위·왼쪽에서 빛이 드는 명암과 부드러운 외곽선, 무기 끝 반짝임을 넣었습니다.<br>
@@ -7951,6 +7952,8 @@ const GFX = (()=>{
 })();
 // 프레임마다 유닛 그림 목록·위치를 한 번만 읽음(여러 그리기가 같은 값을 씀 — DOM 조회·배치 계산을 줄임)
 const FRAME = { t: -1, imgs: [], rects: new Map() };
+/* v0.72 그래픽 다듬기 2차 — 배경(bg: 'A' 깊이감 · 'B' 깊이감+빛 웅덩이) · 스킬 이펙트 빛 번짐(fx) · 저사양에서는 끔 */
+const ART2={bg:"A", fx:true};   // v0.72: 배경 A(깊이감) · 이펙트 A(빛 번짐) 적용
 function frameUnits(now){ if(FRAME.t !== now){ FRAME.t = now; FRAME.imgs = [...document.querySelectorAll(".unit:not(.dead) img")]; FRAME.rects.clear(); } return FRAME.imgs; }
 function frameRect(el){ let r = FRAME.rects.get(el); if(!r){ r = el.getBoundingClientRect(); FRAME.rects.set(el, r); } return r; }
 const KA = (()=>{
@@ -8050,6 +8053,10 @@ const KA = (()=>{
       parts.push({t0, life: 360 * (0.7 + Math.random() * 0.6), x, y, vx: Math.cos(ang) * v, vy: Math.sin(ang) * v - (up || 0), c: Math.random() < 0.5 ? c1 : c2, s: Math.max(2, Math.round(P * (Math.random() < 0.3 ? 1 : 0.6)))}); } kick(); }
   function ensure(){ if(!cv){ cv = document.createElement("canvas"); cv.id = "knightFx"; document.body.appendChild(cv); ctx = cv.getContext("2d"); } }
   let lastDraw = 0;
+  let gcv = null, gcx = null;
+  function glowPass(){ const gw = Math.max(1, Math.round(cv.width / 6)), gh = Math.max(1, Math.round(cv.height / 6)); if(!gcv){ gcv = document.createElement("canvas"); gcx = gcv.getContext("2d"); }
+    if(gcv.width !== gw || gcv.height !== gh){ gcv.width = gw; gcv.height = gh; } gcx.clearRect(0, 0, gw, gh); gcx.imageSmoothingEnabled = true; gcx.globalAlpha = 1; gcx.drawImage(cv, 0, 0, gw, gh);
+    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = "lighter"; ctx.imageSmoothingEnabled = true; ctx.globalAlpha = 0.7; ctx.drawImage(gcv, 0, 0, cv.width, cv.height); ctx.restore(); }
   function draw(now){
     raf = 0; ensure();
     if(now - lastDraw < GFX.frameMs() - 3){ if(!raf) raf = requestAnimationFrame(draw); return; }   // 초당 30장(저사양 20장)까지만
@@ -8075,6 +8082,7 @@ const KA = (()=>{
     for(let i = parts.length - 1; i >= 0; i--){ const p = parts[i], t = (now - p.t0) / p.life; if(t >= 1){ parts.splice(i, 1); continue; } any = true;
       const x = p.x + p.vx * t * p.life / 1000, y = p.y + p.vy * t * p.life / 1000 + 40 * t * t; ctx.globalAlpha = t > 0.6 ? (1 - t) / 0.4 : 1; ctx.fillStyle = `rgb(${p.c.join(",")})`; ctx.fillRect(Math.round(x - p.s / 2), Math.round(y - p.s / 2), p.s, p.s); }
     ctx.globalAlpha = 1;
+    if(any && ART2.fx && !GFX.low && !instantMode()) glowPass();   // v0.72 스킬 이펙트 빛 번짐
     // 갑옷·방패 광택 + 투구 반짝임(유닛 그림 위)
     if(!instantMode()) for(const el of frameUnits(now)){ const ds = el.dataset; if(!ds.look || (!ds.shine && !ds.shld && !ds.helm)) continue; const r = frameRect(el); if(!r.width) continue;
       const L = lookSprite(lookFromKey(ds.look)); if(!L) continue; const P = r.height / 16, off = r.left * 7 % 997;
@@ -8650,7 +8658,7 @@ const WX = (()=>{
   function rand(a, b){ return a + Math.random() * (b - a); }
   /* ---- 준비 ---- */
   function setBg(rk){ const f = field(); if(!f) return; region = STAGE.ch[rk] ? rk : "swamp"; const D = STAGE.ch[region]; A = D.anim || {};
-    imgs = {}; for(const k of STAGE.layers){ const fl = D.files[k]; if(fl) imgs[k] = im(STAGE_FILES[fl.file]); }
+    imgs = {}; for(const k of STAGE.layers){ const fl = D.files[k]; if(fl) imgs[k] = im(STAGE_FILES[fl.file]); } delete GRADE[region];
     f.classList.add("hasbg", "stage"); f.style.backgroundImage = ""; ensureCv(); laySig = "";
     // 움직임 요소 만들기
     fx = {};
@@ -8929,7 +8937,22 @@ const WX = (()=>{
     weather(t, false, null);
     drawLayer("fg", cam, t);
     if(A.flames){ for(const fl of A.flames){ const I = imgs[fl.layer]; const x0 = I && I.naturalWidth ? layerX(fl.layer, I.naturalWidth, cam) + (I.naturalWidth - SW) / 2 : 0; flame(fl.x + x0, fl.y, fl.s, fl.col, t + fl.x * 0.1); } }
+    if(ART2.bg && !GFX.low) grade(t);
   }
+  // v0.72 배경 다듬기: 먼 곳은 공기에 바래고 · 가까운 곳·가장자리는 어둡게 · (B) 싸우는 자리에 그 장의 빛 색 웅덩이
+  const GRADE = {};
+  function gradeCols(){ if(GRADE[region]) return GRADE[region]; let d; try{ d = lx.getImageData(0, 0, SW, SH).data; }catch(e){ return null; }
+    let hr = 0, hg = 0, hb = 0, hn = 0, lr = 0, lg = 0, lb = 0, ln = 0;
+    for(let y = 0; y < SH; y += 3) for(let x = 0; x < SW; x += 3){ const i = (y * SW + x) * 4; if(y < SH * 0.3){ hr += d[i]; hg += d[i+1]; hb += d[i+2]; hn++; } const L = d[i] + d[i+1] + d[i+2]; if(L > 520){ lr += d[i]; lg += d[i+1]; lb += d[i+2]; ln++; } }
+    const cl = v => Math.max(0, Math.min(255, Math.round(v)));
+    return GRADE[region] = {haze: [cl(hr/hn*1.6+20), cl(hg/hn*1.6+24), cl(hb/hn*1.6+34)], light: ln > 20 ? [cl(lr/ln), cl(lg/ln), cl(lb/ln)] : [255, 214, 150]}; }
+  function grade(t){ const G = gradeCols(); if(!G) return; lx.save(); lx.globalCompositeOperation = "source-over"; lx.globalAlpha = 1;
+    let g = lx.createLinearGradient(0, 0, 0, SH * 0.5); g.addColorStop(0, `rgba(${G.haze.join(",")},0.16)`); g.addColorStop(1, `rgba(${G.haze.join(",")},0)`); lx.fillStyle = g; lx.fillRect(0, 0, SW, SH * 0.5);
+    g = lx.createLinearGradient(0, SH * 0.72, 0, SH); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(0,0,0,0.14)"); lx.fillStyle = g; lx.fillRect(0, SH * 0.72, SW, SH * 0.28);
+    g = lx.createRadialGradient(SW / 2, SH * 0.55, SH * 0.35, SW / 2, SH * 0.55, SW * 0.62); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(0,0,0,0.36)"); lx.fillStyle = g; lx.fillRect(0, 0, SW, SH);
+    if(ART2.bg === "B"){ lx.globalCompositeOperation = "lighter"; lx.save(); lx.translate(SW / 2, SH * 0.66); lx.scale(1, 0.42); const r = SW * 0.42, pulse = 0.13 + 0.015 * Math.sin(t * 0.8);
+      g = lx.createRadialGradient(0, 0, 0, 0, 0, r); g.addColorStop(0, `rgba(${G.light.join(",")},${pulse})`); g.addColorStop(1, `rgba(${G.light.join(",")},0)`); lx.fillStyle = g; lx.fillRect(-r, -r, r * 2, r * 2); lx.restore(); }
+    lx.restore(); }
   const FLAME_PAL = {purple: ["#3a1a6a", "#8a3ad8", "#c890ff", "#f4e0ff"], green: ["#0c3a1a", "#2aa84a", "#8ef0a0", "#e8ffe8"], blue: ["#0c2050", "#2a6ad8", "#80c0ff", "#e8f4ff"], orange: ["#6a1a0a", "#e85a1a", "#ffb040", "#fff0b0"]};
   function flame(x, y, s, col, t){ const P = FLAME_PAL[col] || FLAME_PAL.orange;   // v0.36: 초록(금서 서재 등잔)·파랑 불꽃
     lx.globalCompositeOperation = "lighter"; glow(x, y - 3 * s, 12 * s, P[1], 0.3 + 0.08 * Math.sin(t * 9)); lx.globalCompositeOperation = "source-over";
@@ -9034,14 +9057,18 @@ setTimeout(()=>{ try{ WX.start(); }catch(e){} },300);
 /* ---- 전장 ---- */
 let unitTags={}, curTurn=0;
 // v0.71 영웅(적)을 누르면 지금 걸린 효과를 짧게 — 아이콘 + 이름 + 남은 턴(오라는 '켜짐')
-function buffPeek(div,id){   // v0.71.1 전장 위쪽 가운데에 한 개만(영웅 위에 띄우면 휴대폰에서 다른 영웅을 가림) — 다른 영웅을 누르면 바뀌고, 3.5초 뒤 사라짐
-  const fld=div.closest(".field"); if(!fld) return; let box=fld.querySelector(".bpeek"); if(!box){ box=document.createElement("div"); box.className="bpeek"; fld.appendChild(box); box.addEventListener("click",e=>{ e.stopPropagation(); box.classList.remove("on"); }); }
-  const u=curUnits.find(x=>x.id===id); const m=unitTags[id]||{}, sh=Math.max(0,unitShield[id]||0);
-  const rows=Object.entries(m).map(([k,v])=>{ const kind=statusKind(k,v.cls), left=v.until>=1e8?"켜짐":Math.max(1,v.until-curTurn+1)+"턴";
-    return `<span class="ub ${v.cls==="bad"?"bad":""}"><i style="background-image:url(${statusIcon(kind)})"></i>${esc(k.replace(/^♪\s*/,""))}<small>${left}</small></span>`; });
+function buffPeek(div,id){   // v0.72 누른 캐릭터 왼쪽에 투명 배경으로(자리가 모자라면 오른쪽) — 한 번에 하나, 3.5초 뒤 사라짐
+  document.querySelectorAll(".ubuffs.on").forEach(b=>{ if(b.parentElement!==div) b.classList.remove("on"); });
+  let box=div.querySelector(".ubuffs"); if(!box){ box=document.createElement("div"); box.className="ubuffs"; div.appendChild(box); }
+  const m=unitTags[id]||{}, sh=Math.max(0,unitShield[id]||0);
+  const rows=Object.entries(m).map(([k,v])=>{ const kind=statusKind(k,v.cls), left=v.until>=1e8?"":Math.max(1,v.until-curTurn+1)+"턴";
+    return `<span class="ub ${v.cls==="bad"?"bad":""}"><i style="background-image:url(${statusIcon(kind)})"></i>${esc(k.replace(/^♪\s*/,""))}${left?`<small>${left}</small>`:""}</span>`; });
   if(sh) rows.unshift(`<span class="ub"><i style="background-image:url(${statusIcon("shield")})"></i>보호막 ${sh}</span>`);
-  box.innerHTML=`<b class="${u&&u.side==="enemy"?"e":""}">${esc(u?u.name:"")}</b>`+(rows.length?rows.join(""):`<span class="ub none">걸린 효과 없음</span>`);
-  box.classList.add("on"); clearTimeout(box._t); box._t=setTimeout(()=>box.classList.remove("on"),3500); }
+  box.innerHTML=rows.length?rows.join(""):`<span class="ub none">효과 없음</span>`;
+  const img=div.querySelector("img"), ur=div.getBoundingClientRect(), ir=img?img.getBoundingClientRect():ur, fr=(div.closest(".field")||document.body).getBoundingClientRect();
+  box.classList.remove("rt"); box.style.left=box.style.right=""; box.style.top=Math.round(ir.top-ur.top+ir.height*0.15)+"px"; box.classList.add("on");
+  const w=box.offsetWidth; if(ir.left-w-4<fr.left){ box.classList.add("rt"); box.style.left=Math.round(ir.right-ur.left+2)+"px"; } else box.style.right=Math.round(ur.right-ir.left+2)+"px";
+  clearTimeout(box._t); box._t=setTimeout(()=>box.classList.remove("on"),3500); }
 // v0.71 음유시인 오라: 켜 둔 노래가 같은 편 모두에게 — 아이콘(♪)과 발밑 빛·음표로 보임. 시인이 쓰러지면 꺼지고 되살아나면 다시
 let SONGUI={};
 const SONG_COL={courage:[255,138,92],guard:[111,195,255],march:[255,216,92],mock:[201,139,255]};
@@ -9579,6 +9606,14 @@ function renderFormation(){
 /* v0.39 아이템 도트(32×32 "세밀 도트") — 64칸 좌표의 SVG 경로로 실루엣을 설계하고 32칸으로 찍음.
    부위별 5단 명암(왼쪽 위 빛) · 외곽선은 맞닿은 부위의 가장 어두운 색 · 보석 반짝임 · 빛나는 부위는 등급색 번짐.
    등급은 칸 배경색(CSS .icell.r-*)으로 구분하고, 그림 안에서는 보석·룬 문양 색과 장식(영웅 이상 금장)으로 한 번 더 보여줌. */
+// v0.72 장비 아이콘 다듬기(시안 A) — 위·왼쪽 빛, 외곽선이 옆 색을 살짝 머금게(약하게)
+function iconPolishCv(c){ const g=c.getContext("2d"), W=c.width, H=c.height, id=g.getImageData(0,0,W,H), d=id.data, src=new Uint8ClampedArray(d), cl=v=>v<0?0:v>255?255:v;
+  const A=(x,y)=>x<0||y<0||x>=W||y>=H?0:src[(y*W+x)*4+3], lum=(x,y)=>{ const i=(y*W+x)*4; return 0.3*src[i]+0.59*src[i+1]+0.11*src[i+2]; };
+  const dark=(x,y)=>A(x,y)>10&&lum(x,y)<45, edge=(x,y)=>A(x,y)<10||dark(x,y);
+  for(let y=0;y<H;y++) for(let x=0;x<W;x++){ const i=(y*W+x)*4; if(src[i+3]<10) continue;
+    if(dark(x,y)){ const n=[[0,-1],[-1,0],[0,1],[1,0]].map(([a,b])=>[x+a,y+b]).find(([a,b])=>A(a,b)>10&&!dark(a,b)); if(n){ const j=(n[1]*W+n[0])*4; for(let k=0;k<3;k++) d[i+k]=src[i+k]+(src[j+k]*0.55-src[i+k])*0.3; } continue; }
+    let f=1; if(edge(x,y-1)) f*=1.08; if(edge(x-1,y)) f*=1.03; if(edge(x,y+1)) f*=0.9; if(edge(x+1,y)) f*=0.95; for(let k=0;k<3;k++) d[i+k]=cl(src[i+k]*f); }
+  g.putImageData(id,0,0); }
 const ITEM_ICON=(()=>{
   const hx=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
   const mix=(a,b,k)=>a.map((v,i)=>Math.round(v+(b[i]-v)*k));
@@ -9904,7 +9939,7 @@ const ITEM_ICON=(()=>{
   function partsOf(k,it){ if(k==="rune") return D.rune.concat(RUNE_GLYPH[it.rune]||RUNE_GLYPH.r_crit); if(k==="relic"&&RELIC[it.relic]) return RELIC[it.relic]; return D[k]; }
   const cache={};
   function url(it){ const k=kindOf(it), rar=it.mythic?"mythic":(it.rarity||"common"), key=k+"|"+rar+"|"+(it.rune||"")+"|"+(it.relic||"");
-    if(cache[key]) return cache[key]; return cache[key]=render(partsOf(k,it),rar).toDataURL(); }
+    if(cache[key]) return cache[key]; const cv=render(partsOf(k,it),rar); try{ iconPolishCv(cv); }catch(e){} return cache[key]=cv.toDataURL(); }   // v0.72 아이콘 다듬기(시안 A)
   return {url, kinds:Object.keys(D), relics:Object.keys(RELIC), runes:Object.keys(RUNE_GLYPH), GEM};
 })();
 
