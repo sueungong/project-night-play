@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793556816700"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793560630816"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1325,7 +1325,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.83 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.84 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1433,6 +1433,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.84: <b>행동 게이지 — 신속이 행동 횟수를 정합니다</b> — 지금까지 신속은 한 턴 안의 순서만 정했습니다. 이제 턴마다 신속만큼 게이지가 차고(신속 30이면 1.3), 1이 넘칠 때마다 그 턴에 한 번 더 움직입니다(최대 2배). 첫 행동은 모두 신속 순서, 추가 행동은 그 뒤에 다시 신속 순서로 — 전투 기록에 ⏩로 표시됩니다. 기절한 턴은 추가 행동도 없습니다. 적도 자정 +10 · 영원한 밤 +22만큼 신속을 더 받습니다. 장비·능력치 창의 신속 옆에 턴당 행동 배율이 나옵니다. 이 변경에 맞춰 30장 난이도를 다시 맞췄습니다.<br>
 v0.83: <b>역할 몬스터 · 장별 환경 · 광고 보상 바꿈</b> — 자정부터 보스 말고 일반 전투도 규칙을 따지게 됩니다. ① <b>역할 몬스터</b>: ✚ 치유사(가장 다친 적을 크게 치유) · 🛡 방패병(살아 있는 동안 다른 적이 받는 피해 절반) · ☠ 주술사(적 전체 공격력 누적 상승)가 섞여 나오고, 중간보스·장 보스 곁에는 꼭 붙어 있습니다. 광역기로는 잘 죽지 않으니 새 대상 <b>'역할 몬스터 우선'</b>을 단 단일 공격 규칙(새 조건 '역할 몬스터 있음')으로 먼저 잡으세요. ② <b>장별 환경</b>: 장마다 모든 전투에 걸리는 효과가 하나씩 — 🌫 독 안개 · 🌋 화산 분출 · 🌊 깊은 물 · 🌿 짙은 수풀 · 🪙 황금 메아리 · 🏜 갈증 · 🔔 침묵의 종 · 🏰 성벽 · 👑 왕실 친위대 · 🩸 제단의 불길. 막 고르기 창에 미리 나오고, 분출·종소리는 한 턴 전에 '환경 위협 예고' 조건으로 알 수 있습니다. 새 대상 '뒷줄 적 우선'도 생겼습니다. 어느 직업을 주인공으로 골라도 깰 수 있도록 일곱 직업 모두로 30장 난이도를 다시 맞췄습니다. ③ 광고 보상은 전리품 2배 대신 <b>금화 2배 + 보너스 장비</b>(같은 부위를 새로 굴림, 최고 영웅 등급 — 전설·세트는 복제하지 않고 정수로). 장비 탭에서 영웅을 골라도 영웅 목록이 왼쪽으로 돌아가지 않고, 대기실에서 왼쪽을 보는 영웅의 오라가 몸에 맞게 뒤집힙니다.<br>
 v0.82: <b>⚠ 보스 패턴 · 규칙이 실력이 되도록</b> — 자정부터 장 보스가 행동을 예고합니다(✴ 강공 예고 · 🛡 보호막 · ✚ 회복 의식 · 🪞 반격 자세 · 🔥 격노). 전투 중에 손대는 게 아니라, 막 고르기 창의 보스 정보를 보고 새 조건(보스가 강공 준비 중 · 보호막 중 · 회복 의식 중 · 반격 자세 중 · 보스 체력 50% 이하)으로 대응 규칙을 미리 짜 두는 방식입니다. 자정이 열리면 규칙이 <b>5칸</b>이 됩니다(5번째 칸은 보스 대응용으로 쓰기 좋음). 지면 무엇에 대응하지 못했는지 알려 줍니다. 난이도도 다시 맞췄습니다 — 황혼은 기본 규칙으로 장마다 4~6판, 자정은 대응 규칙으로 9판 안팎, 영원한 밤은 15판 안팎(대응하지 않으면 훨씬 오래 막힘).<br>
 v0.81: <b>황혼 난이도 고르게</b> — 이야기를 따라가며 적당한 반복으로 깰 수 있게, 장마다 평균 4~6판(마지막 장 9판 안팎)이 되도록 맞췄습니다. 2장·5장·8장·10장의 높은 벽을 낮추고 4장은 조금 올렸습니다. 자정 1·2장도 그만큼 낮췄습니다.<br>
@@ -2387,15 +2388,19 @@ const DIFFS=[
 ];
 // 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06
 const DIFF_SCALE=[
-  [{hp:1.427,atk:1.016},{hp:1.229,atk:1.457},{hp:0.592,atk:1.316},{hp:1.096,atk:0.939},{hp:0.366,atk:1.549},{hp:0.88,atk:1.805},{hp:0.66,atk:1.764},{hp:0.869,atk:1.703},{hp:0.753,atk:2.052},{hp:0.32,atk:2.701}],   // v0.83 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정)
-  [{hp:18.064,atk:16.106},{hp:10.564,atk:15.503},{hp:6.724,atk:11.322},{hp:8.09,atk:9.06},{hp:1.746,atk:13.451},{hp:3.65,atk:7.84},{hp:2.989,atk:5.956},{hp:2.863,atk:5.783},{hp:2.15,atk:11.046},{hp:1.454,atk:8.405}],   // v0.83 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
-  [{hp:82.326,atk:71.28},{hp:44.081,atk:91.762},{hp:24.834,atk:30.561},{hp:32.362,atk:30.688},{hp:17.78,atk:45.016},{hp:47.167,atk:57.844},{hp:15.904,atk:23.838},{hp:28.228,atk:88.647},{hp:19.57,atk:90.635},{hp:14.554,atk:108.876}]   // v0.83 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
+  [{hp:1.371,atk:0.992},{hp:1.376,atk:1.56},{hp:0.701,atk:1.457},{hp:1.167,atk:0.975},{hp:0.424,atk:1.691},{hp:0.986,atk:1.932},{hp:0.741,atk:1.892},{hp:0.86,atk:1.694},{hp:0.829,atk:2.173},{hp:0.347,atk:2.83}],   // v0.84 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정, 행동 게이지 반영)
+  [{hp:15.826,atk:14.878},{hp:10.819,atk:15.727},{hp:6.071,atk:10.649},{hp:7.299,atk:8.517},{hp:2.097,atk:15.013},{hp:4.229,atk:8.561},{hp:3.491,atk:6.538},{hp:3.777,atk:6.83},{hp:2.277,atk:11.434},{hp:1.653,atk:9.075}],   // v0.84 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
+  [{hp:68.665,atk:63.926},{hp:40.918,atk:87.752},{hp:25.545,atk:31.083},{hp:32.59,atk:30.818},{hp:21.053,atk:49.819},{hp:48.564,atk:58.867},{hp:23.323,atk:29.995},{hp:34.633,atk:100.219},{hp:26.037,atk:107.574},{hp:19.264,atk:128.822}]   // v0.84 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
 ];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
 const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.1,atk:1.2},{hp:2.4,atk:1.25}];
 const ZONE_REGEN=0.15;   // v0.55.3: 구역 사이 체력·마나 회복 비율 · v0.70: 10% → 15%
-const TURN_LIMIT=60, BOSS_TURN_LIMIT=75;   // 보스가 있는 전투는 75턴까지
+const TURN_LIMIT=60, BOSS_TURN_LIMIT=75;
+// v0.84 행동 게이지: 신속 N → 턴당 평균 1+N/100번 행동(최대 2배). 적은 난이도마다 신속을 더 받는다(황혼 0 · 자정 +10 · 영원 +22) — 영웅의 장비 신속과 격차가 너무 벌어지지 않게
+const SPD_RATE_MAX=2, ENEMY_SPD_ADD=[0,10,22];
+function actRateOf(spd){ return 1+Math.min(SPD_RATE_MAX-1,Math.max(0,spd)/100); }
+function actRateText(spd){ return "×"+actRateOf(spd).toFixed(2); }   // 보스가 있는 전투는 75턴까지
 const AFFIXES={
   rage:  {name:"분노", desc:"체력 50% 이하에서 공격력 +30%"},
   regen: {name:"재생", desc:"매 턴 체력 5% 회복"},
@@ -2550,7 +2555,7 @@ function buildMobUnit(spec,idx,d,rk){
   if(spec.chief){ hp*=3.2; atk*=1.3; }
   if(spec.elite){ hp*=2.0; atk*=1.25; }
   if(spec.scale){ hp*=spec.scale.hp||1; atk*=spec.scale.atk||1; }      // 최종 콘텐츠(탑 층·레이드 단계·원정 걸음) 배율
-  const st={hp:Math.round(hp), mp:m.stats.mp, atk:Math.round(atk), def:Math.round(m.stats.def*(1+0.3*d)), spd:m.stats.spd, crit:m.stats.crit,
+  const st={hp:Math.round(hp), mp:m.stats.mp, atk:Math.round(atk), def:Math.round(m.stats.def*(1+0.3*d)), spd:m.stats.spd+(spec.eg?ENEMY_SPD_ADD[2]:(ENEMY_SPD_ADD[d]||0)), crit:m.stats.crit,
     critdmg:1.5, acc:0.95, eva:m.stats.spd>=12?0.1:m.stats.spd>=10?0.05:0, pen:0.05*d,
     res:Math.min(0.75,(m.boss||spec.finalBoss||spec.named?0.4:spec.chief?0.3:spec.elite?0.2:0.05)+0.08*d)};
   if(spec.role){ if(spec.role==="guard") st.def=Math.round(st.def*1.2);   // v0.83 역할 몬스터: 보스 곁 시종은 우두머리 체력의 12%(방패병 18%) — 광역기로는 잘 안 죽어 단일 공격으로 노려야 함
@@ -2628,13 +2633,13 @@ let primInfo=null;
 function primEffect(cid,k){ const caster=!!(CLASSES[cid]&&CLASSES[cid].caster);
   switch(k){
     case "str": return caster?"마법 직업에는 효과 없음(공격은 지능)":"공격력 +1 · 관통 +0.4%";
-    case "agi": return "신속 +0.5 · 치명타 +0.4% · 명중 +0.2% · 회피 +0.5%";
+    case "agi": return "신속 +0.5(신속 100당 턴당 행동 +1번) · 치명타 +0.4% · 명중 +0.2% · 회피 +0.5%";
     case "int": return caster?"마력 +1 · 마나 +4 · 관통 +0.4%":"마나 +4";
     case "con": return "체력 +10 · 방어력 +0.5 · 상태이상 저항 +0.4%";
     case "wil": return "마나 +2 · 치유량 +0.6% · 보호막 +0.8% · 상태이상 저항 +0.6%";
     case "luk": return "치명타 +0.3% · 치명타 피해 +0.5% · 강화 성공 +0.3% · 희귀 이상 장비·골드 조금 더";
   } return ""; }
-const PRIM_DESC={str:"물리 공격력 · 관통(물리 직업)",agi:"신속 · 치명타 확률 · 명중 · 회피",int:"마력 · 마나 · 관통(마법 직업)",con:"체력 · 방어력 · 상태이상 저항",wil:"치유량 · 보호막 · 마나 · 상태이상 저항",luk:"치명타 피해 · 드롭 등급 · 강화 성공률 · 발동 확률 · 골드"};
+const PRIM_DESC={str:"물리 공격력 · 관통(물리 직업)",agi:"신속(행동 횟수·순서) · 치명타 확률 · 명중 · 회피",int:"마력 · 마나 · 관통(마법 직업)",con:"체력 · 방어력 · 상태이상 저항",wil:"치유량 · 보호막 · 마나 · 상태이상 저항",luk:"치명타 피해 · 드롭 등급 · 강화 성공률 · 발동 확률 · 골드"};
 const SEC_LABEL={atk:"공격력",matk:"마력",hp:"체력",def:"방어력",spd:"신속",mp:"마나",crit:"치명타 확률",critdmg:"치명타 피해",acc:"명중",eva:"회피",pen:"관통",ls:"흡혈",res:"상태이상 저항",heal:"치유량",regen:"턴당 마나"};
 const BOSS_RAGE={atk:1.2};   // v0.32: 보스 광폭(체력 50% 아래) — 공격력 배율, 2턴마다 추가 행동
 const ENEMY_HEAL_K=0.07;
@@ -5677,6 +5682,7 @@ class Sim {
         effects:[{target:lo.id,kind:dead?"revive":"heal",amount:dead?nh:nh-was,crit:false,killed:false,hp:lo.hp,mp:lo.mp,label:dead?"쌍둥이의 끈 — 되살아남":"쌍둥이의 끈"}]}); };
     if(a.alive&&!b.alive) fix(b,a,true); else if(b.alive&&!a.alive) fix(a,b,true);
     else if(a.alive&&b.alive){ if(a._tw&&!b._tw) fix(a,b,false); else if(b._tw&&!a._tw) fix(b,a,false); } }
+  actRate(u){ return actRateOf(u.spd+((u.row==="front"&&this.units.some(b=>b.alive&&b.side===u.side&&b._aura&&this.hasPassive(b,"downbeat")))?2:0)); }   // v0.84 턴당 행동 횟수(평균)
   ordSpd(x){ let v=x.spd; if(x.buffs.air||x.buffs.stagger) v-=1000;
     if(x.row==="front"&&this.units.some(b=>b.alive&&b.side===x.side&&b._aura&&this.hasPassive(b,"downbeat"))) v+=2; return v; }
   sideAlive(side){ return this.units.some(x=>x.alive&&x.side===side); }
@@ -5731,11 +5737,16 @@ class Sim {
       if(this.over()) break;
       const order=this.units.filter(x=>x.alive)
         .sort((a,b)=> this.ordSpd(b)-this.ordSpd(a) || (a.side===b.side?0:a.side==="party"?-1:1));
-      for(const u of order){
-        if(!u.alive) continue;
+      /* v0.84 행동 게이지: 매 턴 신속만큼 게이지가 차고(신속 30 → 1.3), 1이 넘칠 때마다 그 턴에 한 번 더 움직인다. 첫 행동은 모두 신속 순서로, 추가 행동은 그 뒤 다시 신속 순서로. */
+      const acts=new Map(); let maxA=1;
+      for(const u of order){ u._ag=(u._ag||0)+this.actRate(u); const n=Math.max(1,Math.floor(u._ag+1e-9)); u._ag=Math.max(0,u._ag-n); acts.set(u,n); if(n>maxA) maxA=n; }
+      let stop=false;
+      for(let p=0;p<maxA&&!stop;p++) for(const u of order){
+        if(!u.alive||(acts.get(u)||0)<=p) continue;
+        if(p===0){
         this.applyDots(u);
         this.checkQuotes();
-        if(this.over()) break;
+        if(this.over()){ stop=true; break; }
         if(!u.alive) continue;
         if(u.traits.self_regen&&u.hp<u.hp_max){
           const sv=Math.max(1,Math.floor(u.hp_max*0.03)); u.hp=Math.min(u.hp_max,u.hp+sv);
@@ -5769,14 +5780,15 @@ class Sim {
         if(u.buffs.stun){
           const stl=u.buffs.stun.label; delete u.buffs.stun;
           this.events.push({type:"log",text:stl==="기절"?`${u.name}은(는) 기절해 움직이지 못한다!`:`${u.name}은(는) 얼어붙어 움직이지 못한다!`});
-          this.tickBuffs(u);
+          this.tickBuffs(u); acts.set(u,0);   // 기절하면 그 턴의 추가 행동도 없음
           continue;
         }
-        const had=new Set(Object.values(u.buffs));
+        u._had=new Set(Object.values(u.buffs));
+        } else this.events.push({type:"log",text:`⏩ ${u.name} — 신속으로 한 번 더 움직인다!`});
         this.takeAction(u);
-        if(u._rage&&u.alive&&!this.over()&&this.turn%2===0){ this.events.push({type:"log",text:`${u.name}의 광폭 — 한 번 더 움직인다!`}); this.takeAction(u); }   // v0.32
-        this.tickBuffs(u,had);
-        if(this.over()) break;
+        if(p===0&&u._rage&&u.alive&&!this.over()&&this.turn%2===0){ this.events.push({type:"log",text:`${u.name}의 광폭 — 한 번 더 움직인다!`}); this.takeAction(u); }   // v0.32
+        if(p===acts.get(u)-1) this.tickBuffs(u,u._had);
+        if(this.over()){ stop=true; break; }
       }
       if(this.law&&!this.over()) this.twinsRoundEnd();
       if(this.env&&!this.over()) this.envRoundEnd();
@@ -10753,7 +10765,7 @@ function renderEquip(){
   mid.appendChild(eqFigure(cid));
   const nm=document.createElement("div"); nm.className="eqname"; nm.innerHTML=`<b>${heroNameHTML(cid)}</b><span>Lv.${h.level}${h.awaken?` ✦${h.awaken}`:""} · ${esc(WEAPONS[D.wtype].name)}</span>`; mid.appendChild(nm);
   doll.append(cl,mid,cr); L.appendChild(doll);
-  const ps=document.createElement("div"); ps.className="eqpow"; ps.innerHTML=[["공격",d.atk],["체력",d.hp],["방어",d.def],["신속",d.spd],["치명",pct(d.crit)+"%"],["명중",pct(d.acc)+"%"]].map(([k,v])=>`<span><i>${k}</i><b>${v}</b></span>`).join(""); L.appendChild(ps);   // v0.55.6: 인형 아래 한 줄(가운데 칸이 좁은 화면에서 글자가 세로로 꺾이던 문제)
+  const ps=document.createElement("div"); ps.className="eqpow"; ps.innerHTML=[["공격",d.atk],["체력",d.hp],["방어",d.def],["신속",`${d.spd} <small>${actRateText(d.spd)}</small>`],["치명",pct(d.crit)+"%"],["명중",pct(d.acc)+"%"]].map(([k,v])=>`<span><i>${k}</i><b>${v}</b></span>`).join(""); L.appendChild(ps);   // v0.55.6: 인형 아래 한 줄(가운데 칸이 좁은 화면에서 글자가 세로로 꺾이던 문제)
   { const S=enhSummary(cid); const es=document.createElement("div"); es.className="eqenh"; const t=enhSummaryText(cid);   // v0.55.6: 한 줄로, 인형 아래 전체 너비
     es.innerHTML=`<b>🔨 부위 강화 +${S.sum}</b>${S.sum?`<span>${esc(t||"끼운 장비가 없어 아직 효과 없음")}</span>`:`<span>칸 옆 단추로 강화 · 단계마다 장비 능력치 +6%</span>`}`; L.appendChild(es); }
   const {sets}=heroEquipTotals(cid);
@@ -10817,7 +10829,7 @@ function renderEquip(){
 }
 
 function secGrid(d){
-  const P=[["공격력"+(d.caster?"(마력)":""),d.atk],["체력",d.hp],["방어력",d.def],["마나",d.mp],["신속",d.spd],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],
+  const P=[["공격력"+(d.caster?"(마력)":""),d.atk],["체력",d.hp],["방어력",d.def],["마나",d.mp],["신속 (턴당 행동)",`${d.spd} (${actRateText(d.spd)})`],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],
     ["명중",pct(d.acc)+"%"],["회피",pct(d.eva)+"%"],["관통",pct(d.pen)+"%"],["흡혈",pct(d.ls)+"%"],["상태이상 저항",pct(d.res)+"%"]];
   if(d.heal) P.push(["치유량",(d.heal>=0?"+":"")+pct(d.heal)+"%"]);
   // v0.19: 상한이 있는 능력치는 마우스를 올리면 상한을 보여 주고, 상한에 닿으면 '최대'로 표시(더 올려도 소용없음)
