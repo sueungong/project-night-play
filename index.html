@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793551154304"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793556816700"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1325,7 +1325,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.82 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.83 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1433,6 +1433,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.83: <b>역할 몬스터 · 장별 환경 · 광고 보상 바꿈</b> — 자정부터 보스 말고 일반 전투도 규칙을 따지게 됩니다. ① <b>역할 몬스터</b>: ✚ 치유사(가장 다친 적을 크게 치유) · 🛡 방패병(살아 있는 동안 다른 적이 받는 피해 절반) · ☠ 주술사(적 전체 공격력 누적 상승)가 섞여 나오고, 중간보스·장 보스 곁에는 꼭 붙어 있습니다. 광역기로는 잘 죽지 않으니 새 대상 <b>'역할 몬스터 우선'</b>을 단 단일 공격 규칙(새 조건 '역할 몬스터 있음')으로 먼저 잡으세요. ② <b>장별 환경</b>: 장마다 모든 전투에 걸리는 효과가 하나씩 — 🌫 독 안개 · 🌋 화산 분출 · 🌊 깊은 물 · 🌿 짙은 수풀 · 🪙 황금 메아리 · 🏜 갈증 · 🔔 침묵의 종 · 🏰 성벽 · 👑 왕실 친위대 · 🩸 제단의 불길. 막 고르기 창에 미리 나오고, 분출·종소리는 한 턴 전에 '환경 위협 예고' 조건으로 알 수 있습니다. 새 대상 '뒷줄 적 우선'도 생겼습니다. 어느 직업을 주인공으로 골라도 깰 수 있도록 일곱 직업 모두로 30장 난이도를 다시 맞췄습니다. ③ 광고 보상은 전리품 2배 대신 <b>금화 2배 + 보너스 장비</b>(같은 부위를 새로 굴림, 최고 영웅 등급 — 전설·세트는 복제하지 않고 정수로). 장비 탭에서 영웅을 골라도 영웅 목록이 왼쪽으로 돌아가지 않고, 대기실에서 왼쪽을 보는 영웅의 오라가 몸에 맞게 뒤집힙니다.<br>
 v0.82: <b>⚠ 보스 패턴 · 규칙이 실력이 되도록</b> — 자정부터 장 보스가 행동을 예고합니다(✴ 강공 예고 · 🛡 보호막 · ✚ 회복 의식 · 🪞 반격 자세 · 🔥 격노). 전투 중에 손대는 게 아니라, 막 고르기 창의 보스 정보를 보고 새 조건(보스가 강공 준비 중 · 보호막 중 · 회복 의식 중 · 반격 자세 중 · 보스 체력 50% 이하)으로 대응 규칙을 미리 짜 두는 방식입니다. 자정이 열리면 규칙이 <b>5칸</b>이 됩니다(5번째 칸은 보스 대응용으로 쓰기 좋음). 지면 무엇에 대응하지 못했는지 알려 줍니다. 난이도도 다시 맞췄습니다 — 황혼은 기본 규칙으로 장마다 4~6판, 자정은 대응 규칙으로 9판 안팎, 영원한 밤은 15판 안팎(대응하지 않으면 훨씬 오래 막힘).<br>
 v0.81: <b>황혼 난이도 고르게</b> — 이야기를 따라가며 적당한 반복으로 깰 수 있게, 장마다 평균 4~6판(마지막 장 9판 안팎)이 되도록 맞췄습니다. 2장·5장·8장·10장의 높은 벽을 낮추고 4장은 조금 올렸습니다. 자정 1·2장도 그만큼 낮췄습니다.<br>
 v0.80: 모닥불 장식 자리는 이제 대기실 <b>✥ 배치</b>에서 영웅과 함께 옮깁니다(상점의 쉼터 꾸미기 버튼은 없앰). 장비 탭의 '여러 개 골라 정리'(분해·판매)는 다른 탭으로 나가면 꺼지고 원래대로 돌아옵니다.<br>
@@ -1887,9 +1888,11 @@ const COND = [
   {label:"보스가 회복 의식 중",type:"boss_ritual",value:0},
   {label:"보스 체력 50% 이하",type:"boss_hp_below",value:50},
   {label:"보스가 반격 자세 중",type:"boss_reflect",value:0},
+  {label:"역할 몬스터 있음 (치유사·방패병·주술사)",type:"enemy_role",value:0},   // v0.83 역할 몬스터 · 장별 환경(자정부터)
+  {label:"환경 위협 예고 (분출·종소리)",type:"env_warn",value:0},
 ];
 function debuffed(x){ return !!(x.dots.burn||x.dots.poison||x.dots.frost||x.dots.bleed||(x.buffs.atk&&x.buffs.atk.value<0)||x.buffs.stun||x.buffs.silence||x.buffs.blind||x.buffs.fear||x.buffs.vuln||x.buffs.brand||x.buffs.air||x.buffs.mark); }
-const TARGET = ["자동","체력 비율이 가장 낮은 적","무작위 적","체력 비율이 가장 높은 적","앞줄 적 우선","체력 비율이 가장 낮은 아군","자신","무작위 아군","독이 가장 많이 쌓인 적","표식된 적 우선","띄운 적 우선","공격력이 가장 높은 아군"];   // v0.35: 이름을 분명하게(체력은 남은 비율 기준)
+const TARGET = ["자동","체력 비율이 가장 낮은 적","무작위 적","체력 비율이 가장 높은 적","앞줄 적 우선","체력 비율이 가장 낮은 아군","자신","무작위 아군","독이 가장 많이 쌓인 적","표식된 적 우선","띄운 적 우선","공격력이 가장 높은 아군","역할 몬스터 우선 (치유사·방패병·주술사)","뒷줄 적 우선"];   // v0.35: 이름을 분명하게(체력은 남은 비율 기준)
 
 const CLASSES = {
   knight:{ name:"검사", sprite:"knight", row:"front", role:"전열 · 방어",
@@ -2384,9 +2387,9 @@ const DIFFS=[
 ];
 // 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06
 const DIFF_SCALE=[
-  [{hp:1.327,atk:0.973},{hp:0.949,atk:1.248},{hp:0.51,atk:1.204},{hp:0.952,atk:0.863},{hp:0.33,atk:1.456},{hp:0.686,atk:1.554},{hp:0.712,atk:1.847},{hp:0.842,atk:1.671},{hp:0.753,atk:2.052},{hp:0.286,atk:2.524}],   // v0.82 황혼: 기본 규칙으로 장마다 평균 4~6판(봇 보정)
-  [{hp:19.026,atk:16.617},{hp:11.267,atk:16.112},{hp:7.189,atk:11.785},{hp:10.336,atk:10.495},{hp:1.878,atk:14.054},{hp:2.873,atk:6.791},{hp:3.677,atk:6.743},{hp:2.323,atk:5.103},{hp:2.047,atk:10.724},{hp:1.057,atk:6.94}],   // v0.82 자정: 보스 패턴에 대응하는 규칙(5번째 칸)으로 장마다 평균 9판 안팎
-  [{hp:50.004,atk:52.851},{hp:38.354,atk:84.411},{hp:24.469,atk:30.29},{hp:21.806,atk:24.214},{hp:10.056,atk:31.981},{hp:17.236,atk:31.617},{hp:8.614,atk:16.501},{hp:25.636,atk:83.667},{hp:18.876,atk:88.695},{hp:14.198,atk:107.267}]   // v0.82 영원한 밤: 보스 패턴 대응 규칙으로 장마다 평균 15~18판
+  [{hp:1.427,atk:1.016},{hp:1.229,atk:1.457},{hp:0.592,atk:1.316},{hp:1.096,atk:0.939},{hp:0.366,atk:1.549},{hp:0.88,atk:1.805},{hp:0.66,atk:1.764},{hp:0.869,atk:1.703},{hp:0.753,atk:2.052},{hp:0.32,atk:2.701}],   // v0.83 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정)
+  [{hp:18.064,atk:16.106},{hp:10.564,atk:15.503},{hp:6.724,atk:11.322},{hp:8.09,atk:9.06},{hp:1.746,atk:13.451},{hp:3.65,atk:7.84},{hp:2.989,atk:5.956},{hp:2.863,atk:5.783},{hp:2.15,atk:11.046},{hp:1.454,atk:8.405}],   // v0.83 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
+  [{hp:82.326,atk:71.28},{hp:44.081,atk:91.762},{hp:24.834,atk:30.561},{hp:32.362,atk:30.688},{hp:17.78,atk:45.016},{hp:47.167,atk:57.844},{hp:15.904,atk:23.838},{hp:28.228,atk:88.647},{hp:19.57,atk:90.635},{hp:14.554,atk:108.876}]   // v0.83 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
 ];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
@@ -2440,6 +2443,7 @@ const BOSS_PATS=[
   [["charge","phase"],["barrier","ritual"],["reflect","charge"],["ritual","barrier","phase"],["charge","reflect"],["barrier","charge","phase"],["ritual","reflect"],["charge","barrier","phase"],["reflect","ritual","charge"],["charge","barrier","ritual","phase"]]];
 const BOSS_PAT_K=[{hit:0.8,shield:0.06,heal:0.18,rit:0.06,ref:0.5,every:5},{hit:1.2,shield:0.1,heal:0.25,rit:0.07,ref:0.7,every:4},{hit:1.5,shield:0.13,heal:0.3,rit:0.08,ref:0.9,every:4}];   // 강공: 노린 영웅 최대 체력 × hit(막지 않으면 쓰러짐)
 // v0.82 패배 뒤: 보스 패턴에 얼마나 대응했는지 → 고칠 점
+var lastEnvNote="";   // v0.83 환경 안내는 장이 바뀔 때 한 번
 function patWhy(P){ if(!P) return ""; const out=[];
   const f=(k,txt)=>{ const o=P[k]; if(o&&o.fail>0) out.push(txt(o)); };
   f("charge",o=>`✴ 강공을 ${o.fail}번 그대로 맞음(막음 ${o.ok}) — '보스가 강공 준비 중' 조건에 도발·방패 올리기·보호막을 걸어 두세요`);
@@ -2450,6 +2454,32 @@ function patWhy(P){ if(!P) return ""; const out=[];
   return out.join(" · "); }
 function bossPatsFor(d,rk){ const c=REGION_KEYS.indexOf(rk); return c<0?[]:((BOSS_PATS[d]||[])[c]||[]); }
 function bossPatText(pats){ return pats.map(k=>BOSS_PAT_INFO[k].icon+" "+BOSS_PAT_INFO[k].n).join(" · "); }
+/* v0.83 보스 밖의 전투도 규칙으로 — 자정부터
+   역할 몬스터: 일반 몹 중 일부가 치유사·방패병·주술사로 나온다(이름 앞에 표시). 대상 '역할 몬스터 우선'으로 먼저 잡게 하면 쉬워짐.
+   장별 환경: 그 장의 모든 전투에 걸리는 효과(막 고르기 창에 미리 표시). [자정, 영원한 밤] 세기 */
+const ROLE_INFO={mender:{icon:"✚",n:"치유사",tip:"자기 차례마다 가장 다친 적을 크게 치유 · 광역기는 잘 안 먹힘"},
+  guard:{icon:"🛡",n:"방패병",tip:"살아 있는 동안 다른 적이 받는 피해 절반 · 광역기는 잘 안 먹힘"},
+  hexer:{icon:"☠",n:"주술사",tip:"자기 차례마다 적 전체 공격력 상승(누적) · 광역기는 잘 안 먹힘 — 기절·침묵으로도 막힘"}};
+const ROLE_KEYS=Object.keys(ROLE_INFO);
+const ROLE_K=[null,{p1:0.6,p2:0,bossN:1,heal:0.2,bheal:0.06,guard:0.5,hex:0.15,hexMax:4},{p1:0.8,p2:0.35,bossN:2,heal:0.25,bheal:0.08,guard:0.55,hex:0.18,hexMax:5}];   // 역할 몬스터는 약하지만(체력 60%) 효과가 큼 — 먼저 잡으면 이득, 놔두면 손해
+const ENV_INFO={
+  swamp:  {icon:"🌫",n:"독 안개",  v:[0.02,0.03], tip:v=>`매 턴 끝에 영웅 전원이 최대 체력 ${v*100}%를 잃음(쓰러지지는 않음) — 치유를 일찍, 재생·보호막을`},
+  volcano:{icon:"🌋",n:"화산 분출",v:[0.12,0.16], tip:v=>`4턴마다 분출해 영웅 전원 최대 체력 ${v*100}% 피해, 한 턴 전에 예고 — '환경 위협 예고'에 보호막·방어 강화를`},
+  sunken: {icon:"🌊",n:"깊은 물",  v:[0.25,0.35], tip:v=>`영웅의 근접 공격 피해 -${Math.round(v*100)}% — 원거리 기술·원거리 영웅이 유리`},
+  forest: {icon:"🌿",n:"짙은 수풀",v:[0.25,0.35], tip:v=>`적의 회피 +${Math.round(v*100)}% — 상태이상(표식·독·약화·화상 등)에 걸린 적은 숨지 못함`},
+  gold:   {icon:"🪙",n:"황금 메아리",v:[0.15,0.2], tip:v=>`적이 쓰러질 때마다 남은 적 공격력 +${Math.round(v*100)}%(4번까지) — 광역기로 고르게 깎거나 센 적부터`},
+  desert: {icon:"🏜",n:"갈증",     v:[0.35,0.45], tip:v=>`영웅의 치유 효과 -${Math.round(v*100)}% — 보호막·방어 강화·흡혈로 버티기`},
+  temple: {icon:"🔔",n:"침묵의 종",v:[1,2],       tip:v=>`4턴마다 종이 울려 영웅 전원 ${v}턴 침묵(마나 기술 못 씀), 한 턴 전에 예고 — '환경 위협 예고'에 큰 기술을 먼저`},
+  citadel:{icon:"🏰",n:"성벽",     v:[0.3,0.4],   tip:v=>`뒷줄 적이 살아 있는 동안 앞줄 적이 받는 피해 -${Math.round(v*100)}% — 대상 '뒷줄 적 우선'으로 뒷줄부터`},
+  throne: {icon:"👑",n:"왕실 친위대",v:[1,1],     tip:()=>`모든 전투에 역할 몬스터(치유사·방패병·주술사)가 하나 더 — 대상 '역할 몬스터 우선'으로 먼저`},
+  altar:  {icon:"🩸",n:"제단의 불길",v:[0.3,0.4], tip:v=>`6턴부터 적 공격력 +${Math.round(v*100)}% — 초반에 몰아쳐 빨리 끝내기`}};
+function envFor(d,rk){ return d>=1&&ENV_INFO[rk]?rk:null; }
+function envVal(env,d){ const E=ENV_INFO[env]; return E?E.v[Math.min(1,Math.max(0,d-1))]:0; }
+function envTip(env,d){ const E=ENV_INFO[env]; return E?E.tip(envVal(env,d)):""; }
+function envWhy(E){ if(!E) return ""; const o=[];   // 패배 뒤: 환경·역할 몬스터에 대한 한 줄
+  if(E.roleLeft) o.push(`역할 몬스터가 살아 있는 채로 짐 — 공격 규칙의 대상을 '역할 몬스터 우선'으로 바꿔 보세요`);
+  if(E.envHit) o.push(`${ENV_INFO[E.env].icon} ${ENV_INFO[E.env].n}에 ${E.envHit}번 크게 당함 — ${envTip(E.env,E.d)}`);
+  return o.join(" · "); }
 function wardsFor(d,rk,big){ const w=REGION_WARDS[rk]; if(!w||!d) return []; return w.slice(0,Math.min(3,d+(big?1:0))); }
 
 function pickAffixes(n){ const pool=[...AFFIX_KEYS], out=[]; while(out.length<n&&pool.length) out.push(pool.splice(ri(0,pool.length-1),1)[0]); return out; }
@@ -2485,13 +2515,20 @@ function genRun(rk,d,act){
     }
     zones.push({type:"battle",label:el?"정예 출현!":"전투",mobs});
   }
+  const RK=ROLE_K[d], pickRole=()=>ROLE_KEYS[ri(0,ROLE_KEYS.length-1)];   // v0.83 역할 몬스터(자정부터)
+  if(RK) for(const z of zones){ if(z.type!=="battle") continue; const plain=z.mobs.filter(m=>!m.elite&&!m.role);
+    if(plain.length&&Math.random()<RK.p1){ plain.splice(ri(0,plain.length-1),1)[0].role=pickRole(); }
+    if(plain.length&&Math.random()<RK.p2){ plain.splice(ri(0,plain.length-1),1)[0].role=pickRole(); } }
   if(Math.random()<0.55) zones.splice(ri(1,zones.length),0,{type:"rest",label:"쉼터"});
   const adds=Array.from({length:ri(D.adds[0],D.adds[1])},()=>S({key:weightedPick(R.pool)}));
+  const lead=act<3?{key:A.mid.key,named:true}:{key:R.boss,finalBoss:true};
+  if(RK) adds.forEach((m,i)=>{ if(i<RK.bossN){ m.role=pickRole(); m.attendOf=lead; } });   // 보스·중간보스 곁의 시종은 역할 몬스터(체력은 우두머리에 맞춰)
   if(act<3){ const m=A.mid;
     zones.push({type:"battle",mid:true,named:true,actEnd:true,act,label:(D.tag?D.tag:"")+m.label,
       mobs:[S({key:m.key,named:true,affixes:pickAffixes(D.bossAffix),enrage:D.enrage})].concat(adds)}); }
   else zones.push({type:"battle",boss:true,act,label:(D.tag?D.tag:"")+bossLabel(rk),
     mobs:[S({key:R.boss,finalBoss:true,affixes:pickAffixes(D.bossAffix),enrage:D.enrage})].concat(adds)});
+  if(envFor(d,rk)==="throne") for(const z of zones) if(z.type==="battle") z.mobs.push(S({key:weightedPick(R.pool),role:pickRole()}));   // v0.83 왕실 친위대
   if(rk==="throne"&&act===1) for(const z of zones) if(z.type==="battle") z.garon=true;   // 9장 1막: 가론이 함께 — 전투마다 아군 전체 보호막
   return zones;
 }
@@ -2516,17 +2553,21 @@ function buildMobUnit(spec,idx,d,rk){
   const st={hp:Math.round(hp), mp:m.stats.mp, atk:Math.round(atk), def:Math.round(m.stats.def*(1+0.3*d)), spd:m.stats.spd, crit:m.stats.crit,
     critdmg:1.5, acc:0.95, eva:m.stats.spd>=12?0.1:m.stats.spd>=10?0.05:0, pen:0.05*d,
     res:Math.min(0.75,(m.boss||spec.finalBoss||spec.named?0.4:spec.chief?0.3:spec.elite?0.2:0.05)+0.08*d)};
+  if(spec.role){ if(spec.role==="guard") st.def=Math.round(st.def*1.2);   // v0.83 역할 몬스터: 보스 곁 시종은 우두머리 체력의 12%(방패병 18%) — 광역기로는 잘 안 죽어 단일 공격으로 노려야 함
+    if(spec.attendOf){ try{ const L=buildMobUnit(Object.assign({scale:spec.scale},spec.attendOf),0,d,rk); st.hp=Math.max(st.hp,Math.round(L.hp_max*(spec.role==="guard"?0.18:0.12))); }catch(e){} } }
   let name;
   if(spec.title) name=spec.title;
   else if(spec.finalBoss||spec.named) name=(D.tag||"")+m.name;
   else if(spec.chief) name="우두머리 "+m.name;
   else if(m.boss) name=m.name;
-  else name=(spec.elite?"정예 ":"")+`${m.name} ${String.fromCharCode(65+idx)}`;
+  else name=(spec.elite?"정예 ":"")+(spec.role?ROLE_INFO[spec.role].n+" ":"")+`${m.name} ${String.fromCharCode(65+idx)}`;
   const skills=[...new Set(m.rules.map(r=>r.skill))];
   const u=makeUnit(`${spec.key}_${idx}`,name,"enemy",m.row,st,skills,m.rules.map(r=>({...r})),m.passive||"",m.sprite,!!(m.boss||spec.chief||spec.finalBoss),[],(spec.finalBoss||spec.named)?(m.quotes||null):null);
   u.isBossKind=!!(m.boss||spec.finalBoss||spec.named); if(m.mech) u.mech=m.mech;   // v0.64 낙성의 사도 고유 패턴
   if(m.boss&&!m.mech){ const P=bossPatsFor(d,rk); if(P.length){ u.pats=P.slice(); u.patK=BOSS_PAT_K[d]||BOSS_PAT_K[0]; } }   // v0.82 장 보스 패턴
   u.finalBoss=!!spec.finalBoss; u.named=!!spec.named;
+  if(spec.role&&ROLE_K[d]){ u.role=spec.role; u.roleK=ROLE_K[d]; u.row=spec.role==="guard"?"front":"back"; u.aoeRes=Math.max(u.aoeRes||0,0.6); }   // v0.83 치유사·주술사는 뒷줄, 방패병은 앞줄
+  if(!spec.eg){ const ev=envFor(d,rk); if(ev){ u.env=ev; u.envD=d; } }
   if(u.isBossKind){ u.lane=Number.isInteger(m.lane)?m.lane:(m.row==="back"?2:1); u.lanePin=true; }   // v0.43: 보스는 정해진 가로줄에 — 그 줄의 영웅을 노리는 기술을 미리 읽을 수 있게
   u.tint=m.tint||""; u.elite=!!(spec.elite||spec.chief); u.affixes=spec.affixes||[]; if(spec.twin) u.twin=true;
   for(const a of u.affixes) applyAffix(u,a);
@@ -4417,6 +4458,7 @@ function isAoe(sk){ return !!(sk&&(sk.aoe||(sk.shape&&SHAPES[sk.shape]&&SHAPES[s
 class Sim {
   constructor(party,enemies,seed){
     this.units=[...party,...enemies]; this.events=[]; this.turn=0;
+    { const ev=enemies.find(x=>x.env); this.env=ev?ev.env:null; this.envD=ev?ev.envD:0; this.envV=this.env?envVal(this.env,this.envD):0; this.envStats={env:this.env,d:this.envD,envHit:0,roleLeft:0}; }   // v0.83 장별 환경
     this.seed=seed>>>0; this.rand=mulberry32(this.seed);
     for(const u of this.units){ u.buffs={}; u.dots={}; u.taunted_by=""; u._half=false; u._saidDefeat=false;
       u._lampUsed=false; u._undyingUsed=false; u._iceUsed=false; u._acted=false; if(!u.traits) u.traits={};
@@ -4572,6 +4614,8 @@ class Sim {
       case "boss_ritual": return this.foes(u).some(f=>f._pat==="ritual");
       case "boss_reflect": return this.foes(u).some(f=>f._pat==="reflect");
       case "boss_hp_below": return this.foes(u).some(f=>f.isBossKind&&this.hpPct(f)<=v);
+      case "enemy_role": return this.foes(u).some(f=>f.role);
+      case "env_warn": return this.envWarnNow();
     } return false; }
   rulePasses(u,r){ const a=this.cond(u,r.c1|0);
     if(r.logic===1) return a&&this.cond(u,r.c2|0);
@@ -4659,6 +4703,8 @@ class Sim {
       case 8: return [this.mostPoisoned(pool)];
       case 9: { const m=pool.find(x=>x.buffs.mark); return [m||this.lowest(pool)]; }
       case 10: { const m=pool.find(x=>x.buffs.air)||pool.find(x=>x.buffs.mark); return [m||this.lowest(pool)]; }
+      case 12: { const r=pool.filter(x=>x.role); return [r.length?this.lowest(r):(pool.find(x=>x.row==="front")??pool[0])]; }   // v0.83 역할 몬스터 우선(없으면 맨 앞 적)
+      case 13: { const b=pool.filter(x=>x.row==="back"); return [b.length?this.lowest(b):(pool.find(x=>x.row==="front")??pool[0])]; }   // v0.83 뒷줄 적 우선(없으면 맨 앞 적)
       default: { if(u.simpleAuto){ const f=pool.find(x=>x.row==="front"); return [f??pool[0]]; }   // v0.33: 주인공의 '기본'은 맨 앞 적 — 표식·띄움·빈사 노리기는 직접 고르게(고를 이유가 생기게)
         if(skill.detonate) return [this.mostPoisoned(pool)]; const m=pool.find(x=>x.buffs.mark)||pool.find(x=>x.buffs.air); return [m||this.lowest(pool)]; }   // 자동: 표식 → 띄움 → 체력 최저
     }
@@ -4829,6 +4875,11 @@ class Sim {
     const gd=this.auraVal(def.side,"guard",def); if(gd){ cut*=1-gd; if(this.hasPassive(def,"fortress10")) cut*=0.9; }
     if(this.hasPassive(def,"monk_inner")&&(def._mom||0)>=3) cut*=0.85;
     if(this.units.some(x=>x.alive&&x.side===def.side&&this.hasPassive(x,"audience"))){ const n=this.foes(def).filter(debuffed).length; if(n) cut*=1-Math.min(0.10,0.02*n); }
+    // v0.83 역할 몬스터 · 장별 환경
+    if(att.side==="enemy"){ if(att._hexStk) base*=1+att._hexStk; if(att._echoStk) base*=1+att._echoStk; if(this.env==="altar"&&this.turn>=6) base*=1+this.envV; }
+    if(def.side==="enemy"){ const g=this.units.find(x=>x.alive&&x!==def&&x.side==="enemy"&&x.role==="guard"); if(g) cut*=1-g.roleK.guard;
+      if(this.env==="citadel"&&def.row==="front"&&this.units.some(x=>x.alive&&x.side==="enemy"&&x.row==="back")) cut*=1-this.envV; }
+    if(this.env==="sunken"&&att.side==="party"&&skill.range==="melee") cut*=1-this.envV;
     return { dmg:Math.max(1,Math.floor(base*mitig*cut)), crit, sneak };
   }
   counterChance(u){
@@ -4894,6 +4945,7 @@ class Sim {
     if(target.hp<=0||saved) target._fell=true;
     fx.push(Object.assign({target:target.id,kind:"damage",amount:d,crit:false,killed,hp:target.hp,mp:target.mp},extra||{},absorbed?{label:((extra&&extra.label)?extra.label+" · ":"")+`보호 ${absorbed}`}:{}));
     if(saved) fx.push(this.fxBuff(target,saved));
+    if(killed&&target.side==="enemy"&&this.env==="gold"){ let n=0; for(const x of this.units) if(x.alive&&x.side==="enemy"&&(x._echoN||0)<4){ x._echoN=(x._echoN||0)+1; x._echoStk=this.envV*x._echoN; n++; } if(n) fx.push(this.fxBuff(target,`🪙 황금 메아리 — 남은 적 공격력 +${Math.round(this.envV*100)}%`)); }   // v0.83
     if(killed){ if(target._aura) target._deadTurn=this.turn; this.onDeath(target,fx);
       const k=this._actor; if(k&&k!==target&&k.side!==target.side) this.onKill(k,target,fx); }
     else this.lowHpChecks(target,fx);
@@ -5050,7 +5102,7 @@ class Sim {
     const sneak0=skill.type==="damage"&&!!(att.buffs&&att.buffs.stealth);
     if(!sneak0&&!this._countering){
       const mkA=this.auraVal(this.opp(att.side),"mock",null)*0.625;
-      const hc=Math.max(0.2,Math.min(1,(att.acc||0.95)-(this.isAir(def)?0:(def.eva||0))-(att.buffs.blind?0.5:0)-mkA));
+      const hc=Math.max(0.2,Math.min(1,(att.acc||0.95)-(this.isAir(def)?0:(def.eva||0))-(att.buffs.blind?0.5:0)-mkA-((this.env==="forest"&&def.side==="enemy"&&!debuffed(def))?this.envV:0)));   // v0.83 짙은 수풀
       if(this.rand()>=hc){ fx.push({target:def.id,kind:"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:att.buffs.blind?"실명 — 빗나감":"빗나감"});
         // 권사 '흐름': 피하면 바로 반격(턴당 1회) · 손붕대: 피하면 기세 +1
         if(def.traits&&def.traits.wrap_eva&&(def.momMax||0)>0) def._mom=Math.min(def.momMax,(def._mom||0)+1);
@@ -5297,6 +5349,7 @@ class Sim {
     if(u.side==="enemy"&&u._pat==="reflect"){ u._pat=null; this.patStat("reflect",!u._refHit); this.events.push({type:"log",text:`${u.name}이(가) 반격 자세를 푼다.`}); return; }   // v0.82 반격 자세 동안 보스도 공격하지 않음 — 다음 차례에 풀림
     if(u.side==="enemy"&&u._prep){ u._prep=false; this.events.push({type:"log",text:`${u.name}이(가) ${u._pat==="ritual"?"의식을 올린다":"힘을 모은다"}…`}); return; }   // v0.82 예고한 차례
     if(u.side==="enemy"&&u._pat&&(u._pat==="charge"||u._pat==="ritual")&&this.bossPatAct(u)) return;   // v0.82
+    if(u.side==="enemy"&&u.role&&!u.buffs.silence&&this.roleAct(u)) return;   // v0.83 역할 몬스터
     const act=this.pickAction(u);
     const {skill,targets}=act;
     if(!targets.length){ this.events.push({type:"log",text:`${u.name}: 행동할 대상이 없다.`}); return; }
@@ -5394,7 +5447,7 @@ class Sim {
           if(skill.blindAll&&this.rand()<skill.blindAll+fl) this.applyStatus(u,t,"blind",1,0,"실명",fx);
           break; }
         case "heal": { const T=u.traits||{};
-          let hb=(1+(T.heal_pct||0))*(T.heal_mult||1);
+          let hb=(1+(T.heal_pct||0))*(T.heal_mult||1); if(this.env==="desert"&&u.side==="party") hb*=1-this.envV;   // v0.83 갈증
           if(T.rescue&&this.hpPct(t)<=30) hb+=0.6;
           const amt=Math.floor((u.side==="enemy"?t.hp_max*ENEMY_HEAL_K:u.atk)*skill.power*hb*this.rr(0.95,1.05));   // v0.30: 적 회복은 최대 체력의 7%×위력
           const room=t.hp_max-t.hp;
@@ -5582,6 +5635,27 @@ class Sim {
       if(dealt>=u.hp_max*K.rit){ this.patStat("ritual",true); this.patEv(u,"✚ 의식이 끊겼다",[this.fxBuff(u,"휘청 — 이번 차례를 쉰다")]); return true; }
       const hv=Math.floor(u.hp_max*K.heal); u.hp=Math.min(u.hp_max,u.hp+hv); this.patStat("ritual",false); this.patEv(u,"✚ 회복 의식 완성",[{target:u.id,kind:"heal",amount:hv,crit:false,killed:false,hp:u.hp,mp:u.mp,label:"회복"}]); return true; }
     return false; }
+  // v0.83 역할 몬스터 차례(true면 이번 차례 끝) — 치유사: 가장 다친 적 치유 · 주술사: 적 전체 공격력 누적 상승 · 방패병은 calcDamage에서
+  roleAct(u){ const K=u.roleK;
+    if(u.role==="mender"){ const hurt=this.allies(u).filter(x=>x.hp<x.hp_max*0.8); if(!hurt.length) return false; const t=this.lowest(hurt);
+      const hv=Math.max(1,Math.floor(t.hp_max*(t.isBossKind?K.bheal:K.heal))); t.hp=Math.min(t.hp_max,t.hp+hv);
+      this.patEv(u,"✚ 치유",[{target:t.id,kind:"heal",amount:hv,crit:false,killed:false,hp:t.hp,mp:t.mp}]); return true; }
+    if(u.role==="hexer"){ const al=this.allies(u).filter(x=>(x._hexN||0)<K.hexMax); if(!al.length) return false;
+      for(const x of al){ x._hexN=(x._hexN||0)+1; x._hexStk=K.hex*x._hexN; } this.patEv(u,"☠ 저주의 북",[this.fxBuff(u,`적 전체 공격력 +${Math.round(K.hex*100)}%`)]); return true; }
+    return false; }
+  envWarnNow(){ return (this.env==="volcano"||this.env==="temple")&&this.turn>=3&&(this.turn+1)%4===0; }
+  envEv(name,fx){ const e=this.units.find(x=>x.alive&&x.side==="enemy"); if(e) this.patEv(e,name,fx); }
+  envTurn(){ if(!this.env) return; const t=this.turn, v=this.envV;
+    if(this.envWarnNow()) this.events.push({type:"log",text:this.env==="volcano"?"🌋 땅이 울린다 — 다음 턴에 화산이 분출한다!":"🔔 종탑이 흔들린다 — 다음 턴에 침묵의 종이 울린다!"});
+    if(t>=4&&t%4===0){ const ps=this.units.filter(x=>x.alive&&x.side==="party"); const fx=[];
+      if(this.env==="volcano"){ const pa=this._actor; this._actor=null; let big=0;
+        for(const p of ps){ const red=Math.min(0.7,(p.buffs.def&&p.buffs.def.value>0?p.buffs.def.value:0)+(p.buffs.ward?p.buffs.ward.value:0)); const dmg=Math.max(1,Math.floor(p.hp_max*v*(1-red)));
+          if(dmg>(p.shield||0)+p.hp_max*v*0.5) big++; this.hit(p,dmg,fx,{label:"🌋 분출"}); }
+        this._actor=pa; if(big) this.envStats.envHit++; this.envEv("🌋 화산 분출",fx); }
+      if(this.env==="temple"){ for(const p of ps){ p.buffs.silence={turns:v,value:0,label:"침묵"}; fx.push(this.fxBuff(p,"침묵")); } this.envStats.envHit++; this.envEv("🔔 침묵의 종",fx); } } }
+  envRoundEnd(){ if(this.env!=="swamp") return; const fx=[];
+    for(const p of this.units) if(p.alive&&p.side==="party"){ const d=Math.min(p.hp-1,Math.floor(p.hp_max*this.envV)); if(d>0){ p.hp-=d; fx.push({target:p.id,kind:"damage",amount:d,crit:false,killed:false,hp:p.hp,mp:p.mp,label:"🌫 독 안개"}); } }
+    if(fx.length) this.envEv("🌫 독 안개",fx); }
   envoyTurn(){ for(const u of this.units){ if(!u.alive||u.side!=="enemy"||!u.mech) continue; const t=this.turn;
       if(u.mech==="veil"){
         if(u._veilAt&&t===u._veilAt+2){ u._veilAt=0;
@@ -5645,6 +5719,7 @@ class Sim {
       this.turnStart();
       this.envoyTurn();   // v0.64 낙성의 사도 고유 패턴
       this.bossPatTurn();   // v0.82 장 보스 패턴
+      this.envTurn();   // v0.83 장별 환경
       if(this.law==="abyss"||(Array.isArray(this.law)&&this.law.includes("abyss"))){ const R=["silence","reverse","mirror","twins"]; this._abLaw=R[(this.turn-1)%4]; const L=ABYSS_LAWS[this._abLaw]; this.events.push({type:"log",text:`🌑 심연의 법칙 — 이번 턴은 ${L.icon} ${L.n}: ${L.d}`}); }
       this.turnStart26();
       for(const u of this.units) if(u.alive&&u._hasteTurns){ if(--u._hasteTurns===0) u.spd-=4; }
@@ -5704,6 +5779,7 @@ class Sim {
         if(this.over()) break;
       }
       if(this.law&&!this.over()) this.twinsRoundEnd();
+      if(this.env&&!this.over()) this.envRoundEnd();
     }
     let result="draw";
     if(this.sideAlive("party")&&!this.sideAlive("enemy")) result="win";
@@ -5714,7 +5790,8 @@ class Sim {
       u._rec={kills:u._killsTotal||0,bossKills:u._bossKills||0,crits:u._critsTotal||0,healed:u._healDone||0,dmgTaken:u._dmgTaken||0,counters:u._counters||0,
         lowSurvive:(u.alive&&this.hpPct(u)<=20)?1:0, soloWins:(result==="win"&&alive.length===1&&alive[0]===u)?1:0, fell:u._fell?1:0, battles:1, skillUse:u._skillUse||{}};
     }
-    this.events.push({type:"end",result,turns:this.turn,max:this.maxTurn,pat:this.patStats||null});
+    if(result!=="win") this.envStats.roleLeft=this.units.filter(x=>x.alive&&x.side==="enemy"&&x.role).length?1:0;
+    this.events.push({type:"end",result,turns:this.turn,max:this.maxTurn,pat:this.patStats||null,envs:this.envStats});
     return this.events;
   }
 }
@@ -5914,13 +5991,17 @@ function adsToday(){ const d=new Date().toDateString(); if(!progress.ads||progre
 function adLeft(k){ return Math.max(0,AD_DAILY[k]-(adsToday()[k]|0)); }
 function adFastOn(){ return !!(progress&&progress.adFastUntil>Date.now()); }
 function lastRunClaimable(){ const L=progress&&progress.lastRun; return !!(L&&!L.claimed&&Date.now()-L.t<24*3600e3&&(L.gold>0||(L.items||[]).length)); }
-// 막을 깼을 때 — 광고로 2배 받을 수 있는 몫을 기억(24시간 안에 한 번)
+// 막을 깼을 때 — 광고 보너스로 받을 수 있는 몫을 기억(24시간 안에 한 번)
 function rememberLastRun(gold,notes){ try{ const all=progress.inv.concat(equippedStore); const items=(notes||[]).map(n=>all.find(x=>x&&x.id===n.id)).filter(Boolean).map(it=>({slot:it.slot,rarity:it.rarity,tier:it.tier|0,set:it.set||null,rune:it.rune||null}));
   progress.lastRun={t:Date.now(), gold:gold|0, items, claimed:false}; }catch(e){} }
-function adClaimLoot(){ const L=progress.lastRun; if(!lastRunClaimable()) return; L.claimed=true; const got=[];
-  for(const s of L.items){ let it=null; try{ if(s.rune) it=makeRune(); else if(s.set&&SETS[s.set]) it=makeSetItem(s.set,s.tier,{slot:s.slot}); else if(s.slot!=="relic") it=makeItem(true,s.tier,{slot:s.slot,rarity:s.rarity}); }catch(e){ it=null; }
+function adClaimLoot(){ const L=progress.lastRun; if(!lastRunClaimable()) return; L.claimed=true; const got=[]; let ess=0;
+  /* v0.83: 전리품을 그대로 한 벌 더 주던 방식(전설이 2개가 됨) 대신 — 금화 2배 + 같은 부위를 새로 굴린 보너스 장비(최고 영웅 등급까지).
+     전설·세트·룬은 복제하지 않고 그 분해값만큼 밤의 정수로. */
+  for(const s of L.items){ if(s.rune||s.set||s.rarity==="legend"||s.slot==="relic"){ ess+=dismantleValue({rarity:s.set?"set":s.rarity==="legend"?"legend":"rare",tier:s.tier}); continue; }
+    let it=null; try{ it=makeItem(false,s.tier,{slot:s.slot}); if(it&&RAR_IDX[it.rarity]>RAR_IDX.epic) it=makeItem(false,s.tier,{slot:s.slot,rarity:"epic"}); }catch(e){ it=null; }
     if(it){ const r=takeLoot([it]); got.push(...r.kept.map(x=>itemDisplayName(x))); } }
-  progress.gold+=L.gold; logLine(`<span class="gain">📺 광고 보상 — 전리품 2배(${L.items.length}개 더) · 금화 2배(+${L.gold}G)${got.length?` · ${esc(got.slice(0,3).join(", "))}${got.length>3?" 외":""}`:""}</span>`); saveProgress(); }
+  if(ess) progress.ess+=ess;
+  progress.gold+=L.gold; logLine(`<span class="gain">📺 광고 보상 — 금화 2배(+${L.gold}G)${got.length?` · 보너스 장비 ${got.length}개(${esc(got.slice(0,3).join(", "))}${got.length>3?" 외":""})`:""}${ess?` · 밤의 정수 +${ess}`:""}</span>`); saveProgress(); }
 function playFakeAd(kind,after){
   kind=kind||"torch"; if(adLeft(kind)<=0) return; closeModal();
   const m=openModal(`<h2>📺 광고</h2><div class="fakead"><span>광고 자리</span><small>출시 버전에서는 여기에 실제 광고가 나옵니다</small><b id="adLeft">5</b></div>
@@ -6006,7 +6087,7 @@ function gemShopBlock(){
       <div class="gsbtns"><button class="btn" id="gsPass">보상 보기</button>${P.paid?"":`<button class="btn" id="gsPassBuy">${won(PASS_WON)} — 유료 트랙 열기</button>`}${isAdmin()&&!P.paid?`<button class="ghostbtn" id="gsPassAdm">관리자 시험</button>`:""}</div></div>
     <div class="gscard ads"><h3>📺 광고</h3>
       <div class="adrow"><span>횃불 +1</span><small>오늘 ${A.torch}/${AD_DAILY.torch}</small><button class="btn" id="adTorch" ${adLeft("torch")?"":"disabled"}>보기</button></div>
-      <div class="adrow"><span>마지막 돌파 전리품 2배 · 금화 2배</span><small>${lastRunClaimable()?`받을 수 있음 · 오늘 ${A.loot}/${AD_DAILY.loot}`:`막을 깬 뒤 24시간 안에 · 오늘 ${A.loot}/${AD_DAILY.loot}`}</small><button class="btn" id="adLoot" ${adLeft("loot")&&lastRunClaimable()?"":"disabled"}>보기</button></div>
+      <div class="adrow"><span>마지막 돌파 금화 2배 + 보너스 장비</span><small>${lastRunClaimable()?`받을 수 있음 · 오늘 ${A.loot}/${AD_DAILY.loot}`:`막을 깬 뒤 24시간 안에 · 오늘 ${A.loot}/${AD_DAILY.loot}`}</small><button class="btn" id="adLoot" ${adLeft("loot")&&lastRunClaimable()?"":"disabled"}>보기</button></div>
       <div class="adrow"><span>30분 동안 모든 전투 '빠르게'</span><small>${adFastOn()?`켜짐 · ${fmtWait(progress.adFastUntil-Date.now())} 남음`:`오늘 ${A.fast}/${AD_DAILY.fast}`}</small><button class="btn" id="adFast" ${adLeft("fast")?"":"disabled"}>보기</button></div></div>
     <div class="gscard torch"><h3>🔥 횃불</h3><div class="gsst">💎 ${TORCH.gemCost} → 횃불 ${TORCH.gemGive}개</div><div class="gsbtns"><button class="btn" id="gsTorch">횃불 창 열기</button></div></div>
   </div>`;
@@ -6447,7 +6528,7 @@ function targetChoices(S,comp){ const c=targetCat(S||{}), T=i=>({v:i,label:TARGE
     case "allyOther": return {opts:[{v:0,label:auto||"기본 — 공격력이 가장 높은 아군"},T(5),T(7)],hint:"자신을 뺀 아군 중에서"};
     case "heal": return {opts:[{v:0,label:auto||"기본 — 체력 비율이 가장 낮은 아군"},T(6),T(7),T(11)],hint:"치유할 아군"};
     case "buff": return {opts:[{v:0,label:auto||"기본 — 자신"},T(5),T(7),T(11)],hint:"강화할 아군"};
-    default: return {opts:[{v:0,label:auto||"기본 — 맨 앞 적"},T(1),T(3),T(2),T(8),T(9),T(10)],hint:"'기본'은 맨 앞 적. 빈사 적 마무리·표식·띄운 적·독이 많이 쌓인 적은 직접 골라야 노립니다"}; } }
+    default: return {opts:[{v:0,label:auto||"기본 — 맨 앞 적"},T(1),T(3),T(2),T(8),T(9),T(10),T(12),T(13)],hint:"'기본'은 맨 앞 적. 빈사 적 마무리·표식·띄운 적·독이 많이 쌓인 적은 직접 골라야 노립니다"}; } }
 // v0.35 배치: 앞줄·뒷줄은 플레이어가 영웅마다 정함(처음엔 직업 기본 줄)
 function heroRow(cid){ const r=(progress.heroes[cid]||{}).row; return r==="front"||r==="back"?r:CLASSES[cid].row; }
 /* v0.43 진영 = 앞줄·뒷줄 × 가로줄 (v0.55: 3칸, 위 0 → 아래 2). 같은 가로줄의 앞줄에 아군이 서 있으면 그 뒤(뒷줄)는 근접 공격을 받지 않음 */
@@ -9221,7 +9302,7 @@ const MOTION = (()=>{
     const d = c.getImageData(0, 0, n, n); for(let i = 0; i < d.data.length; i += 4){ if(!d.data[i + 3]) continue; const o = d.data[i] === 18 && d.data[i + 1] === 20 && d.data[i + 2] === 32; d.data[i] = 255; d.data[i + 1] = o ? 120 : 255; d.data[i + 2] = o ? 110 : 255; }
     c.putImageData(d, 0, 0); return cv.toDataURL(); }catch(e){ return null; } }
   function hpPct(el){ const u = el.closest(".unit"); const b = u && u.querySelector(".bar:not(.mp)>i"); return b ? parseFloat(b.style.width) || 100 : 100; }
-  function scr(el, r, x, y, n){ const P = r.height / n; const u = el.closest(".unit"); const flip = !!(u && u.parentElement && /^row-enemy/.test(u.parentElement.id || ""));
+  function scr(el, r, x, y, n){ const P = r.height / n; const u = el.closest(".unit"); const flip = !!(u && ((u.parentElement && /^row-enemy/.test(u.parentElement.id || "")) || u.classList.contains("faceL")));   /* v0.83 왼쪽 보는 영웅의 반짝임도 */
     return [r.left + ((flip ? n - 1 - x : x) + 0.5) * P, r.top + (y + 0.5) * P, P]; }
   function tick(now){
     if(now < nextT || (typeof instantMode === "function" && instantMode())) return; nextT = now + 110; f++;
@@ -9624,7 +9705,9 @@ const WX = (()=>{
       if(el.dataset.mon && el.parentElement && el.parentElement.classList.contains("raged")){ const ir = frameRect(el); if(!ir.width) continue; const A = rageFor(el, now); if(!A) continue;   // v0.32 광폭 보스
         const P = ir.height / A.n; cx.drawImage(A.cv, Math.round((ir.left - r.left - RAGE_OX * P) * dpr), Math.round((ir.top - r.top - RAGE_OY * P) * dpr), Math.round(A.W * P * dpr), Math.round(A.H * P * dpr)); continue; }
       if(!el.dataset.aura || el.dataset.sa) continue; const ir = frameRect(el); if(!ir.width) continue; const A = auraFor(el, now); if(!A) continue;   // v0.78 특수 오라를 달면 강화 오라 대신
-      const P = ir.height / 16; cx.drawImage(A.cv, Math.round((ir.left - r.left - AURA_OX * P) * dpr), Math.round((ir.top - r.top - AURA_OY * P) * dpr), Math.round(AURA_W * P * dpr), Math.round(AURA_H * P * dpr)); }
+      const P = ir.height / 16, ax = Math.round((ir.left - r.left - AURA_OX * P) * dpr), ay = Math.round((ir.top - r.top - AURA_OY * P) * dpr), aw = Math.round(AURA_W * P * dpr), ah = Math.round(AURA_H * P * dpr);
+      const fu = el.closest(".unit"); if(fu && fu.classList.contains("faceL")){ cx.save(); cx.translate(ax + aw, ay); cx.scale(-1, 1); cx.drawImage(A.cv, 0, 0, aw, ah); cx.restore(); }   /* v0.83 왼쪽을 보는 영웅은 오라도 뒤집어서 */
+      else cx.drawImage(A.cv, ax, ay, aw, ah); }
     for(const el of frameUnits(now)) if(el.dataset.cape || el.dataset.ws || el.dataset.sa) drawCos(el, now, r, dpr);
     for(const el of frameUnits(now)) if(el.dataset.song) drawSong(el, now, r, dpr); }
   // v0.71 음유시인 오라: 발밑에 노래 색 빛 고리(숨 쉬듯) + 머리 옆으로 떠오르는 도트 음표
@@ -9964,7 +10047,7 @@ function renderRules(){
     mv.append(up,dn);
     if(ro) for(const x of [chk,c1,lg,c2,sk,tg,up,dn]) x.disabled=true;
     row.append(rnum,body,mv);
-    if(i===RULE_SLOTS){ const h=document.createElement("div"); h.className="r5hint"; h.innerHTML="⚠ <b>5번째 칸</b> — 자정부터 열림 · 보스 패턴 대응(보스가 강공 준비 중 · 보호막 중 · 회복 의식 중 · 반격 자세 중)에 쓰면 좋아요"; list.appendChild(h); }   // v0.82
+    if(i===RULE_SLOTS){ const h=document.createElement("div"); h.className="r5hint"; h.innerHTML="⚠ <b>5번째 칸</b> — 자정부터 열림 · 보스 패턴(강공 준비 중 · 보호막 중 · 회복 의식 중 · 반격 자세 중)이나 역할 몬스터·환경 위협 예고 대응에 쓰면 좋아요"; list.appendChild(h); }   // v0.82
     list.appendChild(row);
   });
   if(TUT.ruleLock(selected)){   // v0.33 규칙 교실: 아직 잠긴 칸
@@ -10177,8 +10260,8 @@ function formSlots(ids,W,H,enemyN){   // battle_fx layout()과 같은 규칙: �
   return {pos:out,slot,g,base,hz:g.hz,topF,botF};
 }
 // 다시 그리기 전 안쪽 스크롤 칸들의 위치를 기억했다가(클래스 이름으로 짝지음) 다시 그린 뒤 되돌림
-function keepInnerScroll(root){ const saved=[]; try{ for(const e of root.querySelectorAll("*")) if(e.scrollTop>0&&e.className&&typeof e.className==="string") saved.push([e.className,e.scrollTop]); }catch(e){}
-  return ()=>{ for(const [c,t] of saved){ const sel="."+c.trim().split(/\s+/).map(x=>CSS.escape(x)).join("."); const e=root.querySelector(sel); if(e) e.scrollTop=t; } }; }
+function keepInnerScroll(root){ const saved=[]; try{ for(const e of root.querySelectorAll("*")) if((e.scrollTop>0||e.scrollLeft>0)&&e.className&&typeof e.className==="string") saved.push([e.className,e.scrollTop,e.scrollLeft]); }catch(e){}   /* v0.83: 가로 스크롤(영웅 목록)도 유지 */
+  return ()=>{ for(const [c,t,l] of saved){ const sel="."+c.trim().split(/\s+/).map(x=>CSS.escape(x)).join("."); const e=root.querySelector(sel); if(e){ e.scrollTop=t; e.scrollLeft=l; } } }; }
 function renderFormation(){
   const pane=$("partyPane"); const view=$("body-party"); const scrollTop=view.scrollTop; const innerKeep=keepInnerScroll(pane); pane.innerHTML="";
   const rids=rosterIds(); if(!rids.includes(partySel)) partySel=(progress.protag&&rids.includes(progress.protag.cid))?progress.protag.cid:rids[0];
@@ -11733,7 +11816,8 @@ function bossInfoHTML(rk,a){ try{
     return `<li><i>${esc(cond)}</i><b>${esc(S.name)}</b><span>${tg?`<em>${esc(tg)}</em> `:""}${esc(eff)}</span></li>`; }).join("");
   const small=innerHeight<=560; const PT=a===3?bossPatsFor(progress.diff,rk):[];
   const pat=PT.length?`<div class="dppat"><b>⚠ 보스 패턴</b> — 예고를 보고 대응하도록 규칙을 미리 짜 두세요<ul>${PT.map(k=>`<li><b>${BOSS_PAT_INFO[k].icon} ${esc(BOSS_PAT_INFO[k].n)}</b> ${esc(BOSS_PAT_INFO[k].tip)}</li>`).join("")}</ul></div>`:"";   // v0.82
-  return pat+`<details class="dpboss"${small?"":" open"}><summary><img src="${SPRITES[B.sprite]}" alt=""><b>${esc(a<3?"중간보스":"보스")} ${esc(B.name)}</b><span>쓰는 기술 ${B.rules.filter(r=>r.skill!=="basic_attack").length}개</span></summary><ul>${rows}</ul></details>`;
+  const EV=envFor(progress.diff,rk); const env=EV?`<div class="dppat"><b>${ENV_INFO[EV].icon} 이 장의 환경 — ${esc(ENV_INFO[EV].n)}</b><ul><li>${esc(envTip(EV,progress.diff))}</li><li><b>✚🛡☠ 역할 몬스터</b> 치유사·방패병·주술사가 섞여 나오고, 우두머리 곁에는 꼭 붙어 있음 · 광역기는 잘 안 먹힘 — 단일 공격 규칙의 대상을 '역할 몬스터 우선'으로</li></ul></div>`:"";   // v0.83
+  return env+pat+`<details class="dpboss"${small?"":" open"}><summary><img src="${SPRITES[B.sprite]}" alt=""><b>${esc(a<3?"중간보스":"보스")} ${esc(B.name)}</b><span>쓰는 기술 ${B.rules.filter(r=>r.skill!=="basic_attack").length}개</span></summary><ul>${rows}</ul></details>`;
 }catch(e){ return ""; } }
 function dpSetEg(k){ progress.egMode=k; saveProgress(); goCamp(); renderDungeonPicker(); }
 function dpEnter(){ closeModal(); mainButton(); setMainBtn(); }
@@ -11855,6 +11939,8 @@ async function runBattle(z){
   if(z.envoy){ const E=FALL_ENVOYS.find(x=>x.key===z.envoy); logLine(`<span class="sk">🌠 ${esc(E.name)} — ${esc(E.tip)}</span>`); if(!instantMode()) showBanner(`<span class="txt narr">🌠 ${esc(z.label)}<br><small>${esc(E.tip)}</small></span>`, 2600); }
   spawnField(sim.units);
   { const PB=sim.units.find(u=>u.side==="enemy"&&u.pats); if(PB) logLine(`<span class="sk">⚠ ${esc(PB.name)}의 패턴 — ${PB.pats.map(k=>`${BOSS_PAT_INFO[k].icon} ${esc(BOSS_PAT_INFO[k].n)}`).join(" · ")}</span>`); }   // v0.82
+  for(const u of sim.units) if(u.side==="enemy"&&u.role) logLine(`<span class="sk">${ROLE_INFO[u.role].icon} ${esc(u.name)} — ${esc(ROLE_INFO[u.role].tip)}</span>`);   // v0.83
+  if(sim.env&&!sim.envNoted){ const k=sim.env+sim.envD; if(lastEnvNote!==k){ lastEnvNote=k; logLine(`<span class="sk">${ENV_INFO[sim.env].icon} 환경 — ${esc(ENV_INFO[sim.env].n)}: ${esc(envTip(sim.env,sim.envD))}</span>`); } }
   if(z.law){ const LL=(Array.isArray(z.law)?z.law:[z.law]).map(k=>ABYSS_LAWS[k]); for(const L of LL) logLine(`<span class="sk">${L.icon} 법칙 — ${L.n}: ${esc(L.d)}</span>`);
     if(!instantMode()) await showBanner(`<span class="txt narr">${esc(z.label)}<br><small>${LL.map(L=>`${L.icon} ${esc(L.n)} — ${esc(L.d)}`).join("<br>")}</small></span>`, 2400); }
   saveProgress();   // v0.55.1: 전투에 들어간 상태로 저장 — 첫 구역 도중에 앱이 꺼지면 던전(과 쓴 횃불)이 통째로 사라지던 문제
@@ -12023,7 +12109,7 @@ function showActLoot(notes,title){
       return `<div class="arow ${it.mythic?"legend":it.rarity}">${iconCell(it)}<div><span class="anm ${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span>${n.up.length?`<span class="atag up" title="${esc(n.up.join("·"))}에게 더 좋음">▲ ${n.up.length>2?n.up.length+"명":esc(n.up.join("·"))}</span>`:""}${n.perfect?`<span class="atag pf">✦ 완벽 옵션</span>`:""}${n.record?`<span class="atag rec">최고 품질 기록</span>`:""}
         <div class="asum">${esc(SLOT_LABEL[it.slot]||it.slot)}${Q!=null?` · 품질 ${Math.round(Q*100)}%`:""}${it.from?` · ${esc(it.from)}`:""}</div></div></div>`; }).join("");
     const p=document.createElement("div"); p.id="actLoot"; p.className="actloot"; p.setAttribute("role","status");
-    p.innerHTML=`<div class="ahead"><b>🎁 ${esc(title||"이번 막 전리품")}</b><span class="asum">${list.length}개 · 등급 순</span><button class="ax" aria-label="닫기">✕</button></div><div class="alist">${rows}</div>${list.length>12?`<div class="asum">외 ${list.length-12}개</div>`:""}<div class="afoot">${lastRunClaimable()&&adLeft("loot")?`<button class="btn" id="alAd">📺 광고 보고 전리품·금화 2배</button>`:""}<button class="btn ghost" id="alEq">장비 탭에서 보기</button></div>`;
+    p.innerHTML=`<div class="ahead"><b>🎁 ${esc(title||"이번 막 전리품")}</b><span class="asum">${list.length}개 · 등급 순</span><button class="ax" aria-label="닫기">✕</button></div><div class="alist">${rows}</div>${list.length>12?`<div class="asum">외 ${list.length-12}개</div>`:""}<div class="afoot">${lastRunClaimable()&&adLeft("loot")?`<button class="btn" id="alAd">📺 광고 보고 금화 2배 + 보너스 장비</button>`:""}<button class="btn ghost" id="alEq">장비 탭에서 보기</button></div>`;
     document.body.appendChild(p);
     let t=setTimeout(()=>p.remove(),12000);
     p.addEventListener("pointerenter",()=>clearTimeout(t)); p.addEventListener("pointerleave",()=>{ clearTimeout(t); t=setTimeout(()=>p.remove(),5000); });
@@ -12080,7 +12166,7 @@ function endZoneBattle(ev,zone){
   } else if(ev.result==="lose"){
     const kept=runRestoreKeepItems(runState.bank,runState.gains.exp);
     logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 골드 ${runState.gains.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
-    { const why=patWhy(ev.pat); if(why) logLine(`<span class="r">🔎 패배 원인 — ${why}</span>`); else logLine(`<span class="r">능력치·장비·스킬북·규칙 — 네 가지 중 무엇이든 강해질 길이 있습니다.</span>`); }
+    { const why=[patWhy(ev.pat),envWhy(ev.envs)].filter(Boolean).join(" · "); if(why) logLine(`<span class="r">🔎 패배 원인 — ${why}</span>`); else logLine(`<span class="r">능력치·장비·스킬북·규칙 — 네 가지 중 무엇이든 강해질 길이 있습니다.</span>`); }
     $("result").textContent=`패배 — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
     saveProgress();
     goCamp();
@@ -13046,6 +13132,8 @@ async function coopBattle(run,z){
   if(z.envoy){ const E=FALL_ENVOYS.find(x=>x.key===z.envoy); logLine(`<span class="sk">🌠 ${esc(E.name)} — ${esc(E.tip)}</span>`); }
   spawnField(sim.units);
   { const PB=sim.units.find(u=>u.side==="enemy"&&u.pats); if(PB) logLine(`<span class="sk">⚠ ${esc(PB.name)}의 패턴 — ${PB.pats.map(k=>`${BOSS_PAT_INFO[k].icon} ${esc(BOSS_PAT_INFO[k].n)}`).join(" · ")}</span>`); }   // v0.82
+  for(const u of sim.units) if(u.side==="enemy"&&u.role) logLine(`<span class="sk">${ROLE_INFO[u.role].icon} ${esc(u.name)} — ${esc(ROLE_INFO[u.role].tip)}</span>`);   // v0.83
+  if(sim.env&&!sim.envNoted){ const k=sim.env+sim.envD; if(lastEnvNote!==k){ lastEnvNote=k; logLine(`<span class="sk">${ENV_INFO[sim.env].icon} 환경 — ${esc(ENV_INFO[sim.env].n)}: ${esc(envTip(sim.env,sim.envD))}</span>`); } }
   if(z.law){ const LL=(Array.isArray(z.law)?z.law:[z.law]).map(k=>ABYSS_LAWS[k]); for(const L of LL) logLine(`<span class="sk">${L.icon} ${z.floor}층의 법칙 — ${L.n}: ${esc(L.d)}</span>`);
     if(!instantMode()&&!(!COOP.isHost&&coopHostZone()!=null&&coopHostZone()>run.z)) await showBanner(`<span class="txt narr">${esc(z.label)}<br><small>${LL.map(L=>`${L.icon} ${esc(L.n)} — ${esc(L.d)}`).join("<br>")}</small></span>`, 2400); }
   logLine(`<span class="r">[전투 시작] 적 ${enemies.length}마리 · 난수 시드 ${seed} (모두 같음)</span>`);
