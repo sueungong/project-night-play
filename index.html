@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793530661596"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793534091387"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1287,12 +1287,36 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .tutbig{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:17px;padding:12px 14px;margin:6px 0 10px;border-radius:12px;background:#221d0e;border:2px solid var(--accent)} .tutbig .w{color:var(--muted);font-size:15px} .tutbig .c{color:#d7ecff;background:#1d2f4a;border:1px solid #3b5f8f;border-radius:8px;padding:2px 10px} .tutbig .s{color:var(--accent);font-weight:800}
 .ubuffs{position:absolute; display:none; flex-direction:column; align-items:flex-end; gap:1px; z-index:45; pointer-events:none; white-space:nowrap} .ubuffs.rt{align-items:flex-start} .ubuffs.on{display:flex}
 .ubuffs .ub{text-shadow:0 0 2px #000,0 0 3px #000,1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000; font-weight:700} .ub{display:flex; align-items:center; gap:4px; font-size:12px; color:#f2f5ff} .ub.bad{color:#ffb0a8} .ub.none{color:var(--muted)} .ub i{width:14px; height:14px; filter:drop-shadow(0 0 1px #000); background-size:contain; image-rendering:pixelated; flex:none} .ub small{color:#c8d0ea; font-size:10.5px; margin-left:1px}
+/* v0.73 화면 디자인 A — 정돈된 밤: 납작하고 깔끔하게, 색으로 구분(판 그라데이션·얇은 빛 테두리·금빛 주요 버튼·알약 탭·메뉴 금빛 세로줄) */
+.topbar{background:linear-gradient(180deg,#121a30,#0d1324)!important; border-bottom:1px solid rgba(255,255,255,.06)!important}
+.chip{background:rgba(255,255,255,.04)!important; border:1px solid rgba(255,255,255,.08)!important; border-radius:999px!important; padding:5px 12px!important; color:#dfe5f7!important}
+.chip b{color:#fff!important}
+.gear{background:rgba(255,255,255,.04)!important; border:1px solid rgba(255,255,255,.08)!important; border-radius:999px!important}
+.gear:hover{background:rgba(255,255,255,.08)!important}
+.rail{background:#0b1020!important; border-right:1px solid rgba(255,255,255,.05)!important; gap:2px!important}
+.rail button{border-radius:12px!important; color:#9aa6c9!important}
+.rail button.on{background:linear-gradient(90deg,rgba(244,201,93,.16),rgba(244,201,93,.04))!important; color:#f4c95d!important; box-shadow:none!important}
+.rail button.on::before{content:""; position:absolute; left:-8px; top:12px; bottom:12px; width:3px; border-radius:2px; background:#f4c95d}
+.panel,.mpanel{background:linear-gradient(180deg,#151c31,#10162a)!important; border:1px solid rgba(255,255,255,.07)!important; box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 30px rgba(0,0,0,.35)!important}
+.mpanel h2,h2.ph{letter-spacing:-.01em}
+.btn{border-radius:12px!important}
+.btn:not(.ghost):not(.retreat):not(.main){background:linear-gradient(180deg,#ffd978,#e9b748)!important; color:#1a1405!important; border:0!important; box-shadow:0 2px 0 #9b7425,inset 0 1px 0 rgba(255,255,255,.4)!important}
+.btn.main{background:linear-gradient(180deg,#ffd978,#e9b748)!important; box-shadow:0 3px 0 #9b7425,inset 0 1px 0 rgba(255,255,255,.45)!important}
+.btn.ghost,.ghostbtn{background:rgba(255,255,255,.03)!important; border:1px solid rgba(255,255,255,.14)!important; color:#dfe5f7!important}
+.shtabs,.coscats,.filters{gap:4px!important}
+.shtabs button,.filters button{background:rgba(255,255,255,.03)!important; border:1px solid rgba(255,255,255,.08)!important; border-radius:999px!important; color:#aeb8da!important}
+.shtabs button.on,.filters button.on{background:#f4c95d!important; border-color:#f4c95d!important; color:#1a1405!important; font-weight:700!important}
+.modal{background:rgba(4,6,12,.72)!important; backdrop-filter:blur(4px)}
+.mpanel h2{padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,.07)}
+.sblock{border-color:rgba(255,255,255,.07)!important}
+.utags .sti{border-radius:50%!important}
+
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.72.1 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.73 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1399,6 +1423,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.73: <b>화면 디자인 새로(A안 — 정돈된 밤)</b> — 판·창은 은은한 그라데이션과 얇은 빛 테두리, 주요 버튼은 금빛·나머지는 투명 테두리, 고른 탭은 금빛 알약, 위쪽 막대 칩은 둥근 알약, 왼쪽 메뉴는 고른 곳에 금빛 세로줄. 창을 열면 뒤쪽이 살짝 흐려집니다.<br>
 v0.72.1: 걸린 효과 글자 자리 — 진형(아군 '>>' · 적 '<<')에 맞춰 위·아래 줄은 아군 오른쪽·적 왼쪽, 가운데 줄은 아군 왼쪽·적 오른쪽에 뜹니다. 그쪽이 다른 캐릭터나 버튼을 가리거나 화면 밖이면 덜 가리는 쪽으로 옮깁니다.<br>
 v0.72: <b>그래픽 다듬기 2차</b> — 배경: 먼 곳은 공기에 바래 흐릿하게, 가까운 곳·가장자리는 조금 어둡게(캐릭터가 더 또렷이). 스킬 이펙트: 도트 둘레로 같은 색 빛이 은은하게 번짐. 장비 아이콘: 위·왼쪽 빛과 부드러운 외곽선. (저사양 모드에서는 배경·이펙트 다듬기가 꺼져 가볍게 돕니다.) <b>걸린 효과 보기</b>는 누른 캐릭터 왼쪽에 투명 배경 글자로 뜹니다(왼쪽에 자리가 없으면 오른쪽).<br>
 v0.71.1: 누르면 보이는 걸린 효과를 영웅 머리 위 대신 <b>전장 위쪽 가운데에 하나만</b> 띄웁니다(휴대폰에서 다른 영웅을 가리지 않게 · 다른 영웅을 누르면 바뀜 · 누르거나 3.5초 뒤 사라짐).<br>
