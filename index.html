@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793538058621"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793539453951"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1321,7 +1321,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.76 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.77 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1333,6 +1333,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 
   <div class="shell">
     <nav class="rail" role="tablist" aria-label="주 메뉴">
+      <button id="tab-home" onclick="goHome()" title="모닥불(대기실)로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1.5 3 4 4.5 4 8a4 4 0 0 1-8 0c0-2 1-3 2-4 0 1.5.8 2.5 2 2.5 0-2.5-1-4 0-6.5zM4 21l16-3M4 18l16 3"/></svg><span id="homeLbl">대기실</span></button>
       <button id="tab-dungeon" onclick="dungeonTab()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V10l7-6 7 6v11M10 21v-6h4v6"/></svg>던전</button>
       <button id="tab-party" onclick="showTab('party',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7a3 3 0 1 0 0.01 0M17 9a2.5 2.5 0 1 0 0.01 0M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 6 2 6 5.5"/></svg>파티<span class="nb" id="ptsDot"></span></button>
       <button id="tab-equip" onclick="showTab('equip',1)" title="장비"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>장비<span class="nb up" id="eqDot" title="가방에 지금보다 더 좋은 장비가 있어요"></span></button>
@@ -1428,6 +1429,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.77: 왼쪽 메뉴 맨 위에 <b>🔥 대기실</b> 버튼 — 어느 탭에서든 한 번에 모닥불로 돌아갑니다(던전 중이면 전장으로). <b>오라 색 고침</b> — 산 오라 색이 별철(+13) 단계에서만 이름대로 보이고 낮은 단계에선 엉뚱한 색(예: 얼음 푸른빛이 황토색)으로 나오던 것을, 어느 단계든 고른 색으로 보이게 했습니다.<br>
 v0.76: <b>배경음악 '위잉' 진동 소리</b> — 전투·보스 곡의 베이스와 북이 41~60Hz의 아주 낮은 소리였는데, 휴대폰 스피커는 이 소리를 내지 못하고 떨기만 해서 진동처럼 들렸습니다. 베이스를 한 옥타브 올리고 튕기듯 줄어들게 바꿨고, 배경음에서 75Hz 아래를 걷어냈습니다.<br>
 v0.75: <b>🎨 꾸미기 모드</b> — 상점 외형 탭의 '🪪 명함 꾸미기'(명함 창의 🎨 꾸미기)와 '🔥 쉼터 꾸미기'에서 스티커·모닥불 장식을 끌어서 옮기고 '확정'하면 그 자리에 그대로 남습니다. <b>무기 외형</b>이 이제 한손검뿐 아니라 지팡이·책·쌍단검·너클·쌍권총·류트에서도 모양까지 바뀝니다. 외형 미리보기를 크게 키웠고, <b>산 오라는 강화가 +0이어도 보입니다</b>(강화가 오르면 더 커짐).<br>
 v0.74: <b>💎 새벽 결정 값 정함</b> — 충전 묶음 6가지(1,200원 💎60 ~ 119,000원 💎7,300, 큰 묶음일수록 덤) · <b>30일 정액 6,600원</b> · <b>아트 패스 유료 트랙 11,000원</b>(이제 💎가 아니라 현금 상품). 결제는 출시 뒤 연결 — 지금은 눌러도 안내만 나옵니다. 배경음악에서 마디마다 들리던 '위잉' 하는 울렁임을 고쳤습니다.<br>
@@ -7059,7 +7061,8 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
     $("tab-"+k).setAttribute("aria-selected",t===k?"true":"false");
     $("body-"+k).hidden=t!==k;
   }
-  if(t==="dungeon"&&!runBusy()&&!$("dpick")) $("tab-dungeon").classList.remove("on");   // 마을(기본 화면)에서는 '던전'이 눌리지 않은 상태
+  if(t==="dungeon"&&!runBusy()&&!$("dpick")) $("tab-dungeon").classList.remove("on");
+  { const hb=$("tab-home"); if(hb){ hb.classList.toggle("on",t==="dungeon"&&!$("dpick")); const l=$("homeLbl"); if(l) l.textContent=runBusy()?"전장":"대기실"; } }   // 마을(기본 화면)에서는 '던전'이 눌리지 않은 상태
   if(t==="party"||t==="equip") renderParty();
   if(t==="shop") renderShop();
   if(t==="traits") renderTraits();
@@ -8525,7 +8528,7 @@ const COSART=(()=>{
   const tintCache={};
   function tintRamp(ramp,id){ const C=COS_BY[id]; if(!C||C.cat!=="aura"||id==="aura_base") return ramp; const key=id+"|"+ramp.map(c=>c.join(",")).join("/"); if(tintCache[key]) return tintCache[key];
     const out=ramp.map(([r,g,b])=>{ r/=255; g/=255; b/=255; const mx=Math.max(r,g,b), mn=Math.min(r,g,b); let h=0,s=0,l=(mx+mn)/2; if(mx!==mn){ const d=mx-mn; s=l>0.5?d/(2-mx-mn):d/(mx+mn); h=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4; h/=6; }
-      h=(h+C.deg/360+1)%1; s=Math.min(1,s*C.sat); l=Math.min(1,l*C.br);
+      h=((((38+C.deg)%360)+360)%360)/360; s=Math.min(1,Math.max(s,0.55)*C.sat); l=Math.min(1,l*C.br);   // v0.77: 색을 '돌리는' 게 아니라 고른 색으로 맞춤(전엔 별철 단계에서만 이름대로 보이고, 낮은 단계에선 엉뚱한 색)
       const q=l<0.5?l*(1+s):l+s-l*s, p2=2*l-q, f=t=>{ t=(t+1)%1; return t<1/6?p2+(q-p2)*6*t:t<1/2?q:t<2/3?p2+(q-p2)*(2/3-t)*6:p2; };
       return s===0?[l,l,l].map(v=>Math.round(v*255)):[f(h+1/3),f(h),f(h-1/3)].map(v=>Math.round(v*255)); });
     return tintCache[key]=out; }
@@ -11112,6 +11115,8 @@ async function checkUpdate(){ try{ if(updBusy||updShown||!/^https?:/.test(locati
     if(m&&cur&&m[1]!==cur){ updShown=true; const b=document.createElement("button"); b.className="updbar"; b.innerHTML=`⟳ 새 버전 ${esc(m[1])}이(가) 있어요 — 눌러서 업데이트`;
       b.onclick=()=>{ location.replace(location.pathname+"?u="+Date.now()); }; document.body.appendChild(b); } }catch(e){} finally{ updBusy=false; } }
 setTimeout(checkUpdate,3000); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") checkUpdate(); });
+// v0.77 왼쪽 메뉴 맨 위 '대기실' — 어느 탭에서든 한 번에 모닥불로(던전 중이면 전장으로)
+function goHome(){ try{ closeModal(); }catch(e){} showTab("dungeon"); }
 function dungeonTab(){
   if(runBusy()||playing||telling){ showTab("dungeon"); return; }
   showTab("dungeon"); openDungeonPicker();
