@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793546219062"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793551154304"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1318,12 +1318,14 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .decohandle{position:fixed; z-index:55; border:2px dashed #ffd27a; border-radius:6px; background:rgba(255,210,122,.08); cursor:grab; touch-action:none}
 .cardedit{position:relative; width:100%; max-width:min(640px,calc((100vh - 150px)*1.6)); margin:0 auto; touch-action:none} .cardedit img{width:100%; display:block; border-radius:8px; user-select:none} .cesti{position:absolute; width:8.75%; transform:translate(-50%,-50%); image-rendering:pixelated; cursor:grab; outline:2px dashed #ffd27a; outline-offset:2px; touch-action:none}
 .field.campfire.arranging .unit{cursor:grab; outline:2px dashed #ffd27a88; outline-offset:2px; border-radius:8px; touch-action:none} .field.campfire.arranging .unit.dragging{cursor:grabbing; outline-color:#ffd27a}
+.dppat{margin-top:8px; padding:8px 10px; border:1px solid #f4c95d66; border-radius:10px; background:#2a220e55; font-size:13px} .dppat>b{color:var(--accent)} .dppat ul{margin:4px 0 0; padding-left:16px; display:flex; flex-direction:column; gap:3px} .dppat li b{color:var(--ink)}
+.r5hint{font-size:12.5px; color:var(--accent); padding:6px 4px 2px; border-top:1px dashed #f4c95d55; margin-top:4px}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.81 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.82 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1431,6 +1433,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.82: <b>⚠ 보스 패턴 · 규칙이 실력이 되도록</b> — 자정부터 장 보스가 행동을 예고합니다(✴ 강공 예고 · 🛡 보호막 · ✚ 회복 의식 · 🪞 반격 자세 · 🔥 격노). 전투 중에 손대는 게 아니라, 막 고르기 창의 보스 정보를 보고 새 조건(보스가 강공 준비 중 · 보호막 중 · 회복 의식 중 · 반격 자세 중 · 보스 체력 50% 이하)으로 대응 규칙을 미리 짜 두는 방식입니다. 자정이 열리면 규칙이 <b>5칸</b>이 됩니다(5번째 칸은 보스 대응용으로 쓰기 좋음). 지면 무엇에 대응하지 못했는지 알려 줍니다. 난이도도 다시 맞췄습니다 — 황혼은 기본 규칙으로 장마다 4~6판, 자정은 대응 규칙으로 9판 안팎, 영원한 밤은 15판 안팎(대응하지 않으면 훨씬 오래 막힘).<br>
 v0.81: <b>황혼 난이도 고르게</b> — 이야기를 따라가며 적당한 반복으로 깰 수 있게, 장마다 평균 4~6판(마지막 장 9판 안팎)이 되도록 맞췄습니다. 2장·5장·8장·10장의 높은 벽을 낮추고 4장은 조금 올렸습니다. 자정 1·2장도 그만큼 낮췄습니다.<br>
 v0.80: 모닥불 장식 자리는 이제 대기실 <b>✥ 배치</b>에서 영웅과 함께 옮깁니다(상점의 쉼터 꾸미기 버튼은 없앰). 장비 탭의 '여러 개 골라 정리'(분해·판매)는 다른 탭으로 나가면 꺼지고 원래대로 돌아옵니다.<br>
 v0.79: 대기실 아래쪽 <b>✥ 배치</b> 버튼 — 영웅을 끌어서 원하는 자리에 두고 '확정'하면 그 자리에 그대로 남습니다('처음 자리'로 되돌리기). 장비·강화를 바꾸고 대기실로 돌아오면 오라·외형이 바로 반영됩니다(전엔 다시 들어와야 보였음). 오라 색은 강화 오라가 나오는 평균 +4부터 입혀집니다.<br>
@@ -1879,6 +1882,11 @@ const COND = [
   {label:"기절·약화·띄움된 적 존재",type:"enemy_cc",value:0},
   {label:"내 내공 15% 이상",type:"self_inner_gte",value:15,res:"mom"},
   {label:"놓아 둔 화약통 없음",type:"no_keg",value:0,res:"ammo"},
+  {label:"보스가 강공 준비 중",type:"boss_charge",value:0},     // v0.82 보스 패턴(자정부터) — 예고를 보고 미리 짜 둔 규칙으로 대응
+  {label:"보스가 보호막 중",type:"boss_barrier",value:0},
+  {label:"보스가 회복 의식 중",type:"boss_ritual",value:0},
+  {label:"보스 체력 50% 이하",type:"boss_hp_below",value:50},
+  {label:"보스가 반격 자세 중",type:"boss_reflect",value:0},
 ];
 function debuffed(x){ return !!(x.dots.burn||x.dots.poison||x.dots.frost||x.dots.bleed||(x.buffs.atk&&x.buffs.atk.value<0)||x.buffs.stun||x.buffs.silence||x.buffs.blind||x.buffs.fear||x.buffs.vuln||x.buffs.brand||x.buffs.air||x.buffs.mark); }
 const TARGET = ["자동","체력 비율이 가장 낮은 적","무작위 적","체력 비율이 가장 높은 적","앞줄 적 우선","체력 비율이 가장 낮은 아군","자신","무작위 아군","독이 가장 많이 쌓인 적","표식된 적 우선","띄운 적 우선","공격력이 가장 높은 아군"];   // v0.35: 이름을 분명하게(체력은 남은 비율 기준)
@@ -2376,9 +2384,9 @@ const DIFFS=[
 ];
 // 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06
 const DIFF_SCALE=[
-  [{hp:1.327,atk:0.973},{hp:0.986,atk:1.277},{hp:0.503,atk:1.195},{hp:1.039,atk:0.91},{hp:0.38,atk:1.586},{hp:0.895,atk:1.824},{hp:0.805,atk:1.987},{hp:1.006,atk:1.86},{hp:0.973,atk:2.392},{hp:0.292,atk:2.558}],   // v0.81 황혼: 이야기 보며 적당한 반복으로 — 장마다 평균 4~6판(봇 보정)
-  [{hp:20.117,atk:17.182},{hp:18.823,atk:21.922},{hp:19.497,atk:21.439},{hp:24.398,atk:17.562},{hp:7.297,atk:31.749},{hp:17.938,atk:20.384},{hp:14.662,atk:15.469},{hp:20.926,atk:19.077},{hp:9.966,atk:27.727},{hp:9.654,atk:26.187}],   // v0.81 자정 1·2장: 황혼이 쉬워져 낮은 레벨로 오므로 낮춤
-  [{hp:334.942,atk:165.443},{hp:144.849,atk:187.372},{hp:171.169,atk:97.33},{hp:168.458,atk:82.573},{hp:93.288,atk:121.723},{hp:167.754,atk:123.834},{hp:121.397,atk:80.718},{hp:78.828,atk:164.151},{hp:47.32,atk:153.97},{hp:27.5,atk:159.5}]
+  [{hp:1.327,atk:0.973},{hp:0.949,atk:1.248},{hp:0.51,atk:1.204},{hp:0.952,atk:0.863},{hp:0.33,atk:1.456},{hp:0.686,atk:1.554},{hp:0.712,atk:1.847},{hp:0.842,atk:1.671},{hp:0.753,atk:2.052},{hp:0.286,atk:2.524}],   // v0.82 황혼: 기본 규칙으로 장마다 평균 4~6판(봇 보정)
+  [{hp:19.026,atk:16.617},{hp:11.267,atk:16.112},{hp:7.189,atk:11.785},{hp:10.336,atk:10.495},{hp:1.878,atk:14.054},{hp:2.873,atk:6.791},{hp:3.677,atk:6.743},{hp:2.323,atk:5.103},{hp:2.047,atk:10.724},{hp:1.057,atk:6.94}],   // v0.82 자정: 보스 패턴에 대응하는 규칙(5번째 칸)으로 장마다 평균 9판 안팎
+  [{hp:50.004,atk:52.851},{hp:38.354,atk:84.411},{hp:24.469,atk:30.29},{hp:21.806,atk:24.214},{hp:10.056,atk:31.981},{hp:17.236,atk:31.617},{hp:8.614,atk:16.501},{hp:25.636,atk:83.667},{hp:18.876,atk:88.695},{hp:14.198,atk:107.267}]   // v0.82 영원한 밤: 보스 패턴 대응 규칙으로 장마다 평균 15~18판
 ];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
@@ -2413,6 +2421,35 @@ const IMMUNE_OF={"기절":"cc","공포":"cc","침묵":"cc","화상":"burn","독"
 const REGION_WARDS={ swamp:["im_poison","im_blind","rs_aoe"], volcano:["im_burn","rs_crit","im_cc"], sunken:["im_blind","im_bleed","rs_aoe"], forest:["im_weak","im_poison","rs_crit"],
   gold:["rs_pen","im_bleed","im_cc"], desert:["im_burn","im_poison","rs_aoe"], temple:["im_burn","im_blind","im_cc"], citadel:["im_cc","rs_aoe","im_weak"],
   throne:["im_weak","rs_crit","rs_pen"], altar:["im_burn","rs_aoe","rs_crit"] };
+/* ================= v0.82 보스 패턴 — 자정부터 장 보스가 행동을 예고하고, 미리 짜 둔 규칙으로 대응해야 함 =================
+   charge 강공 예고: 한 명을 노리고 힘을 모음 → 다음 차례에 그 영웅 최대 체력의 큰 비율로 일격. 도발한 영웅이 있으면 그쪽이 맞음(방패·보호막으로 줄임). 기절·빙결로 끊김
+   barrier 보호막: 큰 보호막 → 2턴 안에 못 깨면 체력 회복 + 공격력 상승. 깨면 1턴 휘청
+   ritual 회복 의식: 다음 차례까지 체력을 일정 이상 못 깎으면 크게 회복. 깎으면 끊기고 휘청
+   rage 상태이상 분노: 상태이상(독·화상·기절·약화…)이 걸릴 때마다 공격력 +12%(5번까지) — 이 보스에겐 상태이상 규칙을 빼는 편이 나음
+   phase 격노: 체력 50% 아래로 떨어지면 패턴이 더 자주 옴 */
+const BOSS_PAT_INFO={charge:{icon:"✴",n:"강공 예고",tip:"한 명을 노려 힘을 모은 뒤 큰 일격 — 도발·방패·보호막 또는 기절로 대응 (조건: 보스가 강공 준비 중)"},
+  barrier:{icon:"🛡",n:"보호막",tip:"2턴 안에 보호막을 못 깨면 회복하고 강해짐 · 광역기는 잘 안 먹힘 — 단일 강공격을 몰아서 (조건: 보스가 보호막 중)"},
+  ritual:{icon:"✚",n:"회복 의식",tip:"다음 차례까지 체력을 일정 이상 깎지 못하면 크게 회복 · 광역기는 잘 안 먹힘 — 단일 집중 공격 (조건: 보스가 회복 의식 중)"},
+  rage:{icon:"☠",n:"상태이상 분노",tip:"상태이상이 걸릴 때마다 공격력 +12% — 이 보스에겐 독·화상·기절·약화 규칙을 빼는 편이 나음"},
+  reflect:{icon:"🪞",n:"반격 자세",tip:"다음 차례까지 공격하지 않고 버티며, 받은 피해를 때린 영웅에게 크게 되돌려 줌 — 그동안은 공격 대신 방어·치유·강화 기술을 (조건: 보스가 반격 자세 중)"},
+  phase:{icon:"🔥",n:"격노",tip:"체력 50% 아래로 떨어지면 패턴이 더 자주 옴 (조건: 보스 체력 50% 이하)"}};
+// [난이도][장] — 황혼은 10장 보스만 맛보기(강공 약하게)
+const BOSS_PATS=[
+  [[],[],[],[],[],[],[],[],[],["charge"]],
+  [["charge"],["barrier"],["ritual"],["charge"],["reflect"],["barrier"],["ritual","charge"],["reflect","barrier"],["charge","ritual"],["barrier","charge"]],
+  [["charge","phase"],["barrier","ritual"],["reflect","charge"],["ritual","barrier","phase"],["charge","reflect"],["barrier","charge","phase"],["ritual","reflect"],["charge","barrier","phase"],["reflect","ritual","charge"],["charge","barrier","ritual","phase"]]];
+const BOSS_PAT_K=[{hit:0.8,shield:0.06,heal:0.18,rit:0.06,ref:0.5,every:5},{hit:1.2,shield:0.1,heal:0.25,rit:0.07,ref:0.7,every:4},{hit:1.5,shield:0.13,heal:0.3,rit:0.08,ref:0.9,every:4}];   // 강공: 노린 영웅 최대 체력 × hit(막지 않으면 쓰러짐)
+// v0.82 패배 뒤: 보스 패턴에 얼마나 대응했는지 → 고칠 점
+function patWhy(P){ if(!P) return ""; const out=[];
+  const f=(k,txt)=>{ const o=P[k]; if(o&&o.fail>0) out.push(txt(o)); };
+  f("charge",o=>`✴ 강공을 ${o.fail}번 그대로 맞음(막음 ${o.ok}) — '보스가 강공 준비 중' 조건에 도발·방패 올리기·보호막을 걸어 두세요`);
+  f("barrier",o=>`🛡 보호막을 ${o.fail}번 못 깸(깸 ${o.ok}) — '보스가 보호막 중' 조건에 가장 센 공격 기술을 걸어 두세요`);
+  f("ritual",o=>`✚ 회복 의식을 ${o.fail}번 못 끊음(끊음 ${o.ok}) — '보스가 회복 의식 중' 조건에 강한 공격을 몰아 두세요`);
+  f("reflect",o=>`🪞 반격 자세 때 ${o.fail}번 공격해 되돌려 받음 — '보스가 반격 자세 중' 조건에 방어·치유·강화 기술을 걸어 두세요`);
+  if(P.rage&&P.rage.fail>=2) out.push(`☠ 상태이상으로 보스를 ${P.rage.fail}번 분노시킴 — 이 보스에겐 독·화상·기절·약화 규칙을 빼 보세요`);
+  return out.join(" · "); }
+function bossPatsFor(d,rk){ const c=REGION_KEYS.indexOf(rk); return c<0?[]:((BOSS_PATS[d]||[])[c]||[]); }
+function bossPatText(pats){ return pats.map(k=>BOSS_PAT_INFO[k].icon+" "+BOSS_PAT_INFO[k].n).join(" · "); }
 function wardsFor(d,rk,big){ const w=REGION_WARDS[rk]; if(!w||!d) return []; return w.slice(0,Math.min(3,d+(big?1:0))); }
 
 function pickAffixes(n){ const pool=[...AFFIX_KEYS], out=[]; while(out.length<n&&pool.length) out.push(pool.splice(ri(0,pool.length-1),1)[0]); return out; }
@@ -2488,6 +2525,7 @@ function buildMobUnit(spec,idx,d,rk){
   const skills=[...new Set(m.rules.map(r=>r.skill))];
   const u=makeUnit(`${spec.key}_${idx}`,name,"enemy",m.row,st,skills,m.rules.map(r=>({...r})),m.passive||"",m.sprite,!!(m.boss||spec.chief||spec.finalBoss),[],(spec.finalBoss||spec.named)?(m.quotes||null):null);
   u.isBossKind=!!(m.boss||spec.finalBoss||spec.named); if(m.mech) u.mech=m.mech;   // v0.64 낙성의 사도 고유 패턴
+  if(m.boss&&!m.mech){ const P=bossPatsFor(d,rk); if(P.length){ u.pats=P.slice(); u.patK=BOSS_PAT_K[d]||BOSS_PAT_K[0]; } }   // v0.82 장 보스 패턴
   u.finalBoss=!!spec.finalBoss; u.named=!!spec.named;
   if(u.isBossKind){ u.lane=Number.isInteger(m.lane)?m.lane:(m.row==="back"?2:1); u.lanePin=true; }   // v0.43: 보스는 정해진 가로줄에 — 그 줄의 영웅을 노리는 기술을 미리 읽을 수 있게
   u.tint=m.tint||""; u.elite=!!(spec.elite||spec.chief); u.affixes=spec.affixes||[]; if(spec.twin) u.twin=true;
@@ -4427,6 +4465,7 @@ class Sim {
   // 적에게 상태이상이 걸렸을 때 — 광대의 공명, 철주먹 서약 추격
   onDebuff(att,def,kind){
     if(!def.alive) return;
+    if(def.pats&&def.pats.includes("rage")&&att&&att.side!==def.side&&(def._rageN||0)<5){ def._rageN=(def._rageN||0)+1; def.atk=Math.round(def.atk*1.12); this.patStat("rage",false); this.events.push({type:"log",text:`☠ ${def.name}이(가) 상태이상에 분노한다 — 공격력 +12% (${def._rageN}/5)`}); }   // v0.82
     for(const j of this.units) if(j.alive&&j.side!==def.side&&this.hasPassive(j,"audience")){
       if(j._audTurn!==this.turn){ j._audTurn=this.turn; j._audN=0; }
       if(j._audN<3&&j._res<(j.resMax||10)){ j._audN++; j._res++; }
@@ -4528,6 +4567,11 @@ class Sim {
       case "enemy_cc": return this.foes(u).some(f=>this.ccd(f));
       case "self_inner_gte": return u.hp_max>0&&(u._inner||0)/u.hp_max*100>=v;
       case "no_keg": return !Object.values(this.kegs[this.opp(u.side)]).some(k=>k.owner===u.id);
+      case "boss_charge": return this.foes(u).some(f=>f._pat==="charge");
+      case "boss_barrier": return this.foes(u).some(f=>f._pat==="barrier");
+      case "boss_ritual": return this.foes(u).some(f=>f._pat==="ritual");
+      case "boss_reflect": return this.foes(u).some(f=>f._pat==="reflect");
+      case "boss_hp_below": return this.foes(u).some(f=>f.isBossKind&&this.hpPct(f)<=v);
     } return false; }
   rulePasses(u,r){ const a=this.cond(u,r.c1|0);
     if(r.logic===1) return a&&this.cond(u,r.c2|0);
@@ -4821,6 +4865,8 @@ class Sim {
   }
   hit(target,dmg,fx,extra){
     let d=dmg, absorbed=0;
+    if((target._pat==="barrier"||target._pat==="ritual")&&this._curSkill&&this._curSkill.aoe&&this._actor&&this._actor.side!==target.side) d=Math.max(1,Math.floor(d*0.35));
+    if(target._pat==="reflect"&&!this._reflecting&&this._actor&&this._actor.alive&&this._actor.side!==target.side&&d>1){ const A=this._actor; target._refHit=(target._refHit||0)+1; this._reflecting=true; this.hit(A,Math.max(1,Math.floor(d*target.patK.ref)),fx,{label:"🪞 반격"}); this._reflecting=false; }   // v0.82   // v0.82 보호막·회복 의식 중엔 광역기가 잘 안 먹힘 — 단일 강공격으로
     if(!this._intercepting&&d>1){
       const g=this.units.find(x=>x.alive&&x!==target&&x.side===target.side&&x.buffs.intercept&&this.hpPct(x)>40);
       if(g){ const share=Math.floor(d*g.buffs.intercept.value); d-=share;
@@ -4907,7 +4953,9 @@ class Sim {
     if(def.buffs[key]&&def.buffs[key].value>=value&&def.buffs[key].turns>=turns) return false;
     if((key==="fear"||key==="stun")&&this.ccImmune(def)){ if(def.immune&&def.immune.cc) fx.push(this.fxBuff(def,`${label} 면역`)); return false; }
     if(this.resisted(def,fx,label)) return false;
-    def.buffs[key]={turns,value,label}; fx.push(this.fxBuff(def,label)); this.onDebuff(att,def,key==="stun"?"cc":key); return true;
+    def.buffs[key]={turns,value,label}; fx.push(this.fxBuff(def,label)); this.onDebuff(att,def,key==="stun"?"cc":key);
+    if(key==="stun"&&def._pat==="charge"){ def._pat=null; def._prep=false; this.patStat("charge",true); fx.push(this.fxBuff(def,"✴ 강공이 끊겼다")); }   // v0.82
+    return true;
   }
   setBleed(att,def,ratio,turns,label,fx){
     if(!def.alive||def.dots.bleed) return;
@@ -5246,6 +5294,9 @@ class Sim {
     for(const e of (u.engraves||[])) if(e.cd>0) e.cd--;
     this.runEngraves(u);
     if(u.buffs.fear&&this.rand()<u.buffs.fear.value){ this.events.push({type:"log",text:`${u.name}은(는) 공포에 질려 움직이지 못한다!`}); u._lastCrit=false; return; }
+    if(u.side==="enemy"&&u._pat==="reflect"){ u._pat=null; this.patStat("reflect",!u._refHit); this.events.push({type:"log",text:`${u.name}이(가) 반격 자세를 푼다.`}); return; }   // v0.82 반격 자세 동안 보스도 공격하지 않음 — 다음 차례에 풀림
+    if(u.side==="enemy"&&u._prep){ u._prep=false; this.events.push({type:"log",text:`${u.name}이(가) ${u._pat==="ritual"?"의식을 올린다":"힘을 모은다"}…`}); return; }   // v0.82 예고한 차례
+    if(u.side==="enemy"&&u._pat&&(u._pat==="charge"||u._pat==="ritual")&&this.bossPatAct(u)) return;   // v0.82
     const act=this.pickAction(u);
     const {skill,targets}=act;
     if(!targets.length){ this.events.push({type:"log",text:`${u.name}: 행동할 대상이 없다.`}); return; }
@@ -5503,6 +5554,34 @@ class Sim {
   // 행동 순서: 띄움·휘청이면 맨 뒤, 군악사 오라 아래 앞줄은 신속 +2
   /* v0.64 낙성의 사도 — 장막(veil): 1·5·9…턴에 최대 체력 25% 장막을 두르고, 2턴 뒤까지 못 깨면 '장막 붕괴'(아군 전체 최대 체력 45%) · 깨면 사도가 1턴 휘청(기절)
      되감기(rewind): 3·5·7…턴 시작에, 2턴 전보다 체력이 최대 체력 15%만큼 줄지 않았으면 그때로 되감음 */
+  // v0.82 보스 패턴: 턴 시작에 예고·판정
+  patStat(k,ok){ const S=this.patStats=this.patStats||{}; const o=S[k]||(S[k]={ok:0,fail:0}); if(ok) o.ok++; else o.fail++; }
+  patEv(u,name,fx){ this.events.push({type:"action",auto:true,actor:u.id,actorName:u.name,side:u.side,ruleNo:0,ruleText:"",skillName:name,actorMp:u.mp,effects:fx||[]}); }
+  bossPatTurn(){ for(const u of this.units){ if(!u.alive||u.side!=="enemy"||!u.pats) continue; const t=this.turn, K=u.patK;
+      if(u._pat==="barrier"&&t>=u._patAt+2){ u._pat=null;
+        if(u.shield>0){ u.shield=0; const hv=Math.floor(u.hp_max*K.heal*0.6); u.hp=Math.min(u.hp_max,u.hp+hv); u.atk=Math.round(u.atk*1.15); this.patStat("barrier",false);
+          this.patEv(u,"🛡 보호막 폭주",[{target:u.id,kind:"heal",amount:hv,crit:false,killed:false,hp:u.hp,mp:u.mp,label:"회복 · 공격력 +15%"}]); }
+        else { u.buffs.stun={turns:1,value:0,label:"기절"}; this.patStat("barrier",true); this.patEv(u,"🛡 보호막이 깨졌다",[this.fxBuff(u,"휘청 — 1턴 기절")]); } }
+      if(u.pats.includes("phase")&&!u._phase&&this.hpPct(u)<=50){ u._phase=true; this.patEv(u,"🔥 격노",[this.fxBuff(u,"패턴이 더 자주 온다")]); }
+      const every=Math.max(2,K.every-(u._phase?1:0)); const act=u.pats.filter(k=>k!=="rage"&&k!=="phase");
+      if(!u._pat&&act.length&&t>=2&&(t-2)%every===0){ const k=act[(u._patN=(u._patN||0)+1)%act.length]; u._pat=k; u._patAt=t;
+        if(k==="charge"||k==="ritual") u._prep=true;   // 예고한 이번 차례는 힘을 모으느라 쉼
+        if(k==="charge"){ const ps=this.units.filter(x=>x.alive&&x.side==="party").sort((a,b)=>a.hp-b.hp); u._patT=ps[0]; if(!u._patT){ u._pat=null; u._prep=false; continue; }
+          this.patEv(u,"✴ 강공 예고",[this.fxBuff(u._patT,`${u.name}이(가) 노린다 — 다음 차례에 강공`)]); }
+        if(k==="barrier"){ u.shield=Math.max(u.shield||0,Math.floor(u.hp_max*K.shield)); this.patEv(u,"🛡 보호막",[this.fxBuff(u,`보호막 ${u.shield} — ${t+2}턴 전에 깨지 못하면 폭주`)]); }
+        if(k==="reflect"){ u._refHit=0; this.patEv(u,"🪞 반격 자세",[this.fxBuff(u,`다음 차례까지 받은 피해의 ${Math.round(K.ref*100)}%를 때린 영웅에게 되돌려 줌`)]); }
+        if(k==="ritual"){ u._ritHp=u.hp; this.patEv(u,"✚ 회복 의식",[this.fxBuff(u,`다음 차례까지 체력 ${Math.floor(u.hp_max*K.rit)}을 깎지 못하면 크게 회복`)]); } } } }
+  // 보스 차례에 강공·회복 의식 판정(true면 이번 차례 끝)
+  bossPatAct(u){ const K=u.patK;
+    if(u._pat==="charge"){ u._pat=null; const tn=this.units.find(x=>x.alive&&x.side==="party"&&x.buffs.taunt); let tg=tn||(u._patT&&u._patT.alive?u._patT:null);
+      if(!tg) tg=this.units.filter(x=>x.alive&&x.side==="party").sort((a,b)=>a.hp-b.hp)[0]; if(!tg) return true;
+      const red=Math.min(0.8,(tn?0.6:0)+(tg.buffs.def&&tg.buffs.def.value>0?tg.buffs.def.value:0)+(tg.buffs.ward?tg.buffs.ward.value:0)); /* 도발로 받아내면 피해 절반 */ const fx=[]; const pa=this._actor; this._actor=u;
+      this.hit(tg,Math.max(1,Math.floor(tg.hp_max*K.hit*(1-red))),fx,{label:"✴ 강공"}); this._actor=pa; this.patStat("charge",tg.alive);
+      this.patEv(u,"✴ 강공"+(tn?` — ${tn.name}이(가) 도발로 받아냄`:""),fx); return true; }
+    if(u._pat==="ritual"){ u._pat=null; const dealt=(u._ritHp||u.hp)-u.hp;
+      if(dealt>=u.hp_max*K.rit){ this.patStat("ritual",true); this.patEv(u,"✚ 의식이 끊겼다",[this.fxBuff(u,"휘청 — 이번 차례를 쉰다")]); return true; }
+      const hv=Math.floor(u.hp_max*K.heal); u.hp=Math.min(u.hp_max,u.hp+hv); this.patStat("ritual",false); this.patEv(u,"✚ 회복 의식 완성",[{target:u.id,kind:"heal",amount:hv,crit:false,killed:false,hp:u.hp,mp:u.mp,label:"회복"}]); return true; }
+    return false; }
   envoyTurn(){ for(const u of this.units){ if(!u.alive||u.side!=="enemy"||!u.mech) continue; const t=this.turn;
       if(u.mech==="veil"){
         if(u._veilAt&&t===u._veilAt+2){ u._veilAt=0;
@@ -5565,6 +5644,7 @@ class Sim {
       }
       this.turnStart();
       this.envoyTurn();   // v0.64 낙성의 사도 고유 패턴
+      this.bossPatTurn();   // v0.82 장 보스 패턴
       if(this.law==="abyss"||(Array.isArray(this.law)&&this.law.includes("abyss"))){ const R=["silence","reverse","mirror","twins"]; this._abLaw=R[(this.turn-1)%4]; const L=ABYSS_LAWS[this._abLaw]; this.events.push({type:"log",text:`🌑 심연의 법칙 — 이번 턴은 ${L.icon} ${L.n}: ${L.d}`}); }
       this.turnStart26();
       for(const u of this.units) if(u.alive&&u._hasteTurns){ if(--u._hasteTurns===0) u.spd-=4; }
@@ -5634,7 +5714,7 @@ class Sim {
       u._rec={kills:u._killsTotal||0,bossKills:u._bossKills||0,crits:u._critsTotal||0,healed:u._healDone||0,dmgTaken:u._dmgTaken||0,counters:u._counters||0,
         lowSurvive:(u.alive&&this.hpPct(u)<=20)?1:0, soloWins:(result==="win"&&alive.length===1&&alive[0]===u)?1:0, fell:u._fell?1:0, battles:1, skillUse:u._skillUse||{}};
     }
-    this.events.push({type:"end",result,turns:this.turn,max:this.maxTurn});
+    this.events.push({type:"end",result,turns:this.turn,max:this.maxTurn,pat:this.patStats||null});
     return this.events;
   }
 }
@@ -6392,7 +6472,7 @@ function rowPicker(cid){
 }
 function heroRuleCount(cid){ if(TUT.ruleLock(cid)) return TUT.openCount(); return heroRuleCountFull(cid); }
 const RULE_SLOTS=4;   // v0.35: 규칙 칸 4개(각성으로 늘지 않음) — 기본공격은 아무 규칙도 안 맞을 때 저절로
-function heroRuleCountFull(cid){ return RULE_SLOTS; }
+function heroRuleCountFull(cid){ return RULE_SLOTS+((typeof progress!=="undefined"&&progress&&progress.diffMax>=1)?1:0); }   // v0.82 자정이 열리면 5번째 칸(보스 대응용)
 function ensureRuleSlots(cid){
   const n=heroRuleCount(cid); const rules=partyRules[cid]; const basic=CLASSES[cid].skills[0];
   if(rules.length>n){   // 예전 6~9칸 → 4칸: 켜 둔 규칙(맨 끝 '항상 기본공격'은 빼고)을 위에서부터 남김
@@ -6712,7 +6792,7 @@ function heroStance(cid){ const s=(progress.heroes[cid]||{}).stance; return STAN
 function stanceLetter(st){ return {atk:"a",surv:"s",supp:"p"}[st]; }
 const LOCK_CONDS=new Set([...Object.values(RUNES).map(r=>r.cond),...Object.values(RELICS).map(r=>r.cond)]);
 function companionRules(cid){
-  const st=heroStance(cid), L=stanceLetter(st), skills=classSkills(cid), n=heroRuleCount(cid), basic=CLASSES[cid].skills[0];
+  const st=heroStance(cid), L=stanceLetter(st), skills=classSkills(cid), n=heroRuleCount(cid), basic=CLASSES[cid].skills[0], nAuto=Math.min(n,RULE_SLOTS);   // 자동으로 짜는 건 4칸까지(5번째는 보스 대응용으로 비워 둠)
   const cand=[], used=new Set(); let unl=null;
   for(const [sk,c1,lg,c2,t,who] of COMPANION.rules[cid]){
     if(!who.includes(L)||!skills.includes(sk)||used.has(sk)||sk===basic) continue;
@@ -6721,7 +6801,7 @@ function companionRules(cid){
   }
   // v0.35: 4칸에 넣을 스킬 — 원래 우선순위 + 파티와 맞물리는 연계(🔗)
   const party=(typeof battleIds==="function")?battleIds():partyIds();
-  const pick=cand.map((r,i)=>({r,i,s:-i+3*synPartners(r.skill,party,cid)})).sort((a,b)=>b.s-a.s).slice(0,n).sort((a,b)=>a.i-b.i).map(x=>x.r);
+  const pick=cand.map((r,i)=>({r,i,s:-i+3*synPartners(r.skill,party,cid)})).sort((a,b)=>b.s-a.s).slice(0,nAuto).sort((a,b)=>a.i-b.i).map(x=>x.r);
   const out=pick; while(out.length<n) out.push({enabled:false,c1:0,logic:0,c2:0,skill:basic,target:0});
   return out;
 }
@@ -9884,6 +9964,7 @@ function renderRules(){
     mv.append(up,dn);
     if(ro) for(const x of [chk,c1,lg,c2,sk,tg,up,dn]) x.disabled=true;
     row.append(rnum,body,mv);
+    if(i===RULE_SLOTS){ const h=document.createElement("div"); h.className="r5hint"; h.innerHTML="⚠ <b>5번째 칸</b> — 자정부터 열림 · 보스 패턴 대응(보스가 강공 준비 중 · 보호막 중 · 회복 의식 중 · 반격 자세 중)에 쓰면 좋아요"; list.appendChild(h); }   // v0.82
     list.appendChild(row);
   });
   if(TUT.ruleLock(selected)){   // v0.33 규칙 교실: 아직 잠긴 칸
@@ -11650,8 +11731,9 @@ function bossInfoHTML(rk,a){ try{
     const cond=COND[r.c1|0]?COND[r.c1|0].label:"항상", tg=S.tags.filter(t=>t.c==="tgt"||t.c==="rng").map(t=>t.t).join("·");
     const eff=[S.main].concat(S.rows.filter(x=>x.k==="st").map(x=>x.t)).filter(Boolean).join(" · ");
     return `<li><i>${esc(cond)}</i><b>${esc(S.name)}</b><span>${tg?`<em>${esc(tg)}</em> `:""}${esc(eff)}</span></li>`; }).join("");
-  const small=innerHeight<=560;
-  return `<details class="dpboss"${small?"":" open"}><summary><img src="${SPRITES[B.sprite]}" alt=""><b>${esc(a<3?"중간보스":"보스")} ${esc(B.name)}</b><span>쓰는 기술 ${B.rules.filter(r=>r.skill!=="basic_attack").length}개</span></summary><ul>${rows}</ul></details>`;
+  const small=innerHeight<=560; const PT=a===3?bossPatsFor(progress.diff,rk):[];
+  const pat=PT.length?`<div class="dppat"><b>⚠ 보스 패턴</b> — 예고를 보고 대응하도록 규칙을 미리 짜 두세요<ul>${PT.map(k=>`<li><b>${BOSS_PAT_INFO[k].icon} ${esc(BOSS_PAT_INFO[k].n)}</b> ${esc(BOSS_PAT_INFO[k].tip)}</li>`).join("")}</ul></div>`:"";   // v0.82
+  return pat+`<details class="dpboss"${small?"":" open"}><summary><img src="${SPRITES[B.sprite]}" alt=""><b>${esc(a<3?"중간보스":"보스")} ${esc(B.name)}</b><span>쓰는 기술 ${B.rules.filter(r=>r.skill!=="basic_attack").length}개</span></summary><ul>${rows}</ul></details>`;
 }catch(e){ return ""; } }
 function dpSetEg(k){ progress.egMode=k; saveProgress(); goCamp(); renderDungeonPicker(); }
 function dpEnter(){ closeModal(); mainButton(); setMainBtn(); }
@@ -11772,6 +11854,7 @@ async function runBattle(z){
   const sim=new Sim(runState.party,enemies,seed); if(z.law) sim.law=z.law; if(z.tut) TUT.afterSim();   // v0.62 심연 법칙(혼자)
   if(z.envoy){ const E=FALL_ENVOYS.find(x=>x.key===z.envoy); logLine(`<span class="sk">🌠 ${esc(E.name)} — ${esc(E.tip)}</span>`); if(!instantMode()) showBanner(`<span class="txt narr">🌠 ${esc(z.label)}<br><small>${esc(E.tip)}</small></span>`, 2600); }
   spawnField(sim.units);
+  { const PB=sim.units.find(u=>u.side==="enemy"&&u.pats); if(PB) logLine(`<span class="sk">⚠ ${esc(PB.name)}의 패턴 — ${PB.pats.map(k=>`${BOSS_PAT_INFO[k].icon} ${esc(BOSS_PAT_INFO[k].n)}`).join(" · ")}</span>`); }   // v0.82
   if(z.law){ const LL=(Array.isArray(z.law)?z.law:[z.law]).map(k=>ABYSS_LAWS[k]); for(const L of LL) logLine(`<span class="sk">${L.icon} 법칙 — ${L.n}: ${esc(L.d)}</span>`);
     if(!instantMode()) await showBanner(`<span class="txt narr">${esc(z.label)}<br><small>${LL.map(L=>`${L.icon} ${esc(L.n)} — ${esc(L.d)}`).join("<br>")}</small></span>`, 2400); }
   saveProgress();   // v0.55.1: 전투에 들어간 상태로 저장 — 첫 구역 도중에 앱이 꺼지면 던전(과 쓴 횃불)이 통째로 사라지던 문제
@@ -11997,7 +12080,7 @@ function endZoneBattle(ev,zone){
   } else if(ev.result==="lose"){
     const kept=runRestoreKeepItems(runState.bank,runState.gains.exp);
     logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 골드 ${runState.gains.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
-    logLine(`<span class="r">능력치·장비·스킬북·규칙 — 네 가지 중 무엇이든 강해질 길이 있습니다.</span>`);
+    { const why=patWhy(ev.pat); if(why) logLine(`<span class="r">🔎 패배 원인 — ${why}</span>`); else logLine(`<span class="r">능력치·장비·스킬북·규칙 — 네 가지 중 무엇이든 강해질 길이 있습니다.</span>`); }
     $("result").textContent=`패배 — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
     saveProgress();
     goCamp();
@@ -12962,6 +13045,7 @@ async function coopBattle(run,z){
   const sim=new Sim(run.party,enemies,seed); if(z.law) sim.law=z.law;   // v0.59 밤의 심연 법칙
   if(z.envoy){ const E=FALL_ENVOYS.find(x=>x.key===z.envoy); logLine(`<span class="sk">🌠 ${esc(E.name)} — ${esc(E.tip)}</span>`); }
   spawnField(sim.units);
+  { const PB=sim.units.find(u=>u.side==="enemy"&&u.pats); if(PB) logLine(`<span class="sk">⚠ ${esc(PB.name)}의 패턴 — ${PB.pats.map(k=>`${BOSS_PAT_INFO[k].icon} ${esc(BOSS_PAT_INFO[k].n)}`).join(" · ")}</span>`); }   // v0.82
   if(z.law){ const LL=(Array.isArray(z.law)?z.law:[z.law]).map(k=>ABYSS_LAWS[k]); for(const L of LL) logLine(`<span class="sk">${L.icon} ${z.floor}층의 법칙 — ${L.n}: ${esc(L.d)}</span>`);
     if(!instantMode()&&!(!COOP.isHost&&coopHostZone()!=null&&coopHostZone()>run.z)) await showBanner(`<span class="txt narr">${esc(z.label)}<br><small>${LL.map(L=>`${L.icon} ${esc(L.n)} — ${esc(L.d)}`).join("<br>")}</small></span>`, 2400); }
   logLine(`<span class="r">[전투 시작] 적 ${enemies.length}마리 · 난수 시드 ${seed} (모두 같음)</span>`);
