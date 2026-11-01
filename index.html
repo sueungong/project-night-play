@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793544433408"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793545109304"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1323,7 +1323,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.79 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.80 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1431,6 +1431,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.80: 모닥불 장식 자리는 이제 대기실 <b>✥ 배치</b>에서 영웅과 함께 옮깁니다(상점의 쉼터 꾸미기 버튼은 없앰). 장비 탭의 '여러 개 골라 정리'(분해·판매)는 다른 탭으로 나가면 꺼지고 원래대로 돌아옵니다.<br>
 v0.79: 대기실 아래쪽 <b>✥ 배치</b> 버튼 — 영웅을 끌어서 원하는 자리에 두고 '확정'하면 그 자리에 그대로 남습니다('처음 자리'로 되돌리기). 장비·강화를 바꾸고 대기실로 돌아오면 오라·외형이 바로 반영됩니다(전엔 다시 들어와야 보였음). 오라 색은 강화 오라가 나오는 평균 +4부터 입혀집니다.<br>
 v0.78: <b>외형 2차</b> — 망토 7종을 새로 그려 왼쪽(뒤)으로 깃발처럼 크게 휘날립니다. 무기 외형 7종은 모든 무기에서 모양이 확실히 달라지고 빛 번짐과 효과(불길·결정 빛·넋불·달 잔상·룬·번개·잎)가 붙습니다. 외형 상점에 <b>✨ 특수 오라</b> 9종(눈보라·환영 분신·맹독 늪·핏빛 고동·달무리·벚꽃 바람·비취 법진·성좌의 장막·황혼의 일륜, 💎 800)이 생겼습니다 — 강화와 상관없이 보이고 강화가 오를수록 화려해지며, 다는 동안은 강화 오라 대신 보입니다.<br>
 v0.77: 왼쪽 메뉴 맨 위에 <b>🔥 대기실</b> 버튼 — 어느 탭에서든 한 번에 모닥불로 돌아갑니다(던전 중이면 전장으로). <b>오라 색 고침</b> — 산 오라 색이 별철(+13) 단계에서만 이름대로 보이고 낮은 단계에선 엉뚱한 색(예: 얼음 푸른빛이 황토색)으로 나오던 것을, 어느 단계든 고른 색으로 보이게 했습니다.<br>
@@ -5954,12 +5955,12 @@ function cosShopBlock(){
     else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`;
     return `<div class="coscard${on?" on":""}"><div class="cospv${/^(cape|wskin|aura|saura)$/.test(c.cat)?" big":""}"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
   const n=cat.max?(E[cat.k]||[]).length:0;
-  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>${esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span>${cat.k==="sticker"||cat.k==="frame"?`<button class="ghostbtn" id="cosEditCard">🪪 명함 꾸미기</button>`:cat.k==="deco"?`<button class="ghostbtn" id="cosEditCamp">🔥 쉼터 꾸미기</button>`:""}</div>
+  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>${esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span>${cat.k==="sticker"||cat.k==="frame"?`<button class="ghostbtn" id="cosEditCard">🪪 명함 꾸미기</button>`:""}</div>
     <div class="coscats">${COS_CATS.map(c=>`<button data-k="${c.k}" class="${c.k===cat.k?"on":""}">${c.n}</button>`).join("")}</div>
     <div class="cosgrid">${items.map(card).join("")}</div>`;
   box.querySelectorAll(".coscats button").forEach(b=>b.onclick=()=>{ cosCat=b.dataset.k; cosArm=null; renderShop(); });
   const ec=box.querySelector("#cosEditCard"); if(ec) ec.onclick=()=>{ const pid=progress.protag&&progress.protag.cid; if(!pid) return; if(!(cosOn("sticker")||[]).length){ toast("🪪 명함 스티커를 먼저 달아 주세요"); return; } makeNameCard(pid,true); };
-  const ed=box.querySelector("#cosEditCamp"); if(ed) ed.onclick=()=>campDecoEdit();
+
   box.querySelectorAll("[data-buy]").forEach(b=>b.onclick=()=>{ const c=COS_BY[b.dataset.buy]; if(!c) return; if(cosArm!==c.id){ cosArm=c.id; renderShop(); return; }
     cosArm=null; const pr=cosPrice(c); if((progress.gem||0)<pr) return; progress.gem-=pr; (progress.cosmetics=progress.cosmetics||{})[c.id]=true; cosWear(c.id,true);
     logLine(`<span class="win">🎨 '${esc(c.name)}'을(를) 샀습니다 (💎 ${pr})</span>`); saveProgress(); renderShop(); });
@@ -7062,6 +7063,7 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
   try{ if(typeof curView!=="undefined"&&curView!==t) SND.fx("ui_tab"); }catch(e){}
   if(t==="log") t="dungeon";
   if(!VIEWS.includes(t)) t="dungeon";
+  try{ if(t!=="equip"&&(bagPick||bagSel.size)){ bagPick=false; bagSel.clear(); bagArm=null; } }catch(e){}   // v0.80 '여러 개 골라 정리'는 장비 탭을 떠나면 꺼짐
   curView=t; document.body.dataset.view=t;   // v0.32: 던전 밖 탭에서는 아래 조작대를 숨김(가로 화면 공간 확보)
   for(const k of VIEWS){
     $("tab-"+k).classList.toggle("on",t===k);
@@ -8854,7 +8856,7 @@ const POP_BASE_GLYPHS=POP._G;
    망토는 영웅 뒤 무대 캔버스에 16칸 밖까지(오라처럼) + 그림 안쪽은 lookSprite에서 같은 색으로. */
 const COS_CATS=[
   {k:"cape",n:"망토",who:"주인공"},{k:"wskin",n:"무기 외형",who:"주인공"},{k:"aura",n:"오라 색",who:"주인공 강화 오라의 색 — 평균 강화 +4부터 오라가 나오면 산 색으로 보임"},{k:"saura",n:"특수 오라",who:"주인공 — 강화와 상관없이 늘 보이고 강화가 오를수록 화려해짐 · 다는 동안 강화 오라(오라 색) 대신 보임"},{k:"fx",n:"이펙트 테마",who:"내 파티 근접 공격"},
-  {k:"font",n:"전투 숫자",who:"적에게 넣는 피해"},{k:"crit",n:"치명타 연출",who:"적에게 넣는 치명타"},{k:"frame",n:"명함 틀",who:"명함"},{k:"sticker",n:"명함 스티커",who:"명함 · 최대 3개",max:3},{k:"deco",n:"모닥불 장식",who:"마을 쉼터 · 최대 3개",max:3}];
+  {k:"font",n:"전투 숫자",who:"적에게 넣는 피해"},{k:"crit",n:"치명타 연출",who:"적에게 넣는 치명타"},{k:"frame",n:"명함 틀",who:"명함"},{k:"sticker",n:"명함 스티커",who:"명함 · 최대 3개",max:3},{k:"deco",n:"모닥불 장식",who:"마을 쉼터 · 최대 3개 · 자리는 대기실 ✥ 배치에서",max:3}];
 const COS_PRICE={cape:900,wskin:700,aura:400,saura:800,fx:500,font:300,crit:450,frame:350,sticker:80,deco:200};
 // src: free 기본 · shop 💎 · pass 아트 패스 보상 · sub 정액 중 · coop 함께하기 전용(준비 중)
 const COS=[
@@ -11111,7 +11113,8 @@ function campArrange(){
   if(runState||CAMP_EDIT) return; showTab("dungeon"); const f=document.querySelector(".field.campfire"); if(!f) return;
   CAMP_EDIT=Object.assign({},progress.campPos||{}); f.classList.add("arranging");
   const bar=document.createElement("div"); bar.className="decobar"; bar.id="campBar";
-  bar.innerHTML=`<b>✥ 영웅 배치</b><span>영웅을 끌어서 옮기세요</span><button class="btn" id="caOk">확정</button><button class="btn ghost" id="caReset">처음 자리</button><button class="btn ghost" id="caCancel">취소</button>`;
+  const DE=decoEditBegin();   // 모닥불 장식도 함께
+  bar.innerHTML=`<b>✥ 대기실 배치</b><span>${DE?"영웅·장식을":"영웅을"} 끌어서 옮기세요</span><button class="btn" id="caOk">확정</button><button class="btn ghost" id="caReset">처음 자리</button><button class="btn ghost" id="caCancel">취소</button>`;
   document.body.appendChild(bar);
   const units=[...f.querySelectorAll(".unit")]; const offs=[];
   const down=e=>{ const u=e.currentTarget; const id=u.id.replace(/^u-/,""); const G=WX.campGeom(); if(!G) return; e.preventDefault(); e.stopPropagation(); u.setPointerCapture(e.pointerId);
@@ -11121,26 +11124,22 @@ function campArrange(){
     u.addEventListener("pointermove",mv); u.addEventListener("pointerup",up); u.addEventListener("pointercancel",up); };
   const block=e=>{ e.stopPropagation(); e.preventDefault(); };
   for(const u of units){ u.addEventListener("pointerdown",down); u.addEventListener("click",block,true); offs.push(()=>{ u.removeEventListener("pointerdown",down); u.removeEventListener("click",block,true); }); }
-  const end=save=>{ if(save){ progress.campPos=Object.assign({},CAMP_EDIT); saveProgress(); toast("✥ 대기실 영웅 자리를 저장했습니다"); }
+  const end=save=>{ if(DE) DE.end(save); if(save){ progress.campPos=Object.assign({},CAMP_EDIT); saveProgress(); toast("✥ 대기실 배치를 저장했습니다"); }
     CAMP_EDIT=null; offs.forEach(fn=>fn()); bar.remove(); f.classList.remove("arranging"); WX.layout(); };
   bar.querySelector("#caOk").onclick=()=>end(true);
   bar.querySelector("#caCancel").onclick=()=>end(false);
-  bar.querySelector("#caReset").onclick=()=>{ CAMP_EDIT={}; WX.layout(); };
+  bar.querySelector("#caReset").onclick=()=>{ CAMP_EDIT={}; if(DE) DE.reset(); WX.layout(); };
 }
 /* ================= v0.75 꾸미기 모드 — 모닥불 장식 · 명함 스티커를 끌어서 옮기고, 확정하면 그 자리에 그대로 ================= */
 const DECO_SPOT=[[-18,4],[17,5],[-28,13]];   // 기본 자리(불 기준 · 영웅 그림 1칸 단위)
 let DECO_EDIT=null;   // 꾸미는 중: {pos:{id:[dx,dy]}}
 function decoPosOf(id,i){ if(DECO_EDIT&&DECO_EDIT.pos[id]) return DECO_EDIT.pos[id]; const S=progress&&progress.cosEq&&progress.cosEq.decoPos; return (S&&S[id])||DECO_SPOT[i]||[0,8]; }
-function campDecoEdit(){
-  const D=cosOn("deco")||[]; if(!D.length){ toast("🔥 모닥불 장식을 먼저 달아 주세요 (상점 → 🎨 외형 → 모닥불 장식)"); return; }
-  if(runState){ toast("던전에서 나온 뒤(마을 쉼터에서) 꾸밀 수 있어요."); return; }
-  showTab("dungeon"); if(DECO_EDIT) return;
+// v0.80 쉼터 장식 옮기기 — 대기실 '✥ 배치'에서 영웅과 함께(상점 버튼 없앰). 돌려주는 것: {end(저장?), reset()}
+function decoEditBegin(){
+  const D=cosOn("deco")||[]; if(!D.length||runState||DECO_EDIT) return null;
   DECO_EDIT={pos:Object.fromEntries(D.map((id,i)=>[id,decoPosOf(id,i).slice()]))};
-  const bar=document.createElement("div"); bar.className="decobar"; bar.id="decoBar";
-  bar.innerHTML=`<b>🔥 쉼터 꾸미기</b><span>장식을 끌어서 옮기세요</span><button class="btn" id="dcOk">확정</button><button class="btn ghost" id="dcReset">기본 자리</button><button class="btn ghost" id="dcCancel">취소</button>`;
-  document.body.appendChild(bar);
   const hs=D.map(id=>{ const h=document.createElement("div"); h.className="decohandle"; h.dataset.id=id; document.body.appendChild(h);
-    h.addEventListener("pointerdown",e=>{ e.preventDefault(); h.setPointerCapture(e.pointerId); const G=WX.decoGeom(); if(!G) return; const p0=DECO_EDIT.pos[id].slice(), x0=e.clientX, y0=e.clientY;
+    h.addEventListener("pointerdown",e=>{ e.preventDefault(); e.stopPropagation(); h.setPointerCapture(e.pointerId); const G=WX.decoGeom(); if(!G) return; const p0=DECO_EDIT.pos[id].slice(), x0=e.clientX, y0=e.clientY;
       const mv=ev=>{ const g=WX.decoGeom()||G; let dx=p0[0]+(ev.clientX-x0)/g.P, dy=p0[1]+(ev.clientY-y0)/g.P;
         const minX=-(g.fx0)/g.P+8, maxX=(g.rw-g.fx0)/g.P-8, minY=-(g.fy0)/g.P+16, maxY=(g.rh-g.fy0)/g.P;   // 전장 밖으로는 못 나감
         dx=Math.max(minX,Math.min(maxX,dx)); dy=Math.max(minY,Math.min(maxY,dy)); DECO_EDIT.pos[id]=[Math.round(dx*2)/2,Math.round(dy*2)/2]; place(); };
@@ -11150,11 +11149,9 @@ function campDecoEdit(){
   let raf=0; const place=()=>{ const G=WX.decoGeom(); for(const h of hs){ if(!G){ h.style.display="none"; continue; } const [dx,dy]=DECO_EDIT.pos[h.dataset.id]; const S=16*G.P;
     Object.assign(h.style,{display:"block",left:Math.round(G.rl+G.fx0+dx*G.P-S/2)+"px",top:Math.round(G.rt+G.fy0+dy*G.P-S)+"px",width:Math.round(S)+"px",height:Math.round(S)+"px"}); } };
   const loop=()=>{ if(!DECO_EDIT) return; place(); raf=requestAnimationFrame(loop); }; loop();
-  const end=save=>{ if(save){ const E=cosEq(); E.decoPos=Object.assign({},E.decoPos||{},DECO_EDIT.pos); progress.cosEq=E; saveProgress(); toast("🔥 쉼터 장식 자리를 저장했습니다"); }
-    DECO_EDIT=null; cancelAnimationFrame(raf); bar.remove(); hs.forEach(h=>h.remove()); };
-  bar.querySelector("#dcOk").onclick=()=>end(true);
-  bar.querySelector("#dcCancel").onclick=()=>end(false);
-  bar.querySelector("#dcReset").onclick=()=>{ D.forEach((id,i)=>DECO_EDIT.pos[id]=(DECO_SPOT[i]||[0,8]).slice()); };
+  return { end:save=>{ if(save){ const E=cosEq(); E.decoPos=Object.assign({},E.decoPos||{},DECO_EDIT.pos); progress.cosEq=E; }
+      DECO_EDIT=null; cancelAnimationFrame(raf); hs.forEach(h=>h.remove()); },
+    reset:()=>{ D.forEach((id,i)=>DECO_EDIT.pos[id]=(DECO_SPOT[i]||[0,8]).slice()); } };
 }
 // 명함 스티커 자리: 명함 그림(640×400) 위 가운데 좌표. 없으면 오른쪽 아래에 나란히
 function cardStickerPos(ST,FR){ const S=(progress.cosEq&&progress.cosEq.stPos)||{}; const W=640,H=400;
