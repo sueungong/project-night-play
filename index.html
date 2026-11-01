@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793534990798"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793536267322"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1241,7 +1241,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .coscard{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:8px; display:flex; flex-direction:column; gap:4px; align-items:center; text-align:center} .coscard.on{border-color:var(--accent)}
 .coscard b{font-size:13.5px} .coscard small{font-size:11.5px; color:var(--muted); line-height:1.35}
 .cospv{height:84px; width:100%; display:flex; align-items:center; justify-content:center; background:#0d1120; border-radius:8px} .cospv canvas{max-height:76px; max-width:100%; image-rendering:pixelated}
-.cospv canvas{height:76px; width:auto}
+.cospv canvas{height:76px; width:auto; object-fit:contain}
+.cospv.big{height:128px} .cospv.big canvas{height:120px; max-height:120px}   /* v0.75 망토·무기·오라는 크게(그림 1칸이 4칸쯤) */
 .cosact{margin-top:auto; padding-top:2px} .cosact .btn{font-size:12.5px; padding:5px 10px} .cosact .btn.arm{background:var(--accent); color:#1a1306} .cosst{font-size:12px; color:var(--muted)} .cosst.on{color:var(--accent); font-weight:700}
 .gemshop{display:flex; flex-direction:column; gap:10px} .gshead{display:flex; align-items:center; gap:10px; flex-wrap:wrap} .gshead b{font-size:16px; color:var(--accent)} .gshead span{font-size:12.5px; color:var(--muted)}
 .gscards{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px}
@@ -1312,12 +1313,15 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .sblock{border-color:rgba(255,255,255,.07)!important}
 .utags .sti{border-radius:50%!important}
 
+.decobar{position:fixed; top:8px; left:50%; transform:translateX(-50%); z-index:60; display:flex; gap:8px; align-items:center; background:rgba(14,18,34,.92); border:1px solid var(--accent); border-radius:12px; padding:6px 10px; font-size:13px} .decobar span{color:var(--sub)}
+.decohandle{position:fixed; z-index:55; border:2px dashed #ffd27a; border-radius:6px; background:rgba(255,210,122,.08); cursor:grab; touch-action:none}
+.cardedit{position:relative; width:100%; max-width:min(640px,calc((100vh - 150px)*1.6)); margin:0 auto; touch-action:none} .cardedit img{width:100%; display:block; border-radius:8px; user-select:none} .cesti{position:absolute; width:8.75%; transform:translate(-50%,-50%); image-rendering:pixelated; cursor:grab; outline:2px dashed #ffd27a; outline-offset:2px; touch-action:none}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.74 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.75 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1424,6 +1428,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.75: <b>🎨 꾸미기 모드</b> — 상점 외형 탭의 '🪪 명함 꾸미기'(명함 창의 🎨 꾸미기)와 '🔥 쉼터 꾸미기'에서 스티커·모닥불 장식을 끌어서 옮기고 '확정'하면 그 자리에 그대로 남습니다. <b>무기 외형</b>이 이제 한손검뿐 아니라 지팡이·책·쌍단검·너클·쌍권총·류트에서도 모양까지 바뀝니다. 외형 미리보기를 크게 키웠고, <b>산 오라는 강화가 +0이어도 보입니다</b>(강화가 오르면 더 커짐).<br>
 v0.74: <b>💎 새벽 결정 값 정함</b> — 충전 묶음 6가지(1,200원 💎60 ~ 119,000원 💎7,300, 큰 묶음일수록 덤) · <b>30일 정액 6,600원</b> · <b>아트 패스 유료 트랙 11,000원</b>(이제 💎가 아니라 현금 상품). 결제는 출시 뒤 연결 — 지금은 눌러도 안내만 나옵니다. 배경음악에서 마디마다 들리던 '위잉' 하는 울렁임을 고쳤습니다.<br>
 v0.73: <b>화면 디자인 새로(A안 — 정돈된 밤)</b> — 판·창은 은은한 그라데이션과 얇은 빛 테두리, 주요 버튼은 금빛·나머지는 투명 테두리, 고른 탭은 금빛 알약, 위쪽 막대 칩은 둥근 알약, 왼쪽 메뉴는 고른 곳에 금빛 세로줄. 창을 열면 뒤쪽이 살짝 흐려집니다.<br>
 v0.72.1: 걸린 효과 글자 자리 — 진형(아군 '>>' · 적 '<<')에 맞춰 위·아래 줄은 아군 오른쪽·적 왼쪽, 가운데 줄은 아군 왼쪽·적 오른쪽에 뜹니다. 그쪽이 다른 캐릭터나 버튼을 가리거나 화면 밖이면 덜 가리는 쪽으로 옮깁니다.<br>
@@ -5639,7 +5644,7 @@ function heroAvgEnh(cid){ let s=0; for(const sl of AURA_SLOTS) s+=slotEnh(cid,sl
 function heroLook(cid){ const h=progress.heroes[cid]; if(!h) return null; const spr=(h.adv&&HERO_DOTS[h.adv])?h.adv:cid; const ar=findEquipped(cid,"armor"), hm=findEquipped(cid,"helm"), oh=findEquipped(cid,"offhand");
   const lk={spr, w:heroWeaponType(cid), ar:ar?ar.rarity:null, hm:hm?hm.rarity:null, aura:Math.min(4,enhTierIdx(Math.floor(heroAvgEnh(cid))))};
   if(HERO_DOTS[spr]&&HERO_DOTS[spr].shield){ if(oh) lk.sh=oh.rarity; else lk.ns=true; }
-  if(isProtag(cid)){ lk.pc=true; const E=typeof cosEq==="function"?cosEq():null; if(E){ if(E.cape!=="cape_crimson") lk.cp=E.cape; if(E.wskin!=="ws_steel") lk.ws=E.wskin; if(E.aura!=="aura_base") lk.ac=E.aura; } }   // 주인공: 진홍 망토 · v0.58 외형   // 방패를 드는 그림: 보조장비를 끼면 방패, 안 끼면 빈손
+  if(isProtag(cid)){ lk.pc=true; const E=typeof cosEq==="function"?cosEq():null; if(E){ if(E.cape!=="cape_crimson") lk.cp=E.cape; if(E.wskin!=="ws_steel") lk.ws=E.wskin; if(E.aura!=="aura_base"){ lk.ac=E.aura; if(!lk.aura) lk.aura=1; } } }   // v0.75 산 오라는 강화와 상관없이 늘 보임(강화 단계가 오르면 커짐) · 주인공: 진홍 망토 · v0.58 외형   // 방패를 드는 그림: 보조장비를 끼면 방패, 안 끼면 빈손
   return lk; }
 function equippedItems(cid){ return heroSlots().map(s=>findEquipped(cid,s)).filter(Boolean); }
 function heroEquipTotals(cid){
@@ -5940,12 +5945,14 @@ function cosShopBlock(){
     else if(c.src==="pass") act=`<span class="cosst">🎟 아트 패스 시즌 1</span>`;
     else if(c.src==="sub") act=`<span class="cosst">🌙 정액 중에만</span>`;
     else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`;
-    return `<div class="coscard${on?" on":""}"><div class="cospv"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
+    return `<div class="coscard${on?" on":""}"><div class="cospv${/^(cape|wskin|aura)$/.test(c.cat)?" big":""}"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
   const n=cat.max?(E[cat.k]||[]).length:0;
-  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>${esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span></div>
+  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>${esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span>${cat.k==="sticker"||cat.k==="frame"?`<button class="ghostbtn" id="cosEditCard">🪪 명함 꾸미기</button>`:cat.k==="deco"?`<button class="ghostbtn" id="cosEditCamp">🔥 쉼터 꾸미기</button>`:""}</div>
     <div class="coscats">${COS_CATS.map(c=>`<button data-k="${c.k}" class="${c.k===cat.k?"on":""}">${c.n}</button>`).join("")}</div>
     <div class="cosgrid">${items.map(card).join("")}</div>`;
   box.querySelectorAll(".coscats button").forEach(b=>b.onclick=()=>{ cosCat=b.dataset.k; cosArm=null; renderShop(); });
+  const ec=box.querySelector("#cosEditCard"); if(ec) ec.onclick=()=>{ const pid=progress.protag&&progress.protag.cid; if(!pid) return; if(!(cosOn("sticker")||[]).length){ toast("🪪 명함 스티커를 먼저 달아 주세요"); return; } makeNameCard(pid,true); };
+  const ed=box.querySelector("#cosEditCamp"); if(ed) ed.onclick=()=>campDecoEdit();
   box.querySelectorAll("[data-buy]").forEach(b=>b.onclick=()=>{ const c=COS_BY[b.dataset.buy]; if(!c) return; if(cosArm!==c.id){ cosArm=c.id; renderShop(); return; }
     cosArm=null; const pr=cosPrice(c); if((progress.gem||0)<pr) return; progress.gem-=pr; (progress.cosmetics=progress.cosmetics||{})[c.id]=true; cosWear(c.id,true);
     logLine(`<span class="win">🎨 '${esc(c.name)}'을(를) 샀습니다 (💎 ${pr})</span>`); saveProgress(); renderShop(); });
@@ -7877,8 +7884,8 @@ function lookSprite(look){
   for(let y=0;y<16;y++) for(let x=0;x<16;x++){ const ch=ROWS[y][x]; if(ch===".") continue; px[y][x]=D.pal[ch]; body.add(y*16+x); }
   const W=WEAPON_DOTS[look.w]; const hands=[]; let wcells=[];
   if(W){ const col=Object.assign({},WEAPON_COL); const gem=D.gem||[[150,226,250],[84,166,214]]; col.G=gem[0]; col.H=gem[1]; const front=!!W.front; const cells=new Map();
-    const WSK=look.ws&&typeof COSART!=="undefined"?COSART.WS[look.ws]:null; if(WSK) Object.assign(col,COSART.WS_PAL,WSK.col);   // v0.58 무기 외형: 색은 모든 무기 · 모양은 한손검만
-    for(const hk of ["R","L"]){ const grid=(WSK&&WSK.grid&&look.w==="sword"&&hk==="R")?WSK.grid:W[hk], h=D[hk]; if(!grid||!h) continue; hands.push(h[1]*16+h[0]);
+    const WSK=look.ws&&typeof COSART!=="undefined"?COSART.WS[look.ws]:null; if(WSK) Object.assign(col,COSART.WS_PAL,WSK.col);   // v0.58 무기 외형 색 · v0.75 모양은 모든 무기
+    for(const hk of ["R","L"]){ const grid=(WSK&&COSART.wsGrid(look.ws,look.w,hk,W[hk]))||W[hk], h=D[hk]; if(!grid||!h) continue; hands.push(h[1]*16+h[0]);
       const ay=grid.findIndex(r=>r.includes("*")||r.includes("@")); const ax=grid[ay].indexOf("*")>=0?grid[ay].indexOf("*"):grid[ay].indexOf("@");
       grid.forEach((r,y)=>[...r].forEach((ch,x)=>{ if(ch===" "||ch==="*") return; const X=h[0]+x-ax, Y=h[1]+y-ay; if(X<0||Y<0||X>15||Y>15) return; cells.set(Y*16+X, ch==="@"?col[W.at||"6"]:col[ch]); })); }
     for(const k of cells.keys()){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15) continue; const c=Y*16+X;
@@ -8387,7 +8394,7 @@ const POP_BASE_GLYPHS=POP._G;
    전투력 변화 없음. 망토·무기 외형·오라 색은 주인공에게, 이펙트·숫자·치명타·명함·장식은 내 화면 전체에.
    망토는 영웅 뒤 무대 캔버스에 16칸 밖까지(오라처럼) + 그림 안쪽은 lookSprite에서 같은 색으로. */
 const COS_CATS=[
-  {k:"cape",n:"망토",who:"주인공"},{k:"wskin",n:"무기 외형",who:"주인공"},{k:"aura",n:"오라 색",who:"주인공 강화 오라 (평균 +4부터 보임)"},{k:"fx",n:"이펙트 테마",who:"내 파티 근접 공격"},
+  {k:"cape",n:"망토",who:"주인공"},{k:"wskin",n:"무기 외형",who:"주인공"},{k:"aura",n:"오라 색",who:"주인공 오라 — 산 오라는 강화와 상관없이 늘 보이고, 강화 단계가 오르면 더 커짐"},{k:"fx",n:"이펙트 테마",who:"내 파티 근접 공격"},
   {k:"font",n:"전투 숫자",who:"적에게 넣는 피해"},{k:"crit",n:"치명타 연출",who:"적에게 넣는 치명타"},{k:"frame",n:"명함 틀",who:"명함"},{k:"sticker",n:"명함 스티커",who:"명함 · 최대 3개",max:3},{k:"deco",n:"모닥불 장식",who:"마을 쉼터 · 최대 3개",max:3}];
 const COS_PRICE={cape:900,wskin:700,aura:400,fx:500,font:300,crit:450,frame:350,sticker:80,deco:200};
 // src: free 기본 · shop 💎 · pass 아트 패스 보상 · sub 정액 중 · coop 함께하기 전용(준비 중)
@@ -8476,6 +8483,31 @@ const COSART=(()=>{
     ws_thunder:{col:{"6":[255,240,120],"7":[230,200,80]},grid:[" Y  ","Y   "," Y  ","  Y "," Y  "," 7  ","999 "," *  "],fx:"spark"},
     ws_leaf:{col:{"6":[110,210,120],"7":[40,110,60],"8":[30,80,40]},grid:[" L  ","LlL ","LlL ","LlL "," L  "," 7  ","999 "," *  "],fx:"leaf"},
   };
+
+  // v0.75 무기 외형: 한손검 말고 다른 무기(지팡이·책·쌍단검·너클·쌍권총·류트)도 외형마다 모양이 바뀜
+  //   a=주재료 · b=보조 · d=어두운 손잡이/몸통 — 외형마다 글자로 바꿔 끼움. * 와 @ 는 손 자리
+  const WS_MAT={ws_flame:{a:"F",b:"f",d:"8"},ws_crystal:{a:"C",b:"c",d:"s"},ws_bone:{a:"K",b:"k",d:"8"},ws_moon:{a:"W",b:"7",d:"8"},ws_rune:{a:"M",b:"P",d:"p"},ws_thunder:{a:"Y",b:"7",d:"8"},ws_leaf:{a:"L",b:"l",d:"8"}};
+  const WS_SHAPE={
+    staff:{ws_flame:["b b","aba","bab"," a "," d "," d "," d "," d "," * "," d "],ws_crystal:[" a ","aba","aba"," b "," d "," d "," d "," d "," * "," d "],
+      ws_bone:["aaa","ada"," a "," b "," a "," b "," a "," b "," * "," a "],ws_moon:[" aa","a  "," aa"," b "," d "," d "," d "," d "," * "," d "],
+      ws_rune:["aba","bab","aba"," a "," b "," a "," a "," b "," * "," a "],ws_thunder:["a a"," a ","a  "," a "," d "," d "," d "," d "," * "," d "],
+      ws_leaf:[" a ","aba","bab"," a "," b "," b "," b "," b "," * "," b "]},
+    tome:{ws_flame:[" * b","aaba","abab","aada"],ws_crystal:[" * a","abab","baba","abab"],ws_bone:[" *  ","aaaa","adab","aaab"],ws_moon:[" * b","ddda","dada","dddb"],
+      ws_rune:[" *  ","aaab","abab","aada"],ws_thunder:[" * a","ddda","dadd","ddad"],ws_leaf:[" * a","baba","aaab","baba"]},
+    daggers:{ws_flame:["* "," a","ba"," b"],ws_crystal:["* "," a","ab"," a"],ws_bone:["* "," a"," b"," a"],ws_moon:["* "," a"," a","a "],
+      ws_rune:["* "," a"," b"," a"],ws_thunder:["* "," a","a "," a"],ws_leaf:["* "," a","aa"," b"]},
+    knuckle:{ws_flame:[" b","@a","ab"],ws_crystal:[" a","@a","ab"],ws_bone:["@a","ab"],ws_moon:[" a","@a"," a"],
+      ws_rune:[" b","@b","bb"],ws_thunder:["  a"," a ","@a "],ws_leaf:[" a","@b","aa"]},
+    pistols:{ws_flame:["  b ","aaab","*d  "],ws_crystal:[" a  ","baaa","*d  "],ws_bone:["aaab","*a  "," a  "],ws_moon:["a   ","baaa","*d  "],
+      ws_rune:["abab","*d  "],ws_thunder:["   a","aaa ","*d  "],ws_leaf:["  a ","aaab","*d  "]} };
+  const wsGridCache={};
+  // 한 손(R/L)의 무기 그림: 외형 모양이 있으면 그것, 없으면 null(원래 그림)
+  function wsGrid(id,w,hk,base){ const key=id+"|"+w+"|"+hk; if(key in wsGridCache) return wsGridCache[key]; const M=WS_MAT[id]; let g=null;
+    if(M){ const sub=r=>r.replace(/[abd]/g,ch=>M[ch]);
+      if(w==="sword"&&hk==="R") g=WS[id].grid;
+      else if(w==="lute"&&hk==="R"&&base) g=base.map(r=>r.replace(/t/g,M.a).replace(/T/g,M.b));
+      else if(WS_SHAPE[w]&&WS_SHAPE[w][id]){ const R=WS_SHAPE[w][id].map(sub); if(hk==="R") g=R; else if(base&&w!=="knuckle") g=R.map(r=>[...r].reverse().join("")); } }
+    return wsGridCache[key]=g; }
   const WS_PAL={F:[255,150,60],f:[255,220,90],C:[210,245,255],c:[120,200,250],s:[60,130,200],K:[240,236,220],k:[190,180,160],P:[176,106,240],p:[80,36,130],Y:[255,240,120],M:[60,56,80],L:[90,190,110],l:[30,90,50],W:[255,255,255],t:[150,104,64]};
   // 둘레 움직임(그림 뒤 무대 캔버스 — 무기 칸 바깥에만 보임). cells: 16칸 좌표의 무기 칸들
   function wsFx(g,kind,cells,T,ox,oy){ if(!cells||!cells.length) return; const top=cells.reduce((a,b)=>b[1]<a[1]?b:a); const tp=[top[0]+ox,top[1]+oy];
@@ -8513,7 +8545,7 @@ const COSART=(()=>{
     font_rune:{"0":[".#.","#.#","#.#","#.#",".#."],"1":[".#.","##.",".#.",".#.","###"],"2":["##.","..#",".#.","#..","###"],"3":["##.","..#",".#.","..#","##."],"4":["#.#","#.#",".##","..#","..#"],"5":["###","#..",".#.","..#","##."],"6":[".##","#..","##.","#.#",".#."],"7":["###","..#",".#.","#..","#.."],"8":[".#.","#.#",".#.","#.#",".#."],"9":[".#.","#.#",".##","..#","##."],"+":["...",".#.","###",".#.","..."],"!":["#",".","#",".","#"]},
   };
   FONTS.font_shadow=Object.fromEntries(Object.entries(B3).map(([ch,rows])=>{ const w=rows[0].length; const out=rows.map(r=>[...(r+".")]); rows.forEach((r,y)=>[...r].forEach((v,x)=>{ if(v==="#"&&out[y][x+1]!=="#") out[y][x+1]="s"; })); return [ch,out.map(r=>r.join(""))]; }));
-  return {P,hash,dot,px,rgb,CAPES,capeCells,capeLayer,WS,WS_PAL,wsFx,tintRamp,FX,FONTS};
+  return {P,hash,dot,px,rgb,CAPES,capeCells,capeLayer,WS,WS_PAL,wsGrid,wsFx,tintRamp,FX,FONTS};
 })();
 function cosFont(){ const f=cosOn("font"); return f&&COSART.FONTS[f]?f:null; }
 
@@ -9060,10 +9092,12 @@ const WX = (()=>{
     if(ds.ws && COSART.WS[ds.ws]){ const L = lookFromKey(ds.look); L.bob = bob; if(L.pc) L.cf = cf; const sp = lookSprite(L); if(sp && sp.wcells) COSART.wsFx(cx, COSART.WS[ds.ws].fx, sp.wcells, now / 1000, 0, 0); }
     cx.restore(); }
   // v0.58 모닥불 장식(최대 3개) — 불 둘레, 영웅 도트 크기에 맞춰
+  let decoG = null;
   function drawDeco(now, r, dpr){ const f = field(); if(!f || !f.classList.contains("campfire") || !A.fire || typeof cosOn !== "function") return; const D = cosOn("deco"); if(!D || !D.length) return;
     const imgs = frameUnits(now); let P = 0; for(const el of imgs){ const ir = frameRect(el); if(ir.height){ P = ir.height / 16; break; } } if(!P) P = geom.s * 2.2;
-    const fx0 = geom.ox + A.fire.x * geom.s, fy0 = geom.oy + A.fire.y * geom.s; const SPOT = [[-18, 4], [17, 5], [-28, 13]];
-    D.forEach((id, i) => { const c = cosDecoFrame(id.slice(3), now + i * 333); if(!c) return; const [dx, dy] = SPOT[i]; const S = 16 * P * dpr;
+    const fx0 = geom.ox + A.fire.x * geom.s, fy0 = geom.oy + A.fire.y * geom.s;
+    decoG = {fx0, fy0, P, rl: r.left, rt: r.top, rw: r.width, rh: r.height};   // v0.75 꾸미기 모드가 화면 자리를 알도록
+    D.forEach((id, i) => { const c = cosDecoFrame(id.slice(3), now + i * 333); if(!c) return; const [dx, dy] = decoPosOf(id, i); const S = 16 * P * dpr;
       cx.drawImage(c, Math.round((fx0 + dx * P) * dpr - S / 2), Math.round((fy0 + dy * P) * dpr - S), Math.round(S), Math.round(S)); }); }
   let lastT = 0, lastLay = 0;
   function draw(now){
@@ -9084,7 +9118,7 @@ const WX = (()=>{
     if(kind === "storm" || A.lightning){ const ft = (now - flashT) / 300; if(ft < 1){ ctx.globalAlpha = (1 - ft) * (ft < 0.3 || (ft > 0.45 && ft < 0.6) ? 0.32 : 0.1); ctx.fillStyle = "#e8eeff"; ctx.fillRect(r.left, r.top, r.width, r.height); } }
     ctx.globalAlpha = 1; ctx.restore();
   }
-  return {start, draw, on, setBg, layout: () => layout(true), unitScale};
+  return {start, draw, on, setBg, layout: () => layout(true), unitScale, decoGeom: () => decoG};
 })();
 
 
@@ -10600,8 +10634,58 @@ function unequip(cid,slot,quiet){
   progress.heroes[cid].equip[slot]=null;
   if(!quiet){ saveProgress(); renderParty(); renderRules(); }
 }
+
+/* ================= v0.75 꾸미기 모드 — 모닥불 장식 · 명함 스티커를 끌어서 옮기고, 확정하면 그 자리에 그대로 ================= */
+const DECO_SPOT=[[-18,4],[17,5],[-28,13]];   // 기본 자리(불 기준 · 영웅 그림 1칸 단위)
+let DECO_EDIT=null;   // 꾸미는 중: {pos:{id:[dx,dy]}}
+function decoPosOf(id,i){ if(DECO_EDIT&&DECO_EDIT.pos[id]) return DECO_EDIT.pos[id]; const S=progress&&progress.cosEq&&progress.cosEq.decoPos; return (S&&S[id])||DECO_SPOT[i]||[0,8]; }
+function campDecoEdit(){
+  const D=cosOn("deco")||[]; if(!D.length){ toast("🔥 모닥불 장식을 먼저 달아 주세요 (상점 → 🎨 외형 → 모닥불 장식)"); return; }
+  if(runState){ toast("던전에서 나온 뒤(마을 쉼터에서) 꾸밀 수 있어요."); return; }
+  showTab("dungeon"); if(DECO_EDIT) return;
+  DECO_EDIT={pos:Object.fromEntries(D.map((id,i)=>[id,decoPosOf(id,i).slice()]))};
+  const bar=document.createElement("div"); bar.className="decobar"; bar.id="decoBar";
+  bar.innerHTML=`<b>🔥 쉼터 꾸미기</b><span>장식을 끌어서 옮기세요</span><button class="btn" id="dcOk">확정</button><button class="btn ghost" id="dcReset">기본 자리</button><button class="btn ghost" id="dcCancel">취소</button>`;
+  document.body.appendChild(bar);
+  const hs=D.map(id=>{ const h=document.createElement("div"); h.className="decohandle"; h.dataset.id=id; document.body.appendChild(h);
+    h.addEventListener("pointerdown",e=>{ e.preventDefault(); h.setPointerCapture(e.pointerId); const G=WX.decoGeom(); if(!G) return; const p0=DECO_EDIT.pos[id].slice(), x0=e.clientX, y0=e.clientY;
+      const mv=ev=>{ const g=WX.decoGeom()||G; let dx=p0[0]+(ev.clientX-x0)/g.P, dy=p0[1]+(ev.clientY-y0)/g.P;
+        const minX=-(g.fx0)/g.P+8, maxX=(g.rw-g.fx0)/g.P-8, minY=-(g.fy0)/g.P+16, maxY=(g.rh-g.fy0)/g.P;   // 전장 밖으로는 못 나감
+        dx=Math.max(minX,Math.min(maxX,dx)); dy=Math.max(minY,Math.min(maxY,dy)); DECO_EDIT.pos[id]=[Math.round(dx*2)/2,Math.round(dy*2)/2]; place(); };
+      const up=()=>{ h.removeEventListener("pointermove",mv); h.removeEventListener("pointerup",up); h.removeEventListener("pointercancel",up); };
+      h.addEventListener("pointermove",mv); h.addEventListener("pointerup",up); h.addEventListener("pointercancel",up); });
+    return h; });
+  let raf=0; const place=()=>{ const G=WX.decoGeom(); for(const h of hs){ if(!G){ h.style.display="none"; continue; } const [dx,dy]=DECO_EDIT.pos[h.dataset.id]; const S=16*G.P;
+    Object.assign(h.style,{display:"block",left:Math.round(G.rl+G.fx0+dx*G.P-S/2)+"px",top:Math.round(G.rt+G.fy0+dy*G.P-S)+"px",width:Math.round(S)+"px",height:Math.round(S)+"px"}); } };
+  const loop=()=>{ if(!DECO_EDIT) return; place(); raf=requestAnimationFrame(loop); }; loop();
+  const end=save=>{ if(save){ const E=cosEq(); E.decoPos=Object.assign({},E.decoPos||{},DECO_EDIT.pos); progress.cosEq=E; saveProgress(); toast("🔥 쉼터 장식 자리를 저장했습니다"); }
+    DECO_EDIT=null; cancelAnimationFrame(raf); bar.remove(); hs.forEach(h=>h.remove()); };
+  bar.querySelector("#dcOk").onclick=()=>end(true);
+  bar.querySelector("#dcCancel").onclick=()=>end(false);
+  bar.querySelector("#dcReset").onclick=()=>{ D.forEach((id,i)=>DECO_EDIT.pos[id]=(DECO_SPOT[i]||[0,8]).slice()); };
+}
+// 명함 스티커 자리: 명함 그림(640×400) 위 가운데 좌표. 없으면 오른쪽 아래에 나란히
+function cardStickerPos(ST,FR){ const S=(progress.cosEq&&progress.cosEq.stPos)||{}; const W=640,H=400;
+  return ST.map((id,i)=>{ if(S[id]) return S[id]; let x=W-26-(ST.length-i)*58+28, y=H-72+28; if(FR!=="fr_base"){ x=32+0.9*x; y=20+0.9*y; } return [x,y]; }); }
+function cardEditor(cid,bareUrl){
+  const ST=cosOn("sticker")||[]; if(!ST.length){ toast("🪪 명함 스티커를 먼저 달아 주세요 (상점 → 🎨 외형 → 명함 스티커)"); return; }
+  const pos=cardStickerPos(ST,cosFrameNow()).map(p=>p.slice());
+  const m=openModal(`<h2>🎨 명함 꾸미기</h2><p class="sub">스티커를 끌어서 원하는 자리에 두고 '확정'을 누르세요</p>
+    <div class="cardedit" id="cardEd"><img src="${bareUrl}" draggable="false">${ST.map((id,i)=>`<canvas class="cesti" data-i="${i}" width="14" height="14"></canvas>`).join("")}</div>
+    <div class="row" style="margin-top:10px"><button class="btn" id="ceOk">확정</button><button class="btn ghost" id="ceReset">기본 자리</button><button class="btn ghost" id="ceCancel">취소</button></div>`,"card");
+  const box=$("cardEd"), els=[...box.querySelectorAll(".cesti")];
+  els.forEach((cv,i)=>{ const g=cv.getContext("2d"); g.imageSmoothingEnabled=false; cosStickerDraw(g,ST[i].slice(3),0,0); });
+  const place=()=>els.forEach((cv,i)=>{ cv.style.left=(pos[i][0]/640*100)+"%"; cv.style.top=(pos[i][1]/400*100)+"%"; }); place();
+  els.forEach((cv,i)=>cv.addEventListener("pointerdown",e=>{ e.preventDefault(); cv.setPointerCapture(e.pointerId); const R=box.getBoundingClientRect(), p0=pos[i].slice(), x0=e.clientX, y0=e.clientY;
+    const mv=ev=>{ pos[i]=[Math.max(28,Math.min(612,p0[0]+(ev.clientX-x0)*640/R.width)),Math.max(28,Math.min(372,p0[1]+(ev.clientY-y0)*400/R.height))].map(Math.round); place(); };
+    const up=()=>{ cv.removeEventListener("pointermove",mv); cv.removeEventListener("pointerup",up); cv.removeEventListener("pointercancel",up); };
+    cv.addEventListener("pointermove",mv); cv.addEventListener("pointerup",up); cv.addEventListener("pointercancel",up); }));
+  $("ceReset").onclick=()=>{ const S=(progress.cosEq&&progress.cosEq.stPos)||null; if(progress.cosEq) progress.cosEq.stPos={}; const d=cardStickerPos(ST,cosFrameNow()); if(progress.cosEq) progress.cosEq.stPos=S; d.forEach((p,i)=>pos[i]=p.slice()); place(); };
+  $("ceCancel").onclick=()=>{ closeModal(); makeNameCard(cid); };
+  $("ceOk").onclick=()=>{ const E=cosEq(); E.stPos=Object.assign({},E.stPos||{}); ST.forEach((id,i)=>E.stPos[id]=pos[i]); progress.cosEq=E; saveProgress(); closeModal(); makeNameCard(cid); };
+}
 /* ---- 명함: 영웅 한 장 요약 그림 ---- */
-function makeNameCard(cid){
+function makeNameCard(cid,edit){
   const c=CLASSES[cid], h=progress.heroes[cid], D=heroDerived(cid), d=D.stats;
   const W=640,H=400, cv=document.createElement("canvas"); cv.width=W; cv.height=H; const g=cv.getContext("2d");
   const FR=cosFrameNow();   // v0.58 명함 틀(160×100 그림을 ×4)
@@ -10629,9 +10713,12 @@ function makeNameCard(cid){
     g.fillStyle="#c7cfec"; g.font="12px sans-serif"; let y2=204;
     partyRules[cid].filter(r=>r.enabled).slice(0,8).forEach((r,i)=>{ const t=`${i+1}. ${COND[r.c1].label}${r.logic===1?" + ":r.logic===2?" / ":""}${r.logic?COND[r.c2].label:""} → ${SKILLS[r.skill].name}`; g.fillText(t.length>40?t.slice(0,39)+"…":t,330,y2); y2+=16; });
     g.fillStyle="#6f7da3"; g.font="11px sans-serif"; g.fillText(`프로젝트 나이트 · ${new Date().toLocaleDateString("ko-KR")}`,28,H-20);
-    { const ST=cosOn("sticker")||[]; ST.forEach((id,i)=>{ const c=document.createElement("canvas"); c.width=c.height=14; const sg=c.getContext("2d"); sg.imageSmoothingEnabled=false; cosStickerDraw(sg,id.slice(3),0,0); g.drawImage(c,W-26-(ST.length-i)*58,H-72,56,56); }); }   // v0.58 명함 스티커
+    g.setTransform(1,0,0,1,0,0);
+    if(edit){ cardEditor(cid,cv.toDataURL("image/png")); return; }   // v0.75 꾸미기: 스티커 없는 명함 위에서 끌어 옮김
+    { const ST=cosOn("sticker")||[], P=cardStickerPos(ST,FR); ST.forEach((id,i)=>{ const c=document.createElement("canvas"); c.width=c.height=14; const sg=c.getContext("2d"); sg.imageSmoothingEnabled=false; cosStickerDraw(sg,id.slice(3),0,0); g.drawImage(c,Math.round(P[i][0]-28),Math.round(P[i][1]-28),56,56); }); }   // v0.58 명함 스티커 · v0.75 꾸민 자리
     const url=cv.toDataURL("image/png");
-    openModal(`<h2>🪪 ${esc(heroDisplayName(cid))}의 명함</h2><p class="sub">아래 버튼으로 내려받거나, 그림을 길게 눌러 저장하세요</p><img src="${url}" style="width:100%;max-width:640px;border-radius:8px;display:block"><div class="row" style="margin-top:10px"><button class="mini" id="cardDl">⬇ 내려받기</button><button class="mini" onclick="closeModal()">닫기</button></div>`,"card");
+    openModal(`<h2>🪪 ${esc(heroDisplayName(cid))}의 명함</h2><p class="sub">아래 버튼으로 내려받거나, 그림을 길게 눌러 저장하세요</p><img src="${url}" style="width:100%;max-width:640px;border-radius:8px;display:block"><div class="row" style="margin-top:10px"><button class="mini" id="cardDl">⬇ 내려받기</button>${(cosOn("sticker")||[]).length?`<button class="mini" id="cardEdit">🎨 꾸미기</button>`:""}<button class="mini" onclick="closeModal()">닫기</button></div>`,"card");
+    if($("cardEdit")) $("cardEdit").onclick=()=>{ closeModal(); makeNameCard(cid,true); };
     $("cardDl").onclick=async()=>{
       const fname=`${heroDisplayName(cid)}-명함.png`;
       try{ const dl=(window.claude&&typeof window.claude.use==="function")?await window.claude.use("downloads"):null;
