@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793519966955"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793527489503"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1285,12 +1285,14 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .eqquick{display:flex;gap:8px;justify-content:center;margin:6px 0;flex-wrap:wrap}.eqquick .btn{padding:6px 12px;font-size:13px}
 .tutdots{display:flex;gap:5px;align-items:center;margin-left:10px}.tutdots i{width:8px;height:8px;border-radius:50%;background:#2a3352}.tutdots i.done{background:#8a7232}.tutdots i.on{background:var(--accent);box-shadow:0 0 0 3px #f4c95d33}
 .tutbig{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:17px;padding:12px 14px;margin:6px 0 10px;border-radius:12px;background:#221d0e;border:2px solid var(--accent)} .tutbig .w{color:var(--muted);font-size:15px} .tutbig .c{color:#d7ecff;background:#1d2f4a;border:1px solid #3b5f8f;border-radius:8px;padding:2px 10px} .tutbig .s{color:var(--accent);font-weight:800}
+.unit .ubuffs{position:absolute; bottom:calc(100% - 4px); left:50%; transform:translateX(-50%); display:none; flex-direction:column; gap:2px; background:#0d1120f0; border:1px solid #3a4470; border-radius:8px; padding:5px 8px; z-index:40; pointer-events:none; white-space:nowrap; box-shadow:0 4px 12px #0008}
+.unit.peek .ubuffs{display:flex} .ub{display:flex; align-items:center; gap:5px; font-size:11.5px; color:#dfe6ff} .ub.bad{color:#ffb0a8} .ub.none{color:var(--muted)} .ub i{width:12px; height:12px; background-size:contain; image-rendering:pixelated; flex:none} .ub small{color:var(--muted); font-size:10.5px; margin-left:2px}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.70 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.71 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1397,6 +1399,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.71: <b>걸린 효과 보기 · 음유시인 오라 · 몬스터 도트 다듬기</b> — 전투 중 영웅(적도)을 누르면 지금 걸린 효과가 아이콘·이름·남은 턴으로 잠깐 뜹니다(오라는 '켜짐'). 음유시인의 노래(오라)를 켜면 <b>같은 편 모두</b>에게 ♪ 아이콘이 붙고, 발밑에 노래 색 빛 고리(용기 주황 · 수호 파랑 · 진군 금빛 · 비웃음 보라)와 떠오르는 음표가 보입니다. 시인이 쓰러지면 꺼지고 되살아나면 다시 켜집니다. 몬스터 도트에도 영웅과 같은 다듬기(약하게)를 넣었습니다.<br>
 v0.70: <b>난이도 바로잡기 · 규칙 교실 새로 · 도트 다듬기</b> — 처음 1-1막이 거의 깨지지 않던 문제를 고쳤습니다(구역 사이 회복을 줄인 뒤 적 수치를 다시 맞추지 않았던 탓). 구역 사이 회복은 체력·마나 각 <b>15%</b>, 지거나 후퇴해도 <b>잡은 몬스터의 경험치는 그대로</b> 가져갑니다(골드는 잃음). 황혼 1장 적을 다시 맞춰 Lv1 새 파티가 1막을 처음에 대략 4번 중 3번 깨도록 했습니다. <b>도발</b>: 한 줄·십자·후열 전체처럼 모양 있는 공격도 이제 도발한 영웅을 노립니다(원거리 공격은 전처럼 절반만 끌려옴, 적 전체를 한꺼번에 치는 광역은 못 막음). <b>규칙 교실</b>: 어떤 직업으로 시작하든 1-1막 전투마다 주인공 규칙 하나씩 — 그 규칙의 조건이 꼭 맞는 상황(적 3마리, 다친 동료, 낮은 체력·마나 등)을 만들어 실제로 쓰이는 순간 멈춰 보여 줍니다. 설명도 "만약 [조건]이면 → [스킬]" 한 줄 중심으로 짧게 정리했고, 마지막에 동료 규칙도 자동전투 탭에서 미리 확인·조정하라고 안내합니다. <b>영웅 도트</b>: 크기는 그대로, 위·왼쪽에서 빛이 드는 명암과 부드러운 외곽선, 무기 끝 반짝임을 넣었습니다.<br>
 v0.69: <b>🎟 아트 패스 화면 새로</b> — 단계 줄 하나를 사이에 두고 위는 무료·아래는 유료 보상이 함께 넘어갑니다. 보상은 그림 아이콘으로(💎·금화·정수·장비 등급 색), 망토·무기 외형 같은 한정 외형은 실제 모습이 움직이는 미리보기로 보입니다. 지금 단계·다음 단계까지 남은 경험치 막대, 받을 수 있는 칸은 금빛으로 빛나고, 화면 아래에서 바로 유료 트랙을 열 수 있습니다.<br>
 v0.68: <b>🤝 우정 상점 · 한 번에 장착/해제</b> — 우정 점수는 이제 상점의 <b>🤝 우정 상점</b>에서만 씁니다(횃불 1개 🤝6 · 하루 3번, 금화 1,500 🤝4 · 하루 5번 — 다른 재화로 바꾸거나 외형을 살 수는 없음). 장비 탭에 <b>⬆ 좋은 장비 한 번에 장착</b>(가방에서 그 영웅에게 더 좋은 장비를 부위마다 골라 낌)과 <b>⬇ 모두 해제</b>(두 번 눌러 확인) 단추가 생겼습니다.<br>
@@ -7809,7 +7812,7 @@ function lookFromKey(k){ const a=String(k||"").split("|"); const o={spr:a[0],w:a
 // 주인공 망토(v0.28): 진홍색, 어깨~무릎, 등 뒤로 흘러내리며 끝자락이 바람에 일렁임(4장 번갈아) + 금 단추
 const PROTAG_CAPE=[[222,78,88],[178,52,64],[124,34,48]], PROTAG_CLASP=[240,200,90];
 // v0.70 그래픽 다듬기(시안 A) — 16×16 그대로, 위·왼쪽에서 빛: 윗면·왼면은 밝게, 아랫면·오른면은 어둡게 · 외곽선은 옆 색을 살짝 머금게 · 무기 끝에 반짝임 한 점
-function heroPolish(px,OUT,wcells){ const W=16, src=px.map(r=>r.slice());
+function heroPolish(px,OUT,wcells,soft){ const W=px.length, src=px.map(r=>r.slice()); const K=soft?0.55:1;   // soft: 몬스터처럼 이미 명암이 있는 그림은 약하게
   const isO=c=>c&&Math.abs(c[0]-OUT[0])+Math.abs(c[1]-OUT[1])+Math.abs(c[2]-OUT[2])<30;
   const at=(x,y)=>x<0||y<0||x>=W||y>=W?null:src[y][x]; const edge=c=>!c||isO(c);
   const mul=(c,f)=>[0,1,2].map(i=>Math.max(0,Math.min(255,Math.round(c[i]*f))));
@@ -7817,11 +7820,18 @@ function heroPolish(px,OUT,wcells){ const W=16, src=px.map(r=>r.slice());
   for(let y=0;y<W;y++) for(let x=0;x<W;x++){ const c=src[y][x]; if(!c) continue;
     if(isO(c)){ const n=[at(x,y-1),at(x-1,y),at(x,y+1),at(x+1,y)].filter(q=>q&&!isO(q)); if(!n.length) continue;
       const outer=!at(x,y-1)||!at(x-1,y)||!at(x,y+1)||!at(x+1,y); px[y][x]=mix(OUT,mul(n[0],0.55),outer?0.28:0.42); continue; }
-    let f=1; if(edge(at(x,y-1))) f*=1.13; if(edge(at(x-1,y))) f*=1.05; if(edge(at(x,y+1))) f*=0.82; if(edge(at(x+1,y))) f*=0.9;
+    let f=1; if(edge(at(x,y-1))) f*=1+0.13*K; if(edge(at(x-1,y))) f*=1+0.05*K; if(edge(at(x,y+1))) f*=1-0.18*K; if(edge(at(x+1,y))) f*=1-0.1*K;
     px[y][x]=mul(c,f); }
   if(wcells&&wcells.length){ let best=null; for(const [x,y] of wcells){ const c=src[y]&&src[y][x]; if(!c||isO(c)) continue; const mx=Math.max(...c), mn=Math.min(...c); if(mx<130||(mx-mn)/mx>0.35) continue; if(!best||y<best[1]) best=[x,y]; }
     if(best) px[best[1]][best[0]]=mix(px[best[1]][best[0]],[255,255,255],0.65); }
 }
+// v0.71 몬스터 도트 다듬기 — 영웅과 같은 규칙(빛 방향·부드러운 외곽선)을 약하게. 처음 그림(SPRITES)도 같은 방식으로 다시 그림
+function monPolishIm(im,n,OUT){ const px=[]; for(let y=0;y<n;y++){ const r=[]; for(let x=0;x<n;x++){ const i=(y*n+x)*4; r.push(im.data[i+3]<10?null:[im.data[i],im.data[i+1],im.data[i+2]]); } px.push(r); }
+  heroPolish(px,OUT,null,true); for(let y=0;y<n;y++) for(let x=0;x<n;x++){ const v=px[y][x]; if(!v) continue; const i=(y*n+x)*4; im.data[i]=v[0]; im.data[i+1]=v[1]; im.data[i+2]=v[2]; } }
+function monPolishSprites(){ if(typeof document==="undefined") return; for(const [k,D] of Object.entries(ENEMY_DOTS)){ if(!SPRITES[k]) continue; try{ const n=D.rows.length, cv=document.createElement("canvas"); cv.width=cv.height=n; const c=cv.getContext("2d"), im=c.createImageData(n,n);
+    for(let y=0;y<n;y++) for(let x=0;x<n;x++){ const ch=D.rows[y][x]; if(ch===".") continue; const col=D.pal[ch]; if(!col) continue; const i=(y*n+x)*4; im.data[i]=col[0]; im.data[i+1]=col[1]; im.data[i+2]=col[2]; im.data[i+3]=255; }
+    monPolishIm(im,n,D.pal.o||[18,20,32]); c.putImageData(im,0,0); SPRITES[k]=cv.toDataURL(); }catch(e){} } }
+try{ monPolishSprites(); }catch(e){}
 function lookSprite(look){
   if(!look||typeof document==="undefined") return null; const key=lookKey(look)+(look.bob?"|b":"")+(look.blink?"|k":""); if(LOOK_CACHE[key]) return LOOK_CACHE[key];
   const D=HERO_DOTS[look.spr]; if(!D) return null; const px=Array.from({length:16},()=>Array(16).fill(null)); const body=new Set(); const OUT=[18,20,32];
@@ -8549,6 +8559,7 @@ const MOTION = (()=>{
     for(let y = 0; y < n; y++) for(let x = 0; x < n; x++){ const ch = D.rows[y][x]; if(ch === ".") continue; let col = D.pal[ch]; if(o.mod){ const m = o.mod(ch, x, y, col); if(m) col = m; }
       const X = x + (o.rowshift ? o.rowshift(y) : 0); let Y = y + (o.bob && y < n - keep ? o.bob : 0) + (o.jaw && y >= o.jaw ? 1 : 0); if(X < 0 || X >= n || Y < 0 || Y >= n) continue;
       const i = (Y * n + X) * 4; im.data[i] = col[0]; im.data[i + 1] = col[1]; im.data[i + 2] = col[2]; im.data[i + 3] = 255; }
+    monPolishIm(im, n, D.pal.o || [18, 20, 32]);   // v0.71 그래픽 다듬기(몬스터는 약하게)
     c.putImageData(im, 0, 0); return cv.toDataURL(); }
   function cells(k, chs){ const D = ENEMY_DOTS[k]; const out = []; D.rows.forEach((r, y) => [...r].forEach((ch, x) => { if(chs.includes(ch)) out.push([x, y]); })); return out; }
   // 보스별 고유 대기 동작(24칸 주기)
@@ -8971,7 +8982,16 @@ const WX = (()=>{
         const P = ir.height / A.n; cx.drawImage(A.cv, Math.round((ir.left - r.left - RAGE_OX * P) * dpr), Math.round((ir.top - r.top - RAGE_OY * P) * dpr), Math.round(A.W * P * dpr), Math.round(A.H * P * dpr)); continue; }
       if(!el.dataset.aura) continue; const ir = frameRect(el); if(!ir.width) continue; const A = auraFor(el, now); if(!A) continue;
       const P = ir.height / 16; cx.drawImage(A.cv, Math.round((ir.left - r.left - AURA_OX * P) * dpr), Math.round((ir.top - r.top - AURA_OY * P) * dpr), Math.round(AURA_W * P * dpr), Math.round(AURA_H * P * dpr)); }
-    for(const el of frameUnits(now)) if(el.dataset.cape || el.dataset.ws) drawCos(el, now, r, dpr); }
+    for(const el of frameUnits(now)) if(el.dataset.cape || el.dataset.ws) drawCos(el, now, r, dpr);
+    for(const el of frameUnits(now)) if(el.dataset.song) drawSong(el, now, r, dpr); }
+  // v0.71 음유시인 오라: 발밑에 노래 색 빛 고리(숨 쉬듯) + 머리 옆으로 떠오르는 도트 음표
+  function drawSong(el, now, r, dpr){ const ir = frameRect(el); if(!ir.width) return; const P = ir.height / 16 * dpr, c = SONG_COL[el.dataset.song] || [255,255,255];
+    const cxp = (ir.left - r.left + ir.width / 2) * dpr, fy = (ir.top - r.top + ir.height * 0.97) * dpr; const ph = (now / 1000) * 2.2 + (ir.left % 7);
+    const a = 0.45 + 0.25 * Math.sin(ph); cx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${a.toFixed(3)})`;
+    for(let i = 0; i < 28; i++){ const t = i / 28 * Math.PI * 2, x = Math.cos(t) * 6.2 * P, y = Math.sin(t) * 1.7 * P; cx.fillRect(Math.round(cxp + x - P / 2), Math.round(fy + y - P / 2), Math.ceil(P), Math.ceil(P)); }
+    const NOTE = [[1,0],[2,0],[1,1],[1,2],[1,3],[0,3],[0,4],[1,4]];
+    for(let k = 0; k < 2; k++){ const q = ((now / 1000) * 0.45 + k * 0.5 + (ir.left % 5) * 0.13) % 1; const nx = cxp + (k ? 5.5 : -6.5) * P + Math.sin(q * 6 + k) * P, ny = fy - (4 + q * 12) * P;
+      cx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${(q < 0.2 ? q * 5 : 1 - (q - 0.2) / 0.8).toFixed(3)})`; for(const [x, y] of NOTE) cx.fillRect(Math.round(nx + x * P * 0.8), Math.round(ny + y * P * 0.8), Math.ceil(P * 0.8), Math.ceil(P * 0.8)); } }
   // v0.58 외형: 망토의 16칸 바깥 자락 · 무기 둘레 움직임 — 영웅 그림 뒤(무대 캔버스)에
   function drawCos(el, now, r, dpr){ const ds = el.dataset, ir = frameRect(el); if(!ir.width) return; const P = ir.height / 16; const [bob, cf] = (ds.af || "0|0").split("|").map(Number);
     const u = el.closest(".unit"), flip = !!(u && u.classList.contains("faceL")); const ox = (ir.left - r.left) * dpr, oy = (ir.top - r.top) * dpr;
@@ -9012,8 +9032,23 @@ setInterval(()=>{ try{ KA.kick(); }catch(e){} },800);
 setTimeout(()=>{ try{ WX.start(); }catch(e){} },300);
 /* ---- 전장 ---- */
 let unitTags={}, curTurn=0;
+// v0.71 영웅(적)을 누르면 지금 걸린 효과를 짧게 — 아이콘 + 이름 + 남은 턴(오라는 '켜짐')
+function buffPeek(div,id){ let box=div.querySelector(".ubuffs"); if(!box){ box=document.createElement("div"); box.className="ubuffs"; div.appendChild(box); }
+  const m=unitTags[id]||{}, sh=Math.max(0,unitShield[id]||0); const rows=Object.entries(m).map(([k,v])=>{ const kind=statusKind(k,v.cls), left=v.until>=1e8?"켜짐":Math.max(1,v.until-curTurn+1)+"턴";
+    return `<span class="ub ${v.cls==="bad"?"bad":""}"><i style="background-image:url(${statusIcon(kind)})"></i>${esc(k)}<small>${left}</small></span>`; });
+  if(sh) rows.unshift(`<span class="ub"><i style="background-image:url(${statusIcon("shield")})"></i>보호막 ${sh}</span>`);
+  box.innerHTML=rows.length?rows.join(""):`<span class="ub none">걸린 효과 없음</span>`; }
+// v0.71 음유시인 오라: 켜 둔 노래가 같은 편 모두에게 — 아이콘(♪)과 발밑 빛·음표로 보임. 시인이 쓰러지면 꺼지고 되살아나면 다시
+let SONGUI={};
+const SONG_COL={courage:[255,138,92],guard:[111,195,255],march:[255,216,92],mock:[201,139,255]};
+function songOnAction(ev){ const sk=Object.values(SKILLS).find(x=>x.type==="aura"&&x.name===ev.skillName); if(!sk) return; SONGUI[ev.actor]={side:ev.side,key:sk.aura,name:sk.name}; songRefresh(); }
+function songRefresh(){ const act={}; for(const [bid,o] of Object.entries(SONGUI)){ const el=$("u-"+bid); if(!el||el.classList.contains("dead")) continue; (act[o.side]=act[o.side]||[]).push(o); }
+  for(const u of curUnits){ const el=$("u-"+u.id); if(!el) continue; const img=el.querySelector("img"); const L=(act[u.side]||[]), on=L.length&&!el.classList.contains("dead");
+    if(img){ if(on) img.dataset.song=L[L.length-1].key; else delete img.dataset.song; }
+    const m=unitTags[u.id]||{}; const had=Object.keys(m).some(k=>k.startsWith("♪ "));
+    if(on){ const lab="♪ "+L[L.length-1].name; if(!m[lab]) addTag(u.id,lab,"st"); } else if(had) delTag(u.id,"♪ "); } }
 function spawnField(units){
-  curUnits=units; unitTags={}; unitShield={};
+  curUnits=units; unitTags={}; unitShield={}; SONGUI={};
   if(units.some(u=>u.side==="enemy")) try{ Sim.prototype.placeLanes.call({units}); }catch(e){}   // v0.43: 전투 밖에서 바로 그릴 때도 가로줄을 정해 둠(Sim과 같은 규칙)
   for(const key of ["enemy-back","enemy-front","party-front","party-back"]) $("row-"+key).innerHTML="";
   for(const u of units){
@@ -9024,7 +9059,7 @@ function spawnField(units){
     unitShield[u.id]=initShield(u,units);
     if(u._bench) div.classList.add("bench");
     div.addEventListener("click",()=>{ const fc=div.closest(".field"); if(fc&&fc.classList.contains("campfire")&&!runState&&CLASSES[u.id]&&!bannerRes&&!telling&&!onboardBusy){ partySel=u.id; showTab("party"); return; }   // v0.33 쉼터: 누르면 그 영웅의 파티·장비
-      div.classList.add("peek"); clearTimeout(div._pk); div._pk=setTimeout(()=>div.classList.remove("peek"),2500); });   // 누르면 잠깐 체력 숫자
+      buffPeek(div,u.id); div.classList.add("peek"); clearTimeout(div._pk); div._pk=setTimeout(()=>div.classList.remove("peek"),3500); });   // 누르면 잠깐 체력 숫자 · v0.71 걸린 효과 목록
     { const m=/^(.*?)( Lv\.\d+)$/.exec(u.name||""); div.querySelector(".uname").innerHTML=esc((u.alive?"":"☠ ")+(m?m[1]:u.name))+(m?`<small class="ulv">${esc(m[2])}</small>`:""); }   // v0.32: 낮은 화면에선 레벨을 숨겨 이름이 안 잘리게
     if(u.affixes&&u.affixes.length){ const ax=document.createElement("span"); ax.className="affx"; ax.textContent="["+u.affixes.map(a=>AFFIXES[a].name).join("·")+"]"; div.querySelector(".uname").after(ax); }
     { const im_=div.querySelector("img"); im_.src=unitSprite(u); const L_=u.look; delete im_.dataset.aura; delete im_.dataset.look; delete im_.dataset.shine;
@@ -11145,6 +11180,8 @@ function handleEvent(ev,zone){
   if(!instantMode()){ markAct(ev.actor,(ev.effects||[]).map(f=>f.target),ev.skillName); showActBar(ev); }
   KA.onAction(ev);
   for(const fx of ev.effects) handleFx(fx,ev);
+  if(ev.type==="action") songOnAction(ev);
+  if(Object.keys(SONGUI).length) songRefresh();
 }
 function setStealthVis(id,on){ const el=$("u-"+id); if(el) el.classList.toggle("stealth",!!on); }
 function handleFx(fx,ev){
@@ -11166,7 +11203,7 @@ function handleFx(fx,ev){
     else { const bu=curUnits.find(x=>x.id===fx.by); logLine(`<span class="fx"><span class="sk">⚡ ${bu?esc(bu.name):"?"}의 반격!</span> ${tn}에게 <span class="dmg">${fx.amount}</span> 피해</span>`); }
     if(fx.killed) logLine(`<span class="fx die">☠ ${tn} 쓰러짐</span>`);
     atHit(()=>{ flash(fx.target,"hit"); popNum(fx.target,"−"+fx.amount+(fx.crit?" 치명타":""),fx.crit?"crit":""); if(fx.kind==="damage") shieldFromFx(fx.target,fx.label,true);
-      updateWidget(fx.target,fx.hp,fx.mp,!!fx.killed); if(fx.killed) delTag(fx.target); });
+      updateWidget(fx.target,fx.hp,fx.mp,!!fx.killed); if(fx.killed){ delTag(fx.target); if(Object.keys(SONGUI).length) songRefresh(); } });
     return;
   }
   if(fx.kind==="heal"){
