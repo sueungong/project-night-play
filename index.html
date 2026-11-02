@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793607210162"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793616097222"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1329,7 +1329,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.86 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.87 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1437,6 +1437,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.87: <b>궁극 3개 · 황혼 보스는 물음표 · 체력 표시 고침</b> — ★궁극은 영웅마다 3개까지 찍을 수 있습니다(이미 4개 이상 찍었다면 나중에 찍은 궁극부터 포인트로 돌려드림). 황혼에서는 장 보스를 처음 만나기 전까지 던전 선택 창의 장 그림·3막 보스 이름·쓰는 기술·도감 증표가 물음표로 가려지고, 3막 끝 보스 구역에 처음 들어서면 공개됩니다. 황혼 10장 보스의 강공 예고를 없앴습니다(보스 패턴은 자정부터 — 그에 맞춰 황혼 10장 난이도를 다시 맞춤). 쓰러진 몹이 체력이 남은 것처럼 보이던 문제: 피해는 공격 연출이 닿는 순간 그리는데, 그 사이 지속 피해 등으로 먼저 쓰러지면 늦게 도착한 옛 체력이 덮어쓰고 있었습니다 — 이제 사건 순서대로만 그립니다.<br>
 v0.86: <b>특성 나무 — 두 갈래씩 갈라지는 길</b> — 갈래마다 줄기 3칸 → 두 길(잔·큰①·잔·작) → 길마다 다시 두 가지(잔·큰·잔·작·잔·★궁극)로 갈라져 갈래당 35칸, 큰 특성 6개·★궁극 4개·작은 특성 7개가 됐습니다(영웅 한 명이 보는 판 215칸). ★궁극은 가지 끝의 마무리 특성이 되어 대가가 없어지고 효과를 낮췄으며 몇 개든 찍을 수 있습니다(개수 제한 없음). 큰 특성·궁극 사이는 늘 3칸. 이음길은 세 가지 — 옆 갈래 길 끝 작은 특성끼리(잔가지 3), 옆 갈래 바깥 가지끼리(잔가지 3), 같은 갈래 안쪽 두 가지끼리(잔가지 2) — 로 옆 갈래·옆 가지로 건너갈 수 있습니다. 큰 특성 98개·궁극 147개·작은 특성 98개를 새로 썼고(큰 특성 196→294 · 궁극 49→196), 새 장치 79개(방패 타격·개전 방패·기수의 외침·서리의 족쇄·별빛 가호·그림자 추격·독 흡수·내공의 샘·철의 자세·조준 치명·앞줄 신속·비웃음의 약화·관객의 방패 …)가 엔진에 들어갔습니다. 특성 포인트는 모두 돌려드렸습니다.<br>
 v0.85: <b>특성 다시 짜기 · 능력치 직업 보너스</b> — 특성이 직업 공통 3갈래 + 고른 전직의 2갈래(다른 전직 갈래는 보이지 않음)로 바뀌었습니다. 갈래마다 28칸: 입구 3칸 → 두 길 12칸씩 → ★궁극 1칸. 잔가지(능력치 소량) → ✦작은 특성(기술 하나의 위력·마나·지속) → 큰 특성(기술·장치의 동작을 바꿈) → ★궁극(플레이 방식을 바꾸는 대신 대가가 있음). 큰 특성·궁극 사이는 늘 4칸이라 큰 것만 골라 찍을 수 없고, 이웃 갈래는 길 중간의 작은 특성끼리 잔가지 3칸 이음길로 이어집니다. 궁극 49개·큰 특성 196개·작은 특성 245개를 전직 기술에 맞춰 새로 썼습니다(성채·서약·피의 대가·격노 / 유성·시간·서리·빙벽 / 빛의 장막·소생·천벌·성전 / 습격·연막·맹독·독초 / 내공·받아치기·승룡·연격 / 한 발·은폐·화약·소각 / 진군·지휘·교란·광기). 스킬북 기술의 특성은 그 스킬북을 배우기 전엔 효과가 없다고 표시됩니다. 능력치도 직업마다 하나, 전직마다 하나에 핵심 장치를 키우는 효과가 붙습니다(★ 표시 · 예: 군악사 의지 → 오라 효과·진군가 확률). 기존 특성은 모두 초기화하고 포인트를 돌려드렸습니다. 함께 바뀐 것: 모든 직업에 마나 없는 <b>'방어 태세'</b>(공격하지 않고 버티는 한 턴, 받는 피해 -30%)가 생겨 보스의 반격 자세·강공 예고에 어느 직업이든 대응할 수 있고, 규칙 대상에 <b>'보스·우두머리 우선'</b>이 생겨 보호막·회복 의식을 시종 대신 보스에게 집중할 수 있습니다. 반격 자세의 되돌림이 더 아파졌고(80~140%), 특성·오라로 저절로 나가는 추가타는 되돌려 받지 않습니다. 이 변경에 맞춰 30장 난이도를 다시 맞췄습니다.<br>
 v0.84: <b>행동 게이지 — 신속이 행동 횟수를 정합니다</b> — 지금까지 신속은 한 턴 안의 순서만 정했습니다. 이제 턴마다 신속만큼 게이지가 차고(신속 30이면 1.3), 1이 넘칠 때마다 그 턴에 한 번 더 움직입니다(최대 2배). 첫 행동은 모두 신속 순서, 추가 행동은 그 뒤에 다시 신속 순서로 — 전투 기록에 ⏩로 표시됩니다. 기절한 턴은 추가 행동도 없습니다. 적도 자정 +10 · 영원한 밤 +22만큼 신속을 더 받습니다. 장비·능력치 창의 신속 옆에 턴당 행동 배율이 나옵니다. 이 변경에 맞춰 30장 난이도를 다시 맞췄습니다.<br>
@@ -2388,17 +2389,22 @@ const ACTS={"swamp":[{"name":"안개 나루","intro":["길드 의뢰: 달빛 습
 const REGION_KEYS=["swamp","volcano","sunken","forest","gold","desert","temple","citadel","throne","altar"];
 const BOSS_LABEL={ swamp:"보스 — 달그림자 뤼네", volcano:"보스 — 불꽃수염 브란도", sunken:"보스 — 깊은 목소리 운디르", forest:"명예로운 결투 — 뿌리기사 가라드" };
 function bossLabel(rk){ return REGIONS[rk].bossLabel||BOSS_LABEL[rk]; }
+// v0.87 황혼에서는 장 보스를 처음 만나기 전까지 그림·이름·기술을 숨김(물음표) — 한 번 만나면(그 장 3막의 보스 구역에 들어서면) 공개
+function bossKnown(rk,d){ if(d==null) d=progress.diff; if(d>0||!progress||(progress.diffMax|0)>0) return true; return !!((progress.bossSeen||{})[rk]||((progress.cl[0]||{})[rk]>0)); }
+function markBossSeen(rk){ if(!progress||!REGIONS[rk]) return; progress.bossSeen=progress.bossSeen||{}; if(!progress.bossSeen[rk]){ progress.bossSeen[rk]=1; try{ saveProgress(); }catch(e){} } }
+function bossLabelShown(rk,d){ return bossKnown(rk,d)?bossLabel(rk):"보스 — ???"; }
+const BOSS_Q_IMG="data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges"><rect x="1" y="1" width="14" height="14" rx="2" fill="#1a2038" stroke="#4a5480"/><g fill="#f4c95d"><rect x="5" y="3" width="6" height="2"/><rect x="4" y="4" width="2" height="2"/><rect x="10" y="4" width="2" height="3"/><rect x="8" y="7" width="3" height="2"/><rect x="7" y="8" width="2" height="2"/><rect x="7" y="11" width="2" height="2"/></g></svg>');
 // 난이도: 10장(3막)을 깨면 다음 난이도가 열리고 1장부터 다시. 적은 챕터별로 다시 '레벨업'된다.
 const DIFFS=[
   {key:"dusk",     name:"황혼",     icon:"🌆", elite:0.10, maxElite:1, affixes:1, extra:0, loot:0, exp:1,   gold:1,   chest:0.22, bossAffix:0, adds:[0,1], cnt:[3,4], enrage:false, tag:""},
   {key:"midnight", name:"자정",     icon:"🌑", elite:0.22, maxElite:2, affixes:2, extra:1, loot:10, exp:2.0, gold:2.2, chest:0.26, bossAffix:1, adds:[1,1], cnt:[3,4], enrage:false, tag:"자정의 "},
   {key:"eternal",  name:"영원한 밤", icon:"🌌", elite:0.32, maxElite:3, affixes:3, extra:1, loot:20, exp:3.3, gold:3.6, chest:0.30, bossAffix:2, adds:[2,2], cnt:[3,5], enrage:true,  tag:"영원한 밤의 "},
 ];
-// 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06 · v0.86 특성 나무(궁극 여러 개)에 맞춰 30장 재보정
+// 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06 · v0.86 특성 나무(궁극 여러 개)에 맞춰 30장 재보정 · v0.87 궁극 3개 제한·황혼 강공 없앰에 맞춰 30장 재보정
 const DIFF_SCALE=[
-  [{hp:1.371,atk:0.992},{hp:1.319,atk:1.52},{hp:0.62,atk:1.354},{hp:1.132,atk:0.958},{hp:0.377,atk:1.577},{hp:0.9,atk:1.83},{hp:0.709,atk:1.84},{hp:0.829,atk:1.657},{hp:0.772,atk:2.085},{hp:0.342,atk:2.81}],   // v0.85 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정, 새 특성·행동 게이지 반영)
-  [{hp:15.986,atk:14.969},{hp:11.157,atk:16.02},{hp:6.382,atk:10.972},{hp:7.092,atk:8.371},{hp:2.305,atk:15.892},{hp:4.188,atk:8.511},{hp:3.084,atk:6.067},{hp:3.424,atk:6.441},{hp:2.053,atk:10.744},{hp:1.571,atk:8.804}],   // v0.85 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
-  [{hp:65.895,atk:62.367},{hp:37.229,atk:82.915},{hp:31.817,atk:35.46},{hp:28.644,atk:28.522},{hp:16.464,atk:42.985},{hp:50.694,atk:60.403},{hp:20.13,atk:27.458},{hp:45.614,atk:118.221},{hp:42.346,atk:144.018},{hp:22.001,atk:139.497}]   // v0.85 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
+  [{hp:1.371,atk:0.992},{hp:1.307,atk:1.512},{hp:0.635,atk:1.373},{hp:1.13,atk:0.956},{hp:0.365,atk:1.548},{hp:0.912,atk:1.845},{hp:0.728,atk:1.868},{hp:0.847,atk:1.679},{hp:0.77,atk:2.081},{hp:0.282,atk:2.503}],   // v0.85 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정, 새 특성·행동 게이지 반영)
+  [{hp:15.072,atk:14.449},{hp:9.41,atk:14.464},{hp:5.654,atk:10.203},{hp:6.864,atk:8.209},{hp:2.157,atk:15.273},{hp:4.373,atk:8.734},{hp:3.345,atk:6.37},{hp:3.489,atk:6.515},{hp:2.31,atk:11.533},{hp:1.702,atk:9.239}],   // v0.85 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
+  [{hp:68.952,atk:64.087},{hp:39.518,atk:85.938},{hp:33.985,atk:36.89},{hp:29.896,atk:29.264},{hp:14.269,atk:39.449},{hp:38.846,atk:51.487},{hp:14.389,atk:22.449},{hp:28.021,atk:88.253},{hp:19.07,atk:89.237},{hp:11.005,atk:92.051}]   // v0.85 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
 ];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
@@ -2451,7 +2457,7 @@ const BOSS_PAT_INFO={charge:{icon:"✴",n:"강공 예고",tip:"한 명을 노려
   phase:{icon:"🔥",n:"격노",tip:"체력 50% 아래로 떨어지면 패턴이 더 자주 옴 (조건: 보스 체력 50% 이하)"}};
 // [난이도][장] — 황혼은 10장 보스만 맛보기(강공 약하게)
 const BOSS_PATS=[
-  [[],[],[],[],[],[],[],[],[],["charge"]],
+  [[],[],[],[],[],[],[],[],[],[]],   // v0.87 황혼은 보스 패턴 없음(규칙 4칸으로 '방어 태세'까지 챙기기엔 이르다) — 강공 예고는 자정부터
   [["charge"],["barrier"],["ritual"],["charge"],["reflect"],["barrier"],["ritual","charge"],["reflect","barrier"],["charge","ritual"],["barrier","charge"]],
   [["charge","phase"],["barrier","ritual"],["reflect","charge"],["ritual","barrier","phase"],["charge","reflect"],["barrier","charge","phase"],["ritual","reflect"],["charge","barrier","phase"],["reflect","ritual","charge"],["charge","barrier","ritual","phase"]]];
 const BOSS_PAT_K=[{hit:0.8,shield:0.06,heal:0.18,rit:0.06,ref:0.8,every:5},{hit:1.2,shield:0.1,heal:0.25,rit:0.07,ref:1.1,every:4},{hit:1.5,shield:0.13,heal:0.3,rit:0.08,ref:1.4,every:4}];   // 강공: 노린 영웅 최대 체력 × hit(막지 않으면 쓰러짐)
@@ -3607,7 +3613,7 @@ const TRAITS2={
      [BG("놀림감","상태이상 걸릴 때 공명 +1 더","적에게 상태이상이 걸릴 때 공명 +1 더",{flag:"res_debuff2"}), SM("불협화음 호흡",{sk:"discord",castmp:2}), UL("피리","자장가·바보 춤 +10%p","자장가·바보 춤 확률 +10%p",{flag:"flute"})]]]]),
  ],
 };
-function ksMax(cid){ return 99; }   // v0.86: 궁극은 대가 없는 마무리 특성 — 개수 제한 없음
+const KS_MAX=3; function ksMax(cid){ return KS_MAX; }   // v0.87: 궁극은 대가 없는 마무리 특성 — 영웅마다 3개까지(갈래 20개 중 무엇을 고를지가 그 영웅의 색)
 const TRAIT_RX=(row)=>64+(row-1)*50;
 const EFF_TXT={atk_pct:v=>`공격력 ${v>0?"+":""}${Math.round(v*100)}%`,hp_pct:v=>`체력 ${v>0?"+":""}${Math.round(v*100)}%`,def:v=>`방어력 +${v}`,def_pct:v=>`방어력 +${Math.round(v*100)}%`,
   crit:v=>`치명타 확률 ${v>0?"+":""}${v}%`,critdmg:v=>`치명타 피해 ${v>0?"+":""}${v}%`,spd:v=>`신속 +${v}`,counter:v=>`반격 +${Math.round(v*100)}%`,mp_pct:v=>`마나 +${Math.round(v*100)}%`,
@@ -3699,6 +3705,7 @@ function traitBlockReason(cid,n){
   if(t.includes(n.key)) return "";
   if(!progress.heroes[cid].adv) return `전직 후 사용 가능 — Lv${ADV_LEVEL}부터 파티 탭에서 전직`;
   if(traitForkDead(cid,n)){ const o=traitIdx(cid).grp[n.grp].find(x=>t.includes(x.key)); return `이 갈래 끝 궁극은 둘 중 하나 — 이미 '${o.name}'을(를) 골랐습니다 (그 칸을 되돌리면 바꿀 수 있음)`; }
+  if(n.ks&&ksTaken(cid).length>=ksMax(cid)) return `궁극은 ${ksMax(cid)}개까지 — 이미 ${ksTaken(cid).map(x=>"'"+x.name+"'").join("·")} (하나를 되돌리면 바꿀 수 있음)`;
   if(!traitLinked(cid,n)) return "이어진 칸이 없음 — 가운데에서부터 길을 이어 와야 합니다";
   if(traitPtsLeft(cid)<=0){ const nx=nextTraitLevel(progress.heroes[cid].level); return nx?`포인트 없음 — 다음 특성 포인트는 Lv.${nx}`:`포인트 없음 — 레벨 상한(각성하면 +${TRAIT_AWAKEN})`; }
   return "";
@@ -3715,7 +3722,7 @@ function traitRemovable(cid,key,set){
 function traitPath(cid,target){
   const t=traitsTaken(cid); if(t.includes(target.key)) return [];
   const ok=n=>!t.includes(n.key)&&!traitForkDead(cid,n)&&!(n.ks&&n!==target);
-  if(!ok(target)) return null;
+  if(!ok(target)||(target.ks&&ksTaken(cid).length>=ksMax(cid))) return null;
   const prev=new Map(), q=[];
   for(const n of allTraitNodes(cid)) if(ok(n)&&traitLinked(cid,n,t)){ prev.set(n.key,null); q.push(n); }
   for(let i=0;i<q.length;i++){ const n=q[i]; if(n===target) break;
@@ -4088,6 +4095,7 @@ function migrateProgress(p){
     if(!Array.isArray(out.heroes[c].learned)) out.heroes[c].learned=[];
     if(!Array.isArray(out.heroes[c].traits)) out.heroes[c].traits=[];
     if(p.traitsVer!==9){ if(out.heroes[c].traits.length) out._traitRefund=true; out.heroes[c].traits=[]; }   // v0.86 특성 나무 다시 짬 → 모두 돌려줌
+    { const T=out.heroes[c].traits, isU=k=>/_(aa|ab|ba|bb)6$/.test(k); let n=T.filter(isU).length; for(let i=T.length-1;i>=0&&n>3;i--) if(isU(T[i])){ T.splice(i,1); n--; } }   // v0.87 궁극 3개 제한 — 넘친 궁극(나중에 찍은 것부터)은 포인트로 돌려줌(궁극은 가지 끝이라 빼도 길이 끊기지 않음)
     const eq=Object.assign({}, out.heroes[c].equip||{});
     if(eq.trinket!==undefined){ eq.amulet=eq.amulet??eq.trinket; delete eq.trinket; }
     out.heroes[c].equip=Object.assign(emptyEquip(), eq);
@@ -4142,6 +4150,7 @@ function migrateProgress(p){
   out.acts=[0,1,2].map(i=>Object.assign({},(Array.isArray(p.acts)&&p.acts[i])||{}));
   for(let i=0;i<3;i++) for(const k of REGION_KEYS){ const v=+out.acts[i][k]||0; out.acts[i][k]=out.cl[i][k]>0?3:Math.max(0,Math.min(3,v)); }
   if(!out.actSel||typeof out.actSel!=="object") out.actSel={};
+  if(!out.bossSeen||typeof out.bossSeen!=="object") out.bossSeen={};   // v0.87 황혼에서 만난 장 보스
   let dm=0; for(let i=0;i<2;i++) if(out.cl[i][REGION_KEYS[REGION_KEYS.length-1]]>0) dm=i+1;
   out.diffMax=Math.max(dm, typeof p.diffMax==="number"?p.diffMax:0);
   if(typeof out.diff!=="number"||out.diff>out.diffMax||out.diff<0) out.diff=0;
@@ -7419,7 +7428,7 @@ function renderTraitDetail(cid){
     b.disabled=!rm||progress.gold<TRAIT_REFUND1; b.onclick=()=>refundTrait(cid,n); det.appendChild(b);
   }
   const taken=traitsTaken(cid).map(k=>traitNode(cid,k)).filter(Boolean);
-  const sh=document.createElement("div"); sh.className="sumh"; sh.textContent=`배운 특성 ${taken.length}칸 · 큰 특성 ${taken.filter(x=>x.big&&!x.ks).length} · ★궁극 ${ksTaken(cid).length}`; det.appendChild(sh);
+  const sh=document.createElement("div"); sh.className="sumh"; sh.textContent=`배운 특성 ${taken.length}칸 · 큰 특성 ${taken.filter(x=>x.big&&!x.ks).length} · ★궁극 ${ksTaken(cid).length}/${ksMax(cid)}`; det.appendChild(sh);
   const sm=document.createElement("div"); sm.className="sum";
   const E=traitEffects(cid), tot=effText(Object.fromEntries(Object.keys(EFF_TXT).filter(k=>E[k]).map(k=>[k,k.endsWith("_pct")||k==="counter"||k==="lifesteal"?Math.round(E[k]*100)/100:E[k]])));
   const bigs=taken.filter(x=>x.big||x.ks);
@@ -7560,7 +7569,7 @@ function renderTraits(){
   }
   renderTraitMap(cid,pane);
   const leg=document.createElement("div"); leg.className="hintline tleg2";
-  leg.innerHTML=`특성 포인트: 전직(Lv${ADV_LEVEL})부터 레벨마다 1 (Lv${LEVEL_CAP}에 ${traitBase(LEVEL_CAP)}) · 각성마다 +${TRAIT_AWAKEN} · 큰 별마다 +1 — 가운데에서 이어진 칸만 배울 수 있어요. 갈래 5개(직업 공통 3 + 전직 2) · 갈래마다 줄기에서 두 길로, 길마다 다시 두 가지로 갈라져요(갈래당 35칸 · 큰 특성 6 · ★궁극 4). 잔가지 → <span style="color:#8fd9cc">✦ 작은 특성</span>(기술 하나 다듬기) → 큰 특성(기술의 동작을 바꿈) → <span style="color:#f2c14e">★ 궁극</span>(가지 끝의 마무리 — 대가 없음, 몇 개든). 큰 특성·궁극 사이는 늘 3칸 · 이음길로 옆 갈래·옆 가지로 건너갈 수 있어요.`;
+  leg.innerHTML=`특성 포인트: 전직(Lv${ADV_LEVEL})부터 레벨마다 1 (Lv${LEVEL_CAP}에 ${traitBase(LEVEL_CAP)}) · 각성마다 +${TRAIT_AWAKEN} · 큰 별마다 +1 — 가운데에서 이어진 칸만 배울 수 있어요. 갈래 5개(직업 공통 3 + 전직 2) · 갈래마다 줄기에서 두 길로, 길마다 다시 두 가지로 갈라져요(갈래당 35칸 · 큰 특성 6 · ★궁극 4). 잔가지 → <span style="color:#8fd9cc">✦ 작은 특성</span>(기술 하나 다듬기) → 큰 특성(기술의 동작을 바꿈) → <span style="color:#f2c14e">★ 궁극</span>(가지 끝의 마무리 — 대가 없음, 영웅마다 ${ksMax(cid)}개까지). 큰 특성·궁극 사이는 늘 3칸 · 이음길로 옆 갈래·옆 가지로 건너갈 수 있어요.`;
   pane.appendChild(leg);
   renderTraitDetail(cid);
 }
@@ -9983,9 +9992,14 @@ function showActBar(ev){
 // v0.55.6: 보스 체력 겹 수 — 중간보스 5겹 · 보스 8겹, 난이도마다 +1 (황혼·자정·영원한 밤)
 const HP_LAYER_COLORS=["#ff6b5b","#ff9a3c","#ffd23f","#7ee26a","#4fd6c8","#5c9dff","#b48cff","#ff7ad9","#ffffff","#c9c9c9"];
 function bossLayers(u){ if(!u||u.side!=="enemy"||!u.isBossKind) return 1; const d=(typeof runState!=="undefined"&&runState&&runState.d)||(typeof COOP!=="undefined"&&COOP.run&&COOP.run.d)||0; return (u.named&&!u.finalBoss?5:8)+Math.min(2,d|0); }
-function updateWidget(id,hp,mp,killed){
+// v0.87: 체력 갱신 순서 — 피해는 연출이 닿는 순간까지 늦춰 그리므로, 그 사이 다른 효과(지속 피해 등)가 먼저 그려질 수 있음.
+//   갱신마다 사건 순서 번호를 붙이고, 더 나중 사건이 이미 그려졌으면 늦게 도착한 옛 갱신은 버림(쓰러진 몹이 체력이 남은 것처럼 보이던 문제)
+let hpSeq=0; const hpSeqOf={};
+function updateWidget(id,hp,mp,killed,seq){
   const u=curUnits.find(x=>x.id===id); if(!u) return;
   const el=$("u-"+id); if(!el) return;
+  if(seq==null) seq=++hpSeq; if(seq<(hpSeqOf[id]||0)) return; hpSeqOf[id]=seq;
+  if(!killed&&hp>0&&el.classList.contains("dead")) return;   // 쓰러진 뒤에 도착한 옛 체력은 무시(부활은 reviveWidget이 먼저 표시를 되돌림)
   { const sh=Math.max(0,unitShield[id]||0), tot=Math.max(u.hp_max,hp+sh), b=el.querySelector(".bar:not(.mp)>b.shb");   // v0.32: 보호막은 HP 바 끝에 흰 막대
     const L=bossLayers(u), bar=el.querySelector(".bar:not(.mp)");
     if(L>1){   // v0.55.6: 보스 겹바 — 체력을 L겹으로 나눠 겹마다 색을 달리함. 한 방이 작아도 겹이 줄어드는 게 보이게
@@ -10946,8 +10960,8 @@ function renderCodex(){
     const ends=progress.endings||{};
     body.innerHTML=`<div class="cxsub">보스를 특별한 방법으로 이기면 얻어요. 일곱 개를 모으면 다른 결말이 열립니다.</div><div class="cxgrid tk">`
       +Object.keys(TOKENS).map(k=>{ const has=!!(progress.tokens&&progress.tokens[k]), R=REGIONS[k], M=MOBS[R.boss];
-        return `<div class="cxcard${has?" got":""}"><div class="cxpic"><img src="${M?SPRITES[M.sprite]:""}" alt=""><span class="cxbadge">${has?TOKENS[k].icon:"🔒"}</span></div>
-          <div class="cxname">${esc(TOKENS[k].name)}</div><div class="cxmeta">${esc(R.chapter)} · ${esc(R.name)}</div><div class="cxcond">${esc(TOKEN_COND[k].text)}</div></div>`; }).join("")
+        return `<div class="cxcard${has?" got":""}"><div class="cxpic"><img src="${M&&bossKnown(k,0)?SPRITES[M.sprite]:BOSS_Q_IMG}" alt=""><span class="cxbadge">${has?TOKENS[k].icon:"🔒"}</span></div>
+          <div class="cxname">${esc(bossKnown(k,0)||has?TOKENS[k].name:"??? — 아직 만나지 못한 보스")}</div><div class="cxmeta">${esc(R.chapter)} · ${esc(R.name)}</div><div class="cxcond">${esc(TOKEN_COND[k].text)}</div></div>`; }).join("")
       +`</div><div class="cxends">${Object.keys(ENDINGS).map(k=>`<span class="cxend${ends[k]?" got":""}">${ends[k]?"🌅":"🔒"} ${esc(ENDINGS[k].title)}</span>`).join("")}</div>`;
   } else if(codexTab==="sets"){
     body.innerHTML=`<div class="cxsub">세트 6부위를 한 번이라도 얻으면 완성 — 완성 보상 밤의 정수 40</div><div class="cxgrid st">`
@@ -11686,14 +11700,15 @@ function renderSteps(){
     return; }
   if(!runState){
     const r=curRegion(), D=DIFFS[progress.diff], n=(progress.cl[progress.diff]||{})[progress.lastRegion]||0, rk=progress.lastRegion, dn=actsDone(progress.diff,rk), ca=curAct();
-    const actBtns=[1,2,3].map(a=>{ const op=actOpen(progress.diff,rk,a), dn2=a<=dn; return `<button class="${a===ca?"on":""}" ${op?`onclick="setAct(${a})"`:"disabled"} title="${esc(a<3?ACTS[rk][a-1].mid.label:bossLabel(rk))}">${op?"":"🔒"}${a}막 ${esc(actName(rk,a))}${dn2?" ✓":""}</button>`; }).join("");
+    const actBtns=[1,2,3].map(a=>{ const op=actOpen(progress.diff,rk,a), dn2=a<=dn; return `<button class="${a===ca?"on":""}" ${op?`onclick="setAct(${a})"`:"disabled"} title="${esc(a<3?ACTS[rk][a-1].mid.label:bossLabelShown(rk))}">${op?"":"🔒"}${a}막 ${esc(actName(rk,a))}${dn2?" ✓":""}</button>`; }).join("");
     const wd=wardsFor(progress.diff,rk,true); const wardTxt=wd.length?`<span title="${esc(wd.map(w=>WARDS[w].name+" — "+WARDS[w].desc).join("\n"))}" style="color:#ff9f8a">🛡 이 장의 적: ${wardsFor(progress.diff,rk,false).map(w=>WARDS[w].name).join("·")} (보스 +${esc(wd.slice(wardsFor(progress.diff,rk,false).length).map(w=>WARDS[w].name).join("·"))})</span>`:"";
     box.innerHTML=`<div class="campinfo"><span>등불 도시 — 출정 준비</span><span class="sep" style="color:#5d6890">/</span><span>${D.icon} ${D.name} · <b>${esc(r.chapter)} ${esc(r.name)}</b></span><span class="egbtns">${actBtns}</span><span>${n?`클리어 ${n}회`:dn?`${dn}/3막`:"첫 도전"}</span>${wardTxt}<span class="spacer"></span><span style="color:var(--muted);font-size:14px">아래 <b style="color:var(--accent)">▶ 던전 입장</b>으로 출발</span></div>`;
     return;
   }
   box.innerHTML=runState.zones.map((z,i)=>{ const st=i<runState.zone?"done":i===runState.zone?"now":"";
-    const sub=i<runState.zone?"완료":i===runState.zone?(playing?"진행 중":"다음"):(z.boss||z.mid)?esc(String(z.label||"").replace(/^.*?— /,"")):"예정";
-    return `<div class="st ${st}${z.boss?" boss":""}" title="${esc(z.label||zoneKind(z))}"><span class="k"><span class="n">${i+1}</span>${zoneKind(z)}</span><span class="s">${sub}</span></div>`; }).join("");
+    const hid=z.boss&&!runState.mode&&!bossKnown(runState.regionKey,runState.d);   // v0.87 황혼: 만나기 전엔 ???
+    const sub=i<runState.zone?"완료":i===runState.zone?(playing?"진행 중":"다음"):hid?"???":(z.boss||z.mid)?esc(String(z.label||"").replace(/^.*?— /,"")):"예정";
+    return `<div class="st ${st}${z.boss?" boss":""}" title="${esc(hid?"보스 — ???":(z.label||zoneKind(z)))}"><span class="k"><span class="n">${i+1}</span>${zoneKind(z)}</span><span class="s">${sub}</span></div>`; }).join("");
 }
 function setMainBtn(){
   speedRefresh();
@@ -11895,9 +11910,9 @@ function renderDungeonPicker(){
   let body="", foot="";
   if(!eg){
     const cards=REGION_KEYS.map(k=>{ const R=REGIONS[k], ok=chapterUnlocked(d,k), dn=ok?actsDone(d,k):0, B=MOBS[R.boss], sel=k===rk&&d===progress.diff;
-      return `<button class="dpc${sel?" on":""}${ok?"":" lk"}" ${ok?`onclick="dpSetRegion('${k}')"`:"disabled"}><span class="dpimg"><img src="${B?SPRITES[B.sprite]:""}" alt=""></span><span class="dpt"><b>${esc(R.chapter)}</b> <span class="rn">${esc(R.name)}</span></span><span class="dpacts">${[1,2,3].map(a=>`<i class="${a<=dn?"done":ok&&a===dn+1?"next":""}"></i>`).join("")}</span>${ok?"":'<span class="dplock">🔒</span>'}</button>`; }).join("");
+      return `<button class="dpc${sel?" on":""}${ok?"":" lk"}" ${ok?`onclick="dpSetRegion('${k}')"`:"disabled"}><span class="dpimg"><img src="${B&&bossKnown(k,d)?SPRITES[B.sprite]:BOSS_Q_IMG}" alt=""${B&&bossKnown(k,d)?"":' title="아직 만나지 못한 보스"'}></span><span class="dpt"><b>${esc(R.chapter)}</b> <span class="rn">${esc(R.name)}</span></span><span class="dpacts">${[1,2,3].map(a=>`<i class="${a<=dn?"done":ok&&a===dn+1?"next":""}"></i>`).join("")}</span>${ok?"":'<span class="dplock">🔒</span>'}</button>`; }).join("");
     const R=REGIONS[rk], ca=curAct(), dn=actsDone(progress.diff,rk), n=(progress.cl[progress.diff]||{})[rk]||0;
-    const acts=[1,2,3].map(a=>{ const op=actOpen(progress.diff,rk,a); return `<button class="${a===ca?"on":""}" ${op?`onclick="dpSetAct(${a})"`:"disabled"}>${op?"":"🔒 "}<b>${a}막</b> ${esc(actName(rk,a))}${a<=dn?" ✓":""}<small>${esc(a<3?ACTS[rk][a-1].mid.label:bossLabel(rk))}</small></button>`; }).join("");
+    const acts=[1,2,3].map(a=>{ const op=actOpen(progress.diff,rk,a); return `<button class="${a===ca?"on":""}" ${op?`onclick="dpSetAct(${a})"`:"disabled"}>${op?"":"🔒 "}<b>${a}막</b> ${esc(actName(rk,a))}${a<=dn?" ✓":""}<small>${esc(a<3?ACTS[rk][a-1].mid.label:bossLabelShown(rk))}</small></button>`; }).join("");
     const wd=wardsFor(progress.diff,rk,false);
     body=`<div class="dpgrid">${cards}</div><div class="dpsel"><div class="dph"><b>${esc(R.chapter)} ${esc(R.name)}</b><span>${n?`클리어 ${n}회`:dn?`${dn}/3막`:"첫 도전"}${wd.length?` · 🛡 ${wd.map(w=>WARDS[w].name).join("·")}`:""}</span></div><div class="dpactbtns">${acts}</div>${bossInfoHTML(rk,ca)}</div>`;
   } else {
@@ -11925,6 +11940,7 @@ function bossInfoHTML(rk,a){ try{
   const small=innerHeight<=560; const PT=a===3?bossPatsFor(progress.diff,rk):[];
   const pat=PT.length?`<div class="dppat"><b>⚠ 보스 패턴</b> — 예고를 보고 대응하도록 규칙을 미리 짜 두세요<ul>${PT.map(k=>`<li><b>${BOSS_PAT_INFO[k].icon} ${esc(BOSS_PAT_INFO[k].n)}</b> ${esc(BOSS_PAT_INFO[k].tip)}</li>`).join("")}</ul></div>`:"";   // v0.82
   const EV=envFor(progress.diff,rk); const env=EV?`<div class="dppat"><b>${ENV_INFO[EV].icon} 이 장의 환경 — ${esc(ENV_INFO[EV].n)}</b><ul><li>${esc(envTip(EV,progress.diff))}</li><li><b>✚🛡☠ 역할 몬스터</b> 치유사·방패병·주술사가 섞여 나오고, 우두머리 곁에는 꼭 붙어 있음 · 광역기는 잘 안 먹힘 — 단일 공격 규칙의 대상을 '역할 몬스터 우선'으로</li></ul></div>`:"";   // v0.83
+  if(a===3&&!bossKnown(rk)) return env+pat+`<details class="dpboss"${small?"":" open"}><summary><img src="${BOSS_Q_IMG}" alt=""><b>보스 ???</b><span>아직 만나지 못함</span></summary><ul><li><i>?</i><b>???</b><span>3막 끝에서 처음 만나면 그림·이름·쓰는 기술이 공개됩니다</span></li></ul></details>`;   // v0.87
   return env+pat+`<details class="dpboss"${small?"":" open"}><summary><img src="${SPRITES[B.sprite]}" alt=""><b>${esc(a<3?"중간보스":"보스")} ${esc(B.name)}</b><span>쓰는 기술 ${B.rules.filter(r=>r.skill!=="basic_attack").length}개</span></summary><ul>${rows}</ul></details>`;
 }catch(e){ return ""; } }
 function dpSetEg(k){ progress.egMode=k; saveProgress(); goCamp(); renderDungeonPicker(); }
@@ -12035,6 +12051,7 @@ async function runBattle(z){
   traitUndo={}; try{ if(z.boss||z.named){ if(!SND.rage||!z.boss){ SND.scene(z.eg==="abyss"?"boss_abyss":z.eg==="fall"?"boss_fall":"boss"); SND.fx("boss_appear"); } } else SND.battle(runState.regionKey); }catch(e){}
   playing=true; setMainBtn(); $("resetBtn").disabled=true;
   $("actbar").hidden=true; markAct(null);
+  if(z.boss&&!runState.mode) markBossSeen(runState.regionKey);   // v0.87
   logLine(`<span class="zone">⟡ 구역 ${runState.zone+1} — ${esc(z.label)}</span>`);
   const enemies=soloScaleEnemies(z.mobs.map((m,i)=>buildMobUnit(m,i,runState.d,runState.regionKey)),runState.party.length,!!runState.mode);
   const seed=(Math.random()*0xFFFFFFFF)>>>0;
@@ -12131,7 +12148,7 @@ function handleFx(fx,ev){
   const tn=tu?esc(tu.name):"?";
   KA.onFx(fx);
   // v0.55.5: 돌진·투사체가 닿는 순간에 맞춰 숫자·체력바·쓰러짐을 보여 줌 — 전에는 공격이 닿기 전에 몹이 먼저 쓰러져 '죽은 몹을 때리는' 것처럼 보였음
-  const hw=KA.hitWait(fx.target), atHit=fn=>{ if(hw>8) setTimeout(fn,hw); else fn(); };
+  const hw=KA.hitWait(fx.target), atHit=fn=>{ if(hw>8) setTimeout(fn,hw); else fn(); }; const sq=++hpSeq;
   if(fx.kind==="miss"){
     logLine(`<span class="fx">↳ ${tn} — <span class="r">${esc(fx.label||"빗나감")}</span></span>`);
     atHit(()=>{ const el=$("u-"+fx.target); if(el){ el.classList.remove("missed"); void el.offsetWidth; el.classList.add("missed"); setTimeout(()=>el.classList.remove("missed"),700); }
@@ -12144,7 +12161,7 @@ function handleFx(fx,ev){
     else { const bu=curUnits.find(x=>x.id===fx.by); logLine(`<span class="fx"><span class="sk">⚡ ${bu?esc(bu.name):"?"}의 반격!</span> ${tn}에게 <span class="dmg">${fx.amount}</span> 피해</span>`); }
     if(fx.killed) logLine(`<span class="fx die">☠ ${tn} 쓰러짐</span>`);
     atHit(()=>{ flash(fx.target,"hit"); popNum(fx.target,"−"+fx.amount+(fx.crit?" 치명타":""),fx.crit?"crit":""); if(fx.kind==="damage") shieldFromFx(fx.target,fx.label,true);
-      updateWidget(fx.target,fx.hp,fx.mp,!!fx.killed); if(fx.killed){ delTag(fx.target); if(Object.keys(SONGUI).length) songRefresh(); } });
+      updateWidget(fx.target,fx.hp,fx.mp,!!fx.killed,sq); if(fx.killed){ delTag(fx.target); if(Object.keys(SONGUI).length) songRefresh(); } });
     return;
   }
   if(fx.kind==="heal"){
@@ -12163,7 +12180,7 @@ function handleFx(fx,ev){
     if(/해제$/.test(fx.label||"")) delTag(fx.target,shortLabel(fx.label).replace(/\s*해제$/,""));
     else { const tu2=curUnits.find(x=>x.id===fx.target); addTag(fx.target,fx.label,ev&&tu2&&tu2.side!==ev.side?"bad":""); }
   }
-  updateWidget(fx.target,fx.hp,fx.mp,!!fx.killed);
+  updateWidget(fx.target,fx.hp,fx.mp,!!fx.killed,sq);
   if(fx.killed){ logLine(`<span class="fx die">☠ ${tn} 쓰러짐</span>`); delTag(fx.target); }
 }
 // 전투 기록을 영웅에게 쌓는다: 칭호 조건, 운명 옵션 진행, 스킬 숙련
@@ -13231,6 +13248,7 @@ async function coopRest(run){
 async function coopBattle(run,z){
   try{ if(z.boss||z.named){ SND.scene(z.eg==="abyss"?"boss_abyss":z.eg==="fall"?"boss_fall":"boss"); SND.fx("boss_appear"); } else SND.battle(run.rk); }catch(e){}
   playing=true; setMainBtn(); $("actbar").hidden=true; markAct(null);
+  if(z.boss&&!run.mode) markBossSeen(run.rk);   // v0.87
   logLine(`<span class="zone">⟡ 구역 ${run.z+1} — ${esc(z.label)}</span>`);
   const enemies=coopScaleEnemies(z.mobs.map((m,i)=>buildMobUnit(m,i,run.d,run.rk)), run.party.length, 4, !!run.mode);
   if(run.mode==="exped"){ for(const c of run.eg.curses) for(const e of enemies){ if(e.affixes.includes(c)) continue; applyAffix(e,c); e.affixes.push(c); } }
