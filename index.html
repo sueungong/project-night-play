@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793701236173"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793712647396"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1327,7 +1327,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.90 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.91 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1435,6 +1435,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
+v0.91: <b>적의 상태이상</b> — 몹마다 특기 상태이상(장마다 주제)이 생겼습니다. 한 번 맞힐 때 확률 황혼 10% · 자정 30% · 영원한 밤 50%, 한 전투에서 거는 몹은 1 · 2 · 3마리까지(보스·우두머리는 그 장의 특기 전부, 자정부터 정예도). 영원한 밤의 적은 상태이상 걸린 영웅에게 피해 +20%. 막는 법: 상태이상 저항 상한 75% → 70%, 장비 저항 옵션이 더 자주·더 크게(2~9, 예전 1~7), 수호의 노래·수호기사 철벽 저항 +15%p, 권사 호흡 고르기가 내 상태이상 하나를 풂, 성직자 정화. 일반 몹 기술에 따로 붙어 있던 화상·약화·기절은 특기 상태이상으로 바뀜(보스 기술은 그대로). 한 전투 몹 수: 자정 3~5 · 영원한 밤 4~5마리.
 v0.90: <b>마나·회복 다시 짜기</b> — <b>회복:</b> 구역 사이 회복(10%)을 없애고, 매 턴 직업 기본값 + 체질(체력)·의지(마나)만큼 조금씩 회복합니다. 막 중간 쉼터는 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남). <b>마나:</b> 기술 비용은 최대 마나의 %가 아니라 정해진 숫자입니다(레벨이 오를수록 더 자주 씀). 권사·총사·음유시인의 기세·탄약·공명 기술도 마나를 씁니다. 최대 마나는 의지 1당 +4(지능은 마나에 영향 없음). 레벨업 때 마나는 직업마다 다른 기준값(마법사 7 · 도적 4 · 성직자 3.5 · 검사 3 · 권사·총사 2 · 음유시인 1.5, 의지 1당 +2%)의 80~120% 사이에서 무작위로 오릅니다. 장비의 마나 옵션 수치는 예전의 30%(예: 마나 +40 → +12). <b>장비 수준:</b> 난이도 안에서 1장 → 10장 +20%(난이도 사이 +30%는 그대로).
 v0.88: <b>전투 다시 짜기 · 한 장 = 5막</b> — <b>전투 초기화:</b> 보스 특수 패턴, 역할 몬스터, 장별 환경, 행동 게이지(신속은 행동 순서만), 방어 태세를 없앴습니다. 구역 사이 회복은 15% → 10%. <b>기술:</b> 직업마다 기본 기술 4개 + 전직 기술 3개(전직 기술 Lv10, 전직 패시브 Lv14, 추가 전직 기술 Lv16). 새 기술 15개(방패 강타·철벽 반격·회전베기·연소·마력 폭주·빙결 창·수호천사·정화·심판의 철퇴·죽음의 표식·독안개·맹독 단검·용권 폭풍·관통 저격·소이 폭격), 기존 기술도 효과·수치를 다시 맞췄습니다. 스킬북은 없어지고 책 기술은 기본·전직 기술로 옮겼습니다(예전에 산 책은 골드로 돌려드림). <b>스킬칸:</b> 전직 전 3칸, 전직 후 5칸. 칸 하나 = 기술 + 조건 + 대상이고 같은 기술은 한 칸만 씁니다. 아무 칸도 안 맞으면 기본공격. <b>마나:</b> 모든 영웅이 매 턴 최대 마나의 일정 비율(의지 10이면 8%)을 회복하고, 기술 비용은 최대 마나의 %입니다. 권사는 기세, 총사는 탄창만 씁니다. <b>상태이상 6가지:</b> 화상·독·기절·냉기·약화·취약. 출혈은 독으로, 공포·침묵은 기절로, 실명은 약화로, 표식·낙인은 취약으로 합쳤습니다. 냉기는 3중첩이면 1턴 빙결, 기절·빙결 뒤에는 2턴 동안 다시 걸리지 않습니다. <b>스탯 고정식:</b> 처음 스탯(모든 직업 합계 60)에 보너스 8포인트를 한 번만 찍습니다(한 스탯 18까지, 되돌릴 수 없음). 레벨업 때는 체력·마나·공격력이 스탯에 따라 정해진 범위에서 무작위로 오릅니다. 18까지 올린 스탯은 특혜가 하나씩 붙습니다(괴력·통찰·강인함·굳은 의지·관통·회심). 예전 세이브는 찍었던 포인트를 돌려받아 보너스 8포인트를 다시 찍고, 성장은 그 레벨까지의 기대값으로 맞춰집니다. 전직 고정 능력치 보너스와 직업 능력치 보너스는 없앴습니다. <b>강화:</b> +1~+9는 단계당 +5%, +10~+15는 단계당 +9%, 심연 핵으로 연 +16~+18은 단계당 +15%(퍼센트 능력치는 절반). <b>장비 수준:</b> 같은 난이도 안에서는 1장 → 10장 +40%, 난이도가 바뀌면 +30%, 장 보스 장비는 2장 앞선 수준. <b>한 장 = 5막:</b> 장마다 새 2막·4막(새 중간보스 20명)이 생기고, 막마다 전투가 6~7번(5막은 5~6번)으로 늘었습니다. 막 한가운데 쉼터에서 처음 지날 때 짧은 장면이 나옵니다(난이도마다 따로). 예전 세이브의 깬 막은 새 막 번호로 옮겨집니다. 30장 난이도는 새 구조에 맞춰 다시 맞췄습니다.<br>
 v0.87: <b>궁극 3개 · 황혼 보스는 물음표 · 체력 표시 고침</b> — ★궁극은 영웅마다 3개까지 찍을 수 있습니다(이미 4개 이상 찍었다면 나중에 찍은 궁극부터 포인트로 돌려드림). 황혼에서는 장 보스를 처음 만나기 전까지 던전 선택 창의 장 그림·3막 보스 이름·쓰는 기술·도감 증표가 물음표로 가려지고, 3막 끝 보스 구역에 처음 들어서면 공개됩니다. 황혼 10장 보스의 강공 예고를 없앴습니다(보스 패턴은 자정부터 — 그에 맞춰 황혼 10장 난이도를 다시 맞춤). 쓰러진 몹이 체력이 남은 것처럼 보이던 문제: 피해는 공격 연출이 닿는 순간 그리는데, 그 사이 지속 피해 등으로 먼저 쓰러지면 늦게 도착한 옛 체력이 덮어쓰고 있었습니다 — 이제 사건 순서대로만 그립니다.<br>
@@ -2417,16 +2418,26 @@ const BOSS_Q_IMG="data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http
 // 난이도: 10장(3막)을 깨면 다음 난이도가 열리고 1장부터 다시. 적은 챕터별로 다시 '레벨업'된다.
 const DIFFS=[
   {key:"dusk",     name:"황혼",     icon:"🌆", elite:0.10, maxElite:1, affixes:1, extra:0, loot:0, exp:1,   gold:1,   chest:0.22, bossAffix:0, adds:[0,1], cnt:[3,4], enrage:false, tag:""},
-  {key:"midnight", name:"자정",     icon:"🌑", elite:0.22, maxElite:2, affixes:2, extra:1, loot:10, exp:2.0, gold:2.2, chest:0.26, bossAffix:1, adds:[1,1], cnt:[3,4], enrage:false, tag:"자정의 "},
-  {key:"eternal",  name:"영원한 밤", icon:"🌌", elite:0.32, maxElite:3, affixes:3, extra:1, loot:20, exp:3.3, gold:3.6, chest:0.30, bossAffix:2, adds:[2,2], cnt:[3,5], enrage:true,  tag:"영원한 밤의 "},
+  {key:"midnight", name:"자정",     icon:"🌑", elite:0.22, maxElite:2, affixes:2, extra:1, loot:10, exp:2.0, gold:2.2, chest:0.26, bossAffix:1, adds:[1,1], cnt:[3,5], enrage:false, tag:"자정의 "},
+  {key:"eternal",  name:"영원한 밤", icon:"🌌", elite:0.32, maxElite:3, affixes:3, extra:1, loot:20, exp:3.3, gold:3.6, chest:0.30, bossAffix:2, adds:[2,2], cnt:[4,5], enrage:true,  tag:"영원한 밤의 "},
 ];
 // 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06 · v0.86 특성 나무(궁극 여러 개)에 맞춰 30장 재보정 · v0.87 궁극 3개 제한·황혼 강공 없앰에 맞춰 30장 재보정
 const DIFF_SCALE=[
-  [{hp:1.967,atk:1.232},{hp:5.075,atk:3.411},{hp:2.232,atk:2.919},{hp:6.253,atk:2.666},{hp:1.215,atk:3.183},{hp:2.266,atk:3.186},{hp:1.433,atk:2.807},{hp:1.806,atk:2.641},{hp:1.548,atk:3.168},{hp:0.478,atk:3.435}],   // v0.85 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정, 새 특성·행동 게이지 반영)
-  [{hp:27.572,atk:20.76},{hp:18.833,atk:21.933},{hp:7.771,atk:12.345},{hp:13.749,atk:12.454},{hp:4.043,atk:22.265},{hp:9.894,atk:14.254},{hp:5.537,atk:8.619},{hp:6.978,atk:9.875},{hp:3.711,atk:15.33},{hp:3.067,atk:13.158}],   // v0.85 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
-  [{hp:161.075,atk:106.624},{hp:92.743,atk:143.377},{hp:85.138,atk:64.003},{hp:158.483,atk:79.607},{hp:51.018,atk:84.729},{hp:99.071,atk:90.296},{hp:38.543,atk:40.546},{hp:35.749,atk:102.14},{hp:19.435,atk:90.26},{hp:7.852,atk:75.17}]   // v0.85 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
+  [{hp:1.967,atk:1.232},{hp:5.075,atk:3.411},{hp:2.232,atk:2.919},{hp:5.84,atk:2.559},{hp:1.176,atk:3.122},{hp:2.266,atk:3.186},{hp:1.488,atk:2.872},{hp:1.806,atk:2.641},{hp:1.533,atk:3.15},{hp:0.492,atk:3.496}],   // v0.85 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정, 새 특성·행동 게이지 반영)
+  [{hp:26.215,atk:20.141},{hp:19.469,atk:22.375},{hp:7.638,atk:12.218},{hp:13.508,atk:12.322},{hp:3.831,atk:21.558},{hp:10.315,atk:14.616},{hp:6.279,atk:9.294},{hp:7.559,atk:10.361},{hp:4.148,atk:16.389},{hp:3.638,atk:14.577}],   // v0.85 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
+  [{hp:152.469,atk:103.169},{hp:88.219,atk:139.139},{hp:80.517,atk:61.895},{hp:146.821,atk:76.039},{hp:57.952,atk:91.461},{hp:100.478,atk:91.063},{hp:36.677,atk:39.357},{hp:34.274,atk:99.59},{hp:17.473,atk:84.678},{hp:8.25,atk:77.435}]   // v0.85 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
 ];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
+// v0.91 몹 상태이상: 몹 종류마다 특기 상태이상 · 보스·우두머리·정예(자정부터)는 그 장의 특기 전부 · 난이도별 확률·전투당 거는 몹 수
+const MOB_ST={ poison_slime:["poison"], wisp:["weak"], imp:["burn"], ember_imp:["burn"], venom_jelly:["cold"], jelly:["cold"],
+  rot_wolf:["poison"], wasp:["poison"], queen_wasp:["poison"], ledger_ghost:["weak"], wraith:["weak"], golem:["vuln"], rust_golem:["vuln"],
+  scorpion:["poison"], venom_scorpion:["poison"], sand_shaman:["weak"], scorched:["burn"], ash_pilgrim:["burn"], statue:["stun"], cracked_statue:["stun"],
+  poison_archer:["poison"], shadow_archer:["vuln"], throne_guard:["stun"], rebel_guard:["stun"], eye_archer:["vuln"],
+  burnt_beast:["burn"], blazing_beast:["burn"], dawn_scorched:["burn"], light_remnant:["weak"] };
+const REGION_ST={ swamp:["poison","weak"], volcano:["burn"], sunken:["cold"], forest:["poison"], gold:["weak","vuln"], desert:["poison","weak"],
+  temple:["burn","stun"], citadel:["poison","vuln"], throne:["stun","vuln"], altar:["burn","weak"] };
+const ST_CHANCE=[0.10,0.30,0.50], ST_CAP=[1,2,3], ST_LINK=[0,0,0.2];   // 한 번 맞힐 때 거는 확률 · 전투당 거는 몹 수(보스 제외) · 영원한 밤: 상태이상 걸린 영웅에게 피해 +20%
+const ST_NAME={burn:"화상",poison:"독",cold:"냉기",weak:"약화",vuln:"취약",stun:"기절"};
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
 const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.1,atk:1.2},{hp:2.4,atk:1.25}];
 const ZONE_REGEN=0;   // v0.55.3: 구역 사이 체력·마나 회복 비율 · v0.70: 10% → 15% · v0.88: 15% → 10% · v0.90: 없앰(체질 18 강인함의 +5%만 남음)
@@ -2492,6 +2503,9 @@ const ACT_SCALE=[{hp:0.9,atk:0.94},{hp:0.95,atk:0.97},{hp:1.0,atk:1.0},{hp:1.05,
 const ACT_BG=[1,1,2,3,3];   // 막 → 전투 무대 그림(장마다 무대 3개)
 const ACT_NUMS=[1,2,3,4,5];
 function actName(rk,act){ return (ACTS[rk]&&ACTS[rk][act-1]||{}).name||""; }
+function stAssign(mobs,d,rk,cap){   // v0.91 특기 상태이상이 있는 몹 가운데 cap마리만 실제로 건다(정예는 자정부터 그 장의 특기 전부)
+  const can=mobs.filter(m=>MOB_ST[m.key]); for(let i=can.length-1;i>0;i--){ const j=ri(0,i); [can[i],can[j]]=[can[j],can[i]]; }
+  for(const m of can.slice(0,cap)) m.st=(m.elite&&d>=1&&REGION_ST[rk])?REGION_ST[rk].slice():MOB_ST[m.key].slice(); }
 function genRun(rk,d,act,opt){
   act=act||ACT_N;
   const R=REGIONS[rk], D=DIFFS[d], A=ACTS[rk][act-1], sc=ACT_SCALE[act-1];
@@ -2505,11 +2519,13 @@ function genRun(rk,d,act,opt){
       if(!(i===0&&d===0&&act===1)&&el<D.maxElite&&Math.random()<D.elite){ m.elite=true; m.affixes=pickAffixes(D.affixes); el++; }
       mobs.push(m);
     }
+    stAssign(mobs,d,rk,ST_CAP[d]);
     zones.push({type:"battle",label:el?"정예 출현!":"전투",mobs});
   }
   { const camp=Math.random()<REST_CHANCE, sk=`scene:${d}:${rk}#${act}`, seen=(opt&&opt.noScene)||(typeof progress!=="undefined"&&progress&&progress.seenIntro&&progress.seenIntro[sk]);   // v0.88 막 중간 장면 · v0.90 쉼터(회복)는 50% 확률 — 쉼터가 없어도 처음 보는 장면은 나옴
     if(camp||!seen) zones.splice(Math.ceil(zones.length/2),0,{type:"rest",label:camp?"쉼터":"막간",scene:act,camp}); }
   const adds=Array.from({length:ri(D.adds[0],D.adds[1])},()=>S({key:weightedPick(R.pool)}));
+  stAssign(adds,d,rk,Math.max(0,ST_CAP[d]-1));
   if(act<ACT_N){ const m=A.mid, lead=m.title?{key:m.key,chief:true,title:(D.tag||"")+String(m.label||m.title).replace(/^중간보스 — /,"")}:{key:m.key,named:true};
     zones.push({type:"battle",mid:true,named:true,actEnd:true,act,label:(D.tag?D.tag:"")+m.label,
       mobs:[S(Object.assign(lead,{affixes:pickAffixes(D.bossAffix),enrage:D.enrage}))].concat(adds)}); }
@@ -2538,7 +2554,7 @@ function buildMobUnit(spec,idx,d,rk){
   if(spec.scale){ hp*=spec.scale.hp||1; atk*=spec.scale.atk||1; }      // 최종 콘텐츠(탑 층·레이드 단계·원정 걸음) 배율
   const st={hp:Math.round(hp), mp:m.stats.mp, atk:Math.round(atk), def:Math.round(m.stats.def*(1+0.3*d)), spd:m.stats.spd+(spec.eg?ENEMY_SPD_ADD[2]:(ENEMY_SPD_ADD[d]||0)), crit:m.stats.crit,
     critdmg:1.5, acc:0.95, eva:m.stats.spd>=12?0.1:m.stats.spd>=10?0.05:0, pen:0.05*d,
-    res:Math.min(0.75,(m.boss||spec.finalBoss||spec.named?0.4:spec.chief?0.3:spec.elite?0.2:0.05)+0.08*d)};
+    res:Math.min(CAP.res,(m.boss||spec.finalBoss||spec.named?0.4:spec.chief?0.3:spec.elite?0.2:0.05)+0.08*d)};
   let name;
   if(spec.title) name=spec.title;
   else if(spec.finalBoss||spec.named) name=(D.tag||"")+m.name;
@@ -2553,6 +2569,8 @@ function buildMobUnit(spec,idx,d,rk){
   u.tint=m.tint||""; u.elite=!!(spec.elite||spec.chief); u.affixes=spec.affixes||[]; if(spec.twin) u.twin=true;
   for(const a of u.affixes) applyAffix(u,a);
   u.immune={}; u.wards=wardsFor(d,rk,u.isBossKind); for(const w of u.wards) WARDS[w].f(u);
+  { const ks=(u.isBossKind||spec.chief)&&REGION_ST[rk]&&!spec.eg?REGION_ST[rk]:spec.st; if(ks&&ks.length&&ch>=0&&!spec.eg){ u.stAtk={k:ks.slice(),ch:ST_CHANCE[d]||0.1}; u.stLink=ST_LINK[d]||0; } }   // v0.91 몹 특기 상태이상
+  if(!u.isBossKind&&!spec.eg) u._noSkillSt=true;   // v0.91 일반 몹 기술에 붙어 있던 상태이상은 특기 상태이상으로 대신함
   if(d>=2&&u.wards.length) u.res=Math.min(0.75,u.res+0.1);
   if(spec.enrage) u.passives.push("enrage");
   if(d===0&&!spec.eg) u.noRage=true;   // v0.33: 황혼에서는 보스 광폭 없음
@@ -2643,7 +2661,7 @@ const BOSS_RAGE={atk:1.2};   // v0.32: 보스 광폭(체력 50% 아래) — 공�
 const ENEMY_HEAL_K=0.07;
 const PCT_KEYS=new Set(["crit","critdmg","acc","eva","pen","ls","res","heal"]);
 // 2차 스탯 상한 — "운이 나빠 전멸"이 아니라 "설정이 부족해 전멸"로 느껴지게
-const CAP={eva:0.6,crit:0.75,res:0.75,pen:0.75,acc:1.2,ls:0.3};   // v0.36: 명중은 120%까지 — 100%를 넘는 만큼 적의 회피를 깎음
+const CAP={eva:0.6,crit:0.75,res:0.70,pen:0.75,acc:1.2,ls:0.3};   // v0.36: 명중은 120%까지 — 100%를 넘는 만큼 적의 회피를 깎음
 
 /* 상태이상 9종 — 각 상태는 자동전투 조건으로도 등록된다(COND 20~) */
 /* ================= 무기 종류 — 직업당 3종, 다른 직업 무기는 착용 불가 ================= */
@@ -2728,7 +2746,7 @@ const SLOT_BASE={
 // min: 붙는 최소 등급(0 일반 … 3 영웅) · slots: 붙는 부위 · g: 묶음(퍼센트·직업 스킬·진영·조건부·상태이상)
 const AFFIX_POOL=[
   {k:"atk",lo:1,hi:4,w:10},{k:"hp",lo:4,hi:22,w:10},{k:"def",lo:1,hi:3,w:8},{k:"spd",lo:1,hi:1,w:4,flat:true},{k:"crit",lo:1,hi:4,w:8},{k:"mp",lo:2,hi:12,w:8},
-  {k:"critdmg",lo:2,hi:12,w:6},{k:"acc",lo:1,hi:5,w:5},{k:"eva",lo:1,hi:5,w:6},{k:"pen",lo:1,hi:6,w:5},{k:"ls",lo:1,hi:4,w:4},{k:"res",lo:1,hi:7,w:6},{k:"heal",lo:1,hi:7,w:4},{k:"regen",lo:1,hi:1,w:3,flat:true},
+  {k:"critdmg",lo:2,hi:12,w:6},{k:"acc",lo:1,hi:5,w:5},{k:"eva",lo:1,hi:5,w:6},{k:"pen",lo:1,hi:6,w:5},{k:"ls",lo:1,hi:4,w:4},{k:"res",lo:2,hi:9,w:12},{k:"heal",lo:1,hi:7,w:4},{k:"regen",lo:1,hi:1,w:3,flat:true},
   {k:"c_turn3_atk",v:[4,14],w:4,g:"cond",label:v=>`3턴 이후 공격 +${v}%`},
   {k:"c_lone_crit",v:[5,16],w:4,g:"cond",label:v=>`적이 1마리면 치명타 +${v}%`},
   {k:"c_lowhp_def",v:[8,22],w:4,g:"cond",label:v=>`내 체력 50% 이하면 받는 피해 -${v}%`},
@@ -3023,6 +3041,8 @@ const LIMITS=[
   ["띄움·취약","띄움: 1~2턴, 회피·반격 불가, 가장 늦게 행동(보스는 띄울 수 없고 행동 순서만 밀림). 취약: 총사가 걸고(권사 특성 '띄워서 표시'도 가능) 보통 한 명에게만(3턴, 특성 '두 개의 과녁'이면 둘), 받는 피해 +12%·치명타 +10%."],
   ["적의 마나","적은 매 턴 최대 마나의 12%를 회복해 기술을 다시 씁니다."],
   ["회복","매 턴 조금씩: 체력은 직업 기본 0.4~1% + 체질 1당 0.05%p, 마나는 직업 기본 2~2.5% + 의지 1당 0.1%p(10 기준). 구역 사이 회복은 없습니다. 막 중간 쉼터는 50% 확률로 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남)."],
+  ["적의 상태이상","몹마다 특기 상태이상이 있습니다(장마다 주제: 1장 독·약화 · 2장 화상 · 3장 냉기 · 4장 독 · 5장 약화·취약 · 6장 독·약화 · 7장 화상·기절 · 8장 독·취약 · 9장 기절·취약 · 10장 화상·약화). 한 번 맞힐 때 거는 확률은 황혼 10% · 자정 30% · 영원한 밤 50%(광역·범위 공격과 기절은 절반). 한 전투에서 거는 몹은 황혼 1 · 자정 2 · 영원한 밤 3마리까지(보스·우두머리는 따로, 그 장의 특기 전부). 자정부터 정예는 그 장의 특기를 모두 씁니다. 영원한 밤의 적은 상태이상에 걸린 영웅에게 피해 +20%."],
+  ["상태이상 막기","저항(최대 70%): 기본 10% + 장비 '상태이상 저항' 옵션 + 음유시인 수호의 노래 +15%p + 수호기사 철벽 +15%p. 풀기: 성직자 정화(아군 하나 전부), 권사 호흡 고르기(내 것 하나)."],
   ["기술 마나","모든 기술은 정해진 숫자만큼 마나를 씁니다(기본공격·재장전·마력 집중·피의 일격 제외). 최대 마나는 의지와 레벨로 오릅니다."]
 ];
 const MASTERY_STEPS=[100,200,300,400], MASTERY_MAX=400;   // v0.35: 25/50/75/100 → 4배(너무 빨리 쌓임)
@@ -3078,7 +3098,7 @@ const ADV_LEVEL=10;   // v0.33: 전직 Lv5 → Lv10 (너무 빠르다는 의견)
 const ADV={
   knight:[
     { key:"guardian_knight", name:"수호기사", bonus:{hp:60,def:6}, skill:"citadel", extra:["shield_bash","iron_counter"],
-      passive:"fortress10", passive_name:"철벽: 받는 피해 10% 감소",
+      passive:"fortress10", passive_name:"철벽: 받는 피해 10% 감소 · 상태이상 저항 +15%p",
       desc:"파티의 방패. 새 스킬 '성채'(2턴간 동료가 받는 피해의 절반을 대신 받고, 그동안 내 피해 -30%·반격 +20%)" },
     { key:"berserker", name:"광전사", bonus:{atk:8,hp:20}, skill:"blood_strike", extra:["execute","whirlwind"],
       passive:"rage30", passive_name:"피의 격노: 체력 50% 이하일 때 공격력 +30%",
@@ -4310,10 +4330,10 @@ function skillSpec(sid,sx){
     case "buff_def": main=`받는 피해 -${P(s.value)}% · ${s.duration}턴`; tags.push({c:"tgt",t:s.aoe?"아군 전체":s.range==="self"?"자신":"아군 1명"}); break;
     case "taunt": main=`적 전체의 공격을 나에게 끌어옴 · ${s.duration}턴`; tags.push({c:"tgt",t:"적 전체"}); R("etc","원거리 공격은 절반만 끌려옴 · 한 줄·십자 같은 범위 공격도 나를 노림 · 적 전체를 한꺼번에 치는 광역 공격은 못 막음"); R("if","취약한 적이 있으면 → 1턴 더"); break;
     case "aura": { const A=AURA[s.aura]||[0,0], f=x=>+(x*100).toFixed(1); tags.push({c:"tgt",t:"아군 전체"});
-      main=({courage:`오라 — 아군 공격력 +${f(A[0])}%`,guard:`오라 — 아군 받는 피해 -${f(A[0])}% · 매 턴 그 절반만큼 재생`,march:`오라 — 아군 기본공격 ${f(A[0])}% 확률로 한 번 더`,mock:`오라 — 적 공격력 -${f(A[0])}% · 명중 -${f(A[0]*0.625)}%`}[s.aura]||"오라");
+      main=({courage:`오라 — 아군 공격력 +${f(A[0])}%`,guard:`오라 — 아군 받는 피해 -${f(A[0])}% · 매 턴 그 절반만큼 재생 · 상태이상 저항 +15%p`,march:`오라 — 아군 기본공격 ${f(A[0])}% 확률로 한 번 더`,mock:`오라 — 적 공격력 -${f(A[0])}% · 명중 -${f(A[0]*0.625)}%`}[s.aura]||"오라");
       R("if",`공명 1당 → ${f(A[1])}%p 더`); R("etc","오라는 하나만 켜짐 · 전투 끝까지 유지"); break; }
     case "crescendo": main=`켜 둔 오라 효과 2배 · ${s.duration}턴`; tags.push({c:"tgt",t:"아군 전체"}); break;
-    case "breathe": main=`기세를 모두 써서 회복 · 방어`; tags.push({c:"tgt",t:"자신"}); R("if",`기세 1당 → 체력 ${P(s.value)}% 회복`); R("if",`기세 1당 → ${s.duration}턴간 받는 피해 -5% (최대 30%)`); break;
+    case "breathe": main=`기세를 모두 써서 회복 · 방어`; tags.push({c:"tgt",t:"자신"}); R("if",`기세 1당 → 체력 ${P(s.value)}% 회복`); R("if",`기세 1당 → ${s.duration}턴간 받는 피해 -5% (최대 30%)`); R("if",`내 상태이상 1개 풀림`); break;
     case "kicycle": main=`모은 내공을 모두 보호막으로(내공의 ${P(s.power||1)}%) · 기세 +2`; tags.push({c:"tgt",t:"자신"}); break;
     case "stance": main=`받아치기 자세 · ${s.duration}턴${s.value?` · 받는 피해 -${P(s.value)}%`:""}`; tags.push({c:"tgt",t:"자신"}); R("etc","그동안 도발"); R("if",`공격받을 때마다 → ${P(s.power)}% 반격 (내공의 10% 추가)`); break;
     case "reload": main=`탄창을 가득 채움`; tags.push({c:"tgt",t:"자신"}); R("etc","다음 사격 피해 +30%"); break;
@@ -4829,6 +4849,7 @@ class Sim {
     let cut=(def.buffs.def&&def.buffs.def.value>0)?(1-def.buffs.def.value):1;
     if(D.dmg_cut) cut*=1-D.dmg_cut;
     cut*=1+this.vulnOf(def);   // v0.89 취약(취약·낙인 포함) — 가장 큰 값 하나만
+    if(att.stLink&&def.side==="party"&&this.hasStatus(def)) cut*=1+att.stLink;   // v0.91 영원한 밤: 상태이상 걸린 영웅을 더 세게
     for(const ca of (def.condAffixes||[])){
       if(ca.k==="c_lowhp_def"&&this.hpPct(def)<=50) cut*=1-ca.v/100;
       if(ca.k==="c_many_def"&&this.foes(def).length>=3) cut*=1-ca.v/100;
@@ -5004,11 +5025,15 @@ class Sim {
     }
   }
   // 상태이상 저항 — 모든 상태이상은 여기를 거친다
-  resisted(def,fx,label){ const ic=def.immune&&IMMUNE_OF[label]; if(ic&&def.immune[ic]){ fx.push(this.fxBuff(def,`${label} 면역`)); return true; } if(def.res>0&&this.rand()<def.res){ fx.push(this.fxBuff(def,`${label} 저항`)); return true; } return false; }
+  resRate(def){ let r=def.res||0; if(def.side==="party"){ if(this.auraVal(def.side,"guard",def)>0) r+=0.15; if(this.hasPassive(def,"fortress10")) r+=0.15; } return Math.min(CAP.res,r); }   // v0.91 수호의 노래·철벽 +15%p, 상한 70%
+  resisted(def,fx,label){ const ic=def.immune&&IMMUNE_OF[label]; if(ic&&def.immune[ic]){ fx.push(this.fxBuff(def,`${label} 면역`)); return true; } const rr=this.resRate(def); if(rr>0&&this.rand()<rr){ fx.push(this.fxBuff(def,`${label} 저항`)); return true; } return false; }
   // v0.89 상태이상 6가지: 화상·독·기절·냉기·약화·취약. 공포·침묵 → 기절, 실명 → 약화, 낙인 → 취약
   vulnOf(u){ let v=0; if(u.buffs.vuln) v=Math.max(v,u.buffs.vuln.value||0); if(u.buffs.brand) v=Math.max(v,u.buffs.brand.value||0); if(u.buffs.mark) v=Math.max(v,(u.buffs.mark.value||0)*(u.buffs.mark.x||1)); return v; }
   coldOf(u){ return (u._cold||0)>0&&this.turn<=(u._coldT||0)?u._cold:0; }
   ccImmuneT(u){ return (u._ccImm||0)>=this.turn; }
+  cleanseOne(u){ if(u.buffs.stun&&!u.buffs.stun.frozen){ delete u.buffs.stun; return "기절"; } if(u.dots.poison){ delete u.dots.poison; return "독"; } if(u.dots.burn){ delete u.dots.burn; return "화상"; }
+    if(this.coldOf(u)>0){ u._cold=0; return "냉기"; } if(u.buffs.atk&&u.buffs.atk.value<0){ delete u.buffs.atk; return "약화"; } if(u.buffs.vuln){ delete u.buffs.vuln; return "취약"; } return null; }   // v0.91 상태이상 하나 풀기
+  hasStatus(u){ return !!(u.dots.burn||u.dots.poison||u.buffs.stun||this.coldOf(u)>0||(u.buffs.atk&&u.buffs.atk.value<0)||this.vulnOf(u)>0); }   // v0.91 6가지 중 하나라도
   applyCold(att,def,n,fx){
     if(!def.alive||n<=0) return;
     if(this.resisted(def,fx,"냉기")) return;
@@ -5209,20 +5234,24 @@ class Sim {
     const chilled=()=>!!(def.buffs.atk&&def.buffs.atk.value<0);
     const chilledBefore=wasChilled;
     if(!killed&&r.crit&&T.sun_remnant&&!def.dots.burn) this.setBurn(att,def,0.4,"태양의 잔해(화상)",fx);
-    if(!killed&&skill.burn&&this.rand()<skill.burn.chance) this.setBurn(att,def,skill.burn.ratio,skill.burn.label||"화상",fx,skill.burn.turns);   // v0.36: 스킬 화상도 '지속 피해 +40%'(구슬·특성)를 받음
+    if(!killed&&skill.burn&&!att._noSkillSt&&this.rand()<skill.burn.chance) this.setBurn(att,def,skill.burn.ratio,skill.burn.label||"화상",fx,skill.burn.turns);   // v0.36: 스킬 화상도 '지속 피해 +40%'(구슬·특성)를 받음
     if(!killed&&T.sacred_fire&&!def.dots.burn&&this.rand()<(att.side==="party"?0.5:0.35)) this.setBurn(att,def,att.side==="party"?0.6:0.45,"성화(화상)",fx);
     if(!killed&&T.embers&&isSk(skill)&&!def.dots.burn&&this.rand()<0.3) this.setBurn(att,def,0.35,"잔불(화상)",fx);
+    if(!killed&&att.stAtk&&def.side==="party"&&skill.type==="damage"){   // v0.91 몹 특기 상태이상: 한 번 맞힐 때 확률(광역은 절반 · 기절은 절반)
+      const k=att.stAtk.k[Math.floor(this.rand()*att.stAtk.k.length)]; const c=att.stAtk.ch*(isAoe(skill)||skill.shape?0.5:1)*(k==="stun"?0.5:1);
+      if(this.rand()<c){ if(k==="burn") this.setBurn(att,def,0.35,"화상",fx); else if(k==="poison") this.addPoison(att,def,1,fx); else if(k==="cold") this.applyCold(att,def,1,fx);
+        else if(k==="weak") this.applyChill(att,def,-0.2,2,"약화",fx); else if(k==="vuln") this.applyStatus(att,def,"vuln",2,0.15,"취약",fx); else if(k==="stun") this.applyStatus(att,def,"stun",1,0,"기절",fx); } }
     if(!killed&&T.frost_touch&&!chilled()&&this.rand()<((T.frost_plus||T.frost_touch50)?0.5:0.3)) this.applyChill(att,def,-0.20,2,"서릿발(약화)",fx);
     if(!killed&&T.brand&&!(this.vulnOf(def)>=0.25)) this.applyStatus(att,def,"vuln",2,0.25,"취약",fx);
     if(!killed&&r.crit&&T.expose&&!(this.vulnOf(def)>=0.2)) this.applyStatus(att,def,"vuln",2,0.2,"취약",fx);
     const fa=att.alive&&this.units.find(x=>x.alive&&x.side===def.side&&x.traits&&x.traits.frost_armor);
     if(fa&&!(att.buffs.atk&&att.buffs.atk.value<0)&&this.rand()<(fa.traits.frost_plus?0.40:0.20))
       this.applyChill(fa,att,-0.20,2,"얼음 갑옷(약화)",fx);
-    if(!killed&&skill.chill&&(!skill.chillChance||this.rand()<skill.chillChance+(T.flute?0.1:0)+(T.discord_weak?0.15:0))) this.applyChill(att,def,skill.chill.value,skill.chill.turns,"약화",fx);
+    if(!killed&&skill.chill&&!att._noSkillSt&&(!skill.chillChance||this.rand()<skill.chillChance+(T.flute?0.1:0)+(T.discord_weak?0.15:0))) this.applyChill(att,def,skill.chill.value,skill.chill.turns,"약화",fx);
     const isBasic=skill.type==="damage"&&skill.mp===0&&skill.id===att.skills[0];
     if(!killed&&isBasic&&this.hasPassive(att,"chill_touch")&&this.rand()<0.25) this.applyCold(att,def,1,fx);   // v0.89 냉기 서림: 기본공격 25% 냉기
     if(!killed&&T.frost_aoe&&isAoe(skill)&&!chilled()) this.applyChill(att,def,-0.20,2,"눈보라의 심장(약화)",fx);
-    if(!killed&&skill.stun&&!def.buffs.stun&&(!this.ccImmune(def)||(def.immune&&def.immune.cc))&&this.rand()<(def.boss?skill.stun.boss:skill.stun.chance)+(T.stun_plus?0.1:0)+((att.gx&&att.gx.stun_pct)||0)/100){ if(this.ccImmune(def)) fx.push(this.fxBuff(def,"기절 면역")); else if(!this.resisted(def,fx,"기절")){ def.buffs.stun={turns:2,value:0,label:"기절"}; fx.push(this.fxBuff(def,"기절")); this.onDebuff(att,def,"cc"); } }
+    if(!killed&&skill.stun&&!att._noSkillSt&&!def.buffs.stun&&(!this.ccImmune(def)||(def.immune&&def.immune.cc))&&this.rand()<(def.boss?skill.stun.boss:skill.stun.chance)+(T.stun_plus?0.1:0)+((att.gx&&att.gx.stun_pct)||0)/100){ if(this.ccImmune(def)) fx.push(this.fxBuff(def,"기절 면역")); else if(!this.resisted(def,fx,"기절")){ def.buffs.stun={turns:2,value:0,label:"기절"}; fx.push(this.fxBuff(def,"기절")); this.onDebuff(att,def,"cc"); } }
     /* v0.15 — 무기·고유 효과·숙련이 거는 상태이상 */
     const isBasic0=skill.type==="damage"&&skill.mp===0&&skill.id===att.skills[0];
     if(!killed&&T.bleed_basic&&isBasic0&&this.rand()<0.3) this.setBleed(att,def,0.3,2,"출혈",fx);
@@ -5476,7 +5505,8 @@ class Sim {
         case "breathe": { const hv=Math.max(1,Math.floor(u.hp_max*skill.value*spent*((u.traits&&u.traits.breathe_plus)?1.5:1)));
           const room=u.hp_max-u.hp; u.hp=Math.min(u.hp_max,u.hp+hv); u._healDone=(u._healDone||0)+Math.min(hv,room);
           fx.push({target:u.id,kind:"heal",amount:hv,crit:false,killed:false,hp:u.hp,mp:u.mp,label:`호흡(기세 ${spent})`});
-          const dv=Math.min(0.3,0.05*spent); if(!(u.buffs.def&&u.buffs.def.value>=dv)){ u.buffs.def={turns:skill.duration,value:dv}; fx.push(this.fxBuff(u,`받는 피해 -${Math.round(dv*100)}%`)); } break; }
+          const dv=Math.min(0.3,0.05*spent); if(!(u.buffs.def&&u.buffs.def.value>=dv)){ u.buffs.def={turns:skill.duration,value:dv}; fx.push(this.fxBuff(u,`받는 피해 -${Math.round(dv*100)}%`)); }
+          { const gone=this.cleanseOne(u); if(gone) fx.push(this.fxBuff(u,`${gone} 풀림`)); } break; }
         case "kicycle": { const hv=0, sh=Math.max(0,Math.floor((u._inner||0)*(skill.power||1)*(u.traits.ki_cycle_plus?1.3:1))); u._inner=0;   // v0.89 내공 → 보호막(×150%) + 기세 +2
           if(sh>0){ const bf=u.shield||0; u.shield=Math.min(Math.floor(u.hp_max*0.6),bf+sh); fx.push(this.fxBuff(u,`내공 보호막 ${u.shield}`)); } u._mom=Math.min(u.momMax||5,(u._mom||0)+2);
           if(u.traits.ki_ward&&(!u.buffs.ward||u.buffs.ward.value<0.2)){ u.buffs.ward={turns:2,value:0.2}; fx.push(this.fxBuff(u,"순환의 보호막")); }   /* v0.86 */
@@ -11918,7 +11948,7 @@ function renderDungeonPicker(){
     const R=REGIONS[rk], ca=curAct(), dn=actsDone(progress.diff,rk), n=(progress.cl[progress.diff]||{})[rk]||0;
     const acts=ACT_NUMS.map(a=>{ const op=actOpen(progress.diff,rk,a); return `<button class="${a===ca?"on":""}" ${op?`onclick="dpSetAct(${a})"`:"disabled"}>${op?"":"🔒 "}<b>${a}막</b> ${esc(actName(rk,a))}${a<=dn?" ✓":""}<small>${esc(a<ACT_N?ACTS[rk][a-1].mid.label:bossLabelShown(rk))}</small></button>`; }).join("");
     const wd=wardsFor(progress.diff,rk,false);
-    body=`<div class="dpgrid">${cards}</div><div class="dpsel"><div class="dph"><b>${esc(R.chapter)} ${esc(R.name)}</b><span>${n?`클리어 ${n}회`:dn?`${dn}/${ACT_N}막`:"첫 도전"}${wd.length?` · 🛡 ${wd.map(w=>WARDS[w].name).join("·")}`:""}</span></div><div class="dpactbtns">${acts}</div>${bossInfoHTML(rk,ca)}</div>`;
+    body=`<div class="dpgrid">${cards}</div><div class="dpsel"><div class="dph"><b>${esc(R.chapter)} ${esc(R.name)}</b><span>${n?`클리어 ${n}회`:dn?`${dn}/${ACT_N}막`:"첫 도전"}${wd.length?` · 🛡 ${wd.map(w=>WARDS[w].name).join("·")}`:""}${REGION_ST[rk]?` · 적이 거는 상태이상: ${REGION_ST[rk].map(k=>ST_NAME[k]).join("·")}`:""}</span></div><div class="dpactbtns">${acts}</div>${bossInfoHTML(rk,ca)}</div>`;
   } else {
     const cur=egModeOf()||EG_KEYS[0];
     body=`<div class="dpeg">${EG_KEYS.map(k=>`<button class="dpc eg${k===cur?" on":""}" onclick="dpSetEg('${k}')"><span class="dpegi">${EG_MODES[k].icon}</span><span class="dpt"><b>${esc(EG_MODES[k].name)}</b></span><span class="dpd">${esc(EG_MODES[k].desc)}</span></button>`).join("")}</div>`
