@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793719071747"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793732610193"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1929,7 +1929,7 @@ const CLASSES = {
     stats:{hp:230,mp:60,atk:26,def:18,spd:8,crit:0.10},
     prim:{str:13,agi:8,int:7,con:13,wil:9,luk:10}, base:{hp:70,mp:34,atk:12,def:10,spd:4,crit:0.05}, caster:false,
     skills:["basic_attack","power_strike","taunt","guard_up","guard_shout"],
-    passive:"counter30", passive_name:"반격 본능: 근접 피격 시 30% 확률로 반격",
+    passive:"counter30", passive_name:"반격 본능: 근접 피격 시 30% 확률로 반격 · 반격하면 앞줄의 권사·도적이 50%로 따라 침",
     default_rules:[
       {enabled:true,c1:1,logic:0,c2:0,skill:"guard_up",target:0},
       {enabled:true,c1:6,logic:0,c2:0,skill:"taunt",target:0},
@@ -1944,7 +1944,7 @@ const CLASSES = {
     stats:{hp:125,mp:100,atk:34,def:6,spd:10,crit:0.15},
     prim:{str:6,agi:10,int:13,con:9,wil:12,luk:10}, base:{hp:45,mp:22,atk:16,def:2,spd:5,crit:0.086}, caster:true,
     skills:["basic_shot","fireball","fire_storm","mana_focus","arcane_burst"],
-    passive:"", passive_name:"집중된 마나: 치명타 확률 15% · 아군 오라가 켜져 있으면 매 턴 마나 +3",
+    passive:"", passive_name:"집중된 마나: 아군 오라가 켜져 있으면 매 턴 마나 +3",
     default_rules:[
       {enabled:true,c1:6,logic:1,c2:8,skill:"fire_storm",target:0},
       {enabled:true,c1:8,logic:0,c2:0,skill:"fireball",target:0},
@@ -1974,7 +1974,7 @@ const CLASSES = {
     stats:{hp:180,mp:80,atk:34,def:11,spd:13,crit:0.22},
     prim:{str:12,agi:13,int:7,con:9,wil:8,luk:11}, base:{hp:80,mp:38,atk:24,def:6,spd:5,crit:0.12}, caster:false,
     skills:["stab","shadow_veil","eviscerate","venom_coat","throat_slit"],
-    passive:"opportunist", passive_name:"기회 포착: 체력 50% 이하인 적에게 치명타 확률 +15%, 치명타가 터지면 연계 +1",
+    passive:"opportunist", passive_name:"기회 포착: 체력 50% 이하이거나 띄운·약화된 적에게 치명타 확률 +15%, 치명타가 터지면 연계 +1",
     default_rules:[
       {enabled:true,c1:2,logic:0,c2:0,skill:"shadow_veil",target:0},
       {enabled:true,c1:15,logic:0,c2:0,skill:"eviscerate",target:0},
@@ -3223,7 +3223,7 @@ const ADV={
       passive:"blessing", passive_name:"가호: 치유 시 35% 확률로 대상 피해 20% 감소(2턴)",
       desc:"구원의 손길. 새 스킬 '찬란한 빛'(아군 전체에 미리 보호막) + 치유에 보호 축복" },
     { key:"inquisitor", name:"심판관", bonus:{atk:7,hp:20}, skill:"judgement", extra:["holy_flame","judgment_hammer"],
-      passive:"condemn", passive_name:"단죄: 화상 상태의 적에게 주는 피해 +25%",
+      passive:"condemn", passive_name:"단죄: 화상 상태의 적에게 주는 피해 +25% · 취약한 적에게 +15%",
       desc:"공격형 사제. 새 스킬 '천벌'(적 전체 110% + 50% 화상) + 화상 적에게 피해 증가" } ],
   rogue:[
     { key:"assassin", name:"암살자", bonus:{atk:8,spd:1,crit:5}, skill:"shadow_strike", extra:["smoke_bomb","death_mark"],
