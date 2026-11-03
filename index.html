@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793712647396"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793719071747"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1435,7 +1435,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
-v0.91: <b>적의 상태이상</b> — 몹마다 특기 상태이상(장마다 주제)이 생겼습니다. 한 번 맞힐 때 확률 황혼 10% · 자정 30% · 영원한 밤 50%, 한 전투에서 거는 몹은 1 · 2 · 3마리까지(보스·우두머리는 그 장의 특기 전부, 자정부터 정예도). 영원한 밤의 적은 상태이상 걸린 영웅에게 피해 +20%. 막는 법: 상태이상 저항 상한 75% → 70%, 장비 저항 옵션이 더 자주·더 크게(2~9, 예전 1~7), 수호의 노래·수호기사 철벽 저항 +15%p, 권사 호흡 고르기가 내 상태이상 하나를 풂, 성직자 정화. 일반 몹 기술에 따로 붙어 있던 화상·약화·기절은 특기 상태이상으로 바뀜(보스 기술은 그대로). 한 전투 몹 수: 자정 3~5 · 영원한 밤 4~5마리.
+v0.91: <b>적의 상태이상</b> — 몹마다 특기 상태이상(장마다 주제)이 생겼습니다. 한 번 맞힐 때 확률 황혼 10% · 자정 30% · 영원한 밤 50%, 한 전투에서 거는 몹은 1 · 2 · 3마리까지(보스·우두머리는 그 장의 특기 전부, 자정부터 정예도). 영원한 밤의 적은 상태이상 걸린 영웅에게 피해 +20%. 막는 법: 상태이상 저항 상한 75% → 70%, 장비 저항 옵션이 더 자주·더 크게(2~9, 예전 1~7), 수호의 노래·수호기사 철벽 저항 +15%p, 권사 호흡 고르기가 내 상태이상 하나를 풂, 성직자 정화. 일반 몹 기술에 따로 붙어 있던 화상·약화·기절은 특기 상태이상으로 바뀜(보스 기술은 그대로). 한 전투 몹 수: 자정 3~5 · 영원한 밤 4~5마리. <b>자동전투 규칙 표</b> — 동료 규칙·처음 규칙·전직 때 새 기술 자리를 한 표에서 정합니다(직업 × 전직 × 성향). '항상'은 맨 끝 칸만, 검사 도발·성직자 치유·소생·전직 대표 기술은 꼭 들어가고, 음유시인 오라는 하나만. 직접 고친 주인공 규칙은 그대로 둡니다. 연소는 화상 걸린 적이 있을 때만 씁니다.
 v0.90: <b>마나·회복 다시 짜기</b> — <b>회복:</b> 구역 사이 회복(10%)을 없애고, 매 턴 직업 기본값 + 체질(체력)·의지(마나)만큼 조금씩 회복합니다. 막 중간 쉼터는 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남). <b>마나:</b> 기술 비용은 최대 마나의 %가 아니라 정해진 숫자입니다(레벨이 오를수록 더 자주 씀). 권사·총사·음유시인의 기세·탄약·공명 기술도 마나를 씁니다. 최대 마나는 의지 1당 +4(지능은 마나에 영향 없음). 레벨업 때 마나는 직업마다 다른 기준값(마법사 7 · 도적 4 · 성직자 3.5 · 검사 3 · 권사·총사 2 · 음유시인 1.5, 의지 1당 +2%)의 80~120% 사이에서 무작위로 오릅니다. 장비의 마나 옵션 수치는 예전의 30%(예: 마나 +40 → +12). <b>장비 수준:</b> 난이도 안에서 1장 → 10장 +20%(난이도 사이 +30%는 그대로).
 v0.88: <b>전투 다시 짜기 · 한 장 = 5막</b> — <b>전투 초기화:</b> 보스 특수 패턴, 역할 몬스터, 장별 환경, 행동 게이지(신속은 행동 순서만), 방어 태세를 없앴습니다. 구역 사이 회복은 15% → 10%. <b>기술:</b> 직업마다 기본 기술 4개 + 전직 기술 3개(전직 기술 Lv10, 전직 패시브 Lv14, 추가 전직 기술 Lv16). 새 기술 15개(방패 강타·철벽 반격·회전베기·연소·마력 폭주·빙결 창·수호천사·정화·심판의 철퇴·죽음의 표식·독안개·맹독 단검·용권 폭풍·관통 저격·소이 폭격), 기존 기술도 효과·수치를 다시 맞췄습니다. 스킬북은 없어지고 책 기술은 기본·전직 기술로 옮겼습니다(예전에 산 책은 골드로 돌려드림). <b>스킬칸:</b> 전직 전 3칸, 전직 후 5칸. 칸 하나 = 기술 + 조건 + 대상이고 같은 기술은 한 칸만 씁니다. 아무 칸도 안 맞으면 기본공격. <b>마나:</b> 모든 영웅이 매 턴 최대 마나의 일정 비율(의지 10이면 8%)을 회복하고, 기술 비용은 최대 마나의 %입니다. 권사는 기세, 총사는 탄창만 씁니다. <b>상태이상 6가지:</b> 화상·독·기절·냉기·약화·취약. 출혈은 독으로, 공포·침묵은 기절로, 실명은 약화로, 표식·낙인은 취약으로 합쳤습니다. 냉기는 3중첩이면 1턴 빙결, 기절·빙결 뒤에는 2턴 동안 다시 걸리지 않습니다. <b>스탯 고정식:</b> 처음 스탯(모든 직업 합계 60)에 보너스 8포인트를 한 번만 찍습니다(한 스탯 18까지, 되돌릴 수 없음). 레벨업 때는 체력·마나·공격력이 스탯에 따라 정해진 범위에서 무작위로 오릅니다. 18까지 올린 스탯은 특혜가 하나씩 붙습니다(괴력·통찰·강인함·굳은 의지·관통·회심). 예전 세이브는 찍었던 포인트를 돌려받아 보너스 8포인트를 다시 찍고, 성장은 그 레벨까지의 기대값으로 맞춰집니다. 전직 고정 능력치 보너스와 직업 능력치 보너스는 없앴습니다. <b>강화:</b> +1~+9는 단계당 +5%, +10~+15는 단계당 +9%, 심연 핵으로 연 +16~+18은 단계당 +15%(퍼센트 능력치는 절반). <b>장비 수준:</b> 같은 난이도 안에서는 1장 → 10장 +40%, 난이도가 바뀌면 +30%, 장 보스 장비는 2장 앞선 수준. <b>한 장 = 5막:</b> 장마다 새 2막·4막(새 중간보스 20명)이 생기고, 막마다 전투가 6~7번(5막은 5~6번)으로 늘었습니다. 막 한가운데 쉼터에서 처음 지날 때 짧은 장면이 나옵니다(난이도마다 따로). 예전 세이브의 깬 막은 새 막 번호로 옮겨집니다. 30장 난이도는 새 구조에 맞춰 다시 맞췄습니다.<br>
 v0.87: <b>궁극 3개 · 황혼 보스는 물음표 · 체력 표시 고침</b> — ★궁극은 영웅마다 3개까지 찍을 수 있습니다(이미 4개 이상 찍었다면 나중에 찍은 궁극부터 포인트로 돌려드림). 황혼에서는 장 보스를 처음 만나기 전까지 던전 선택 창의 장 그림·3막 보스 이름·쓰는 기술·도감 증표가 물음표로 가려지고, 3막 끝 보스 구역에 처음 들어서면 공개됩니다. 황혼 10장 보스의 강공 예고를 없앴습니다(보스 패턴은 자정부터 — 그에 맞춰 황혼 10장 난이도를 다시 맞춤). 쓰러진 몹이 체력이 남은 것처럼 보이던 문제: 피해는 공격 연출이 닿는 순간 그리는데, 그 사이 지속 피해 등으로 먼저 쓰러지면 늦게 도착한 옛 체력이 덮어쓰고 있었습니다 — 이제 사건 순서대로만 그립니다.<br>
@@ -2034,7 +2034,115 @@ const CLASSES = {
 };
 // v0.35: 규칙은 4칸 — 맨 끝 '항상 기본공격'은 필요 없음(아무것도 안 맞으면 저절로 기본공격)
 for(const C of Object.values(CLASSES)){ const b=C.skills[0], R=C.default_rules.filter(r=>r.enabled&&!(r.skill===b&&r.c1===0&&!r.logic)).slice(0,4);
-  while(R.length<4) R.push({enabled:false,c1:0,logic:0,c2:0,skill:b,target:0}); C.default_rules=R; }
+  while(R.length<4) R.push({enabled:false,c1:0,logic:0,c2:0,skill:b,target:0}); C.default_rules=R; C.old_default=R; }   // v0.91 예전 기본 규칙(직접 고치지 않은 규칙을 가려낼 때만)
+// v0.91 자동전투 규칙 표 — 규칙은 이 표 하나에서만 나온다(처음 규칙 · 동료 규칙 · 전직·Lv16 새 기술 자리).
+//   직업마다 base(전직 전 3칸)와 전직별(5칸) × 성향(atk 공격 · surv 생존 · supp 지원). 한 줄 = [기술, 조건1, 논리(0 없음·1 그리고·2 또는), 조건2, 대상]
+//   원칙: ① '항상'(조건 0)은 맨 끝 한 줄만 ② 직업 핵심 기술(검사 도발 · 성직자 치유 · 음유시인 오라 …)은 꼭 들어감 ③ 오라는 한 가지만
+//         ④ 성향마다 칸 구성이 다름 ⑤ 상태이상 대응(정화 · 호흡 고르기 · 기공 순환 · 수호의 노래)은 생존·지원 성향에
+//   쓸 수 있는 기술만 위에서부터 골라 칸을 채우고, '항상' 줄은 칸이 남든 모자라든 마지막 칸에 둔다
+const RULESET={
+  knight:{
+    base:{ atk:[["taunt",6,0,0,0],["guard_up",1,0,0,0],["guard_shout",5,0,0,0],["power_strike",0,0,0,0]],
+           surv:[["guard_up",2,0,0,0],["taunt",7,0,0,0],["guard_shout",5,0,0,0],["power_strike",0,0,0,0]],
+           supp:[["guard_shout",5,0,0,0],["taunt",7,0,0,0],["guard_up",2,0,0,0],["power_strike",0,0,0,0]] },
+    guardian_knight:{
+      atk:[["taunt",7,0,0,0],["iron_counter",7,0,0,0],["power_strike",8,0,0,0],["citadel",3,0,0,0],["guard_up",1,0,0,0],["guard_shout",5,0,0,0],["shield_bash",0,0,0,0]],
+      surv:[["guard_up",2,0,0,0],["taunt",7,0,0,0],["citadel",4,0,0,0],["iron_counter",6,0,0,0],["guard_shout",5,0,0,0],["power_strike",8,0,0,0],["shield_bash",0,0,0,0]],
+      supp:[["taunt",7,0,0,0],["citadel",4,0,0,0],["guard_shout",5,0,0,0],["guard_up",2,0,0,0],["iron_counter",6,0,0,0],["power_strike",8,0,0,0],["shield_bash",0,0,0,0]] },
+    berserker:{
+      atk:[["taunt",6,0,0,0],["whirlwind",7,0,0,0],["blood_strike",2,0,0,0],["execute",10,0,0,1],["guard_up",1,0,0,0],["guard_shout",5,0,0,0],["power_strike",0,0,0,0]],
+      surv:[["guard_up",2,0,0,0],["taunt",7,0,0,0],["whirlwind",6,0,0,0],["blood_strike",10,0,0,1],["execute",10,0,0,1],["guard_shout",5,0,0,0],["power_strike",0,0,0,0]],
+      supp:[["guard_shout",5,0,0,0],["taunt",7,0,0,0],["whirlwind",6,0,0,0],["blood_strike",10,0,0,1],["execute",10,0,0,1],["guard_up",2,0,0,0],["power_strike",0,0,0,0]] } },
+  mage:{
+    base:{ atk:[["mana_focus",12,0,0,6],["fire_storm",7,0,0,0],["arcane_burst",9,0,0,0],["fireball",0,0,0,0]],
+           surv:[["mana_focus",12,0,0,6],["fire_storm",6,1,9,0],["fireball",8,0,0,0],["arcane_burst",9,0,0,0]],
+           supp:[["mana_focus",12,0,0,6],["arcane_burst",23,0,0,9],["fire_storm",6,0,0,0],["fireball",0,0,0,0]] },
+    archmage:{
+      atk:[["arcane_surge",9,0,0,0],["combust",7,0,0,0],["fire_storm",6,0,0,0],["meteor",8,0,0,0],["mana_focus",12,0,0,6],["arcane_burst",8,0,0,0],["fireball",0,0,0,0]],
+      surv:[["mana_focus",12,0,0,6],["fire_storm",6,1,9,0],["meteor",9,0,0,0],["combust",7,0,0,0],["fireball",8,0,0,0],["arcane_surge",9,0,0,0],["arcane_burst",8,0,0,0]],
+      supp:[["mana_focus",12,0,0,6],["fire_storm",7,0,0,0],["combust",7,0,0,0],["meteor",9,0,0,0],["arcane_burst",23,0,0,9],["arcane_surge",9,0,0,0],["fireball",0,0,0,0]] },
+    frostweaver:{
+      atk:[["mana_focus",12,0,0,6],["blizzard",6,0,0,0],["arcane_burst",9,0,0,0],["frost_bolt",7,0,0,0],["fire_storm",6,1,9,0],["fireball",8,0,0,0],["ice_lance",0,0,0,0]],
+      surv:[["mana_focus",12,0,0,6],["blizzard",7,0,0,0],["arcane_burst",9,0,0,0],["ice_lance",63,0,0,0],["fire_storm",6,1,9,0],["fireball",9,0,0,0],["frost_bolt",0,0,0,0]],
+      supp:[["mana_focus",12,0,0,6],["blizzard",7,0,0,0],["ice_lance",63,0,0,0],["arcane_burst",23,0,0,9],["fire_storm",6,1,9,0],["fireball",9,0,0,0],["frost_bolt",0,0,0,0]] } },
+  priest:{
+    base:{ atk:[["heal",3,0,0,0],["heal_all",5,0,0,0],["bless",9,0,0,11],["revive",14,0,0,0]],
+           surv:[["revive",14,0,0,0],["heal",4,0,0,0],["heal_all",5,0,0,0],["bless",9,0,0,11]],
+           supp:[["heal_all",5,0,0,0],["heal",4,0,0,0],["bless",8,0,0,11],["revive",14,0,0,0]] },
+    high_priest:{
+      atk:[["revive",14,0,0,0],["heal_all",5,0,0,0],["heal",3,0,0,0],["bless",8,0,0,11],["radiant_light",9,0,0,0],["guardian_angel",3,0,0,0],["purify",25,0,0,0]],
+      surv:[["revive",14,0,0,0],["guardian_angel",3,0,0,0],["heal_all",5,0,0,0],["heal",4,0,0,0],["radiant_light",9,0,0,0],["purify",25,0,0,0],["bless",9,0,0,11]],
+      supp:[["revive",14,0,0,0],["purify",25,0,0,0],["heal_all",5,0,0,0],["heal",4,0,0,0],["radiant_light",9,0,0,0],["guardian_angel",3,0,0,0],["bless",8,0,0,11]] },
+    inquisitor:{
+      atk:[["revive",14,0,0,0],["heal",4,0,0,0],["judgement",7,0,0,0],["heal_all",5,0,0,0],["judgment_hammer",50,0,0,0],["bless",9,0,0,11],["holy_flame",0,0,0,3]],
+      surv:[["revive",14,0,0,0],["heal_all",5,0,0,0],["heal",4,0,0,0],["judgement",6,0,0,0],["holy_flame",50,0,0,3],["bless",9,0,0,11],["judgment_hammer",0,0,0,0]],
+      supp:[["revive",14,0,0,0],["heal_all",5,0,0,0],["heal",4,0,0,0],["judgement",7,0,0,0],["bless",8,0,0,11],["holy_flame",50,0,0,3],["judgment_hammer",0,0,0,0]] } },
+  rogue:{
+    base:{ atk:[["eviscerate",15,0,0,0],["throat_slit",10,0,0,1],["venom_coat",8,0,0,0],["shadow_veil",0,0,0,0]],
+           surv:[["shadow_veil",2,0,0,0],["eviscerate",15,0,0,0],["throat_slit",10,0,0,1],["venom_coat",0,0,0,0]],
+           supp:[["eviscerate",15,0,0,0],["throat_slit",10,0,0,1],["shadow_veil",2,0,0,0],["venom_coat",0,0,0,0]] },
+    assassin:{
+      atk:[["shadow_strike",17,0,0,0],["death_mark",50,0,0,14],["eviscerate",15,0,0,0],["throat_slit",10,0,0,1],["venom_coat",8,0,0,0],["smoke_bomb",1,0,0,0],["shadow_veil",0,0,0,0]],
+      surv:[["smoke_bomb",2,0,0,0],["shadow_veil",2,0,0,0],["shadow_strike",17,0,0,0],["eviscerate",15,0,0,0],["throat_slit",10,0,0,1],["death_mark",50,0,0,14],["venom_coat",0,0,0,0]],
+      supp:[["smoke_bomb",5,0,0,0],["death_mark",50,0,0,14],["shadow_strike",17,0,0,0],["venom_coat",8,0,0,0],["eviscerate",15,0,0,0],["throat_slit",10,0,0,1],["shadow_veil",0,0,0,0]] },
+    venom_fang:{
+      atk:[["venom_mist",6,0,0,0],["venom_burst",18,0,0,8],["eviscerate",15,0,0,0],["throat_slit",10,0,0,1],["venom_coat",8,0,0,0],["shadow_veil",2,0,0,0],["toxic_blade",0,0,0,0]],
+      surv:[["shadow_veil",2,0,0,0],["venom_burst",18,0,0,8],["venom_mist",6,0,0,0],["eviscerate",15,0,0,0],["toxic_blade",9,0,0,0],["throat_slit",10,0,0,1],["venom_coat",0,0,0,0]],
+      supp:[["venom_mist",7,0,0,0],["venom_burst",18,0,0,8],["toxic_blade",8,0,0,0],["eviscerate",15,0,0,0],["throat_slit",10,0,0,1],["shadow_veil",2,0,0,0],["venom_coat",0,0,0,0]] } },
+  fighter:{
+    base:{ atk:[["collapse_fist",42,0,0,0],["iron_shoulder",41,0,0,0],["breathe",2,0,0,6],["chain_fist",0,0,0,0]],
+           surv:[["breathe",24,2,2,6],["iron_shoulder",41,0,0,0],["collapse_fist",42,0,0,0],["chain_fist",0,0,0,0]],
+           supp:[["iron_shoulder",41,0,0,0],["breathe",24,0,0,6],["collapse_fist",42,0,0,0],["chain_fist",0,0,0,0]] },
+    monk:{
+      atk:[["collapse_fist",42,0,0,0],["counter_stance",6,0,0,0],["ki_wave",41,0,0,0],["ki_cycle",53,2,24,0],["iron_shoulder",41,0,0,0],["breathe",2,0,0,6],["chain_fist",0,0,0,0]],
+      surv:[["counter_stance",7,0,0,0],["ki_cycle",53,2,24,0],["breathe",2,2,24,6],["iron_shoulder",41,0,0,0],["ki_wave",41,0,0,0],["collapse_fist",42,0,0,0],["chain_fist",0,0,0,0]],
+      supp:[["counter_stance",7,0,0,0],["ki_cycle",24,2,53,0],["iron_shoulder",41,0,0,0],["collapse_fist",42,0,0,0],["ki_wave",41,0,0,0],["breathe",2,0,0,6],["chain_fist",0,0,0,0]] },
+    dragon_fist:{
+      atk:[["falling_dragon",51,0,0,10],["dragon_storm",6,0,0,0],["rising_dragon",42,0,0,0],["breathe",2,0,0,6],["collapse_fist",42,0,0,0],["iron_shoulder",41,0,0,0],["chain_fist",0,0,0,0]],
+      surv:[["breathe",2,2,24,6],["falling_dragon",51,0,0,10],["rising_dragon",42,0,0,0],["dragon_storm",6,0,0,0],["collapse_fist",42,0,0,0],["iron_shoulder",41,0,0,0],["chain_fist",0,0,0,0]],
+      supp:[["falling_dragon",51,0,0,10],["rising_dragon",42,0,0,0],["dragon_storm",6,0,0,0],["breathe",24,0,0,6],["collapse_fist",42,0,0,0],["iron_shoulder",41,0,0,0],["chain_fist",0,0,0,0]] } },
+  gunner:{
+    base:{ atk:[["mark_shot",50,0,0,3],["aimed_shot",23,0,0,9],["reload",45,0,0,6],["ap_round",0,0,0,9]],
+           surv:[["reload",45,0,0,6],["mark_shot",50,0,0,3],["aimed_shot",23,0,0,9],["ap_round",7,0,0,4]],
+           supp:[["mark_shot",50,0,0,3],["ap_round",7,0,0,4],["aimed_shot",23,0,0,9],["reload",45,0,0,6]] },
+    sniper:{
+      atk:[["headshot",23,0,0,9],["mark_shot",50,0,0,3],["steady_breath",45,0,0,6],["pierce_shot",7,0,0,4],["reload",45,0,0,6],["ap_round",7,0,0,4],["aimed_shot",0,0,0,9]],
+      surv:[["steady_breath",45,0,0,6],["headshot",23,0,0,9],["mark_shot",50,0,0,3],["pierce_shot",7,0,0,4],["reload",45,0,0,6],["ap_round",7,0,0,4],["aimed_shot",0,0,0,9]],
+      supp:[["mark_shot",50,0,0,3],["pierce_shot",7,0,0,4],["headshot",23,0,0,9],["steady_breath",45,0,0,6],["reload",45,0,0,6],["aimed_shot",23,0,0,9],["ap_round",0,0,0,9]] },
+    bomber:{
+      atk:[["incendiary",6,0,0,0],["powder_keg",54,1,7,0],["mark_shot",50,0,0,3],["aimed_shot",23,0,0,9],["flashbang",6,0,0,0],["reload",45,0,0,6],["ap_round",0,0,0,9]],
+      surv:[["powder_keg",54,1,7,0],["flashbang",6,0,0,0],["reload",45,0,0,6],["mark_shot",50,0,0,3],["incendiary",6,0,0,0],["aimed_shot",23,0,0,9],["ap_round",0,0,0,9]],
+      supp:[["powder_keg",54,1,7,0],["mark_shot",50,0,0,3],["flashbang",6,0,0,0],["incendiary",6,0,0,0],["aimed_shot",23,0,0,9],["reload",45,0,0,6],["ap_round",0,0,0,9]] } },
+  bard:{
+    base:{ atk:[["courage_song",47,0,0,6],["crescendo",43,0,0,6],["inspire",8,0,0,11]],
+           surv:[["guard_song",47,0,0,6],["crescendo",44,0,0,6],["inspire",9,0,0,11]],
+           supp:[["guard_song",47,0,0,6],["inspire",8,0,0,11],["crescendo",43,0,0,6]] },
+    war_band:{
+      atk:[["march_song",47,0,0,6],["crescendo",44,0,0,6],["all_out",43,0,0,0],["inspire",9,0,0,11],["charge_order",44,0,0,0]],
+      surv:[["march_song",47,0,0,6],["crescendo",43,0,0,6],["charge_order",44,0,0,0],["inspire",8,0,0,11],["all_out",44,0,0,0]],
+      supp:[["march_song",47,0,0,6],["crescendo",44,0,0,6],["charge_order",43,0,0,0],["inspire",8,0,0,11],["all_out",44,0,0,0]] },
+    jester:{
+      atk:[["mock_song",47,0,0,6],["fool_dance",7,0,0,0],["lullaby_s",43,0,0,3],["crescendo",44,0,0,6],["inspire",8,0,0,11]],
+      surv:[["mock_song",47,0,0,6],["lullaby_s",43,0,0,3],["fool_dance",7,0,0,0],["crescendo",44,0,0,6],["inspire",8,0,0,11]],
+      supp:[["mock_song",47,0,0,6],["lullaby_s",43,0,0,3],["fool_dance",7,0,0,0],["inspire",9,0,0,11],["crescendo",44,0,0,6]] } },
+};
+const RULESET_STANCE0={knight:"surv", mage:"atk", priest:"supp", rogue:"atk", fighter:"atk", gunner:"atk", bard:"supp"};   // = STANCE_DEFAULT (아래에서 정의 — 순서 때문에 여기 따로)
+function ruleRow(e){ return {enabled:true,c1:e[1],logic:e[2],c2:e[3],skill:e[0],target:e[4]}; }
+function isFillerRow(e){ return (e[1]|0)===0&&!(e[2]|0); }
+// 표에서 규칙 n칸을 만든다: 가진 기술만 위에서부터 · '항상' 줄은 마지막 칸
+function ruleTable(cid,adv,st,skills,n){
+  const T=RULESET[cid], L=((adv&&T[adv])||T.base)[st]||((adv&&T[adv])||T.base)[RULESET_STANCE0[cid]], has=new Set(skills);
+  const av=L.filter(e=>has.has(e[0])), fill=av.find(isFillerRow), non=av.filter(e=>e!==fill);
+  const out=non.slice(0,n-(fill?1:0)).concat(fill?[fill]:[]).map(ruleRow);
+  while(out.length<n) out.push({enabled:false,c1:0,logic:0,c2:0,skill:CLASSES[cid].skills[0],target:0});
+  return out; }
+// 그 직업 표 어딘가에 있는 규칙인지(직접 고치지 않은 규칙인지 가려낼 때)
+function inRuleset(cid,r){ const T=RULESET[cid]; for(const k in T) for(const s in T[k]) for(const e of T[k][s]) if(e[0]===r.skill&&e[1]===(r.c1|0)&&e[2]===(r.logic|0)&&(!e[2]||e[3]===(r.c2|0))) return true; return false; }
+// 기술 하나의 표 줄(지금 전직·성향 표 → 없으면 그 직업 다른 표)
+function rulesetEntry(cid,adv,st,sid){ const T=RULESET[cid]; const look=L=>(L||[]).find(e=>e[0]===sid);
+  let e=look(((adv&&T[adv])||T.base)[st]); if(e) return e;
+  for(const k in T) for(const s in T[k]){ e=look(T[k][s]); if(e) return e; } return null; }
+for(const c of Object.keys(CLASSES)) CLASSES[c].default_rules=ruleTable(c,null,RULESET_STANCE0[c],CLASSES[c].skills,3);
 const RES_MAX={mom:5,res:10,ammo:8};   // 직업 자원 기본 최대치(특성·무기로 늘어남)
 // 오라 세기: [기본, 공명 1당] — 용기(공격력↑) · 수호(받는 피해↓) · 진군(기본공격 한 번 더 확률) · 비웃음(적 공격력↓, 명중은 그 5/8)
 const AURA={courage:[0.12,0.008], guard:[0.10,0.005], march:[0.25,0.01], mock:[0.08,0.004]};   // v0.89 비웃음: 적이 받는 피해 +8%
@@ -2423,9 +2531,9 @@ const DIFFS=[
 ];
 // 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06 · v0.86 특성 나무(궁극 여러 개)에 맞춰 30장 재보정 · v0.87 궁극 3개 제한·황혼 강공 없앰에 맞춰 30장 재보정
 const DIFF_SCALE=[
-  [{hp:1.967,atk:1.232},{hp:5.075,atk:3.411},{hp:2.232,atk:2.919},{hp:5.84,atk:2.559},{hp:1.176,atk:3.122},{hp:2.266,atk:3.186},{hp:1.488,atk:2.872},{hp:1.806,atk:2.641},{hp:1.533,atk:3.15},{hp:0.492,atk:3.496}],   // v0.85 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정, 새 특성·행동 게이지 반영)
-  [{hp:26.215,atk:20.141},{hp:19.469,atk:22.375},{hp:7.638,atk:12.218},{hp:13.508,atk:12.322},{hp:3.831,atk:21.558},{hp:10.315,atk:14.616},{hp:6.279,atk:9.294},{hp:7.559,atk:10.361},{hp:4.148,atk:16.389},{hp:3.638,atk:14.577}],   // v0.85 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
-  [{hp:152.469,atk:103.169},{hp:88.219,atk:139.139},{hp:80.517,atk:61.895},{hp:146.821,atk:76.039},{hp:57.952,atk:91.461},{hp:100.478,atk:91.063},{hp:36.677,atk:39.357},{hp:34.274,atk:99.59},{hp:17.473,atk:84.678},{hp:8.25,atk:77.435}]   // v0.85 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
+  [{hp:1.967,atk:1.232},{hp:5.075,atk:3.411},{hp:2.038,atk:2.764},{hp:6.529,atk:2.736},{hp:1.409,atk:3.481},{hp:2.832,atk:3.643},{hp:1.763,atk:3.179},{hp:2.258,atk:3.021},{hp:1.867,atk:3.545},{hp:0.55,atk:3.739}],   // v0.85 황혼: 기본 규칙으로 장마다 평균 4~6판 — 일곱 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정, 새 특성·행동 게이지 반영)
+  [{hp:32.884,atk:23.075},{hp:24.39,atk:25.614},{hp:9.314,atk:13.762},{hp:16.821,atk:14.055},{hp:3.721,atk:21.188},{hp:12.562,atk:16.449},{hp:7.076,atk:9.985},{hp:9.755,atk:12.073},{hp:4.51,atk:17.233},{hp:3.248,atk:13.618}],   // v0.85 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 평균 9판 안팎
+  [{hp:191.257,atk:118.198},{hp:77.968,atk:129.2},{hp:83.046,atk:63.054},{hp:160.735,atk:80.284},{hp:61.181,atk:94.486},{hp:113.331,atk:97.883},{hp:46.007,atk:45.09},{hp:37.578,atk:105.244},{hp:22.548,atk:98.676},{hp:7.795,atk:74.841}]   // v0.85 영원한 밤: 같은 대응 규칙으로 장마다 평균 15~18판
 ];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 // v0.91 몹 상태이상: 몹 종류마다 특기 상태이상 · 보스·우두머리·정예(자정부터)는 그 장의 특기 전부 · 난이도별 확률·전투당 거는 몹 수
@@ -3160,7 +3268,12 @@ function advRamp(lv){ return Math.max(0,Math.min(1,((lv||0)-ADV_LEVEL+1)/10)); }
 function advSkills(a,lv){ return a?[a.skill,...((lv==null||lv>=ADV_EXTRA_LV)?(a.extra||[]):[])]:[]; }
 // 전직 스킬을 규칙에 넣는 순서: 뒤에서부터(맨 위로 가는 스킬이 여럿이면 대표 스킬이 가장 위에 오도록)
 function freeRuleSlots(cid){ const basic=CLASSES[cid].skills[0], rules=partyRules[cid]||[]; return rules.filter(r=>!r.enabled).length+Math.max(0,rules.filter(r=>r.enabled&&r.skill===basic&&(r.c1|0)===0&&(r.logic|0)===0).length); }
-function addAdvRules(cid,a){ try{ ensureRuleSlots(cid); }catch(e){} const want=advSkills(a,progress.heroes[cid].level).filter(sid=>AUTO_RULES[sid]&&!(partyRules[cid]||[]).some(r=>r.enabled&&r.skill===sid)); const n=Math.min(want.length,freeRuleSlots(cid));   // v0.30: 칸이 모자라면 대표 스킬부터(예전엔 덜 중요한 스킬이 먼저 칸을 차지)
+function addAdvRules(cid,a){ try{ ensureRuleSlots(cid); }catch(e){}
+  { const want=advSkills(a,progress.heroes[cid].level).filter(sid=>!(partyRules[cid]||[]).some(r=>r.enabled&&r.skill===sid)); if(!want.length) return [];
+    // v0.91 동료이거나, 주인공이 규칙을 직접 고치지 않았으면 → 규칙 표대로 칸 전체를 새로 짬(표에서 이번 칸에 안 들어가는 기술은 skip)
+    if(isCompanion(cid)||(partyRules[cid]||[]).filter(r=>r.enabled).every(r=>isDefaultRule(cid,r))){ partyRules[cid]=isCompanion(cid)?companionRules(cid):tableRules(cid); ensureRuleSlots(cid);
+      return want.map(sid=>{ const i=partyRules[cid].findIndex(r=>r.enabled&&r.skill===sid); return [sid,i>=0?{pos:i+1}:{skip:true}]; }); } }
+  const want=advSkills(a,progress.heroes[cid].level).filter(sid=>autoRuleOf(cid,sid)&&!(partyRules[cid]||[]).some(r=>r.enabled&&r.skill===sid)); const n=Math.min(want.length,freeRuleSlots(cid));   // v0.30: 칸이 모자라면 대표 스킬부터(예전엔 덜 중요한 스킬이 먼저 칸을 차지)
   const out=want.slice(0,n).reverse().map(sid=>[sid,autoAddRule(cid,sid)]).reverse().concat(want.slice(n).map(sid=>[sid,{failed:true}]));
   for(const x of out) if(x[1]&&!x[1].failed){ const i=partyRules[cid].findIndex(r=>r.enabled&&r.skill===x[0]); if(i>=0) x[1].pos=i+1; }   // 여러 개를 맨 위에 넣으면 앞서 넣은 번호가 밀림
   return out; }
@@ -4212,16 +4325,18 @@ const AUTO_RULES={
   smoke_bomb:{c1:1,at:"top"}, throat_slit:{c1:10,t:0}, shadow_strike:{c1:17,t:0,at:"top"}, venom_burst:{c1:19,t:8,at:"top"},
   /* v0.26 */
   ki_wave:{c1:41,l:1,c2:6,at:"top"}, collapse_fist:{c1:42,t:0,at:"top"}, counter_stance:{c1:41,at:"top"}, ki_cycle:{c1:53,at:"top"}, rising_dragon:{c1:8}, falling_dragon:{c1:51,t:10,at:"top"},
-  headshot:{c1:23,t:9,at:"top"}, steady_breath:{c1:45,t:6,at:"top"}, powder_keg:{c1:54,l:1,c2:7,at:"top"}, burst_shell:{c1:7,at:"top"}, flashbang:{c1:6}, ap_round:{c1:23,t:9},
+  headshot:{c1:23,t:9,at:"top"}, steady_breath:{c1:45,t:6,at:"top"}, powder_keg:{c1:54,l:1,c2:7,at:"top"}, flashbang:{c1:6}, ap_round:{c1:23,t:9},
   march_song:{c1:47,at:"top"}, charge_order:{c1:43,l:1,c2:10,t:11,at:"top"}, all_out:{c1:44,at:"top"}, mock_song:{c1:47,at:"top"}, lullaby_s:{c1:43,l:1,c2:7,at:"top"}, fool_dance:{c1:44,at:"top"},
-  inspire:{c1:8,t:11}, echo:{c1:8},
+  inspire:{c1:8,t:11},
   /* v0.89 새 전직 기술 */
   shield_bash:{c1:0,t:0}, iron_counter:{c1:7,at:"top"}, whirlwind:{c1:7}, combust:{c1:7,at:"top"}, arcane_surge:{c1:9,at:"top"}, ice_lance:{c1:63,at:"top"},
   guardian_angel:{c1:3,t:5,at:"top"}, purify:{c1:25,at:"top"}, judgment_hammer:{c1:0,t:0}, death_mark:{c1:50,t:14,at:"top"}, venom_mist:{c1:7,at:"top"}, toxic_blade:{c1:0,t:0},
   dragon_storm:{c1:7,at:"top"}, pierce_shot:{c1:7,t:4}, incendiary:{c1:6,at:"top"},
 };
+// v0.91 새 기술의 조건·대상은 규칙 표에서(표에 없을 때만 예전 AUTO_RULES). 표의 기술은 첫 '항상' 규칙 바로 앞에 들어감
+function autoRuleOf(cid,sid){ const h=progress.heroes[cid]||{}; const e=rulesetEntry(cid,h.adv,heroStance(cid),sid); return e?{c1:e[1],l:e[2],c2:e[3],t:e[4]}:AUTO_RULES[sid]; }
 function autoAddRule(cid,sid){
-  const A=AUTO_RULES[sid]; const rules=partyRules[cid];
+  const A=autoRuleOf(cid,sid); const rules=partyRules[cid];
   if(!A||!rules||rules.some(r=>r.enabled&&r.skill===sid)) return null;
   let idx=-1; for(let i=rules.length-1;i>=0;i--) if(!rules[i].enabled){ idx=i; break; }
   if(idx<0){ const basic=CLASSES[cid].skills[0]; for(let i=rules.length-1;i>=0;i--) if(rules[i].skill===basic&&(rules[i].c1|0)===0&&(rules[i].logic|0)===0){ idx=i; break; } }
@@ -4276,7 +4391,7 @@ function skillSpec(sid,sx){
       if(s.cold) R("st",`냉기 ${s.cold}중첩${s.coldChance?` ${P(s.coldChance)}% 확률`:""} — 중첩마다 공격력 -5%, 3중첩이면 1턴 빙결`);
       if(s.poisonN) R("st",`독 ${s.poisonN}중첩`);
       if(s.vulnIfBurn) R("if",`화상 걸린 적 → 취약(받는 피해 +${P(s.vulnIfBurn)}%) 2턴`);
-      if(s.burnPop) R("if",`화상 걸린 적 → 남은 화상 피해를 한 번에 터뜨림`);
+      if(s.burnPop) R("if",`화상 걸린 적 → 남은 화상 피해를 한 번에 터뜨림 (화상 걸린 적 필요)`);
       if(s.frozenAmp) R("if",`빙결된 적 → 피해 +${P(s.frozenAmp)}%`);
       if(s.vulnAmp) R("if",`취약한 적 → 피해 +${P(s.vulnAmp)}%`);
       if(s.vulnCrit) R("if",`취약한 적 → 확정 치명타`);
@@ -4660,6 +4775,7 @@ class Sim {
     if(st==="taunt"&&this.foes(u).some(f=>f.taunted_by===u.id)) return false;
     if(skill.finisher&&!((u._combo||0)>0)) return false;
     if(skill.detonate&&!this.foes(u).some(f=>f.dots.poison)) return false;
+    if(skill.burnPop&&!this.foes(u).some(f=>f.dots.burn)) return false;   // v0.91 연소: 화상 걸린 적이 있을 때만
     if(st==="stealth"&&u.buffs.stealth) return false;
     if(st==="coat"&&u._coat>0) return false;
     if(st==="smoke"&&u.buffs.stealth) return false;
@@ -7015,20 +7131,13 @@ function isCompanion(cid){ return !!(progress&&progress.protag&&progress.protag.
 function heroStance(cid){ const s=(progress.heroes[cid]||{}).stance; return STANCES[s]?s:STANCE_DEFAULT[cid]; }
 function stanceLetter(st){ return {atk:"a",surv:"s",supp:"p"}[st]; }
 const LOCK_CONDS=new Set([...Object.values(RUNES).map(r=>r.cond),...Object.values(RELICS).map(r=>r.cond)]);
-function companionRules(cid){
-  const st=heroStance(cid), L=stanceLetter(st), skills=classSkills(cid), n=heroRuleCount(cid), basic=CLASSES[cid].skills[0], nAuto=n;   // v0.88 보스 패턴이 없어져 5번째 칸도 자동으로 채움
-  const cand=[], used=new Set(); let unl=null;
-  for(const [sk,c1,lg,c2,t,who] of COMPANION.rules[cid]){
-    if(!who.includes(L)||!skills.includes(sk)||used.has(sk)||sk===basic) continue;
-    if((LOCK_CONDS.has(c1)||(lg&&LOCK_CONDS.has(c2)))&&!(unl||(unl=new Set(heroDerived(cid).unlocks))).has(LOCK_CONDS.has(c1)?c1:c2)) continue;   // 룬·유물로 여는 조건은 열렸을 때만
-    used.add(sk); cand.push({enabled:true,c1,logic:lg,c2,skill:sk,target:t});
-  }
-  // v0.35: 4칸에 넣을 스킬 — 원래 우선순위 + 파티와 맞물리는 연계(🔗)
-  const party=(typeof battleIds==="function")?battleIds():partyIds();
-  const pick=cand.map((r,i)=>({r,i,s:-i+3*synPartners(r.skill,party,cid)})).sort((a,b)=>b.s-a.s).slice(0,nAuto).sort((a,b)=>a.i-b.i).map(x=>x.r);
-  const out=pick; while(out.length<n) out.push({enabled:false,c1:0,logic:0,c2:0,skill:basic,target:0});
-  return out;
-}
+// v0.91 동료 규칙 = 규칙 표(지금 전직 · 성향 · 가진 기술 · 칸 수)
+// v0.91 표에 있는 규칙 · 예전 기본 규칙 · 예전 자동 추가 규칙이면 '직접 고치지 않은 규칙'
+function isDefaultRule(cid,r){ const same=d=>d.enabled!==false&&d.skill===r.skill&&(d.c1|0)===(r.c1|0)&&(d.logic|0)===(r.logic|0)&&(!d.logic||(d.c2|0)===(r.c2|0));
+  if(inRuleset(cid,r)) return true; if((CLASSES[cid].old_default||[]).some(same)) return true;
+  const A=AUTO_RULES[r.skill]; return !!(A&&same({skill:r.skill,c1:A.c1,logic:A.l||0,c2:A.c2||0})); }
+function tableRules(cid){ const h=progress.heroes[cid]||{}; return ruleTable(cid,h.adv,heroStance(cid),classSkills(cid),heroRuleCount(cid)); }
+function companionRules(cid){ return tableRules(cid); }
 function traitNodeScore(cid,n,st){
   const W=COMPANION.wNum[st]; const num=m=>Object.entries(m.eff).reduce((a,[k,v])=>a+(typeof v==="number"?(W[k]||0)*v:0),0);
   const fl=n.eff.flag!==undefined?[].concat(n.eff.flag)[0]:null;
@@ -7055,7 +7164,7 @@ function companionThink(cid){
   // 2) 전직
   if(!h.adv&&h.level>=ADV_LEVEL){ const key=COMPANION.adv[cid][st]; const a=ADV[cid].find(x=>x.key===key)||ADV[cid][0]; h.adv=a.key;
     msgs.push(`⭐ ${who}${jo(who,"이","가")} 스스로 전직 → ${a.name} (${S.name}) — ${a.desc}`);
-    try{ const ar=addAdvRules(cid,a); for(const [sid,x] of ar) msgs.push(x&&x.failed?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — 규칙 칸이 모자라 넣지 못함(자동전투 탭에서 직접)`:`📜 ${who}: 새 스킬 '${SKILLS[sid].name}'을(를) 규칙에 넣음 — 순서는 자동전투 탭에서`); }catch(e){} }
+    try{ const ar=addAdvRules(cid,a); for(const [sid,x] of ar) msgs.push(x&&x.skip?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — ${STANCES[st].name} 규칙 표에서는 이번 칸에 넣지 않음`:x&&x.failed?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — 규칙 칸이 모자라 넣지 못함(자동전투 탭에서 직접)`:`📜 ${who}: 새 스킬 '${SKILLS[sid].name}'을(를) 규칙에 넣음 — 순서는 자동전투 탭에서`); }catch(e){} }
   // 3) 능력치 배분
   if(h.pts>0){ const R=COMPANION.alloc[cid][st]; const add={};
     while(h.pts>0){ const tot=PRIM.reduce((a,k)=>a+(h.alloc[k]||0),0)+1; let best=null, bd=-1e9;
@@ -10246,7 +10355,7 @@ function moveRule(i,d){
 }
 function resetRules(){
   if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>규칙은 마을에서 바꿀 수 있어요.`,"",2400); return; }
-  partyRules=defaultRules(); for(const c of CLASS_IDS) ensureRuleSlots(c); for(const c of rosterIds()) if(isCompanion(c)) partyRules[c]=companionRules(c); if(TUT.learning()) TUT.applyRules(); saveRules(); renderRules();
+  partyRules=defaultRules(); for(const c of CLASS_IDS) ensureRuleSlots(c); for(const c of rosterIds()){ partyRules[c]=tableRules(c); ensureRuleSlots(c); } if(TUT.learning()) TUT.applyRules(); saveRules(); renderRules();
   logLine(`<span class="r">모든 영웅의 규칙을 기본값으로 되돌렸습니다.</span>`);
 }
 
@@ -11552,6 +11661,7 @@ function genStock(){
 }
 function logAutoRule(cid,sid,ar){
   if(!ar) return;
+  if(ar.skip){ logLine(`<span class="r">📜 '${esc(SKILLS[sid].name)}' — 규칙 표(${esc(STANCES[heroStance(cid)].name)})에서는 이번 칸에 넣지 않았습니다. 자동전투 탭에서 직접 넣을 수 있어요.</span>`); return; }
   if(ar.failed&&TUT.ruleLock(cid)){ logLine(`<span class="r">📜 '${esc(SKILLS[sid].name)}'은(는) 규칙 교실을 마치면 빈 칸에 넣어 드려요.</span>`); return; }
   if(ar.failed){ logLine(`<span class="r">📜 ${esc(heroDisplayName(cid))}의 자동전투 규칙 칸이 꽉 차서 '${esc(SKILLS[sid].name)}'을(를) 넣지 못했습니다. 자동전투 탭에서 직접 넣어 주세요.</span>`); return; }
   const r=partyRules[cid][ar.pos-1];
@@ -11560,22 +11670,22 @@ function logAutoRule(cid,sid,ar){
 // 예전 세이브: 이미 가진 전직·스킬북 스킬 중 규칙에 없는 것을 한 번만 채워 줌
 // v0.52: 주인공 규칙을 직업 기본 순서로. v0.50까지 규칙 교실이 칸을 하나씩 열며 순서를 바꿔 놓아(성직자: 축복이 맨 위 → 마나가 많으면 치유 대신 축복)
 // 기본 규칙만 들어 있는(직접 고치지 않은) 주인공은 기본 순서·전부로 되돌린다. 직접 바꾼 규칙이 있으면 건드리지 않음
-function isDefaultRule(cid,r){ return CLASSES[cid].default_rules.some(d=>d.enabled&&d.skill===r.skill&&d.c1===r.c1&&(d.logic|0)===(r.logic|0)&&(!d.logic||d.c2===r.c2)); }
 function protagDefaultRules(cid){ const basic=CLASSES[cid].skills[0];
   const extra=(partyRules[cid]||[]).filter(r=>r.enabled&&!isDefaultRule(cid,r)).map(r=>({...r}));
-  const out=CLASSES[cid].default_rules.filter(d=>d.enabled&&!(d.skill===basic&&d.c1===0&&!d.logic)).map(d=>({...d})).concat(extra);
+  const out=tableRules(cid).filter(d=>d.enabled).concat(extra.filter(x=>!tableRules(cid).some(d=>d.enabled&&d.skill===x.skill)));
   partyRules[cid]=out; ensureRuleSlots(cid); saveRules(); }
 function autoRulePass(){
   try{ const cid=progress&&progress.protag&&progress.protag.cid;
     if(cid&&TUT.learning()) TUT.applyRules();
-    else if(cid&&!progress.rulesFixV){ const en=(partyRules[cid]||[]).filter(r=>r.enabled); if(en.every(r=>isDefaultRule(cid,r)||(r.skill===CLASSES[cid].skills[0]&&r.c1===0&&!r.logic))) protagDefaultRules(cid); }
-    if(progress&&progress.protag) progress.rulesFixV=1;
+    else if(cid&&(progress.rulesFixV|0)<2){ const en=(partyRules[cid]||[]).filter(r=>r.enabled); if(en.every(r=>isDefaultRule(cid,r)||(r.skill===CLASSES[cid].skills[0]&&r.c1===0&&!r.logic))) protagDefaultRules(cid); }
+    if(progress&&progress.protag&&(progress.rulesFixV|0)<2){ for(const c of rosterIds()) if(isCompanion(c)){ partyRules[c]=companionRules(c); ensureRuleSlots(c); } saveRules(); }   // v0.91 동료 규칙을 새 규칙 표로
+    if(progress&&progress.protag) progress.rulesFixV=2;
   }catch(e){}
   if(!progress||progress.autoRules>=1) return;
   const added=[];
   for(const cid of rosterIds()){
     const a=advInfo(cid); const ars=[...addAdvRules(cid,a), ...(progress.heroes[cid].learned||[]).map(sid=>[sid,autoAddRule(cid,sid)])];
-    for(const [sid,ar] of ars) if(ar&&!ar.failed) added.push(`${heroDisplayName(cid)} ${ar.pos}번 '${SKILLS[sid].name}'`);
+    for(const [sid,ar] of ars) if(ar&&ar.pos) added.push(`${heroDisplayName(cid)} ${ar.pos}번 '${SKILLS[sid].name}'`);
   }
   progress.autoRules=1; saveRules(); saveProgress();
   if(added.length) logLine(`<span class="win">📜 규칙에 없던 습득 스킬을 자동전투 규칙에 넣었습니다: ${esc(added.join(", "))}. 원치 않으면 자동전투 탭에서 끄거나 바꾸세요.</span>`);
