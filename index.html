@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793766844504"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793770704912"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3203,7 +3203,7 @@ const LEVEL_CAP=40;
 const LIMITS=[
   ["능력치 상한","치명타 확률 75% · 회피 60% · 관통 75% · 상태이상 저항 75% · 명중 120%(100%를 넘는 명중은 적의 회피를 그만큼 상쇄). 상한에 닿으면 능력치 표에 '최대'가 붙고, 그 이상은 효과가 없습니다."],
   ["명중","기본 85% + 민첩 1당 0.2% + 장비(투구·장갑) 명중. 실제로 맞힐 확률 = 명중 − 상대 회피(최소 20%). 띄운 적은 회피하지 못함."],
-  ["레벨·각성","최고 레벨 40. 40에서 경험치가 다시 차면 각성 — 특성 포인트 +4, 2·5번째 각성엔 궁극 칸 +1. 각성은 횟수 제한 없이 계속할 수 있고, 할 때마다 특성 포인트를 줍니다."],
+  ["레벨·각성","최고 레벨 40. 40에서 경험치가 다시 차면 각성 — 특성 포인트 +4. 각성은 횟수 제한 없이 계속할 수 있고, 할 때마다 특성 포인트를 줍니다."],
   ["특성 포인트","전직(Lv10)부터 레벨마다 1점(Lv40에 31점) + 각성마다 4점 + 큰 별마다 1점. 특성은 가운데에서 서로 얽혀 뻗는 그물(영웅마다 215칸 — 직업 공통 갈래 3 + 고른 전직 갈래 2)이라, 이미 배운 칸과 이어진 칸만 배울 수 있습니다. 궁극은 갈래 끝 20개 중 3개까지."],
   ["자동전투 규칙 칸","영웅마다 4칸. 칸마다 조건과 쓸 스킬을 정하고, 아무것도 안 맞으면 기본공격(칸을 차지하지 않음)."],
   ["장비 강화","최대 +15. 단계가 오를수록 성공률이 낮아집니다."],
@@ -11709,9 +11709,9 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   if(!comp){ const cardBtn=document.createElement("button"); cardBtn.textContent="🪪 명함 만들기"; cardBtn.title="주인공의 외형·칭호·능력치·자동전투 규칙을 한 장 그림으로";
     cardBtn.onclick=()=>makeNameCard(cid); tools.appendChild(cardBtn); }
   if(!comp&&h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)){
-    const aw=document.createElement("button"); aw.textContent=`✦ 각성 (${h.awaken+1}번째)`; aw.title=`레벨 상한에서 경험치가 가득 찼습니다. 각성: 특성 포인트 +${TRAIT_AWAKEN}, 2·5번째 각성엔 궁극 칸 +1`;
+    const aw=document.createElement("button"); aw.textContent=`✦ 각성 (${h.awaken+1}번째)`; aw.title=`레벨 상한에서 경험치가 가득 찼습니다. 각성: 특성 포인트 +${TRAIT_AWAKEN}`;
     aw.onclick=()=>{ h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&progress.heroes[cid].adv) addAdvRules(cid,advInfo(cid)); saveRules(); saveProgress(); renderParty(); renderRules(); renderPtsDot();
-      logLine(`<span class="win">✦ ${esc(heroDisplayName(cid))} 각성 ${h.awaken}! 특성 포인트 +${TRAIT_AWAKEN}${[2,5].includes(h.awaken)?", 궁극 칸 +1":""}.</span>`); };
+      logLine(`<span class="win">✦ ${esc(heroDisplayName(cid))} 각성 ${h.awaken}! 특성 포인트 +${TRAIT_AWAKEN}.</span>`); };
     tools.appendChild(aw);
   }
   if(tools.children.length) card.appendChild(tools);
