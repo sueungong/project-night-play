@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793770704912"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793784030422"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -763,6 +763,31 @@ button.dis{background:var(--raised); color:#9fd9ff; border:1px solid #2c4a6b; bo
 .market{border:1px solid #3a2f6a; background:#141028; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px}
 .market h3{margin:0; font-size:17px; color:var(--buff)}
 .tokens{font-size:14.5px; line-height:1.7}
+.qwrap{display:flex; gap:12px; align-items:flex-start}
+.qlist{display:flex; flex-direction:column; gap:4px; width:200px; flex:none}
+.qch{display:grid; grid-template-columns:22px auto 1fr auto; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; background:var(--panel); border:1px solid var(--line); color:var(--ink); cursor:pointer; text-align:left; font-size:13px}
+.qch.on{border-color:#f4c95d88; background:#222b4a} .qch.lock{opacity:.45; cursor:default}
+.qch .qcn{color:var(--muted); font-size:12px} .qch .qnm{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600}
+.qch .qdot{background:var(--accent); color:var(--accent-ink); font-size:11px; font-weight:700; border-radius:9px; padding:1px 6px}
+.qbody{flex:1; min-width:0; display:flex; flex-direction:column; gap:10px}
+.qhd{display:flex; align-items:center; gap:8px; flex-wrap:wrap} .qhd b{font-size:15px}
+.qtag{font-size:11px; font-weight:700; border-radius:6px; padding:2px 6px; background:#f4c95d; color:#1a1406} .qtag.sub{background:#7fb3ff; color:#0b1530}
+.qfrom{color:var(--muted); font-size:12.5px; margin-left:auto}
+.qintro,.qask{margin:6px 0 0; font-size:13.5px; color:var(--sub)} .qdone{margin:6px 0 0; font-size:13.5px; color:#9fe0a8}
+.qprog{font-size:12.5px; color:var(--muted); margin-top:6px} .qhint{opacity:.8}
+.qsteps{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:6px}
+.qstep{border:1px solid var(--line); border-radius:10px; padding:8px 10px; background:#0f1528}
+.qstep.lock{opacity:.5} .qstep.now{border-color:#f4c95d88}
+.qsh{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13.5px} .qtg{margin-left:auto; color:var(--muted); font-size:12.5px}
+.qmk{width:20px; height:20px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:11px; background:#222b4a; flex:none}
+.qstep.done .qmk{background:#2f6b3a} .qstep.now .qmk{background:#f4c95d; color:#1a1406}
+.qwho{margin-top:6px; font-size:13px; color:var(--sub)}
+.qlog{margin-top:6px; font-size:13px; color:var(--sub)} .qlog summary{cursor:pointer; color:var(--accent); font-size:12.5px} .qlog p{margin:4px 0 0}
+.qbar{height:6px; border-radius:3px; background:#222b4a; overflow:hidden; margin-top:8px} .qbar span{display:block; height:100%; background:#7fb3ff}
+.qrw{display:flex; align-items:center; gap:10px; margin-top:8px; font-size:13px; color:var(--sub); flex-wrap:wrap} .qrw .btn{margin-left:auto}
+.qok{margin-left:auto; color:#9fe0a8; font-weight:700} .qwait{margin-left:auto; color:var(--muted)}
+.qsub.claimed{opacity:.7}
+@media (max-width:820px){ .qwrap{flex-direction:column} .qlist{width:100%; flex-direction:row; overflow-x:auto} .qch{flex:none; grid-template-columns:auto auto} .qch .qnm{display:none} }
 .cxtabs{display:flex; gap:6px; flex-wrap:wrap}
 .cxtabs button{height:42px; padding:0 16px; border-radius:12px; background:var(--panel); border:1px solid var(--line); color:var(--sub); font-size:15px; cursor:pointer}
 .cxtabs button b{color:var(--accent); font-weight:700; margin-left:4px}
@@ -1327,7 +1352,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
-    <div class="brand">프로젝트 나이트<span class="ver">v0.92 · 웹</span></div>
+    <div class="brand">프로젝트 나이트<span class="ver">v0.93 · 웹</span></div>
     <div class="crumb" id="hud"></div>
     <span class="spacer"></span>
     <div class="chips" id="hudChips"></div>
@@ -1341,6 +1366,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
     <nav class="rail" role="tablist" aria-label="주 메뉴">
       <button id="tab-home" onclick="goHome()" title="모닥불(대기실)로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1.5 3 4 4.5 4 8a4 4 0 0 1-8 0c0-2 1-3 2-4 0 1.5.8 2.5 2 2.5 0-2.5-1-4 0-6.5zM4 21l16-3M4 18l16 3"/></svg><span id="homeLbl">대기실</span></button>
       <button id="tab-dungeon" onclick="dungeonTab()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V10l7-6 7 6v11M10 21v-6h4v6"/></svg>던전</button>
+      <button id="tab-quest" onclick="showTab('quest',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7"/><path d="M7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>퀘스트<span class="nb" id="questDot"></span></button>
       <button id="tab-party" onclick="showTab('party',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7a3 3 0 1 0 0.01 0M17 9a2.5 2.5 0 1 0 0.01 0M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 6 2 6 5.5"/></svg>파티<span class="nb" id="ptsDot"></span></button>
       <button id="tab-equip" onclick="showTab('equip',1)" title="장비"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>장비<span class="nb up" id="eqDot" title="가방에 지금보다 더 좋은 장비가 있어요"></span></button>
       <button id="tab-shop" onclick="showTab('shop',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/></svg>상점</button>
@@ -1406,6 +1432,10 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
         <div id="rules"></div>
       </section>
 
+      <section class="view" id="body-quest" hidden>
+        <div id="questPane"></div>
+      </section>
+
       <section class="view" id="body-codex" hidden>
         <div id="codexPane" style="display:flex; flex-direction:column; gap:12px"></div>
       </section>
@@ -1435,7 +1465,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
-v0.92: <b>기술·패시브 전면 개편 · 새 직업 둘</b> — 기존 7직업의 기술을 모두 새로 만들었습니다(새 이름·새 효과). <b>새 직업:</b> 후열 <b>궁수</b>(연사 — 같은 적을 연달아 맞히면 한 발마다 피해 +2%, 최대 +20% · 전직 바람의 명궁·숲의 사냥꾼)와 전열 <b>창술사</b>(앞줄 적을 근접 공격하면 같은 가로줄 뒷줄 적에게도 40% · 전직 용기병·방진 수호자)가 황혼 5장 황금 도시·6장 붉은 사막을 깬 다음 차례로 동료로 합류하고, 새 게임에서 주인공으로도 고를 수 있습니다(모두 9직업 · 활·창 무기 3종씩). 직업마다 기본 기술 6개(갈래 3개 × 2개) + 전직마다 4개(대표 1 · 강화 2 · 다리 1). 전직하면 Lv10에 대표 기술 + 강화 1개, Lv16에 강화 1개 + 다리 기술. <b>기술 칸:</b> 전직 전 3칸 · 전직 후 4칸(기본공격은 칸 밖에서 저절로). <b>패시브:</b> 직업·전직 패시브를 모두 바꿨습니다(예: 검사 반격 본능 — 원거리 공격에도 25% 확률로 80% 반격 · 마법사 집중된 마나 — 매 턴 마나 +3 · 성직자 은총의 넘침 — 넘친 치유의 50%를 보호막으로). <b>음유시인:</b> 오라를 없앴습니다. 노래는 칸에 넣는 3턴 버프 기술이고, 같은 노래를 다시 부르면 3턴으로 돌아가며 다른 노래끼리는 함께 걸립니다. 내 노래가 걸려 있는 동안 매 턴 공명 +2. <b>총사:</b> 보통 사격 기술은 탄만(마나 0), 사격이 아닌 기술은 마나만, 표적탄·화약 상자는 탄과 마나 둘 다. 재장전 기술은 없어지고 탄이 0이면 그 턴 저절로 재장전. <b>권사:</b> 올려차기·공중 연타·회오리 발차기는 기세 2. 받는 피해를 줄이는 기술은 겹치지 않고 가장 큰 것 하나만 적용됩니다. <b>예전 저장:</b> 예전 기술로 짠 규칙은 규칙 표로 다시 짜고(직접 고친 규칙은 같은 역할의 새 기술로 옮김), 숙련·장비 기술 옵션·특성 연결도 새 기술로 옮겼습니다. 자동전투 조건 '내가 켠 오라가 없음'·'아군 오라가 켜져 있음'·'내 내공 15% 이상'은 없어졌습니다. <b>난이도:</b> 9직업 기준으로 다시 맞췄습니다(봇 기준 장마다 깨기까지 도전 횟수 가운데값 황혼 7.5번 · 자정 15번 · 영원한 밤 30번).
+v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 퀘스트는 황혼 1~10장마다 하나 — 다섯 막이 다섯 단계이고, 지금 단계의 상대(중간보스·우두머리·장 보스)를 소개하며 깬 막에서 알게 된 이야기가 기록으로 남습니다. 다섯 막을 다 깨면 보상(그 장 몹 20마리분 경험치·골드 + 밤의 정수 + 희귀 장비 1개). 서브 퀘스트는 장마다 2개 — 그 장 사람들의 작은 부탁으로, 정해진 몹을 잡으면(어느 난이도든) 숫자가 차고 보상(몹 8마리분 경험치·골드, 둘째는 희귀 장비 1개 더). <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로).<br>
+v0.92: <b>기술·패시브 전면 개편 · 새 직업 둘</b> — 기존 7직업의 기술을 모두 새로 만들었습니다(새 이름·새 효과). <b>새 직업:</b> 후열 <b>궁수</b>(연사 — 같은 적을 연달아 맞히면 한 발마다 피해 +2%, 최대 +20% · 전직 바람의 명궁·숲의 사냥꾼)와 전열 <b>창술사</b>(앞줄 적을 근접 공격하면 같은 가로줄 뒷줄 적에게도 40% · 전직 용기병·방진 수호자)가 황혼 5장 황금 도시·6장 붉은 사막을 깬 다음 차례로 동료로 합류하고, 새 게임에서 주인공으로도 고를 수 있습니다(모두 9직업 · 활·창 무기 3종씩). 직업마다 기본 기술 6개(갈래 3개 × 2개) + 전직마다 4개(대표 1 · 강화 2 · 다리 1). 전직하면 Lv10에 대표 기술 + 강화 1개, Lv16에 강화 1개 + 다리 기술. <b>기술 칸:</b> 전직 전 3칸 · 전직 후 4칸(기본공격은 칸 밖에서 저절로). <b>패시브:</b> 직업·전직 패시브를 모두 바꿨습니다(예: 검사 반격 본능 — 원거리 공격에도 25% 확률로 80% 반격 · 마법사 집중된 마나 — 매 턴 마나 +3 · 성직자 은총의 넘침 — 넘친 치유의 50%를 보호막으로). <b>음유시인:</b> 오라를 없앴습니다. 노래는 칸에 넣는 3턴 버프 기술이고, 같은 노래를 다시 부르면 3턴으로 돌아가며 다른 노래끼리는 함께 걸립니다. 내 노래가 걸려 있는 동안 매 턴 공명 +2. <b>총사:</b> 보통 사격 기술은 탄만(마나 0), 사격이 아닌 기술은 마나만, 표적탄·화약 상자는 탄과 마나 둘 다. 재장전 기술은 없어지고 탄이 0이면 그 턴 저절로 재장전. <b>권사:</b> 올려차기·공중 연타·회오리 발차기는 기세 2. 받는 피해를 줄이는 기술은 겹치지 않고 가장 큰 것 하나만 적용됩니다. <b>예전 저장:</b> 예전 기술로 짠 규칙은 규칙 표로 다시 짜고(직접 고친 규칙은 같은 역할의 새 기술로 옮김), 숙련·장비 기술 옵션·특성 연결도 새 기술로 옮겼습니다. 자동전투 조건 '내가 켠 오라가 없음'·'아군 오라가 켜져 있음'·'내 내공 15% 이상'은 없어졌습니다.
 v0.91: <b>적의 상태이상</b> — 몹마다 특기 상태이상(장마다 주제)이 생겼습니다. 한 번 맞힐 때 확률 황혼 10% · 자정 30% · 영원한 밤 50%, 한 전투에서 거는 몹은 1 · 2 · 3마리까지(보스·우두머리는 그 장의 특기 전부, 자정부터 정예도). 영원한 밤의 적은 상태이상 걸린 영웅에게 피해 +20%. 막는 법: 상태이상 저항 상한 75% → 70%, 장비 저항 옵션이 더 자주·더 크게(2~9, 예전 1~7), 수호의 노래·수호기사 철벽 저항 +15%p, 권사 호흡 고르기가 내 상태이상 하나를 풂, 성직자 정화. 일반 몹 기술에 따로 붙어 있던 화상·약화·기절은 특기 상태이상으로 바뀜(보스 기술은 그대로). 한 전투 몹 수: 자정 3~5 · 영원한 밤 4~5마리. <b>자동전투 규칙 표</b> — 동료 규칙·처음 규칙·전직 때 새 기술 자리를 한 표에서 정합니다(직업 × 전직 × 성향). '항상'은 맨 끝 칸만, 검사 도발·성직자 치유·소생·전직 대표 기술은 꼭 들어가고, 음유시인 오라는 하나만. 직접 고친 주인공 규칙은 그대로 둡니다. 연소는 화상 걸린 적이 있을 때만 씁니다.
 v0.90: <b>마나·회복 다시 짜기</b> — <b>회복:</b> 구역 사이 회복(10%)을 없애고, 매 턴 직업 기본값 + 체질(체력)·의지(마나)만큼 조금씩 회복합니다. 막 중간 쉼터는 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남). <b>마나:</b> 기술 비용은 최대 마나의 %가 아니라 정해진 숫자입니다(레벨이 오를수록 더 자주 씀). 권사·총사·음유시인의 기세·탄약·공명 기술도 마나를 씁니다. 최대 마나는 의지 1당 +4(지능은 마나에 영향 없음). 레벨업 때 마나는 직업마다 다른 기준값(마법사 7 · 도적 4 · 성직자 3.5 · 검사 3 · 권사·총사 2 · 음유시인 1.5, 의지 1당 +2%)의 80~120% 사이에서 무작위로 오릅니다. 장비의 마나 옵션 수치는 예전의 30%(예: 마나 +40 → +12). <b>장비 수준:</b> 난이도 안에서 1장 → 10장 +20%(난이도 사이 +30%는 그대로).
 v0.88: <b>전투 다시 짜기 · 한 장 = 5막</b> — <b>전투 초기화:</b> 보스 특수 패턴, 역할 몬스터, 장별 환경, 행동 게이지(신속은 행동 순서만), 방어 태세를 없앴습니다. 구역 사이 회복은 15% → 10%. <b>기술:</b> 직업마다 기본 기술 4개 + 전직 기술 3개(전직 기술 Lv10, 전직 패시브 Lv14, 추가 전직 기술 Lv16). 새 기술 15개(방패 강타·철벽 반격·회전베기·연소·마력 폭주·빙결 창·수호천사·정화·심판의 철퇴·죽음의 표식·독안개·맹독 단검·용권 폭풍·관통 저격·소이 폭격), 기존 기술도 효과·수치를 다시 맞췄습니다. 스킬북은 없어지고 책 기술은 기본·전직 기술로 옮겼습니다(예전에 산 책은 골드로 돌려드림). <b>스킬칸:</b> 전직 전 3칸, 전직 후 5칸. 칸 하나 = 기술 + 조건 + 대상이고 같은 기술은 한 칸만 씁니다. 아무 칸도 안 맞으면 기본공격. <b>마나:</b> 모든 영웅이 매 턴 최대 마나의 일정 비율(의지 10이면 8%)을 회복하고, 기술 비용은 최대 마나의 %입니다. 권사는 기세, 총사는 탄창만 씁니다. <b>상태이상 6가지:</b> 화상·독·기절·냉기·약화·취약. 출혈은 독으로, 공포·침묵은 기절로, 실명은 약화로, 표식·낙인은 취약으로 합쳤습니다. 냉기는 3중첩이면 1턴 빙결, 기절·빙결 뒤에는 2턴 동안 다시 걸리지 않습니다. <b>스탯 고정식:</b> 처음 스탯(모든 직업 합계 60)에 보너스 8포인트를 한 번만 찍습니다(한 스탯 18까지, 되돌릴 수 없음). 레벨업 때는 체력·마나·공격력이 스탯에 따라 정해진 범위에서 무작위로 오릅니다. 18까지 올린 스탯은 특혜가 하나씩 붙습니다(괴력·통찰·강인함·굳은 의지·관통·회심). 예전 세이브는 찍었던 포인트를 돌려받아 보너스 8포인트를 다시 찍고, 성장은 그 레벨까지의 기대값으로 맞춰집니다. 전직 고정 능력치 보너스와 직업 능력치 보너스는 없앴습니다. <b>강화:</b> +1~+9는 단계당 +5%, +10~+15는 단계당 +9%, 심연 핵으로 연 +16~+18은 단계당 +15%(퍼센트 능력치는 절반). <b>장비 수준:</b> 같은 난이도 안에서는 1장 → 10장 +40%, 난이도가 바뀌면 +30%, 장 보스 장비는 2장 앞선 수준. <b>한 장 = 5막:</b> 장마다 새 2막·4막(새 중간보스 20명)이 생기고, 막마다 전투가 6~7번(5막은 5~6번)으로 늘었습니다. 막 한가운데 쉼터에서 처음 지날 때 짧은 장면이 나옵니다(난이도마다 따로). 예전 세이브의 깬 막은 새 막 번호로 옮겨집니다. 30장 난이도는 새 구조에 맞춰 다시 맞췄습니다.<br>
@@ -1818,9 +1849,9 @@ const SKILLS = {
   moon_veil:     { name:"달빛 장막",       type:"buff_def",  power:0,   mp:12, aoe:false, range:"self",  duration:2, value:0.35 },
   tide_sting:    { name:"따끔한 촉수",     type:"damage",    power:1.05,mp:0,  aoe:false, range:"ranged" },
   rust_grip:     { name:"녹슨 움켜쥐기",   type:"damage",    power:1.2, mp:0,  aoe:false, range:"melee" },
-  siren_song:    { name:"세이렌의 노래",   type:"heal",      power:2.4, mp:30, aoe:false, range:"self" },
-  lullaby:       { name:"가라앉는 자장가", type:"damage",    power:0.75, mp:22, aoe:false,  range:"ranged", shape:"back_all", chill:{value:-0.2,turns:2} },
-  requiem:       { name:"파도의 진혼곡",   type:"damage",    power:1.15,mp:25, aoe:true,  range:"ranged" },
+  siren_song:    { name:"세이렌의 노래",   type:"heal",      power:2.4, mp:78, aoe:false, range:"self" },
+  lullaby:       { name:"가라앉는 자장가", type:"damage",    power:0.75, mp:45, aoe:false,  range:"ranged", shape:"back_all", chill:{value:-0.2,turns:2} },
+  requiem:       { name:"파도의 진혼곡",   type:"damage",    power:1.15,mp:60, aoe:true,  range:"ranged" },
   deep_embrace:  { name:"심해의 포옹",     type:"damage",    power:1.9, mp:10, aoe:false, range:"melee", shape:"back_hpmax" },
   bite:          { name:"물어뜯기",         type:"damage",    power:1.15,mp:0,  aoe:false, range:"melee" },
   sting:         { name:"벌침",             type:"damage",    power:1.0, mp:0,  aoe:false, range:"ranged" },
@@ -1850,8 +1881,8 @@ const SKILLS = {
   duel_stance:   { name:"부관의 자세",     type:"buff_def",  power:0,   mp:14, aoe:false, range:"self",  duration:2, value:0.3 },
   mural_light:   { name:"벽화의 빛",       type:"damage",    power:1.5, mp:18, aoe:false,  range:"ranged", shape:"line" },
   stone_guard:   { name:"돌의 수호",       type:"buff_def",  power:0,   mp:14, aoe:false, range:"self",  duration:2, value:0.4 },
-  sun_sermon:    { name:"태양 설교",       type:"damage",    power:1.25, mp:20, aoe:false,  range:"ranged", shape:"back_all", burn:{chance:0.6,ratio:0.35,turns:2} },
-  zeal:          { name:"광신",            type:"heal",      power:1.8, mp:26, aoe:false, range:"self" },
+  sun_sermon:    { name:"태양 설교",       type:"damage",    power:0.9, mp:68, aoe:false,  range:"ranged", shape:"back_all", burn:{chance:0.6,ratio:0.35,turns:2} },
+  zeal:          { name:"광신",            type:"heal",      power:1.8, mp:90, aoe:false, range:"self" },
   oath_halberd:  { name:"맹세의 미늘창",   type:"damage",    power:1.6, mp:16, aoe:false,  range:"melee", shape:"line" },
   rusted_oath:   { name:"녹슨 맹세",       type:"buff_def",  power:0,   mp:14, aoe:false, range:"self",  duration:2, value:0.35 },
   giant_flare:   { name:"태양 불꽃",       type:"damage",    power:1.4, mp:20, aoe:false,  range:"ranged", shape:"cross", burn:{chance:0.7,ratio:0.35,turns:2} },
@@ -1868,10 +1899,10 @@ const SKILLS = {
   golem_slam:    { name:"황금 주먹",       type:"damage",    power:1.2, mp:0,  aoe:false, range:"melee" },
   greed_touch:   { name:"탐욕의 손길",     type:"damage",    power:1.1, mp:0,  aoe:false, range:"ranged" },
   audit:         { name:"감사(監査)",       type:"damage",    power:1.0, mp:0,  aoe:false, range:"ranged", chill:{value:-0.2,turns:2} },
-  budget_cut:    { name:"예산 삭감",       type:"damage",    power:0.75, mp:25, aoe:false,  range:"ranged", shape:"back_all", chill:{value:-0.2,turns:2} },
-  invoice_bomb:  { name:"청구서 폭탄",     type:"damage",    power:1.25, mp:30, aoe:false,  range:"ranged", shape:"cross" },
-  emergency_fund:{ name:"긴급 예비비",     type:"heal",      power:2.4, mp:30, aoe:false, range:"self" },
-  coin_toss:     { name:"금화 투척",       type:"damage",    power:1.4, mp:0,  aoe:false, range:"ranged" },
+  budget_cut:    { name:"예산 삭감",       type:"damage",    power:0.6, mp:50, aoe:false,  range:"ranged", shape:"back_all", chill:{value:-0.2,turns:2} },
+  invoice_bomb:  { name:"청구서 폭탄",     type:"damage",    power:1.05, mp:63, aoe:false,  range:"ranged", shape:"cross" },
+  emergency_fund:{ name:"긴급 예비비",     type:"heal",      power:2.4, mp:84, aoe:false, range:"self" },
+  coin_toss:     { name:"금화 투척",       type:"damage",    power:0.8, mp:0,  aoe:false, range:"ranged" },
   tail_sting:    { name:"꼬리 독침",       type:"damage",    power:1.1, mp:0,  aoe:false, range:"melee", burn:{chance:0.5,ratio:0.35,turns:2,label:"독"} },
   venom_tail:    { name:"맹독 꼬리",       type:"damage",    power:1.0, mp:0,  aoe:false, range:"melee", burn:{chance:0.8,ratio:0.45,turns:2,label:"맹독"} },
   desert_arrow:  { name:"사막 화살",       type:"damage",    power:1.2, mp:0,  aoe:false, range:"ranged" },
@@ -1881,7 +1912,7 @@ const SKILLS = {
   stone_spear:   { name:"돌창",            type:"damage",    power:1.3, mp:0,  aoe:false, range:"melee" },
   burning_grasp: { name:"타오르는 손",     type:"damage",    power:1.0, mp:0,  aoe:false, range:"ranged", burn:{chance:0.6,ratio:0.4,turns:2,label:"화상"} },
   ash_wave:      { name:"잿빛 파도",       type:"damage",    power:0.85,mp:15, aoe:false,  range:"ranged", shape:"lane_rand" },
-  solar_flare:   { name:"태양 폭발",       type:"damage",    power:1.15,mp:35, aoe:true,  range:"ranged", burn:{chance:0.5,ratio:0.4,turns:2,label:"화상"} },
+  solar_flare:   { name:"태양 폭발",       type:"damage",    power:0.85,mp:72, aoe:true,  range:"ranged", burn:{chance:0.5,ratio:0.4,turns:2,label:"화상"} },
   devour_light:  { name:"빛 삼키기",       type:"damage",    power:2.1, mp:15, aoe:false, range:"melee", shape:"front_defmax" },
   sun_guard:     { name:"일식의 장막",     type:"buff_def",  power:0,   mp:20, aoe:false, range:"self",  duration:2, value:0.3 },
   halberd_sweep: { name:"미늘창 휩쓸기",   type:"damage",    power:0.85, mp:15, aoe:false,  range:"melee", shape:"front_all" },
@@ -1898,20 +1929,20 @@ const SKILLS = {
   rebel_strike:  { name:"반역의 일격",     type:"damage",    power:1.4, mp:0,  aoe:false, range:"melee" },
   eye_shot:      { name:"천리안 사격",     type:"damage",    power:1.3, mp:0,  aoe:false, range:"ranged" },
   void_mend:     { name:"공허의 치유",     type:"heal",      power:1.8, mp:25, aoe:false, range:"ranged" },
-  thousand_eyes: { name:"천 개의 눈",      type:"damage",    power:0.9, mp:30, aoe:true,  range:"ranged", chill:{value:-0.2,turns:2} },
-  betrayal:      { name:"배신의 칼",       type:"damage",    power:2.0, mp:15, aoe:false, range:"ranged", shape:"back_rand" },
+  thousand_eyes: { name:"천 개의 눈",      type:"damage",    power:0.9, mp:77, aoe:true,  range:"ranged", chill:{value:-0.2,turns:2} },
+  betrayal:      { name:"배신의 칼",       type:"damage",    power:1.6, mp:61, aoe:false, range:"ranged", shape:"back_rand" },
   void_slash:    { name:"공허 베기",       type:"damage",    power:1.8,mp:30, aoe:false,  range:"ranged", shape:"line" },
   empty_crush:   { name:"빈 손의 압살",    type:"damage",    power:2.4, mp:15, aoe:false, range:"melee", shape:"front_defmax" },
   night_veil:    { name:"밤의 장막",       type:"buff_def",  power:0,   mp:25, aoe:false, range:"self",  duration:2, value:0.35 },
   scorch_bite:   { name:"불탄 이빨",       type:"damage",    power:1.1, mp:0,  aoe:false, range:"melee", burn:{chance:0.5,ratio:0.4,turns:2,label:"화상"} },
   light_burst:   { name:"빛 터짐",         type:"damage",    power:0.85,mp:15, aoe:false,  range:"ranged", shape:"cross", burn:{chance:0.3,ratio:0.3,turns:2,label:"햇빛 화상"} },
-  star_fall:     { name:"별똥비",          type:"damage",    power:1.1, mp:30, aoe:true,  range:"ranged" },
-  star_lance:    { name:"별의 창",         type:"damage",    power:1.7, mp:10, aoe:false, range:"ranged", shape:"line" },
-  promise:       { name:"옛 약속",         type:"heal",      power:2.2, mp:30, aoe:false, range:"self" },
-  dawn_blade:    { name:"여명의 검",       type:"damage",    power:2.0, mp:10, aoe:false, range:"melee", shape:"line" },
-  radiance:      { name:"광휘",            type:"damage",    power:1.3, mp:35, aoe:true,  range:"ranged", burn:{chance:0.5,ratio:0.45,turns:2,label:"햇빛 화상"} },
+  star_fall:     { name:"별똥비",          type:"damage",    power:1.1, mp:90, aoe:true,  range:"ranged" },
+  star_lance:    { name:"별의 창",         type:"damage",    power:1.7, mp:72, aoe:false, range:"ranged", shape:"line" },
+  promise:       { name:"옛 약속",         type:"heal",      power:2.2, mp:120, aoe:false, range:"self" },
+  dawn_blade:    { name:"여명의 검",       type:"damage",    power:2.0, mp:79, aoe:false, range:"melee", shape:"line" },
+  radiance:      { name:"광휘",            type:"damage",    power:0.95, mp:99, aoe:true,  range:"ranged", burn:{chance:0.5,ratio:0.45,turns:2,label:"햇빛 화상"} },
   veil_of_night: { name:"장막 두르기",     type:"buff_def",  power:0,   mp:30, aoe:false, range:"self",  duration:2, value:0.4 },
-  hero_resolve:  { name:"용사의 결의",     type:"heal",      power:2.0, mp:40, aoe:false, range:"self" },
+  hero_resolve:  { name:"용사의 결의",     type:"heal",      power:2.0, mp:100, aoe:false, range:"self" },
   judgement:     { name:"천벌",             type:"damage",    power:1.1, mp:35, aoe:true,  range:"ranged", burn:{chance:0.5,ratio:0.35,turns:2} },
 };
 for(const k of Object.keys(SKILLS)) SKILLS[k].id=k;
@@ -2345,7 +2376,7 @@ const MOBS = {
   penro:{ name:"계산하는 자 펜로", sprite:"penro", row:"back", boss:true, exp:380, gold:330,
     stats:{hp:5200,mp:140,atk:98,def:30,spd:10,crit:0.1},
     quotes:{start: "잠깐! 침략 예산이 벌써 초과야. 부순 성벽 수리비는 누가 내지?", half: "수리비, 치료비… 이 전쟁은 처음부터 적자였다고!", defeat: "장부를… 피난민 마을에 전해 줘. 그 돈으로 버티는 사람들이야."},
-    rules:[{enabled:true,c1:2,logic:0,c2:0,skill:"emergency_fund",target:6},{enabled:true,c1:9,logic:0,c2:0,skill:"invoice_bomb",target:0},{enabled:true,c1:6,logic:0,c2:0,skill:"budget_cut",target:0},{enabled:true,c1:0,logic:0,c2:0,skill:"coin_toss",target:1},{enabled:true,c1:0,logic:0,c2:0,skill:"basic_attack",target:1}] },
+    rules:[{enabled:true,c1:2,logic:0,c2:0,skill:"emergency_fund",target:6},{enabled:true,c1:9,logic:0,c2:0,skill:"invoice_bomb",target:0},{enabled:true,c1:6,logic:0,c2:0,skill:"budget_cut",target:0},{enabled:true,c1:0,logic:0,c2:0,skill:"coin_toss",target:2},{enabled:true,c1:0,logic:0,c2:0,skill:"basic_attack",target:1}] },
   scorpion:{ name:"모래 전갈", sprite:"scorpion", row:"front", exp:56, gold:32,
     stats:{hp:600,mp:40,atk:66,def:18,spd:11,crit:0.1},
     rules:[{enabled:true,c1:0,logic:0,c2:0,skill:"tail_sweep",target:0},{enabled:true,c1:0,logic:0,c2:0,skill:"tail_sting",target:1}] },
@@ -2581,6 +2612,145 @@ REGIONS.abyss={ key:"abyss", chapter:"심연", name:"밤의 심연", unlock:null
   pool:[{key:"eye_swarm",w:3},{key:"void_tendril",w:3},{key:"mirror_doll",w:2}], boss:"void_warden", bossLabel:"공허의 수문장" };   // v0.62
 // v0.29 한 장 = 3막 → v0.88 5막. 1~4막의 끝은 중간보스(2·4막은 그 장 몬스터의 우두머리 title), 5막의 끝은 장 보스. intro/clear = 황혼에서 그 막을 처음 들어가고 깰 때의 이야기(5막 클리어는 REGIONS.clearStory)
 const ACTS={"swamp":[{"name":"안개 나루","intro":["길드 의뢰: 달빛 습지 마을의 주민 마흔 명이 하룻밤 사이에 사라졌다. 찾아서 데려올 것.","모두가 군단장의 짓이라고 했다. 습지를 차지한 군단장, '달그림자 뤼네'의 짓이라고.","습지 입구의 안개 나루에 닿았다. 배를 묶어 둔 말뚝마다 꺼진 등불이 걸려 있었다."],"clear":["감시자가 쓰러지자 마을로 가는 길이 열렸다.","그런데 이상한 점이 있었다. 감시자는 싸우는 내내 우리보다 등불을 먼저 노렸다.","마치 빛만은 꼭 꺼야 한다는 듯이."],"mid":{"key":"guardian","label":"중간보스 — 습지의 감시자"}},{"name":"갈대 둑길","intro":["나루를 지나 마을로 이어지는 좁은 갈대 둑길에 올랐다.","진흙 위에 발자국이 수십 개 찍혀 있었다. 모두 마을 쪽으로만 나 있었다.","끌려간 발자국이 아니었다. 보폭이 하나같이 고르게 맞았다.","꼭 자면서 걸어간 사람들의 발자국 같았다."],"clear":["물컹 영감이 녹아내려 둑길 옆 웅덩이로 돌아갔다.","웅덩이 바닥에 검은 천이 수십 장 가라앉아 있었다. 전부 등불 덮개였다.","누군가 마을의 불을 일부러 덮어 둔 것이다. 대체 왜?","갈대 너머로 지붕들이 보이기 시작했다. 연기 한 줄 없이 조용한 마을이었다."],"mid":{"key":"slime","title":"둑길의 늙은 터줏대감 '물컹 영감'","label":"중간보스 — 물컹 영감"}},{"name":"잠든 마을","intro":["잠든 마을에 들어섰다. 집집마다 식탁에 따뜻한 수프가 차려져 있었다.","그런데 사람은 한 명도 보이지 않았다.","어디선가 누군가 다급하게 속삭였다. 「쉿!」"],"clear":["두꺼비 집사 고르가 손수건으로 이마의 땀을 닦았다.","고르: 「손님들은 다 무사해요. 마님께서, 뤼네 님께서 지키고 계시거든요.」","고르는 사라진 주민들을 '손님'이라고 불렀다. 납치한 사람을 손님이라고 부를까?"],"mid":{"key":"gor","label":"중간보스 — 두꺼비 집사 고르"}},{"name":"우물 아래 굴","intro":["고르가 떨어뜨린 열쇠로 마을 한가운데 우물의 쇠문을 열었다.","축축한 굴 안으로 은빛 가루가 눈처럼 흩날리고 있었다.","동료 하나가 크게 하품을 하더니 눈을 비볐다.","동료: 「졸음 가루야. 숨 얕게 쉬어. …거기 눕지 말고!」"],"clear":["꾸벅이가 바닥에 떨어지며 날개에서 은가루를 잔뜩 털어 냈다.","그런데 날개 끝이 하얗게 그을려 있었다. 불이 아니라 무언가에 덴 자국이었다.","가루가 가라앉자, 굴 끝에서 더 깊이 내려가는 돌계단이 나타났다."],"mid":{"key":"bat","title":"졸음 가루를 뿌리는 박쥐 대장 '꾸벅이'","label":"중간보스 — 꾸벅이"}},{"name":"달그림자 침소","intro":["마을 아래 침소로 내려가는 계단에서, 수십 명이 고르게 숨 쉬는 소리가 들려왔다.","계단 앞을 군단장 뤼네가 막아섰다. 반쯤 감긴 눈으로, 졸음을 참으며."]}],"volcano":[{"name":"용암 다리","intro":["길드 의뢰: 화산 요새에 끌려간 포로들을 구해 올 것. 주의 — 식사를 권해도 절대 먹지 말 것.","용암 다리 앞에서, 커다란 게가 집게를 딱딱 부딪치며 길을 막았다."],"clear":["바삭이 길을 비켜 주었다. 다리 건너편에서 고소한 냄새가 풍겨 왔다.","포로를 가둔 곳에서 밥 냄새라니. 뭔가 이상했다."],"mid":{"key":"basak","label":"중간보스 — 집게 대장 바삭"}},{"name":"용암 텃밭","intro":["다리 건너편은 용암의 열로 채소를 키우는 거대한 텃밭이었다.","임프들이 바구니를 들고 고추와 호박을 따고 있었다.","팻말: '수용소 식단용. 서리 금지 — 걸리면 설거지 백 그릇.'","포로를 살찌워서 뭘 하려는 걸까. 의뢰서의 경고가 떠올랐다."],"clear":["매콤이: 「텃밭 망치면 주방장님한테 혼난단 말이야! 다 익은 것만 따!」","매콤이는 울먹이며 바구니를 끌어안고 도망쳤다.","바구니마다 꼬리표가 달려 있었다. '수용소 저녁 — 넉넉히.'","텃밭 끝에 높은 담장이 보였다. 수용소였다. 웃음소리가 담장을 넘어왔다."],"mid":{"key":"imp","title":"고추밭을 지키는 임프 대장 '매콤이'","label":"중간보스 — 매콤이"}},{"name":"포로 수용소","intro":["포로 수용소의 문을 열자, 포로들이 긴 식탁에 둘러앉아 배불리 먹고 있었다.","포로: 「우리를 구하러 왔다고요? …저녁만 먹고 가면 안 될까요?」"],"clear":["포로들은 돌아가기를 망설였다.","포로: 「솔직히 말하면, 등불 도시보다 여기 밥이 더 나아요.」","후추: 「주방장님, 그러니까 브란도 님은 저 안쪽 큰 용광로에 계셔.」"],"mid":{"key":"huchu","label":"중간보스 — 부주방장 후추"}},{"name":"백 개의 솥 주방","intro":["용광로로 가는 길은 솥 백 개가 늘어선 거대한 주방이었다.","잿불 임프들이 풀무를 밟을 때마다 불길이 천장까지 치솟았다.","그런데 덮개를 씌운 수레들이 주방을 지나 안쪽 용광로로만 굴러가고 있었다.","쇠 녹이는 냄새도, 고기 굽는 냄새도 아닌 낯선 냄새가 났다."],"clear":["후끈이가 쓰러지자 풀무가 멈추고 주방의 불길이 잦아들었다.","후끈이: 「안쪽 불은… 절대 꺼지면 안 돼… 주방장님이 그랬어…」","주방 안쪽에서 커다란 국자가 솥을 긁는 소리가 들려왔다. 크렁, 크렁."],"mid":{"key":"ember_imp","title":"풀무를 밟는 잿불 임프 대장 '후끈이'","label":"중간보스 — 후끈이"}},{"name":"거대 용광로","intro":["거대한 용광로 안에서 쇳물 대신 노랗게 빛나는 돌이 끓고 있었다.","그 앞에서 군단장 브란도가 커다란 국자를 휘두르며 껄껄 웃었다."]}],"sunken":[{"name":"깨진 종탑","intro":["길드 의뢰: 물에 잠긴 도시에서 들려오는 노래에 홀려 사라진 사람들을 데려올 것.","노래를 들으러 간 사람은 지금까지 아무도 돌아오지 않았다.","반쯤 물에 잠긴 종탑에, 녹슨 갑옷을 입은 유령이 창을 세운 채 서 있었다."],"clear":["마렌: 「수문을… 열지 마라…」","근위대장 마렌은 그 말만 남기고 물거품이 되어 사라졌다."],"mid":{"key":"maren","label":"중간보스 — 익사한 근위대장 마렌"}},{"name":"잠긴 광장","intro":["종탑을 내려오니 물에 반쯤 잠긴 광장이 펼쳐졌다.","수몰된 갑주들이 아무도 없는 광장을 줄 맞춰 순찰하고 있었다.","광장 끝 물길은 커다란 수문 쪽으로 이어져 있었다.","노래가 광장 안쪽에서 들려왔다. 음정 하나 틀리지 않는 노래였다."],"clear":["오스가 무릎을 꿇더니, 녹슨 손가락으로 수문 쪽을 가리키며 고개를 저었다.","마렌과 같은 경고였다. 수문을 열지 마라.","오스의 손에 찢어진 깃발 한 조각이 남아 있었다. 해를 덮은 물결 문장이었다.","물길을 따라가자, 거대한 수문이 앞을 가로막았다."],"mid":{"key":"drowned","title":"깃발 없는 근위대 기수 '오스'","label":"중간보스 — 기수 오스"}},{"name":"영주의 수문","intro":["거대한 수문 앞에서, 열쇠 꾸러미를 매단 해파리가 둥실둥실 떠다니고 있었다."],"clear":["열쇠 꾸러미에 낡은 일기장 하나가 묶여 있었다. 이 도시를 다스리던 영주의 일기였다.","'해가 미쳐 버린 날, 그 빛을 막아 준 것은 물뿐이었다.'","'그래서 사람들을 살리려고, 내 손으로 도시를 물에 가라앉혔다.'","도시를 가라앉힌 것은 마왕군이 아니었다. 사람들을 살리려던 영주였다.","그런데 '해가 미쳤다'는 건 대체 무슨 뜻일까?"],"mid":{"key":"jello","label":"중간보스 — 수문지기 해파리 젤로"}},{"name":"물속 노래길","intro":["수문 너머, 물속으로 이어지는 긴 회랑에 들어섰다.","노랫소리가 한 걸음마다 또렷해졌다. 발이 저절로 소리 쪽으로 움직였다.","회랑 끝 성가대석 문 앞을, 녹슨 창병들이 꼼짝없이 지키고 있었다."],"clear":["그렌이 쓰러지면서도 손가락을 입술에 댔다.","그렌: 「쉿… 지금 노래 중이오. 예의를 지키시오.」","성가대석의 문이 천천히 열렸다. 노래가 바로 앞에서 흘러나왔다."],"mid":{"key":"spearman","title":"성가대석 문지기 '녹슨 창' 그렌","label":"중간보스 — 문지기 그렌"}},{"name":"가라앉은 성가대","intro":["물속 깊은 성가대석에서, 홀린 사람들이 눈을 감고 노래를 듣고 있었다.","노래하는 이는 군단장 운디르였다. 가만히 들어 보니, 그 노래는 자장가였다."]}],"forest":[{"name":"순찰로","intro":["길드 의뢰: 거목 숲의 군단장 가라드를 쓰러뜨릴 것.","한 가지 이상한 소문이 붙어 있었다. 가라드는 사로잡은 사람을 해치지 않고 모두 돌려보낸다고.","순찰로에 들어서자 짐승의 비명이 울렸다. 온몸에서 빛이 새어 나오는 짐승이, 마왕군도 사람도 가리지 않고 물어뜯고 있었다."],"clear":["잿갈기의 몸에서 빛이 빠져나가자, 평범한 늙은 늑대 한 마리만 남았다.","빛이 짐승을 괴물로 만들고 있었던 것이다.","뤼네가 말한 '빛에 탄 짐승'이 바로 이것이었다."],"mid":{"key":"ashmane","label":"중간보스 — 빛에 탄 늑대왕 잿갈기"}},{"name":"덩굴 망루","intro":["순찰로 끝, 덩굴에 뒤덮인 낡은 망루 아래에 늑대 떼가 몰려 있었다.","망루 위에서 다리에 붕대를 감은 나무꾼이 손을 흔들었다.","나무꾼: 「가라드한테 잡혔다가 풀려나는 길이에요! 다리 치료까지 해 주던데요.」","나무꾼: 「그런데 내려가려니 이 녀석들이… 좀 도와주세요!」"],"clear":["엉겅퀴가 꼬리를 말고 덤불 속으로 달아났다.","나무꾼: 「고마워요. 아, 저 아래 말벌 나무 쪽은 조용히 지나가세요.」","나무꾼: 「거긴… 기사님들이 성묘하러 오는 곳이라서요.」","어느 쪽 기사님들인지 묻기도 전에, 나무꾼은 숲 밖으로 절뚝이며 사라졌다."],"mid":{"key":"wolf","title":"망루를 포위한 늑대 우두머리 '엉겅퀴'","label":"중간보스 — 엉겅퀴"}},{"name":"말벌의 나무","intro":["커다란 말벌 나무 아래, 무덤들이 두 줄로 나란히 놓여 있었다."],"clear":["한쪽 무덤에는 사람 기사의 망토가, 바로 옆 무덤에는 마왕군의 방패가 놓여 있었다.","서로 원수라던 두 편이, 나란히 같은 곳에 묻혀 있었다."],"mid":{"key":"bibi","label":"중간보스 — 여왕벌 비비"}},{"name":"썩은 뿌리길","intro":["무덤을 지나 숲 깊은 곳으로 들어서자, 거목의 뿌리가 검게 썩어 있었다.","썩은 뿌리 사이로 털이 빠진 늑대들이 무언가를 갉아 먹고 있었다.","병든 게 아니었다. 빛에 닿았던 자리부터 썩어 들어가고 있었다."],"clear":["갉작이가 쓰러지자 썩은 뿌리 위로 새싹 하나가 고개를 내밀었다.","길가 나무에 결투장 한 장이 단검으로 박혀 있었다.","'정오가 오지 않는 숲이니, 그대들이 오는 때를 정오로 삼겠다. — 가라드'","이렇게 멋진 초대장이라면, 거절할 방법이 없었다."],"mid":{"key":"rot_wolf","title":"거목의 뿌리를 갉는 썩은 늑대 '갉작이'","label":"중간보스 — 갉작이"}},{"name":"명예의 결투장","intro":["결투장 한가운데에서, 나무 갑옷을 입은 군단장 가라드가 땅에 칼을 꽂은 채 기다리고 있었다."]}],"gold":[{"name":"압류된 시장","intro":["길드 의뢰: 마왕군의 돈줄을 끊을 것. 군단장 펜로가 지키는 황금 도시로.","이번 의뢰를 낸 곳은 광장의 새벽회였다. 해를 되찾자고 외치던 그 하얀 옷의 사람들이다.","압류 딱지가 덕지덕지 붙은 시장에서, 녹슨 골렘이 장부를 들고 돌아다니고 있었다."],"clear":["골렘이 떨어뜨린 장부에는 이상한 기록이 적혀 있었다.","마왕군이 빼앗은 돈이, 모두 '피난민 마을'로 보내지고 있었다."],"mid":{"key":"golem7","label":"중간보스 — 추심 골렘 7호"}},{"name":"환전소 거리","intro":["시장을 지나자 저울이 끝없이 늘어선 환전소 거리가 나왔다.","저울은 하나같이 한쪽으로 기울어 있었다.","그 사이를 탐욕의 망령들이 동전을 세며 떠돌았다. 「한 푼만… 한 푼만 더…」"],"clear":["한 푼만이 흩어지며 묵직한 동전 주머니를 떨어뜨렸다.","주머니에 꼬리표가 달려 있었다. '피난민 마을 몫 — 손대면 연체료 열 배.'","망령들이 피난민 몫을 몰래 빼돌리던 걸까? 주머니 안에 쪽지가 한 장 더 있었다.","'숫자가 안 맞음. 회계실에서 장부 대조할 것.'"],"mid":{"key":"wraith","title":"기울어진 저울의 망령 '한 푼만'","label":"중간보스 — 한 푼만"}},{"name":"유령 회계실","intro":["유령 회계실. 안경을 쓴 유령이 장부를 넘기며 쉬지 않고 중얼거렸다."],"clear":["장부를 맞춰 보니, 누군가 마왕군의 돈을 몰래 빼 가고 있었다.","돈을 빼 간 사람의 서명 자리에는 이름 대신 눈 하나가 그려져 있었다."],"mid":{"key":"migyeol","label":"중간보스 — 장부 유령 미결 씨"}},{"name":"자물쇠 회랑","intro":["대금고로 가는 회랑에는 철문이 열 겹이나 서 있었다.","그런데 자물쇠마다 '해지됨'이라는 붉은 도장이 찍혀 있었다.","마지막 철문 앞을, 금칠이 다 벗겨진 골렘 하나가 여전히 지키고 있었다.","잔고 영: 「지킬 것이 없어도 지킨다. 그것이 계약이다.」"],"clear":["잔고 영: 「계약… 만료…」","골렘은 쓰러지면서도 마지막 철문 앞에 반듯이 무릎을 꿇었다.","문 너머에서 주판 튕기는 소리가 들려왔다. 딱, 딱, 딱."],"mid":{"key":"golem","title":"대금고 문지기 황금 골렘 '잔고 영'","label":"중간보스 — 잔고 영"}},{"name":"대금고","intro":["대금고의 문은 활짝 열려 있었다. 금화는 하나도 없고 장부만 산처럼 쌓여 있었다.","장부 더미 위에 앉아 있던 군단장 펜로가 주판을 튕기며 고개를 들었다."]}],"desert":[{"name":"모래폭풍 진지","intro":["모래가 피처럼 붉은 사막. 사람들과 끝까지 싸우겠다는 군단장 카룸이 진을 치고 있었다.","길드 의뢰: 대화는 통하지 않는다. 카룸은 우리가 보낸 사절 셋을 돌려보내지 않았다."],"clear":["쓰러진 주술사 하산의 이마에 눈 모양 문신이 새겨져 있었다. 황금 도시 장부에 그려져 있던 바로 그 눈이었다.","하산은 카룸의 부하가 아니었다. 그 '눈'이 몰래 심어 둔 첩자였다."],"mid":{"key":"hasan","label":"중간보스 — 모래 주술사 하산"}},{"name":"약탈자의 우물","intro":["하산이 쓰러진 진지 너머로, 반쯤 말라붙은 오아시스가 보였다.","돌아오지 않은 사절들이 마지막으로 머물렀다는 우물이었다.","우물가에는 사막 약탈자들이 진을 치고, 물 한 바가지에 금화 한 닢씩 받고 있었다.","바르크: 「물값이 비싸다고? 사막에선 물이 곧 목숨값이야.」"],"clear":["약탈대장 바르크가 모래 위에 털썩 주저앉았다.","바르크: 「사절? 셋 다 여기서 물을 마시고 언덕 쪽으로 갔어. 하산 놈이 길잡이였지.」","바르크: 「그 뒤로는 몰라. 장군 쪽 일은 묻지 않는 게 우리 규칙이야.」","사절들이 향했다는 언덕 위로, 돌무덤 세 개가 희미하게 보였다."],"mid":{"key":"raider","title":"약탈대장 바르크","label":"중간보스 — 약탈대장 바르크"}},{"name":"사절의 무덤","intro":["돌아오지 않은 사절 셋의 무덤이 모래 언덕 위에 있었다.","무덤을 지키던 카룸의 부관 자이라가 칼을 겨눴다."],"clear":["자이라가 칼을 내렸다.","자이라: 「장군님은 '마왕이 우리를 버렸다'는 편지를 받고 사람이 변하셨어.」","자이라: 「사절을 죽인 것도 하산이야. 장군님은 그 사실조차 모르셔.」"],"mid":{"key":"zaira","label":"중간보스 — 카룸의 부관 자이라"}},{"name":"독전갈 협곡","intro":["자이라가 본대 막사로 가는 지름길을 알려 주었다. 맹독 전갈이 둥지를 튼 협곡이었다.","자이라: 「하산이 길들인 놈들이야. 장군님께 가려던 사람은 다 저기서 사라졌어.」","협곡 벽마다 하산의 문신과 똑같은 눈 무늬가 새겨져 있었다."],"clear":["전갈 여왕의 껍질 안쪽에서 돌돌 말린 쪽지가 나왔다.","'본대에 닿는 자가 없게 하라. — 눈'","누군가 카룸 곁에 아무도 닿지 못하도록 길을 막아 두었던 것이다.","협곡 끝에서 본대 막사의 붉은 깃발이 펄럭였다."],"mid":{"key":"venom_scorpion","title":"맹독 여왕 사리흐","label":"중간보스 — 맹독 여왕 사리흐"}},{"name":"본대 막사","intro":["본대 막사 안에서, 카룸이 거대한 칼을 짊어지고 천천히 일어섰다."]}],"temple":[{"name":"재의 순례길","intro":["빛을 잃은 태양 신전. 마지막 군단장 솔바르가 지키는 곳이다.","길드 의뢰: 솔바르를 쓰러뜨리면 하늘을 덮은 어둠이 걷힌다. 의뢰인 — 새벽회.","순례길 입구에 하얀 옷의 새벽회 신도들이 모여 있었다.","새벽회 신도: 「드디어 해를 되찾는 날이 왔습니다!」"],"clear":["석상이 지키던 벽화의 첫 장면에는, 용사가 무언가와 싸우는 모습이 그려져 있었다.","그런데 누군가 용사의 상대만 일부러 지워 놓았다."],"mid":{"key":"firstpage","label":"중간보스 — 벽화 수호상 '첫 장'"}},{"name":"그을린 벽화실","intro":["순례길 너머 벽화실에는 벽화의 다음 장면들이 이어져 있었다.","그런데 장면마다 새로 그을린 자국이 있었다. 누군가 먼저 다녀간 것이다.","바닥에는 하얀 옷자락의 실밥과 꺼진 횃불이 굴러다녔다.","벽화 앞에서 잿빛 순례자들이 엎드려 무언가를 중얼거리고 있었다."],"clear":["길잡이 세냐가 쓰러지며 잿빛 두건이 벗겨졌다. 얼굴 반쪽이 빛에 그을려 있었다.","세냐: 「대사제님께서… 그림을 전부 태우면… 해가 돌아온다고…」","벽화실 안쪽 회랑에서 매캐한 연기와 함께 불길이 번져 오고 있었다."],"mid":{"key":"ash_pilgrim","title":"잿빛 길잡이 세냐","label":"중간보스 — 잿빛 길잡이 세냐"}},{"name":"불타는 회랑","intro":["회랑 벽의 그림들이 불타고 있었다. 새벽회의 대사제 오렌이 횃불을 든 채 웃고 있었다.","오렌: 「낡은 그림 따위는 필요 없다! 하늘의 어둠을 찢으면 해가 돌아온다!」"],"clear":["쓰러진 오렌의 두 손은 빛에 타서 일그러져 있었다. 숲에서 본 빛에 탄 짐승들과 똑같이.","새벽회는 하늘의 어둠을 찢으려고, 처음부터 우리를 이용하고 있었다."],"mid":{"key":"oren","label":"중간보스 — 새벽회 대사제 오렌"}},{"name":"그림자 성소","intro":["불타는 회랑을 지나자, 빛이 한 줄기도 들지 않는 성소가 나왔다.","벽마다 검은 천이 겹겹이 드리워져 있었다. 무언가를 가리려는 듯이.","그 어둠 속에, 빛에 탄 자들이 몸을 웅크린 채 떨고 있었다.","그들은 우리를 보고도 달아나지 않았다. 빛을 피해 이곳으로 숨어든 사람들 같았다."],"clear":["금 간 문지기가 무너지면서도 같은 말을 되뇌었다.","문지기: 「가림막을… 걷지 마라… 빛이… 들어온다…」","성소 끝, 제단으로 이어진 계단 위에서 누군가의 지친 숨소리가 들렸다."],"mid":{"key":"cracked_statue","title":"금 간 문지기 아르덴","label":"중간보스 — 금 간 문지기 아르덴"}},{"name":"해가 잠든 제단","intro":["제단 앞에서, 검은 거울을 든 군단장 솔바르가 지친 얼굴로 서 있었다.","솔바르: 「새벽회가 너희를 보냈구나.」","솔바르: 「칼을 휘두르기 전에, 저 벽화를 끝까지 보고 판단해라.」"]}],"citadel":[{"name":"무너진 외성","intro":["일곱 군단장이 모두 쓰러졌다. 이제 남은 것은 마왕이 있는 밤의 성채다.","성채는 마왕을 곁에서 지키는 여섯 친위대, '여섯 별'이 지키고 있다.","그런데 성채에 들어서자 칼 부딪치는 소리가 들렸다. 마왕군끼리 싸우고 있었다."],"clear":["세렌이 떨어뜨린 수첩에 이렇게 적혀 있었다. '반란군은 모르스 편. 침입자는 누구 편인지 아직 모름.'","여섯 별 가운데 하나인 모르스가 반란을 일으켜, 성채가 둘로 나뉘어 싸우고 있었다."],"mid":{"key":"seren","label":"여섯 별 — 조용한 칼 세렌"}},{"name":"두 깃발의 통로","intro":["성채 안쪽 통로는 반으로 갈라져 있었다.","한쪽 벽에는 눈동자 깃발이, 다른 쪽 벽에는 별 깃발이 걸려 있었다.","눈동자 깃발 아래의 궁수들이 우리를 보자마자 활을 겨눴다.","궁수: 「침입자다! 모르스 님께 바칠 첫 공이다!」"],"clear":["궁수대장 벨크가 활을 떨어뜨리며 중얼거렸다.","벨크: 「서재… 모르스 님이 서재에서 뭔가를 찾아오라고 하셨는데…」","무엇을 찾으라 했는지는 끝내 말하지 않았다. 통로 끝에 서재의 문이 보였다."],"mid":{"key":"shadow_archer","title":"그림자 궁수대장 벨크","label":"중간보스 — 그림자 궁수대장 벨크"}},{"name":"금지된 서재","intro":["금지된 서재. 오래된 책 냄새 사이로, 누군가 책장을 씹어 먹는 소리가 들렸다."],"clear":["올도의 서재 맨 아래 칸에 '용사 연대기'라는 책이 꽂혀 있었다. 마지막 장은 찢겨 나가고 없었다.","올도: 「그 장은 이스라가 찢어 갔어. 그 아이는 그걸 아무한테도 안 보여 줘.」","이스라. 수몰 도시의 운디르가 기다리던 가수와 같은 이름이었다."],"mid":{"key":"oldo","label":"여섯 별 — 굶주린 현자 올도"}},{"name":"거울 복도","intro":["서재를 나서자 멀리서 왈츠가 흘러나왔다.","음악이 들리는 쪽으로 이어진 거울 복도를 성채 기사들이 막고 있었다.","기사: 「비에라 님의 무도회다. 초대장 없는 손님은 춤 대신 칼을 받는다.」","기사: 「…노래로 들어오겠다는 자들도 있었지. 다 칼로 돌려보냈다.」"],"clear":["기사단장 카덴스가 무릎을 꿇은 채 투구를 벗었다.","카덴스: 「반란이 시작된 뒤로 비에라 님은 춤을 멈추지 않으셨다.」","카덴스: 「춤추는 동안만큼은 반란군이 무도회장에 한 발짝도 못 들이게 하시려고.」"],"mid":{"key":"citadel_knight","title":"기사단장 카덴스","label":"중간보스 — 기사단장 카덴스"}},{"name":"무도회장","intro":["반란이 한창인데도 무도회장에는 음악이 흐르고 있었다.","붉은 드레스를 입은 여섯 별 비에라가 혼자 춤을 추다 돌아보았다."]}],"throne":[{"name":"반란의 회랑","intro":["가론과 이스라가 앞장서 길을 열었다. 반란군과 근위대가 뒤엉켜 싸우는 회랑이다.","가론: 「회랑 끝까지는 내가 함께 가지. 앞에서 날아오는 것은 내 방패가 막겠다.」 (이번 막: 전투마다 가론의 방패 — 아군 전체 보호막)"],"clear":["쓰러진 기사 오르텐은, 날마다 왕좌의 방에서 마왕의 목소리를 들었다고 했다.","하지만 모르스는 왕좌가 비어 있다고 했다. 그렇다면 오르텐이 들은 건 누구의 목소리였을까?"],"mid":{"key":"orten","label":"중간보스 — 녹슨 맹세의 기사 오르텐"}},{"name":"감시탑 계단","intro":["회랑 끝에서 가론이 방패를 내려 길목을 막아섰다.","가론: 「반란군은 내가 여기서 붙잡아 두겠다. 이스라, 저들을 부탁한다.」","이스라를 따라 감시탑 계단을 오르자, 층마다 천리안 궁수들이 활을 겨누고 있었다.","이스라: 「모르스의 눈들이야. 너희가 오는 것도 벌써 알고 있었을걸.」"],"clear":["궁수장 아르고가 활을 내려놓았다.","아르고: 「모르스 님은 날마다 왕좌의 방만 들여다보셨다. 무엇을 보셨는지는 아무도 몰라.」","이스라는 그 말을 듣고도 아무 대답이 없었다.","계단 꼭대기, 눈동자 그림이 새어 나오는 방의 문이 반쯤 열려 있었다."],"mid":{"key":"eye_archer","title":"천리안 궁수장 아르고","label":"중간보스 — 천리안 궁수장 아르고"}},{"name":"천 개의 눈의 방","intro":["벽 가득 눈동자가 그려진 방이었다. 그 많은 눈이 한꺼번에 이쪽을 바라보았다.","이스라: 「모르스의 방이야. 저 녀석은 이미 너희를 보고 있어.」"],"clear":["모르스: 「황금 도시의 돈도, 카룸에게 보낸 편지도, 하산도… 전부 내가 꾸민 일이다.」","모르스: 「비어 있는 왕좌를 차지하려고.」","모르스는 마왕이 텅 빈 갑옷이라는 것까지만 알고 있었다. 그 갑옷을 누가 움직이는지는 몰랐다."],"mid":{"key":"mors","label":"여섯 별 — 천 개의 눈 모르스"}},{"name":"초상화 대기실","intro":["모르스가 쓰러지자, 그를 따르던 공허의 사도들이 왕좌의 방 앞을 막아섰다.","사도: 「빈 왕좌는 빈 채로 모르스 님의 것이다! 아무도 지나가지 못한다!」","이스라: 「…아직도 저 왕좌가 비었다고 믿는구나.」"],"clear":["사도장 넬이 쓰러지며 왕좌의 방 문에 손을 뻗었다.","넬: 「문 너머에서… 무언가가… 우리를 지켜보고 있었다…」","이스라가 문 앞에서 잠시 눈을 감고 작게 속삭였다.","이스라: 「…조금만 더 버텨 줘.」"],"mid":{"key":"void_acolyte","title":"공허의 사도장 넬","label":"중간보스 — 공허의 사도장 넬"}},{"name":"왕좌의 방","intro":["왕좌의 방. 마왕 녹타의 거대한 갑옷이 왕좌에서 천천히 몸을 일으켰다."]}],"altar":[{"name":"장막의 끝자락","intro":["성채 꼭대기에 오르자, 하늘의 어둠이 가장 얇은 곳으로 빛이 새어 들고 있었다.","그 빛에 닿은 짐승들이 비명을 지르며 일그러졌다.","빛이 생명을 태우고 있었다."],"clear":["타오르던 거인은 원래 사람이었다. 그 자리에 새벽회의 하얀 옷 조각이 남아 있었다.","하늘의 어둠이 완전히 걷히면, 세상 모든 사람이 이렇게 된다."],"mid":{"key":"blaze_giant","label":"중간보스 — 타오르는 거인"}},{"name":"하얀 재의 정원","intro":["성채 꼭대기의 정원에 하얀 재가 눈처럼 내리고 있었다.","재 속에서 눈먼 빛짐승들이 소리만으로 먹잇감을 쫓고 있었다.","정원 한가운데에 반쯤 타 버린 새벽회의 하얀 깃발이 꽂혀 있었다.","새벽회의 타다 남은 명부가 재 속에 묻혀 있었다. 이름 위마다 하얀 그을음이 번져 있었다."],"clear":["하얀뿔이 쓰러지자 그 몸에서 빛이 빠져나가고, 작은 사슴 한 마리만 남았다.","숲의 잿갈기 때와 똑같았다. 빛이 짐승을 괴물로 만들고 있었다.","정원 끝에서, 별이 새겨진 계단이 하늘로 이어지고 있었다."],"mid":{"key":"blazing_beast","title":"눈먼 빛짐승 하얀뿔","label":"중간보스 — 하얀뿔"}},{"name":"별의 계단","intro":["별의 계단 꼭대기에서 이스라가 기다리고 있었다.","이스라: 「여기서부터는 나도 너희 편이 아니야. 나는 루멘을 지켜야 하거든.」"],"clear":["이스라가 찢긴 종이 한 장을 건넸다. 용사 연대기의 마지막 장이었다.","'용사는 마왕을 무찌르지 않았다. 그가 맞선 것은 미쳐 버린 태양이었다.'","'용사는 사람들이 두려워하지 않도록, 마왕 이야기를 지어 남겼다.'","할머니가 읽어 주던 그림책은, 사람들을 안심시키려고 지은 이야기였다.","이스라가 작게 노래를 흥얼거렸다. 수몰 도시에서 들었던 그 노래의 마지막 구절이었다.","운디르가 삼백 년 동안 기다린 가수는, 바로 이스라였다."],"mid":{"key":"isra","label":"여섯 별 — 첫째 별 이스라"}},{"name":"장막의 틈","intro":["이스라가 길을 비켜 주었다. 계단 위로 제단까지 가는 마지막 길이 보였다.","이스라: 「루멘은 저 위에서 혼자 장막을 붙들고 있어. 수백 년째.」","길 위로 빛의 잔해들이 떠다녔다. 장막이 찢긴 자리에서 떨어져 나온 빛 조각이었다."],"clear":["잔광이 부서지며 하얀 불티로 흩어졌다.","바람도 없는데, 할머니의 등불 불꽃이 한쪽으로 기울었다. 제단 쪽이었다.","제단으로 가는 마지막 문이 열려 있었다."],"mid":{"key":"light_remnant","title":"장막의 파편 잔광","label":"중간보스 — 잔광"}},{"name":"새벽의 제단","intro":["새벽의 제단. 얇아진 어둠 너머로 미친 햇빛이 일렁이고 있었다.","그 아래에서 한 사람이 기다리고 있었다. 그림책 속의 용사, 루멘이었다."]}]};
+/* ================= v0.93 퀘스트 =================
+   메인 퀘스트: 황혼 1~10장 — 장마다 한 줄기(5막 = 5단계). 단계는 실제 막 돌파(황혼)로 채워지고, 지금 단계의 상대(중간보스·우두머리·장 보스)를 소개한다.
+   깬 단계에는 그 막에서 알게 된 이야기(막 돌파 장면)가 기록으로 남는다. 다섯 단계를 모두 깨면 보상을 받는다.
+   서브 퀘스트: 장마다 2개 — 그 장 사람들의 작은 부탁. 그 장의 몹을 잡으면(난이도 무관, 정예·우두머리 포함) 숫자가 찬다.
+   보상: 그 장 일반 몹 평균 경험치·골드 기준 — 서브 = 8마리분(둘째는 희귀 장비 1개 더), 메인 = 20마리분 + 밤의 정수 + 희귀 장비 1개 */
+const QUEST_MAIN={
+  swamp:{ title:"사라진 마흔 명", from:"모험가 길드",
+    who:["나루를 지키는 거대한 수호 짐승. 싸울 때 사람보다 등불을 먼저 노린다는 말이 있다.",
+         "둑길 웅덩이에 사는 늙은 슬라임 터줏대감. 둑길을 지나는 이를 그냥 보내 주는 법이 없다.",
+         "군단장 뤼네의 집사. 손님 접대라면 목숨도 거는 소심한 두꺼비.",
+         "졸음 가루를 뿌리는 박쥐 대장. 날개에서 떨어지는 은가루를 마시면 누구든 꾸벅꾸벅 존다.",
+         "습지를 차지한 군단장. 늘 반쯤 감긴 눈으로 졸음을 참고 있다. 마을 사람 마흔 명을 데려간 장본인으로 알려져 있다."] },
+  volcano:{ title:"먹지 말 것", from:"모험가 길드",
+    who:["용암 다리를 지키는 커다란 게. 집게를 딱딱 부딪치며 길을 막는다.",
+         "고추밭을 지키는 임프 대장. 텃밭이 망가지면 주방장에게 혼날까 늘 전전긍긍한다.",
+         "포로 수용소 식당을 맡은 부주방장. 포로에게 밥을 넉넉히 먹이는 것이 그의 일이다.",
+         "주방의 풀무를 밟는 잿불 임프 대장. '안쪽 불은 꺼지면 안 된다'는 명령만은 꼭 지킨다.",
+         "화산 요새의 군단장이자 요새의 주방장. 커다란 국자를 무기처럼 휘두르며 껄껄 웃는다."] },
+  sunken:{ title:"물속의 노래", from:"모험가 길드",
+    who:["물에 잠긴 도시의 근위대장이었던 유령. 녹슨 창을 세운 채 종탑을 지킨다.",
+         "깃발을 잃은 근위대 기수. 아무 말 없이 광장을 순찰한다.",
+         "영주의 수문 열쇠 꾸러미를 매단 해파리. 둥실둥실 떠다니며 거품 벽을 세운다.",
+         "성가대석 문을 지키는 녹슨 창병. 노래가 이어지는 동안에는 누구도 들이지 않는다.",
+         "수몰 도시의 군단장. 그의 노래를 들으러 간 사람은 지금까지 아무도 돌아오지 않았다."] },
+  forest:{ title:"돌려보내는 기사", from:"모험가 길드",
+    who:["온몸에서 빛이 새어 나오는 늑대왕. 마왕군도 사람도 가리지 않고 물어뜯는다.",
+         "덩굴 망루를 포위한 늑대 무리의 우두머리.",
+         "말벌 나무의 여왕. 나무 아래 무덤 가까이 오는 자를 쏜다.",
+         "썩은 뿌리를 갉는 늑대. 빛에 닿은 자리부터 숲이 썩어 간다.",
+         "거목 숲의 군단장. 사로잡은 사람을 해치지 않고 돌려보낸다는 이상한 소문이 있는 기사."] },
+  gold:{ title:"마왕군의 돈줄", from:"새벽회",
+    who:["압류 딱지를 붙이며 시장을 도는 골렘. 장부를 늘 끼고 다닌다.",
+         "환전소 거리를 떠도는 탐욕의 망령. 「한 푼만 더」가 입버릇이다.",
+         "유령 회계실의 회계사. 맞지 않는 숫자를 보면 참지 못한다.",
+         "대금고 문지기 골렘. 지킬 것이 없어도 계약대로 지킨다.",
+         "황금 도시의 군단장. 모든 것을 주판으로 계산한다."] },
+  desert:{ title:"돌아오지 않은 사절", from:"모험가 길드",
+    who:["카룸 진영의 모래 주술사. 이마에 눈 모양 문신이 있다.",
+         "오아시스 우물을 차지한 약탈대장. 물 한 바가지에 금화 한 닢을 받는다.",
+         "카룸의 부관. 돌아오지 않은 사절들의 무덤을 지킨다.",
+         "독전갈 협곡에 둥지를 튼 맹독 여왕.",
+         "붉은 사막의 군단장. 사람들과 끝까지 싸우겠다며 사절 셋을 돌려보내지 않았다."] },
+  temple:{ title:"해를 되찾는 날", from:"새벽회",
+    who:["벽화의 첫 장면을 지키는 돌 수호상.",
+         "잿빛 순례자들의 길잡이. 두건을 깊이 눌러써 얼굴을 보인 적이 없다.",
+         "새벽회의 대사제. 해를 되찾자고 외치는 하얀 옷 사람들의 우두머리.",
+         "그림자 성소의 금 간 문지기. 검은 가림막 앞을 떠나지 않는다.",
+         "태양 신전의 마지막 군단장. 검은 거울을 들고 있다."] },
+  citadel:{ title:"여섯 별의 성채", from:"모험가 길드",
+    who:["마왕의 친위대 '여섯 별' 가운데 하나. 소리 없이 다가와 찌르는 칼.",
+         "눈동자 깃발 아래 모인 그림자 궁수들의 대장.",
+         "여섯 별 가운데 하나인 굶주린 현자. 책장을 씹어 먹는다.",
+         "성채 기사단장. 무도회장으로 가는 거울 복도를 지킨다.",
+         "여섯 별 가운데 하나. 붉은 드레스를 입고 혼자 춤추는 칼잡이."] },
+  throne:{ title:"빈 왕좌", from:"가론과 이스라",
+    who:["녹슨 맹세의 기사. 왕좌의 방을 지키겠다는 맹세를 지금도 지킨다.",
+         "천리안 궁수장. 모르스의 눈 노릇을 한다.",
+         "여섯 별 가운데 하나이자 반란의 우두머리. 벽 가득한 눈으로 모든 것을 본다.",
+         "공허의 사도장. 빈 왕좌는 모르스의 것이라고 믿는다.",
+         "마왕. 왕좌의 방에 앉은 거대한 갑옷."] },
+  altar:{ title:"새벽의 제단", from:"할머니의 등불",
+    who:["장막의 끝자락을 헤매는 불타는 거인.",
+         "하얀 재의 정원을 떠도는 눈먼 빛짐승.",
+         "여섯 별의 첫째. 여기까지 길을 열어 준 동행이었다.",
+         "찢긴 장막에서 떨어져 나온 빛의 파편.",
+         "그림책 속의 용사."] },
+};
+const QUEST_SUB={
+  swamp:[
+    {id:"sw1", title:"꺼진 등불", who:"나루의 뱃사공", keys:["wisp"], n:8, item:false,
+      ask:["나루 말뚝에 걸린 등불이 전부 꺼졌어요. 다시 켜려면 도깨비불의 불씨가 있어야 해요.","도깨비불을 잡으면 불씨가 남거든요. 여덟 개쯤이면 나루 전체를 밝힐 수 있어요."],
+      done:"불씨 여덟 개로 나루의 등불을 다시 켰다. 뱃사공이 오랜만에 노를 저어 보였다."},
+    {id:"sw2", title:"약초밭의 독", who:"마을 약초꾼", keys:["poison_slime"], n:10, item:true,
+      ask:["독 슬라임이 약초밭에 눌러앉아 잎이 다 시들어 가요.","열 마리만 치워 주면 남은 약초로 좋은 것을 하나 드릴게요."],
+      done:"약초밭에 새 잎이 돋았다. 약초꾼이 아껴 둔 물건을 꺼내 건넸다."} ],
+  volcano:[
+    {id:"vo1", title:"집게 요리", who:"수용소의 포로 요리사", keys:["lavacrab"], n:8, item:false,
+      ask:["여기 밥이 맛있긴 한데, 저도 요리사거든요. 용암 게 집게로 제 요리를 해 보고 싶어요.","집게 여덟 개만 구해 주세요. 첫 접시는 당신들 거예요."],
+      done:"용암 게 집게 구이는 매웠지만 맛있었다. 포로 요리사가 「주방장님 것보다 낫죠?」 하고 속삭였다."},
+    {id:"vo2", title:"흑요석 칼날", who:"떠돌이 대장장이", keys:["obsidian_crab"], n:6, item:true,
+      ask:["흑요석 게 껍질은 불에 달궈도 깨지지 않지. 칼날로 쓰기엔 그만한 게 없어.","여섯 마리 분량이면 하나 벼려 주겠네."],
+      done:"대장장이가 흑요석을 두드려 장비 하나를 만들어 주었다."} ],
+  sunken:[
+    {id:"su1", title:"끊긴 악보", who:"거리의 악사", keys:["jelly","venom_jelly"], n:10, item:false,
+      ask:["해파리들이 제 악보를 삼켜 버렸어요. 물에 둥둥 떠다니는 저 녀석들 뱃속에요.","열 마리쯤 잡으면 악보가 다 모일 거예요."],
+      done:"젖은 악보를 말려 이어 붙이자, 악사가 낮게 한 소절을 불렀다. 어딘가 자장가를 닮은 노래였다."},
+    {id:"su2", title:"아버지의 이름표", who:"근위대원의 딸", keys:["drowned"], n:8, item:true,
+      ask:["아버지는 도시가 잠기던 날 근위대에 계셨대요.","수몰된 갑주들 가운데 아버지 이름표를 단 갑옷이 있을지도 몰라요. 찾아 주세요."],
+      done:"여덟 번째 갑주의 가슴판에서 이름표가 나왔다. 딸은 이름표를 꼭 쥐고 오래 서 있었다."} ],
+  forest:[
+    {id:"fo1", title:"다리 다친 나무꾼", who:"망루에서 만난 나무꾼", keys:["wasp","queen_wasp"], n:10, item:false,
+      ask:["말벌 나무 꿀은 상처에 바르면 금방 낫는대요.","말벌을 열 마리쯤 쫓아내면 꿀을 딸 수 있을 텐데… 제 다리로는 무리네요."],
+      done:"꿀을 바른 나무꾼이 지팡이 없이 몇 걸음을 걸었다. 「가라드 님 붕대보다 낫네요.」"},
+    {id:"fo2", title:"썩은 뿌리", who:"숲지기", keys:["rot_wolf"], n:6, item:true,
+      ask:["뿌리를 갉는 썩은 늑대들 때문에 숲이 병들고 있어요.","여섯 마리만 막아 주면, 숲이 스스로 낫기 시작할 거예요."],
+      done:"썩은 뿌리 위로 새싹이 올라왔다. 숲지기가 고맙다며 물건 하나를 내주었다."} ],
+  gold:[
+    {id:"go1", title:"아버지의 빚 장부", who:"피난민 마을 소년", keys:["ledger_ghost"], n:8, item:false,
+      ask:["장부 유령이 우리 아버지 빚 장부를 들고 다녀요. 그 장부만 없으면 빚도 없는 거래요.","제발 찾아 주세요. 여덟 마리 중 하나는 들고 있을 거예요."],
+      done:"찾은 장부를 펴 보니, 빚은 진작 다 갚아져 있었다. 누군가 몰래 대신 갚아 둔 것이다."},
+    {id:"go2", title:"기울어진 저울", who:"환전상 노인", keys:["wraith"], n:10, item:true,
+      ask:["탐욕의 망령들이 저울에 매달려 있어서 바늘이 늘 한쪽으로 기울어요.","열 마리만 떼어 내 주면 정직한 장사를 다시 할 수 있을 텐데."],
+      done:"저울 바늘이 처음으로 가운데에 멈췄다. 노인이 수고비 대신 물건을 내밀었다."} ],
+  desert:[
+    {id:"de1", title:"물값", who:"오아시스의 아이", keys:["raider"], n:10, item:false,
+      ask:["약탈자들이 우물을 막고 물 한 바가지에 금화 한 닢을 받아요.","우리 집엔 금화가 없어요. 약탈자들 좀 쫓아내 주세요."],
+      done:"우물가에 아이들이 줄지어 물을 길었다. 값은 받지 않았다."},
+    {id:"de2", title:"전갈 해독제", who:"사막의 약사", keys:["venom_scorpion"], n:6, item:true,
+      ask:["맹독 전갈의 독침이 있어야 해독제를 만들 수 있어요.","여섯 개면 협곡을 지나는 사람들 몫까지 만들 수 있어요."],
+      done:"해독제 병이 줄지어 놓였다. 약사가 한 병을 꼭 챙겨 주며 물건 하나를 덤으로 얹었다."} ],
+  temple:[
+    {id:"te1", title:"벽화 복원", who:"신전의 벽화 복원가", keys:["statue","cracked_statue"], n:8, item:false,
+      ask:["수호상 조각에 옛 물감이 남아 있어요. 벽화를 고치려면 그 가루가 필요해요.","여덟 개만 모아 주세요. 지워진 장면을 되살려 볼게요."],
+      done:"복원가가 지워진 자리를 조심스럽게 칠했다. 용사의 상대 자리에 둥근 빛 하나가 떠올랐다."},
+    {id:"te2", title:"꺼지지 않는 횃불", who:"성소에 숨은 사람", keys:["ash_pilgrim"], n:8, item:true,
+      ask:["잿빛 순례자들이 횃불을 들고 성소 가림막까지 다가와요.","빛이 들어오면 우리는 또 타요. 여덟 명만 막아 주세요."],
+      done:"가림막 너머가 다시 어두워졌다. 숨어 있던 사람이 아껴 둔 물건을 건넸다."} ],
+  citadel:[
+    {id:"ci1", title:"독화살 해독", who:"성채의 하녀", keys:["poison_archer"], n:8, item:false,
+      ask:["독화살에 맞은 동료들이 앓고 있어요. 화살촉에 남은 독으로 해독약을 만들 수 있대요.","독화살 궁수 여덟 명이면 충분해요."],
+      done:"해독약을 마신 하인들이 하나둘 일어났다. 하녀가 몇 번이고 고개를 숙였다."},
+    {id:"ci2", title:"눈동자 깃발", who:"늙은 근위병", keys:["shadow_archer"], n:10, item:true,
+      ask:["성채 곳곳에 반란군의 눈동자 깃발이 걸렸소.","깃발을 지키는 그림자 궁수 열 명을 치우면, 내가 깃발을 내리겠소."],
+      done:"늙은 근위병이 눈동자 깃발을 걷어 접었다. 그 대신 낡은 장비 하나를 건넸다."} ],
+  throne:[
+    {id:"th1", title:"모르스의 눈", who:"가론", keys:["eye_archer"], n:8, item:false,
+      ask:["천리안 궁수들은 모르스의 눈이다. 저들이 보는 것은 모르스도 본다.","여덟만 줄여 다오. 그만큼 우리 길이 덜 보인다."],
+      done:"가론: 「이제 저들의 눈이 조금은 어두워졌겠지. 수고했다.」"},
+    {id:"th2", title:"빈 왕좌의 사도", who:"이스라", keys:["void_acolyte"], n:8, item:true,
+      ask:["공허의 사도들은 모르스가 비어 있다고 믿는 왕좌를 지켜.","여덟 명쯤 물리면 왕좌의 방 앞이 조용해질 거야. …부탁할게."],
+      done:"이스라가 작게 고맙다고 하며, 별이 새겨진 물건 하나를 손에 쥐여 주었다."} ],
+  altar:[
+    {id:"al1", title:"빛에서 돌아온 짐승", who:"제단 아래의 사냥꾼", keys:["blazing_beast","burnt_beast"], n:8, item:false,
+      ask:["빛짐승을 쓰러뜨리면 빛이 빠져나가고 원래 모습으로 돌아온대요.","사슴이든 늑대든… 여덟 마리만 돌려보내 주세요."],
+      done:"재 속에서 작은 짐승들이 하나둘 일어나 숲 쪽으로 달아났다."},
+    {id:"al2", title:"등불의 심지", who:"할머니의 등불", keys:["light_remnant"], n:8, item:true,
+      ask:["등불이 제단 쪽으로 기울 때마다 심지가 짧아진다.","빛의 잔해 여덟 조각을 모으면, 할머니가 쓰던 방법대로 심지를 이을 수 있을 것 같다."],
+      done:"새 심지를 이은 등불이 조용히 타올랐다. 등불 받침 밑에서 할머니가 넣어 둔 물건이 나왔다."} ],
+};
 // v0.88 막 중간 쉼터 장면 — 황혼 / 자정 / 영원한 밤(막 1~5)
 const ACT_SCENES={"swamp":[["동료 하나가 말뚝에 걸린 꺼진 등불을 들어 보았다.","심지가 젖은 게 아니라, 칼로 깔끔하게 잘려 있었다.","불이 꺼진 게 아니었다. 누군가 끈 것이다."],["갈대 사이에서 신발 한 짝이 나왔다. 끈이 단정하게 묶인 채였다.","동료: 「도망치다 벗겨진 신발이면 끈이 풀려 있어야지.」","신발 벗는 것도 잊을 만큼 졸렸던 걸까."],["식탁의 수프는 아직 따뜻했다. 동료 하나가 몰래 숟가락을 들었다.","다른 동료가 말없이 그 손등을 찰싹 때렸다.","냄비 옆에 쪽지가 붙어 있었다. '손님 몫. 손대지 마시오. — 고르'"],["동료 하나가 꾸벅 졸다가 무기를 떨어뜨렸다. 누군가 겨우 받아 냈다.","동료: 「…안 잤어. 눈만 감고 있었던 거야.」","굴 안쪽 어딘가에서 누군가 잠꼬대를 했다. 「…오 분만… 더…」"],["계단을 내려갈수록 할머니의 등불이 조금씩 깜빡였다.","아래에서 누군가 졸린 목소리로 콧노래를 흥얼거리고 있었다.","우리는 발소리를 죽였다. 깨우면 몹시 화낼 것 같은 목소리였다."]],"volcano":[["다리 난간에 팻말이 붙어 있었다. '천천히 건너시오. 용암 튐 주의.'","바삭의 부하 게들이 집게를 들고 줄 맞춰 옆으로 걸어갔다.","동료: 「…지금 교통정리를 하는 거야?」"],["동료 하나가 몰래 딴 고추를 한 입 깨물더니, 입에서 불을 뿜었다.","밭고랑 너머에서 임프가 소리쳤다. 「서리 금지라고 써 놨잖아!」","누군가 한숨을 쉬며 물통을 건넸다."],["포로 아이 하나가 소매를 잡아당기며 작게 물었다.","포로 아이: 「등불 도시에도… 자기 전에 간식 줘요?」","아무도 대답하지 못했다. 누군가 주머니에서 사탕 하나를 꺼내 쥐여 주었다."],["동료 하나가 수레 덮개를 슬쩍 들추려 했다. 틈으로 노란 빛이 새어 나왔다.","잿불 임프: 「손대지 마! 아직 덜 익었단 말이야!」","덜 익었다고? 수레 안에 든 것은 아무리 봐도 먹을 것이 아니었다."],["열기가 너무 강해 할머니의 등불이 아지랑이처럼 일렁였다.","안쪽에서 누군가 흥겹게 노래를 불렀다. 「소금 한 줌, 불 한 줌~」","숨을 들이쉴 때마다 목구멍이 따끔거렸다."]],"sunken":[["종탑 아래 물속에서 종이 저절로 한 번 울렸다. 그 울림을 따라 노래가 이어졌다.","동료: 「음정이 완벽해. …솔직히 좀 질투 나.」"],["광장의 집들은 창문을 모두 안쪽에서 검게 칠해 두었다.","어둠이 무서웠다면 창을 열었을 텐데. 무엇을 막으려 했던 걸까?"],["열쇠 해파리 주위로 작은 해파리들이 열쇠 소리에 맞춰 둥실둥실 춤을 췄다.","동료: 「저 꾸러미 하나면 금고 열 개는 열겠다. …그냥 그렇다고.」"],["동료 하나가 노래에 홀린 듯 물속으로 걸어 들어갔다. 누군가 뒷덜미를 붙잡았다.","동료: 「…아, 꿈에서 엄마가 노래를 불러 줬어.」"],["문 앞에서 노래를 가만히 따라가 보니 이상한 점이 있었다.","마지막 마디만 비어 있었다. 누가 일부러 비워 둔 것처럼.","문 너머에서 숨을 고르는 소리가 들렸다. 노래가 다시 처음부터 시작되었다."]],"forest":[["짐승이 지나간 자리의 풀이 하얗게 바스러져 있었다.","불에 탄 게 아니었다. 빛에 덴 자국이었다."],["나무꾼이 도시락을 나눠 주었다. 뚜껑에 나무 문장 도장이 찍혀 있었다.","동료: 「군단장 도시락이 이렇게 맛있어도 되는 거야?」","그 동료는 벌써 두 개째를 먹고 있었다."],["무덤마다 놓인 꽃이 아직 싱싱했다. 누군가 날마다 다녀가고 있었다.","우리는 말없이 잠시 고개를 숙였다."],["나무에 박힌 화살 두 대를 뽑아 보았다. 깃 모양이 서로 달랐다.","서로 쏜 화살이 아니었다. 둘 다 숲 바깥쪽을 향해 박혀 있었다."],["결투장 가까이 오자 바람이 멎고, 나뭇잎 하나 흔들리지 않았다.","동료: 「정정당당한 상대가 제일 무섭더라.」","누군가 작게 투덜거렸다. 정정당당은 제일 자신 없는 분야였다."]],"gold":[["동료 하나가 압류 딱지를 떼어 보려다 멈칫했다.","그 동료의 등에도 딱지가 붙어 있었다. '압류 대상 — 이 사람의 지갑.'","동료: 「…언제 붙였어? 나보다 손이 빠르잖아.」"],["기울어진 저울 사이에서 단 하나만 똑바로 서 있었다.","한쪽에는 빵 한 덩이, 다른 쪽에는 금화 한 닢이 올라 있었다.","여기서는 빵 한 덩이가 금화 한 닢만큼 귀했다."],["장부 넘기는 소리에 맞춰 누군가 흥얼흥얼 노래를 불렀다.","유령들이 고개를 까딱이며 일하는 속도가 두 배로 빨라졌다.","미결 씨: 「…노동요 좋네요. 수당은 없습니다.」"],["회랑 벽 곳곳에 작은 눈이 하나씩 낙서처럼 그려져 있었다.","아까부터 누가 계속 지켜보는 기분이 들었다.","돌아보았지만 아무도 없었다. 그림 속 눈만 이쪽을 향해 있었다."],["철문 틈으로 장부 냄새가 훅 풍겨 왔다. 금화 냄새는 나지 않았다.","동료: 「금화 없는 금고라니. 우리 술값 주머니보다 더 비었겠는데.」","주판 소리가 멎었다. 누군가 문 너머에서 이쪽을 기다리고 있었다."]],"desert":[["모래폭풍이 진지를 휩쓸어, 한 걸음 앞도 보이지 않았다.","폭풍 속에서 누군가의 칼이 번뜩였다. 진지의 병사들은 모두 같은 쪽을 경계하고 있었다.","진지 바닥에 사절의 깃발 조각이 반쯤 묻혀 있었다."],["우리가 물통을 채우려 하자, 약탈자 하나가 손을 내밀었다.","약탈자: 「한 통에 금화 한 닢. 깎아 달라는 소리는 사양이야.」","한참 흥정한 끝에 두 통에 한 닢으로 합의했다. 알고 보니 약탈자들도 목이 말라 있었다."],["무덤 앞에 시든 사막꽃이 놓여 있었다. 누군가 날마다 갈아 준 듯했다.","적이 사절의 무덤을 돌보고 있었다. 이상한 일이었다.","언덕 아래에서 쓱, 쓱, 칼 가는 소리가 들려왔다."],["협곡 그늘에 전갈 허물이 산더미처럼 쌓여 있었다.","자이라: 「꼬리 끝이 하얀 놈은 피해. 그게 여왕의 새끼들이야.」","허물 더미 아래에서 무언가 딸깍, 딸깍 집게를 부딪쳤다."],["막사 앞의 병사들은 모두 지쳐 보였다. 웃는 얼굴이 하나도 없었다.","자이라: 「장군님은 원래 저런 분이 아니셨어. 부탁이야, 끝까지 들어 드려.」","막사 안에서 거대한 칼이 바닥을 긁는 소리가 들렸다."]],"temple":[["순례길 돌바닥에 잿빛 발자국이 끝없이 이어져 있었다.","순례자: 「서두르세요. 대사제님께서 벌써 안쪽으로 들어가셨습니다.」","새벽회 신도들은 어쩐지 우리보다 앞서 가려고 서두르고 있었다."],["그을린 벽화 한 귀퉁이에 겨우 남은 그림이 있었다.","사람들이 모두 하늘을 올려다보며 두 손으로 눈을 가리고 있었다.","모두 눈부신 무언가를 피하는 모습이었다. 해가 그렇게 눈부셨던 걸까?"],["불길 사이로 새벽회 신도들이 벽화에 기름을 붓고 있었다.","새벽회 신도: 「낡은 그림이 해를 가로막고 있소! 모두 태워야 하오!」","타다 남은 조각에, 하늘로 검은 무언가를 펼치는 손이 그려져 있었다."],["어둠 속에서 빛에 탄 아이 하나가 동료의 소매를 붙잡았다.","아이: 「밖은 뜨거워요. 여기 있으면 안 아파요.」","동료 하나가 말없이 주머니 속 사탕을 꺼내 아이 손에 쥐여 주었다."],["제단으로 오르는 계단은 이상할 만큼 조용했다.","마지막 군단장이 저 위에 있다. 그런데 어쩐지 발걸음이 무거웠다.","계단 위에서 검은 거울 하나가 희미한 빛을 삼키고 있었다."]],"citadel":[["무너진 성벽 틈으로 마왕군끼리 칼을 부딪치는 모습이 보였다.","반란군과 근위대 모두, 우리가 누구 편인지 알 수 없어 머뭇거렸다.","근위병: 「너희는 어느 쪽이냐! …대답 안 할 거면 둘 다 적이다!」"],["반란군 병사 하나가 다친 동료를 끌고 가다 우리와 눈이 마주쳤다.","병사: 「…오늘은 못 본 걸로 해 줘.」","동료 하나가 말없이 붕대 한 묶음을 던져 주었다."],["책장마다 책 귀퉁이가 이빨 자국으로 뜯겨 나가 있었다.","올도의 목소리: 「불은 들고 오지 마. 여기 책은 다 내 저녁밥이거든.」","유난히 많이 뜯긴 것은 표지에 '용사'라고 적힌 책들이었다."],["거울마다 우리 모습이 비쳤다. 그런데 한 거울에만 아무것도 비치지 않았다.","그 거울 앞을 지날 때만, 우리 발소리가 울리지 않았다."],["세렌의 수첩을 다시 펼치자, 맨 뒤쪽에 이런 글이 있었다.","'비에라: 시끄러움. 춤을 너무 춤. …그래도 같이 추면 재밌음.'","무도회장 문틈으로 붉은 치맛자락이 빙글 돌았다."]],"throne":[["가론의 방패가 날아오는 화살을 모조리 튕겨 냈다.","가론: 「멈추지 마라. 방패 뒤에 있는 동안은 아무것도 너희에게 닿지 않는다.」","방패 너머로 반란군의 고함이 점점 멀어졌다."],["계단 벽에 작은 구멍이 수백 개 뚫려 있었다. 구멍마다 누군가 엿보는 기척이 났다.","구멍 너머의 눈들은 우리가 한 걸음 옮길 때마다 따라 움직였다.","아래층에서 가론의 방패가 쿵, 쿵 울리는 소리가 들려왔다."],["방 한가운데 탁자 위에 황금 도시 장부의 사본이 펼쳐져 있었다.","그 옆에는 카룸의 편지에 찍혀 있던 것과 같은 봉인 도장이 놓여 있었다.","모르스는 증거를 숨길 생각조차 없었다. 그만큼 자신 있다는 뜻이었다."],["대기실 벽에 역대 마왕의 초상화가 걸려 있었다. 모두 같은 갑옷, 같은 투구였다.","수백 년 동안 마왕의 얼굴은 한 번도 그려진 적이 없었다.","이스라는 초상화 앞을 지날 때마다 걸음을 늦췄다."],["왕좌의 방 문틈으로 서늘한 바람이 불어왔다. 숨소리는 들리지 않았다.","이스라: 「들어가면, 그림책을 다시는 예전처럼 읽지 못할 거야.」","그래도 여기까지 왔다. 우리는 문고리에 손을 얹었다."]],"altar":[["장막 틈으로 새어 든 빛이 바닥에 하얀 웅덩이를 만들었다.","동료: 「밟지 마. 저건 물이 아니야.」","웅덩이 옆의 풀 한 포기가 소리도 없이 재가 되어 바스러졌다."],["하얀 재가 어깨 위에 소복이 쌓였다.","따뜻할 줄 알았던 재는 이상하게 차가웠다.","재를 털어 내는 소리마저 빛짐승들이 들을까 봐, 우리는 숨을 죽였다."],["계단을 오를수록 누군가의 흥얼거림이 또렷하게 들려왔다.","수몰 도시 어딘가에서 들었던 곡조 같았다. 그런데 어디서였더라."],["이스라가 우리 뒤에서 노래를 이어 불렀다. 이번에는 숨기지 않았다.","이스라: 「루멘한테 가는 길이야. 이 노래가 끝날 때까지는 무사할 거야.」","빛의 잔해들이 노랫소리를 피해 길 바깥으로 물러났다."],["제단 앞 마지막 계단에서 모두가 잠시 걸음을 멈췄다.","할머니의 등불을 한 번 더 고쳐 쥐었다.","제단 너머에서, 무언가를 오래 붙들고 있는 사람의 숨소리가 들렸다."]]};
 const ACT_SCENES_MID={"swamp":[["안개가 등불 빛까지 삼켜, 한 걸음 앞도 보이지 않았다.","우리는 밧줄로 서로의 허리를 묶고 걸음을 맞췄다."],["둑길의 갈대가 한 방향으로 쓰러져 있었다. 습지 끝 쪽에서 무언가 지나간 자국이다.","쓰러진 갈대 끝마다 하얗게 그을린 자국이 남아 있었다."],["식탁 위에 수프 대신 쪽지가 놓여 있었다.","'손님들은 도시로 돌아가셨음. 남은 수프는 모험가님 몫. 데워 드시오. — 고르'"],["굴의 박쥐들이 가루를 뿌리지 않고 천장에 매달려 날카롭게 울어 댔다.","재우려는 게 아니었다. 깨어 있으라고 경고하는 것 같았다."],["계단 아래에서 뤼네가 눈을 비비며 기다리고 있었다.","뤼네: 「…안 자고 기다렸어. 거의. 칭찬해 줘.」"]],"volcano":[["바삭이 앞치마를 두르고 다리 앞에서 시식을 권했다. '매운 게딱지 구이.'","의뢰서의 한 줄이 떠올랐다. 식사를 권해도 절대 먹지 말 것."],["텃밭의 고추가 모두 '3단계' 품종으로 바뀌어 있었다.","공기만 마셨는데도 눈물이 줄줄 흘렀다."],["수용소에 남은 사람 몇이 주방 보조 옷을 입고 있었다.","전 포로: 「아, 저희 이제 여기 정식 직원이에요. 야식도 나와요.」"],["후끈이가 풀무를 두 배로 밟고 있었다.","후끈이: 「자정엔 센불이다! 주방장님 새 요리법이야!」"],["용광로 앞에서 브란도가 맛보기 숟가락을 들고 기다리고 있었다.","브란도: 「간 볼 준비는 됐겠지?」"]],"sunken":[["물이 종탑 꼭대기까지 차올랐다.","종소리 대신, 물거품이 노래 박자에 맞춰 떠올랐다."],["검게 칠한 창문 하나가 열려 있었다. 창틀에 젖은 악보가 걸려 있었다.","악보 위에 '둘째 소절'이라고 적혀 있었다."],["젤로의 열쇠 꾸러미가 전보다 두 배로 무거워져 있었다.","자물쇠를 새로 단 모양이다. 수문지기도 참 성실했다."],["두 번째 소절은 첫 소절보다 훨씬 슬펐다.","우리 중 누군가 저도 모르게 작은 소리로 따라 불렀다."],["문 너머에서 노래가 잠시 멎었다.","운디르: 「…들어오게. 둘째 소절은 혼자 부르기엔 너무 길어.」"]],"forest":[["순찰로에서 두 기사단이 나란히 경례를 하더니, 동시에 칼을 뽑았다.","사람 기사: 「전통이라서요. 미안하오, 진심으로.」"],["망루 위에서 나무꾼이 깃발 두 개를 흔들고 있었다.","나무꾼: 「저는 양쪽 다 응원해요! 다치지만 마세요!」"],["말벌 나무 아래에 새 무덤이 하나 늘어 있었다.","망토와 방패가 함께 놓여 있었다. 빛에 탄 짐승은 아직도 늘고 있었다."],["썩은 뿌리길이 지난번보다 두 걸음 넓어져 있었다.","자정에는 썩는 속도마저 빨라지는 모양이었다."],["결투장 둘레에 두 기사단이 둘러서서 방패를 두드렸다. 둥, 둥, 둥.","가라드가 땅에 꽂았던 칼을 천천히 뽑아 들었다."]],"gold":[["압류 딱지 위에 '자정 할증' 딱지가 한 겹 더 붙어 있었다.","딱지 위에 딱지라니, 이건 좀 너무했다."],["망령들이 이번에는 거스름돈을 돌려주며 따라왔다.","탐욕의 망령: 「…영수증은요? 영수증 필요하시죠?」"],["미결 씨가 안경을 고쳐 쓰며 장부를 내밀었다.","미결 씨: 「자정 근무는 수당이 붙어요. 그쪽 몫도 적어 둘게요.」"],["철문이 스무 겹으로 늘어 있었다. 자물쇠마다 '연장'이라는 도장이 찍혀 있었다.","잔고 영: 「계약을 갱신했다.」"],["문 너머 주판 소리가 지난번보다 두 배는 빨랐다.","펜로: 「들어와. 할증 계산은 이미 끝났으니까.」"]],"desert":[["진지에 남은 병사들이 모래 위에 왕좌를 그려 놓고 절을 하고 있었다.","병사: 「모르스 님이 약속하셨다. 끝까지 싸우면 이 사막은 우리 것이라고.」"],["우물가의 바르크가 물값을 두 배로 올려 놓았다.","바르크: 「자정 요금이다. 황금 도시 영감한테 배웠지.」"],["사절의 무덤 앞에 새 사막꽃 세 송이가 놓여 있었다.","자이라: 「장군님이 다녀가셨어. 아무 말 없이 한참 서 계시다가.」"],["협곡의 모래가 꿈틀거렸다. 모래 아래에서 커다란 눈 하나가 깜박였다.","눈은 우리를 한참 바라보다가, 모래 속으로 스르르 사라졌다."],["막사 앞의 병사들이 투구 끈을 고쳐 맸다. 손끝이 떨리고 있었다.","병사: 「모르스 님이… 정말 우리를 기억하실까.」"]],"temple":[["순례길 벽화에 아직 마르지 않은 물감이 묻어 있었다.","붓질 하나하나가 서두른 듯하면서도 정성스러웠다. 누군가 밤새 그린 것이다."],["벽화실 구석에 물감 통과 닳은 붓 수십 자루가 놓여 있었다.","벽에 솔바르의 글씨가 남아 있었다. '지워지면 다시 그린다. 몇 번이고.'"],["회랑의 불탄 자리에 누군가 새 벽화를 그리다 말았다.","이번에는 새벽회의 짓이 아니었다. 물감이 모자라 멈춘 듯했다."],["성소의 검은 천이 전보다 얇아져, 바깥 빛이 희미하게 비쳤다.","빛에 탄 자: 「천이 얇아질수록… 다시 아파 와요.」"],["제단 아래에서 솔바르가 붓을 쥔 채 기다리고 있었다.","솔바르: 「그림이 마르기 전에 끝내자.」"]],"citadel":[["외성 앞에 여섯 별의 부하들이 줄지어 서서 우리를 기다리고 있었다.","세렌의 수첩 새 쪽: '1차 시험. 성벽 넘기. 넘으면 합격.'"],["두 깃발의 통로에는 이제 별 깃발만 걸려 있었다.","벨크: 「이번엔 연습이다. 화살촉은 뭉툭하게 갈아 놨어. …조금은.」"],["서재의 올도가 책 대신 과자를 씹고 있었다.","올도: 「책은 다 외웠거든. 이제 너희 실력을 읽어 볼까.」"],["거울 복도의 기사들이 칼 대신 발로 박자를 맞추고 있었다.","카덴스: 「비에라 님 명령이다. 춤 상대가 될 만한지 먼저 보라고.」"],["무도회장 앞에 세렌의 수첩이 펼쳐진 채 놓여 있었다.","'최종 시험. 비에라와 춤. 살아남을 확률: 아직 계산 중.'"]],"throne":[["회랑에는 반란군 대신 빈 갑옷들이 서성이고 있었다.","가론: 「장막의 힘이 갑옷마다 스며들었다. 방패 뒤로 붙어라.」"],["감시탑 벽의 구멍들이 모두 메워져 있었다. 아르고가 밤새 막았다고 했다.","아르고: 「이제 엿볼 일은 없다. 지킬 일만 남았지.」"],["천 개의 눈의 방, 벽의 눈동자들이 하나둘 감겨 있었다.","이스라: 「모르스는 떠났어. 그래도 저 눈들은 아직 뭔가를 기다려.」"],["대기실 초상화 속 갑옷들이 모두 왕좌 쪽으로 고개를 돌리고 있었다.","이스라: 「아까는 정면을 보고 있었어. …그렇지?」"],["왕좌의 방에서 낮은 쇳소리가 났다. 빈 갑옷이 숨 쉬듯 삐걱였다.","이스라: 「서둘러. 갑옷이 버티는 만큼만 장막도 버텨.」"]],"altar":[["장막의 끝자락이 지난번보다 한 뼘은 더 물러나 있었다.","빛이 닿는 자리가 지난번보다 열 걸음은 가까워져 있었다."],["정원에 내리는 재가 하얀 빗줄기처럼 굵어졌다.","재가 닿은 자리마다 돌바닥이 지글지글 끓었다."],["별의 계단에서 이스라가 노래를 멈추고 하늘을 올려다보았다.","이스라: 「또 얇아졌어. 루멘이 너희 대답을 기다리고 있어.」"],["빛의 잔해들이 할머니의 등불 주위로 몰려들었다. 등불은 꺼지지 않았다.","빛의 잔해들은 그 작은 불 앞에서만큼은 멈칫거렸다."],["제단 위의 루멘은 지난번과 같은 자리, 같은 자세로 서 있었다.","루멘: 「선택이 바뀌었느냐. 아니면 그 무게를 다시 재러 왔느냐.」"]]};
@@ -2599,12 +2769,6 @@ const DIFFS=[
   {key:"midnight", name:"자정",     icon:"🌑", elite:0.22, maxElite:2, affixes:2, extra:1, loot:10, exp:2.0, gold:2.2, chest:0.26, bossAffix:1, adds:[1,1], cnt:[3,5], enrage:false, tag:"자정의 "},
   {key:"eternal",  name:"영원한 밤", icon:"🌌", elite:0.32, maxElite:3, affixes:3, extra:1, loot:20, exp:3.3, gold:3.6, chest:0.30, bossAffix:2, adds:[2,2], cnt:[4,5], enrage:true,  tag:"영원한 밤의 "},
 ];
-// 난이도별·챕터별 적 능력치 배율(황혼=1). v0.43: 출전 5·6명 + 가로줄·범위 기술 기준으로 다시 맞춤(8장 완화, 자정·영원한 밤 소폭 강화). 자동 플레이 시뮬레이터로 맞춘 값. v0.36: 전체적으로 더 어렵게(첫 도전 승률 황혼 ~50%·자정 ~40%·영원한 밤 ~30%) 다시 맞춤. v0.29: 3막·밤의 가호 기준으로 다시 맞춤(영원한 밤은 여러 번 도전해야 깨지게). v0.24: 영원한 밤은 4명 출전에 맞춰 체력 ×1.12 · 공격 ×1.06 · v0.86 특성 나무(궁극 여러 개)에 맞춰 30장 재보정 · v0.87 궁극 3개 제한·황혼 강공 없앰에 맞춰 30장 재보정
-const DIFF_SCALE=[
-  [{hp:1.352,atk:0.985},{hp:4.327,atk:3.099},{hp:2.038,atk:2.764},{hp:5.834,atk:2.557},{hp:1.141,atk:3.069},{hp:2.742,atk:3.573},{hp:1.508,atk:2.894},{hp:2.192,atk:2.968},{hp:1.676,atk:3.323},{hp:0.396,atk:3.071}],   // v0.92 재보정(9직업 · 기술 3/4칸) · v0.85 황혼: 기본 규칙으로 장마다 도전 가운데값 7.5판(10장 10판) — 아홉 직업 주인공을 돌려 가며 실제 합류 순서대로(봇 보정, 새 특성·행동 게이지 반영)
-  [{hp:32.091,atk:22.74},{hp:24.285,atk:25.548},{hp:8.281,atk:12.825},{hp:16.681,atk:13.984},{hp:3.402,atk:20.077},{hp:12.852,atk:16.676},{hp:6.479,atk:9.471},{hp:9.999,atk:12.252},{hp:4.007,atk:16.053},{hp:3.058,atk:13.134}],   // v0.92 자정: 보스 패턴·역할 몬스터·장별 환경에 대응하는 규칙으로 장마다 도전 가운데값 15판
-  [{hp:201.257,atk:121.868},{hp:95.826,atk:146.219},{hp:90.414,atk:66.353},{hp:162.937,atk:80.942},{hp:39.885,atk:73.093},{hp:94.347,atk:87.687},{hp:35.037,atk:38.291},{hp:29.264,atk:90.582},{hp:15.932,atk:80.116},{hp:5.954,atk:63.673}]   // v0.92 영원한 밤: 같은 대응 규칙으로 장마다 도전 가운데값 30판
-];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 // v0.91 몹 상태이상: 몹 종류마다 특기 상태이상 · 보스·우두머리·정예(자정부터)는 그 장의 특기 전부 · 난이도별 확률·전투당 거는 몹 수
 const MOB_ST={ poison_slime:["poison"], wisp:["weak"], imp:["burn"], ember_imp:["burn"], venom_jelly:["cold"], jelly:["cold"],
@@ -2618,6 +2782,18 @@ const ST_CHANCE=[0.10,0.30,0.50], ST_CAP=[1,2,3], ST_LINK=[0,0,0.2];   // 한 �
 const ST_NAME={burn:"화상",poison:"독",cold:"냉기",weak:"약화",vuln:"취약",stun:"기절"};
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
 const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.1,atk:1.2},{hp:2.4,atk:1.25}];
+/* v0.93 적 강함 = 기준 영웅 × 압박도 (장이 지날수록 · 난이도가 오를수록 늘 강해짐 — 파티 조합·봇 결과로 바꾸지 않음)
+   ENEMY_REF: 그 장에 들어올 때 보통 파티의 영웅 평균 [1장, 10장] (영원한 밤 = 만렙 + 장비·강화·특성을 거의 채운 스펙)
+   ENEMY_PRESS: 일반 몹 평균 '한 번 공격 ÷ 기준 영웅 체력' · '체력 ÷ 기준 영웅 공격' [1장, 10장] — 1~10장 사이는 같은 비율로 매끄럽게
+   장마다 일반 몹(풀 가중 평균)이 목표값이 되도록 배율을 계산 → 몹 종류끼리의 차이는 그대로. 장 보스는 일반 몹 평균 × 체력 5.6(1장) → 18(10장) · 공격 1.75배(+ BOSS_K) — 뒤 장 보스일수록 더 단단함(예전 보스들의 흐름을 매끄럽게), 같은 장의 보스형 중간보스도 같은 비로 맞춤 */
+const ENEMY_REF={hp:[[189,933],[989,1892],[2300,4750]], atk:[[28,172],[190,393],[520,1150]]};
+const ENEMY_PRESS={atk:[[0.12,0.40],[0.55,0.95],[1.4,2.4]], hp:[[5.8,11],[15,22],[35,55]]};   // 황혼 1장 = 예전 실제 값(처음 시작이 막히지 않게)
+const BOSS_RATIO={hp:[5.6,18], atk:[1.75,1.75]};
+function curveAt(p,c){ return p[0]*Math.pow(p[1]/p[0],c/9); }
+function poolAvg(rk){ const R=REGIONS[rk]; let h=0,a=0,w=0; for(const q of R.pool){ const m=MOBS[q.key]; h+=m.stats.hp*q.w; a+=m.stats.atk*q.w; w+=q.w; } return {hp:h/w, atk:a/w}; }
+function enemyTarget(d,c){ return {hp:curveAt(ENEMY_REF.atk[d],c)*curveAt(ENEMY_PRESS.hp[d],c), atk:curveAt(ENEMY_REF.hp[d],c)*curveAt(ENEMY_PRESS.atk[d],c)}; }   // 일반 몹 평균(3막 기준, 정예·속성 전)
+const DIFF_SCALE=[0,1,2].map(d=>REGION_KEYS.map((rk,c)=>{ const t=enemyTarget(d,c), a=poolAvg(rk); return {hp:+(t.hp/(a.hp*DIFF_K[d].hp)).toFixed(4), atk:+(t.atk/(a.atk*DIFF_K[d].atk)).toFixed(4)}; }));
+const BOSS_FIX=Object.fromEntries(REGION_KEYS.map(rk=>{ const a=poolAvg(rk), B=MOBS[REGIONS[rk].boss].stats; const c=REGION_KEYS.indexOf(rk); return [rk,{hp:curveAt(BOSS_RATIO.hp,c)*a.hp/B.hp, atk:curveAt(BOSS_RATIO.atk,c)*a.atk/B.atk}]; }));
 const ZONE_REGEN=0;   // v0.55.3: 구역 사이 체력·마나 회복 비율 · v0.70: 10% → 15% · v0.88: 15% → 10% · v0.90: 없앰(체질 18 강인함의 +5%만 남음)
 const REST_CHANCE=0.5, REST_HEAL=0.3;   // v0.90 쉼터는 막마다 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료는 30%로 일어남)
 function applyRest(party){ for(const u of party){ if(!u.alive){ u.alive=true; u.hp=Math.max(1,Math.floor(u.hp_max*REST_HEAL)); } else u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*REST_HEAL)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*REST_HEAL)); } }
@@ -2725,6 +2901,7 @@ function buildMobUnit(spec,idx,d,rk){
   const m=MOBS[spec.key], D=DIFFS[d], ch=REGION_KEYS.indexOf(rk);
   const sc=(spec.eg||ch<0)?(EG_SCALE[ch]||EG_SCALE[EG_SCALE.length-1]):DIFF_SCALE[d][ch];   // v0.62: 심연(캠페인 밖)은 10장 기준
   let hp=m.stats.hp*sc.hp, atk=m.stats.atk*sc.atk;
+  if(m.boss&&!spec.eg&&ch>=0&&BOSS_FIX[rk]){ hp*=BOSS_FIX[rk].hp; atk*=BOSS_FIX[rk].atk; }   // v0.93 보스형은 그 장 일반 몹 평균에 맞춘 비율
   { const K=DIFF_K[d]||DIFF_K[0]; hp*=K.hp; atk*=K.atk; }
   if(m.boss||spec.finalBoss||spec.named){ const K=BOSS_K[d]||BOSS_K[0]; hp*=K.hp; atk*=K.atk; }
   if(spec.chief){ hp*=3.2; atk*=1.3; }
@@ -3204,6 +3381,7 @@ const LIMITS=[
   ["능력치 상한","치명타 확률 75% · 회피 60% · 관통 75% · 상태이상 저항 75% · 명중 120%(100%를 넘는 명중은 적의 회피를 그만큼 상쇄). 상한에 닿으면 능력치 표에 '최대'가 붙고, 그 이상은 효과가 없습니다."],
   ["명중","기본 85% + 민첩 1당 0.2% + 장비(투구·장갑) 명중. 실제로 맞힐 확률 = 명중 − 상대 회피(최소 20%). 띄운 적은 회피하지 못함."],
   ["레벨·각성","최고 레벨 40. 40에서 경험치가 다시 차면 각성 — 특성 포인트 +4. 각성은 횟수 제한 없이 계속할 수 있고, 할 때마다 특성 포인트를 줍니다."],
+  ["퀘스트","왼쪽 메뉴의 📜 퀘스트 탭. 메인 퀘스트는 황혼 1~10장마다 하나 — 다섯 막이 다섯 단계이고, 지금 단계의 상대(중간보스·우두머리·장 보스)를 소개하며 깬 막에서 알게 된 이야기가 기록으로 남습니다. 다섯 막을 모두 깨면 보상(경험치·골드·밤의 정수·희귀 장비 1개). 서브 퀘스트는 장마다 2개 — 그 장의 정해진 몹을 잡으면(어느 난이도든, 정예·우두머리 포함) 숫자가 차고, 다 차면 보상(경험치·골드, 둘째 퀘스트는 희귀 장비 1개 더). 보상은 던전 밖에서 받고, 경험치는 그때 출전 중인 영웅마다 들어갑니다."],
   ["특성 포인트","전직(Lv10)부터 레벨마다 1점(Lv40에 31점) + 각성마다 4점 + 큰 별마다 1점. 특성은 가운데에서 서로 얽혀 뻗는 그물(영웅마다 215칸 — 직업 공통 갈래 3 + 고른 전직 갈래 2)이라, 이미 배운 칸과 이어진 칸만 배울 수 있습니다. 궁극은 갈래 끝 20개 중 3개까지."],
   ["자동전투 규칙 칸","영웅마다 4칸. 칸마다 조건과 쓸 스킬을 정하고, 아무것도 안 맞으면 기본공격(칸을 차지하지 않음)."],
   ["장비 강화","최대 +15. 단계가 오를수록 성공률이 낮아집니다."],
@@ -4151,7 +4329,7 @@ function defaultProgress(){
     equip:emptyEquip(), learned:[], adv:null, traits:[], mastery:{}, stats:{}, title:null, awaken:0, stance:null};
   return { gold:0, lastRegion:"swamp",
     regions:{ swamp:{run:1,clears:0}, volcano:{run:1,clears:0}, sunken:{run:1,clears:0}, forest:{run:1,clears:0} },
-    diff:0, diffMax:0, cl:[{},{},{}], acts:[{},{},{}], actSel:{}, ess:0,
+    diff:0, diffMax:0, cl:[{},{},{}], acts:[{},{},{}], actSel:{}, ess:0, quest:{claimed:{},cnt:{},open:null},
     heroes, inv:[], nextItemId:1, shopStock:null, _equipped:[],
     prologueSeen:false, seenIntro:{}, torch:{n:10,t:Date.now()}, gem:0, tokens:{}, autoRules:1, codex:{sets:{},done:{}}, market:null, autoLoot:{}, autoKeepUp:true,
     protag:null, roster:BASE_IDS.slice(), party:BASE_IDS.slice() };
@@ -7804,6 +7982,7 @@ function renderPtsDot(){
   $("ptsDot").textContent=n>0?String(n):"";
   const t=ids.reduce((a,c)=>a+Math.max(0,traitPtsLeft(c)),0);
   $("traitDot").textContent=t>0?String(t):"";
+  try{ renderQuestDot(); }catch(e){}
   renderEqDot();
 }
 // v0.36: 가방에 누군가에게 더 좋은 장비가 있으면 장비 탭 버튼에 개수 표시(파티 탭의 포인트 표시처럼)
@@ -7865,8 +8044,8 @@ function onRegionChange(){
   saveProgress();
   goCamp();
 }
-const VIEWS=["dungeon","party","equip","shop","traits","rules","codex","coop"];
-const VIEW_NAMES={dungeon:"던전 준비",party:"파티",equip:"장비",shop:"상점",traits:"특성",rules:"자동전투 규칙",codex:"도감·증표",coop:"함께하기"};
+const VIEWS=["dungeon","quest","party","equip","shop","traits","rules","codex","coop"];
+const VIEW_NAMES={dungeon:"던전 준비",quest:"퀘스트",party:"파티",equip:"장비",shop:"상점",traits:"특성",rules:"자동전투 규칙",codex:"도감·증표",coop:"함께하기"};
 let curView="dungeon";
 // v0.33: 던전 진행 중에는 캐릭터에 영향을 주는 탭(파티·장비·상점·특성)은 못 열고, 자동전투 규칙은 보기만
 const RUN_LOCK_TABS=["party","equip","shop","traits"];
@@ -7892,6 +8071,7 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
   if(t==="traits") renderTraits();
   if(t==="rules"){ renderCharPick(); renderRules(); }
   if(t==="codex") renderCodex();
+  if(t==="quest") renderQuest();
   if(t==="coop") renderCoop();
   renderHud();
   TUT.onTab(t);
@@ -11539,6 +11719,67 @@ function secGrid(d){
     const at=d[ck]>=CAP[ck]-0.005; return `<div title="${k} 상한 ${pct(CAP[ck])}%${at?" — 이미 최대라 더 올려도 효과가 없습니다":""}"><span>${k}</span><b>${v}${at?' <i class="capmax">최대</i>':""}</b></div>`; }).join("")}</div>`;
 }
 let codexTab="tokens";
+// ---- v0.93 퀘스트(진행·보상·탭) ----
+function questState(){ const Q=progress.quest=progress.quest||{}; Q.claimed=Q.claimed||{}; Q.cnt=Q.cnt||{}; Q.open=Q.open||null; return Q; }
+function questAvg(rk){ const R=REGIONS[rk]; let e=0,g=0,w=0; for(const q of R.pool){ const m=MOBS[q.key]; e+=m.exp*q.w; g+=m.gold*q.w; w+=q.w; } return {exp:e/w, gold:g/w}; }
+function questReward(rk,kind,item){ const a=questAvg(rk), c=REGION_KEYS.indexOf(rk), k=kind==="main"?20:8;
+  return {exp:Math.round(a.exp*k), gold:Math.round(a.gold*k), ess:kind==="main"?5*(c+1):0, item:!!item}; }
+function questRewardText(r){ return [`경험치 ${r.exp}(출전 영웅마다)`,`골드 ${r.gold}`].concat(r.ess?[`밤의 정수 ${r.ess}`]:[]).concat(r.item?["희귀 장비 1개"]:[]).join(" · "); }
+function questTarget(rk,act){ if(act>=ACT_N){ const M=MOBS[REGIONS[rk].boss]; return {name:M.name, kind:"장 보스"}; }
+  const m=(ACTS[rk][act-1]||{}).mid||{}; const nm=String(m.title||m.label||"").replace(/^(중간보스|여섯 별) — /,"").trim()||((MOBS[m.key]||{}).name||"");
+  return {name:nm, kind:/^여섯 별/.test(m.label||"")?"여섯 별":m.title?"우두머리":"중간보스"}; }
+function questMainOpen(rk){ return chapterUnlocked(0,rk)||actsDone(0,rk)>0; }
+function questMainDone(rk){ return actsDone(0,rk)>=ACT_N; }
+function questSubCount(q){ return Math.min(q.n, questState().cnt[q.id]||0); }
+function questClaimable(){ const Q=questState(); let n=0;
+  for(const rk of REGION_KEYS){ if(!questMainOpen(rk)) continue;
+    if(questMainDone(rk)&&!Q.claimed["m_"+rk]) n++;
+    for(const q of QUEST_SUB[rk]||[]) if(questSubCount(q)>=q.n&&!Q.claimed[q.id]) n++; }
+  return n; }
+function renderQuestDot(){ const el=$("questDot"); if(el){ const n=questClaimable(); el.textContent=n>0?String(n):""; } }
+// 전투에서 이기면: 그 장 서브 퀘스트 숫자 채우기(난이도 무관 · 정예·우두머리 포함)
+function questOnWin(zone,rk){ if(!zone||!QUEST_SUB[rk]) return; const Q=questState(); const done=[];
+  for(const q of QUEST_SUB[rk]){ if(!questMainOpen(rk)) break; const before=Q.cnt[q.id]||0; if(before>=q.n) continue;
+    const k=zone.mobs.filter(m=>q.keys.includes(m.key)).length; if(!k) continue; Q.cnt[q.id]=Math.min(q.n,before+k); if(Q.cnt[q.id]>=q.n) done.push(q); }
+  for(const q of done){ logLine(`<span class="win">📜 서브 퀘스트 '${esc(q.title)}' 목표 달성 — 퀘스트 탭에서 보상을 받으세요.</span>`); if(!instantMode()) toast(`<span class="tc">📜 퀘스트 완료</span><b>${esc(q.title)}</b>`,"",2600); }
+  renderQuestDot(); }
+function questGive(rk,r,label){ progress.gold+=r.gold; progress.ess+=r.ess||0; grantExp(r.exp, partyIds());
+  let got=""; if(r.item){ const it=makeItem(false,lootTierFor(0,rk),{rarity:"rare",luck:partyLuck(),src:"chest",d:0,from:`퀘스트 '${label}' 보상`}); const L=takeLoot([it]); got=L.kept.length?` · <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span>`:L.lost&&L.lost.length?" · 장비는 가방이 가득해 놓침":" · 장비는 자동 정리됨"; }
+  logLine(`<span class="gain">📜 퀘스트 보상 '${esc(label)}' — ${questRewardText(r).replace(" · 희귀 장비 1개","")}${got}</span>`);
+  toast(`<span class="tc">📜 퀘스트 보상</span><b>${esc(label)}</b>`,"",2400); }
+function questClaim(id){ if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>보상은 던전에서 나온 뒤 받을 수 있어요.`,"",2400); return; }
+  const Q=questState(); if(Q.claimed[id]) return;
+  if(id.startsWith("m_")){ const rk=id.slice(2); if(!questMainDone(rk)) return; Q.claimed[id]=true; questGive(rk,questReward(rk,"main",true),`${REGIONS[rk].chapter} ${QUEST_MAIN[rk].title}`); }
+  else { const rk=REGION_KEYS.find(k=>(QUEST_SUB[k]||[]).some(q=>q.id===id)); const q=QUEST_SUB[rk].find(x=>x.id===id); if(!q||questSubCount(q)<q.n) return; Q.claimed[id]=true; questGive(rk,questReward(rk,"sub",q.item),q.title); }
+  saveProgress(); renderHud&&renderHud(); renderPtsDot(); renderQuestDot(); renderQuest(); }
+function renderQuest(){
+  const pane=$("questPane"); if(!pane) return; const Q=questState();
+  const open=REGION_KEYS.filter(questMainOpen); const cur=open.find(rk=>!questMainDone(rk))||open[open.length-1]||"swamp";
+  const sel=Q.open&&open.includes(Q.open)?Q.open:cur;
+  const list=REGION_KEYS.map(rk=>{ const R=REGIONS[rk], ok=questMainOpen(rk), md=questMainDone(rk);
+    const subs=(QUEST_SUB[rk]||[]), ready=ok&&((md&&!Q.claimed["m_"+rk])||subs.some(q=>questSubCount(q)>=q.n&&!Q.claimed[q.id]));
+    const st=!ok?"🔒":md&&Q.claimed["m_"+rk]&&subs.every(q=>Q.claimed[q.id])?"✓":md?"★":"▶";
+    return `<button class="qch${rk===sel?" on":""}${ok?"":" lock"}" data-rk="${rk}" ${ok?"":"disabled"}><span class="qst">${st}</span><span class="qcn">${esc(R.chapter)}</span><span class="qnm">${ok?esc(QUEST_MAIN[rk].title):"잠김"}</span>${ready?`<span class="qdot">받기</span>`:""}</button>`; }).join("");
+  const rk=sel, R=REGIONS[rk], M=QUEST_MAIN[rk], done=actsDone(0,rk), md=questMainDone(rk);
+  const steps=[1,2,3,4,5].map(a=>{ const T=questTarget(rk,a), A=ACTS[rk][a-1]||{}, st=a<=done?"done":a===done+1?"now":"lock";
+    const log=st==="done"&&A.clear&&A.clear.length?`<details class="qlog"><summary>알게 된 것</summary>${A.clear.map(l=>`<p>${esc(l)}</p>`).join("")}</details>`:"";
+    return `<li class="qstep ${st}"><div class="qsh"><span class="qmk">${st==="done"?"✓":st==="now"?"▶":a}</span><b>${a}막 '${esc(A.name||"")}'</b><span class="qtg">${st==="lock"?"":`${esc(T.kind)} · ${esc(T.name)}`}</span></div>`
+      +(st==="now"?`<div class="qwho"><b>${esc(T.name)}</b> — ${esc(M.who[a-1]||"")}</div>`:"")+log+`</li>`; }).join("");
+  const mr=questReward(rk,"main",true), mc=Q.claimed["m_"+rk];
+  const mainHTML=`<div class="panel qmain"><div class="qhd"><span class="qtag">메인</span><b>${esc(R.chapter)} — ${esc(M.title)}</b><span class="qfrom">의뢰: ${esc(M.from)}</span></div>
+    <p class="qintro">${esc((ACTS[rk][0].intro||[]).find(l=>/의뢰/.test(l))||ACTS[rk][0].intro[0]||"")}</p>
+    <div class="qprog">황혼 ${esc(R.name)} ${done}/${ACT_N}막</div><ol class="qsteps">${steps}</ol>
+    <div class="qrw"><span>보상: ${questRewardText(mr)}</span>${mc?`<span class="qok">받음</span>`:md?`<button class="btn qget" data-id="m_${rk}">보상 받기</button>`:`<span class="qwait">5막까지 깨면 받기</span>`}</div></div>`;
+  const subHTML=(QUEST_SUB[rk]||[]).map(q=>{ const n=questSubCount(q), r=questReward(rk,"sub",q.item), c=Q.claimed[q.id], full=n>=q.n;
+    const names=[...new Set(q.keys.map(k=>MOBS[k].name))].join("·");
+    return `<div class="panel qsub${c?" claimed":""}"><div class="qhd"><span class="qtag sub">서브</span><b>${esc(q.title)}</b><span class="qfrom">${esc(q.who)}</span></div>
+      ${(c?[]:q.ask).map(l=>`<p class="qask">「${esc(l)}」</p>`).join("")}${full?`<p class="qdone">${esc(q.done)}</p>`:""}
+      <div class="qbar"><span style="width:${Math.round(n/q.n*100)}%"></span></div><div class="qprog">${esc(names)} 처치 ${n}/${q.n} <span class="qhint">(${esc(R.chapter)} · 어느 난이도든)</span></div>
+      <div class="qrw"><span>보상: ${questRewardText(r)}</span>${c?`<span class="qok">받음</span>`:full?`<button class="btn qget" data-id="${q.id}">보상 받기</button>`:""}</div></div>`; }).join("");
+  pane.innerHTML=`<div class="qwrap"><nav class="qlist" aria-label="장 목록">${list}</nav><div class="qbody">${mainHTML}${subHTML}</div></div>`;
+  pane.querySelectorAll(".qch").forEach(b=>b.onclick=()=>{ Q.open=b.dataset.rk; renderQuest(); });
+  pane.querySelectorAll(".qget").forEach(b=>b.onclick=()=>questClaim(b.dataset.id));
+}
 function renderCodex(){
   const pane=$("codexPane"); if(!pane) return; pane.innerHTML="";
   const done=Object.keys(SETS).filter(k=>(progress.codex.done||{})[k]).length;
@@ -12849,6 +13090,7 @@ function endZoneBattle(ev,zone){
         knightFell:!P.some(u=>u.id==="knight")||!!(P.find(u=>u.id==="knight")||{})._fell, chests:runState.chests, elites:runState.elites, tokens:tokenCount() };
     }
     const rw=battleRewards(zone,runState.d,runState.regionKey);
+    if(!runState.mode) questOnWin(zone,runState.regionKey);   // v0.93 서브 퀘스트
     if(zone.boss||zone.mid||zone.named) passXpAdd(40,zone.boss?"보스 처치":"우두머리 처치");   // v0.56
     progress.gold+=rw.gold; runState.gains.gold+=rw.gold; runState.gains.exp+=rw.exp;
     progress.ess+=rw.ess||0;
