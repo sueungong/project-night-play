@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793813334151"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793821892298"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -873,6 +873,16 @@ button.dis{background:var(--raised); color:#9fd9ff; border:1px solid #2c4a6b; bo
 .ccard .cst{font-size:13px; color:var(--muted)}
 .ccard .cadv{font-size:13px; color:var(--buff)}
 .cdet{display:none}
+.ccards.c9{grid-template-columns:repeat(auto-fill,minmax(118px,1fr)); gap:8px; margin:12px 0 8px}
+.ccards.c9 .ccard{align-items:center; text-align:center; padding:10px 6px; gap:4px; position:relative}
+.ccards.c9 .ccard img{width:52px; height:52px} .ccards.c9 .ccard .cn{font-size:15px}
+.ccards.c9 .ccard.view{border-color:var(--line2); box-shadow:0 0 0 2px #7fb3ff66 inset} .ccards.c9 .ccard.on{border-color:var(--accent)}
+.ccard .cpk{position:absolute; top:6px; right:8px; color:var(--accent); font-weight:700; font-size:13px}
+#tdet{display:block; background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:10px 14px; margin:0 0 8px; font-size:13.5px; line-height:1.55} #tdet:empty{display:none}
+#tdet .tdh{display:flex; align-items:center; gap:8px; flex-wrap:wrap} #tdet .tdh b{font-size:16px} #tdet .tdh .btn{margin-left:auto}
+#tdet .crole{font-size:12.5px; color:var(--party); border:1px solid #2b3a5e; border-radius:999px; padding:1px 8px}
+#tdet p{margin:6px 0 0} #tdet .cp{color:#d3d9f2} #tdet .cst{color:var(--muted)} #tdet .tadvh{color:var(--buff); font-weight:700} #tdet .tadv b{color:var(--ink)} #tdet .tpas{color:var(--muted)}
+@media (max-height:560px){ .ccards.c9{grid-template-columns:repeat(9,1fr); gap:4px; margin:6px 0} .ccards.c9 .ccard{display:flex; padding:6px 2px} .ccards.c9 .ccard img{width:36px; height:36px} .ccards.c9 .ccard .crole{display:none} .ccards.c9 .ccard .cn{font-size:12.5px} #tdet{font-size:12.5px; padding:6px 10px} }
 @media (max-height:560px){ .ccards{grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:6px; margin:8px 0}
   .ccard{display:grid; grid-template-columns:auto 1fr; grid-template-rows:auto auto; column-gap:8px; row-gap:2px; align-items:center; padding:6px 8px}
   .ccard img{width:40px; height:40px; grid-row:1 / 3} .ccard .cn{font-size:15px} .ccard .crole{justify-self:start; font-size:11.5px}
@@ -1506,7 +1516,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
-v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 의뢰는 장마다 꼭 필요한 이야기 막(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있고, 황혼에서 그 막을 처음 깨러 들어갈 때 의뢰를 받아야 합니다(입장할 때 의뢰 창 → [의뢰 받고 출발]). 돌파 뒤 보고하면 이야기와 보상(그 장 몹 5마리분 경험치·골드, 5막은 12마리분 + 밤의 정수 + 희귀 장비 1개)을 받고 다음 메인 의뢰가 열립니다. 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막 우두머리 이야기(그 막 우두머리 쓰러뜨리기)와 막마다 몹 잡기 부탁으로, 그 막이 열려 있으면 받고 반복 사냥하며 채웁니다. <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율)이고, 난이도가 오르면 1장 보스부터 앞 난이도 10장 보스보다 체력 1.25배 이상 셉니다. <b>최종 콘텐츠:</b> 밤의 심연 1층 · 낙성 강림 1단계의 일반 몹을 영원한 밤 10장 일반 몹의 1.05배로 맞췄습니다(그 위로 층·단계마다 오르는 비율은 그대로). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로). 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%→70% · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 맞추되, 보스 공격은 그 장 일반 몹 평균의 1.2배 아래로는 내려가지 않습니다. 자정 장 보스 체력 배율 2.1 → 2.6. <b>새 게임:</b> 주인공은 검사·성직자·마법사·도적 중 하나 — 남은 셋 중 함께 출발할 동료 둘을 직접 고르고, 고르지 않은 한 명은 황혼 1장을 깨면 합류합니다. <b>마나:</b> 매 턴 마나 회복을 '최대 마나의 %'에서 정수 능력치로 바꿔 소수점이 생기지 않습니다 — 기본 2 + 직업마다 정해진 레벨마다 +1(마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20레벨마다) + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 마나 +N'. 예전 비율 회복과 레벨별 평균이 같게 맞췄습니다(예: 마법사 Lv1 2 · Lv10 4 · Lv25 8 · Lv40 11). 파티 탭 '전투 능력치'에 '턴당 마나 회복'이 보입니다. <b>능력치 찍기:</b> 능력치를 누르면 효과가 나오고, ▲▼로 넣을 점수를 정하면 바뀌는 전투 능력치(예: 마나 70 → 82 · 턴당 마나 회복 2 → 3)를 미리 보여 주며, [확인]을 눌러야 확정됩니다(모바일에서도 같은 방식). <b>그 밖:</b> 동료도 Lv10이 되면 전직을 직접 고릅니다(영웅 버튼에 ⭐전직 · 파티 탭 숫자에 포함). 던전 중 레벨업하면 그 영웅의 체력·마나가 가득 찹니다. 적도 영웅과 같은 자리(앞줄 3 · 뒷줄 3)에 서고, 가로줄마다 엇갈리던 배치를 없애 앞줄·뒷줄이 세로 한 줄로 보입니다. 기술 설명에 '앞줄(세로 한 줄) 전체 — 앞줄이 모두 쓰러졌으면 뒷줄 전체', 근접 대상 규칙을 적었습니다. 구역·전투마다 무대를 다시 불러 끊기고 날씨(비)가 바뀌던 문제를 고쳤습니다. 창술사 '창 찌르기'가 던지는 모습으로 나오던 문제(같은 이름의 적 기술로 잘못 읽음)를 고치고, 창은 찌르기 · 활은 화살 · 던지는 창은 창 · 방패 치기는 묵직한 타격으로 보입니다. 빙결(얼음빛·멈춤) · 기절(흔들림) · 화상 · 독 · 냉기 · 약화 · 취약이 유닛 모습에 보입니다. 전투 중 쓰러진 영웅은 그 전투의 경험치를 받지 못합니다(살아 있는 영웅만 받음). 전투 뒤 전리품 창은 5초 뒤 저절로 닫히고(마우스를 올리면 멈춤), 창 바깥을 누르면 바로 닫힙니다. <b>기술 강화 마나:</b> 특성의 기술 보정(피해·지속·효과 등) 하나 · 숙련 변형 하나 · 숙달마다 그 기술의 마나 비용이 기본의 10%씩 늘어납니다(정수 올림 · 마나를 줄이거나 돌려주는 선택은 빼고 셈) — 강하게 키운 기술일수록 마나를 더 씀. 기술 설명의 마나 숫자에 그대로 반영됩니다. <b>마나 흡수(마법사):</b> 내 마나 +15 대신, 마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 20%를 회복합니다(특성의 '마나 흡수 +N'은 +N%p로). <b>상태이상 연계 기술:</b> 걸어 둔 상태이상을 쓰는 기술이 주력기만 쓰는 것보다 약하던 문제 — 잿불 폭발 60%·화상 터뜨림 1배 → 200%·4배(불새만 쓸 때보다 +11~13% · 마나는 덜 씀), 맹독 파열 30%+중첩당 40% → 50%+85%, 증기 폭발 냉기 1중첩당 130% → 180% · 빙결 350% → 450%(측정: 각 연계가 주력기만 쓸 때보다 +3~21%). 대폭발·단죄의 망치·영겁의 겨울은 이미 연계가 유리해 그대로. <b>규칙:</b> '화상 중인 적 존재' 조건을 누구나 쓸 수 있게(독 3중첩 조건처럼 — 브란도의 국자는 새 조건 '화상 중인 적 2마리 이상'을 엶). 대상에 '화상 걸린 적 우선' · '약화·냉기·빙결된 적 우선'을 더했습니다. 잿불 폭발·대폭발은 화상 걸린 적 모두를 맞히는 기술이라 대상 칸이 '적 전체'로 고정입니다. 규칙의 기술 칸 마나도 강화·무기를 반영한 실제 값으로 보입니다(기술 설명엔 '기본 12 · 강화 3번'). <b>숙련 다시 짜기:</b> 칸마다 같은 기술을 다른 방향으로 키우는 둘 중 하나 — 강하게(피해 +10%, 마나가 늘어남) vs 싸게(마나 -25%) · 치명타 +12% vs 체력 40% 이하 적 +25% · 취약 vs 흡혈, 여러 번 때리는 기술은 '한 번 더(한 번당 -15%)' vs 치명타. 맞지 않는 변형은 그 기술의 다른 칸과 겹치지 않는 변형(첫 3턴 +20% · 아군 전체 체력 3% · 아군 전체 마나 +3 등)으로 바뀝니다. 예전에 고른 칸은 같은 자리(a·b)의 새 변형으로 이어집니다. <b>세트 조각 기본 능력치:</b> 전설과 같은 단계 · 옵션 4개(고유 효과·직업 전용 효과·운명·소켓 2칸 대신 세트 효과) — 측정(Lv40 · 영원한 밤 9장 보스 · 30번 평균)에서 세트 완성이 전설만 낀 것보다 -20%~+11%로 비슷하게(예전엔 -0~-47%). 질풍의 깃·화약통 벨트 6세트에 공격력 +8%를 더했습니다. 장비 탭 영웅 칸은 이번 난이도에 출전하는 영웅이 먼저 나옵니다. <b>세트 장비 개편:</b> 세트마다 4·5·6부위로 필요한 부위 수와 구성이 다릅니다(예: 무기·목걸이·반지·반지 / 투구·장갑·신발·망토 / 6부위 갑주) — 세트를 완성해도 나머지 칸은 전설로 채울 수 있음. 전직마다 2종씩 전직 세트 36종을 새로 넣었습니다(그 전직 특성 두 갈래의 큰 효과를 세트로도 얻음 — 예: [대마법사] 불새의 깃 5부위: 치명 +5% · 불새 화상 +10%p · 기술 20% 재시전). 예전 세트 8종은 4~6부위로 나눴고(철주먹 서약 4: 체력·추격 · 행진곡 4: 마나·대합창 — 예전 4세트 효과는 빠짐), 예전 조각은 그대로 셉니다. <b>되받아치기:</b> 보스·우두머리의 근접 공격은 다 막지 못하고 피해 -50%만(반격은 그대로) — 근접 보스를 혼자 피해 없이 잡던 문제. <b>무작위 다단 기술(불새·화살비 등):</b> 같은 적을 거듭 맞히면 그 적에게는 기술에 정해진 한 발 피해(예: 불새 80%)의 100% · 90% · 80% …로 줄어듭니다(최소 40% — 불새 4발이 한 적에 모두 맞으면 80+72+64+56%). 적이 많아 흩어지면 그대로이고, 앞으로 생기는 무작위 다단 기술도 같습니다(완드 마력탄 2발은 무기 특성이라 제외). 오라·망토의 움직임도 전투 속도를 따라 빨라집니다(매우 빠르게 ≈ 4.4배). <b>📊 딜미터기:</b> 전장 오른쪽 '딜미터' 단추 — 이번 전투에서 영웅마다 주는 피해 · 치유 · 보호막 · 받은 피해를 막대로 보여 주고, 이름을 누르면 기술별로 나눠 보여 줍니다. 전투 중엔 화면에 나온 만큼 실시간으로, 끝나면 다음 전투 전까지 그대로 남습니다. <b>전설 직업 전용 효과:</b> 직업마다 3개(고정 수치)였던 것을 기본 기술 + 두 전직의 대표 기술까지 10~12개로 넓히고, 수치는 장비마다 범위 안에서 무작위로 나옵니다(예: 내려찍기 피해 +20~40% · [대마법사] 불새 화상 확률 +10~25%p · [대마법사] 비전 과부하 효과 +5~15%p · 매 턴 마나 +2~4). 장비 설명에 범위가 함께 보입니다. 예전에 얻은 전설 장비는 예전 고정 수치 그대로입니다. 전직 이름이 붙은 효과는 그 전직의 기술을 쓸 때만 효과가 있습니다. <b>고친 것:</b> 3장 3막 '영주의 수문'에서 물 파문을 그리다 오류가 나 무대 그리기가 매 장 멈추던 문제(비가 보였다 안 보였다 하고 끊기던 원인)를 고쳤고, 무대 그리기에 오류가 나도 효과 그리기가 멈추지 않게 했습니다. '매우 빠르게'에서 마지막 한 방(투사체·돌진)이 닿기 전에 전투가 끝나 적이 살아 있는 채로 다음 구역으로 넘어가거나 클리어되어 보이던 문제 — 이제 남은 공격이 닿고 쓰러지는 모습까지 보여 준 뒤 끝납니다(전투 결과 자체는 원래도 계산대로였음). 던전 탭 아래 기술 정보와 막 단추·구역 줄에서 아직 만나지 않은 중간보스도 ???로 가립니다(그 막 끝 전투에 들어가거나 그 막을 깨면 공개). 가방에서 여러 개 골라 판매·분해를 마치면 원래 가방 화면으로 돌아갑니다.<br>
+v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 의뢰는 장마다 꼭 필요한 이야기 막(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있고, 황혼에서 그 막을 처음 깨러 들어갈 때 의뢰를 받아야 합니다(입장할 때 의뢰 창 → [의뢰 받고 출발]). 돌파 뒤 보고하면 이야기와 보상(그 장 몹 5마리분 경험치·골드, 5막은 12마리분 + 밤의 정수 + 희귀 장비 1개)을 받고 다음 메인 의뢰가 열립니다. 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막 우두머리 이야기(그 막 우두머리 쓰러뜨리기)와 막마다 몹 잡기 부탁으로, 그 막이 열려 있으면 받고 반복 사냥하며 채웁니다. <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율)이고, 난이도가 오르면 1장 보스부터 앞 난이도 10장 보스보다 체력 1.25배 이상 셉니다. <b>최종 콘텐츠:</b> 밤의 심연 1층 · 낙성 강림 1단계의 일반 몹을 영원한 밤 10장 일반 몹의 1.05배로 맞췄습니다(그 위로 층·단계마다 오르는 비율은 그대로). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로). 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%→70% · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 맞추되, 보스 공격은 그 장 일반 몹 평균의 1.2배 아래로는 내려가지 않습니다. 자정 장 보스 체력 배율 2.1 → 2.6. <b>새 게임:</b> 9명 중 함께 출발할 3명을 직접 고릅니다(캐릭터를 누르면 소개 · 능력치 · 두 전직 설명이 나오고 [선택]으로 담음) — 그 셋 중 한 명이 주인공, 나머지 둘이 동료이고 남은 영웅은 예전처럼 장을 깨며 합류합니다. <b>체력 자연 회복:</b> 마나처럼 정수 능력치로 — 직업마다 시작값 + 정해진 레벨마다 +1(기사 2·5레벨마다 · 창술사 2·10 · 권사 2·20 · 성직자 1·20 · 음유시인 1·24 · 도적·총사·궁수 1·30 · 마법사 1·99) + 체질이 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 체력 +N'. 파티 탭 '전투 능력치'에 '턴당 체력 회복'이 보입니다. <b>마지막 보스들:</b> 뒤 장 보스 체력을 낮추고(10장 보스 = 일반 몹의 황혼 7.5배 · 자정 18배 · 영원한 밤 13배) 보스 회복 기술(옛 약속 · 용사의 결의 · 긴급 예비비)은 전투당 2번까지, 보스의 '재생'은 턴당 5% → 2%, 공허 베기 마나 30 → 72(매 턴 쓰던 문제) — 측정(최대 성장 파티): 황혼 9장 17% → 100% · 10장 0% → 31%, 영원한 밤 8장 33% → 63% · 9장 17% → 38% · 10장 0% → 약 7%. <b>세트 보강:</b> 연기의 장막(2: 회피 +5% · 치명 +5% / 4: 연기 뒤 확정 치명 · 공격력 +18%), 바람길 망토(2: 회피 +5% · 공격력 +5% / 4: 꿰뚫는 바람 +1발 · 치명 +8%). <b>마나:</b> 매 턴 마나 회복을 '최대 마나의 %'에서 정수 능력치로 바꿔 소수점이 생기지 않습니다 — 기본 2 + 직업마다 정해진 레벨마다 +1(마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20레벨마다) + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 마나 +N'. 예전 비율 회복과 레벨별 평균이 같게 맞췄습니다(예: 마법사 Lv1 2 · Lv10 4 · Lv25 8 · Lv40 11). 파티 탭 '전투 능력치'에 '턴당 마나 회복'이 보입니다. <b>능력치 찍기:</b> 능력치를 누르면 효과가 나오고, ▲▼로 넣을 점수를 정하면 바뀌는 전투 능력치(예: 마나 70 → 82 · 턴당 마나 회복 2 → 3)를 미리 보여 주며, [확인]을 눌러야 확정됩니다(모바일에서도 같은 방식). <b>그 밖:</b> 동료도 Lv10이 되면 전직을 직접 고릅니다(영웅 버튼에 ⭐전직 · 파티 탭 숫자에 포함). 던전 중 레벨업하면 그 영웅의 체력·마나가 가득 찹니다. 적도 영웅과 같은 자리(앞줄 3 · 뒷줄 3)에 서고, 가로줄마다 엇갈리던 배치를 없애 앞줄·뒷줄이 세로 한 줄로 보입니다. 기술 설명에 '앞줄(세로 한 줄) 전체 — 앞줄이 모두 쓰러졌으면 뒷줄 전체', 근접 대상 규칙을 적었습니다. 구역·전투마다 무대를 다시 불러 끊기고 날씨(비)가 바뀌던 문제를 고쳤습니다. 창술사 '창 찌르기'가 던지는 모습으로 나오던 문제(같은 이름의 적 기술로 잘못 읽음)를 고치고, 창은 찌르기 · 활은 화살 · 던지는 창은 창 · 방패 치기는 묵직한 타격으로 보입니다. 빙결(얼음빛·멈춤) · 기절(흔들림) · 화상 · 독 · 냉기 · 약화 · 취약이 유닛 모습에 보입니다. 전투 중 쓰러진 영웅은 그 전투의 경험치를 받지 못합니다(살아 있는 영웅만 받음). 전투 뒤 전리품 창은 5초 뒤 저절로 닫히고(마우스를 올리면 멈춤), 창 바깥을 누르면 바로 닫힙니다. <b>기술 강화 마나:</b> 특성의 기술 보정(피해·지속·효과 등) 하나 · 숙련 변형 하나 · 숙달마다 그 기술의 마나 비용이 기본의 10%씩 늘어납니다(정수 올림 · 마나를 줄이거나 돌려주는 선택은 빼고 셈) — 강하게 키운 기술일수록 마나를 더 씀. 기술 설명의 마나 숫자에 그대로 반영됩니다. <b>마나 흡수(마법사):</b> 내 마나 +15 대신, 마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 20%를 회복합니다(특성의 '마나 흡수 +N'은 +N%p로). <b>상태이상 연계 기술:</b> 걸어 둔 상태이상을 쓰는 기술이 주력기만 쓰는 것보다 약하던 문제 — 잿불 폭발 60%·화상 터뜨림 1배 → 200%·4배(불새만 쓸 때보다 +11~13% · 마나는 덜 씀), 맹독 파열 30%+중첩당 40% → 50%+85%, 증기 폭발 냉기 1중첩당 130% → 180% · 빙결 350% → 450%(측정: 각 연계가 주력기만 쓸 때보다 +3~21%). 대폭발·단죄의 망치·영겁의 겨울은 이미 연계가 유리해 그대로. <b>규칙:</b> '화상 중인 적 존재' 조건을 누구나 쓸 수 있게(독 3중첩 조건처럼 — 브란도의 국자는 새 조건 '화상 중인 적 2마리 이상'을 엶). 대상에 '화상 걸린 적 우선' · '약화·냉기·빙결된 적 우선'을 더했습니다. 잿불 폭발·대폭발은 화상 걸린 적 모두를 맞히는 기술이라 대상 칸이 '적 전체'로 고정입니다. 규칙의 기술 칸 마나도 강화·무기를 반영한 실제 값으로 보입니다(기술 설명엔 '기본 12 · 강화 3번'). <b>숙련 다시 짜기:</b> 칸마다 같은 기술을 다른 방향으로 키우는 둘 중 하나 — 강하게(피해 +10%, 마나가 늘어남) vs 싸게(마나 -25%) · 치명타 +12% vs 체력 40% 이하 적 +25% · 취약 vs 흡혈, 여러 번 때리는 기술은 '한 번 더(한 번당 -15%)' vs 치명타. 맞지 않는 변형은 그 기술의 다른 칸과 겹치지 않는 변형(첫 3턴 +20% · 아군 전체 체력 3% · 아군 전체 마나 +3 등)으로 바뀝니다. 예전에 고른 칸은 같은 자리(a·b)의 새 변형으로 이어집니다. <b>세트 조각 기본 능력치:</b> 전설과 같은 단계 · 옵션 4개(고유 효과·직업 전용 효과·운명·소켓 2칸 대신 세트 효과) — 측정(Lv40 · 영원한 밤 9장 보스 · 30번 평균)에서 세트 완성이 전설만 낀 것보다 -20%~+11%로 비슷하게(예전엔 -0~-47%). 질풍의 깃·화약통 벨트 6세트에 공격력 +8%를 더했습니다. 장비 탭 영웅 칸은 이번 난이도에 출전하는 영웅이 먼저 나옵니다. <b>세트 장비 개편:</b> 세트마다 4·5·6부위로 필요한 부위 수와 구성이 다릅니다(예: 무기·목걸이·반지·반지 / 투구·장갑·신발·망토 / 6부위 갑주) — 세트를 완성해도 나머지 칸은 전설로 채울 수 있음. 전직마다 2종씩 전직 세트 36종을 새로 넣었습니다(그 전직 특성 두 갈래의 큰 효과를 세트로도 얻음 — 예: [대마법사] 불새의 깃 5부위: 치명 +5% · 불새 화상 +10%p · 기술 20% 재시전). 예전 세트 8종은 4~6부위로 나눴고(철주먹 서약 4: 체력·추격 · 행진곡 4: 마나·대합창 — 예전 4세트 효과는 빠짐), 예전 조각은 그대로 셉니다. <b>되받아치기:</b> 보스·우두머리의 근접 공격은 다 막지 못하고 피해 -50%만(반격은 그대로) — 근접 보스를 혼자 피해 없이 잡던 문제. <b>무작위 다단 기술(불새·화살비 등):</b> 같은 적을 거듭 맞히면 그 적에게는 기술에 정해진 한 발 피해(예: 불새 80%)의 100% · 90% · 80% …로 줄어듭니다(최소 40% — 불새 4발이 한 적에 모두 맞으면 80+72+64+56%). 적이 많아 흩어지면 그대로이고, 앞으로 생기는 무작위 다단 기술도 같습니다(완드 마력탄 2발은 무기 특성이라 제외). 오라·망토의 움직임도 전투 속도를 따라 빨라집니다(매우 빠르게 ≈ 4.4배). <b>📊 딜미터기:</b> 전장 오른쪽 '딜미터' 단추 — 이번 전투에서 영웅마다 주는 피해 · 치유 · 보호막 · 받은 피해를 막대로 보여 주고, 이름을 누르면 기술별로 나눠 보여 줍니다. 전투 중엔 화면에 나온 만큼 실시간으로, 끝나면 다음 전투 전까지 그대로 남습니다. <b>전설 직업 전용 효과:</b> 직업마다 3개(고정 수치)였던 것을 기본 기술 + 두 전직의 대표 기술까지 10~12개로 넓히고, 수치는 장비마다 범위 안에서 무작위로 나옵니다(예: 내려찍기 피해 +20~40% · [대마법사] 불새 화상 확률 +10~25%p · [대마법사] 비전 과부하 효과 +5~15%p · 매 턴 마나 +2~4). 장비 설명에 범위가 함께 보입니다. 예전에 얻은 전설 장비는 예전 고정 수치 그대로입니다. 전직 이름이 붙은 효과는 그 전직의 기술을 쓸 때만 효과가 있습니다. <b>고친 것:</b> 3장 3막 '영주의 수문'에서 물 파문을 그리다 오류가 나 무대 그리기가 매 장 멈추던 문제(비가 보였다 안 보였다 하고 끊기던 원인)를 고쳤고, 무대 그리기에 오류가 나도 효과 그리기가 멈추지 않게 했습니다. '매우 빠르게'에서 마지막 한 방(투사체·돌진)이 닿기 전에 전투가 끝나 적이 살아 있는 채로 다음 구역으로 넘어가거나 클리어되어 보이던 문제 — 이제 남은 공격이 닿고 쓰러지는 모습까지 보여 준 뒤 끝납니다(전투 결과 자체는 원래도 계산대로였음). 던전 탭 아래 기술 정보와 막 단추·구역 줄에서 아직 만나지 않은 중간보스도 ???로 가립니다(그 막 끝 전투에 들어가거나 그 막을 깨면 공개). 가방에서 여러 개 골라 판매·분해를 마치면 원래 가방 화면으로 돌아갑니다.<br>
 v0.92: <b>기술·패시브 전면 개편 · 새 직업 둘</b> — 기존 7직업의 기술을 모두 새로 만들었습니다(새 이름·새 효과). <b>새 직업:</b> 후열 <b>궁수</b>(연사 — 같은 적을 연달아 맞히면 한 발마다 피해 +2%, 최대 +20% · 전직 바람의 명궁·숲의 사냥꾼)와 전열 <b>창술사</b>(앞줄 적을 근접 공격하면 같은 가로줄 뒷줄 적에게도 40% · 전직 용기병·방진 수호자)가 황혼 5장 황금 도시·6장 붉은 사막을 깬 다음 차례로 동료로 합류하고, 새 게임에서 주인공으로도 고를 수 있습니다(모두 9직업 · 활·창 무기 3종씩). 직업마다 기본 기술 6개(갈래 3개 × 2개) + 전직마다 4개(대표 1 · 강화 2 · 다리 1). 전직하면 Lv10에 대표 기술 + 강화 1개, Lv16에 강화 1개 + 다리 기술. <b>기술 칸:</b> 전직 전 3칸 · 전직 후 4칸(기본공격은 칸 밖에서 저절로). <b>패시브:</b> 직업·전직 패시브를 모두 바꿨습니다(예: 검사 반격 본능 — 원거리 공격에도 25% 확률로 80% 반격 · 마법사 집중된 마나 — 매 턴 마나 +3 · 성직자 은총의 넘침 — 넘친 치유의 50%를 보호막으로). <b>음유시인:</b> 오라를 없앴습니다. 노래는 칸에 넣는 3턴 버프 기술이고, 같은 노래를 다시 부르면 3턴으로 돌아가며 다른 노래끼리는 함께 걸립니다. 내 노래가 걸려 있는 동안 매 턴 공명 +2. <b>총사:</b> 보통 사격 기술은 탄만(마나 0), 사격이 아닌 기술은 마나만, 표적탄·화약 상자는 탄과 마나 둘 다. 재장전 기술은 없어지고 탄이 0이면 그 턴 저절로 재장전. <b>권사:</b> 올려차기·공중 연타·회오리 발차기는 기세 2. 받는 피해를 줄이는 기술은 겹치지 않고 가장 큰 것 하나만 적용됩니다. <b>예전 저장:</b> 예전 기술로 짠 규칙은 규칙 표로 다시 짜고(직접 고친 규칙은 같은 역할의 새 기술로 옮김), 숙련·장비 기술 옵션·특성 연결도 새 기술로 옮겼습니다. 자동전투 조건 '내가 켠 오라가 없음'·'아군 오라가 켜져 있음'·'내 내공 15% 이상'은 없어졌습니다.
 v0.91: <b>적의 상태이상</b> — 몹마다 특기 상태이상(장마다 주제)이 생겼습니다. 한 번 맞힐 때 확률 황혼 10% · 자정 30% · 영원한 밤 50%, 한 전투에서 거는 몹은 1 · 2 · 3마리까지(보스·우두머리는 그 장의 특기 전부, 자정부터 정예도). 영원한 밤의 적은 상태이상 걸린 영웅에게 피해 +20%. 막는 법: 상태이상 저항 상한 75% → 70%, 장비 저항 옵션이 더 자주·더 크게(2~9, 예전 1~7), 수호의 노래·수호기사 철벽 저항 +15%p, 권사 호흡 고르기가 내 상태이상 하나를 풂, 성직자 정화. 일반 몹 기술에 따로 붙어 있던 화상·약화·기절은 특기 상태이상으로 바뀜(보스 기술은 그대로). 한 전투 몹 수: 자정 3~5 · 영원한 밤 4~5마리. <b>자동전투 규칙 표</b> — 동료 규칙·처음 규칙·전직 때 새 기술 자리를 한 표에서 정합니다(직업 × 전직 × 성향). '항상'은 맨 끝 칸만, 검사 도발·성직자 치유·소생·전직 대표 기술은 꼭 들어가고, 음유시인 오라는 하나만. 직접 고친 주인공 규칙은 그대로 둡니다. 연소는 화상 걸린 적이 있을 때만 씁니다.
 v0.90: <b>마나·회복 다시 짜기</b> — <b>회복:</b> 구역 사이 회복(10%)을 없애고, 매 턴 직업 기본값 + 체질(체력)·의지(마나)만큼 조금씩 회복합니다. 막 중간 쉼터는 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남). <b>마나:</b> 기술 비용은 최대 마나의 %가 아니라 정해진 숫자입니다(레벨이 오를수록 더 자주 씀). 권사·총사·음유시인의 기세·탄약·공명 기술도 마나를 씁니다. 최대 마나는 의지 1당 +4(지능은 마나에 영향 없음). 레벨업 때 마나는 직업마다 다른 기준값(마법사 7 · 도적 4 · 성직자 3.5 · 검사 3 · 권사·총사 2 · 음유시인 1.5, 의지 1당 +2%)의 80~120% 사이에서 무작위로 오릅니다. 장비의 마나 옵션 수치는 예전의 30%(예: 마나 +40 → +12). <b>장비 수준:</b> 난이도 안에서 1장 → 10장 +20%(난이도 사이 +30%는 그대로).
@@ -1942,7 +1952,7 @@ const SKILLS = {
   audit:         { name:"감사(監査)",       type:"damage",    power:1.0, mp:0,  aoe:false, range:"ranged", chill:{value:-0.2,turns:2} },
   budget_cut:    { name:"예산 삭감",       type:"damage",    power:0.6, mp:50, aoe:false,  range:"ranged", shape:"back_all", chill:{value:-0.2,turns:2} },
   invoice_bomb:  { name:"청구서 폭탄",     type:"damage",    power:1.05, mp:63, aoe:false,  range:"ranged", shape:"cross" },
-  emergency_fund:{ name:"긴급 예비비",     type:"heal",      power:2.4, mp:84, aoe:false, range:"self" },
+  emergency_fund:{ name:"긴급 예비비",     type:"heal",      power:2.4, mp:84, aoe:false, range:"self", limit:2 },   // v0.93 전투당 2번
   coin_toss:     { name:"금화 투척",       type:"damage",    power:0.8, mp:0,  aoe:false, range:"ranged" },
   tail_sting:    { name:"꼬리 독침",       type:"damage",    power:1.1, mp:0,  aoe:false, range:"melee", burn:{chance:0.5,ratio:0.35,turns:2,label:"독"} },
   venom_tail:    { name:"맹독 꼬리",       type:"damage",    power:1.0, mp:0,  aoe:false, range:"melee", burn:{chance:0.8,ratio:0.45,turns:2,label:"맹독"} },
@@ -1972,18 +1982,18 @@ const SKILLS = {
   void_mend:     { name:"공허의 치유",     type:"heal",      power:1.8, mp:25, aoe:false, range:"ranged" },
   thousand_eyes: { name:"천 개의 눈",      type:"damage",    power:0.9, mp:77, aoe:true,  range:"ranged", chill:{value:-0.2,turns:2} },
   betrayal:      { name:"배신의 칼",       type:"damage",    power:1.6, mp:61, aoe:false, range:"ranged", shape:"back_rand" },
-  void_slash:    { name:"공허 베기",       type:"damage",    power:1.8,mp:30, aoe:false,  range:"ranged", shape:"line" },
+  void_slash:    { name:"공허 베기",       type:"damage",    power:1.8,mp:72, aoe:false,  range:"ranged", shape:"line" },   // v0.93 30 → 72(마나 45% — 다른 보스 큰 기술과 같은 박자 · 매 턴 쓰던 문제)
   empty_crush:   { name:"빈 손의 압살",    type:"damage",    power:2.4, mp:15, aoe:false, range:"melee", shape:"front_defmax" },
   night_veil:    { name:"밤의 장막",       type:"buff_def",  power:0,   mp:25, aoe:false, range:"self",  duration:2, value:0.35 },
   scorch_bite:   { name:"불탄 이빨",       type:"damage",    power:1.1, mp:0,  aoe:false, range:"melee", burn:{chance:0.5,ratio:0.4,turns:2,label:"화상"} },
   light_burst:   { name:"빛 터짐",         type:"damage",    power:0.85,mp:15, aoe:false,  range:"ranged", shape:"cross", burn:{chance:0.3,ratio:0.3,turns:2,label:"햇빛 화상"} },
   star_fall:     { name:"별똥비",          type:"damage",    power:1.1, mp:90, aoe:true,  range:"ranged" },
   star_lance:    { name:"별의 창",         type:"damage",    power:1.7, mp:72, aoe:false, range:"ranged", shape:"line" },
-  promise:       { name:"옛 약속",         type:"heal",      power:2.2, mp:120, aoe:false, range:"self" },
+  promise:       { name:"옛 약속",         type:"heal",      power:2.2, mp:120, aoe:false, range:"self", limit:2 },   // v0.93 전투당 2번
   dawn_blade:    { name:"여명의 검",       type:"damage",    power:2.0, mp:79, aoe:false, range:"melee", shape:"line" },
   radiance:      { name:"광휘",            type:"damage",    power:0.95, mp:99, aoe:true,  range:"ranged", burn:{chance:0.5,ratio:0.45,turns:2,label:"햇빛 화상"} },
   veil_of_night: { name:"장막 두르기",     type:"buff_def",  power:0,   mp:30, aoe:false, range:"self",  duration:2, value:0.4 },
-  hero_resolve:  { name:"용사의 결의",     type:"heal",      power:2.0, mp:100, aoe:false, range:"self" },
+  hero_resolve:  { name:"용사의 결의",     type:"heal",      power:2.0, mp:100, aoe:false, range:"self", limit:2 },   // v0.93 전투당 2번(루멘이 끝없이 회복해 75턴 무승부가 나던 문제)
   judgement:     { name:"천벌",             type:"damage",    power:1.1, mp:35, aoe:true,  range:"ranged", burn:{chance:0.5,ratio:0.35,turns:2} },
 };
 for(const k of Object.keys(SKILLS)) SKILLS[k].id=k;
@@ -2971,7 +2981,10 @@ const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.6,atk:1.2},{hp:2.4,atk:1.25}];   // v0.93 
 const ENEMY_REF={hp:[[189,933],[989,1892],[2300,4750]], atk:[[28,172],[190,393],[520,1150]]};
 const ENEMY_PRESS={atk:[[0.12,0.40],[0.55,0.95],[1.4,2.4]], hp:[[5.8,11],[15,22],[35,55]]};   // 황혼 1장 = 예전 실제 값(처음 시작이 막히지 않게)
 const BOSS_RATIO={hp:[5.6,18], atk:[1.75,1.75]}, BOSS_STEP=1.25;   // v0.93 난이도가 오르면 1장 보스도 앞 난이도 10장 보스의 1.25배 이상(체력·공격)
-function bossRatioHp(d,c){ const r0=d===0?BOSS_RATIO.hp[0]:Math.max(BOSS_RATIO.hp[0], BOSS_STEP*enemyTarget(d-1,9).hp*BOSS_RATIO.hp[1]*BOSS_K[d-1].hp/(enemyTarget(d,0).hp*BOSS_K[d].hp)); return r0*Math.pow(BOSS_RATIO.hp[1]/r0,c/9); }
+/* v0.93 B안: 장 보스 체력 배율이 10장으로 갈수록 늘어나는 끝값을 난이도마다 따로(최대 성장 시뮬레이션 — 황혼 9·10장 · 영원한 밤 7~10장 보스가 최대 성장으로도 거의 못 깨던 문제).
+   1장 시작값과 '앞 난이도 10장 보스의 1.25배' 규칙은 그대로(앞 난이도 10장은 예전 끝값 18 기준으로 셈 — 자정·영원한 밤 1장은 그대로) */
+const BOSS_HP_END=[7.5,18,13];
+function bossRatioHp(d,c){ const r0=d===0?BOSS_RATIO.hp[0]:Math.max(BOSS_RATIO.hp[0], BOSS_STEP*enemyTarget(d-1,9).hp*BOSS_RATIO.hp[1]*BOSS_K[d-1].hp/(enemyTarget(d,0).hp*BOSS_K[d].hp)); const e=Math.max(r0,BOSS_HP_END[d]); return r0*Math.pow(e/r0,c/9); }
 function curveAt(p,c){ return p[0]*Math.pow(p[1]/p[0],c/9); }
 function poolAvg(rk){ const R=REGIONS[rk]; let h=0,a=0,w=0; for(const q of R.pool){ const m=MOBS[q.key]; h+=m.stats.hp*q.w; a+=m.stats.atk*q.w; w+=q.w; } return {hp:h/w, atk:a/w}; }
 function enemyTarget(d,c){ return {hp:curveAt(ENEMY_REF.atk[d],c)*curveAt(ENEMY_PRESS.hp[d],c), atk:curveAt(ENEMY_REF.hp[d],c)*curveAt(ENEMY_PRESS.atk[d],c)}; }   // 일반 몹 평균(3막 기준, 정예·속성 전)
@@ -2987,10 +3000,12 @@ const REST_CHANCE=0.5, REST_HEAL=0.3;   // v0.90 쉼터는 막마다 50% 확률�
 function applyRest(party){ for(const u of party){ if(!u.alive){ u.alive=true; u.hp=Math.max(1,Math.floor(u.hp_max*REST_HEAL)); } else u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*REST_HEAL)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*REST_HEAL)); } }
 function zoneRecover(u){ const h=ZONE_REGEN+(u._con18?0.05:0); if(h>0) u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*h)); if(ZONE_REGEN>0) u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*ZONE_REGEN)); }
 // v0.90 매 턴 자연 회복(소량) — 직업 기본값 + 체질 1당 체력 +0.05%p · 의지 1당 마나 +0.1%p (10 기준)
-const CLASS_REGEN={knight:{hp:0.010}, mage:{hp:0.004}, priest:{hp:0.005}, rogue:{hp:0.006}, fighter:{hp:0.008}, gunner:{hp:0.005}, bard:{hp:0.005}, archer:{hp:0.005}, lancer:{hp:0.008}};
 /* v0.93 매 턴 마나 회복은 정수 능력치 — 비율·나눗셈 없음(소수가 생기지 않음). 회복 = 2 + 직업마다 N레벨마다 +1 + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성 '턴당 마나 +N'.
    N은 예전 비율 회복(직업 비율 × 최대 마나)의 Lv10·25·40 평균값에 맞춤 — 마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20 */
 const MP_REGEN_BASE=2, MP_REGEN_STEP={knight:15, lancer:15, mage:4, priest:7, rogue:13, fighter:20, gunner:19, bard:19, archer:9}, WIL_REGEN_STEP=3;
+/* v0.93 매 턴 체력 회복도 정수 능력치: 기본 + 직업마다 N레벨마다 +1 + 체질이 직업 시작값보다 3 높을 때마다 +1 — [기본, N]은 예전 비율 회복(직업 비율 × 최대 체력)의 Lv1·10·25·40 값에 맞춤 */
+const HP_REGEN={knight:[2,5], lancer:[2,10], fighter:[2,20], priest:[1,20], bard:[1,24], rogue:[1,30], gunner:[1,30], archer:[1,30], mage:[1,99]}, CON_REGEN_STEP=3;
+function hpRegenOf(cid,lv,P){ const c=CLASSES[cid], R=HP_REGEN[cid]||[1,30]; return R[0]+Math.floor(Math.max(0,(lv||1)-1)/R[1])+Math.max(0,Math.floor((P.con-((c.prim||{}).con||10))/CON_REGEN_STEP)); }
 function mpRegenOf(cid,lv,P){ const c=CLASSES[cid], st=MP_REGEN_STEP[cid]||15; return MP_REGEN_BASE+Math.floor(Math.max(0,(lv||1)-1)/st)+Math.max(0,Math.floor((P.wil-((c.prim||{}).wil||10))/WIL_REGEN_STEP)); }   // v0.93 마나 +0.5%p씩(2→2.5% · 2.5→3%)
 const TURN_LIMIT=60, BOSS_TURN_LIMIT=75;
 // v0.84 행동 게이지: 신속 N → 턴당 평균 1+N/100번 행동(최대 2배). 적은 난이도마다 신속을 더 받는다(황혼 0 · 자정 +10 · 영원 +22) — 영웅의 장비 신속과 격차가 너무 벌어지지 않게
@@ -3188,7 +3203,7 @@ function primEffect(cid,k){ const M=MAIN_STAT[cid];
     case "str": return (M==="str"?"근접 피해 +1% · 레벨업 공격력 성장 +2%":"근접 피해 +1% (이 직업은 근접 공격 직업이 아님)");
     case "agi": return (M==="agi"?"원거리 피해 +1% · 레벨업 공격력 성장 +2% · ":"")+"명중 +0.4%p · 회피 +0.4%p · 행동 순서";
     case "int": return (M==="int"?"마법 피해·치유 +1% · 레벨업 공격력 성장 +2%":"마법 피해·치유 +1% (이 직업은 마법 직업이 아님)");
-    case "con": return "최대 체력 +10 · 받는 피해 -0.4% · 매 턴 체력 회복 +0.05%p · 레벨업 체력 성장 +2%";
+    case "con": return `최대 체력 +10 · 받는 피해 -0.4% · 레벨업 체력 성장 +2% · 직업 시작값(${(CLASSES[cid].prim||{}).con||10})보다 ${CON_REGEN_STEP} 높을 때마다 매 턴 체력 회복 +1`;
     case "wil": return `최대 마나 +4 · 레벨업 마나 성장 +2% · 직업 시작값(${(CLASSES[cid].prim||{}).wil||10})보다 ${WIL_REGEN_STEP} 높을 때마다 매 턴 마나 회복 +1`;
     case "luk": return "치명타 확률 +1%p · 치명타 피해 +4% (10 기준)";
   } return ""; }
@@ -3477,7 +3492,7 @@ const ADV_SETS=[
   ["s_judgefire","priest","inquisitor","심판의 불꽃","A",[["공격력 +6%",{atk_pct:0.06}],["꺼지지 않는 불씨 — 내 화상 피해 +40%",{flag:"dot_amp"}]]],
   ["s_crusade","priest","inquisitor","성전의 갑주","H",[["치명타 확률 +5%",{crit:5}],["신성 타격 — 성스러운 타격 +62.5% · 30% 화상",{skmod:{sk:"basic_smite",pow:0.625,set:{burn:{chance:0.3,ratio:0.3,turns:2}}}}],["죄의 고백 — 치명타를 맞힌 적 취약 · 공격력 +6%",{flag:"crit_vuln",atk_pct:0.06}]]],
   ["s_shadowblade","rogue","assassin","그림자 칼날","G",[["치명타 확률 +5%",{crit:5}],["심장 찌르기 — 그림자 칼날 +16%",{skmod:{sk:"rg_shadowblade",pow:0.16}}],["어둠의 잔상 — 은신 공격이 메아리",{flag:"shadow_echo"}]]],
-  ["s_smoke","rogue","assassin","연기의 장막","C",[["회피 +5%",{eva:5}],["연기 속 칼날 — 연기 구슬 뒤 확정 치명",{flag:"smoke_crit"}]]],
+  ["s_smoke","rogue","assassin","연기의 장막","C",[["회피 +5% · 치명타 확률 +5%",{eva:5,crit:5}],["연기 속 칼날 — 연기 구슬 뒤 확정 치명 · 공격력 +18%",{flag:"smoke_crit",atk_pct:0.18}]]],   // v0.93 보강
   ["s_fang","rogue","venom_fang","독니의 장신구","A",[["공격력 +6%",{atk_pct:0.06}],["독 날 — 공격마다 30% 확률로 독 1중첩",{flag:"venom_edge"}]]],
   ["s_herb","rogue","venom_fang","독초꾼의 옷","I",[["체력 +8%",{hp_pct:0.08}],["신경 독 — 독 3중첩 적 약화",{flag:"venom_weaken"}],["독 사냥 — 독 걸린 적에게 +15% · 회피 +5%",{flag:"venom_hunter",eva:5}]]],
   ["s_beads","fighter","monk","금강의 염주","E",[["체력 +8%",{hp_pct:0.08}],["내공 보호막 — 내공이 있으면 받는 피해 -10%",{flag:"ki_guard"}],["내공 방출 — 내공이 최대 체력 10% 이상이면 추가 피해",{flag:"ki_release"}]]],
@@ -3493,7 +3508,7 @@ const ADV_SETS=[
   ["s_bells","bard","jester","광대의 방울","A",[["턴당 마나 +3",{mp_regen:3}],["꿀잠 — 잠든 적 첫 타 +50%",{flag:"sleep_strike"}]]],
   ["s_masque","bard","jester","가면 무도회","I",[["회피 +5%",{eva:5}],["깊은 놀림 — 어릿광대 춤 약화 -35%",{flag:"fear_weaken"}],["소란 — 기절한 적에게 +25% · 턴당 마나 +3",{flag:"riot",mp_regen:3}]]],
   ["s_gale","archer","gale_archer","질풍의 깃","H",[["공격력 +6%",{atk_pct:0.06}],["폭풍의 눈 — 폭풍 연사 +1발",{skmod:{sk:"ar_storm",add:{multi:1}}}],["광역 숙련 — 광역 +20% · 치명타 확률 +5% · 공격력 +8%",{flag:"aoe_amp",crit:5,atk_pct:0.08}]]],
-  ["s_windpath","archer","gale_archer","바람길 망토","C",[["회피 +5%",{eva:5}],["꿰뚫는 바람 숙련 — 꿰뚫는 바람 +1발",{skmod:{sk:"ar_galepierce",add:{multi:1}}}]]],
+  ["s_windpath","archer","gale_archer","바람길 망토","C",[["회피 +5% · 공격력 +5%",{eva:5,atk_pct:0.05}],["꿰뚫는 바람 숙련 — 꿰뚫는 바람 +1발 · 치명타 확률 +8%",{skmod:{sk:"ar_galepierce",add:{multi:1}},crit:8}]]],   // v0.93 보강
   ["s_leash","archer","forest_hunter","사냥개 목줄","G",[["공격력 +6%",{atk_pct:0.06}],["훈련된 사냥개 — 사냥개 +1번",{skmod:{sk:"ar_hound",add:{n:1}}}],["급소 노림 — 약점 사냥 치명 +15%p",{skmod:{sk:"ar_weakhunt",add:{critPlus:0.15}}}]]],
   ["s_trapper","archer","forest_hunter","덫사냥꾼 장비","D",[["체력 +8%",{hp_pct:0.08}],["약화 사냥 — 약화된 적에게 +20%",{flag:"weak_hunter"}]]],
   ["s_skytip","lancer","dragoon","천공의 창끝","B",[["치명타 확률 +5%",{crit:5}],["천공 관통 — 천공이 방어 무시",{skmod:{sk:"ln_skypierce",set:{pierceAll:true}}}]]],
@@ -3690,7 +3705,7 @@ const LIMITS=[
   ["노래","음유시인의 노래는 대상마다 3턴 동안 걸립니다. 같은 노래를 다시 부르면 남은 턴이 3턴으로 돌아가고, 서로 다른 노래는 함께 걸립니다. 음유시인이 쓰러져도 걸린 노래는 남은 턴까지 유지됩니다."],
   ["띄움·취약","띄움: 1~2턴, 회피·반격 불가, 가장 늦게 행동(보스는 띄울 수 없고 행동 순서만 밀림). 취약: 표적탄·발경·표적 각인·약점 간파·파편 수류탄·견제 찌르기 등이 걸고, 그 적이 받는 피해가 늘어나며(기술마다 10~25%, 겹치면 가장 큰 것 하나) 그 적에게는 치명타 확률 +10%p."],
   ["적의 마나","적은 매 턴 최대 마나의 12%를 회복해 기술을 다시 씁니다."],
-  ["회복","매 턴 조금씩: 체력은 직업 기본 0.4~1% + 체질 1당 0.05%p, 체력 회복량은 정수(반올림, 최소 1). 마나는 비율이 아닌 정수 능력치 — 기본 2 + 직업마다 정해진 레벨마다 +1(마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20레벨마다) + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 마나 +N'. 파티 탭 '전투 능력치'의 '턴당 마나 회복'에 보입니다. 구역 사이 회복은 없습니다. 막 중간 쉼터는 50% 확률로 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남)."],
+  ["회복","매 턴 조금씩: 체력은 직업 기본 0.4~1% + 체질 1당 0.05%p, 체력·마나 모두 비율이 아닌 정수 능력치 — 체력: 기본 1~2 + 직업마다 정해진 레벨마다 +1(검사 5 · 창술사 10 · 권사·성직자 20 · 음유시인 24 · 도적·총사·궁수 30레벨마다 · 마법사는 1 고정) + 체질이 직업 시작값보다 3 높을 때마다 +1. 마나 — 기본 2 + 직업마다 정해진 레벨마다 +1(마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20레벨마다) + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 마나 +N'. 파티 탭 '전투 능력치'의 '턴당 마나 회복'에 보입니다. 구역 사이 회복은 없습니다. 막 중간 쉼터는 50% 확률로 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남)."],
   ["적의 상태이상","몹마다 특기 상태이상이 있습니다(장마다 주제: 1장 독·약화 · 2장 화상 · 3장 냉기 · 4장 독 · 5장 약화·취약 · 6장 독·약화 · 7장 화상·기절 · 8장 독·취약 · 9장 기절·취약 · 10장 화상·약화). 한 번 맞힐 때 거는 확률은 황혼 10% · 자정 30% · 영원한 밤 50%(광역·범위 공격과 기절은 절반). 한 전투에서 거는 몹은 황혼 1 · 자정 2 · 영원한 밤 3마리까지(보스·우두머리는 따로, 그 장의 특기 전부). 자정부터 정예는 그 장의 특기를 모두 씁니다. 영원한 밤의 적은 상태이상에 걸린 영웅에게 피해 +20%."],
   ["상태이상 막기","저항(최대 70%): 기본 10% + 장비 '상태이상 저항' 옵션 + 저항을 올리는 기술(결속의 외침·연기 구슬·정화의 성가·안식의 노래·거리 두기·불굴의 창 — 겹치면 가장 큰 것 하나) + 해독술(독·화상·냉기만). 풀기: 정결(아군 하나 전부) · 진정의 노래·정화의 성가(하나씩) · 운기조식(내 것 하나) · 불굴·내공 순환(내 것 전부) · 해독술(독·화상·냉기) · 웃음 폭탄(기절). 금강불괴는 2턴간 상태이상 면역."],
   ["기술 마나","기술은 정해진 숫자만큼 마나를 씁니다. 마나를 쓰지 않는 것: 기본공격 · 총사 자동 재장전과 보통 사격 기술(탄만 씀) · 마나 흡수 · 피의 대가(체력을 씀). 최대 마나는 의지와 레벨로 오릅니다."]
@@ -4584,7 +4599,7 @@ const PROLOGUE=["어릴 적, 등불지기였던 할머니는 잠들기 전마다
 
 /* ================= 저장/진행 ================= */
 const CLASS_IDS=["knight","mage","priest","rogue","fighter","gunner","bard","archer","lancer"];   // 게임에 존재하는 모든 직업 (직업이 늘면 여기에 추가)
-const STARTER_IDS=["knight","mage","priest","rogue"]; // v0.93 새 게임 주인공은 쉬운 4직업 중 하나 — 남은 셋 중 둘이 바로 동료(합류 순서 JOIN_ORDER), 나머지는 황혼을 깨며 합류
+const STARTER_IDS=["knight","mage","priest","rogue"]; // v0.93 지금은 pickStartTrio(9명 중 3명)를 쓰고, 이 목록은 셋을 안 고른 경우의 대비용
 const BASE_IDS=["knight","mage","priest"];            // v0.10 이전 세이브의 기본 3인
 const JOIN_ORDER=["knight","priest","mage","rogue","fighter","gunner","bard","archer","lancer"];  // 동료 합류 순서: 앞의 2명은 시작 때, 나머지는 황혼의 챕터를 하나 깰 때마다 한 명씩
 // v0.26 동료 합류 시점: 주인공을 뺀 합류 순서의 3번째부터 — 황혼(난이도 1) 이 지역을 깨면 합류. 나중에 직업이 늘면 [난이도, 지역]을 이어 붙인다
@@ -5133,6 +5148,7 @@ function skillSpec(sid,sx){
       if(s.coatAfter) R("etc",`다음 ${s.coatAfter}번 공격에 독 1중첩씩`);
       if(s.mpGain) R("etc",`내 마나 +${s.mpGain}`);
       { const hf=hitFallOf(s); if(hf) R("etc",`같은 적을 거듭 맞히면 그 적에게는 한 발 피해가 100%·${100-Math.round(hf*100)}%·${100-Math.round(hf*200)}%…로 줄어듦(최소 40%) — 적이 많을수록 유리`); }
+      if(s.limit) R("etc",`전투당 ${s.limit}번까지`);
       if(s.mpShare) R("etc",`마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 ${Math.round((s.mpShare+(s.mpSharePct||0)/100)*100)}% 회복`);
       if(s.hpCost) R("etc",`마나 대신 최대 체력의 ${P(s.hpCost)}% 소모 (체력 20% 이하면 못 씀)`);
       break; }
@@ -5554,6 +5570,7 @@ class Sim {
     if(u.mp<this.mpCost(u,skill)){ if(!(u.traits&&u.traits.blood_cast&&(skill.id==="kn_slam"||skill.id==="kn_final")&&this.hpPct(u)>20)) return false; }
     const st=skill.type;
     if(st==="damage"&&!this.resolveTargets(u,skill,0).length) return false;
+    if(skill.limit&&((u._uses||{})[skill.id||skill.name]||0)>=skill.limit) return false;   // v0.93 전투당 횟수 제한
     if(st==="heal") return skill.needHp?this.allies(u).some(a=>this.hpPct(a)<=skill.needHp):this.allies(u).some(a=>a.hp<a.hp_max);
     if(st==="revive") return this.deadAllies(u).length>0;
     if(st==="restore_mp") return u.mp<u.mp_max;
@@ -6427,6 +6444,7 @@ class Sim {
     if(u.traits.free_cast&&skill.mp>0&&this.rand()<0.3)
       fx.push({target:u.id,kind:"buff",label:"마력 환류(마나 소모 없음)",amount:0,crit:false,killed:false,hp:u.hp,mp:u.mp});
     else u.mp=Math.max(0,u.mp-this.mpCost(u,skill));
+    if(skill.limit){ u._uses=u._uses||{}; const k=skill.id||skill.name; u._uses[k]=(u._uses[k]||0)+1; }
     // v0.26 직업 자원 소모(탄·기세·공명)
     const momB=u._mom, resB=u._res, ammoB=u._ammo, aimB=u._aim;
     let spent=0;
@@ -6888,7 +6906,7 @@ class Sim {
           this.events.push({type:"regen",target:u.id,amount:sv,hp:u.hp,mp:u.mp,label:"매 턴 회복"});
         }
         if(this.hasPassive(u,"regen5")&&u.hp<u.hp_max){
-          const rv=Math.max(1,Math.floor(u.hp_max*0.05)); u.hp=Math.min(u.hp_max,u.hp+rv);
+          const rv=Math.max(1,Math.floor(u.hp_max*((u.isBossKind||u.boss)?0.02:0.05)));   // v0.93 보스·우두머리의 '재생'은 매 턴 2%(체력이 큰 보스에 5%면 사실상 못 잡음) u.hp=Math.min(u.hp_max,u.hp+rv);
           this.events.push({type:"regen",target:u.id,amount:rv,hp:u.hp,mp:u.mp,label:"재생"});
         }
         if(u.buffs.stealth&&u.traits.veil_regen){
@@ -6896,7 +6914,7 @@ class Sim {
             this.events.push({type:"regen",target:u.id,amount:hv,hp:u.hp,mp:u.mp,label:"그림자 휴식"}); }
           u.mp=Math.min(u.mp_max,u.mp+5);
         }
-        if(u.side==="party"&&u.hpRegenPct>0&&u.hp<u.hp_max){ const hv=Math.max(1,Math.round(u.hp_max*u.hpRegenPct)); u.hp=Math.min(u.hp_max,u.hp+hv); this.events.push({type:"regen",quiet:true,target:u.id,amount:hv,hp:u.hp,mp:u.mp}); }   // v0.90 매 턴 체력 회복(소량, 숫자 표시 없음)
+        if(u.side==="party"&&u.hpRegen>0&&u.hp<u.hp_max){ const hv=Math.min(u.hpRegen,u.hp_max-u.hp); u.hp=Math.min(u.hp_max,u.hp+hv); this.events.push({type:"regen",quiet:true,target:u.id,amount:hv,hp:u.hp,mp:u.mp}); }   // v0.90 매 턴 체력 회복(소량, 숫자 표시 없음)
         const rg=(u.side==="party"&&u.mp_max>0?(u.mpRegen!=null?u.mpRegen:MP_REGEN_BASE)*((u.wil18&&this.mpPct(u)<30)?2:1):0)+   /* v0.93 매 턴 마나 회복은 정수 능력치(mpRegenOf) */ (this.hasPassive(u,"mana3")?3:0)+((u.traits&&u.traits.mp_regen)||0)   // v0.92 집중된 마나: 매 턴 마나 +3
           +((u.traits&&u.traits.meditate&&this.mpPct(u)<50)?12:0)
           +(u.side==="enemy"&&u.mp_max>0?Math.ceil(u.mp_max*ENEMY_MP_REGEN):0);   // 적도 매 턴 마나 회복 → 보스·정예가 특기를 꾸준히 씀
@@ -7036,7 +7054,7 @@ function heroDerived(cid){
     heal: g("heal")/100 + tr.heal_pct + (tr.heal||0)/100,
     shieldp: 0,
     mpRegen: mpRegenOf(cid,h.level,P),   // v0.93 매 턴 마나 회복(정수)
-    hpRegenPct: Math.max(0,(CLASS_REGEN[cid]||CLASS_REGEN.knight).hp + 0.0005*(P.con-10)),   // v0.90 매 턴 체력 회복(소량)
+    hpRegen: hpRegenOf(cid,h.level,P),   // v0.93 매 턴 체력 회복(정수 — 마나와 같은 방식)
     regen: g("regen") + tr.mp_regen,
     luck: P.luk,
   };
@@ -7780,7 +7798,7 @@ function buildHeroUnit(cid){
     const u=makeUnit(cid,`${tt?"["+tt.name+"] ":""}${heroDisplayName(cid)} Lv.${progress.heroes[cid].level}`,"party",heroRow(cid),
       d.stats,classSkills(cid),partyRules[cid].map(r=>({...r})),c.passive,c.sprite,false,d.procs);
     if(a&&a.passive&&(progress.heroes[cid].level||0)>=ADV_PASSIVE_LV) u.passives=[a.passive];
-    { const P=heroPrim(cid); u._str18=P.str>=STAT_CAP; u._int18=P.int>=STAT_CAP; u._con18=P.con>=STAT_CAP; u.wil18=P.wil>=STAT_CAP; u._agi18=P.agi>=STAT_CAP; u._luk18=P.luk>=STAT_CAP; u.mpRegen=d.stats.mpRegen; u.hpRegenPct=d.stats.hpRegenPct; }   // v0.89 18 특혜   // v0.88 전직 패시브는 Lv14부터
+    { const P=heroPrim(cid); u._str18=P.str>=STAT_CAP; u._int18=P.int>=STAT_CAP; u._con18=P.con>=STAT_CAP; u.wil18=P.wil>=STAT_CAP; u._agi18=P.agi>=STAT_CAP; u._luk18=P.luk>=STAT_CAP; u.mpRegen=d.stats.mpRegen; u.hpRegen=d.stats.hpRegen; }   // v0.89 18 특혜   // v0.88 전직 패시브는 Lv14부터
     u.traits=d.traits; u.wtype=d.wtype; u.condAffixes=d.conds; u.gx={}; for(const a of d.conds) if(a.k!=="c_sk") u.gx[a.k.slice(2)]=(u.gx[a.k.slice(2)]||0)+a.v;
     u.unlocks=d.unlocks; u.engraves=d.engraves.map(e=>({key:e,cd:0}));   // v0.44 장비 옵션 합계(u.gx)
     u.cls=cid; Object.assign(u,d.res); u.look=heroLook(cid); u.lane=heroLane(cid);
@@ -12096,13 +12114,13 @@ function renderEquip(){
 function primPreview(cid,add,D0){ const h=progress.heroes[cid], keep=h.alloc; h.alloc=Object.assign({},keep); for(const k in add) h.alloc[k]=(h.alloc[k]||0)+add[k];
   let D1; try{ D1=heroDerived(cid); } finally{ h.alloc=keep; }
   const a=D0.stats, b=D1.stats, out=[], P=x=>pct(x)+"%";
-  const rows=[["공격력",a.atk,b.atk],["체력",a.hp,b.hp],["방어력",a.def,b.def],["마나",a.mp,b.mp],["턴당 마나 회복",a.mpRegen+(a.regen||0),b.mpRegen+(b.regen||0)],["신속",a.spd,b.spd],
+  const rows=[["공격력",a.atk,b.atk],["체력",a.hp,b.hp],["방어력",a.def,b.def],["마나",a.mp,b.mp],["턴당 체력 회복",a.hpRegen||0,b.hpRegen||0],["턴당 마나 회복",a.mpRegen+(a.regen||0),b.mpRegen+(b.regen||0)],["신속",a.spd,b.spd],
     ["치명타 확률",P(a.crit),P(b.crit)],["치명타 피해",P(a.critdmg),P(b.critdmg)],["명중",P(a.acc),P(b.acc)],["회피",P(a.eva),P(b.eva)],["관통",P(a.pen),P(b.pen)],["상태이상 저항",P(a.res),P(b.res)],["치유량",P(a.heal),P(b.heal)]];
   for(const r of rows) if(String(r[1])!==String(r[2])) out.push(r);
   const dc=(D1.traits.dmg_cut||0)-(D0.traits.dmg_cut||0); if(Math.abs(dc)>1e-9) out.push(["받는 피해 감소",((D0.traits.dmg_cut||0)*100).toFixed(1)+"%",((D1.traits.dmg_cut||0)*100).toFixed(1)+"%"]);
   return out; }
 function secGrid(d){
-  const P=[["공격력"+(d.caster?"(마력)":""),d.atk],["체력",d.hp],["방어력",d.def],["마나",d.mp],["턴당 마나 회복",(d.mpRegen||0)+(d.regen||0)],["신속 (행동 순서)",d.spd],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],
+  const P=[["공격력"+(d.caster?"(마력)":""),d.atk],["체력",d.hp],["방어력",d.def],["마나",d.mp],["턴당 체력 회복",d.hpRegen||0],["턴당 마나 회복",(d.mpRegen||0)+(d.regen||0)],["신속 (행동 순서)",d.spd],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],
     ["명중",pct(d.acc)+"%"],["회피",pct(d.eva)+"%"],["관통",pct(d.pen)+"%"],["흡혈",pct(d.ls)+"%"],["상태이상 저항",pct(d.res)+"%"]];
   if(d.heal) P.push(["치유량",(d.heal>=0?"+":"")+pct(d.heal)+"%"]);
   // v0.19: 상한이 있는 능력치는 마우스를 올리면 상한을 보여 주고, 상한에 닿으면 '최대'로 표시(더 올려도 소용없음)
@@ -14097,11 +14115,33 @@ function openModal(html,cls){
 }
 function closeModal(){ const m=$("modal"); if(m) m.remove(); }
 let creationCancel=null;
-function showCreation(mode){
+// v0.93 새 게임: ① 9직업 중 함께 시작할 셋 고르기(누르면 기본 설명·전직 둘이 나옴) → ② 그 셋 중 주인공과 이름
+function pickStartTrio(){
+  return new Promise(res0=>{ const pick=[]; let view=null; const res=v=>{ creationCancel=null; res0(v); }; creationCancel=()=>{ closeModal(); res(null); };
+    const card=cid=>{ const c=CLASSES[cid]; return `<button class="ccard" data-c="${cid}"><img src="${SPRITES[c.sprite]}" alt=""><span class="cn">${esc(c.name)}</span><span class="crole">${esc(c.role||"")}</span><span class="cpk"></span></button>`; };
+    const m=openModal(`<h2>함께 밤을 걸을 셋을 고르세요</h2>
+      <p class="msub">아홉 직업 중 처음부터 함께할 셋을 고릅니다. 다음 화면에서 그중 한 명이 '나'(주인공)가 됩니다. 고르지 않은 여섯은 황혼의 장을 하나씩 깰 때마다 한 명씩 합류합니다.</p>
+      <div class="ccards c9">${CLASS_IDS.map(card).join("")}</div><div class="cdet" id="tdet"></div>
+      <div class="cfoot"><div class="cname"><button id="tgo" class="btn" disabled>이 셋으로 — 다음</button></div><p class="mhint" id="thint">직업을 누르면 설명이 나와요. (0/3)</p></div>`,"creator");
+    const det=m.querySelector("#tdet"), go=m.querySelector("#tgo"), hint=m.querySelector("#thint");
+    const upd=()=>{ for(const x of m.querySelectorAll(".ccard")){ const c=x.dataset.c, i=pick.indexOf(c); x.classList.toggle("on",i>=0); x.classList.toggle("view",c===view); x.querySelector(".cpk").textContent=i>=0?`✓ ${i+1}`:""; }
+      go.disabled=pick.length!==3;
+      if(view){ const c=CLASSES[view], st=c.stats, inP=pick.includes(view), full=pick.length>=3&&!inP;
+        det.innerHTML=`<div class="tdh"><b>${esc(c.name)}</b> <span class="crole">${esc(c.role||"")}</span><button class="btn${inP?" ghost":""}" id="ttog" ${full?"disabled":""}>${inP?"빼기":full?"셋이 다 찼어요":"이 영웅 고르기"}</button></div>
+          <p class="cp">${esc(c.pitch||"")}</p><p class="cst">체력 ${st.hp} · 공격 ${st.atk} · 마나 ${st.mp} · 신속 ${st.spd}</p>
+          <p class="tadvh">전직 (Lv.${ADV_LEVEL}에 둘 중 하나)</p>${(ADV[view]||[]).map(a=>`<p class="tadv"><b>${esc(a.name)}</b> — ${esc(a.desc||"")}${a.passive_name?` <span class="tpas">· ${esc(a.passive_name)}</span>`:""}</p>`).join("")}`;
+        const t=det.querySelector("#ttog"); t.onclick=()=>{ const i=pick.indexOf(view); if(i>=0) pick.splice(i,1); else if(pick.length<3) pick.push(view); upd(); }; }
+      else det.innerHTML="";
+      hint.textContent=pick.length===3?`${pick.map(c=>CLASSES[c].name).join(" · ")} — 다음 화면에서 주인공을 고릅니다`:`직업을 누르면 설명이 나와요. (${pick.length}/3)`; };
+    for(const b of m.querySelectorAll(".ccard")) b.onclick=()=>{ view=b.dataset.c; upd(); };
+    go.onclick=()=>{ if(pick.length!==3) return; closeModal(); res(pick.slice()); };
+  });
+}
+function showCreation(mode,trio){
   return new Promise(res0=>{
     const res=v=>{ creationCancel=null; res0(v); };
     creationCancel=()=>{ closeModal(); res(null); };
-    const ids=mode==="new"?STARTER_IDS.slice():rosterIds();
+    const ids=mode==="new"?(trio||STARTER_IDS).slice():rosterIds();
     let pick=null;
     const card=cid=>{ const c=CLASSES[cid], st=c.stats, h=progress.heroes[cid];
       const advs=(ADV[cid]||[]).map(a=>a.name).join(" / ");
@@ -14111,7 +14151,7 @@ function showCreation(mode){
         +`<span class="cst">체력 ${st.hp} · 공격 ${st.atk} · 마나 ${st.mp} · 신속 ${st.spd}</span>`
         +(advs?`<span class="cadv">전직(Lv.${ADV_LEVEL}): ${esc(advs)}</span>`:"")+`</button>`; };
     const m=openModal(`<h2>${mode==="new"?"당신은 누구입니까?":"주인공을 정해 주세요"}</h2>
-      <p class="msub">${mode==="new"?"함께 밤을 걸을 '나'를 고르세요(검사·성직자·마법사·도적 중 하나). 남은 셋 중 둘은 다음 화면에서 직접 골라 바로 동료로 데려가고, 나머지 하나와 권사·총사·음유시인·궁수·창술사는 황혼 1~6장을 하나씩 깰 때마다 한 명씩 합류합니다.":"이제 파티에 '주인공'이 있습니다. 지금 영웅 중 당신의 분신을 고르고 이름을 지어 주세요. 레벨·장비·진행은 그대로입니다."}</p>
+      <p class="msub">${mode==="new"?"고른 셋 중 '나'(주인공)를 고르세요. 나머지 둘은 바로 동료로 함께 출발하고, 고르지 않은 여섯 직업은 황혼의 장을 하나씩 깰 때마다 한 명씩 합류합니다.":"이제 파티에 '주인공'이 있습니다. 지금 영웅 중 당신의 분신을 고르고 이름을 지어 주세요. 레벨·장비·진행은 그대로입니다."}</p>
       <div class="ccards">${ids.map(card).join("")}</div>
       <div class="cfoot"><div class="cname"><label for="cnameIn">이름</label><input id="cnameIn" maxlength="8" placeholder="최대 8자" autocomplete="off"><button id="cdice" title="무작위 이름" aria-label="무작위 이름">🎲</button><button id="cgo" class="btn" disabled>${mode==="new"?"이 모습으로 시작":"주인공으로 정하기"}</button></div>
       <p class="mhint" id="chint">직업을 고르세요.</p></div><div class="cdet" id="cdet"></div>`, "creator");
@@ -14141,7 +14181,7 @@ function pickStartMates(protagCid){
     go.onclick=()=>{ if(pick.length!==2) return; closeModal(); res(pick.slice()); };
   });
 }
-// 합류 순서: 시작 때 고른 둘 → 고르지 않은 쉬운 직업 → 나머지(JOIN_ORDER)
+// 합류 순서: 시작 때 고른 둘 → 나머지(JOIN_ORDER 순서)
 function joinOrderFor(pr){ const pc=pr.protag&&pr.protag.cid, base=JOIN_ORDER.filter(c=>c!==pc), sp=(pr.startPick||[]).filter(c=>base.includes(c)); return [...sp,...base.filter(c=>!sp.includes(c))]; }
 function isFreshProgress(pr){
   return !(CLASS_IDS.some(c=>((pr.heroes||{})[c]||{}).level>1)||(pr.gold||0)>0||(pr.inv||[]).length
@@ -14162,7 +14202,8 @@ async function maybeOnboard(){
     }
     if(needHero){
       if(progress.protag){ return; }            // 그사이 다른 기기 진행이 들어옴
-      const r=await showCreation(fresh?"new":"assign");
+      let trio=null; if(fresh){ trio=await pickStartTrio(); if(!trio||progress.protag) return; }   // v0.93 9직업 중 셋
+      const r=await showCreation(fresh?"new":"assign",trio);
       if(!r||progress.protag) return;           // 생성 취소(클라우드 진행 도착)
       progress.protag=r;
       if(fresh){ progress.roster=[r.cid]; progress.party=[r.cid]; TUT.begin(); }   // v0.33: 소개 대사 중 새로 고침해도 튜토리얼이 남게 — 처음 저장하기 전에
@@ -14173,7 +14214,7 @@ async function maybeOnboard(){
         const intro=["접수원: 「{나} 님이시군요. 등록 끝났어요. …그런데 혼자 가시려고요?」", "접수원: 「혼자서는 첫 의뢰도 못 버텨요. 마침 파티를 찾던 분들이 계세요. 잠깐만요.」"];
         for(const l of intro) logLine(`<span class="story">${esc(l)}</span>`);
         await showNarration(intro);
-        const mates=await pickStartMates(r.cid); progress.startPick=mates.slice(); saveProgress();
+        const mates=trio.filter(c=>c!==r.cid); progress.startPick=mates.slice(); saveProgress();   // v0.93 고른 셋 중 주인공이 아닌 둘
         for(const c of mates){
           progress.roster.push(c); progress.party.push(c); goCamp();
           const C=CLASSES[c];
