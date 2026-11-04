@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793821892298"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793822662481"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -7017,7 +7017,7 @@ function heroWeaponType(cid){ const w=heroEquipTotals(cid).wtype; return w&&WEAP
 function heroTitleObj(cid){ const h=progress.heroes[cid]; return h.title?TITLES.find(t=>t.key===h.title)||null:null; }
 // v0.36: 장비(세트·유물·신화·무기)에서 오는 특수 효과 — 특성과 겹치면 하나는 효과가 없으므로 미리 알려 줌
 function gearFlags(cid){ const E=heroEquipTotals(cid), out={};
-  for(const [k,n] of Object.entries(E.sets||{})){ const S=SETS[k]; if(!S) continue; for(const [b,need] of [["b4",4],["b6",6]]) if(n>=need) for(const f of [].concat(S[b].eff.flag||[])) out[f]=`${S.name} 세트 ${need}`; }
+  for(const [k,n] of Object.entries(E.sets||{})){ const S=SETS[k]; if(!S) continue; for(const [need,B] of setBonuses(S)) if(n>=need&&B&&B.eff) for(const f of [].concat(B.eff.flag||[])) out[f]=`${S.name} 세트 ${need}`; }
   if(E.relic&&RELICS[E.relic]){ if(RELICS[E.relic].flag) out[RELICS[E.relic].flag]=RELICS[E.relic].name; if(E.relicSt>=3&&RELIC_AWAKE[E.relic]) out[RELIC_AWAKE[E.relic].flag]=RELICS[E.relic].name+" ★3"; }
   if(E.mythic&&MYTHIC[E.mythic]) for(const f of MYTHIC[E.mythic].flags) out[f]=MYTHIC[E.mythic].name;
   const W=WEAPONS[heroWeaponType(cid)]; for(const f of ((W&&W.mods&&W.mods.flags)||[])) out[f]=W.name;
@@ -8319,6 +8319,9 @@ function partyScaleEnemies(enemies,n,base,egMode){
   return enemies;
 }
 
+/* v0.93 무작위 다단 기술(hits — 불새·화살비 등, 앞으로 생기는 것도)은 같은 적을 거듭 맞힐 때 줄어듦. 기술마다 hitFall로 따로 정할 수 있고(0이면 안 줄어듦), 없으면 10%씩 */
+function hitFallOf(s){ return !s||!(s.hits>1)?0:s.hitFall!=null?s.hitFall:0.1; }   // v0.93 엔진 쪽으로(봇이 UI 앞까지만 읽음)
+const PARRY_BOSS_CUT=0.5;   // v0.93 되받아치기: 보스·우두머리 근접 공격은 막지 못하고 피해 -50%
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
@@ -13431,9 +13434,6 @@ async function runBattle(z){
   setMainBtn();
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-/* v0.93 무작위 다단 기술(hits — 불새·화살비 등, 앞으로 생기는 것도)은 같은 적을 거듭 맞힐 때 줄어듦. 기술마다 hitFall로 따로 정할 수 있고(0이면 안 줄어듦), 없으면 10%씩 */
-const PARRY_BOSS_CUT=0.5;   // v0.93 되받아치기: 보스·우두머리 근접 공격은 막지 못하고 피해 -50%
-function hitFallOf(s){ return !s||!(s.hits>1)?0:s.hitFall!=null?s.hitFall:0.1; }
 /* v0.93 아직 닿지 않은 공격(투사체·돌진)이 남아 있으면 기다림 — '매우 빠르게'에서 마지막 한 방이 화면에 닿기도 전에 전투가 끝나
    적이 살아 있는 채로 다음 구역으로 넘어가거나 막이 클리어되어 보이던 문제(전투 결과 자체는 시뮬레이션대로 맞음) */
 let hitPend=0;
