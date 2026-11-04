@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793810199883"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793812030960"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1506,7 +1506,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
-v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 의뢰는 장마다 꼭 필요한 이야기 막(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있고, 황혼에서 그 막을 처음 깨러 들어갈 때 의뢰를 받아야 합니다(입장할 때 의뢰 창 → [의뢰 받고 출발]). 돌파 뒤 보고하면 이야기와 보상(그 장 몹 5마리분 경험치·골드, 5막은 12마리분 + 밤의 정수 + 희귀 장비 1개)을 받고 다음 메인 의뢰가 열립니다. 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막 우두머리 이야기(그 막 우두머리 쓰러뜨리기)와 막마다 몹 잡기 부탁으로, 그 막이 열려 있으면 받고 반복 사냥하며 채웁니다. <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율)이고, 난이도가 오르면 1장 보스부터 앞 난이도 10장 보스보다 체력 1.25배 이상 셉니다. <b>최종 콘텐츠:</b> 밤의 심연 1층 · 낙성 강림 1단계의 일반 몹을 영원한 밤 10장 일반 몹의 1.05배로 맞췄습니다(그 위로 층·단계마다 오르는 비율은 그대로). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로). 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%→70% · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 맞추되, 보스 공격은 그 장 일반 몹 평균의 1.2배 아래로는 내려가지 않습니다. 자정 장 보스 체력 배율 2.1 → 2.6. <b>새 게임:</b> 주인공은 검사·성직자·마법사·도적 중 하나 — 남은 셋 중 함께 출발할 동료 둘을 직접 고르고, 고르지 않은 한 명은 황혼 1장을 깨면 합류합니다. <b>마나:</b> 매 턴 마나 회복을 '최대 마나의 %'에서 정수 능력치로 바꿔 소수점이 생기지 않습니다 — 기본 2 + 직업마다 정해진 레벨마다 +1(마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20레벨마다) + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 마나 +N'. 예전 비율 회복과 레벨별 평균이 같게 맞췄습니다(예: 마법사 Lv1 2 · Lv10 4 · Lv25 8 · Lv40 11). 파티 탭 '전투 능력치'에 '턴당 마나 회복'이 보입니다. <b>능력치 찍기:</b> 능력치를 누르면 효과가 나오고, ▲▼로 넣을 점수를 정하면 바뀌는 전투 능력치(예: 마나 70 → 82 · 턴당 마나 회복 2 → 3)를 미리 보여 주며, [확인]을 눌러야 확정됩니다(모바일에서도 같은 방식). <b>그 밖:</b> 동료도 Lv10이 되면 전직을 직접 고릅니다(영웅 버튼에 ⭐전직 · 파티 탭 숫자에 포함). 던전 중 레벨업하면 그 영웅의 체력·마나가 가득 찹니다. 적도 영웅과 같은 자리(앞줄 3 · 뒷줄 3)에 서고, 가로줄마다 엇갈리던 배치를 없애 앞줄·뒷줄이 세로 한 줄로 보입니다. 기술 설명에 '앞줄(세로 한 줄) 전체 — 앞줄이 모두 쓰러졌으면 뒷줄 전체', 근접 대상 규칙을 적었습니다. 구역·전투마다 무대를 다시 불러 끊기고 날씨(비)가 바뀌던 문제를 고쳤습니다. 창술사 '창 찌르기'가 던지는 모습으로 나오던 문제(같은 이름의 적 기술로 잘못 읽음)를 고치고, 창은 찌르기 · 활은 화살 · 던지는 창은 창 · 방패 치기는 묵직한 타격으로 보입니다. 빙결(얼음빛·멈춤) · 기절(흔들림) · 화상 · 독 · 냉기 · 약화 · 취약이 유닛 모습에 보입니다. 전투 중 쓰러진 영웅은 그 전투의 경험치를 받지 못합니다(살아 있는 영웅만 받음). 전투 뒤 전리품 창은 5초 뒤 저절로 닫히고(마우스를 올리면 멈춤), 창 바깥을 누르면 바로 닫힙니다. <b>기술 강화 마나:</b> 특성의 기술 보정(피해·지속·효과 등) 하나 · 숙련 변형 하나 · 숙달마다 그 기술의 마나 비용이 기본의 10%씩 늘어납니다(정수 올림 · 마나를 줄이거나 돌려주는 선택은 빼고 셈) — 강하게 키운 기술일수록 마나를 더 씀. 기술 설명의 마나 숫자에 그대로 반영됩니다. <b>마나 흡수(마법사):</b> 내 마나 +15 대신, 마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 20%를 회복합니다(특성의 '마나 흡수 +N'은 +N%p로). <b>무작위 다단 기술(불새·화살비 등):</b> 같은 적을 거듭 맞히면 그 적에게는 기술에 정해진 한 발 피해(예: 불새 80%)의 100% · 90% · 80% …로 줄어듭니다(최소 40% — 불새 4발이 한 적에 모두 맞으면 80+72+64+56%). 적이 많아 흩어지면 그대로이고, 앞으로 생기는 무작위 다단 기술도 같습니다(완드 마력탄 2발은 무기 특성이라 제외). 오라·망토의 움직임도 전투 속도를 따라 빨라집니다(매우 빠르게 ≈ 4.4배). <b>📊 딜미터기:</b> 전장 오른쪽 '딜미터' 단추 — 이번 전투에서 영웅마다 주는 피해 · 치유 · 보호막 · 받은 피해를 막대로 보여 주고, 이름을 누르면 기술별로 나눠 보여 줍니다. 전투 중엔 화면에 나온 만큼 실시간으로, 끝나면 다음 전투 전까지 그대로 남습니다. <b>전설 직업 전용 효과:</b> 직업마다 3개(고정 수치)였던 것을 기본 기술 + 두 전직의 대표 기술까지 10~12개로 넓히고, 수치는 장비마다 범위 안에서 무작위로 나옵니다(예: 내려찍기 피해 +20~40% · [대마법사] 불새 화상 확률 +10~25%p · [대마법사] 비전 과부하 효과 +5~15%p · 매 턴 마나 +2~4). 장비 설명에 범위가 함께 보입니다. 예전에 얻은 전설 장비는 예전 고정 수치 그대로입니다. 전직 이름이 붙은 효과는 그 전직의 기술을 쓸 때만 효과가 있습니다. <b>고친 것:</b> 3장 3막 '영주의 수문'에서 물 파문을 그리다 오류가 나 무대 그리기가 매 장 멈추던 문제(비가 보였다 안 보였다 하고 끊기던 원인)를 고쳤고, 무대 그리기에 오류가 나도 효과 그리기가 멈추지 않게 했습니다. '매우 빠르게'에서 마지막 한 방(투사체·돌진)이 닿기 전에 전투가 끝나 적이 살아 있는 채로 다음 구역으로 넘어가거나 클리어되어 보이던 문제 — 이제 남은 공격이 닿고 쓰러지는 모습까지 보여 준 뒤 끝납니다(전투 결과 자체는 원래도 계산대로였음). 던전 탭 아래 기술 정보와 막 단추·구역 줄에서 아직 만나지 않은 중간보스도 ???로 가립니다(그 막 끝 전투에 들어가거나 그 막을 깨면 공개). 가방에서 여러 개 골라 판매·분해를 마치면 원래 가방 화면으로 돌아갑니다.<br>
+v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 의뢰는 장마다 꼭 필요한 이야기 막(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있고, 황혼에서 그 막을 처음 깨러 들어갈 때 의뢰를 받아야 합니다(입장할 때 의뢰 창 → [의뢰 받고 출발]). 돌파 뒤 보고하면 이야기와 보상(그 장 몹 5마리분 경험치·골드, 5막은 12마리분 + 밤의 정수 + 희귀 장비 1개)을 받고 다음 메인 의뢰가 열립니다. 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막 우두머리 이야기(그 막 우두머리 쓰러뜨리기)와 막마다 몹 잡기 부탁으로, 그 막이 열려 있으면 받고 반복 사냥하며 채웁니다. <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율)이고, 난이도가 오르면 1장 보스부터 앞 난이도 10장 보스보다 체력 1.25배 이상 셉니다. <b>최종 콘텐츠:</b> 밤의 심연 1층 · 낙성 강림 1단계의 일반 몹을 영원한 밤 10장 일반 몹의 1.05배로 맞췄습니다(그 위로 층·단계마다 오르는 비율은 그대로). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로). 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%→70% · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 맞추되, 보스 공격은 그 장 일반 몹 평균의 1.2배 아래로는 내려가지 않습니다. 자정 장 보스 체력 배율 2.1 → 2.6. <b>새 게임:</b> 주인공은 검사·성직자·마법사·도적 중 하나 — 남은 셋 중 함께 출발할 동료 둘을 직접 고르고, 고르지 않은 한 명은 황혼 1장을 깨면 합류합니다. <b>마나:</b> 매 턴 마나 회복을 '최대 마나의 %'에서 정수 능력치로 바꿔 소수점이 생기지 않습니다 — 기본 2 + 직업마다 정해진 레벨마다 +1(마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20레벨마다) + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 마나 +N'. 예전 비율 회복과 레벨별 평균이 같게 맞췄습니다(예: 마법사 Lv1 2 · Lv10 4 · Lv25 8 · Lv40 11). 파티 탭 '전투 능력치'에 '턴당 마나 회복'이 보입니다. <b>능력치 찍기:</b> 능력치를 누르면 효과가 나오고, ▲▼로 넣을 점수를 정하면 바뀌는 전투 능력치(예: 마나 70 → 82 · 턴당 마나 회복 2 → 3)를 미리 보여 주며, [확인]을 눌러야 확정됩니다(모바일에서도 같은 방식). <b>그 밖:</b> 동료도 Lv10이 되면 전직을 직접 고릅니다(영웅 버튼에 ⭐전직 · 파티 탭 숫자에 포함). 던전 중 레벨업하면 그 영웅의 체력·마나가 가득 찹니다. 적도 영웅과 같은 자리(앞줄 3 · 뒷줄 3)에 서고, 가로줄마다 엇갈리던 배치를 없애 앞줄·뒷줄이 세로 한 줄로 보입니다. 기술 설명에 '앞줄(세로 한 줄) 전체 — 앞줄이 모두 쓰러졌으면 뒷줄 전체', 근접 대상 규칙을 적었습니다. 구역·전투마다 무대를 다시 불러 끊기고 날씨(비)가 바뀌던 문제를 고쳤습니다. 창술사 '창 찌르기'가 던지는 모습으로 나오던 문제(같은 이름의 적 기술로 잘못 읽음)를 고치고, 창은 찌르기 · 활은 화살 · 던지는 창은 창 · 방패 치기는 묵직한 타격으로 보입니다. 빙결(얼음빛·멈춤) · 기절(흔들림) · 화상 · 독 · 냉기 · 약화 · 취약이 유닛 모습에 보입니다. 전투 중 쓰러진 영웅은 그 전투의 경험치를 받지 못합니다(살아 있는 영웅만 받음). 전투 뒤 전리품 창은 5초 뒤 저절로 닫히고(마우스를 올리면 멈춤), 창 바깥을 누르면 바로 닫힙니다. <b>기술 강화 마나:</b> 특성의 기술 보정(피해·지속·효과 등) 하나 · 숙련 변형 하나 · 숙달마다 그 기술의 마나 비용이 기본의 10%씩 늘어납니다(정수 올림 · 마나를 줄이거나 돌려주는 선택은 빼고 셈) — 강하게 키운 기술일수록 마나를 더 씀. 기술 설명의 마나 숫자에 그대로 반영됩니다. <b>마나 흡수(마법사):</b> 내 마나 +15 대신, 마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 20%를 회복합니다(특성의 '마나 흡수 +N'은 +N%p로). <b>세트 장비 개편:</b> 세트마다 4·5·6부위로 필요한 부위 수와 구성이 다릅니다(예: 무기·목걸이·반지·반지 / 투구·장갑·신발·망토 / 6부위 갑주) — 세트를 완성해도 나머지 칸은 전설로 채울 수 있음. 전직마다 2종씩 전직 세트 36종을 새로 넣었습니다(그 전직 특성 두 갈래의 큰 효과를 세트로도 얻음 — 예: [대마법사] 불새의 깃 5부위: 치명 +5% · 불새 화상 +10%p · 기술 20% 재시전). 예전 세트 8종은 4~6부위로 나눴고(철주먹 서약 4: 체력·추격 · 행진곡 4: 마나·대합창 — 예전 4세트 효과는 빠짐), 예전 조각은 그대로 셉니다. <b>되받아치기:</b> 보스·우두머리의 근접 공격은 다 막지 못하고 피해 -50%만(반격은 그대로) — 근접 보스를 혼자 피해 없이 잡던 문제. <b>무작위 다단 기술(불새·화살비 등):</b> 같은 적을 거듭 맞히면 그 적에게는 기술에 정해진 한 발 피해(예: 불새 80%)의 100% · 90% · 80% …로 줄어듭니다(최소 40% — 불새 4발이 한 적에 모두 맞으면 80+72+64+56%). 적이 많아 흩어지면 그대로이고, 앞으로 생기는 무작위 다단 기술도 같습니다(완드 마력탄 2발은 무기 특성이라 제외). 오라·망토의 움직임도 전투 속도를 따라 빨라집니다(매우 빠르게 ≈ 4.4배). <b>📊 딜미터기:</b> 전장 오른쪽 '딜미터' 단추 — 이번 전투에서 영웅마다 주는 피해 · 치유 · 보호막 · 받은 피해를 막대로 보여 주고, 이름을 누르면 기술별로 나눠 보여 줍니다. 전투 중엔 화면에 나온 만큼 실시간으로, 끝나면 다음 전투 전까지 그대로 남습니다. <b>전설 직업 전용 효과:</b> 직업마다 3개(고정 수치)였던 것을 기본 기술 + 두 전직의 대표 기술까지 10~12개로 넓히고, 수치는 장비마다 범위 안에서 무작위로 나옵니다(예: 내려찍기 피해 +20~40% · [대마법사] 불새 화상 확률 +10~25%p · [대마법사] 비전 과부하 효과 +5~15%p · 매 턴 마나 +2~4). 장비 설명에 범위가 함께 보입니다. 예전에 얻은 전설 장비는 예전 고정 수치 그대로입니다. 전직 이름이 붙은 효과는 그 전직의 기술을 쓸 때만 효과가 있습니다. <b>고친 것:</b> 3장 3막 '영주의 수문'에서 물 파문을 그리다 오류가 나 무대 그리기가 매 장 멈추던 문제(비가 보였다 안 보였다 하고 끊기던 원인)를 고쳤고, 무대 그리기에 오류가 나도 효과 그리기가 멈추지 않게 했습니다. '매우 빠르게'에서 마지막 한 방(투사체·돌진)이 닿기 전에 전투가 끝나 적이 살아 있는 채로 다음 구역으로 넘어가거나 클리어되어 보이던 문제 — 이제 남은 공격이 닿고 쓰러지는 모습까지 보여 준 뒤 끝납니다(전투 결과 자체는 원래도 계산대로였음). 던전 탭 아래 기술 정보와 막 단추·구역 줄에서 아직 만나지 않은 중간보스도 ???로 가립니다(그 막 끝 전투에 들어가거나 그 막을 깨면 공개). 가방에서 여러 개 골라 판매·분해를 마치면 원래 가방 화면으로 돌아갑니다.<br>
 v0.92: <b>기술·패시브 전면 개편 · 새 직업 둘</b> — 기존 7직업의 기술을 모두 새로 만들었습니다(새 이름·새 효과). <b>새 직업:</b> 후열 <b>궁수</b>(연사 — 같은 적을 연달아 맞히면 한 발마다 피해 +2%, 최대 +20% · 전직 바람의 명궁·숲의 사냥꾼)와 전열 <b>창술사</b>(앞줄 적을 근접 공격하면 같은 가로줄 뒷줄 적에게도 40% · 전직 용기병·방진 수호자)가 황혼 5장 황금 도시·6장 붉은 사막을 깬 다음 차례로 동료로 합류하고, 새 게임에서 주인공으로도 고를 수 있습니다(모두 9직업 · 활·창 무기 3종씩). 직업마다 기본 기술 6개(갈래 3개 × 2개) + 전직마다 4개(대표 1 · 강화 2 · 다리 1). 전직하면 Lv10에 대표 기술 + 강화 1개, Lv16에 강화 1개 + 다리 기술. <b>기술 칸:</b> 전직 전 3칸 · 전직 후 4칸(기본공격은 칸 밖에서 저절로). <b>패시브:</b> 직업·전직 패시브를 모두 바꿨습니다(예: 검사 반격 본능 — 원거리 공격에도 25% 확률로 80% 반격 · 마법사 집중된 마나 — 매 턴 마나 +3 · 성직자 은총의 넘침 — 넘친 치유의 50%를 보호막으로). <b>음유시인:</b> 오라를 없앴습니다. 노래는 칸에 넣는 3턴 버프 기술이고, 같은 노래를 다시 부르면 3턴으로 돌아가며 다른 노래끼리는 함께 걸립니다. 내 노래가 걸려 있는 동안 매 턴 공명 +2. <b>총사:</b> 보통 사격 기술은 탄만(마나 0), 사격이 아닌 기술은 마나만, 표적탄·화약 상자는 탄과 마나 둘 다. 재장전 기술은 없어지고 탄이 0이면 그 턴 저절로 재장전. <b>권사:</b> 올려차기·공중 연타·회오리 발차기는 기세 2. 받는 피해를 줄이는 기술은 겹치지 않고 가장 큰 것 하나만 적용됩니다. <b>예전 저장:</b> 예전 기술로 짠 규칙은 규칙 표로 다시 짜고(직접 고친 규칙은 같은 역할의 새 기술로 옮김), 숙련·장비 기술 옵션·특성 연결도 새 기술로 옮겼습니다. 자동전투 조건 '내가 켠 오라가 없음'·'아군 오라가 켜져 있음'·'내 내공 15% 이상'은 없어졌습니다.
 v0.91: <b>적의 상태이상</b> — 몹마다 특기 상태이상(장마다 주제)이 생겼습니다. 한 번 맞힐 때 확률 황혼 10% · 자정 30% · 영원한 밤 50%, 한 전투에서 거는 몹은 1 · 2 · 3마리까지(보스·우두머리는 그 장의 특기 전부, 자정부터 정예도). 영원한 밤의 적은 상태이상 걸린 영웅에게 피해 +20%. 막는 법: 상태이상 저항 상한 75% → 70%, 장비 저항 옵션이 더 자주·더 크게(2~9, 예전 1~7), 수호의 노래·수호기사 철벽 저항 +15%p, 권사 호흡 고르기가 내 상태이상 하나를 풂, 성직자 정화. 일반 몹 기술에 따로 붙어 있던 화상·약화·기절은 특기 상태이상으로 바뀜(보스 기술은 그대로). 한 전투 몹 수: 자정 3~5 · 영원한 밤 4~5마리. <b>자동전투 규칙 표</b> — 동료 규칙·처음 규칙·전직 때 새 기술 자리를 한 표에서 정합니다(직업 × 전직 × 성향). '항상'은 맨 끝 칸만, 검사 도발·성직자 치유·소생·전직 대표 기술은 꼭 들어가고, 음유시인 오라는 하나만. 직접 고친 주인공 규칙은 그대로 둡니다. 연소는 화상 걸린 적이 있을 때만 씁니다.
 v0.90: <b>마나·회복 다시 짜기</b> — <b>회복:</b> 구역 사이 회복(10%)을 없애고, 매 턴 직업 기본값 + 체질(체력)·의지(마나)만큼 조금씩 회복합니다. 막 중간 쉼터는 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남). <b>마나:</b> 기술 비용은 최대 마나의 %가 아니라 정해진 숫자입니다(레벨이 오를수록 더 자주 씀). 권사·총사·음유시인의 기세·탄약·공명 기술도 마나를 씁니다. 최대 마나는 의지 1당 +4(지능은 마나에 영향 없음). 레벨업 때 마나는 직업마다 다른 기준값(마법사 7 · 도적 4 · 성직자 3.5 · 검사 3 · 권사·총사 2 · 음유시인 1.5, 의지 1당 +2%)의 80~120% 사이에서 무작위로 오릅니다. 장비의 마나 옵션 수치는 예전의 30%(예: 마나 +40 → +12). <b>장비 수준:</b> 난이도 안에서 1장 → 10장 +20%(난이도 사이 +30%는 그대로).
@@ -3141,7 +3141,8 @@ function battleRewards(zone,d,rk){
   const src=zone.boss?"boss":zone.mid||zone.named?"mid":els>0||zone.mobs.some(m=>m.chief)?"elite":"mob";
   const from=where+(zone.boss?"보스에게서":zone.named?"막 우두머리에게서":zone.mid?"중간보스에게서":src==="elite"?"정예에게서":"전투에서");
   const o={luck,src,d,from,lmAdd:zone.boss?LOOT_BOSS:0};   // v0.88 장 보스 장비는 2장 앞선 수준
-  if(sk&&setP&&Math.random()<setP) items.push(makeSetItem(sk,tier+1,zone.act?{slot:(L=>L[ri(0,L.length-1)])(ACT_SET_SLOTS[zone.act-1]||SET_SLOTS),from}:{from}));
+  if(sk&&setP&&Math.random()<setP){ const L=(ACT_SET_SLOTS[(zone.act||0)-1]||[]).filter(x=>SETS[sk].slots.includes(x)); items.push(makeSetItem(sk,tier+1,{slot:L.length?L[ri(0,L.length-1)]:null,from})); }   // 막마다 나오는 부위(그 세트에 없는 부위면 세트 부위 중 하나)
+  if(d>=1&&(zone.boss||zone.mid||zone.named)&&Math.random()<(zone.boss?ADV_SET_P[0]:ADV_SET_P[1])){ const who=(typeof runState!=="undefined"&&runState&&runState.party||[]).map(u=>u.id).filter(c=>advSetsFor(c).length); if(who.length){ const c=who[ri(0,who.length-1)], L=advSetsFor(c); items.push(makeSetItem(L[ri(0,L.length-1)],tier+1,{from})); } }   // v0.93 전직 세트: 자정·영원한 밤 보스 · 중간보스
   if(zone.boss&&d>=1&&Math.random()<0.15) items.push(makeSetItem(EG_SETS[ri(0,EG_SETS.length-1)],tier+1,{from}));   // v0.26 연계 세트
   if(zone.named){ items.push(makeItem(true,tier,o)); items.push(makeItem(true,tier,o)); }
   else if(zone.boss){ items.push(makeItem(true,tier,o)); if(Math.random()<0.5) items.push(makeItem(true,tier,o)); }
@@ -3432,29 +3433,85 @@ const ENGRAVES={
   e_smoke:  {cond:14, act:"blind_all",   text:"아군이 쓰러져 있음 → 적 전체 실명 (1턴)"},
   e_cleanse:{cond:24, act:"cleanse",     text:"내가 상태이상 중 → 상태이상 해제"},
 };
-// 세트 장비: 6부위(무기·갑옷·투구·장갑·신발·목걸이), 2/4/6 효과. 한 부위 = 1개 (v0.55.7: 목걸이 2개분 규칙 없앰 — 3개 끼고 4/6으로 보이던 혼란). 6세트는 '규칙을 바꾸는' 효과만
+// 세트 장비 v0.93: 세트마다 4·5·6부위, 부위 구성도 다름(장비 칸 10개 중 일부 — 나머지는 전설로). 4부위 2/4 · 5부위 2/3/5 · 6부위 2/4/6 효과.
+// 전직 세트는 전직마다 2개 — 그 전직의 특성 두 갈래(예: 불새·시간)의 큰 효과를 세트로도 얻을 수 있게(특성과 겹치면 하나는 효과 없음). 그 직업만 낄 수 있음.
+// 예전 세트 조각은 지금 세트 부위에 없어도 그 세트 개수로 셈(세트 부위 수까지)
+const SET_TPL={ A:["weapon","amulet","ring","ring"], B:["weapon","cape","armor","boots"], C:["helm","gloves","boots","cape"], D:["offhand","armor","amulet","ring"],
+  E:["weapon","offhand","gloves","ring","amulet"], F:["helm","armor","gloves","boots","cape"], G:["weapon","helm","cape","ring","ring"],
+  H:["weapon","helm","armor","gloves","boots","amulet"], I:["offhand","helm","armor","cape","ring","ring"], J:["weapon","gloves","boots","cape","amulet","ring"] };
+const SET_NOUN={weapon:"무기",offhand:"보조구",helm:"투구",armor:"갑옷",gloves:"장갑",boots:"신발",cape:"망토",ring:"반지",amulet:"목걸이"};
+const SB=(desc,eff)=>({desc,eff});
 const SETS={
-  moon:  {name:"달그림자", regions:["swamp","volcano"], pieces:{weapon:"달그림자 검",armor:"달그림자 망토갑",helm:"달그림자 두건",gloves:"달그림자 장갑",boots:"달그림자 신발",amulet:"달그림자 펜던트"},
-          b2:{desc:"체력 +8%",eff:{hp_pct:0.08}}, b4:{desc:"달빛 장막 — 전투 시작 시 2턴간 받는 피해 -30%",eff:{flag:"moon_veil"}}, b6:{desc:"그림자의 축복 — 전투 시작 시 은신(첫 공격 확정 치명타)",eff:{flag:"ambush"}}},
-  song:  {name:"깊은 노래", regions:["sunken","forest"], pieces:{weapon:"노래하는 지팡이",armor:"물결 로브",helm:"물결 관",gloves:"파도 장갑",boots:"물결 신발",amulet:"끊어진 현 목걸이"},
-          b2:{desc:"마나 +15%",eff:{mp_pct:0.15}}, b4:{desc:"매 턴 마나 +4, 스킬 피해 +10%",eff:{mp_regen:4,flag:"deep_song"}}, b6:{desc:"앙코르 — 스킬로 적을 처치하면 즉시 한 번 더 행동 (전투당 2회)",eff:{flag:"encore"}}},
-  ledger:{name:"황금 장부", regions:["gold","desert"], pieces:{weapon:"금화 망치",armor:"회계사의 조끼",helm:"회계사의 안경",gloves:"금화 장갑",boots:"장부 지기의 구두",amulet:"황금 인장"},
-          b2:{desc:"공격력 +6%",eff:{atk_pct:0.06}}, b4:{desc:"적을 처치할 때마다 전투 중 공격력 +6% (최대 5회)",eff:{flag:"gold_ledger"}}, b6:{desc:"결산 — 적을 처치하면 그 턴 한 번 더 행동 (전투당 3회)",eff:{flag:"ledger_act"}}},
-  sun:   {name:"태양의 잔해", regions:["temple","citadel"], pieces:{weapon:"검은 태양검",armor:"일식의 갑주",helm:"일식의 투구",gloves:"그을린 장갑",boots:"재의 신발",amulet:"그을린 성표"},
-          b2:{desc:"치명타 확률 +6%",eff:{crit:6}}, b4:{desc:"치명타를 맞힌 적에게 화상",eff:{flag:"sun_remnant"}}, b6:{desc:"일식 — 화상 상태의 적을 공격하면 치명타 확정",eff:{flag:"sun_crit"}}},
-  star:  {name:"별의 약속", regions:["throne","altar"], pieces:{weapon:"별빛 창",armor:"약속의 갑옷",helm:"첫째 별의 관",gloves:"약속의 장갑",boots:"별빛 신발",amulet:"첫째 별의 브로치"},
-          b2:{desc:"방어력 +8",eff:{def:8}}, b4:{desc:"전투당 1회, 체력 30% 이하가 되면 체력 35% 회복",eff:{flag:"star_promise"}}, b6:{desc:"별의 귀환 — 쓰러진 아군이 있으면 매 턴 25% 확률로 체력 30%로 일으킴 (전투당 1회)",eff:{flag:"star_revive"}}},
-  /* v0.26 연계 세트 — 지역 대신 자정·영원한 밤 보스(15%)와 새벽 교환소에서 */
-  iron:  {name:"철주먹 서약", regions:[], pieces:{weapon:"서약의 무기",armor:"수련자의 도복",helm:"질끈 머리띠",gloves:"피멍 든 장갑",boots:"맨발 각반",amulet:"서약의 염주"},
-          b2:{desc:"체력 +8%",eff:{hp_pct:0.08}}, b4:{desc:"기절·띄움에 걸린 적에게 주는 피해 +15%",eff:{flag:"cc_hunter"}}, b6:{desc:"추격 — 아군이 적을 기절시키거나 띄우면 즉시 그 적을 기본공격 (턴당 1회)",eff:{flag:"follow_cc"}}},
-  march: {name:"행진곡", regions:[], pieces:{weapon:"지휘봉 무기",armor:"군악대 제복",helm:"깃털 모자",gloves:"흰 장갑",boots:"행진 장화",amulet:"은 호루라기"},
-          b2:{desc:"턴당 마나 +3",eff:{mp_regen:3}}, b4:{desc:"내가 받는 노래 효과 +20%",eff:{flag:"aura_plus"}}, b6:{desc:"대합창 — 8턴째 시작에 아군 전체 2턴간 공격력 +20%",eff:{flag:"chorus"}}},
-  hunt:  {name:"사냥꾼의 과녁", regions:[], pieces:{weapon:"과녁 무기",armor:"사냥꾼 가죽옷",helm:"사냥 모자",gloves:"사냥 장갑",boots:"추적자 장화",amulet:"과녁 메달"},
-          b2:{desc:"치명타 확률 +5%",eff:{crit:5}}, b4:{desc:"취약한 적에게 주는 피해 +8%, 내가 건 취약 지속 +1턴",eff:{flag:"mark_plus"}}, b6:{desc:"과녁 옮기기 — 취약한 적이 쓰러지면 남은 적 중 체력이 가장 낮은 적에게 취약이 옮겨감",eff:{flag:"mark_transfer"}}},
+  /* 지역 세트(황혼 장 보스·중간보스) */
+  moon:  {name:"달그림자", regions:["swamp","volcano"], tpl:"F", pieces:{weapon:"달그림자 검",armor:"달그림자 망토갑",helm:"달그림자 두건",gloves:"달그림자 장갑",boots:"달그림자 신발",amulet:"달그림자 펜던트",cape:"달그림자 망토"},
+          b:{2:SB("체력 +8%",{hp_pct:0.08}),3:SB("달빛 장막 — 전투 시작 시 2턴간 받는 피해 -30%",{flag:"moon_veil"}),5:SB("그림자의 축복 — 전투 시작 시 은신(첫 공격 확정 치명타)",{flag:"ambush"})}},
+  song:  {name:"깊은 노래", regions:["sunken","forest"], tpl:"H", pieces:{weapon:"노래하는 지팡이",armor:"물결 로브",helm:"물결 관",gloves:"파도 장갑",boots:"물결 신발",amulet:"끊어진 현 목걸이"},
+          b:{2:SB("마나 +15%",{mp_pct:0.15}),4:SB("매 턴 마나 +4, 스킬 피해 +10%",{mp_regen:4,flag:"deep_song"}),6:SB("앙코르 — 스킬로 적을 처치하면 즉시 한 번 더 행동 (전투당 2회)",{flag:"encore"})}},
+  ledger:{name:"황금 장부", regions:["gold","desert"], tpl:"E", pieces:{weapon:"금화 망치",armor:"회계사의 조끼",helm:"회계사의 안경",gloves:"금화 장갑",boots:"장부 지기의 구두",amulet:"황금 인장",offhand:"금고 열쇠",ring:"금화 반지"},
+          b:{2:SB("공격력 +6%",{atk_pct:0.06}),3:SB("적을 처치할 때마다 전투 중 공격력 +6% (최대 5회)",{flag:"gold_ledger"}),5:SB("결산 — 적을 처치하면 그 턴 한 번 더 행동 (전투당 3회)",{flag:"ledger_act"})}},
+  sun:   {name:"태양의 잔해", regions:["temple","citadel"], tpl:"J", pieces:{weapon:"검은 태양검",armor:"일식의 갑주",helm:"일식의 투구",gloves:"그을린 장갑",boots:"재의 신발",amulet:"그을린 성표",cape:"재의 망토",ring:"일식 반지"},
+          b:{2:SB("치명타 확률 +6%",{crit:6}),4:SB("치명타를 맞힌 적에게 화상",{flag:"sun_remnant"}),6:SB("일식 — 화상 상태의 적을 공격하면 치명타 확정",{flag:"sun_crit"})}},
+  star:  {name:"별의 약속", regions:["throne","altar"], tpl:"G", pieces:{weapon:"별빛 창",armor:"약속의 갑옷",helm:"첫째 별의 관",gloves:"약속의 장갑",boots:"별빛 신발",amulet:"첫째 별의 브로치",cape:"별빛 망토",ring:"약속의 반지"},
+          b:{2:SB("방어력 +8",{def:8}),3:SB("전투당 1회, 체력 30% 이하가 되면 체력 35% 회복",{flag:"star_promise"}),5:SB("별의 귀환 — 쓰러진 아군이 있으면 매 턴 25% 확률로 체력 30%로 일으킴 (전투당 1회)",{flag:"star_revive"})}},
+  /* 연계 세트 — 자정·영원한 밤 보스와 새벽 교환소 */
+  iron:  {name:"철주먹 서약", regions:[], tpl:"B", pieces:{weapon:"서약의 무기",armor:"수련자의 도복",helm:"질끈 머리띠",gloves:"피멍 든 장갑",boots:"맨발 각반",amulet:"서약의 염주",cape:"수련자의 띠"},
+          b:{2:SB("체력 +8%",{hp_pct:0.08}),4:SB("추격 — 아군이 적을 기절시키거나 띄우면 즉시 그 적을 기본공격 (턴당 1회)",{flag:"follow_cc"})}},
+  march: {name:"행진곡", regions:[], tpl:"D", pieces:{weapon:"지휘봉 무기",armor:"군악대 제복",helm:"깃털 모자",gloves:"흰 장갑",boots:"행진 장화",amulet:"은 호루라기",offhand:"작은 북",ring:"악보 반지"},
+          b:{2:SB("턴당 마나 +3",{mp_regen:3}),4:SB("대합창 — 8턴째 시작에 아군 전체 2턴간 공격력 +20%",{flag:"chorus"})}},
+  hunt:  {name:"사냥꾼의 과녁", regions:[], tpl:"F", pieces:{weapon:"과녁 무기",armor:"사냥꾼 가죽옷",helm:"사냥 모자",gloves:"사냥 장갑",boots:"추적자 장화",amulet:"과녁 메달",cape:"사냥꾼 망토"},
+          b:{2:SB("치명타 확률 +5%",{crit:5}),3:SB("취약한 적에게 주는 피해 +8%, 내가 건 취약 지속 +1턴",{flag:"mark_plus"}),5:SB("과녁 옮기기 — 취약한 적이 쓰러지면 남은 적 중 체력이 가장 낮은 적에게 취약이 옮겨감",{flag:"mark_transfer"})}},
 };
+/* 전직 세트: [키, 직업, 전직, 이름, 부위 틀, 효과들(2부터)] — 효과 eff는 특성의 큰 효과와 같은 모양(flag · skmod · 능력치) */
+const ADV_SETS=[
+  ["s_rampart","knight","guardian_knight","성벽의 맹세","I",[["체력 +8%",{hp_pct:0.08}],["굳건한 서약 — 대신 받는 피해를 더 줄임",{flag:"citadel_hard"}],["방벽 — 아군 받는 피해 -8% · 방어력 +8",{flag:"bulwark8",def:8}]]],
+  ["s_banner","knight","guardian_knight","기수의 깃발","B",[["방어력 +8",{def:8}],["기수의 외침 — 외칠 때 아군 공격력 +10%",{flag:"shout_rally"}]]],
+  ["s_bloodpact","knight","berserker","피의 계약","E",[["흡혈 +3%",{lifesteal:0.03}],["피의 순환 — 피의 대가가 흡혈",{flag:"blood_leech"}],["고통의 힘 — 잃은 체력만큼 공격력 증가",{flag:"pain_power"}]]],
+  ["s_rage","knight","berserker","광전의 투구","C",[["공격력 +6%",{atk_pct:0.06}],["학살자 — 적을 처치하면 한 번 더 행동",{flag:"rampage_act"}]]],
+  ["s_phoenix","mage","archmage","불새의 깃","G",[["치명타 확률 +5%",{crit:5}],["불꽃 깃털 — 불새 화상 확률 +10%p",{skmod:{sk:"mg_phoenix",add:{"burn.chance":0.1}}}],["연쇄 시전 — 기술을 쓰면 20% 확률로 한 번 더",{flag:"chain_cast"}]]],
+  ["s_hourglass","mage","archmage","시간의 모래시계","C",[["신속 +2",{spd:2}],["폭주하는 마력 — 치명타 피해 +70%",{flag:"arcane_crit"}]]],
+  ["s_frostcrown","mage","frostweaver","혹한의 왕관","H",[["턴당 마나 +3",{mp_regen:3}],["시린 손끝 — 냉기 서림 40%",{flag:"frost_touch50"}],["한파의 심장 — 광역기가 적 전체 약화 · 공격력 +6%",{flag:"frost_aoe",atk_pct:0.06}]]],
+  ["s_icewall","mage","frostweaver","빙벽의 망토","D",[["체력 +8%",{hp_pct:0.08}],["서리 갑옷 — 나를 때린 적 20% 약화",{flag:"frost_armor"}]]],
+  ["s_veil","priest","high_priest","빛의 장막","F",[["치유량 +8%",{heal_pct:0.08}],["두꺼운 빛 — 빛의 방벽 +37.5%",{skmod:{sk:"pr_barrier",pow:0.375}}],["빛의 갑주 — 보호막 있는 아군 받는 피해 -10%",{flag:"shield_guard"}]]],
+  ["s_bell","priest","high_priest","별의 종","J",[["턴당 마나 +3",{mp_regen:3}],["부활의 축복 — 일으킨 아군 3턴 공격력 +20%",{flag:"revive_rally"}],["별의 귀환 — 매 턴 25%로 쓰러진 아군 일으킴 · 체력 +8%",{flag:"star_revive",hp_pct:0.08}]]],
+  ["s_judgefire","priest","inquisitor","심판의 불꽃","A",[["공격력 +6%",{atk_pct:0.06}],["꺼지지 않는 불씨 — 내 화상 피해 +40%",{flag:"dot_amp"}]]],
+  ["s_crusade","priest","inquisitor","성전의 갑주","H",[["치명타 확률 +5%",{crit:5}],["신성 타격 — 성스러운 타격 +62.5% · 30% 화상",{skmod:{sk:"basic_smite",pow:0.625,set:{burn:{chance:0.3,ratio:0.3,turns:2}}}}],["죄의 고백 — 치명타를 맞힌 적 취약 · 공격력 +6%",{flag:"crit_vuln",atk_pct:0.06}]]],
+  ["s_shadowblade","rogue","assassin","그림자 칼날","G",[["치명타 확률 +5%",{crit:5}],["심장 찌르기 — 그림자 칼날 +16%",{skmod:{sk:"rg_shadowblade",pow:0.16}}],["어둠의 잔상 — 은신 공격이 메아리",{flag:"shadow_echo"}]]],
+  ["s_smoke","rogue","assassin","연기의 장막","C",[["회피 +5%",{eva:5}],["연기 속 칼날 — 연기 구슬 뒤 확정 치명",{flag:"smoke_crit"}]]],
+  ["s_fang","rogue","venom_fang","독니의 장신구","A",[["공격력 +6%",{atk_pct:0.06}],["독 날 — 공격마다 30% 확률로 독 1중첩",{flag:"venom_edge"}]]],
+  ["s_herb","rogue","venom_fang","독초꾼의 옷","I",[["체력 +8%",{hp_pct:0.08}],["신경 독 — 독 3중첩 적 약화",{flag:"venom_weaken"}],["독 사냥 — 독 걸린 적에게 +15% · 회피 +5%",{flag:"venom_hunter",eva:5}]]],
+  ["s_beads","fighter","monk","금강의 염주","E",[["체력 +8%",{hp_pct:0.08}],["내공 보호막 — 내공이 있으면 받는 피해 -10%",{flag:"ki_guard"}],["내공 방출 — 내공이 최대 체력 10% 이상이면 추가 피해",{flag:"ki_release"}]]],
+  ["s_stance","fighter","monk","부동의 도복","H",[["방어력 +8",{def:8}],["철벽 자세 — 부동 자세 +1턴·피해↓",{flag:"stance_guard",skmod:{sk:"ft_stance",dur:1}}],["응징 — 반격으로 처치하면 기세 +2 · 체력 +6%",{flag:"counter_kill_mom",hp_pct:0.06}]]],
+  ["s_ascend","fighter","dragon_fist","승천의 각반","B",[["공격력 +6%",{atk_pct:0.06}],["공중 콤보 — 띄운 적에게 +20%",{flag:"air_chase"}]]],
+  ["s_wraps","fighter","dragon_fist","연격의 붕대","G",[["치명타 확률 +5%",{crit:5}],["연격 치명 — 연격 5 이상이면 치명 +10%p",{flag:"chain_crit"}],["연격 강화 — 연격 한 번당 +4%(최대 40%)",{flag:"chain_accel_plus"}]]],
+  ["s_scope","gunner","sniper","한 발의 조준경","A",[["치명타 확률 +5%",{crit:5}],["무심 — 조준 2 이상이면 방어 무시",{flag:"aim_pierce"}]]],
+  ["s_ghillie","gunner","sniper","위장 망토","F",[["회피 +5%",{eva:5}],["엎드려 쏴 — 광역 피해 -25%",{flag:"aoe_guard"}],["위장 — 쏘지 않은 턴엔 은신",{flag:"camouflage"}]]],
+  ["s_powder","gunner","bomber","화약통 벨트","J",[["공격력 +6%",{atk_pct:0.06}],["대형 화약 상자 — 화약 상자 +33%",{skmod:{sk:"gn_keg",pow:0.333}}],["연쇄 폭발 — 화약 상자 2개 · 치명타 확률 +5%",{flag:"keg_chain",crit:5}]]],
+  ["s_incin","gunner","bomber","소각의 장갑","D",[["치명타 확률 +5%",{crit:5}],["화약 장인 — 화상 피해 +30%",{flag:"burn_amp30"}]]],
+  ["s_drum","bard","war_band","행진 북","E",[["턴당 마나 +3",{mp_regen:3}],["앞줄 신속 — 앞줄 아군 신속 +2",{flag:"front_haste"}],["행진의 박자 — 추가 기본공격 40%",{flag:"march35"}]]],
+  ["s_epaulet","bard","war_band","지휘관의 견장","B",[["공격력 +6%",{atk_pct:0.06}],["집중 사격 신호 — 일제 공격 +40%",{flag:"allout_amp"}]]],
+  ["s_bells","bard","jester","광대의 방울","A",[["턴당 마나 +3",{mp_regen:3}],["꿀잠 — 잠든 적 첫 타 +50%",{flag:"sleep_strike"}]]],
+  ["s_masque","bard","jester","가면 무도회","I",[["회피 +5%",{eva:5}],["깊은 놀림 — 어릿광대 춤 약화 -35%",{flag:"fear_weaken"}],["소란 — 기절한 적에게 +25% · 턴당 마나 +3",{flag:"riot",mp_regen:3}]]],
+  ["s_gale","archer","gale_archer","질풍의 깃","H",[["공격력 +6%",{atk_pct:0.06}],["폭풍의 눈 — 폭풍 연사 +1발",{skmod:{sk:"ar_storm",add:{multi:1}}}],["광역 숙련 — 광역 +20% · 치명타 확률 +5%",{flag:"aoe_amp",crit:5}]]],
+  ["s_windpath","archer","gale_archer","바람길 망토","C",[["회피 +5%",{eva:5}],["꿰뚫는 바람 숙련 — 꿰뚫는 바람 +1발",{skmod:{sk:"ar_galepierce",add:{multi:1}}}]]],
+  ["s_leash","archer","forest_hunter","사냥개 목줄","G",[["공격력 +6%",{atk_pct:0.06}],["훈련된 사냥개 — 사냥개 +1번",{skmod:{sk:"ar_hound",add:{n:1}}}],["급소 노림 — 약점 사냥 치명 +15%p",{skmod:{sk:"ar_weakhunt",add:{critPlus:0.15}}}]]],
+  ["s_trapper","archer","forest_hunter","덫사냥꾼 장비","D",[["체력 +8%",{hp_pct:0.08}],["약화 사냥 — 약화된 적에게 +20%",{flag:"weak_hunter"}]]],
+  ["s_skytip","lancer","dragoon","천공의 창끝","B",[["치명타 확률 +5%",{crit:5}],["천공 관통 — 천공이 방어 무시",{skmod:{sk:"ln_skypierce",set:{pierceAll:true}}}]]],
+  ["s_flurry","lancer","dragoon","연격의 깃발","E",[["공격력 +6%",{atk_pct:0.06}],["빠른 찌르기 — 연속 찌르기 +1번",{skmod:{sk:"ln_flurry",add:{multi:1}}}],["연격 치명 — 치명타 시 40% 추가타",{flag:"crit_followup40"}]]],
+  ["s_phalanx","lancer","phalanx","방진의 대방패","I",[["방어력 +8",{def:8}],["뒷줄 엄호 — 뒷줄 아군 받는 피해 -12%",{flag:"rear_guard"}],["굳은 방진 — 방진 효과 +5%p · 체력 +8%",{skmod:{sk:"ln_phalanx",add:{value:0.05}},hp_pct:0.08}]]],
+  ["s_tip","lancer","phalanx","창끝 반격의 투구","C",[["반격 확률 +5%",{counter:0.05}],["함께 버팀 — 앞줄 동료가 있으면 반격 +15%p",{flag:"co_strike"}]]],
+];
+const SET_STEPS={4:[2,4],5:[2,3,5],6:[2,4,6]};
+for(const [k,cls,adv,name,tpl,bs] of ADV_SETS){ const sl=SET_TPL[tpl], n=sl.length, st=SET_STEPS[n], pieces={};
+  for(const s of new Set(sl)) pieces[s]=`${name} ${SET_NOUN[s]}`; const b={}; st.forEach((q,i)=>{ b[q]=SB(bs[i][0],bs[i][1]); });
+  SETS[k]={name, regions:[], cls, adv, tpl, pieces, b}; }
+for(const k in SETS){ const S=SETS[k]; S.slots=SET_TPL[S.tpl]; S.size=S.slots.length; S.steps=SET_STEPS[S.size]; }
+function setBonuses(S){ return S.steps.map(q=>[q,S.b[q]]); }
+function setSlotsU(S){ return [...new Set(S.slots)]; }
 const EG_SETS=["iron","march","hunt"];   // 지역에 묶이지 않은 세트
-const SET_SLOTS=["weapon","armor","helm","gloves","boots","amulet"];
+const ADV_SET_P=[0.2,0.1];   // v0.93 전직 세트 조각: 자정·영원한 밤 장 보스 20% · 중간보스·우두머리 10% (출전한 영웅 중 하나의 전직 세트)
+const SET_SLOTS=["weapon","offhand","helm","armor","gloves","boots","cape","ring","amulet"];   // 세트 조각이 나올 수 있는 모든 부위(세트마다 S.slots)
 function setOfRegion(rk){ return Object.keys(SETS).find(k=>SETS[k].regions.includes(rk))||null; }
+function advSetsFor(cid){ const h=progress&&progress.heroes&&progress.heroes[cid]; return Object.keys(SETS).filter(k=>SETS[k].cls===cid&&(!h||!h.adv||SETS[k].adv===h.adv)); }
 /* 룬 — 영웅 이상 장비의 소켓에 끼운다. 능력치가 아니라 자동전투 '조건' 하나를 연다 (얻은 사람만 쓰는 조건) */
 const RUNES={
   r_shield: {name:"방패 룬",   cond:26, stat:{def:1}},
@@ -3624,6 +3681,7 @@ const LIMITS=[
   ["장비 옵션","등급별 추가 옵션 수: 일반 0~1 · 고급 1~2 · 희귀 2~3 · 영웅 3~4 · 전설 4 · 세트 3 · 신화 5 (범위 위쪽은 30%, 이름 앞 ★). 같은 옵션은 한 장비에 한 번만. 품질 ●○ = 범위 안 위치, 94% 이상 '완벽'. 새 묶음은 희귀 이상(퍼센트·상태이상은 영웅 이상), 직업 스킬은 무기·보조·반지, 진영은 갑옷·망토·목걸이에만. 직업 스킬 옵션·직업 전용 고유 효과는 그 직업이 낄 때만 효과가 있습니다."],
   ["장비 드롭","[일반·고급·희귀·영웅·전설] 일반 몹 50·32·14·3.7·0.3% · 정예/우두머리 25·35·28·11·1% · 중간보스 10·30·38·19·3% · 장 보스 0·25·40·28·7% · 보물상자 20·35·30·13·2%. 자정은 영웅·전설 ×1.3, 영원한 밤 ×1.6, 행운은 희귀 이상을 조금씩 올림. 영웅 이상 무기·보조는 70%가 출전 중인 영웅의 것."],
   ["부위 강화","강화는 장비가 아니라 영웅의 부위(무기·보조·투구·갑옷·장갑·신발·망토·반지 2·목걸이, 유물 제외)에 쌓입니다. 장비를 바꿔 껴도 그 칸의 강화가 새 장비에 그대로 붙고(+1~+9 단계당 능력치 +5%, +10~+15 단계당 +9%, 심연 핵으로 연 +16~+18 단계당 +15% · 퍼센트 능력치는 절반), 가방의 장비에는 강화가 없습니다. 비용은 지금까지 연 콘텐츠 수준을 따릅니다. 실패하면 +6까지는 그대로, 그 위에서는 한 단계만 내려갑니다."],
+  ["세트 장비","세트마다 필요한 부위 수(4·5·6)와 부위 구성이 다릅니다 — 장비 칸 10개 중 세트가 쓰지 않는 칸은 전설 등으로 채웁니다. 효과 단계: 4부위 2/4 · 5부위 2/3/5 · 6부위 2/4/6(부위가 많은 세트일수록 완성 효과가 큼). 지역 세트 5종(달그림자 5 · 깊은 노래 6 · 황금 장부 5 · 태양의 잔해 6 · 별의 약속 5)은 그 장의 보스·중간보스, 연계 세트 3종(철주먹 서약 4 · 행진곡 4 · 사냥꾼의 과녁 5)은 자정·영원한 밤 장 보스(15%)에서. 전직 세트는 전직마다 2종(모두 36종 — 그 전직의 특성 두 갈래의 큰 효과를 세트로도 얻음, 특성과 같은 효과는 겹치지 않음) · 그 직업만 낄 수 있고 자정·영원한 밤 장 보스 20% · 중간보스·우두머리 10%(출전한 영웅 중 하나의 전직 세트). 새벽 교환소에서는 부위를 골라 살 수 있습니다(그 세트에 있는 부위만). 예전에 얻은 세트 조각은 지금 그 세트에 없는 부위라도 세트 개수로 셉니다(세트 부위 수까지)."],
   ["장비 성장","재련: 종류 바꾸기(정수 3+2×등급+재련 횟수) · 수치만(그 절반) · 한 줄 잠그고 전부(2배). 등급 올리기: 희귀→영웅 희귀 조각 3·정수 15, 영웅→전설 영웅 조각 5·정수 40(강화 단계 유지, 옵션 +1). 분해: 희귀·세트 → 희귀 조각 1, 영웅 → 영웅 조각 1, 전설 → 영웅 조각 2."],
   ["범위 기술","몬스터·보스 기술에는 범위 모양이 있습니다 — 가로줄 일렬(그 적과 같은 가로줄의 앞칸·뒷칸, 그 가로줄이 비어 있으면 영웅이 가장 많은 가로줄) · 십자(고른 한 명 + 같은 가로줄의 앞·뒷칸 + 같은 줄의 위아래 칸) · 가로줄 하나(아무 가로줄의 앞·뒷칸) · 앞줄 전체(앞줄이 비면 뒷줄 전체) · 뒷줄 전체(뒷줄이 비면 앞줄 전체) · 뒷줄 아무나 1명 · 뒷줄 체력 가장 많은 1명 · 앞줄 방어력 가장 높은 1명. 도발한 영웅이 있으면 가로줄·십자는 그 영웅을 중심으로, 한 줄 전체·한 명 기술은 그 영웅 한 명에게 갑니다(원거리는 절반만 끌려옴). 기를 모으는 동안 맞을 영웅이 빨갛게 표시됩니다. 보스는 늘 같은 가로줄에 서 있습니다."],
   ["전투 속도","처음 깨는 막은 '조금 빠르게'까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 '빠르게'까지 쓸 수 있습니다."],
@@ -5102,7 +5160,7 @@ function skillSpec(sid,sx){
       if(s.selfAtkCut) R("etc",`그동안 내 공격 피해 -${P(s.selfAtkCut)}%`);
       R("etc","받는 피해 감소는 겹치지 않음(가장 큰 것 하나)"); break;
     case "selfbuff": tags.push({c:"tgt",t:"자신"});
-      if(s.buff==="parry"){ main=`다음에 받는 근접 공격 ${s.n||2}번을 막음`; R("if",`막을 때마다 → ${P(s.power||1.3)}% 반격`); }
+      if(s.buff==="parry"){ main=`다음에 받는 근접 공격 ${s.n||2}번을 막음 (보스·우두머리의 공격은 피해 -${Math.round(PARRY_BOSS_CUT*100)}%만)`; R("if",`막을 때마다 → ${P(s.power||1.3)}% 반격`); }
       else if(s.buff==="reflect") main=`${s.duration}턴간 내가 받는 피해의 ${P(s.value)}%를 때린 적에게 되돌림`;
       else if(s.buff==="atone") main=`${s.duration}턴간 내가 준 피해의 ${P(s.value)}%만큼 가장 다친 아군 회복`;
       else if(s.buff==="clone") main=`${s.duration}턴간 내 공격이 한 번 더 (${P(s.value)}%)`;
@@ -6014,11 +6072,12 @@ class Sim {
     if(this.untargetable(def)&&att.side!==def.side){ fx.push({target:def.id,kind:"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:"도약 중"}); return; }   // v0.92 용의 도약
     if(this.hasPassive(att,"hunt_instinct")&&att.side!==def.side){ const q=att._quarry&&this.byId(att._quarry); if(!q||!q.alive) att._quarry=def.id; }   // v0.92 사냥 본능: 처음 공격한 적을 기억(쓰러지면 다음 적)
     const sneak0=skill.type==="damage"&&!!(att.buffs&&att.buffs.stealth);
-    // v0.92 되받아치기: 다음 근접 공격 2번을 막고 막을 때마다 반격
-    if(def.buffs.parry&&skill.range==="melee"&&!this._countering&&att.side!==def.side&&def.alive){ const P=def.buffs.parry; P.n--; if(P.n<=0) delete def.buffs.parry;
-      fx.push({target:def.id,kind:"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:"막음"});
+    // v0.92 되받아치기: 다음 근접 공격 2번을 막고 막을 때마다 반격 · v0.93 보스·우두머리의 공격은 다 막지 못하고 피해만 줄임(반격은 그대로)
+    let parryCut=0;
+    if(def.buffs.parry&&skill.range==="melee"&&!this._countering&&att.side!==def.side&&def.alive){ const P=def.buffs.parry; P.n--; if(P.n<=0) delete def.buffs.parry; const big=!!(att.isBossKind||att.boss);
+      if(big) parryCut=PARRY_BOSS_CUT; fx.push({target:def.id,kind:big?"buff":"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:big?`흘려 막음 — 피해 -${Math.round(PARRY_BOSS_CUT*100)}%`:"막음"});
       if(att.alive){ const cr=this.calcDamage(def,att,Object.assign({},SKILLS.basic_attack,{power:P.power||1.3,range:"melee"})); const pa=this._actor; this._actor=def; this._countering=true; const sub=[]; this.hit(att,cr.dmg,sub,{crit:cr.crit,label:"되받아치기"}); if(sub[0]){ sub[0].kind="counter"; sub[0].by=def.id; } fx.push(...sub); this._countering=false; this._actor=pa; def._counters=(def._counters||0)+1; }
-      return; }
+      if(!parryCut) return; if(!att.alive) return; }
     if(!sneak0&&!this._countering){
       const mkA=att.buffs.sg_mock?((att.buffs.sg_mock.acc||0)+(this.songBards(def.side,"mock_blind").length?0.05:0)):0;   // v0.92 조롱의 노래: 그 적의 명중 -8%
       const ev=(def.buffs.evade&&!this.isAir(def))?def.buffs.evade.value:0;   // v0.92 흘려내기: 회피 +40%
@@ -6037,7 +6096,7 @@ class Sim {
     }
     if(this.law&&this.lawOn("silence")&&att.side==="party"&&def.side==="enemy"&&MAGIC_CLS.has(att.cls)&&!(att.traits&&att.traits.ab_silence)){   // v0.59 침묵
       fx.push({target:def.id,kind:"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:"침묵 — 마법 면역"}); return; }
-    const r=this.calcDamage(att,def,skill);
+    const r=this.calcDamage(att,def,skill); if(parryCut) r.dmg=Math.max(1,Math.floor(r.dmg*(1-parryCut)));
     if(r.crit){ att._critsTotal=(att._critsTotal||0)+1; att._critNow=true; }
     const pzBefore=def.dots.poison?Object.assign({},def.dots.poison):null;
     const wasChilled=!!(def.buffs.atk&&def.buffs.atk.value<0);
@@ -6916,7 +6975,7 @@ function heroEquipTotals(cid){
 function setEffects(sets){
   const out=[];
   for(const [k,n] of Object.entries(sets||{})){ const S=SETS[k]; if(!S) continue;
-    if(n>=2) out.push(S.b2.eff); if(n>=4) out.push(S.b4.eff); if(n>=6) out.push(S.b6.eff); }
+    const m=Math.min(n,S.size); for(const [q,B] of setBonuses(S)) if(m>=q) out.push(B.eff); }   // v0.93 세트마다 4·5·6부위
   return out;
 }
 function heroPrim(cid){ const c=CLASSES[cid], h=progress.heroes[cid]; const o={}; for(const k of PRIM) o[k]=(c.prim[k]||0)+((h.alloc||{})[k]||0)+2*((h.stars||{})[k]||0); return o; }
@@ -6936,7 +6995,7 @@ function heroDerived(cid){
   const b={};   // v0.88 전직 고정 능력치 보너스 없앰 — 전직은 기술·패시브만 준다
   const tr=traitEffects(cid);
   for(const e of setEffects(E.sets)) for(const k of Object.keys(e)){
-    if(k==="flag") for(const f of [].concat(e.flag)) tr.flags[f]=true; else tr[k]=(tr[k]||0)+e[k];
+    if(k==="flag") for(const f of [].concat(e.flag)) tr.flags[f]=true; else if(k==="skmod") continue; else tr[k]=(tr[k]||0)+e[k];   // 기술 보정(skmod)은 heroSkillsEx에서
   }
   const tt=heroTitleObj(cid); if(tt) for(const [k,v] of Object.entries(tt.eff)) tr[k]=(tr[k]||0)+v;
   const W=WEAPONS[heroWeaponType(cid)]; const wm=W.mods||{};
@@ -7661,7 +7720,7 @@ function ensureRuleSlots(cid){
 const ENH_MP=0.10, ENH_MP_FREE=["mpc","killmp","castmp"];
 function heroSkillsEx(cid,wtype){
   const h=progress.heroes[cid]; const out={}; const W=WEAPONS[wtype]; const wm=(W&&W.mods)||{};
-  const GE=heroEquipTotals(cid), gearSk=GE.conds.filter(a=>a.k==="c_sk"), gearCu=GE.cuniqs;
+  const GE=heroEquipTotals(cid), gearSk=GE.conds.filter(a=>a.k==="c_sk"), gearCu=GE.cuniqs, setSkmods=setEffects(GE.sets).map(e=>e.skmod).filter(Boolean);
   for(const sid of classSkills(cid)){
     const s=SKILLS[sid]; const m=Object.assign({},s); m.id=sid; m.mods={}; m.power0=s.power; let enh=0;   // v0.93 이 기술을 강하게 만든 횟수(특성 기술 보정 · 숙련 변형 · 숙달) — 하나마다 마나 +10%
     if(wm.skillMods&&wm.skillMods[sid]) Object.assign(m,wm.skillMods[sid]);
@@ -7673,7 +7732,7 @@ function heroSkillsEx(cid,wtype){
       for(let i=0;i<3;i++){ const pick=ms.pick&&ms.pick[i]; if(!pick) continue; const v=masteryOpts(sid,i)[pick==="a"?0:1]; m.mods[v.k]=(m.mods[v.k]||0)+v.v; if(!ENH_MP_FREE.includes(v.k)) enh++; }
       if((ms.xp||0)>=MASTERY_MAX){ m.mastered=true; m.name="숙달된 "+s.name; enh++; }
     }
-    for(const x of (traitEffects(cid).skmods||[])) if(x.sk===sid){   // v0.85 특성의 기술 보정
+    for(const x of [...(traitEffects(cid).skmods||[]),...setSkmods]) if(x.sk===sid){   // v0.85 특성의 기술 보정 · v0.93 세트의 기술 보정
       if(x.pow||x.dur||x.selfhp||Object.keys(x.add||{}).length||Object.keys(x.set||{}).length) enh++;
       if(x.pow) m.mods.pow=(m.mods.pow||0)+x.pow; if(x.mp) m.mods.mpFlat=(m.mods.mpFlat||0)-x.mp; if(x.dur) m.mods.dur=(m.mods.dur||0)+x.dur; if(x.castmp) m.mods.castmp=(m.mods.castmp||0)+x.castmp; if(x.selfhp) m.mods.selfhp=(m.mods.selfhp||0)+x.selfhp;
       const setPath=(obj,path,fn)=>{ const ps=path.split("."); let o=obj; for(let i=0;i<ps.length-1;i++){ o[ps[i]]=Object.assign({},o[ps[i]]||{}); o=o[ps[i]]; } const k=ps[ps.length-1]; o[k]=fn(o[k]); };
@@ -7817,13 +7876,15 @@ function makeItem(bossBonus=false, lootTier=0, opt={}){
 }
 function makeSetItem(setKey,lootTier,opt={}){
   const S=SETS[setKey];
-  const slotKey=opt.slot||SET_SLOTS[ri(0,SET_SLOTS.length-1)];
+  const slotKey=opt.slot&&S.slots.includes(opt.slot)?opt.slot:S.slots[ri(0,S.slots.length-1)];   // v0.93 세트마다 나오는 부위가 다름
   const lm=lmOf(lootTier);
   let cls=null,wtype=null;
-  if(slotKey==="weapon"){ cls=opt.cls||dropCls(); const ws=CLASS_WEAPONS[cls]; wtype=ws[ri(0,ws.length-1)]; }
+  if(S.cls) cls=S.cls;   // 전직 세트는 그 직업만
+  if(slotKey==="weapon"){ cls=cls||opt.cls||dropCls(); let ws=CLASS_WEAPONS[cls]; if(S.slots.includes("offhand")){ const one=ws.filter(w=>!WEAPONS[w].two); if(one.length) ws=one; } wtype=ws[ri(0,ws.length-1)]; }   // 보조구가 있는 세트의 무기는 한손 무기
+  if(slotKey==="offhand"&&!cls) cls=opt.cls||dropCls();   // 보조구는 직업마다 다름
   const base=makeBase(slotKey,3,lm,cls,wtype);
   const affixes=rollAffixes(RAR_EXTRA.set[0],3,lm,{slot:slotKey,cls});   // v0.44: 세트 옵션 2 → 3개
-  const it={ id:newItemId(), slot:slotKey, rarity:"set", set:setKey, tier:lootTier, enh:0, name:dropTag(lootTier)+S.pieces[slotKey]+(wtype?`(${WEAPONS[wtype].name})`:""), base, affixes };
+  const it={ id:newItemId(), slot:slotKey, rarity:"set", set:setKey, tier:lootTier, enh:0, name:dropTag(lootTier)+(S.pieces[slotKey]||`${S.name} ${SET_NOUN[slotKey]||""}`)+(wtype?`(${WEAPONS[wtype].name})`:""), base, affixes };
   if(cls){ it.cls=cls; it.wtype=wtype; }
   if(opt.from) it.from=opt.from;
   return finishItem(it);
@@ -7902,10 +7963,10 @@ function codexRecord(it){
   progress.codex=progress.codex||{sets:{},done:{}};
   const c=progress.codex.sets[it.set]=progress.codex.sets[it.set]||{};
   c[it.slot]=true;
-  if(!progress.codex.done[it.set]&&SET_SLOTS.every(s=>c[s])){ progress.codex.done[it.set]=true; progress.ess+=40; return it.set; }
+  if(!progress.codex.done[it.set]&&setSlotsU(SETS[it.set]).every(s=>c[s])){ progress.codex.done[it.set]=true; progress.ess+=40; return it.set; }
   return null;
 }
-function codexCount(k){ const c=((progress.codex||{}).sets||{})[k]||{}; return SET_SLOTS.filter(s=>c[s]).length; }
+function codexCount(k){ const c=((progress.codex||{}).sets||{})[k]||{}; return SETS[k]?setSlotsU(SETS[k]).filter(s=>c[s]).length:0; }
 
 /* ================= 동료의 판단 (v0.16) =================
    주인공이 아닌 영웅은 '작전 성향' 하나만 지시받고, 나머지(능력치·전직·특성·숙련·각성·자동전투 규칙)는 스스로 정한다.
@@ -11955,7 +12016,7 @@ function renderEquip(){
     es.innerHTML=`<b>🔨 부위 강화 +${S.sum}</b>${S.sum?`<span>${esc(t||"끼운 장비가 없어 아직 효과 없음")}</span>`:`<span>칸 옆 단추로 강화 · +1~+9 단계당 +5% · +10부터 +9% · 심연 +15%</span>`}`; L.appendChild(es); }
   const {sets}=heroEquipTotals(cid);
   for(const [k,n] of Object.entries(sets)){ const S=SETS[k]; const sl=document.createElement("div"); sl.className="setline"+(n>=2?"":" off");
-    const seg=(q,txt)=>`<span style="${n>=q?"":"color:var(--muted)"}">${q}: ${esc(txt)}</span>`; sl.innerHTML=`◆ ${esc(S.name)} ${n}/6 — ${seg(2,S.b2.desc)} · ${seg(4,S.b4.desc)} · ${seg(6,S.b6.desc)}`; L.appendChild(sl); }
+    const seg=(q,txt)=>`<span style="${n>=q?"":"color:var(--muted)"}">${q}: ${esc(txt)}</span>`; sl.innerHTML=`◆ ${esc(S.name)} ${Math.min(n,S.size)}/${S.size} — ${setBonuses(S).map(([q,B])=>seg(q,B.desc)).join(" · ")}`; L.appendChild(sl); }
   if(progress._senhNote){ const n=document.createElement("div"); n.className="hintline"; n.style.color="var(--accent)";
     n.innerHTML=`🔨 강화가 <b>부위 강화</b>로 바뀌었습니다 — 끼고 있던 장비의 강화는 그 부위로 옮겼고, 이제 장비를 바꿔 껴도 강화가 그대로 붙습니다.${progress._senhNote.ref?` 가방 장비에 있던 강화는 밤의 정수 ${progress._senhNote.ref}로 돌려드렸습니다.`:""} <button class="mini" id="senhOk">확인</button>`;
     L.appendChild(n); setTimeout(()=>{ const b=$("senhOk"); if(b) b.onclick=()=>{ delete progress._senhNote; saveProgress(); renderParty(); }; },0); }
@@ -12181,12 +12242,12 @@ function renderCodex(){
           <div class="cxname">${esc(bossKnown(k,0)||has?TOKENS[k].name:"??? — 아직 만나지 못한 보스")}</div><div class="cxmeta">${esc(R.chapter)} · ${esc(R.name)}</div><div class="cxcond">${esc(TOKEN_COND[k].text)}</div></div>`; }).join("")
       +`</div><div class="cxends">${Object.keys(ENDINGS).map(k=>`<span class="cxend${ends[k]?" got":""}">${ends[k]?"🌅":"🔒"} ${esc(ENDINGS[k].title)}</span>`).join("")}</div>`;
   } else if(codexTab==="sets"){
-    body.innerHTML=`<div class="cxsub">세트 6부위를 한 번이라도 얻으면 완성 — 완성 보상 밤의 정수 40</div><div class="cxgrid st">`
-      +Object.keys(SETS).map(k=>{ const S=SETS[k], c=(progress.codex.sets||{})[k]||{}, n=codexCount(k), fin=!!(progress.codex.done||{})[k];
-        return `<div class="cxcard${fin?" got":""}"><div class="cxhead"><span class="cxname">${esc(S.name)}</span><span class="cxn">${n}/6</span></div>
-          <div class="cxbar"><i style="width:${n/6*100}%"></i></div>
-          <div class="cxslots">${SET_SLOTS.map(sl=>`<span class="cxslot${c[sl]?" got":""}" title="${esc(S.pieces[sl])}${c[sl]?"":" (아직)"}"><img src="${itemIconURL({slot:sl,wtype:"sword",rarity:"set"})}" alt="${esc(S.pieces[sl])}"></span>`).join("")}</div>
-          <div class="cxmeta">${S.regions&&S.regions.length?esc(S.regions.map(r=>REGIONS[r].chapter).join(" · ")):"자정·영원한 밤 보스 · 새벽 교환소"}</div></div>`; }).join("")+`</div>`;
+    body.innerHTML=`<div class="cxsub">세트의 부위를 한 번씩 모두 얻으면 완성 — 완성 보상 밤의 정수 40</div><div class="cxgrid st">`
+      +Object.keys(SETS).map(k=>{ const S=SETS[k], c=(progress.codex.sets||{})[k]||{}, n=codexCount(k), N=setSlotsU(S).length, fin=!!(progress.codex.done||{})[k], A=S.adv&&(ADV[S.cls]||[]).find(a=>a.key===S.adv);
+        return `<div class="cxcard${fin?" got":""}"><div class="cxhead"><span class="cxname">${esc(S.name)}</span><span class="cxn">${n}/${N}</span></div>
+          <div class="cxbar"><i style="width:${n/N*100}%"></i></div>
+          <div class="cxslots">${setSlotsU(S).map(sl=>`<span class="cxslot${c[sl]?" got":""}" title="${esc(S.pieces[sl])}${c[sl]?"":" (아직)"}"><img src="${itemIconURL({slot:sl,wtype:"sword",rarity:"set"})}" alt="${esc(S.pieces[sl])}"></span>`).join("")}</div>
+          <div class="cxmeta">${S.size}부위 · ${A?`${esc(CLASSES[S.cls].name)} [${esc(A.name)}] — 자정·영원한 밤 보스·중간보스 · 새벽 교환소`:S.regions&&S.regions.length?esc(S.regions.map(r=>REGIONS[r].chapter).join(" · ")):"자정·영원한 밤 보스 · 새벽 교환소"}</div></div>`; }).join("")+`</div>`;
   } else {
     body.innerHTML=`<div class="cxgrid lm">`+LIMITS.map(([k,v])=>`<div class="cxrule"><div class="cxrk">${esc(k)}</div><div class="cxrv">${esc(v)}</div></div>`).join("")+`</div>`;
   }
@@ -12343,7 +12404,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   for(const [k,n] of Object.entries(sets)){ const S=SETS[k];
     const sl=document.createElement("div"); sl.className="setline"+(n>=2?"":" off");
     const seg=(m,txt)=>`<span style="${n>=m?"":"color:var(--muted)"}">${m}세트: ${esc(txt)}</span>`;
-    sl.innerHTML=`◆ ${esc(S.name)} 세트 ${n}/6 — ${seg(2,S.b2.desc)} · ${seg(4,S.b4.desc)} · ${seg(6,S.b6.desc)}`;
+    sl.innerHTML=`◆ ${esc(S.name)} 세트 ${Math.min(n,S.size)}/${S.size} — ${setBonuses(S).map(([q,B])=>seg(q,B.desc)).join(" · ")}`;
     card.appendChild(sl);
   }
   const mk3=card.children.length;
@@ -12365,10 +12426,10 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
 function codexBlock(){
   const det=document.createElement("details"); det.className="statline tokens";
   const done=Object.keys(SETS).filter(k=>(progress.codex.done||{})[k]).length;
-  det.innerHTML=`<summary>📚 장비 세트 도감 <b>${done}/${Object.keys(SETS).length}</b> <span style="color:var(--muted)">(세트 6부위를 한 번이라도 얻으면 완성 · 완성 보상 밤의 정수 40)</span></summary>`
+  det.innerHTML=`<summary>📚 장비 세트 도감 <b>${done}/${Object.keys(SETS).length}</b> <span style="color:var(--muted)">(세트의 부위를 한 번씩 모두 얻으면 완성 · 완성 보상 밤의 정수 40)</span></summary>`
     +Object.keys(SETS).map(k=>{ const S=SETS[k]; const c=(progress.codex.sets||{})[k]||{};
-      return `<div style="margin:4px 0 0 6px"><b style="color:${(progress.codex.done||{})[k]?'var(--accent)':'var(--r-set)'}">◆ ${esc(S.name)}</b> <span style="color:var(--muted)">${codexCount(k)}/6 · ${S.regions.map(r=>REGIONS[r].chapter).join("·")}</span><br>`
-        +SET_SLOTS.map(sl=>`<span style="color:${c[sl]?'var(--ink)':'var(--muted)'}">${c[sl]?"■":"□"} ${esc(S.pieces[sl])}</span>`).join(" · ")+`</div>`; }).join("");
+      return `<div style="margin:4px 0 0 6px"><b style="color:${(progress.codex.done||{})[k]?'var(--accent)':'var(--r-set)'}">◆ ${esc(S.name)}</b> <span style="color:var(--muted)">${codexCount(k)}/${setSlotsU(S).length} · ${S.regions.map(r=>REGIONS[r].chapter).join("·")}</span><br>`
+        +setSlotsU(S).map(sl=>`<span style="color:${c[sl]?'var(--ink)':'var(--muted)'}">${c[sl]?"■":"□"} ${esc(S.pieces[sl])}</span>`).join(" · ")+`</div>`; }).join("");
   return det;
 }
 function enhButton(cid,sk){
@@ -12428,7 +12489,8 @@ function setInfoHTML(it,cid,pv){
   // 착용 시 개수: 같은 부위의 같은 세트 조각을 바꾸면 그대로
   let after=cur; if(pv&&canEquip(cid,it)){ after=cur+1-((pv.prev&&pv.prev.set===it.set)?1:0); }
   const seg=(m,txt)=>`<span class="${after>=m?"on":""}">${m}세트 ${esc(txt)}</span>`;
-  return `<div class="setinfo">◆ <b>${esc(S.name)}</b> 세트 — ${seg(2,S.b2.desc)} · ${seg(4,S.b4.desc)} · ${seg(6,S.b6.desc)}<br>${esc(heroDisplayName(cid))}: 지금 ${cur}/6${canEquip(cid,it)?` → 착용 시 <b>${after}/6</b>`:""} · 도감 ${codexCount(it.set)}/6</div>`;
+  const A=S.adv&&(ADV[S.cls]||[]).find(a=>a.key===S.adv), N=S.size, pn=setSlotsU(S).map(x=>x==="ring"?"반지×2":SET_NOUN[x]).join("·");
+  return `<div class="setinfo">◆ <b>${esc(S.name)}</b> 세트 (${N}부위 — ${esc(pn)}${A?` · ${esc(CLASSES[S.cls].name)} [${esc(A.name)}] 전용`:""}) — ${setBonuses(S).map(([q,B])=>seg(q,B.desc)).join(" · ")}<br>${esc(heroDisplayName(cid))}: 지금 ${Math.min(cur,N)}/${N}${canEquip(cid,it)?` → 착용 시 <b>${Math.min(after,N)}/${N}</b>`:""} · 도감 ${codexCount(it.set)}/${setSlotsU(S).length}</div>`;
 }
 function itemRow(it,cid,pv){
   cid=cid||partySel||rosterIds()[0];
@@ -13334,6 +13396,7 @@ async function runBattle(z){
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 /* v0.93 무작위 다단 기술(hits — 불새·화살비 등, 앞으로 생기는 것도)은 같은 적을 거듭 맞힐 때 줄어듦. 기술마다 hitFall로 따로 정할 수 있고(0이면 안 줄어듦), 없으면 10%씩 */
+const PARRY_BOSS_CUT=0.5;   // v0.93 되받아치기: 보스·우두머리 근접 공격은 막지 못하고 피해 -50%
 function hitFallOf(s){ return !s||!(s.hits>1)?0:s.hitFall!=null?s.hitFall:0.1; }
 /* v0.93 아직 닿지 않은 공격(투사체·돌진)이 남아 있으면 기다림 — '매우 빠르게'에서 마지막 한 방이 화면에 닿기도 전에 전투가 끝나
    적이 살아 있는 채로 다음 구역으로 넘어가거나 막이 클리어되어 보이던 문제(전투 결과 자체는 시뮬레이션대로 맞음) */
@@ -13910,20 +13973,20 @@ let egxSlot="armor", egxSet=null, egxWho=null;
 function egExchangeBlock(){
   const E=egState(); const box=document.createElement("div"); box.className="panel egx";
   const SL=[["weapon","무기"],["offhand","보조"],["armor","갑옷"],["helm","투구"],["gloves","장갑"],["boots","신발"],["cape","망토"],["ring","반지"],["amulet","목걸이"]];
-  egxWho=egxWho&&rosterIds().includes(egxWho)?egxWho:(partySel||rosterIds()[0]); const sets=Object.keys(SETS); egxSet=egxSet&&SETS[egxSet]?egxSet:sets[0];
+  egxWho=egxWho&&rosterIds().includes(egxWho)?egxWho:(partySel||rosterIds()[0]); const sets=Object.keys(SETS).filter(k=>!SETS[k].cls||SETS[k].cls===egxWho); egxSet=egxSet&&sets.includes(egxSet)?egxSet:sets[0];   // v0.93 전직 세트는 그 직업 것만
   box.innerHTML=`<h3 class="secth">🌅 새벽 교환소 <span class="shopnote">최종 콘텐츠에서 모은 새벽 파편 <b style="color:#ffcf7a">${E.shards}</b>개 — 원하는 부위를 골라 받습니다</span></h3>
     <div class="egx-row"><label>누구 것 <select id="egxWho">${rosterIds().map(c=>`<option value="${c}" ${c===egxWho?"selected":""}>${esc(heroDisplayName(c))}</option>`).join("")}</select></label>
     <label>부위 <select id="egxSlot">${SL.map(([k,l])=>`<option value="${k}" ${k===egxSlot?"selected":""}>${l}</option>`).join("")}</select></label>
     <button class="buy" id="egxLeg" ${E.shards<40?"disabled":""}>전설 장비 · 파편 40</button></div>
-    <div class="egx-row"><label>세트 <select id="egxSet">${sets.map(k=>`<option value="${k}" ${k===egxSet?"selected":""}>${esc(SETS[k].name)}</option>`).join("")}</select></label>
-    <button class="buy" id="egxSetB" ${E.shards<60||!SET_SLOTS.includes(egxSlot)?"disabled":""}>세트 조각(위 부위) · 파편 60</button>
+    <div class="egx-row"><label>세트 <select id="egxSet">${sets.map(k=>`<option value="${k}" ${k===egxSet?"selected":""}>${esc(SETS[k].name)} (${SETS[k].size}부위)</option>`).join("")}</select></label>
+    <button class="buy" id="egxSetB" ${E.shards<60||!SETS[egxSet].slots.includes(egxSlot)?"disabled":""}>세트 조각(위 부위) · 파편 60</button>
     <button class="buy" id="egxRune" ${E.shards<15?"disabled":""}>무작위 룬 · 파편 15</button>
-    ${SET_SLOTS.includes(egxSlot)?"":`<span class="shopnote">세트 조각이 없는 부위입니다</span>`}</div>${egGrowthHtml()}`;
+    ${SETS[egxSet].slots.includes(egxSlot)?"":`<span class="shopnote">이 세트에 없는 부위입니다 — ${esc(setSlotsU(SETS[egxSet]).map(x=>SET_NOUN[x]).join("·"))}</span>`}</div>${egGrowthHtml()}`;
   const give=(it,cost)=>{ E.shards-=cost; progress.inv.push(it); codexRecord(it); saveProgress(); renderShop(); lootToast(it,"새벽 교환소"); logLine(`<span class="gain">🌅 새벽 교환 — <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span> (파편 -${cost})</span>`); };
   setTimeout(()=>{ const on=(id,ev,fn)=>{ const e=$(id); if(e) e.addEventListener(ev,fn); };
     on("egxWho","change",e=>{ egxWho=e.target.value; renderShop(); }); on("egxSlot","change",e=>{ egxSlot=e.target.value; renderShop(); }); on("egxSet","change",e=>{ egxSet=e.target.value; renderShop(); });
     on("egxLeg","click",()=>{ if(E.shards<40) return; give(makeItem(true,egTier(),{slot:egxSlot,rarity:"legend",cls:CLASSES[egxWho]?egxWho:undefined,luck:partyLuck()}),40); });
-    on("egxSetB","click",()=>{ if(E.shards<60||!SET_SLOTS.includes(egxSlot)) return; give(makeSetItem(egxSet,egTier(),{slot:egxSlot,cls:egxWho}),60); });
+    on("egxSetB","click",()=>{ if(E.shards<60||!SETS[egxSet].slots.includes(egxSlot)) return; give(makeSetItem(egxSet,egTier(),{slot:egxSlot,cls:egxWho}),60); });
     on("egxRune","click",()=>{ if(E.shards<15) return; give(makeRune(),15); });
     on("egxMyth","click",()=>{ if(!mythicCan(egxWho)) return; craftMythic(egxWho); renderShop(); });
     on("egxMythRe","click",()=>{ const w=$("egxMythW"); if(reforgeMythic(egxWho,w?w.value:null)){ renderShop(); renderParty(); } });
