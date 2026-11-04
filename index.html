@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793787035037"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793789234321"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -763,6 +763,19 @@ button.dis{background:var(--raised); color:#9fd9ff; border:1px solid #2c4a6b; bo
 .market{border:1px solid #3a2f6a; background:#141028; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px}
 .market h3{margin:0; font-size:17px; color:var(--buff)}
 .tokens{font-size:14.5px; line-height:1.7}
+.advok{margin-left:4px; font-size:10.5px; font-weight:700; color:#1a1406; background:#f4c95d; border-radius:6px; padding:1px 5px; white-space:nowrap}
+/* v0.93 상태이상 모습 */
+.unit.st-frozen img{filter:grayscale(.35) brightness(1.18) sepia(.25) hue-rotate(160deg) saturate(2.2) drop-shadow(0 0 3px #bfefff) drop-shadow(0 0 1px #ffffff)!important; animation-play-state:paused!important}
+.unit.st-frozen::after{content:""; position:absolute; left:50%; top:2px; width:calc(70px*var(--s,1)); height:calc(74px*var(--s,1)); transform:translateX(-50%); border-radius:10px 10px 4px 4px; background:linear-gradient(180deg,#d8f6ff55,#8fd8ff33 60%,#ffffff22); box-shadow:inset 0 0 0 2px #e8fbffaa, inset 3px 3px 0 #ffffff66; pointer-events:none}
+.unit.st-stun img{animation:stunWob .5s steps(2,end) infinite!important}
+@keyframes stunWob{0%{rotate:-4deg}100%{rotate:4deg}}
+.unit.st-burn img{animation:burnGlow .4s steps(2,end) infinite}
+@keyframes burnGlow{0%{filter:drop-shadow(0 0 2px #ff7a2a) brightness(1.08)}100%{filter:drop-shadow(0 -2px 4px #ffb347) brightness(1.18) sepia(.25)}}
+.unit.st-poison img{filter:drop-shadow(0 0 2px #7ce060) hue-rotate(-25deg) saturate(1.3)}
+.unit.st-cold:not(.st-frozen) img{filter:drop-shadow(0 0 2px #8fd0ff) saturate(.8) brightness(1.05)}
+.unit.st-weak:not(.st-frozen):not(.st-burn):not(.st-poison) img{filter:saturate(.55) brightness(.9)}
+.unit.st-vuln:not(.st-frozen) img{outline:0; filter:drop-shadow(0 0 2px #ff4a6a)}
+.unit.st-air img{translate:0 calc(-10px*var(--s,1))}
 .qwrap{display:flex; gap:12px; align-items:flex-start}
 .qlist{display:flex; flex-direction:column; gap:4px; width:200px; flex:none}
 .qch{display:grid; grid-template-columns:22px auto 1fr auto; align-items:center; gap:6px; padding:8px 10px; border-radius:10px; background:var(--panel); border:1px solid var(--line); color:var(--ink); cursor:pointer; text-align:left; font-size:13px}
@@ -1465,7 +1478,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
-v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 퀘스트는 황혼 1~10장마다 하나 — 다섯 막이 다섯 단계이고, 지금 단계의 상대(중간보스·우두머리·장 보스)를 소개하며 깬 막에서 알게 된 이야기가 기록으로 남습니다. 다섯 막을 다 깨면 보상(그 장 몹 20마리분 경험치·골드 + 밤의 정수 + 희귀 장비 1개). 서브 퀘스트는 장마다 2개 — 그 장 사람들의 작은 부탁으로, 정해진 몹을 잡으면(어느 난이도든) 숫자가 차고 보상(몹 8마리분 경험치·골드, 둘째는 희귀 장비 1개 더). <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율)이고, 난이도가 오르면 1장 보스부터 앞 난이도 10장 보스보다 체력 1.25배 이상 셉니다. <b>최종 콘텐츠:</b> 밤의 심연 1층 · 낙성 강림 1단계의 일반 몹을 영원한 밤 10장 일반 몹의 1.05배로 맞췄습니다(그 위로 층·단계마다 오르는 비율은 그대로). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로).<br>
+v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 퀘스트는 황혼 1~10장마다 하나 — 다섯 막이 다섯 단계이고, 지금 단계의 상대(중간보스·우두머리·장 보스)를 소개하며 깬 막에서 알게 된 이야기가 기록으로 남습니다. 다섯 막을 다 깨면 보상(그 장 몹 20마리분 경험치·골드 + 밤의 정수 + 희귀 장비 1개). 서브 퀘스트는 장마다 2개 — 그 장 사람들의 작은 부탁으로, 정해진 몹을 잡으면(어느 난이도든) 숫자가 차고 보상(몹 8마리분 경험치·골드, 둘째는 희귀 장비 1개 더). <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율)이고, 난이도가 오르면 1장 보스부터 앞 난이도 10장 보스보다 체력 1.25배 이상 셉니다. <b>최종 콘텐츠:</b> 밤의 심연 1층 · 낙성 강림 1단계의 일반 몹을 영원한 밤 10장 일반 몹의 1.05배로 맞췄습니다(그 위로 층·단계마다 오르는 비율은 그대로). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로). 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%→70% · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 맞췄습니다. <b>그 밖:</b> 동료도 Lv10이 되면 전직을 직접 고릅니다(영웅 버튼에 ⭐전직 · 파티 탭 숫자에 포함). 던전 중 레벨업하면 그 영웅의 체력·마나가 가득 찹니다. 적도 영웅과 같은 자리(앞줄 3 · 뒷줄 3)에 서고, 가로줄마다 엇갈리던 배치를 없애 앞줄·뒷줄이 세로 한 줄로 보입니다. 기술 설명에 '앞줄(세로 한 줄) 전체 — 앞줄이 모두 쓰러졌으면 뒷줄 전체', 근접 대상 규칙을 적었습니다. 구역·전투마다 무대를 다시 불러 끊기고 날씨(비)가 바뀌던 문제를 고쳤습니다. 창술사 '창 찌르기'가 던지는 모습으로 나오던 문제(같은 이름의 적 기술로 잘못 읽음)를 고치고, 창은 찌르기 · 활은 화살 · 던지는 창은 창 · 방패 치기는 묵직한 타격으로 보입니다. 빙결(얼음빛·멈춤) · 기절(흔들림) · 화상 · 독 · 냉기 · 약화 · 취약이 유닛 모습에 보입니다.<br>
 v0.92: <b>기술·패시브 전면 개편 · 새 직업 둘</b> — 기존 7직업의 기술을 모두 새로 만들었습니다(새 이름·새 효과). <b>새 직업:</b> 후열 <b>궁수</b>(연사 — 같은 적을 연달아 맞히면 한 발마다 피해 +2%, 최대 +20% · 전직 바람의 명궁·숲의 사냥꾼)와 전열 <b>창술사</b>(앞줄 적을 근접 공격하면 같은 가로줄 뒷줄 적에게도 40% · 전직 용기병·방진 수호자)가 황혼 5장 황금 도시·6장 붉은 사막을 깬 다음 차례로 동료로 합류하고, 새 게임에서 주인공으로도 고를 수 있습니다(모두 9직업 · 활·창 무기 3종씩). 직업마다 기본 기술 6개(갈래 3개 × 2개) + 전직마다 4개(대표 1 · 강화 2 · 다리 1). 전직하면 Lv10에 대표 기술 + 강화 1개, Lv16에 강화 1개 + 다리 기술. <b>기술 칸:</b> 전직 전 3칸 · 전직 후 4칸(기본공격은 칸 밖에서 저절로). <b>패시브:</b> 직업·전직 패시브를 모두 바꿨습니다(예: 검사 반격 본능 — 원거리 공격에도 25% 확률로 80% 반격 · 마법사 집중된 마나 — 매 턴 마나 +3 · 성직자 은총의 넘침 — 넘친 치유의 50%를 보호막으로). <b>음유시인:</b> 오라를 없앴습니다. 노래는 칸에 넣는 3턴 버프 기술이고, 같은 노래를 다시 부르면 3턴으로 돌아가며 다른 노래끼리는 함께 걸립니다. 내 노래가 걸려 있는 동안 매 턴 공명 +2. <b>총사:</b> 보통 사격 기술은 탄만(마나 0), 사격이 아닌 기술은 마나만, 표적탄·화약 상자는 탄과 마나 둘 다. 재장전 기술은 없어지고 탄이 0이면 그 턴 저절로 재장전. <b>권사:</b> 올려차기·공중 연타·회오리 발차기는 기세 2. 받는 피해를 줄이는 기술은 겹치지 않고 가장 큰 것 하나만 적용됩니다. <b>예전 저장:</b> 예전 기술로 짠 규칙은 규칙 표로 다시 짜고(직접 고친 규칙은 같은 역할의 새 기술로 옮김), 숙련·장비 기술 옵션·특성 연결도 새 기술로 옮겼습니다. 자동전투 조건 '내가 켠 오라가 없음'·'아군 오라가 켜져 있음'·'내 내공 15% 이상'은 없어졌습니다.
 v0.91: <b>적의 상태이상</b> — 몹마다 특기 상태이상(장마다 주제)이 생겼습니다. 한 번 맞힐 때 확률 황혼 10% · 자정 30% · 영원한 밤 50%, 한 전투에서 거는 몹은 1 · 2 · 3마리까지(보스·우두머리는 그 장의 특기 전부, 자정부터 정예도). 영원한 밤의 적은 상태이상 걸린 영웅에게 피해 +20%. 막는 법: 상태이상 저항 상한 75% → 70%, 장비 저항 옵션이 더 자주·더 크게(2~9, 예전 1~7), 수호의 노래·수호기사 철벽 저항 +15%p, 권사 호흡 고르기가 내 상태이상 하나를 풂, 성직자 정화. 일반 몹 기술에 따로 붙어 있던 화상·약화·기절은 특기 상태이상으로 바뀜(보스 기술은 그대로). 한 전투 몹 수: 자정 3~5 · 영원한 밤 4~5마리. <b>자동전투 규칙 표</b> — 동료 규칙·처음 규칙·전직 때 새 기술 자리를 한 표에서 정합니다(직업 × 전직 × 성향). '항상'은 맨 끝 칸만, 검사 도발·성직자 치유·소생·전직 대표 기술은 꼭 들어가고, 음유시인 오라는 하나만. 직접 고친 주인공 규칙은 그대로 둡니다. 연소는 화상 걸린 적이 있을 때만 씁니다.
 v0.90: <b>마나·회복 다시 짜기</b> — <b>회복:</b> 구역 사이 회복(10%)을 없애고, 매 턴 직업 기본값 + 체질(체력)·의지(마나)만큼 조금씩 회복합니다. 막 중간 쉼터는 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남). <b>마나:</b> 기술 비용은 최대 마나의 %가 아니라 정해진 숫자입니다(레벨이 오를수록 더 자주 씀). 권사·총사·음유시인의 기세·탄약·공명 기술도 마나를 씁니다. 최대 마나는 의지 1당 +4(지능은 마나에 영향 없음). 레벨업 때 마나는 직업마다 다른 기준값(마법사 7 · 도적 4 · 성직자 3.5 · 검사 3 · 권사·총사 2 · 음유시인 1.5, 의지 1당 +2%)의 80~120% 사이에서 무작위로 오릅니다. 장비의 마나 옵션 수치는 예전의 30%(예: 마나 +40 → +12). <b>장비 수준:</b> 난이도 안에서 1장 → 10장 +20%(난이도 사이 +30%는 그대로).
@@ -2794,7 +2807,11 @@ function curveAt(p,c){ return p[0]*Math.pow(p[1]/p[0],c/9); }
 function poolAvg(rk){ const R=REGIONS[rk]; let h=0,a=0,w=0; for(const q of R.pool){ const m=MOBS[q.key]; h+=m.stats.hp*q.w; a+=m.stats.atk*q.w; w+=q.w; } return {hp:h/w, atk:a/w}; }
 function enemyTarget(d,c){ return {hp:curveAt(ENEMY_REF.atk[d],c)*curveAt(ENEMY_PRESS.hp[d],c), atk:curveAt(ENEMY_REF.hp[d],c)*curveAt(ENEMY_PRESS.atk[d],c)}; }   // 일반 몹 평균(3막 기준, 정예·속성 전)
 const DIFF_SCALE=[0,1,2].map(d=>REGION_KEYS.map((rk,c)=>{ const t=enemyTarget(d,c), a=poolAvg(rk); return {hp:+(t.hp/(a.hp*DIFF_K[d].hp)).toFixed(4), atk:+(t.atk/(a.atk*DIFF_K[d].atk)).toFixed(4)}; }));
-const BOSS_FIX=[0,1,2].map(d=>Object.fromEntries(REGION_KEYS.map(rk=>{ const a=poolAvg(rk), B=MOBS[REGIONS[rk].boss].stats; const c=REGION_KEYS.indexOf(rk); return [rk,{hp:bossRatioHp(d,c)*a.hp/B.hp, atk:curveAt(BOSS_RATIO.atk,c)*a.atk/B.atk}]; })));   // [난이도][장]
+/* v0.93 A안: 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%(1장) → 70%(10장) · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 깎음(올리지는 않음 — 자정 1장 보스 공격이 황혼 10장 보스보다 낮아지지 않게 자정부터 70%).
+   한 방 ≈ BOSS_HIT_K[d] × 보스 공격 ÷ 기준 영웅 체력 — BOSS_HIT_K는 봇 측정(큰 기술 위력 · 방어 · 대상)에서 잰 값 */
+const BOSS_HIT_CAP=[[0.6,0.7],[0.7,0.7],[0.7,0.7]], BOSS_HIT_K=[0.88,0.91,0.54];
+function bossAtkCap(d,c){ const hit=BOSS_HIT_K[d]*curveAt(ENEMY_PRESS.atk[d],c)*curveAt(BOSS_RATIO.atk,c)*BOSS_K[d].atk; return Math.min(1, curveAt(BOSS_HIT_CAP[d],c)/hit); }
+const BOSS_FIX=[0,1,2].map(d=>Object.fromEntries(REGION_KEYS.map(rk=>{ const a=poolAvg(rk), B=MOBS[REGIONS[rk].boss].stats; const c=REGION_KEYS.indexOf(rk); return [rk,{hp:bossRatioHp(d,c)*a.hp/B.hp, atk:curveAt(BOSS_RATIO.atk,c)*bossAtkCap(d,c)*a.atk/B.atk}]; })));   // [난이도][장]
 const ZONE_REGEN=0;   // v0.55.3: 구역 사이 체력·마나 회복 비율 · v0.70: 10% → 15% · v0.88: 15% → 10% · v0.90: 없앰(체질 18 강인함의 +5%만 남음)
 const REST_CHANCE=0.5, REST_HEAL=0.3;   // v0.90 쉼터는 막마다 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료는 30%로 일어남)
 function applyRest(party){ for(const u of party){ if(!u.alive){ u.alive=true; u.hp=Math.max(1,Math.floor(u.hp_max*REST_HEAL)); } else u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*REST_HEAL)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*REST_HEAL)); } }
@@ -3119,7 +3136,7 @@ const AFFIX_POOL=[
   {k:"c_front_cut",v:[6,10],w:3,min:2,slots:["armor","cape","amulet"],g:"form",label:v=>`앞줄에 서면 받는 피해 -${v}%`},
   {k:"c_back_crit",v:[5,8],w:3,min:2,slots:["armor","cape","amulet"],g:"form",label:v=>`뒷줄에 서면 치명타 +${v}%`},
   {k:"c_lane_cut",v:[3,6],w:2,min:2,slots:["armor","cape","amulet"],g:"form",label:v=>`같은 가로줄 아군(나 포함) 받는 피해 -${v}%`},
-  {k:"c_shape_cut",v:[15,25],w:3,min:2,slots:["armor","cape","amulet"],g:"form",label:v=>`일직선·가로줄·십자 범위 기술 피해 -${v}%`},
+  {k:"c_shape_cut",v:[15,25],w:3,min:2,slots:["armor","cape","amulet"],g:"form",label:v=>`가로줄 일렬·가로줄·십자 범위 기술 피해 -${v}%`},
   /* 조건부 확장 — 희귀 이상 */
   {k:"c_boss_dmg",v:[8,14],w:3,min:2,g:"cond",label:v=>`보스에게 주는 피해 +${v}%`},
   {k:"c_kill_heal",v:[2,4],w:2,min:2,g:"cond",label:v=>`적을 쓰러뜨리면 체력 ${v}% 회복`},
@@ -3392,12 +3409,12 @@ const LIMITS=[
   ["연계","연계 중첩은 최대 5."],
   ["전투 시간","전투가 60턴(보스가 있는 전투는 75턴)을 넘기면 승부가 나지 않은 것으로 보고 패배합니다. 끝나기 10턴 전부터 기록에 남은 턴이 표시됩니다."],
   ["출전 인원","처음 4명 → 자정을 열면 5명 → 영원한 밤을 열면 6명(함께하기와 같은 최대 인원). 최종 콘텐츠도 혼자 6명까지. 주인공은 항상 출전. 인원이 4명보다 많으면 적의 체력·공격력이 조금씩 높아집니다."],
-  ["진영(가로줄)","앞줄·뒷줄이 각각 가로줄 3칸(한 줄에 최대 3명, 모두 6자리). 같은 가로줄의 앞칸에 아군이 서 있으면 그 뒤 칸은 근접 공격을 받지 않습니다 — 앞칸이 비어 있는 가로줄의 뒷칸은 근접 공격에 노출됩니다. 그래서 앞 3명·뒤 3명이 가장 안전합니다. 적도 같은 규칙입니다."],
+  ["진영(가로줄)","앞줄·뒷줄이 각각 가로줄 3칸(한 줄에 최대 3명, 모두 6자리). 같은 가로줄의 앞칸에 아군이 서 있으면 그 뒤 칸은 근접 공격을 받지 않습니다 — 앞칸이 비어 있는 가로줄의 뒷칸은 근접 공격에 노출됩니다. 그래서 앞 3명·뒤 3명이 가장 안전합니다. 적도 같은 규칙입니다(몬스터도 앞줄 3·뒷줄 3, 앞줄이 차면 뒷줄로). 범위: '앞줄 전체'는 앞줄(세로 한 줄) 3칸 모두 — 앞줄이 모두 쓰러졌으면 뒷줄 전체, '뒷줄 전체'도 뒷줄이 비면 앞줄 전체, '가로줄 일렬'은 같은 가로줄의 앞칸·뒷칸 둘 다, '십자'는 고른 칸과 같은 가로줄 + 같은 줄의 위아래 칸."],
   ["장비 옵션","등급별 추가 옵션 수: 일반 0~1 · 고급 1~2 · 희귀 2~3 · 영웅 3~4 · 전설 4 · 세트 3 · 신화 5 (범위 위쪽은 30%, 이름 앞 ★). 같은 옵션은 한 장비에 한 번만. 품질 ●○ = 범위 안 위치, 94% 이상 '완벽'. 새 묶음은 희귀 이상(퍼센트·상태이상은 영웅 이상), 직업 스킬은 무기·보조·반지, 진영은 갑옷·망토·목걸이에만. 직업 스킬 옵션·직업 전용 고유 효과는 그 직업이 낄 때만 효과가 있습니다."],
   ["장비 드롭","[일반·고급·희귀·영웅·전설] 일반 몹 50·32·14·3.7·0.3% · 정예/우두머리 25·35·28·11·1% · 중간보스 10·30·38·19·3% · 장 보스 0·25·40·28·7% · 보물상자 20·35·30·13·2%. 자정은 영웅·전설 ×1.3, 영원한 밤 ×1.6, 행운은 희귀 이상을 조금씩 올림. 영웅 이상 무기·보조는 70%가 출전 중인 영웅의 것."],
   ["부위 강화","강화는 장비가 아니라 영웅의 부위(무기·보조·투구·갑옷·장갑·신발·망토·반지 2·목걸이, 유물 제외)에 쌓입니다. 장비를 바꿔 껴도 그 칸의 강화가 새 장비에 그대로 붙고(+1~+9 단계당 능력치 +5%, +10~+15 단계당 +9%, 심연 핵으로 연 +16~+18 단계당 +15% · 퍼센트 능력치는 절반), 가방의 장비에는 강화가 없습니다. 비용은 지금까지 연 콘텐츠 수준을 따릅니다. 실패하면 +6까지는 그대로, 그 위에서는 한 단계만 내려갑니다."],
   ["장비 성장","재련: 종류 바꾸기(정수 3+2×등급+재련 횟수) · 수치만(그 절반) · 한 줄 잠그고 전부(2배). 등급 올리기: 희귀→영웅 희귀 조각 3·정수 15, 영웅→전설 영웅 조각 5·정수 40(강화 단계 유지, 옵션 +1). 분해: 희귀·세트 → 희귀 조각 1, 영웅 → 영웅 조각 1, 전설 → 영웅 조각 2."],
-  ["범위 기술","몬스터·보스 기술에는 범위 모양이 있습니다 — 일직선(그 적과 같은 가로줄의 앞·뒤칸, 비어 있으면 영웅이 가장 많은 가로줄) · 십자(한 명 + 같은 가로줄 + 같은 줄 위아래) · 가로줄 하나 · 앞줄 전체 · 뒷줄 전체 · 뒷줄 아무나 1명 · 뒷줄 체력 가장 많은 1명 · 앞줄 방어력 가장 높은 1명. 범위 기술은 도발에 끌려가지 않고, 기를 모으는 동안 맞을 영웅이 빨갛게 표시됩니다. 보스는 늘 같은 가로줄에 서 있습니다."],
+  ["범위 기술","몬스터·보스 기술에는 범위 모양이 있습니다 — 가로줄 일렬(그 적과 같은 가로줄의 앞칸·뒷칸, 그 가로줄이 비어 있으면 영웅이 가장 많은 가로줄) · 십자(고른 한 명 + 같은 가로줄의 앞·뒷칸 + 같은 줄의 위아래 칸) · 가로줄 하나(아무 가로줄의 앞·뒷칸) · 앞줄 전체(앞줄이 비면 뒷줄 전체) · 뒷줄 전체(뒷줄이 비면 앞줄 전체) · 뒷줄 아무나 1명 · 뒷줄 체력 가장 많은 1명 · 앞줄 방어력 가장 높은 1명. 도발한 영웅이 있으면 가로줄·십자는 그 영웅을 중심으로, 한 줄 전체·한 명 기술은 그 영웅 한 명에게 갑니다(원거리는 절반만 끌려옴). 기를 모으는 동안 맞을 영웅이 빨갛게 표시됩니다. 보스는 늘 같은 가로줄에 서 있습니다."],
   ["전투 속도","처음 깨는 막은 '조금 빠르게'까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 '빠르게'까지 쓸 수 있습니다."],
   ["직업 자원","권사 기세 최대 5(때리거나 맞을 때마다 +1) · 음유시인 공명 최대 10(내 노래가 걸려 있는 동안 매 턴 +2) · 총사 탄창 8발(무기·특성으로 바뀜, 0발이면 그 턴 자동 재장전) · 도적 연계 최대 5. 자원은 전투마다 처음부터 시작합니다."],
   ["노래","음유시인의 노래는 대상마다 3턴 동안 걸립니다. 같은 노래를 다시 부르면 남은 턴이 3턴으로 돌아가고, 서로 다른 노래는 함께 걸립니다. 음유시인이 쓰러져도 걸린 노래는 남은 턴까지 유지됩니다."],
@@ -4769,7 +4786,7 @@ function skillSpec(sid,sx){
   let main="";
   switch(s.type){
     case "damage":{
-      const who=s.airOnly?"띄운 적 모두":s.burnOnly?"화상 걸린 적 모두":s.coldMin?`냉기 ${s.coldMin}중첩 이상인 적 모두`:s.aoe?"적 전체":s.aoeFront?"적 앞줄 전체":s.lane?"적 일렬(같은 가로줄 앞·뒷줄)":s.backOnly?"뒷줄 적 1명":s.preyOnly?"내 사냥감":"적 1명";
+      const who=s.airOnly?"띄운 적 모두":s.burnOnly?"화상 걸린 적 모두":s.coldMin?`냉기 ${s.coldMin}중첩 이상인 적 모두`:s.aoe?"적 전체":s.aoeFront?"적 앞줄(세로 한 줄) 전체":s.lane?"적 일렬(고른 적이 선 가로줄의 앞줄·뒷줄)":s.backOnly?"뒷줄 적 1명":s.preyOnly?"내 사냥감":"적 1명";
       main=s.steam?`적 1명의 냉기를 모두 터뜨려 냉기 1중첩당 공격력 ${P(s.power)}%`:s.hits?`무작위 적에게 공격력 ${P(s.power)}% × ${s.hits}번`:s.multi?`${who}에게 공격력 ${P(s.power)}% × ${s.multi}번`:`${who}에게 공격력 ${P(s.power)}% 피해`;
       tags.push({c:"tgt",t:s.airOnly?"띄운 적":s.burnOnly?"화상 적":s.coldMin?"냉기 적":s.aoe?"적 전체":s.aoeFront?"적 앞줄":s.hits?"무작위":s.lane?"적 일렬":s.backOnly?"뒷줄 적":s.preyOnly?"사냥감":"적 1명"});
       // 거는 상태
@@ -4829,6 +4846,8 @@ function skillSpec(sid,sx){
       if(s.combo) R("etc",`내 연계 +${s.combo}`);
       if(s.lane) R("etc",`고른 적과 같은 가로줄의 앞·뒷줄 적 모두를 침`);
       if(s.backOnly) R("etc",`뒷줄 적이 있을 때만`);
+      if(s.aoeFront) R("etc",`앞줄이 모두 쓰러졌으면 뒷줄 전체`);
+      if(s.range==="melee"&&!s.reach&&!s.aoe&&!s.aoeFront&&!s.lane&&!s.hits) R("etc",`근접: 앞줄 적 · 앞칸이 빈 가로줄이면 그 뒷줄 적도`);
       if(s.preyOnly) R("etc",`내가 '사냥감 지정'을 건 적이 있을 때만`);
       if(s.tauntOne) R("etc",`그 적이 ${s.tauntOne}턴간 나를 노림 (원거리 공격은 절반만)`);
       if(s.selfGauge) R("etc",`다음 턴 내 행동 게이지 +${P(s.selfGauge)}% (100%가 넘으면 그 턴에 한 번 더 행동)`);
@@ -4945,7 +4964,7 @@ const ENEMY_MP_REGEN=0.12;
 /* v0.43 기술 범위 모양(주로 몬스터·보스) — shape:
    line 자기 가로줄 일직선(앞·뒤) · lane_rand 아무 가로줄 하나 · cross 한 명 중심 십자(같은 가로줄 + 같은 줄 위아래) · back_all 뒷줄 전체 · front_all 앞줄 전체
    back_rand 뒷줄 아무나 1명 · back_hpmax 뒷줄 체력 가장 많은 1명 · front_defmax 앞줄 방어력 가장 높은 1명. 모양 기술은 도발에 끌려가지 않음 */
-const SHAPES={ line:{n:"일직선",multi:true}, lane_rand:{n:"가로줄 하나",multi:true}, cross:{n:"십자",multi:true}, back_all:{n:"뒷줄 전체",multi:true}, front_all:{n:"앞줄 전체",multi:true},
+const SHAPES={ line:{n:"가로줄 일렬",multi:true}, lane_rand:{n:"가로줄 하나",multi:true}, cross:{n:"십자",multi:true}, back_all:{n:"뒷줄 전체",multi:true}, front_all:{n:"앞줄 전체",multi:true},
   back_rand:{n:"뒷줄 1명"}, back_hpmax:{n:"뒷줄 체력 최다"}, front_defmax:{n:"앞줄 방어 최고"} };
 function isSk(S){ return !!S&&(S.mp>0||!!S.sk); }   // v0.89 '기술'(기본공격이 아닌 것) — 권사·총사 기술은 마나를 안 써도 기술
 function isAoe(sk){ return !!(sk&&(sk.aoe||(sk.shape&&SHAPES[sk.shape]&&SHAPES[sk.shape].multi))); }
@@ -4977,6 +4996,11 @@ class Sim {
   /* ---- v0.26 연계 도우미 ---- */
   opp(side){ return side==="party"?"enemy":"party"; }
   isAir(u){ return !!(u&&u.buffs&&u.buffs.air); }
+  // v0.93 화면용 상태 요약: 유닛마다 걸린 상태를 글자로(F 빙결 · S 기절 · A 띄움 · B 화상 · P 독 · C 냉기 · W 약화 · V 취약 · H 은신 · T 도발)
+  stSnap(){ const o={}; for(const u of this.units){ if(!u.alive) continue; const b=u.buffs||{}, d=u.dots||{}; let k="";
+      if(b.stun) k+=b.stun.frozen?"F":"S"; if(b.air) k+="A"; if(d.burn) k+="B"; if(d.poison) k+="P"; if(!(b.stun&&b.stun.frozen)&&this.coldOf(u)>0) k+="C";
+      if(b.atk&&b.atk.value<0) k+="W"; if(b.vuln||b.mark) k+="V"; if(b.stealth) k+="H"; if(b.taunt) k+="T";
+      if(k) o[u.id]=k; } return o; }
   chilledU(u){ return !!(u.buffs.atk&&u.buffs.atk.value<0); }
   ccd(u){ return !!(u.buffs.stun||u.buffs.air||this.chilledU(u)||u.dots.frost); }
   // v0.92 노래: 음유시인이 부르면 대상마다 3턴 버프(buffs["sg_"+종류]) — 세기는 부를 때 정함(무기·특성·대상 줄)
@@ -6362,7 +6386,7 @@ class Sim {
     u._acted=true; u._lastCrit=!!u._critNow;
     this.events.push({type:"action",actor:u.id,actorName:u.name,side:u.side,
       ruleNo:act.ruleNo, ruleText:act.rule?this.ruleText(act.rule):"",
-      skillName:skill.name+(skill.shape&&SHAPES[skill.shape]?` · ${SHAPES[skill.shape].n}`:""), shape:skill.shape||null, actorMp:u.mp, effects:fx});
+      skillName:skill.name+(skill.shape&&SHAPES[skill.shape]?` · ${SHAPES[skill.shape].n}`:""), skillId:skill.id||null, shape:skill.shape||null, actorMp:u.mp, effects:fx, sts:this.stSnap()});
     if(this.law&&this.lawOn("reverse")&&u.side==="party") for(const f of fx) if(f.kind==="heal"&&f.amount>0&&f.target!==u.id){ const t=this.byId(f.target); if(t&&t.side==="party"&&!(t.traits&&t.traits.ab_reverse)) t._revLock=true; }   // v0.59 역전
     this.checkQuotes();
     if(skill.mp>0&&u._focusNext&&skill.type!=="restore_mp"&&!skill.mpGain) u._focusNext=false;   // v0.85
@@ -6510,7 +6534,7 @@ class Sim {
     this.maxTurn=this.units.some(u=>u.side==="enemy"&&u.isBossKind)?BOSS_TURN_LIMIT:TURN_LIMIT;
     while(this.turn<this.maxTurn&&!this.over()){
       this.turn++;
-      this.events.push({type:"turn",n:this.turn,max:this.maxTurn});
+      this.events.push({type:"turn",n:this.turn,max:this.maxTurn,sts:this.stSnap()});
       if(this.turn===12) for(const u of this.units) if(u.alive&&this.hasPassive(u,"enrage")){
         u.atk=Math.round(u.atk*1.5);
         this.events.push({type:"log",text:`${u.name}이(가) 광폭해졌다! (공격력 +50%)`});
@@ -7733,13 +7757,15 @@ function companionPickTrait(cid){
   return best;
 }
 // 한 동료가 스스로 판단 — 바뀐 것이 있으면 로그 문구 목록을 돌려준다
+var COMP_AUTO_ADV=false;   // v0.93 동료 전직은 플레이어가 고름(밸런스 봇만 스스로 전직)
+function advReady(cid){ const h=progress&&progress.heroes&&progress.heroes[cid]; return !!(h&&!h.adv&&h.level>=ADV_LEVEL); }
 function companionThink(cid){
   if(!isCompanion(cid)) return [];
   const h=progress.heroes[cid], st=heroStance(cid), S=STANCES[st], who=heroDisplayName(cid), msgs=[];
   // 1) 각성
   if(h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)){ h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&progress.heroes[cid].adv) addAdvRules(cid,advInfo(cid)); msgs.push(`✦ ${who} 스스로 각성 ${h.awaken}! (특성 +${TRAIT_AWAKEN})`); }
   // 2) 전직
-  if(!h.adv&&h.level>=ADV_LEVEL){ const key=COMPANION.adv[cid][st]; const a=ADV[cid].find(x=>x.key===key)||ADV[cid][0]; h.adv=a.key;
+  if(COMP_AUTO_ADV&&!h.adv&&h.level>=ADV_LEVEL){ const key=COMPANION.adv[cid][st]; const a=ADV[cid].find(x=>x.key===key)||ADV[cid][0]; h.adv=a.key;
     msgs.push(`⭐ ${who}${jo(who,"이","가")} 스스로 전직 → ${a.name} (${S.name}) — ${a.desc}`);
     try{ const ar=addAdvRules(cid,a); for(const [sid,x] of ar) msgs.push(x&&x.skip?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — ${STANCES[st].name} 규칙 표에서는 이번 칸에 넣지 않음`:x&&x.failed?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — 규칙 칸이 모자라 넣지 못함(자동전투 탭에서 직접)`:`📜 ${who}: 새 스킬 '${SKILLS[sid].name}'을(를) 규칙에 넣음 — 순서는 자동전투 탭에서`); }catch(e){} }
   // 3) 능력치 배분
@@ -7984,7 +8010,7 @@ function renderHud(){
 }
 function renderPtsDot(){
   const ids=rosterIds().filter(c=>!isCompanion(c));
-  const n=ids.reduce((a,c)=>a+(progress.heroes[c].pts||0),0);
+  const n=ids.reduce((a,c)=>a+(progress.heroes[c].pts||0),0)+rosterIds().filter(advReady).length;   // v0.93 전직할 수 있는 영웅도 셈
   $("ptsDot").textContent=n>0?String(n):"";
   const t=ids.reduce((a,c)=>a+Math.max(0,traitPtsLeft(c)),0);
   $("traitDot").textContent=t>0?String(t):"";
@@ -9503,6 +9529,11 @@ const KA = (()=>{
     slash1:["    b","   w ","  w  "," w   ","b    "],
     slash2:["  bb  ","   wb ","    w ","    w ","   wb ","  bb  "],
     claw:  ["b   b"," w w ","  w  "," w w ","b   b"],
+    arrow: ["b    a  ","bbaaaaaaw","b    a  "],
+    spear: ["        a  ","aaaaaaaabbw","        a  "],
+    dagger:[" a   ","bbaaw"," a   "],
+    thrust1:["      ","bbbaaw","      "],
+    thrust2:["   b    ","bbbbaaaw","   b    "],
     fist1: [" bb ","bwwb","bwwb"," bb "],
     fist2: ["b  b  b"," bwwwb ","  www  ","bwwwwwb","  www  "," bwwwb ","b  b  b"],
     puff1: [" aa ","abba","abba"," aa "],
@@ -9549,16 +9580,18 @@ const KA = (()=>{
     if(style === "fist") anim(["fist1", "fist2"], x, y, P, [255,180,90], [255,236,190], 90, dir < 0);
     else if(style === "claw") anim(["claw", "claw"], x, y, P, [200,210,240], [255,255,255], 110, dir < 0);
     else if(style === "bite") anim(["pop1", "pop2"], x, y, P, [230,90,90], [255,200,200], 100);
+    else if(style === "bash") anim(["fist1", "fist2"], x, y, P, [190,200,220], [255,255,255], 90, dir < 0);
+    else if(style === "thrust") anim(["thrust1", "thrust2", "thrust2"], x - dir * t.s * 0.15, y, P, E && E.k !== "none" ? E.a : [190,200,220], E && E.k !== "none" ? E.b : [255,255,255], 75, dir < 0);
     else anim(["slash1", "slash2", "slash2"], x, y, P, E && E.k !== "none" ? E.a : [140,180,255], E && E.k !== "none" ? E.b : [226,238,255], 80, dir < 0);
     chunks(x, y, E && E.k !== "none" ? E.a : [255,255,255], [255,255,255], 6, t.p, 50); }
   function knock(id, dir, big){ const i = unitImg(id); if(!i || instantMode()) return; const base = getComputedStyle(i).transform; const b = base === "none" ? "" : base + " ";
     const k = big ? 10 : 5; i.animate([{transform: b}, {transform: `translate(${dir*k}px,0) ${b}`, offset: .25}, {transform: `translate(${-dir*k*0.3}px,0) ${b}`, offset: .6}, {transform: b}], {duration: 320, easing: "ease-out"}); }
   function shakeField(px){ const a = document.querySelector(".arena"); if(!a || instantMode()) return; a.animate([{transform:"none"}, {transform:`translate(${px}px,${-px/2}px)`}, {transform:`translate(${-px}px,${px/2}px)`}, {transform:`translate(${px/2}px,0)`}, {transform:"none"}], {duration: 260}); }
-  function projectile(fromId, toId, name, isSk){ const a = footOf(fromId), b = footOf(toId); if(!a || !b || instantMode()) return 0;
-    const E = elemOf(name || ""); const shape = PROJ[E.k]; const fast = E.k === "gun"; const d = fast ? Math.max(140, Math.min(260, spd() * 0.35)) : Math.max(240, Math.min(460, spd() * 0.65));
+  function projectile(fromId, toId, name, isSk, kind, E0){ const a = footOf(fromId), b = footOf(toId); if(!a || !b || instantMode()) return 0;
+    const E = E0 || elemOf(name || ""); const shape = kind || PROJ[E.k]; /* v0.93 화살·창·단검은 그 모양으로 날아감 */ const fast = E.k === "gun"; const d = fast ? Math.max(140, Math.min(260, spd() * 0.35)) : Math.max(240, Math.min(460, spd() * 0.65));
     const dir = Math.sign(b.x - a.x) || 1; const sx = a.x + dir * a.s * 0.32, sy = a.y - a.s * 0.5, ex = b.x, ey = b.y - b.s * 0.5;
     if(fast) anim(["pop1"], sx + dir * a.p * 2, sy, a.p, [255,190,80], [255,250,220], 70);         // 총구 불꽃
-    moves.push({kind: "proj", t0: performance.now(), d, sx, sy, ex, ey, P: (a.p + b.p) / 2 * (isSk ? 1.5 : 1), shape, E, dir, arc: fast ? 0 : Math.abs(ex - sx) * (E.k === "song" ? 0.18 : 0.1), fast}); kick(); return d; }
+    moves.push({kind: "proj", t0: performance.now(), d, sx, sy, ex, ey, P: (a.p + b.p) / 2 * (isSk ? 1.5 : 1), shape, E, dir, arc: fast ? 0 : Math.abs(ex - sx) * (E.k === "song" ? 0.18 : kind === "arrow" || kind === "spear" ? 0.06 : 0.1), fast}); kick(); return d; }
   function anim(frames, x, y, P, a, b, fd, flip){ moves.push({kind: "anim", t0: performance.now(), frames, x, y, P, a, b, fd, flip}); kick(); }
   function floatIcon(shape, x, y, P, a, b, life, rise, delay){ moves.push({kind: "float", t0: performance.now() + (delay || 0), shape, x, y, P, a, b, life, rise}); kick(); }
   function orbit(shape, f, a, b, n, life){ for(let i = 0; i < n; i++) moves.push({kind: "orbit", t0: performance.now(), shape, id: f.id, ph: i / n, P: f.p * 0.8, a, b, life}); kick(); }
@@ -9620,13 +9653,32 @@ const KA = (()=>{
   function boomAt(x, y, P){ anim(["boom1", "boom2", "boom3"], x, y, P, [255,128,40], [255,226,120], 95); chunks(x, y, [255,128,40], [120,110,110], 10, P, 90, 30); shakeField(4); }
   /* ---- 전투 기록 → 연출 ---- */
   const pendHit = {};
-  function meleeStyle(u, sk, name){ if(u.cls === "fighter" || /권|각|주먹|박치기|어깨|연격/.test(name)) return "fist";
+  // v0.93 사건의 기술 id로 정확한 기술을 찾음(이름에 범위 꼬리표가 붙거나 이름이 같은 다른 기술이 있어도 — 예: 창술사 '창 찌르기'가 적의 원거리 '창 찌르기'로 잘못 읽혀 던지는 모습이던 문제)
+  function skOfEv(ev){ const id = ev.skillId; if(id && SKILLS[id]) return Object.assign({id}, SKILLS[id]); const nm = String(ev.skillName || "").split(" · ")[0]; return SKILL_BY_NAME[nm]; }
+  // 속성: 이름 → 기술이 거는 상태 → 직업 순서로
+  function elemFor(name, sk, u){ const pick = k => ELEM.find(x => x[0] === k), mk = k => { const X = pick(k); return X ? {k: X[0], a: X[2], b: X[3]} : elemOf(name); };
+    if(sk && sk.steam) return mk("ice");   // 증기 폭발은 냉기 기술
+    let E = elemOf(name); if(u && u.cls === "archer" && E.k === "gun") E = {k: "none", a: [220,226,240], b: [255,255,255]};   // 궁수의 '사격'은 총이 아님
+    if(E.k !== "none" || !sk) return E;
+    const k = sk.burn || sk.burnPop ? "fire" : (sk.cold || sk.freezeHit) ? "ice" : (sk.poisonN || sk.poison) ? "poison" : u && u.side === "party" && sk.type === "damage" && (sk.mp || 0) > 0 ? ({mage: "arcane", priest: "holy", bard: "song", fighter: "ki"}[u.cls] || null) : null;
+    const X = k && pick(k); return X ? {k: X[0], a: X[2], b: X[3]} : E; }
+  // 원거리 투사체 모양: 총은 총알, 활은 화살, 던지는 창은 창, 단검 던지기는 단검, 그 밖(마법·노래·빛)은 속성 모양
+  function projKind(u, sk, name, E){ if(u.cls === "archer") return "arrow"; if(u.cls === "gunner" || E.k === "gun") return null;
+    if(/던지|투창|투척/.test(name) && /창/.test(name)) return "spear";
+    if(/단검|비수|칼날 던지|투척/.test(name)) return "dagger";
+    if(u.cls === "archer" || /활|화살|궁|저격|연사/.test(name) || (u.side === "enemy" && /궁수|궁사/.test(u.name || ""))) return "arrow";
+    return null; }
+  function meleeStyle(u, sk, name){ if(/휩쓸|휘두르|회전/.test(name)) return "slash";
+    if(/방패 치기|방패 밀|망치|박치기/.test(name) && u.cls !== "fighter") return "bash";   // 방패·망치는 묵직한 타격
+    if(u.cls === "rogue") return "claw";
+    if(u.cls === "lancer" || /창|찌르기|꿰뚫|천공|돌격|미늘/.test(name) && !/던지/.test(name)) return "thrust";   // v0.93 창은 찌르는 모습
+    if(u.cls === "fighter" || /권|각|주먹|박치기|어깨|연격/.test(name)) return "fist";
     if(u.cls === "rogue" || /단검|찌르기|긋기|습격|급소/.test(name)) return "claw";
     if(u.side === "enemy" && !/검|베기|도끼|창|칼|낫/.test(name)) return /물기|발톱|이빨|할퀴/.test(name) ? "claw" : "bite"; return "slash"; }
   function onAction(ev){
     const u = curUnits.find(x => x.id === ev.actor); if(!u || instantMode()) return;
     const foes = (ev.effects || []).map(f => curUnits.find(x => x.id === f.target)).filter(t => t && t.side !== u.side);
-    const name = ev.skillName || "", sk = SKILL_BY_NAME[name], E = elemOf(name);
+    const name = ev.skillName || "", sk = skOfEv(ev), E = elemFor(name, sk, u);
     E.boom = !!(sk && (sk.type === "keg" || sk.burst || /폭발|화약|메테오|파열/.test(name)));
     const foe = foes[0];
     if(!foe){ // 자기·아군 대상 스킬: 시전 반짝임 + v0.36 받는 아군 발밑에 고리
@@ -9635,7 +9687,7 @@ const KA = (()=>{
       const f = footOf(u.id); if(f && sk && sk.type !== "damage") chunks(f.x, f.y - f.s * 0.5, E.k === "none" ? [255,226,140] : E.a, [255,255,255], 6, f.p, 40, 30);
       if(f && sk && sk.type === "song") for(let k = 0; k < 3; k++) floatIcon("note", f.x + (k - 1) * f.p * 4, f.y - f.s * 0.6, f.p, [92,214,150], [210,255,226], 900, f.s * 0.4, k * 120);
       return; }
-    const melee = sk ? sk.range === "melee" : u.row === "front";
+    const nm0 = name.split(" · ")[0], melee = sk ? (sk.range === "melee" || (/베기|찌르기|칼|물기|이빨|발톱|삼키기|송곳니/.test(nm0) && !/던지|화살|사격|투척/.test(nm0))) : u.row === "front";   // v0.93 베기·찌르기처럼 몸으로 치는 기술은 원거리 판정이어도 달려들어 침(뒷줄까지 닿는 공격)
     const now = performance.now(); const seen = new Set();
     const isSk = !!sk && (u.side === "party" ? !!(CLASSES[u.cls] && sk.id !== CLASSES[u.cls].skills[0]) : ((sk.mp || 0) > 0 || sk.aoe || (sk.power || 0) >= 1.4));
     const bigSk = isSk && ((sk.mp || 0) >= 16 || sk.aoe || !!u.boss);
@@ -9645,7 +9697,7 @@ const KA = (()=>{
     if(!melee){ const ai = unitImg(u.id), af = footOf(u.id); if(ai && af){ const P = af.p, gun = u.cls === "gunner" || E.k === "gun";   // 원거리: 총은 반동, 시전은 살짝 뛰어오름
         ai.animate(gun ? [{translate: "0 0"}, {translate: `${(u.side === "party" ? -1 : 1) * P}px 0`, offset: .3}, {translate: "0 0"}] : [{translate: "0 0"}, {translate: `0 ${-P * 1.5}px`, offset: .35}, {translate: "0 0"}], {duration: 300, easing: "ease-out", composite: "add"}); } } for(const k in pendHit) delete pendHit[k];   // 이번 행동의 대상만
     if(melee){ const big = !!(sk && sk.power >= 1.6), sty = meleeStyle(u, sk, name); const thm = u.side === "party" && E.k === "none" && typeof cosOn === "function" ? cosOn("fx") : null; const dly = lunge(u.id, foe.id, true, thm ? "th:" + thm : sty, E, big); for(const t of foes) pendHit[t.id] = {at: now + dly, E, melee: true, style: sty, skill: isSk, big: bigSk}; }
-    else for(const t of foes){ if(seen.has(t.id)) continue; seen.add(t.id); const d = projectile(u.id, t.id, name, isSk); pendHit[t.id] = {at: now + d, E, melee: false, skill: isSk, big: bigSk}; }
+    else { const pk = projKind(u, sk, name, E); for(const t of foes){ if(seen.has(t.id)) continue; seen.add(t.id); const d = projectile(u.id, t.id, name, isSk, pk, E); pendHit[t.id] = {at: now + d, E, melee: false, skill: isSk, big: bigSk}; } }
   }
 
   /* ---- v0.36 스킬 시전 연출(시안 '스킬 연출'에서 고른 방식) ----
@@ -9727,7 +9779,7 @@ const KA = (()=>{
   function cast(ev){
     if(!ev || ev.type !== "action" || ev.auto || ev.side !== "party" || instantMode()) return 0;
     const u = curUnits.find(x => x.id === ev.actor); if(!u || !u.cls || !CLASSES[u.cls]) return 0;
-    const sk = SKILL_BY_NAME[ev.skillName || ""]; if(!sk || sk.id === CLASSES[u.cls].skills[0]) return 0;
+    const sk = skOfEv(ev); if(!sk || sk.id === CLASSES[u.cls].skills[0]) return 0;
     if(!footOf(u.id)) return 0;
     const d = spd(), R = CAST_RAMP[u.cls] || CAST_RAMP.knight, m = CAST_PITCH[u.cls] || 1, now = performance.now();
     const a = typeof advInfo === "function" ? advInfo(u.cls) : null, advSk = a ? [a.skill, ...(a.extra || [])] : [];
@@ -9761,7 +9813,7 @@ const KA = (()=>{
     const wait = ph ? Math.max(0, ph.at - performance.now()) : 0;
     if(fx.kind === "damage" || fx.kind === "counter"){
       later(wait, () => { const f = footOf(t.id); if(!f) return; knock(t.id, t.side === "enemy" ? 1 : -1, fx.crit); if(typeof MOTION !== "undefined") MOTION.flash(t.id);
-        if(fx.crit) SND.fx("crit"); else if(ph && ph.melee) SND.fx(ph.style === "fist" ? "blunt" : "slash"); else if(fx.kind === "counter") SND.fx("slash");
+        if(fx.crit) SND.fx("crit"); else if(ph && ph.melee) SND.fx(ph.style === "fist" || ph.style === "bash" ? "blunt" : "slash"); else if(fx.kind === "counter") SND.fx("slash");
         if(fx.killed) setTimeout(() => SND.fx(t.side === "enemy" ? "enemy_down" : "ally_down"), 160);
         if(ph && ph.skill) skillImpact(t, ph, fx.crit);
         else if(ph && ph.E && ph.E.boom) boomAt(f.x, f.y - f.s * 0.45, f.p);
@@ -10311,8 +10363,12 @@ const WX = (()=>{
     if(!RS && !CR) return STAGE.ch.camp && !foes ? "camp" : ((typeof progress !== "undefined" && progress && progress.lastRegion) || "swamp");
     const R = RS || CR, rk = R.regionKey || R.rk || "swamp"; const act = R.mode ? 1 : (ACT_BG[(R.act || 1) - 1] || 1);
     return act > 1 && STAGE.ch[rk + "_" + act] ? rk + "_" + act : rk; }
-  function start(){
+  let lastKey = null, lastRun = null;
+  function start(force){
     const key = stageKey(), rk = key.replace(/_\d$/, "");
+    { const RS = typeof runState !== "undefined" && runState ? runState : null, CR = typeof COOP !== "undefined" && COOP && COOP.run ? COOP.run : null, run = RS || CR;
+      if(!force && key === lastKey && run === lastRun && region) return;   // v0.93 같은 무대·같은 입장이면 다시 만들지 않음 — 구역·전투마다 배경을 새로 불러 끊기고 날씨(비)가 바뀌던 문제
+      lastKey = key; lastRun = run; }
     const f0 = field(); if(f0) f0.classList.toggle("campfire", key === "camp");
     setBg(key); const INDOOR = {swamp_3:1, citadel_2:1, citadel_3:1, gold_2:1, gold_3:1, desert_3:1, sunken_3:1, temple_2:1, temple_3:1, throne:1, throne_2:1, throne_3:1};
     const OUTK = {rain:1, storm:1, snow:1, leaves:1, sand:1, petals:1, heat:1};
@@ -10349,7 +10405,7 @@ const WX = (()=>{
         const FZ = n === 1 ? [0.55] : n === 2 ? [0.15, 0.95] : n === 3 ? [0.0, 0.5, 1.0] : Array.from({length: n}, (_, j) => j / (n - 1));
         const OFF = n === 2 ? [0.5, -0.5] : n === 3 ? [-0.5, 0.75, -0.5] : Array.from({length: n}, (_, j) => (j % 2 ? 1 : -1) * (mob ? 0.95 : 0.45));   // 한 줄에 넷 이상이면 낮은 화면에선 좌우로 크게 엇갈려 위아래로 덜 쌓이게
         const ln = el.dataset.lane === undefined || el.dataset.lane === "" ? -1 : +el.dataset.lane;   // v0.43: 가로줄 4칸 — 같은 가로줄이면 양쪽이 같은 높이(일직선 공격을 읽을 수 있게)
-        const fz = ln >= 0 ? ln / Math.max(1, LANES - 1) : FZ[i], fwd = ln >= 0 ? (ln % 2 ? 1 : -1) * (mob ? 0.55 : 0.3) : (n === 1 ? 0 : OFF[i]);
+        const fz = ln >= 0 ? ln / Math.max(1, LANES - 1) : FZ[i], fwd = ln >= 0 ? 0 : (n === 1 ? 0 : OFF[i]);   // v0.93 가로줄 자리가 있으면 엇갈리지 않게 — 앞줄·뒷줄이 세로 한 줄로 또렷하게(영웅·몬스터 같은 규칙)
         const x = arR.width * (0.5 + (COLS[key] - 0.5) * (0.88 + 0.12 * fz) + (enemy ? -1 : 1) * fwd * 0.065);
         const y = topF + (botE - topF) * fz;
         items.push({el, enemy, x, y}); }); }
@@ -10801,7 +10857,7 @@ function flash(id,cls){
 /* ---- 규칙 편집 ---- */
 function heroPickBtn(cid,on,sub,onclick){
   const b=document.createElement("button"); b.className=on?"on":""; b.title=heroTitle(cid);
-  b.innerHTML=`<img src="${heroIcon(cid)}" alt=""${heroAuraStyle(cid)}><span class="cs"><span>${esc(heroBtnLabel(cid))}</span><small>${esc(sub)}</small></span>`;
+  b.innerHTML=`<img src="${heroIcon(cid)}" alt=""${heroAuraStyle(cid)}><span class="cs"><span>${esc(heroBtnLabel(cid))}</span><small>${esc(sub)}</small></span>${advReady(cid)?`<span class="advok" title="전직할 수 있습니다 — 파티 탭에서 전직을 고르세요">⭐전직</span>`:""}`;
   b.onclick=onclick; return b;
 }
 function renderCharPick(){
@@ -11878,7 +11934,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
     pl.textContent="전직 패시브: "+a0.passive_name+((h0lv=>h0lv<ADV_PASSIVE_LV?` — Lv${ADV_PASSIVE_LV}부터${(a0.extra||[]).length&&h0lv<ADV_EXTRA_LV?` · 추가 스킬 Lv${ADV_EXTRA_LV}부터`:""}`:((a0.extra||[]).length&&h0lv<ADV_EXTRA_LV?` · 추가 스킬 Lv${ADV_EXTRA_LV}부터`:""))(progress.heroes[cid].level||0));
     card.appendChild(pl);
   }
-  if(!h.adv&&h.level>=ADV_LEVEL&&!comp){
+  if(!h.adv&&h.level>=ADV_LEVEL){
     const advBox=document.createElement("div"); advBox.className="alloc";
     const capA=document.createElement("span"); capA.textContent="⭐ 전직 가능:";
     capA.style.color="var(--accent)"; capA.style.fontSize="12.5px";
@@ -12933,7 +12989,12 @@ async function runBattle(z){
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
+// v0.93 상태이상 모습: 사건마다 오는 상태 요약(sts)을 유닛 클래스로 — 빙결은 얼음빛·멈춤, 기절은 흔들림+별, 화상은 불빛 깜빡임, 독은 초록빛, 냉기는 옅은 푸른빛, 약화는 빛바램, 취약은 붉은 테
+const ST_CLS={F:"st-frozen",S:"st-stun",A:"st-air",B:"st-burn",P:"st-poison",C:"st-cold",W:"st-weak",V:"st-vuln"};
+function applySts(sts){ if(typeof curUnits==="undefined") return; for(const u of curUnits){ const el=$("u-"+u.id); if(!el) continue; const k=(sts&&sts[u.id])||"";
+    for(const [c,cls] of Object.entries(ST_CLS)) el.classList.toggle(cls,k.includes(c)&&!el.classList.contains("dead")); } }
 function handleEvent(ev,zone){
+  if(ev.sts&&!instantMode()){ if(ev.type==="action") setTimeout(()=>applySts(ev.sts),380); else applySts(ev.sts); }   // v0.93 걸린 상태를 유닛 모습에(빙결·기절·화상·독·냉기·약화·취약)
   if(ev.type==="log"){ logSink=null; logLine(`<span class="r">${esc(ev.text)}</span>`); return; }
   if(ev.type==="say"){ logSink=null; logLine(`<span class="say">「${esc(ev.who)}」 ${esc(ev.text)}</span>`); return; }
   if(ev.type==="turn"){ logSink=null; curTurn=ev.n; pruneTags(); const mx=ev.max||TURN_LIMIT; logLine(`<span class="turn">턴 ${ev.n}${ev.n>=mx-10?` <span class="lose">(${mx}턴이 지나면 후퇴 · ${mx-ev.n+1}턴 남음)</span>`:""}</span>`); const ls=$("logSub"); if(ls&&runState) ls.textContent=`${runState.zone+1}구역 · 턴 ${ev.n}`; return; }
@@ -12955,7 +13016,7 @@ function handleEvent(ev,zone){
     return;
   }
   if(ev.type==="state"){ setStealthVis(ev.target,ev.st); if(ev.st) addTag(ev.target,ev.tag||"은신","st"); else delTag(ev.target,ev.tag||"은신"); return; }
-  if(ev.type==="end"){ logSink=null; markAct(null); for(const u of curUnits) setStealthVis(u.id,false); endZoneBattle(ev,zone); return; }
+  if(ev.type==="end"){ logSink=null; markAct(null); applySts({}); for(const u of curUnits) setStealthVis(u.id,false); endZoneBattle(ev,zone); return; }
   // 행동 하나 = 기록 묶음 하나(누가 · 몇 번 규칙 · 무슨 스킬 → 효과들)
   const blk=document.createElement("div"); blk.className="lact side-"+(ev.side==="party"?"p":"e");
   $("log").appendChild(blk); logSink=blk;
@@ -13529,6 +13590,7 @@ function playEnding(d,unlockNext){
   })();
 }
 function grantExp(exp,ids){
+  const lvUp=new Set();
   for(const cid of (ids||partyIds())){
     const h=progress.heroes[cid];
     h.exp+=exp;
@@ -13544,10 +13606,17 @@ function grantExp(exp,ids){
         if(h.level===ADV_PASSIVE_LV&&a.passive_name) logLine(`<span class="lv">✨ ${heroDisplayName(cid)} — 전직 패시브가 깨어났다: ${esc(a.passive_name)}</span>`);
         if(h.level===ADV_EXTRA_LV&&(a.extra||[]).length){ logLine(`<span class="lv">✨ ${heroDisplayName(cid)} — 새 전직 스킬: ${a.extra.map(x=>esc(SKILLS[x].name)).join("·")}</span>`); try{ addAdvRules(cid,a); saveRules(); }catch(e){} }
         }
+      if(h.level===ADV_LEVEL&&!h.adv){ logLine(`<span class="win">⭐ ${heroDisplayName(cid)} — 전직할 수 있습니다. 파티 탭에서 전직을 고르세요.</span>`); toast(`<span class="tc">⭐ 전직 가능</span><b>${esc(heroDisplayName(cid))}</b> — 파티 탭`,"lv",3600); }
+      lvUp.add(cid);
       if(!comp&&h.adv&&traitGainAt(h.level)) logLine(`<span class="lv">🌿 특성 포인트 +1 — 특성 탭에서 배울 수 있습니다.</span>`);
       else if(!comp&&h.adv){ const nx=nextTraitLevel(h.level); if(nx) logLine(`<span class="r">(이번 레벨엔 특성 포인트 없음 — 다음은 Lv.${nx})</span>`); }
     }
   }
+  // v0.93 던전 중 레벨업: 오른 능력치를 바로 반영하고 체력·마나를 가득 채움(쓰러진 영웅은 쓰러진 그대로)
+  if(lvUp.size&&typeof runState!=="undefined"&&runState&&Array.isArray(runState.party)) for(const cid of lvUp){ const u=runState.party.find(x=>x.id===cid); if(!u||!u.alive) continue;
+    try{ const nu=buildHeroUnit(cid); for(const k of ["hp_max","mp_max","atk","df","spd","crit","critDmg","acc","eva","pen","res"]) if(typeof nu[k]==="number") u[k]=nu[k]; }catch(e){}
+    u.hp=u.hp_max; u.mp=u.mp_max; try{ updateWidget(u.id,u.hp,u.mp,false); }catch(e){}
+    logLine(`<span class="heal">✨ ${heroDisplayName(cid)} — 레벨 업으로 체력·마나를 모두 회복했다.</span>`); }
   runCompanions();
   saveProgress(); renderPtsDot();
 }
