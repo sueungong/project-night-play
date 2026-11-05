@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793869830256"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793871932275"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2051,7 +2051,7 @@ const SKILL_MAP_092={   // v0.92 예전 영웅 기술 → 같은 역할의 새 �
   courage_song:"bd_valor", guard_song:"bd_rest", crescendo:"bd_echo", inspire:"bd_uplift", echo:"bd_echo", march_song:"bd_march", charge_order:"bd_order", all_out:"bd_volley", mock_song:"bd_mock", fool_dance:"bd_dance", lullaby_s:"bd_lullaby",
 };
 // v0.92 예전 기본·표·자동 추가 규칙(기술:조건1:논리:조건2) — 이 목록에 없는 예전 규칙은 '직접 고친 규칙'으로 보고 새 기술로 옮겨 살림
-const OLD_RULE_SIG_092=new Set("aimed_shot:0:0:0,aimed_shot:23:0:0,aimed_shot:23:1:8,all_out:43:0:0,all_out:44:0:0,ap_round:0:0:0,ap_round:23:0:0,ap_round:7:0:0,arcane_burst:23:0:0,arcane_burst:8:0:0,arcane_burst:9:0:0,arcane_surge:9:0:0,basic_attack:0:0:0,basic_shot:0:0:0,basic_smite:0:0:0,bless:8:0:0,bless:9:0:0,blizzard:6:0:0,blizzard:7:0:0,blood_strike:10:0:0,blood_strike:2:0:0,breathe:24:0:0,breathe:24:2:2,breathe:2:0:0,breathe:2:1:41,breathe:2:2:24,chain_fist:0:0:0,charge_order:43:0:0,charge_order:43:1:10,charge_order:44:0:0,citadel:3:0:0,citadel:4:0:0,collapse_fist:42:0:0,combust:7:0:0,counter_stance:41:0:0,counter_stance:6:0:0,counter_stance:7:0:0,courage_song:47:0:0,crescendo:43:0:0,crescendo:44:0:0,death_mark:50:0:0,discord:0:0:0,dragon_storm:6:0:0,dragon_storm:7:0:0,eviscerate:15:0:0,execute:10:0:0,falling_dragon:51:0:0,fire_storm:6:0:0,fire_storm:6:1:8,fire_storm:6:1:9,fire_storm:7:0:0,fireball:0:0:0,fireball:8:0:0,fireball:9:0:0,fist:0:0:0,flashbang:6:0:0,fool_dance:44:0:0,fool_dance:7:0:0,frost_bolt:0:0:0,frost_bolt:7:0:0,frost_bolt:8:0:0,guard_shout:5:0:0,guard_song:47:0:0,guard_song:5:0:0,guard_up:1:0:0,guard_up:2:0:0,guardian_angel:3:0:0,headshot:23:0:0,heal:3:0:0,heal:4:0:0,heal_all:5:0:0,holy_flame:0:0:0,holy_flame:50:0:0,holy_flame:8:0:0,ice_lance:0:0:0,ice_lance:63:0:0,incendiary:6:0:0,inspire:8:0:0,inspire:9:0:0,iron_counter:6:0:0,iron_counter:7:0:0,iron_shoulder:41:0:0,judgement:6:0:0,judgement:7:0:0,judgment_hammer:0:0:0,judgment_hammer:50:0:0,ki_cycle:24:2:53,ki_cycle:53:0:0,ki_cycle:53:2:24,ki_wave:41:0:0,ki_wave:41:1:6,lullaby_s:43:0:0,lullaby_s:43:1:7,mana_focus:12:0:0,march_song:47:0:0,mark_shot:50:0:0,meteor:8:0:0,meteor:9:0:0,mock_song:47:0:0,pierce_shot:7:0:0,powder_keg:54:1:7,power_strike:0:0:0,power_strike:8:0:0,purify:25:0:0,radiant_light:9:0:0,reload:45:0:0,revive:14:0:0,rising_dragon:42:0:0,rising_dragon:8:0:0,shadow_strike:17:0:0,shadow_veil:0:0:0,shadow_veil:2:0:0,shield_bash:0:0:0,shoot:0:0:0,smoke_bomb:1:0:0,smoke_bomb:2:0:0,smoke_bomb:5:0:0,stab:0:0:0,steady_breath:45:0:0,taunt:6:0:0,taunt:7:0:0,throat_slit:10:0:0,toxic_blade:0:0:0,toxic_blade:8:0:0,toxic_blade:9:0:0,venom_burst:18:0:0,venom_burst:19:0:0,venom_coat:0:0:0,venom_coat:8:0:0,venom_mist:6:0:0,venom_mist:7:0:0,whirlwind:6:0:0,whirlwind:7:0:0".split(","));
+const OLD_RULE_SIG_092=new Set("aimed_shot:0:0:0,aimed_shot:22:0:0,aimed_shot:22:1:8,all_out:42:0:0,all_out:43:0:0,ap_round:0:0:0,ap_round:22:0:0,ap_round:7:0:0,arcane_burst:22:0:0,arcane_burst:8:0:0,arcane_burst:9:0:0,arcane_surge:9:0:0,basic_attack:0:0:0,basic_shot:0:0:0,basic_smite:0:0:0,bless:8:0:0,bless:9:0:0,blizzard:6:0:0,blizzard:7:0:0,blood_strike:10:0:0,blood_strike:2:0:0,breathe:23:0:0,breathe:23:2:2,breathe:2:0:0,breathe:2:1:40,breathe:2:2:23,chain_fist:0:0:0,charge_order:42:0:0,charge_order:42:1:10,charge_order:43:0:0,citadel:3:0:0,citadel:4:0:0,collapse_fist:41:0:0,combust:7:0:0,counter_stance:40:0:0,counter_stance:6:0:0,counter_stance:7:0:0,crescendo:42:0:0,crescendo:43:0:0,death_mark:46:0:0,discord:0:0:0,dragon_storm:6:0:0,dragon_storm:7:0:0,eviscerate:15:0:0,execute:10:0:0,falling_dragon:47:0:0,fire_storm:6:0:0,fire_storm:6:1:8,fire_storm:6:1:9,fire_storm:7:0:0,fireball:0:0:0,fireball:8:0:0,fireball:9:0:0,fist:0:0:0,flashbang:6:0:0,fool_dance:43:0:0,fool_dance:7:0:0,frost_bolt:0:0:0,frost_bolt:7:0:0,frost_bolt:8:0:0,guard_shout:5:0:0,guard_song:5:0:0,guard_up:1:0:0,guard_up:2:0:0,guardian_angel:3:0:0,headshot:22:0:0,heal:3:0:0,heal:4:0:0,heal_all:5:0:0,holy_flame:0:0:0,holy_flame:46:0:0,holy_flame:8:0:0,ice_lance:0:0:0,ice_lance:51:0:0,incendiary:6:0:0,inspire:8:0:0,inspire:9:0:0,iron_counter:6:0:0,iron_counter:7:0:0,iron_shoulder:40:0:0,judgement:6:0:0,judgement:7:0:0,judgment_hammer:0:0:0,judgment_hammer:46:0:0,ki_wave:40:0:0,ki_wave:40:1:6,lullaby_s:42:0:0,lullaby_s:42:1:7,mana_focus:12:0:0,mark_shot:46:0:0,meteor:8:0:0,meteor:9:0:0,pierce_shot:7:0:0,powder_keg:49:1:7,power_strike:0:0:0,power_strike:8:0:0,purify:24:0:0,radiant_light:9:0:0,reload:44:0:0,revive:14:0:0,rising_dragon:41:0:0,rising_dragon:8:0:0,shadow_strike:17:0:0,shadow_veil:0:0:0,shadow_veil:2:0:0,shield_bash:0:0:0,shoot:0:0:0,smoke_bomb:1:0:0,smoke_bomb:2:0:0,smoke_bomb:5:0:0,stab:0:0:0,steady_breath:44:0:0,taunt:6:0:0,taunt:7:0:0,throat_slit:10:0:0,toxic_blade:0:0:0,toxic_blade:8:0:0,toxic_blade:9:0:0,venom_burst:18:0:0,venom_burst:19:0:0,venom_coat:0:0:0,venom_coat:8:0:0,venom_mist:6:0:0,venom_mist:7:0:0,whirlwind:6:0:0,whirlwind:7:0:0".split(","));
 
 const COND = [
   {label:"항상",type:"always",value:0},
@@ -2069,60 +2069,52 @@ const COND = [
   {label:"내 마나 30% 미만",type:"self_mp_below",value:30},
   {label:"적 전열이 비어 있음",type:"no_front_enemy",value:0},
   {label:"아군이 쓰러져 있음",type:"ally_dead",value:0},
-  {label:"내 연계 3 이상",type:"self_combo_gte",value:3},
-  {label:"내 연계 5 (최대)",type:"self_combo_gte",value:5},
-  {label:"내가 은신 중",type:"self_stealth",value:0},
+  {label:"내 연계 3 이상",type:"self_combo_gte",value:3,cls:"rogue"},
+  {label:"내 연계 5 (최대)",type:"self_combo_gte",value:5,cls:"rogue"},
+  {label:"내가 은신 중",type:"self_stealth",value:0,cls:"rogue"},
   {label:"독 3중첩 이상인 적 존재",type:"enemy_poison_gte",value:3},
   {label:"독 5중첩 이상인 적 존재",type:"enemy_poison_gte",value:5},
   /* v0.15 상태이상 조건 */
-  {label:"출혈 중인 적 존재",type:"enemy_status",value:"bleed",gone:true},   // v0.89 출혈 → 독
   {label:"약화(공격력 감소)된 적 존재",type:"enemy_chilled",value:0},
   {label:"기절·빙결된 적 존재",type:"enemy_status",value:"stun"},
   {label:"취약 상태인 적 존재",type:"enemy_status",value:"vuln"},
   {label:"내가 상태이상 중",type:"self_debuffed",value:0},
   {label:"아군이 상태이상 중",type:"ally_cc",value:0},
-  /* 룬으로 열리는 조건 (26~33) */
+  /* 룬으로 열리는 조건  */
   {label:"내 보호막이 있음",type:"self_shield",value:0,lock:"rune"},
   {label:"직전 턴에 치명타를 냈음",type:"self_last_crit",value:0,lock:"rune"},
   {label:"아군이 직전 턴에 쓰러짐",type:"ally_fell_recent",value:0,lock:"rune"},
-  {label:"내 체력이 가득 참",type:"self_full_hp",value:0,lock:"rune"},
-  {label:"적이 1마리",type:"enemy_cnt_eq",value:1,lock:"rune"},
-  {label:"보스가 있음",type:"enemy_boss",value:0,lock:"rune"},
-  {label:"내 연계 0",type:"self_combo_zero",value:0,lock:"rune"},
-  {label:"아군 전원 체력 70% 이상",type:"allies_healthy",value:70,lock:"rune"},
-  /* 군단장 유물로 열리는 조건 (34~40) */
-  {label:"내가 은신 중이 아님",type:"self_not_stealth",value:0,lock:"relic"},
+  {label:"내 체력이 가득 참",type:"self_full_hp",value:0},
+  {label:"적이 1마리",type:"enemy_cnt_eq",value:1},
+  {label:"보스가 있음",type:"enemy_boss",value:0},
+  {label:"내 연계 0",type:"self_combo_zero",value:0,lock:"rune",cls:"rogue"},
+  {label:"아군 전원 체력 70% 이상",type:"allies_healthy",value:70},
+  /* 군단장 유물로 열리는 조건  */
+  {label:"내가 은신 중이 아님",type:"self_not_stealth",value:0,lock:"relic",cls:"rogue"},
   {label:"화상 중인 적 존재",type:"enemy_status",value:"burn"},   // v0.93 화상 연계 기술(잿불 폭발·대폭발·단죄의 망치)을 위해 누구나 — 독 3중첩 조건처럼
   {label:"8턴 이후",type:"turn_gte",value:8,lock:"relic"},
   {label:"내가 전열에 혼자 서 있음",type:"self_alone_front",value:0,lock:"relic"},
   {label:"이번 전투에서 적을 처치했음",type:"self_killed",value:0,lock:"relic"},
   {label:"내 체력 80% 이상 + 적 2마리 이상",type:"healthy_many",value:80,lock:"relic"},
   {label:"모든 적이 상태이상 중",type:"all_enemy_debuffed",value:0,lock:"relic"},
-  /* v0.26 새 직업·연계 조건 (41~54) */
+  /* v0.26 새 직업·연계 조건  */
   {label:"내 기세 3 이상",type:"self_mom_gte",value:3,res:"mom"},
   {label:"내 기세 5 (최대)",type:"self_mom_gte",value:5,res:"mom"},
   {label:"내 공명 5 이상",type:"self_res_gte",value:5,res:"res"},
   {label:"내 공명 8 이상",type:"self_res_gte",value:8,res:"res"},
   {label:"내 탄창 2발 이하",type:"self_ammo_lte",value:2,res:"ammo"},
   {label:"내 조준 2 이상",type:"self_aim_gte",value:2,res:"ammo"},
-  {label:"내가 켠 오라가 없음",type:"no_aura",value:0,res:"res",gone:true},   // v0.92 오라 없앰
-  {label:"아군 오라가 켜져 있음",type:"has_aura",value:0,gone:true},
-  {label:"취약한 적 존재",type:"enemy_marked",value:0,gone:true},   // v0.89 취약 → 취약(23번 조건)
   {label:"취약한 적 없음",type:"enemy_unmarked",value:0},
   {label:"띄운 적 존재",type:"enemy_air",value:0},
   {label:"기절·약화·띄움된 적 존재",type:"enemy_cc",value:0},
-  {label:"내 내공 15% 이상",type:"self_inner_gte",value:15,res:"mom",gone:true},   // v0.92 내공은 다음 턴에 바로 회복
   {label:"놓아 둔 화약 상자 없음",type:"no_keg",value:0,res:"ammo"},
-  {label:"보스가 강공 준비 중",type:"boss_charge",value:0,gone:true},     // v0.82 보스 패턴(자정부터) — 예고를 보고 미리 짜 둔 규칙으로 대응
-  {label:"보스가 보호막 중",type:"boss_barrier",value:0,gone:true},
-  {label:"보스가 회복 의식 중",type:"boss_ritual",value:0,gone:true},
   {label:"보스 체력 50% 이하",type:"boss_hp_below",value:50},
-  {label:"보스가 반격 자세 중",type:"boss_reflect",value:0,gone:true},
-  {label:"역할 몬스터 있음 (치유사·방패병·주술사)",type:"enemy_role",value:0,gone:true},   // v0.83 역할 몬스터 · 장별 환경(자정부터)
-  {label:"환경 위협 예고 (분출·종소리)",type:"env_warn",value:0,gone:true},
-  {label:"내가 보스 강공의 표적",type:"boss_charge_me",value:0,gone:true},   // v0.85 강공 예고가 나를 노릴 때만
   {label:"냉기 2중첩 이상인 적 존재",type:"enemy_cold_gte",value:2},   // v0.89
   {label:"화상 중인 적 2마리 이상",type:"enemy_burn_gte",value:2,lock:"relic"},   // v0.93 브란도의 국자(화상 중인 적 존재는 누구나)
+  /* v0.93 새 조건 — 버프·약화를 다시 걸 때 */
+  {label:"내 보호막이 없음",type:"self_no_shield",value:0},
+  {label:"약화된 적 없음",type:"enemy_unweak",value:0},
+  {label:"이 기술의 효과가 없음 (노래·약화·취약)",type:"skill_off",value:0},
 ];
 function debuffed(x){ return !!((x._cold||0)>0||x.dots.burn||x.dots.poison||x.dots.frost||x.dots.bleed||(x.buffs.atk&&x.buffs.atk.value<0)||x.buffs.stun||x.buffs.silence||x.buffs.blind||x.buffs.fear||x.buffs.vuln||x.buffs.brand||x.buffs.air||x.buffs.mark); }
 const TARGET = ["자동","체력 비율이 가장 낮은 적","무작위 적","체력 비율이 가장 높은 적","앞줄 적 우선","체력 비율이 가장 낮은 아군","자신","무작위 아군","독이 가장 많이 쌓인 적","취약한 적 우선","띄운 적 우선","공격력이 가장 높은 아군","역할 몬스터 우선 (치유사·방패병·주술사)","뒷줄 적 우선","보스·우두머리 우선","화상 걸린 적 우선","약화·냉기·빙결된 적 우선"];   // v0.93 15·16   // v0.35: 이름을 분명하게(체력은 남은 비율 기준)
@@ -2215,37 +2207,37 @@ const CLASSES = {
 //   쓸 수 있는 기술만 위에서부터 골라 칸을 채우고, '항상' 줄은 칸이 남든 모자라든 마지막 칸에 둔다(Lv10에 아직 없는 기술은 건너뜀)
 const RULESET={
   knight:{
-    base:{ atk:[["kn_challenge",7,0,0,0],["kn_slam",52,0,0,10],["kn_bash",0,0,0,0]],
+    base:{ atk:[["kn_challenge",7,0,0,0],["kn_slam",48,0,0,10],["kn_bash",0,0,0,0]],
            surv:[["kn_stand",2,0,0,0],["kn_challenge",7,0,0,0],["kn_riposte",0,0,0,0]],
-           supp:[["kn_bond",25,2,5,0],["kn_challenge",7,0,0,0],["kn_bash",0,0,0,0]] },
+           supp:[["kn_bond",24,2,5,0],["kn_challenge",7,0,0,0],["kn_bash",0,0,0,0]] },
     guardian_knight:{
-      atk:[["kn_challenge",7,0,0,0],["kn_rampart",4,0,0,0],["kn_retal",7,0,0,0],["kn_slam",52,0,0,10],["kn_bash",0,0,0,0]],
-      surv:[["kn_unyield",24,2,2,0],["kn_rampart",7,0,0,0],["kn_challenge",7,0,0,0],["kn_stand",2,0,0,0],["kn_riposte",0,0,0,0]],
-      supp:[["kn_oath",4,0,0,0],["kn_rampart",7,0,0,0],["kn_challenge",7,0,0,0],["kn_bond",25,0,0,0],["kn_bash",0,0,0,0]] },
+      atk:[["kn_challenge",7,0,0,0],["kn_rampart",4,0,0,0],["kn_retal",7,0,0,0],["kn_slam",48,0,0,10],["kn_bash",0,0,0,0]],
+      surv:[["kn_unyield",23,2,2,0],["kn_rampart",7,0,0,0],["kn_challenge",7,0,0,0],["kn_stand",2,0,0,0],["kn_riposte",0,0,0,0]],
+      supp:[["kn_oath",4,0,0,0],["kn_rampart",7,0,0,0],["kn_challenge",7,0,0,0],["kn_bond",24,0,0,0],["kn_bash",0,0,0,0]] },
     berserker:{
-      atk:[["kn_final",10,0,0,1],["kn_frenzy",7,0,0,0],["kn_challenge",6,0,0,0],["kn_slam",52,0,0,10],["kn_bloodprice",0,0,0,0]],
+      atk:[["kn_final",10,0,0,1],["kn_frenzy",7,0,0,0],["kn_challenge",6,0,0,0],["kn_slam",48,0,0,10],["kn_bloodprice",0,0,0,0]],
       surv:[["kn_drink",2,0,0,0],["kn_challenge",7,0,0,0],["kn_final",10,0,0,1],["kn_stand",1,0,0,0],["kn_bash",0,0,0,0]],
-      supp:[["kn_challenge",7,0,0,0],["kn_bond",25,2,5,0],["kn_final",10,0,0,1],["kn_bash",0,0,0,0]] } },
+      supp:[["kn_challenge",7,0,0,0],["kn_bond",24,2,5,0],["kn_final",10,0,0,1],["kn_bash",0,0,0,0]] } },
   mage:{
     base:{ atk:[["mg_wave",6,0,0,0],["mg_beam",9,0,0,9],["mg_siphon",0,0,0,0]],
            surv:[["mg_frostward",7,1,8,0],["mg_icicle",8,0,0,0],["mg_siphon",0,0,0,0]],
-           supp:[["mg_frostward",6,0,0,0],["mg_beam",23,0,0,9],["mg_ember",0,0,0,0]] },
+           supp:[["mg_frostward",6,0,0,0],["mg_beam",22,0,0,9],["mg_ember",0,0,0,0]] },
     archmage:{
       atk:[["mg_overload",9,0,0,0],["mg_ashburst",7,0,0,0],["mg_phoenix",8,0,0,0],["mg_wave",6,0,0,0],["mg_siphon",0,0,0,0]],
-      surv:[["mg_overload",9,0,0,0],["mg_steam",63,2,22,0],["mg_frostward",7,1,8,0],["mg_phoenix",8,0,0,0],["mg_siphon",0,0,0,0]],
-      supp:[["mg_overload",9,0,0,0],["mg_beam",23,0,0,9],["mg_phoenix",7,0,0,0],["mg_steam",63,0,0,0],["mg_ember",0,0,0,0]] },
+      surv:[["mg_overload",9,0,0,0],["mg_steam",51,2,21,0],["mg_frostward",7,1,8,0],["mg_phoenix",8,0,0,0],["mg_siphon",0,0,0,0]],
+      supp:[["mg_overload",9,0,0,0],["mg_beam",22,0,0,9],["mg_phoenix",7,0,0,0],["mg_steam",51,0,0,0],["mg_ember",0,0,0,0]] },
     frostweaver:{
-      atk:[["mg_eternal",63,0,0,0],["mg_froststorm",6,0,0,0],["mg_iceprison",7,0,0,3],["mg_beam",9,0,0,9],["mg_icicle",0,0,0,0]],
-      surv:[["mg_eternal",63,0,0,0],["mg_frostcoat",5,0,0,0],["mg_froststorm",7,0,0,0],["mg_iceprison",7,0,0,3],["mg_frostward",7,1,8,0],["mg_siphon",0,0,0,0]],
-      supp:[["mg_eternal",63,0,0,0],["mg_frostcoat",5,0,0,0],["mg_froststorm",7,0,0,0],["mg_frostward",6,0,0,0],["mg_icicle",0,0,0,0]] } },
+      atk:[["mg_eternal",51,0,0,0],["mg_froststorm",6,0,0,0],["mg_iceprison",7,0,0,3],["mg_beam",9,0,0,9],["mg_icicle",0,0,0,0]],
+      surv:[["mg_eternal",51,0,0,0],["mg_frostcoat",5,0,0,0],["mg_froststorm",7,0,0,0],["mg_iceprison",7,0,0,3],["mg_frostward",7,1,8,0],["mg_siphon",0,0,0,0]],
+      supp:[["mg_eternal",51,0,0,0],["mg_frostcoat",5,0,0,0],["mg_froststorm",7,0,0,0],["mg_frostward",6,0,0,0],["mg_icicle",0,0,0,0]] } },
   priest:{
     base:{ atk:[["pr_rain",5,0,0,0],["pr_mend",3,0,0,5],["pr_lance",0,0,0,9]],
-           surv:[["pr_revive",14,0,0,0],["pr_cleanse",25,0,0,0],["pr_mend",0,0,0,5]],
+           surv:[["pr_revive",14,0,0,0],["pr_cleanse",24,0,0,0],["pr_mend",0,0,0,5]],
            supp:[["pr_rain",5,0,0,0],["pr_grace",7,0,0,5],["pr_mend",0,0,0,5]] },
     high_priest:{
       atk:[["pr_revive",14,0,0,0],["pr_mend",4,0,0,5],["pr_spring",5,0,0,0],["pr_lance",0,0,0,9]],
       surv:[["pr_revive",14,0,0,0],["pr_salvation",3,0,0,5],["pr_spring",5,0,0,0],["pr_barrier",7,0,0,0],["pr_mend",0,0,0,5]],
-      supp:[["pr_revive",14,0,0,0],["pr_chant",25,0,0,0],["pr_spring",5,0,0,0],["pr_grace",7,0,0,5],["pr_barrier",4,0,0,0],["pr_mend",0,0,0,5]] },
+      supp:[["pr_revive",14,0,0,0],["pr_chant",24,0,0,0],["pr_spring",5,0,0,0],["pr_grace",7,0,0,5],["pr_barrier",4,0,0,0],["pr_mend",0,0,0,5]] },
     inquisitor:{
       atk:[["pr_revive",14,0,0,0],["pr_mend",4,0,0,5],["pr_brand",7,0,0,0],["pr_hammer",8,0,0,0],["pr_judgefire",0,0,0,0]],
       surv:[["pr_revive",14,0,0,0],["pr_mend",4,0,0,5],["pr_brand",7,0,0,0],["pr_rain",5,0,0,0],["pr_atone",0,0,0,0]],
@@ -2253,51 +2245,51 @@ const RULESET={
   rogue:{
     base:{ atk:[["rg_finisher",15,0,0,0],["rg_shadowstep",11,0,0,0],["rg_hamstring",0,0,0,0]],
            surv:[["rg_smoke",2,0,0,0],["rg_finisher",15,0,0,0],["rg_venomblade",0,0,0,0]],
-           supp:[["rg_smoke",25,2,5,0],["rg_finisher",15,0,0,0],["rg_hamstring",0,0,0,0]] },
+           supp:[["rg_smoke",24,2,5,0],["rg_finisher",15,0,0,0],["rg_hamstring",0,0,0,0]] },
     assassin:{
       atk:[["rg_clone",15,0,0,0],["rg_shadowblade",17,0,0,0],["rg_finisher",15,0,0,0],["rg_throat",10,0,0,1],["rg_shadowstep",0,0,0,0]],
       surv:[["rg_smoke",2,0,0,0],["rg_clone",15,0,0,0],["rg_throat",10,0,0,1],["rg_finisher",15,0,0,0],["rg_hamstring",0,0,0,0]],
-      supp:[["rg_mark",50,0,0,14],["rg_clone",15,0,0,0],["rg_smoke",25,0,0,0],["rg_finisher",15,0,0,0],["rg_hamstring",0,0,0,0]] },
+      supp:[["rg_mark",46,0,0,14],["rg_clone",15,0,0,0],["rg_smoke",24,0,0,0],["rg_finisher",15,0,0,0],["rg_hamstring",0,0,0,0]] },
     venom_fang:{
       atk:[["rg_decay",18,0,0,0],["rg_rupture",18,0,0,8],["rg_miasma",7,1,8,0],["rg_finisher",15,0,0,0],["rg_venomblade",0,0,0,0]],
-      surv:[["rg_smoke",2,0,0,0],["rg_antidote",25,0,0,0],["rg_decay",18,0,0,0],["rg_miasma",7,1,8,0],["rg_dart",0,0,0,8]],
-      supp:[["rg_antidote",25,0,0,0],["rg_decay",18,0,0,0],["rg_miasma",6,0,0,0],["rg_smoke",5,0,0,0],["rg_dart",0,0,0,8]] } },
+      surv:[["rg_smoke",2,0,0,0],["rg_antidote",24,0,0,0],["rg_decay",18,0,0,0],["rg_miasma",7,1,8,0],["rg_dart",0,0,0,8]],
+      supp:[["rg_antidote",24,0,0,0],["rg_decay",18,0,0,0],["rg_miasma",6,0,0,0],["rg_smoke",5,0,0,0],["rg_dart",0,0,0,8]] } },
   fighter:{
-    base:{ atk:[["ft_burst",42,0,0,0],["ft_launch",41,0,0,0],["ft_triple",0,0,0,10]],
-           surv:[["ft_breath",2,2,24,0],["ft_parry",7,0,0,0],["ft_triple",0,0,0,10]],
-           supp:[["ft_shoulder",41,0,0,0],["ft_breath",24,0,0,0],["ft_triple",0,0,0,10]] },
+    base:{ atk:[["ft_burst",41,0,0,0],["ft_launch",40,0,0,0],["ft_triple",0,0,0,10]],
+           surv:[["ft_breath",2,2,23,0],["ft_parry",7,0,0,0],["ft_triple",0,0,0,10]],
+           supp:[["ft_shoulder",40,0,0,0],["ft_breath",23,0,0,0],["ft_triple",0,0,0,10]] },
     monk:{
-      atk:[["ft_burst",42,0,0,0],["ft_diamond",2,2,24,0],["ft_palm",41,0,0,0],["ft_stance",6,0,0,0],["ft_triple",0,0,0,10]],
-      surv:[["ft_cycle",24,0,0,0],["ft_diamond",2,0,0,0],["ft_stance",7,0,0,0],["ft_breath",1,0,0,0],["ft_parry",0,0,0,0]],
-      supp:[["ft_stance",7,0,0,0],["ft_diamond",24,2,2,0],["ft_shoulder",41,0,0,0],["ft_palm",41,0,0,0],["ft_triple",0,0,0,10]] },
+      atk:[["ft_burst",41,0,0,0],["ft_diamond",2,2,23,0],["ft_palm",40,0,0,0],["ft_stance",6,0,0,0],["ft_triple",0,0,0,10]],
+      surv:[["ft_cycle",23,0,0,0],["ft_diamond",2,0,0,0],["ft_stance",7,0,0,0],["ft_breath",1,0,0,0],["ft_parry",0,0,0,0]],
+      supp:[["ft_stance",7,0,0,0],["ft_diamond",23,2,2,0],["ft_shoulder",40,0,0,0],["ft_palm",40,0,0,0],["ft_triple",0,0,0,10]] },
     dragon_fist:{
-      atk:[["ft_heavendragon",51,0,0,0],["ft_aircombo",51,0,0,10],["ft_launch",41,0,0,0],["ft_whirl",6,0,0,0],["ft_triple",0,0,0,10]],
-      surv:[["ft_breath",2,2,24,0],["ft_launch",41,0,0,0],["ft_heavendragon",51,0,0,0],["ft_ascend",51,0,0,10],["ft_triple",0,0,0,10]],
-      supp:[["ft_heavendragon",51,0,0,0],["ft_launch",41,0,0,0],["ft_ascend",51,0,0,10],["ft_shoulder",41,0,0,0],["ft_triple",0,0,0,10]] } },
+      atk:[["ft_heavendragon",47,0,0,0],["ft_aircombo",47,0,0,10],["ft_launch",40,0,0,0],["ft_whirl",6,0,0,0],["ft_triple",0,0,0,10]],
+      surv:[["ft_breath",2,2,23,0],["ft_launch",40,0,0,0],["ft_heavendragon",47,0,0,0],["ft_ascend",47,0,0,10],["ft_triple",0,0,0,10]],
+      supp:[["ft_heavendragon",47,0,0,0],["ft_launch",40,0,0,0],["ft_ascend",47,0,0,10],["ft_shoulder",40,0,0,0],["ft_triple",0,0,0,10]] } },
   gunner:{
-    base:{ atk:[["gn_mark",50,0,0,3],["gn_precise",23,0,0,9],["gn_pierce",0,0,0,4]],
+    base:{ atk:[["gn_mark",46,0,0,3],["gn_precise",22,0,0,9],["gn_pierce",0,0,0,4]],
            surv:[["gn_flash",6,0,0,0],["gn_cover",7,0,0,0],["gn_precise",0,0,0,9]],
-           supp:[["gn_mark",50,0,0,3],["gn_cover",7,0,0,0],["gn_scatter",0,0,0,0]] },
+           supp:[["gn_mark",46,0,0,3],["gn_cover",7,0,0,0],["gn_scatter",0,0,0,0]] },
     sniper:{
-      atk:[["gn_headshot",23,0,0,9],["gn_through",7,0,0,4],["gn_mark",50,0,0,3],["gn_hold",45,0,0,6],["gn_precise",0,0,0,9]],
-      surv:[["gn_hold",45,0,0,6],["gn_cover",7,0,0,0],["gn_through",7,0,0,4],["gn_flash",6,0,0,0],["gn_pierce",0,0,0,4]],
-      supp:[["gn_expose",50,0,0,14],["gn_cover",7,0,0,0],["gn_through",7,0,0,4],["gn_mark",50,0,0,3],["gn_headshot",0,0,0,9]] },
+      atk:[["gn_headshot",22,0,0,9],["gn_through",7,0,0,4],["gn_mark",46,0,0,3],["gn_hold",44,0,0,6],["gn_precise",0,0,0,9]],
+      surv:[["gn_hold",44,0,0,6],["gn_cover",7,0,0,0],["gn_through",7,0,0,4],["gn_flash",6,0,0,0],["gn_pierce",0,0,0,4]],
+      supp:[["gn_expose",46,0,0,14],["gn_cover",7,0,0,0],["gn_through",7,0,0,4],["gn_mark",46,0,0,3],["gn_headshot",0,0,0,9]] },
     bomber:{
-      atk:[["gn_blast",7,0,0,0],["gn_firerain",6,0,0,0],["gn_keg",54,1,7,0],["gn_precise",23,0,0,9],["gn_scatter",0,0,0,0]],
-      surv:[["gn_blast",7,0,0,0],["gn_firerain",7,0,0,0],["gn_flash",3,0,0,0],["gn_keg",54,1,7,0],["gn_cover",7,0,0,0],["gn_pierce",0,0,0,4]],
-      supp:[["gn_frag",50,0,0,0],["gn_blast",7,0,0,0],["gn_keg",54,1,7,0],["gn_mark",50,0,0,3],["gn_firerain",6,0,0,0],["gn_scatter",0,0,0,0]] } },
+      atk:[["gn_blast",7,0,0,0],["gn_firerain",6,0,0,0],["gn_keg",49,1,7,0],["gn_precise",22,0,0,9],["gn_scatter",0,0,0,0]],
+      surv:[["gn_blast",7,0,0,0],["gn_firerain",7,0,0,0],["gn_flash",3,0,0,0],["gn_keg",49,1,7,0],["gn_cover",7,0,0,0],["gn_pierce",0,0,0,4]],
+      supp:[["gn_frag",46,0,0,0],["gn_blast",7,0,0,0],["gn_keg",49,1,7,0],["gn_mark",46,0,0,3],["gn_firerain",6,0,0,0],["gn_scatter",0,0,0,0]] } },
   bard:{
-    base:{ atk:[["bd_valor",7,0,0,0],["bd_echo",43,0,0,0],["bd_uplift",0,0,0,11]],
-           surv:[["bd_rest",7,0,0,0],["bd_soothe",4,2,25,0],["bd_echo",0,0,0,0]],
+    base:{ atk:[["bd_valor",7,0,0,0],["bd_echo",42,0,0,0],["bd_uplift",0,0,0,11]],
+           surv:[["bd_rest",7,0,0,0],["bd_soothe",4,2,24,0],["bd_echo",0,0,0,0]],
            supp:[["bd_soothe",4,0,0,0],["bd_valor",7,0,0,0],["bd_rest",4,0,0,0],["bd_uplift",0,0,0,11]] },
     war_band:{
-      atk:[["bd_march",7,0,0,0],["bd_volley",44,0,0,0],["bd_order",43,1,10,11],["bd_valor",7,0,0,0],["bd_uplift",0,0,0,11]],
-      surv:[["bd_march",7,0,0,0],["bd_soothe",4,2,25,0],["bd_rest",4,0,0,0],["bd_drum",43,0,0,0],["bd_uplift",0,0,0,11]],
-      supp:[["bd_march",7,0,0,0],["bd_drum",43,0,0,0],["bd_valor",7,0,0,0],["bd_order",43,0,0,11],["bd_uplift",0,0,0,11]] },
+      atk:[["bd_march",7,0,0,0],["bd_volley",43,0,0,0],["bd_order",42,1,10,11],["bd_valor",7,0,0,0],["bd_uplift",0,0,0,11]],
+      surv:[["bd_march",7,0,0,0],["bd_soothe",4,2,24,0],["bd_rest",4,0,0,0],["bd_drum",42,0,0,0],["bd_uplift",0,0,0,11]],
+      supp:[["bd_march",7,0,0,0],["bd_drum",42,0,0,0],["bd_valor",7,0,0,0],["bd_order",42,0,0,11],["bd_uplift",0,0,0,11]] },
     jester:{
-      atk:[["bd_mock",7,0,0,0],["bd_dance",6,0,0,0],["bd_lullaby",43,0,0,14],["bd_valor",7,0,0,0],["bd_unease",0,0,0,0]],
-      surv:[["bd_laugh",25,0,0,0],["bd_soothe",4,0,0,0],["bd_mock",7,0,0,0],["bd_rest",7,0,0,0],["bd_lullaby",43,0,0,14]],
-      supp:[["bd_mock",7,0,0,0],["bd_dance",6,1,43,0],["bd_lullaby",43,0,0,14],["bd_rest",4,0,0,0],["bd_unease",0,0,0,0]] } },
+      atk:[["bd_mock",7,0,0,0],["bd_dance",6,0,0,0],["bd_lullaby",42,0,0,14],["bd_valor",7,0,0,0],["bd_unease",0,0,0,0]],
+      surv:[["bd_laugh",24,0,0,0],["bd_soothe",4,0,0,0],["bd_mock",7,0,0,0],["bd_rest",7,0,0,0],["bd_lullaby",42,0,0,14]],
+      supp:[["bd_mock",7,0,0,0],["bd_dance",6,1,42,0],["bd_lullaby",42,0,0,14],["bd_rest",4,0,0,0],["bd_unease",0,0,0,0]] } },
   archer:{
     base:{ atk:[["ar_prey",8,0,0,14],["ar_rain",6,0,0,0],["ar_rapid",0,0,0,1]],
            surv:[["ar_bind",7,0,0,0],["ar_venom",8,0,0,0],["ar_rapid",0,0,0,0]],
@@ -2313,15 +2305,15 @@ const RULESET={
   lancer:{
     base:{ atk:[["ln_sweep",6,0,0,0],["ln_charge",8,0,0,1],["ln_pierce",0,0,0,0]],
            surv:[["ln_wall",2,2,7,0],["ln_distance",4,0,0,5],["ln_pierce",0,0,0,0]],
-           supp:[["ln_distance",25,2,4,0],["ln_throw",8,0,0,0],["ln_pierce",0,0,0,0]] },
+           supp:[["ln_distance",24,2,4,0],["ln_throw",8,0,0,0],["ln_pierce",0,0,0,0]] },
     dragoon:{
       atk:[["ln_skypierce",7,0,0,0],["ln_leap",8,0,0,1],["ln_flurry",8,0,0,10],["ln_charge",8,0,0,1],["ln_pierce",0,0,0,0]],
       surv:[["ln_wall",2,0,0,0],["ln_skypierce",7,0,0,0],["ln_hunt",4,0,0,0],["ln_leap",1,0,0,0],["ln_pierce",0,0,0,0]],
-      supp:[["ln_hunt",4,0,0,0],["ln_skypierce",7,0,0,0],["ln_distance",25,2,4,5],["ln_leap",8,0,0,14],["ln_flurry",51,0,0,10],["ln_pierce",0,0,0,0]] },
+      supp:[["ln_hunt",4,0,0,0],["ln_skypierce",7,0,0,0],["ln_distance",24,2,4,5],["ln_leap",8,0,0,14],["ln_flurry",47,0,0,10],["ln_pierce",0,0,0,0]] },
     phalanx:{
-      atk:[["ln_check",8,0,0,0],["ln_unbroken",25,2,4,0],["ln_tipcounter",7,0,0,0],["ln_sweep",6,0,0,0],["ln_phalanx",4,0,0,0],["ln_pierce",0,0,0,0]],
-      surv:[["ln_unbroken",25,2,2,0],["ln_wall",7,0,0,0],["ln_tipcounter",7,0,0,0],["ln_phalanx",2,0,0,0],["ln_pierce",0,0,0,0]],
-      supp:[["ln_phalanx",4,0,0,0],["ln_unbroken",25,2,5,0],["ln_distance",4,0,0,5],["ln_check",8,0,0,0],["ln_sweep",0,0,0,0]] } },
+      atk:[["ln_check",8,0,0,0],["ln_unbroken",24,2,4,0],["ln_tipcounter",7,0,0,0],["ln_sweep",6,0,0,0],["ln_phalanx",4,0,0,0],["ln_pierce",0,0,0,0]],
+      surv:[["ln_unbroken",24,2,2,0],["ln_wall",7,0,0,0],["ln_tipcounter",7,0,0,0],["ln_phalanx",2,0,0,0],["ln_pierce",0,0,0,0]],
+      supp:[["ln_phalanx",4,0,0,0],["ln_unbroken",24,2,5,0],["ln_distance",4,0,0,5],["ln_check",8,0,0,0],["ln_sweep",0,0,0,0]] } },
 };
 const RULESET_STANCE0={knight:"surv", mage:"atk", priest:"supp", rogue:"atk", fighter:"atk", gunner:"atk", bard:"supp", archer:"atk", lancer:"atk"};   // = STANCE_DEFAULT (아래에서 정의 — 순서 때문에 여기 따로)
 function ruleRow(e){ return {enabled:true,c1:e[1],logic:e[2],c2:e[3],skill:e[0],target:e[4]}; }
@@ -3490,7 +3482,7 @@ const ENGRAVES={
   e_mana:   {cond:12, act:"mana",        text:"내 마나 30% 미만 → 마나 +20"},
   e_taunt:  {cond:4,  act:"taunt",       text:"아군 체력 50% 이하 → 1턴 도발"},
   e_smoke:  {cond:14, act:"blind_all",   text:"아군이 쓰러져 있음 → 적 전체 실명 (1턴)"},
-  e_cleanse:{cond:24, act:"cleanse",     text:"내가 상태이상 중 → 상태이상 해제"},
+  e_cleanse:{cond:23, act:"cleanse",     text:"내가 상태이상 중 → 상태이상 해제"},
 };
 // 세트 장비 v0.93: 세트마다 4·5·6부위, 부위 구성도 다름(장비 칸 10개 중 일부 — 나머지는 전설로). 4부위 2/4 · 5부위 2/3/5 · 6부위 2/4/6 효과.
 // 전직 세트는 전직마다 2개 — 그 전직의 특성 두 갈래(예: 불새·시간)의 큰 효과를 세트로도 얻을 수 있게(특성과 겹치면 하나는 효과 없음). 그 직업만 낄 수 있음.
@@ -3573,14 +3565,14 @@ function setOfRegion(rk){ return Object.keys(SETS).find(k=>SETS[k].regions.inclu
 function advSetsFor(cid){ const h=progress&&progress.heroes&&progress.heroes[cid]; return Object.keys(SETS).filter(k=>SETS[k].cls===cid&&(!h||!h.adv||SETS[k].adv===h.adv)); }
 /* 룬 — 영웅 이상 장비의 소켓에 끼운다. 능력치가 아니라 자동전투 '조건' 하나를 연다 (얻은 사람만 쓰는 조건) */
 const RUNES={
-  r_shield: {name:"방패 룬",   cond:26, stat:{def:1}},
-  r_crit:   {name:"섬광 룬",   cond:27, stat:{crit:1}},
-  r_fall:   {name:"애도 룬",   cond:28, stat:{hp:10}},
-  r_full:   {name:"만월 룬",   cond:29, stat:{atk:1}},
-  r_lone:   {name:"결투 룬",   cond:30, stat:{critdmg:4}},
-  r_boss:   {name:"사냥 룬",   cond:31, stat:{pen:2}},
-  r_healthy:{name:"여유 룬",   cond:33, stat:{mp:6}},
-  r_combo:  {name:"흐름 룬",   cond:32, stat:{spd:1}},
+  r_shield: {name:"방패 룬",   cond:25, stat:{def:1}},
+  r_crit:   {name:"섬광 룬",   cond:26, stat:{crit:1}},
+  r_fall:   {name:"애도 룬",   cond:27, stat:{hp:10}},
+  r_full:   {name:"만월 룬",   cond:28, stat:{atk:1}},
+  r_lone:   {name:"결투 룬",   cond:29, stat:{critdmg:4}},
+  r_boss:   {name:"사냥 룬",   cond:30, stat:{pen:2}},
+  r_healthy:{name:"여유 룬",   cond:32, stat:{mp:6}},
+  r_combo:  {name:"흐름 룬",   cond:31, stat:{spd:1}},
 };
 const RUNE_KEYS=Object.keys(RUNES);
 // v0.38: 룬 등급 — 일반~전설. 높을수록 능력치가 큼(조건 해금은 같음). 소켓에는 "룬@등급"으로 저장(예전 저장 "룬"은 희귀)
@@ -3592,13 +3584,13 @@ function runeStat(k,rar,ab){ const R=RUNES[k]; if(!R) return {}; const m=ab?5:(R
 function rollRuneRar(d){ const W=Object.entries(RUNE_RAR).map(([k,x],i)=>({key:k,w:x.w*(i>=2?1+0.6*(d||0):1)})); return weightedPick(W); }
 /* 군단장 유물 — 7군단장 각각의 유물. 그 군단장의 특기를 조건으로 연다 + 작은 패시브. 지역 보스에게서 드물게 */
 const RELICS={
-  swamp:  {name:"뤼네의 달그림자 가면", cond:34, stat:{eva:4}, text:"회피 +4%"},
-  volcano:{name:"브란도의 그을린 국자", cond:64, stat:{atk:2}, text:"공격력 +2 · 화상 적 피해 +10%", flag:"relic_burn"},
-  sunken: {name:"운디르의 젖은 악보",   cond:36, stat:{regen:2}, text:"턴당 마나 +2"},
-  forest: {name:"가라드의 나무 심장",   cond:37, stat:{def:3}, text:"방어력 +3"},
-  gold:   {name:"펜로의 계산자",        cond:38, stat:{},      text:"골드 +15%", flag:"relic_gold"},
-  desert: {name:"카룸의 모래시계",      cond:39, stat:{spd:1}, text:"신속 +1"},
-  temple: {name:"솔바르의 검은 거울",    cond:40, stat:{res:6}, text:"상태이상 저항 +6%"},
+  swamp:  {name:"뤼네의 달그림자 가면", cond:33, stat:{eva:4}, text:"회피 +4%"},
+  volcano:{name:"브란도의 그을린 국자", cond:52, stat:{atk:2}, text:"공격력 +2 · 화상 적 피해 +10%", flag:"relic_burn"},
+  sunken: {name:"운디르의 젖은 악보",   cond:35, stat:{regen:2}, text:"턴당 마나 +2"},
+  forest: {name:"가라드의 나무 심장",   cond:36, stat:{def:3}, text:"방어력 +3"},
+  gold:   {name:"펜로의 계산자",        cond:37, stat:{},      text:"골드 +15%", flag:"relic_gold"},
+  desert: {name:"카룸의 모래시계",      cond:38, stat:{spd:1}, text:"신속 +1"},
+  temple: {name:"솔바르의 검은 거울",    cond:39, stat:{res:6}, text:"상태이상 저항 +6%"},
 };
 /* v0.29 최종 콘텐츠 전용 성장 — 재료 2종(군단장의 혼 · 별의 정수)과 성장 3종(유물 각성 · 신화 무기 · 별자리 판)
    혼: 군단장 레이드(그 주의 군단장 것, 주간 첫 처치 3 · 이후 1) / 별의 정수: 밤의 탑 10층마다 2 · 원정 완주 첫 8 · 이후 4 · 레이드 처치 2 */
@@ -4665,7 +4657,7 @@ let progress=null;
 let selected="knight";
 let equippedStore=[];
 
-function defaultRules(){ const o={}; for(const c of CLASS_IDS) o[c]=CLASSES[c].default_rules.map(r=>({...r})); return o; }
+function defaultRules(){ const o={_cv:2}; for(const c of CLASS_IDS) o[c]=CLASSES[c].default_rules.map(r=>({...r})); return o; }   // _cv 2 = v0.93 조건 번호
 function emptyEquip(){ const e={}; for(const s of SLOTS) e[s.key]=null; return e; }
 // v0.15: 옛 아이템(stats·trinket·proc)을 새 구조(base·affixes·부위 11)로
 function migrateItem(it){
@@ -4691,10 +4683,15 @@ function defaultProgress(){
     protag:null, roster:BASE_IDS.slice(), party:BASE_IDS.slice() };
 }
 // v0.88 없어진 조건(보스 패턴·역할 몬스터·환경)·대상(역할 몬스터 우선)·스킬(방어 태세)을 쓰던 규칙 정리
+/* v0.93 조건 정리: 없어진 조건 12개를 목록에서 지움 → 그 뒤 조건 번호가 당겨짐. 저장된 규칙(예전 번호)은 불러올 때 새 번호로 바꿈(규칙 묶음의 _cv로 구분) */
+const COND_GONE_093=[20,47,48,49,53,55,56,57,59,60,61,62];
+function condMap093(i){ i=i|0; if(i===49) i=23; if(COND_GONE_093.includes(i)) return -1; return i-COND_GONE_093.filter(g=>g<i).length; }
+function ruleMig093(x){ if(!x||typeof x!=="object") return x; const a=condMap093(x.c1), b=condMap093(x.c2); if(a<0){ x.enabled=false; x.c1=0; } else x.c1=a; if(b<0){ x.c2=0; x.logic=0; } else x.c2=b; return x; }
+function rulesFrom(src){ if(!src) return; const old=(src._cv|0)<2; for(const c of CLASS_IDS) if(Array.isArray(src[c])) partyRules[c]=old?src[c].map(ruleMig093):src[c]; partyRules._cv=2; }
 function normRules(){ for(const c of CLASS_IDS){ for(const x of partyRules[c]||[]){
     if(SKILL_MAP_092[x.skill]&&!(CLASSES[c].skills.includes(x.skill))){ x._o092=OLD_RULE_SIG_092.has(`${x.skill}:${x.c1|0}:${x.logic|0}:${(x.logic|0)?(x.c2|0):0}`)?1:2; x._o092e=x.enabled!==false; x.skill=x._o092s=SKILL_MAP_092[x.skill]; }   // v0.92 예전 기술 → 새 기술(표에서 다시 짜는 것은 migrateProgress)
     if(!COND[x.c1]) x.c1=0; if(!COND[x.c2]) x.c2=0; if(!(x.target<TARGET.length)) x.target=0;
-    if((x.c1|0)===49) x.c1=23; if((x.c2|0)===49) x.c2=23; if(COND[x.c1|0].gone){ x.enabled=false; x.c1=0; } if(COND[x.c2|0].gone){ x.c2=0; x.logic=0; } if((x.target|0)===12) x.target=0;
+    if((x.target|0)===12) x.target=0;
     if(x.skill==="defend"){ x.enabled=false; x.skill=CLASSES[c].skills[0]; } }
     // v0.89 그 영웅이 쓸 수 없는 기술(예전 스킬북 등)·같은 기술 두 번은 끔
     try{ const own=new Set(classSkills(c)), seen=new Set(), b=CLASSES[c].skills[0]; for(const x of partyRules[c]||[]){ if(!own.has(x.skill)){ x.enabled=false; x.skill=b; } if(x.enabled&&x.skill!==b){ if(seen.has(x.skill)) x.enabled=false; else seen.add(x.skill); } } }catch(e){} } }
@@ -4830,7 +4827,7 @@ function applyCloud(d, live){
   const data=JSON.parse(d.save);
   if(!data||!data.progress||!data.progress.heroes) return false;
   partyRules=defaultRules();
-  if(data.rules) for(const c of CLASS_IDS) if(Array.isArray(data.rules[c])) partyRules[c]=data.rules[c]; normRules();
+  if(data.rules) rulesFrom(data.rules); normRules();
   progress=migrateProgress(data.progress);
   progress.savedAt=d.savedAt||progress.savedAt||0;
   equippedStore=Array.isArray(progress._equipped)?progress._equipped:[];
@@ -4860,7 +4857,7 @@ function restoreLocalBackup(){
   try{
     const data=JSON.parse(b);
     partyRules=defaultRules();
-    if(data.rules) for(const c of CLASS_IDS) if(Array.isArray(data.rules[c])) partyRules[c]=data.rules[c]; normRules();
+    if(data.rules) rulesFrom(data.rules); normRules();
     progress=migrateProgress(data.progress);
     equippedStore=Array.isArray(progress._equipped)?progress._equipped:[];
     saveProgress();        // 지금 시각으로 저장 → 클라우드에도 이 진행이 올라감
@@ -4929,7 +4926,7 @@ if(typeof document!=="undefined"){
 function loadAll(){
   partyRules=defaultRules();
   const r=safeGet("pn_rules_v01");
-  if(r){ try{ const p=JSON.parse(r); for(const c of CLASS_IDS) if(Array.isArray(p[c])) partyRules[c]=p[c]; }catch(e){} }
+  if(r){ try{ rulesFrom(JSON.parse(r)); }catch(e){} }
   normRules();   // 없어진 조건·대상은 기본으로
   progress=defaultProgress();
   const g=safeGet("pn_progress_v02");
@@ -5055,7 +5052,7 @@ function migrate092(out){
     const H=out.heroes[c]||{}, a=(ADV[c]||[]).find(x=>x.key===H.adv)||null, own=[...CLASSES[c].skills,...advSkills(a,H.level)], b=CLASSES[c].skills[0];
     const st=(typeof STANCES!=="undefined"&&STANCES[H.stance])?H.stance:RULESET_STANCE0[c], n=H.adv?RULE_SLOTS_ADV:RULE_SLOTS;
     const T=ruleTable(c,a&&a.key,st,own,n), comp=!!(out.protag&&out.protag.cid!==c);
-    const okC=r=>COND[r.c1|0]&&!COND[r.c1|0].gone&&!((r.logic|0)&&(!COND[r.c2|0]||COND[r.c2|0].gone));
+    const okC=r=>COND[r.c1|0]&&!((r.logic|0)&&!COND[r.c2|0]);
     const U=[]; if(!comp){ for(const r of R){ const sk=r&&(r._o092s||r.skill); if(r&&r._o092===2&&r._o092e&&okC(r)&&own.includes(sk)&&sk!==b&&!U.some(x=>x.skill===sk)) U.push({enabled:true,c1:r.c1|0,logic:r.logic|0,c2:r.c2|0,skill:sk,target:r.target|0}); }
       for(const r of R) if(r&&!r._o092&&r.enabled&&own.includes(r.skill)&&r.skill!==b&&!U.some(x=>x.skill===r.skill)) U.push(Object.assign({},r)); }
     for(const r of T) if(r.enabled&&!U.some(x=>x.skill===r.skill)) U.push(r);
@@ -5423,9 +5420,16 @@ class Sim {
   foes(u){ return this.units.filter(x=>x.alive&&x.side!==u.side); }
   hpPct(u){ return u.hp/u.hp_max*100; }
   mpPct(u){ return u.mp_max<=0?0:u.mp/u.mp_max*100; }
-  cond(u,idx){ const c=COND[idx]; if(!c) return false; const v=c.value;
+  cond(u,idx,sk){ const c=COND[idx]; if(!c) return false; const v=c.value;
     if(this.blockedBy(u,c)) return false;
     switch(c.type){
+      case "self_no_shield": return !((u.shield||0)>0);   // v0.93
+      case "enemy_unweak": return !this.foes(u).some(f=>f.buffs.atk&&f.buffs.atk.value<0);
+      case "skill_off": { const S=sk&&this.skillOf(u,sk); if(!S) return true;   // v0.93 이 규칙의 기술 효과가 아직 없을 때(노래 · 약화 · 취약)
+        if(S.song) return S.foe?!this.foes(u).some(f=>f.buffs["sg_"+S.song]):!this.allies(u).some(a=>a.buffs["sg_"+S.song]);
+        if(S.type==="deathmark"||S.vuln) return !this.foes(u).some(f=>this.vulnOf(f)>0);
+        if(S.weak||S.type==="debuff") return !this.foes(u).some(f=>f.buffs.atk&&f.buffs.atk.value<0);
+        return true; }
       case "enemy_status": return this.foes(u).some(f=>v==="stun"?!!f.buffs.stun:v==="vuln"?this.vulnOf(f)>0:!!(f.dots[v]||f.buffs[v]));
       case "enemy_chilled": return this.foes(u).some(f=>f.buffs.atk&&f.buffs.atk.value<0);
       case "self_debuffed": return debuffed(u);
@@ -5463,18 +5467,15 @@ class Sim {
       case "self_res_gte": return (u._res||0)>=v;
       case "self_ammo_lte": return (u.ammoMax||0)>0&&(u._ammo||0)<=v;
       case "self_aim_gte": return (u._aim||0)>=v;
-      case "no_aura": case "has_aura": return false;   // v0.92 오라 없앰
-      case "enemy_marked": return this.foes(u).some(f=>f.buffs.mark);
       case "enemy_unmarked": return !this.foes(u).some(f=>this.vulnOf(f)>0);
       case "enemy_air": return this.foes(u).some(f=>f.buffs.air);
       case "enemy_cc": return this.foes(u).some(f=>this.ccd(f));
-      case "self_inner_gte": return false;   // v0.92 내공은 다음 턴에 바로 회복
       case "no_keg": return !Object.values(this.kegs[this.opp(u.side)]).some(k=>k.owner===u.id);
       case "boss_hp_below": return this.foes(u).some(f=>f.isBossKind&&this.hpPct(f)<=v);
     } return false; }
-  rulePasses(u,r){ const a=this.cond(u,r.c1|0);
-    if(r.logic===1) return a&&this.cond(u,r.c2|0);
-    if(r.logic===2) return a||this.cond(u,r.c2|0);
+  rulePasses(u,r){ const a=this.cond(u,r.c1|0,r.skill);
+    if(r.logic===1) return a&&this.cond(u,r.c2|0,r.skill);
+    if(r.logic===2) return a||this.cond(u,r.c2|0,r.skill);
     return a; }
   ruleText(r){ let t=COND[r.c1|0].label;
     if(r.logic===1) t+=" + "+COND[r.c2|0].label;
@@ -7971,7 +7972,7 @@ function itemExtraText(it){
   if(it.engrave&&ENGRAVES[it.engrave]) parts.push("📜 각인: "+ENGRAVES[it.engrave].text);
   if(it.relic&&RELICS[it.relic]){ parts.push("🔮 "+RELICS[it.relic].text+" · 조건 해금: "+COND[RELICS[it.relic].cond].label); const st=relicStar(it); parts.push("각성 "+"★".repeat(st)+"☆".repeat(3-st)+(st>=3?" · "+RELIC_AWAKE[it.relic].t3:" · ★3: "+RELIC_AWAKE[it.relic].t3)); }
   if(it.mythic&&MYTHIC[it.mythic]) parts.push("🌠 신화 — "+MYTHIC[it.mythic].desc);
-  if(it.rune&&RUNES[it.rune]) parts.push("◈ 조건 해금: "+COND[RUNES[it.rune].cond].label);
+  if(it.rune&&RUNES[it.rune]&&COND[RUNES[it.rune].cond].lock) parts.push("◈ 조건 해금: "+COND[RUNES[it.rune].cond].label);
   if(it.fate){ const F=FATES[it.fate.key]; parts.push(it.fate.done?`🔓 운명 — ${F.btxt}`:`🔒 운명 — ${F.text(it.fate.need)} (${it.fate.prog}/${it.fate.need}) → ${F.btxt}`); }
   if(it.sockets&&it.sockets.length) parts.push("소켓: "+it.sockets.map(r=>r?`${runeAb(r).length?"심연의 ":""}${RUNES[runeK(r)].name}(${runeAb(r).length?"심연 · "+runeAb(r).map(x=>ABYSS_LAWS[x].n).join("·"):RARITIES[RAR_IDX[runeR(r)]].label})`:"빈 칸").join(", "));
   return parts;
@@ -11281,8 +11282,7 @@ function renderRules(){
   const condOpts=COND.map((c,i)=>({label:c.label+(c.lock&&!DV.unlocks.includes(i)?" 🔒":""), locked:!!c.lock&&!DV.unlocks.includes(i)}));
   const myRes=CLASSES[selected].res||"";
   const condSel=(val,cb)=>{ const sl=sel(condOpts,val,cb); [...sl.options].forEach((op,i)=>{ if(condOpts[i].locked&&i!==val){ op.disabled=true; op.title=COND[i].lock==="rune"?"룬을 소켓에 끼운 장비를 착용하면 열립니다":"군단장 유물을 착용하면 열립니다"; }
-      if(COND[i].res&&COND[i].res!==myRes&&i!==val){ op.hidden=true; op.disabled=true; }
-      if(COND[i].gone){ op.hidden=true; op.disabled=true; } }); return sl; };   // v0.88 없어진 조건   // 다른 직업 자원 조건은 숨김
+      if(((COND[i].res&&COND[i].res!==myRes)||(COND[i].cls&&COND[i].cls!==selected))&&i!==val){ op.hidden=true; op.disabled=true; } }); return sl; };   // 다른 직업 자원·전용 조건은 숨김(v0.93 연계·은신은 도적만)
   const hits=ruleHits[selected]||{};
   const W=t=>{ const w=document.createElement("span"); w.className="w"; w.textContent=t; return w; };
   rules.forEach((r,i)=>{
@@ -12580,10 +12580,10 @@ function itemRow(it,cid,pv){
       const b=document.createElement("button"); b.textContent="룬 장착"; b.onclick=()=>{ const t=targets[parseInt(s.value,10)||0]; const si=t.sockets.findIndex(r=>!r); if(si<0) return;
         t.sockets[si]=runeSock(it); const i=progress.inv.findIndex(x=>x.id===it.id); if(i>=0) progress.inv.splice(i,1); saveProgress(); renderParty(); renderRules();
         const ow=itemOwner(t.id);
-        logLine(`<span class="win">◈ ${ow?esc(heroDisplayName(ow))+"의 ":"인벤토리의 "}${esc(itemLabel(t))}에 ${esc(RUNES[it.rune].name)} 장착 — ${ow?`${esc(heroDisplayName(ow))}${jo(heroDisplayName(ow),"이","가")} 조건 '${esc(COND[RUNES[it.rune].cond].label)}'을(를) 쓸 수 있습니다`:`조건 '${esc(COND[RUNES[it.rune].cond].label)}'은(는) 이 장비를 낀 영웅만 쓸 수 있습니다`}</span>`); };
+        logLine(`<span class="win">◈ ${ow?esc(heroDisplayName(ow))+"의 ":"인벤토리의 "}${esc(itemLabel(t))}에 ${esc(RUNES[it.rune].name)} 장착 — ${!COND[RUNES[it.rune].cond].lock?"능력치가 올랐습니다":ow?`${esc(heroDisplayName(ow))}${jo(heroDisplayName(ow),"이","가")} 조건 '${esc(COND[RUNES[it.rune].cond].label)}'을(를) 쓸 수 있습니다`:`조건 '${esc(COND[RUNES[it.rune].cond].label)}'은(는) 이 장비를 낀 영웅만 쓸 수 있습니다`}</span>`); };
       acts.appendChild(b); }
     const rn=document.createElement("div"); rn.className="cmp"; rn.style.width="100%";
-    rn.innerHTML=`<span class="who">해금 조건: '${esc(COND[RUNES[it.rune].cond].label)}' — 이 룬을 끼운 장비를 착용한 영웅만 자동전투 규칙에서 쓸 수 있습니다. 목록은 ${esc(heroDisplayName(cid))}의 장비가 먼저 나옵니다.</span>`;
+    rn.innerHTML=`<span class="who">${COND[RUNES[it.rune].cond].lock?`해금 조건: '${esc(COND[RUNES[it.rune].cond].label)}' — 이 룬을 끼운 장비를 착용한 영웅만 자동전투 규칙에서 쓸 수 있습니다.`:`능력치를 올려 주는 룬입니다(조건 '${esc(COND[RUNES[it.rune].cond].label)}'은 v0.93부터 누구나 씀).`} 목록은 ${esc(heroDisplayName(cid))}의 장비가 먼저 나옵니다.</span>`;
     acts.appendChild(rn);
   } else {
     if(pv){ const eb=document.createElement("button"); eb.className="equipb"; eb.textContent=`장착 → ${heroDisplayName(cid)}`; eb.onclick=()=>equip(cid,it.id,pv.slot); acts.appendChild(eb); }
@@ -14419,6 +14419,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
   {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "자동전투 조건을 정리했습니다. 없어진 시스템의 조건 12개를 지웠고, 룬이 있어야 쓰던 '적이 1마리' · '보스가 있음' · '내 체력이 가득 참' · '아군 전원 체력 70% 이상'을 누구나 씁니다. 새 조건 '내 보호막이 없음' · '약화된 적 없음' · '이 기술의 효과가 없음(노래 · 약화 · 취약)'을 넣었습니다. 연계 · 은신 조건은 도적에게만 보입니다.",
     "전투 속도를 1배속 · 2배속 · 3배속 · 4배속으로 바꿨습니다(예전 보통 · 조금 빠르게 · 빠르게 · 매우 빠르게 → 4배속은 예전 '매우 빠르게'와 거의 같음). 처음 깨는 막은 2배속까지, 이미 깬 막은 3배속까지 씁니다.",
     "🔁 반복 전투가 생겼습니다. 던전 창이나 전투 화면 위쪽에서 켜면 막을 끝낼 때마다 같은 던전에 다시 들어가고, 횃불이 떨어지면 멈춥니다. 패배하면 멈추고, '패배해도 계속'을 켜면 패배해도 이어서 반복합니다.",
     "게임 첫 화면이 생겼습니다. 게스트 또는 Google 계정으로 로그인하고, 한 번 로그인하면 다음부터는 자동으로 로그인됩니다.",
@@ -14619,7 +14620,7 @@ function start(snap){
     try{
       // 핫 업데이트 스냅샷은 저장소보다 최신일 때만 쓴다(오래된 스냅샷이 더 최근 진행을 덮어 이전 방으로 되돌아가던 경로)
       const fresh=snap.progress&&snap.progress.heroes&&(snap.progress.savedAt||0)>=(progress.savedAt||0);
-      if(fresh&&snap.rules){ for(const c of CLASS_IDS) if(Array.isArray(snap.rules[c])) partyRules[c]=snap.rules[c]; normRules(); }
+      if(fresh&&snap.rules){ rulesFrom(snap.rules); normRules(); }
       if(fresh){ progress=migrateProgress(snap.progress);
         equippedStore=Array.isArray(progress._equipped)?progress._equipped:[]; }
       if(snap.sel&&CLASS_IDS.includes(snap.sel)) selected=snap.sel;
