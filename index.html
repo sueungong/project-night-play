@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793876781838"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793878454140"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -469,6 +469,40 @@ input[type=checkbox]{accent-color:var(--accent); width:18px; height:18px}
 .skilldetails .srow{display:flex; flex-direction:column; gap:2px; padding:8px 0; border-top:1px solid #1f2843; line-height:1.5}
 .skilldetails .sname{font-weight:700; color:#ffe08f}
 .skilldetails .sdesc{color:#d5dbf0; min-width:0}
+/* v0.94 스킬 목록 B안 — 한 줄 요약 + 누르면 펼침 */
+.sklist{display:flex; flex-direction:column; gap:6px; margin-top:8px}
+.skrow{background:#141c33; border:1px solid var(--line); border-radius:12px; overflow:hidden}
+.skrow > summary{list-style:none; cursor:pointer; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:3px 8px; align-items:center; padding:10px 12px; min-height:44px; -webkit-tap-highlight-color:transparent}
+.skrow > summary::-webkit-details-marker{display:none}
+.skrow > summary:hover{background:#ffffff06}
+.skrow[open] > summary{border-bottom:1px solid var(--line); background:#ffffff05}
+.skr-n{font-weight:800; color:#ffe08f; font-size:15px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px; min-width:0}
+.skb{font-style:normal; font-weight:600; font-size:11px; padding:0 6px; border-radius:6px; border:1px solid var(--line2); color:var(--muted); line-height:1.6}
+.skb.warn{color:#ffb347; border-color:#6b5a22} .skb.mp{color:#7fe0b8; border-color:#2b5c4a} .skb.adv{color:#c9b8ff; border-color:#4a3d72}
+.skcost{font-size:12px; font-weight:700; padding:1px 9px; border-radius:999px; white-space:nowrap; justify-self:end}
+.skcost.c-mp{color:#8fc3ff; background:#5aa9ff1f} .skcost.c-res{color:#cdb2ff; background:#b48cff1f} .skcost.c-hp{color:#ff9a8f; background:#ff6b6b1f} .skcost.c-free{color:var(--muted); background:#8b97b31a}
+.skr-m{grid-column:1/-1; font-size:12px; color:var(--muted)}
+.skr-e{font-size:14px; color:var(--ink); line-height:1.45; min-width:0}
+.skr-d{display:flex; align-items:center; gap:4px; justify-self:end}
+.skr-d i{width:8px; height:8px; border-radius:50%}
+.skr-d .d-st{background:#ff9a3c} .skr-d .d-if{background:#4fd1a5} .skr-d .d-ln{background:#c792ff} .skr-d .d-etc{background:#9aa6c4}
+.skr-ar{width:7px; height:7px; border-right:2px solid var(--muted); border-bottom:2px solid var(--muted); transform:rotate(45deg); margin:0 2px 3px 6px; transition:transform .15s}
+.skrow[open] .skr-ar{transform:rotate(225deg); margin-bottom:-3px}
+.sknum{color:#ffd166; font-weight:700}
+.skr-b{padding:4px 12px 10px; display:flex; flex-direction:column; gap:6px}
+.skblk{border-left:3px solid; border-radius:0 8px 8px 0; padding:5px 9px; font-size:13.5px; line-height:1.5; color:#d5dbf0}
+.skblk b{display:block; font-size:11.5px; margin-bottom:1px}
+.skblk.k-st{border-color:#ff9a3c; background:#ff9a3c12} .skblk.k-st b{color:#ff9a3c}
+.skblk.k-if{border-color:#4fd1a5; background:#4fd1a512} .skblk.k-if b{color:#4fd1a5}
+.skblk.k-ln{border-color:#c792ff; background:#c792ff12} .skblk.k-ln b{color:#c792ff}
+.skblk.k-etc{border-color:#9aa6c4; background:#9aa6c40f} .skblk.k-etc b{color:#9aa6c4}
+.skblk.k-cost{border-color:#5aa9ff; background:#5aa9ff10} .skblk.k-cost b{color:#8fc3ff}
+.skr-none{margin:4px 0 0; font-size:12.5px; color:var(--muted)}
+.skr-b .mastery{margin-top:2px}
+@media (max-height:560px), (max-width:760px){
+  .skrow > summary{padding:9px 10px} .skr-n{font-size:14.5px} .skr-e{font-size:13.5px} .skblk{font-size:13px}
+}
+
 .ghostbtn{height:38px; padding:0 12px; border-radius:10px; background:none; border:1px solid var(--line); color:var(--sub); font-size:14px; cursor:pointer}
 .ghostbtn.danger{border-color:#6b3d3d; color:var(--bad)}
 .ghostbtn.danger.arm{background:var(--bad); color:#1a0703; font-weight:700}
@@ -5277,7 +5311,9 @@ function skillSpec(sid,sx){
   if(s.selfShield) R("etc",`나에게 보호막(최대 체력의 ${P(s.selfShield)}%)`);
   return {name:s.name,tags,main,rows};
 }
-const SK_ROWK={st:["거는 상태","st"],if:["조건","if"],ln:["🔗 연계","ln"],etc:["그 밖","etc"]};
+const SK_ROWK={st:["상태이상","st"],if:["조건부 강화","if"],ln:["🔗 연계","ln"],etc:["참고","etc"]};
+const SK_ORD=["st","if","ln","etc"], SK_OPEN=new Set();
+function skHi(t){ return esc(t).replace(/(\d+(?:\.\d+)?%p?|× ?\d+번?|\d+턴|\d+중첩)/g,'<span class="sknum">$1</span>'); }   // 수치(%·턴·횟수·중첩)는 금색
 
 function skillCardHTML(sid,opt){
   opt=opt||{}; const S=skillSpec(sid,opt.sk); if(!S) return "";
@@ -11269,14 +11305,24 @@ function renderRules(){
   const DV=heroDerived(selected); const Wn=WEAPONS[DV.wtype];
   const wrow=document.createElement("div"); wrow.className="srow"; wrow.innerHTML=`<span class="sname">무기: ${esc(Wn.name)}</span><span class="sdesc">${esc(Wn.desc)}</span>`; det.appendChild(wrow);
   const SX=heroSkillsEx(selected,DV.wtype);
+  // v0.94 스킬 목록(B안): 평소엔 한 줄 요약(이름 · 대상 · 비용 · 핵심 효과 · 색 점), 누르면 상태이상·조건부 강화·연계·참고·숙련이 펼쳐짐
+  const lst=document.createElement("div"); lst.className="sklist"; det.appendChild(lst);
   for(const sid of skills){
-    const s=SKILLS[sid];
-    const src=CLASSES[selected].skills.includes(sid)?"기본":`전직(${advS?advS.name:""})`;
-    const inRule=rules.some(r=>r.enabled&&r.skill===sid);
-    const row=document.createElement("div"); row.className="srow";
-    row.innerHTML=`<span class="sname">${esc(s.name)} <span class="ssrc">${esc(src)}</span>${!inRule&&sid!==CLASSES[selected].skills[0]?' <span class="ssrc" style="color:#ffb347;border-color:#6b5a22">규칙에 없음</span>':""}</span><div class="sdesc">${skillCardHTML(sid,{noName:true,sk:SX[sid]})}</div>`;
-    det.appendChild(row);
-    det.appendChild(masteryRow(selected,sid));
+    const S=skillSpec(sid,SX[sid]); if(!S) continue;
+    const adv=!CLASSES[selected].skills.includes(sid);
+    const inRule=rules.some(r=>r.enabled&&r.skill===sid)||sid===CLASSES[selected].skills[0];
+    const ms=((progress.heroes[selected].mastery||{})[sid])||{xp:0,pick:{}}; const msPick=MASTERY_STEPS.slice(0,3).some((th,i)=>(ms.xp||0)>=th&&!(ms.pick&&ms.pick[i]))&&!isCompanion(selected)&&!runBusy();
+    const cost=S.tags.find(t=>["mp","res","hp","free"].includes(t.c)), tgt=S.tags.find(t=>t.c==="tgt"), rng=S.tags.find(t=>t.c==="rng");
+    const kinds=SK_ORD.filter(k=>S.rows.some(r=>r.k===k));
+    const row=document.createElement("details"); row.className="skrow"; row.open=SK_OPEN.has(selected+":"+sid);
+    row.addEventListener("toggle",()=>{ if(row.open) SK_OPEN.add(selected+":"+sid); else SK_OPEN.delete(selected+":"+sid); });
+    row.innerHTML=`<summary><span class="skr-n">${esc(S.name)}${adv?`<i class="skb adv">전직</i>`:""}${inRule?"":`<i class="skb warn">규칙에 없음</i>`}${msPick?`<i class="skb mp">숙련 선택</i>`:""}</span>`
+      +(cost?`<span class="skcost c-${cost.c}">${esc(cost.t.replace(/ \(기본.*\)$/,""))}</span>`:"")
+      +`<span class="skr-m">${[tgt?"🎯 "+esc(tgt.t):"",rng?esc(rng.t):""].filter(Boolean).join(" · ")}</span>`
+      +`<span class="skr-e">${skHi(S.main)}</span><span class="skr-d">${kinds.map(k=>`<i class="d-${k}" title="${SK_ROWK[k][0]}"></i>`).join("")}<b class="skr-ar" aria-hidden="true"></b></span></summary>`
+      +`<div class="skr-b">${cost&&/기본 /.test(cost.t)?`<div class="skblk k-cost"><b>비용</b>${skHi(cost.t)}</div>`:""}${SK_ORD.flatMap(k=>S.rows.filter(r=>r.k===k)).map(r=>`<div class="skblk k-${r.k}"><b>${SK_ROWK[r.k][0]}</b>${skHi(r.t)}</div>`).join("")||`<p class="skr-none">추가 효과 없음</p>`}</div>`;
+    row.querySelector(".skr-b").appendChild(masteryRow(selected,sid));
+    lst.appendChild(row);
   }
   side.appendChild(det);
   // 왼쪽: 규칙 목록
@@ -13112,7 +13158,8 @@ function repeatAfterRun(){
   if((REPEAT.last==="lose"||REPEAT.last==="draw")&&!REPEAT.lose) return repeatStop("패배했어요(⚙ 던전 창에서 '패배해도 계속'을 켜면 이어서 반복)");
   clearTimeout(REPEAT.t); let waited=0;
   const go=()=>{ if(!REPEAT.on) return; if(runState) return;
-    if(playing||telling||onboardBusy||$("modal")||TUT.busy){ waited++; if(waited>120) return repeatStop("다른 창이 열려 있어요"); REPEAT.t=setTimeout(go,1000); return; }
+    if(onboardBusy||(!runState&&joinPendingN(progress)>0)){ REPEAT.t=setTimeout(go,1000); return; }   // v0.94 새 동료 고르기가 먼저(끝나면 반복 이어감)
+    if(playing||telling||$("modal")||TUT.busy){ waited++; if(waited>120) return repeatStop("다른 창이 열려 있어요"); REPEAT.t=setTimeout(go,1000); return; }
     const T=REPEAT.tgt;
     if(T.eg){ if(!egCanEnter(T.eg)) return repeatStop(`${EG_MODES[T.eg].name} 이번 주 입장을 다 썼어요`); progress.egMode=T.eg; }
     else { progress.egMode=null; progress.diff=T.d; progress.lastRegion=T.rk; (progress.actSel=progress.actSel||{})[actKey(T.d,T.rk)]=T.act; try{ $("diffSel").value=String(T.d); }catch(e){} }
@@ -14157,7 +14204,10 @@ function heroCardHTML(cid){ const c=CLASSES[cid]; return `<button class="ccard" 
 function pickJoiner(){
   // 자동 점검(브라우저 자동화 — navigator.webdriver)에서는 창 없이 합류 순서대로 고름(예전 점검이 멈추지 않게). window.PN_JOIN_PICK=true면 점검에서도 창을 띄움
   try{ if(navigator.webdriver&&!window.PN_JOIN_PICK) return Promise.resolve(joinersDue(progress)[0]||joinLeft(progress)[0]); }catch(e){}
-  return new Promise(res=>{ const left=joinLeft(progress); let view=null;
+  // v0.94 다른 창(규칙 교실·공지 등)이 이 창을 덮어 지우면 예전엔 고르기를 영영 기다려 게임이 멈췄다 → 지워지면 그 창이 닫힌 뒤 다시 띄움
+  return new Promise(res=>{ const left=joinLeft(progress); let view=null, done=false;
+    const iv=setInterval(()=>{ if(done){ clearInterval(iv); return; } if(!$("jpick")&&!$("modal")&&!$("coach")) open(); },500);
+    const open=()=>{
     const m=openModal(`<h2>새 동료를 맞이하세요</h2>
       <p class="msub">황혼의 장을 깨 동료 한 명이 더 함께할 수 있어요. 아직 합류하지 않은 ${left.length}명 중 한 명을 고르세요. 고르지 않은 영웅은 다음 자리가 날 때 다시 고를 수 있어요.</p>
       <div class="ccards c9" id="jpick">${left.map(heroCardHTML).join("")}</div><div class="cdet" id="jdet"></div>
@@ -14167,8 +14217,10 @@ function pickJoiner(){
       if(!view){ det.innerHTML=""; return; }
       m.querySelector("#jhint").textContent=`[${CLASSES[view].name} 합류]를 누르면 바로 합류합니다. 다른 영웅을 눌러 비교해 보세요.`;
       det.innerHTML=heroIntroHTML(view,`<button class="btn" id="jgo">${esc(CLASSES[view].name)} 합류</button>`);
-      det.querySelector("#jgo").onclick=()=>{ const c=view; closeModal(); res(c); }; };
+      det.querySelector("#jgo").onclick=()=>{ const c=view; done=true; clearInterval(iv); closeModal(); res(c); }; };
     for(const b of m.querySelectorAll(".ccard")) b.onclick=()=>{ view=b.dataset.c; upd(); };
+    upd(); };
+    open();
   });
 }
 function pickStartTrio(){
@@ -14279,7 +14331,7 @@ function pendingJoiners(){
   return joinersDue(progress);
 }
 async function maybeLateJoin(){
-  if(onboardBusy||!bootDone||playing||telling||runState||$("modal")) return;
+  if(onboardBusy||!bootDone||playing||telling||runState||$("modal")||TUT.busy||$("coach")) return;   // v0.94 안내(코치)·규칙 교실 중엔 기다림
   if(!joinPendingN(progress)) return;
   onboardBusy=true; telling=true; setMainBtn();
   try{
@@ -14441,6 +14493,8 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
   {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "자동전투 탭의 스킬 목록을 한 줄 요약으로 바꿨습니다. 이름 · 대상 · 비용 · 핵심 효과가 한 줄에 보이고, 누르면 상태이상(주황) · 조건부 강화(초록) · 연계(보라) · 참고(회색) · 숙련이 펼쳐집니다. 수치는 금색으로 표시합니다.",
+    "동료 합류 무렵 게임이 멈추던 문제를 고쳤습니다. 동료 고르기 창이 다른 창에 가려 사라지면 다시 띄우고, 반복 전투 중이면 동료를 먼저 고른 뒤 반복을 이어 갑니다.",
     "컴퓨터에서 옆으로 넘기는 목록(장비 탭 영웅 목록 등)을 마우스 휠이나 끌어서 넘길 수 있습니다. 📊 딜미터기는 이제 구역마다 새로 세지 않고 한 막의 전투를 모두 더해 보여 줍니다.",
     "새 우편이 오면 바로 알림이 뜨고 위쪽 📮에 받지 않은 우편 수가 표시됩니다. 정액을 쓰는 동안 위쪽에 🌙이 보이고, 누르면 효과와 남은 일수가 나옵니다.",
     "우편으로 30일 정액을 선물받을 수 있습니다. 받으면 보낸 일수만큼 정액이 시작되고, 이미 쓰는 중이면 남은 기간에 더해집니다.",
@@ -14576,6 +14630,18 @@ async function openMail(){
   addEventListener("pointerup",up); addEventListener("pointercancel",up);
   addEventListener("click",e=>{ if(eat){ e.stopPropagation(); e.preventDefault(); eat=false; } },true);   // 끌다가 놓은 건 누르기로 치지 않음
 })();
+
+// ---- v0.94 멈춤 지킴이: '진행 중' 표시(telling·onboardBusy·TUT.busy)는 켜져 있는데 화면에 아무 창·안내·대사도 없이 10초가 지나면 풀어 줌(게임이 먹통이 되지 않게) ----
+const STUCK={n:0};
+setInterval(()=>{ try{
+  if(!progress||!bootDone||playing||runState||$("modal")||$("coach")||$("title")||(typeof COOP!=="undefined"&&COOP.run)){ STUCK.n=0; return; }
+  const sb=$("saybox"); if(sb&&!sb.hidden){ STUCK.n=0; return; }
+  if(!(telling||onboardBusy||TUT.busy)){ STUCK.n=0; return; }
+  if(++STUCK.n<5) return;   // 2초 × 5 = 10초
+  const f=`telling ${telling} · onboardBusy ${onboardBusy} · TUT.busy ${TUT.busy}`; STUCK.n=0;
+  telling=false; onboardBusy=false; TUT.busy=false; setMainBtn();
+  logLine(`<span class="r">⚠ 화면이 멈춘 것 같아 풀었습니다. 계속 진행하세요.</span>`); errReport("멈춤 복구: "+f);
+}catch(e){} },2000);
 
 // ---- 오류 자동 수집(같은 오류는 한 번 · 한 번 켤 때 최대 15건) ----
 const ERR_SENT=new Set();
