@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793874078584"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793875339162"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1432,6 +1432,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .ncard code{background:#0b1020; border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:12.5px; word-break:break-all}
 .mailbtn{position:relative} .mailbtn i{position:absolute; top:-4px; right:-4px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:var(--accent); color:var(--accent-ink); font-size:10.5px; font-style:normal; font-weight:700; display:flex; align-items:center; justify-content:center}
 .mailbtn i:empty{display:none}
+.subleft{margin:4px 0 8px; font-size:15px} .subperks ul{margin:0; padding-left:20px; line-height:1.8}
 .opform{display:flex; flex-direction:column; gap:8px; background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:10px 12px}
 .opform input,.opform textarea,.opform select{background:var(--bg); border:1px solid var(--line2); color:var(--ink); border-radius:8px; padding:7px 10px; font:inherit; font-size:14px; min-width:0}
 .opform textarea{min-height:80px; resize:vertical} .opform label{display:flex; flex-direction:column; gap:3px; font-size:12.5px; color:var(--muted)}
@@ -1450,6 +1451,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
     <div class="chips" id="hudChips"></div>
     <button class="gear" id="fsBtn" onclick="toggleFullscreen()" title="전체 화면" aria-label="전체 화면" hidden>⛶</button>
     <button class="gear" id="sndBtn" onclick="SND.set({on:!SND.st.on})" title="소리 켜기·끄기 (음량은 ⚙ 설정)" aria-label="소리 켜기·끄기">🔊</button>
+    <button class="gear subbtn" id="subBtn" onclick="openSubInfo()" title="정액 적용 중 — 눌러서 효과·남은 기간 보기" aria-label="정액 적용 중" hidden>🌙</button>
     <button class="gear" id="noticeBtn" onclick="openNotices()" title="공지사항 · 업데이트 내역" aria-label="공지사항">📢</button>
     <button class="gear mailbtn" id="mailBtn" onclick="openMail()" title="우편함" aria-label="우편함" hidden>📮<i></i></button>
     <button class="gear fbbtn" id="fbBtn" onclick="openFeedback()" title="의견 보내기 — 버그·밸런스·아이디어" aria-label="의견 보내기">💬</button>
@@ -7197,6 +7199,11 @@ const GEM_PACKS=[[1200,60,0],[5900,300,20],[12000,600,60],[33000,1650,250],[5900
 const won=n=>n.toLocaleString("ko-KR")+"원";
 function payLater(what){ toast(`💳 ${what} — 결제는 출시 뒤에 연결됩니다 (지금은 시험판)`); }
 const AD_DAILY={torch:5, loot:3, fast:2}, AD_FAST_MS=30*60*1000;
+function subPerksHTML(){ return `<ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 3배속 상시 · 이미 깬 막은 4배속으로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>가방 +${BAG_SUB}칸 (기본 ${BAG_BASE}칸)</li><li>매주 최종 콘텐츠 입장권 ${SUB_TICKETS}장</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>`; }
+function renderSubBtn(){ const b=$("subBtn"); if(b) b.hidden=!subActive(); }
+function openSubInfo(){ if(!subActive()){ renderSubBtn(); return; }
+  const m=openModal(`<h2>🌙 정액 적용 중</h2><p class="subleft"><b>${subDaysLeft()}일 남음</b> · ${fmtDate(progress.sub.until)}까지</p><div class="subperks">${subPerksHTML()}</div><div class="mfoot"><button id="mclose" class="btn">닫기</button></div>`,"subinfo");
+  m.querySelector("#mclose").onclick=closeModal; }
 function subActive(){ return !!(progress&&progress.sub&&progress.sub.until>Date.now()); }
 function subDaysLeft(){ return subActive()?Math.ceil((progress.sub.until-Date.now())/86400e3):0; }
 function subStart(days,why){ const now=Date.now(); const base=subActive()?progress.sub.until:now; progress.sub=Object.assign({},progress.sub||{},{until:base+days*86400e3});
@@ -7299,7 +7306,7 @@ function gemShopBlock(){
   <div class="gscards">
     <div class="gscard packs"><h3>💎 새벽 결정 충전</h3><div class="gpacks">${GEM_PACKS.map(([w,g,b],i)=>`<button class="gpack" data-pk="${i}"><b>💎 ${(g+b).toLocaleString("ko-KR")}</b>${b?`<small>${g.toLocaleString("ko-KR")} + 덤 ${b.toLocaleString("ko-KR")}</small>`:"<small>&nbsp;</small>"}<span>${won(w)}</span></button>`).join("")}</div>${isAdmin()?`<div class="gsst">관리자: 누르면 결제 없이 시험 지급</div>`:""}</div>
     <div class="gscard sub${sub?" on":""}"><h3>🌙 30일 정액</h3>${sub?`<div class="gsst">사용 중 · ${subDaysLeft()}일 남음</div>`:""}
-      <ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 3배속 상시 · 이미 깬 막은 4배속으로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>가방 +${BAG_SUB}칸 (기본 ${BAG_BASE}칸)</li><li>매주 최종 콘텐츠 입장권 ${SUB_TICKETS}장</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>
+      ${subPerksHTML()}
       <div class="gsbtns"><button class="btn" id="gsSub">${won(SUB_WON)} — ${sub?"30일 연장":"시작"}</button>${isAdmin()?`<button class="ghostbtn" id="gsSubAdm">관리자 시험 30일</button>`:""}</div></div>
     <div class="gscard pass${P.paid?" on":""}"><h3>🎟 아트 패스 — 시즌 ${P.season}</h3><div class="gsst">${lv}/${PASS_LEVELS}단계 · ${passDaysLeft()}일 남음 · ${P.paid?"유료 트랙 열림":"무료 트랙"}${passClaimable()?` · <b>받을 보상 ${passClaimable()}</b>`:""}</div>
       <div class="pbar"><i style="width:${Math.min(100,(P.xp%PASS_XP))}%"></i></div>
@@ -8367,6 +8374,7 @@ let telling=false;
 
 function curRegion(){ return REGIONS[progress.lastRegion]; }
 function renderHud(){
+  try{ renderSubBtn(); }catch(e){}
   const pg=progress.protag, cl=cloudLabel();
   const d=runState?runState.d:progress.diff, D=DIFFS[d];
   const rk=runState?runState.regionKey:progress.lastRegion, r=REGIONS[rk];
@@ -14128,7 +14136,7 @@ function openModal(html,cls){
   m.innerHTML=`<div class="mpanel" role="dialog" aria-modal="true">${html}</div>`;
   document.body.appendChild(m); return m;
 }
-function closeModal(){ const m=$("modal"); if(m) m.remove(); }
+function closeModal(){ const m=$("modal"); if(m) m.remove(); if(typeof renderMailDot==="function") setTimeout(()=>{ try{ renderMailDot(); }catch(e){} },300); }
 let creationCancel=null;
 // v0.93 새 게임: ① 9직업 중 함께 시작할 셋 고르기(누르면 기본 설명·전직 둘이 나옴) → ② 그 셋 중 주인공과 이름
 // v0.93 영웅 소개(직업 설명·능력치·두 전직) — 시작 3명 고르기와 동료 합류 고르기가 같이 씀
@@ -14425,6 +14433,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
   {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "새 우편이 오면 바로 알림이 뜨고 위쪽 📮에 받지 않은 우편 수가 표시됩니다. 정액을 쓰는 동안 위쪽에 🌙이 보이고, 누르면 효과와 남은 일수가 나옵니다.",
     "우편으로 30일 정액을 선물받을 수 있습니다. 받으면 보낸 일수만큼 정액이 시작되고, 이미 쓰는 중이면 남은 기간에 더해집니다.",
     "음유시인 기본 자동전투 규칙을 고쳤습니다. 투지의 노래 · 행진곡 · 조롱의 노래 · 안식의 노래를 '적이 2마리 이상'이 아니라 '이 기술의 효과가 없음'일 때 부릅니다(노래가 끊기면 다시 부름). 직접 바꾼 규칙은 그대로 둡니다.",
     "자동전투 조건을 정리했습니다. 없어진 시스템의 조건 12개를 지웠고, 룬이 있어야 쓰던 '적이 1마리' · '보스가 있음' · '내 체력이 가득 참' · '아군 전원 체력 70% 이상'을 누구나 씁니다. 새 조건 '내 보호막이 없음' · '약화된 적 없음' · '이 기술의 효과가 없음(노래 · 약화 · 취약)'을 넣었습니다. 연계 · 은신 조건은 도적에게만 보입니다.",
@@ -14505,10 +14514,16 @@ async function openNotices(){
 }
 
 // ---- 우편: 관리자가 보낸 공지·재화·장비 (전체 또는 한 사람) ----
-const MAIL={list:[],at:0};
-async function mailRefresh(){ const N=NET(); if(!N||!progress||!progress.protag) return; try{ MAIL.list=await N.ops.mail(); MAIL.at=Date.now(); }catch(e){} renderMailDot(); }
+const MAIL={list:[],at:0,seen:new Set(),first:false,watch:false};
+async function mailRefresh(){ const N=NET(); if(!N||!progress||!progress.protag) return; try{ MAIL.list=await N.ops.mail(); MAIL.at=Date.now(); }catch(e){} renderMailDot();
+  if(!MAIL.watch&&N.ops.mailWatch){ MAIL.watch=true; let t=0; try{ N.ops.mailWatch(()=>{ clearTimeout(t); t=setTimeout(mailRefresh,800); }); }catch(e){} } }   // 우편이 오면 바로(서버가 알려 줌) · 3분마다 다시 확인은 그대로
 function mailOpen(){ const got=new Set((progress&&progress.mailGot)||[]); return MAIL.list.filter(x=>!got.has(x.id)&&!(x.exp&&x.exp<Date.now())); }
-function renderMailDot(){ const b=$("mailBtn"); if(!b) return; b.hidden=!NET(); const n=progress&&progress.protag?mailOpen().length:0; b.querySelector("i").textContent=n?String(n):""; }
+function renderMailDot(){ const b=$("mailBtn"); if(!b) return; b.hidden=!NET(); const open=progress&&progress.protag?mailOpen():[]; const n=open.length; b.querySelector("i").textContent=n?String(n):"";
+  // 새 우편 알림: 이번 접속에서 처음 보는 안 받은 우편이 생기면 한 번 알림(처음 불러올 때는 쌓인 개수만 알림)
+  const fresh=open.filter(x=>!MAIL.seen.has(x.id)); if(!fresh.length){ if(MAIL.at) MAIL.first=true; return; } if($("modal")) return;   // 창이 열려 있으면 닫힌 뒤 알림
+  for(const x of open) MAIL.seen.add(x.id);
+  toast(MAIL.first?`<span class="tc">📮 새 우편 ${fresh.length}통</span>${esc(fresh[0].t||"")}${fresh.length>1?` 외 ${fresh.length-1}통`:""} — 위쪽 📮을 눌러 받으세요`:`<span class="tc">📮 받지 않은 우편 ${fresh.length}통</span>위쪽 📮을 눌러 받으세요`);
+  if(MAIL.at) MAIL.first=true; }
 function mailGiftText(x){ const L=[]; if(x.gold) L.push(`골드 ${(+x.gold).toLocaleString("ko-KR")}`); if(x.ess) L.push(`밤의 정수 ${x.ess}`); if(x.gem) L.push(`💎 새벽 결정 ${x.gem}`); if(x.torch) L.push(`🔥 횃불 ${x.torch}`); if(x.sub) L.push(`🌙 정액 ${x.sub}일`);
   for(const it of x.items||[]) if(it&&it.n>0) L.push(`${(RARITIES[RAR_IDX[it.r]]||{label:"장비"}).label} ${it.s?SLOT_LABEL[it.s]:"장비"} ×${it.n}`); return L.join(" · "); }
 function mailClaim(x){
@@ -14526,7 +14541,7 @@ async function openMail(){
   const N=NET(); if(!N) return;
   const m=openModal(`<h2>📮 우편함</h2><div id="mlBody" class="nbody"><p class="msub">불러오는 중…</p></div><div class="mfoot"><button id="mlAll" class="btn" hidden>모두 받기</button><button id="mclose" class="btn ghost">닫기</button></div>`,"notices");
   m.querySelector("#mclose").onclick=closeModal;
-  await mailRefresh(); if(!m.isConnected) return;
+  await mailRefresh(); if(!m.isConnected) return; for(const x of MAIL.list) MAIL.seen.add(x.id); MAIL.first=true;
   const draw=()=>{ const got=new Set(progress.mailGot||[]); const L=MAIL.list.filter(x=>!(x.exp&&x.exp<Date.now()));
     m.querySelector("#mlBody").innerHTML=L.length?L.map(x=>{ const g=mailGiftText(x), done=got.has(x.id);
       return `<div class="ncard${done?" done":""}"><div class="nh"><b>${x.mine?"✉ ":""}${esc(x.t||"")}</b><span>${fmtDate(x.at)}${x.exp?` · ${fmtDate(x.exp).slice(0,10)}까지`:""}</span></div>${x.body?`<div class="nb">${esc(x.body).replace(/\n/g,"<br>")}</div>`:""}
