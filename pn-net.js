@@ -83,9 +83,10 @@
   function render() { const el = document.getElementById("pnAcct"); if (el) el.innerHTML = acctInner(); bind(el); }
   function acctInner() {
     if (!user) return `<p class="msub">서버에 연결하는 중… (연결이 안 되면 이 기기에만 저장되고 함께하기는 꺼집니다)</p>`;
-    if (user.isAnonymous) return `<p class="msub">지금은 <b>손님 계정</b>입니다 — 진행은 서버에 저장되지만 이 기기·이 브라우저에서만 이어집니다. Google 계정을 연결하면 다른 휴대폰·PC에서도 같은 진행으로 이어 할 수 있어요.</p>
+    const idl = ` <span style="opacity:.75">(계정 ID ${esc(user.uid.slice(0, 6))}…)</span>`;
+    if (user.isAnonymous) return `<p class="msub">지금은 <b>손님 계정</b>${idl}입니다 — 진행은 서버에 저장되지만 이 기기·이 브라우저에서만 이어집니다. Google 계정을 연결하면 다른 휴대폰·PC에서도 같은 진행으로 이어 할 수 있어요.</p>
       <div class="srow"><button class="btn" data-pn="google">Google 계정 연결</button></div>`;
-    return `<p class="msub">Google 계정 <b>${esc(user.email || user.displayName)}</b>으로 로그인됨 — 어느 기기에서 열어도 같은 진행이 이어집니다.</p>
+    return `<p class="msub">Google 계정 <b>${esc(user.email || user.displayName)}</b>${idl}으로 로그인됨 — 어느 기기에서 열어도 같은 진행이 이어집니다.</p>
       <div class="srow"><button class="btn ghost" data-pn="out">로그아웃</button></div>`;
   }
   function bind(el) { if (!el) return;
@@ -143,6 +144,7 @@
     isAdmin: async () => { const u = await ready; if (!u) return false; try { return (await val("admins/" + u.uid)) === true; } catch (e) { return false; } },
     notices: async () => list(await val("notices")).sort((a, b) => (b.at || 0) - (a.at || 0)),
     noticeAdd: async o => { const u = await ready; await rtdb.ref("notices").push(Object.assign({}, o, { by: u.uid, at: TS })); },
+    noticeEdit: async (id, o) => { await rtdb.ref("notices/" + safeKey(id)).update({ t: o.t, body: o.body, ed: TS }); },
     noticeDel: async id => { await rtdb.ref("notices/" + safeKey(id)).remove(); },
     mail: async () => { const u = await ready; if (!u) return [];
       const [a, m] = await Promise.all([val("mail/all").catch(() => null), val("mail/u/" + u.uid).catch(() => null)]);

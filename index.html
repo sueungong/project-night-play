@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793864801040"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793866671595"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1428,7 +1428,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .ncard{background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:10px 14px; font-size:14px; line-height:1.6}
 .ncard.pin{border-color:#6b5a2a; background:#1a1810} .ncard.warn{border-color:#7a4a2a} .ncard.done{opacity:.6}
 .ncard p{margin:4px 0} .ncard .nh{display:flex; justify-content:space-between; gap:8px; align-items:baseline; flex-wrap:wrap} .ncard .nh span{color:var(--muted); font-size:12.5px}
-.ncard .nb{color:var(--sub); margin-top:4px; word-break:keep-all} .ncard .mgift{margin-top:6px; color:var(--accent)} .ncard .mact{display:flex; justify-content:flex-end; margin-top:6px}
+.ncard .nb{color:var(--sub); margin-top:4px; word-break:keep-all} .ncard ul.ul{margin:6px 0 0; padding-left:18px; color:var(--sub)} .ncard ul.ul li{margin:3px 0; word-break:keep-all} .upds{display:flex; flex-direction:column; gap:8px} .ncard .mgift{margin-top:6px; color:var(--accent)} .ncard .mact{display:flex; justify-content:flex-end; margin-top:6px}
 .ncard code{background:#0b1020; border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:12.5px; word-break:break-all}
 .mailbtn{position:relative} .mailbtn i{position:absolute; top:-4px; right:-4px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:var(--accent); color:var(--accent-ink); font-size:10.5px; font-style:normal; font-weight:700; display:flex; align-items:center; justify-content:center}
 .mailbtn i:empty{display:none}
@@ -14337,9 +14337,9 @@ function openSettings(){
     <div class="sblock"><div class="slabel">그래픽</div><div class="srow" id="gfxSeg" style="display:flex;gap:6px;flex-wrap:wrap">${[["auto","자동"],["high","높음"],["low","저사양"]].map(([k,l])=>`<button class="btn ${GFX.mode===k?"":"ghost"}" data-gfx="${k}">${l}</button>`).join("")}</div>
       <p class="msub">자동: 처음 몇 초 동안 재 보고 느리면 저사양으로 바꿉니다${GFX.mode==="auto"?` (지금 <b>${GFX.low?"저사양":"높음"}</b>)`:""}. 저사양: 초당 20장 · 화면 해상도 1배 · 그림자·흐림·앞쪽 날씨 끔 — 버벅이면 저사양으로 두세요.</p></div>
     ${helpBlockHTML()}
-    ${window.PNNet?window.PNNet.settingsHTML():""}
+    ${window.PNNet?window.PNNet.settingsHTML():""}${(()=>{ try{ const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress) return ""; return `<div class="sblock"><div class="slabel">이 기기의 이전 진행</div><p class="msub">계정을 바꾸거나 다른 기기 진행을 불러오기 전에 이 기기에 있던 진행을 보관해 두었습니다: <b>${esc(progressSummary(migrateProgress(JSON.parse(JSON.stringify(b.progress)))))}</b> (${fmtDate(b.at)}). 되돌리면 이 진행이 지금 계정에 저장되어 모든 기기에 반영됩니다.</p><div class="srow"><button class="btn ghost" id="bkRestore">이 진행으로 되돌리기</button></div></div>`; }catch(e){ return ""; } })()}
     <div class="sblock"><div class="slabel">의견 보내기</div><p class="msub">버그·난이도·불편한 점·아이디어를 게임 상태와 함께 보낼 수 있어요.</p><div class="srow"><button class="btn" onclick="closeModal();openFeedback()">💬 의견 보내기</button></div></div>
-    <div class="sblock"><div class="slabel">새 소식 (업데이트 내역)</div><div class="news">${(document.getElementById("newsTpl")||{}).innerHTML||""}</div></div>
+    <div class="sblock"><div class="slabel">업데이트 내역</div>${updatesHTML()}<details style="margin-top:6px"><summary class="msub" style="cursor:pointer">개발 기록(자세한 예전 변경 내역)</summary><div class="news">${(document.getElementById("newsTpl")||{}).innerHTML||""}</div></details></div>
     <div class="sblock"><div class="slabel">새 게임</div><p class="msub">레벨·장비·골드·증표·엔딩 기록이 모두 지워지고 프롤로그부터 다시 시작합니다. 클라우드 저장도 함께 초기화되어 <b>다른 컴퓨터에서도</b> 처음부터 시작합니다. 되돌릴 수 없습니다.</p><button id="newGame" class="dangerb">처음부터 다시 시작</button></div>
     <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`, "settings");
   m.onclick=e=>{ if(e.target===m) closeModal(); };
@@ -14350,6 +14350,7 @@ function openSettings(){
   for(const b of m.querySelectorAll("[data-spd]")) b.onclick=()=>{ setSpeed(+b.dataset.spd); closeModal(); openSettings(); };
   m.querySelector("#sndOn").onclick=()=>{ SND.set({on:!SND.st.on}); closeModal(); openSettings(); };
   { const og=m.querySelector("#opsGo"); if(og) og.onclick=()=>{ closeModal(); openOps(); }; }
+  { const br=m.querySelector("#bkRestore"); if(br){ let arm=false; br.onclick=()=>{ if(!arm){ arm=true; br.textContent="한 번 더 누르면 지금 진행 대신 이 진행으로 바뀝니다"; return; } closeModal(); restoreLocalBackup(); }; } }
   { const ab=m.querySelector("#admGo"); if(ab){ const go=()=>{ const v=m.querySelector("#admCode").value; if(adminHash(v)===ADMIN_KEY){ safeSet("pn_admin",ADMIN_KEY); setAdmin(true); closeModal(); openSettings(); toast(`<span class="tc">관리자</span>관리자 모드를 켰습니다 — 모든 속도를 쓸 수 있어요.`,"good"); } else { m.querySelector("#admMsg").textContent="코드가 맞지 않습니다."; } };
     ab.onclick=go; m.querySelector("#admCode").onkeydown=e=>{ if(e.key==="Enter") go(); }; } }
   m.querySelector("#sndB").oninput=e=>SND.set({bgm:e.target.value/100}); m.querySelector("#sndS").oninput=e=>{ SND.set({sfx:e.target.value/100}); SND.fx("ui_click"); };
@@ -14386,6 +14387,27 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "업데이트 뒤에도 진행은 이어지지만, 밸런스(수치·보상·난이도)는 수시로 바뀔 수 있어요.",
   "<b>테스트 중의 계정·진행·플레이 기록은 정식 출시 뒤 모두 삭제됩니다.</b>",
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
+// v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
+const UPDATES=[
+  {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "게임 첫 화면이 생겼습니다. 게스트 또는 Google 계정으로 로그인하고, 한 번 로그인하면 다음부터는 자동으로 로그인됩니다.",
+    "공지사항 · 📮 우편함 · 💬 의견 바로 보내기가 생겼고, 게임 오류는 자동으로 개발자에게 전달됩니다.",
+    "새 게임은 9명 중 3명을 골라 시작하고 그중 1명이 주인공입니다. 황혼 1~6장을 처음 깰 때마다 남은 영웅 중 1명을 직접 골라 동료로 맞이합니다.",
+    "영원한 밤 10장 보스 체력을 일반 몹의 13배에서 10배로 낮췄습니다.",
+    "최종 콘텐츠(밤의 심연 · 낙성 강림)의 적을 실제 출전 인원에 맞췄습니다(6명이면 적 체력 ×1.5 · 공격 ×1.23). 대신 낙성 사도의 기본 체력 · 공격을 40% 낮췄습니다.",
+    "적의 '재생'(접두사 · 재생의 이끼)이 회복하지 않던 문제를 고쳤습니다. 매 턴 체력 5%, 보스 · 우두머리는 2% 회복합니다.",
+    "휴대폰 가로 화면에서 대기 영웅이 가려지던 문제 등 화면 잘림을 고치고, 게임 안 설명 21곳을 실제 수치와 맞췄습니다."]},
+  {d:"2026.11.04", v:"v0.93", t:"퀘스트 · 밸런스 · 세트 개편", L:[
+    "퀘스트 탭이 생겼습니다. 장마다 메인 의뢰(1 · 3 · 5막)와 서브 의뢰(모두 70개)가 있습니다.",
+    "장과 난이도가 오를수록 적이 늘 강해지도록 다시 맞췄습니다. 마지막 장 보스 체력은 일반 몹의 황혼 7.5배 · 자정 18배이고, 보스 회복 기술은 전투당 2번까지, '공허 베기' 마나는 30에서 72로 올렸습니다.",
+    "체력 · 마나 자연 회복을 정수로 바꿨습니다(예: 마법사 마나 회복 Lv1 2 → Lv40 11).",
+    "기술을 강화할수록(특성 보정 · 숙련 · 숙달마다) 그 기술의 마나 비용이 10%씩 늘어납니다.",
+    "세트 장비를 4 · 5 · 6부위로 다양하게 바꾸고 전직마다 2종씩, 36종을 새로 넣었습니다. 전투 피해를 보는 📊 딜미터기가 생겼습니다.",
+    "상태이상 연계 기술을 강화했습니다. 잿불 폭발 60% → 200%, 맹독 파열 30% + 중첩당 40% → 50% + 85%, 증기 폭발 냉기 중첩당 130% → 180%.",
+    "기사의 되받아치기는 보스 · 우두머리의 근접 공격을 막지 못하고 피해만 50% 줄입니다. 불새 · 화살비처럼 무작위로 여러 번 때리는 기술은 같은 적을 거듭 맞힐수록 한 발 피해가 10%씩 줄어듭니다(최소 40%)."]},
+  {d:"2026.10.22 ~ 11.03", v:"v0.1 ~ v0.92", t:"개발 기간", L:["테스트 이전의 개발 기록은 생략합니다."]},
+];
+function updatesHTML(){ return `<div class="upds">${UPDATES.map(u=>`<div class="ncard"><div class="nh"><b>${esc(u.t)}</b><span>${esc(u.d)} · ${esc(u.v)}</span></div><ul class="ul">${u.L.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div>`; }
 function fmtDate(t){ if(!t) return ""; const d=new Date(t); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`; }
 function fmtPlay(sec){ sec=sec|0; const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h?`${h}시간 ${m}분`:`${m}분`; }
 
@@ -14433,12 +14455,12 @@ async function openNotices(){
   m.querySelector("#mclose").onclick=closeModal;
   const body=m.querySelector("#nBody");
   const showN=()=>{ body.innerHTML=`<div class="ncard pin"><div class="nh"><b>📌 테스트 안내</b></div>${TEST_NOTICE.map(x=>`<p>${x}</p>`).join("")}</div>`
-      +(list.length?list.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t||"")}</b><span>${fmtDate(n.at)}</span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("")
+      +(list.length?list.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t||"")}</b><span>${fmtDate(n.at).slice(0,10)}${n.ed?` (수정 ${fmtDate(n.ed).slice(0,10)})`:""}</span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("")
         :`<p class="msub">${N?"아직 운영 공지가 없어요.":"운영 공지는 게임 주소(sueungong.github.io/project-night-play — PC·휴대폰)에서 보입니다."}</p>`); };
-  const showU=()=>{ body.innerHTML=`<div class="news">${(document.getElementById("newsTpl")||{}).innerHTML||""}</div>`; };
+  const showU=()=>{ body.innerHTML=updatesHTML(); };
   for(const b of m.querySelectorAll(".ntabs button")) b.onclick=()=>{ for(const x of m.querySelectorAll(".ntabs button")) x.classList.toggle("on",x===b); (b.dataset.t==="n"?showN:showU)(); };
   showN();
-  if(N){ try{ list=await N.ops.notices(); }catch(e){} if(m.isConnected&&m.querySelector(".ntabs .on").dataset.t==="n") showN(); }
+  if(N){ try{ list=(await N.ops.notices()).sort((a,b)=>(b.at||0)-(a.at||0)); }catch(e){} if(m.isConnected&&m.querySelector(".ntabs .on").dataset.t==="n") showN(); }
 }
 
 // ---- 우편: 관리자가 보낸 공지·재화·장비 (전체 또는 한 사람) ----
@@ -14509,11 +14531,15 @@ async function openOps(tab){
   const err=e=>`<p class="msub">불러오지 못했어요: ${esc((e&&(e.code||e.message))||e)}</p>`;
   try{
     if(tab==="notice"){
-      const L=await N.ops.notices();
-      body.innerHTML=`<div class="opform"><input id="nT" maxlength="100" placeholder="제목"><textarea id="nB" maxlength="4000" placeholder="내용 (줄바꿈 그대로 보임)"></textarea><button class="btn" id="nGo">공지 올리기</button></div>`
-        +L.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t)}</b><span>${fmtDate(n.at)} <button class="mini" data-del="${esc(n.id)}">지우기</button></span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("");
-      body.querySelector("#nGo").onclick=async()=>{ const t=body.querySelector("#nT").value.trim(), b=body.querySelector("#nB").value.trim(); if(!t) return toast("제목을 써 주세요");
-        try{ await N.ops.noticeAdd({t,body:b}); toast("공지를 올렸어요"); closeModal(); openOps("notice"); }catch(e){ toast("올리지 못했어요: "+esc(e.code||e.message)); } };
+      const L=(await N.ops.notices()).sort((a,b)=>(b.at||0)-(a.at||0));
+      let edit=null;
+      body.innerHTML=`<div class="opform"><input id="nT" maxlength="100" placeholder="제목"><textarea id="nB" maxlength="4000" placeholder="내용 (줄바꿈 그대로 보임)"></textarea><div style="display:flex;gap:8px"><button class="btn" id="nGo">공지 올리기</button><button class="btn ghost" id="nCancel" hidden>수정 취소</button></div></div>`
+        +L.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t)}</b><span>${fmtDate(n.at).slice(0,10)}${n.ed?` (수정 ${fmtDate(n.ed).slice(0,10)})`:""} <button class="mini" data-ed="${esc(n.id)}">수정</button> <button class="mini" data-del="${esc(n.id)}">지우기</button></span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("");
+      const go=body.querySelector("#nGo"), cancel=body.querySelector("#nCancel");
+      go.onclick=async()=>{ const t=body.querySelector("#nT").value.trim(), b=body.querySelector("#nB").value.trim(); if(!t) return toast("제목을 써 주세요");
+        try{ if(edit){ await N.ops.noticeEdit(edit,{t,body:b}); toast("공지를 고쳤어요"); } else { await N.ops.noticeAdd({t,body:b}); toast("공지를 올렸어요"); } closeModal(); openOps("notice"); }catch(e){ toast("저장하지 못했어요: "+esc(e.code||e.message)); } };
+      cancel.onclick=()=>{ edit=null; body.querySelector("#nT").value=""; body.querySelector("#nB").value=""; go.textContent="공지 올리기"; cancel.hidden=true; };
+      for(const b of body.querySelectorAll("[data-ed]")) b.onclick=()=>{ const n=L.find(x=>x.id===b.dataset.ed); if(!n) return; edit=n.id; body.querySelector("#nT").value=n.t||""; body.querySelector("#nB").value=n.body||""; go.textContent="수정 저장"; cancel.hidden=false; body.scrollTop=0; body.querySelector("#nT").focus(); };
       for(const b of body.querySelectorAll("[data-del]")) b.onclick=async()=>{ try{ await N.ops.noticeDel(b.dataset.del); closeModal(); openOps("notice"); }catch(e){ toast("지우지 못했어요"); } };
     }
     if(tab==="mail"){
