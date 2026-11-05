@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793901873099"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793902738151"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -6257,6 +6257,7 @@ class Sim {
   }
   dotAmp(att,kind){ const T=att.traits||{}; let m=T.dot_amp?1.4:1; if(kind==="burn"){ if(T.burn_amp50) m*=1.5; if(T.burn_amp30) m*=1.3; if(T.blast_amp15) m*=1.15; if(T.burn_bonus) m*=1+T.burn_bonus; if(T.blast_bonus) m*=1+T.blast_bonus; } return m; }   // v0.85 지속 피해 배율
   setBurn(att,t,ratio,label,fx,turns=2){
+    if(!(ratio>0)) ratio=0.35; if(!(turns>0)) turns=2;   // v0.94 비율이 비면 피해가 NaN → 적 체력이 NaN이 되어 죽지 않던 문제 방지
     if(!t.alive) return;
     if(this.resisted(t,fx,"화상")) return;
     t.dots.burn={dmg:Math.max(1,Math.floor(att.atk*ratio*this.dotAmp(att,"burn"))),turns:turns+((att.gx&&att.gx.burn_turn)||0)+(att.traits&&att.traits.relic_burn?1:0),label:"화상",src:att.id};
@@ -8001,7 +8002,8 @@ function heroSkillsEx(cid,wtype){
       for(const [k,v] of Object.entries(x.add||{})) setPath(m,k,c=>(typeof c==="number"?c:0)+v); for(const [k,v] of Object.entries(x.set||{})) setPath(m,k,()=>v); }
     for(const a of gearSk) if(a.sk===sid){ if(a.f==="pow") m.mods.pow=(m.mods.pow||0)+a.v/100; else if(a.f==="mp") m.mods.mpFlat=(m.mods.mpFlat||0)+a.v; else if(a.f==="hit"&&m.multi) m.multi+=a.v; else if(a.f==="dur"&&m.duration) m.duration+=a.v; }   // v0.44 직업 스킬 옵션
     for(const cu of gearCu) if(cu.sk&&cu.sk[sid]){ const x=cu.sk[sid]; if(x.pow) m.mods.pow=(m.mods.pow||0)+x.pow; if(x.mpc) m.mods.mpc=(m.mods.mpc||0)+x.mpc; if(x.dur&&m.duration) m.duration+=x.dur;
-      for(const [k,v] of Object.entries(x.add||{})){ const ps=k.split("."); let o=m; for(let i=0;i<ps.length-1;i++){ o[ps[i]]=Object.assign({},o[ps[i]]||{}); o=o[ps[i]]; } const kk=ps[ps.length-1]; o[kk]=+(((typeof o[kk]==="number"?o[kk]:0)+v).toFixed(3)); } }   // v0.93 화상 확률·효과 수치 더하기
+      for(const [k,v] of Object.entries(x.add||{})){ const ps=k.split("."); let o=m; for(let i=0;i<ps.length-1;i++){ o[ps[i]]=Object.assign({},o[ps[i]]||{}); o=o[ps[i]]; } const kk=ps[ps.length-1]; o[kk]=+(((typeof o[kk]==="number"?o[kk]:0)+v).toFixed(3)); } }
+      if(m.burn&&typeof m.burn==="object"){ if(m.burn.ratio==null) m.burn.ratio=0.35; if(m.burn.turns==null) m.burn.turns=2; }   // v0.94 화상이 없던 기술에 '화상 확률'만 붙으면 피해·턴이 비어 NaN이던 문제(사격·성스러운 타격) — 기본 화상(턴마다 35% · 2턴)   // v0.93 화상 확률·효과 수치 더하기
     m.power0=m.power;   // v0.36: 무기 보정(양손검 강타 광역 115% 등) 뒤 값을 기준으로 숙련을 곱함
     if((m.mods.pow||m.mastered)&&typeof m.power==="number") m.power=+(m.power*(1+(m.mods.pow||0)+(m.mastered?0.05:0))).toFixed(4);
     m.enh=enh; if(enh&&m.mp>0) m.mp=Math.ceil(m.mp*(1+ENH_MP*enh));   // v0.93 강화한 만큼 마나를 더 씀(정수 올림) — 마나 줄이기 효과는 그 뒤에 적용
@@ -14687,7 +14689,8 @@ const UPDATES=[
     "장비 탭의 단추 이름을 '장비 일괄 장착' · '장비 일괄 해제'로 바꾸고, 인물 그림 바로 아래로 옮겼습니다.",
     "1024×600처럼 세로가 낮은 화면에서 전투 몹이 0.2배로 작게 보이던 문제를 고쳤습니다. 몹끼리 겹칠 때만 줄이고, 최소 0.6배입니다.",
     "숙달한 얼음 감옥이 '냉기 3.15중첩', 바람 읽기가 '+2.1'처럼 소수로 나오던 문제를 고쳤습니다. 중첩·횟수는 숙달해도 그대로입니다(3중첩 · 2발).",
-    "기술 설명 첫 줄에 확률·수치를 넣었습니다. 예: '적 전체에 기절' → '적 전체 20% 확률로 기절 1턴', 부동 자세 → '2턴간 도발 · 받는 피해 -25% · 맞을 때마다 100% 반격'. '발 수 +1'은 '+1발'로 바꿨습니다."]},
+    "기술 설명 첫 줄에 확률·수치를 넣었습니다. 예: '적 전체에 기절' → '적 전체 20% 확률로 기절 1턴', 부동 자세 → '2턴간 도발 · 받는 피해 -25% · 맞을 때마다 100% 반격'. '발 수 +1'은 '+1발'로 바꿨습니다.",
+    "특성 '소각 집중'(폭탄마 사격)과 '뜨거운 타격'(심판관 성스러운 타격)을 찍으면 상태이상 칸에 '턴마다 NaN% · undefined턴'이 나오던 문제를 고쳤습니다. 실제 전투에서는 이 화상에 걸린 적의 체력이 숫자가 아니게 되어(NaN) 그 뒤로 아무리 때려도 쓰러지지 않았습니다. 이제 다른 화상과 같게 턴마다 공격력 35% · 2턴입니다(확률 10%)."]},
   {d:"2026.11.06", v:"v0.94", t:"전투 규칙 새 화면", L:[
     "자동전투 규칙 화면을 새로 만들었습니다. 한 줄의 제목이 쓸 기술이고, 줄을 누르면 그 자리에서 조건과 대상을 바꿉니다.",
     "조건을 '종류 + 조절 칸'으로 바꿨습니다(체력·마나, 적 수, 적 상태, 나·아군 상태, 직업 자원, 턴, 진형, 전투 사건, 항상). 예: 아군 [2]명 이상 [체력] [50]% [이하]. 숫자는 −/+로 바꿉니다(체력·마나 10%씩).",
