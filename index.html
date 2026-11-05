@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793873485673"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793874078584"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -7200,7 +7200,7 @@ const AD_DAILY={torch:5, loot:3, fast:2}, AD_FAST_MS=30*60*1000;
 function subActive(){ return !!(progress&&progress.sub&&progress.sub.until>Date.now()); }
 function subDaysLeft(){ return subActive()?Math.ceil((progress.sub.until-Date.now())/86400e3):0; }
 function subStart(days,why){ const now=Date.now(); const base=subActive()?progress.sub.until:now; progress.sub=Object.assign({},progress.sub||{},{until:base+days*86400e3});
-  logLine(`<span class="win">🌙 30일 정액 ${subActive()&&base>now?"연장":"시작"} — ${esc(why||"")} · ${subDaysLeft()}일 남음</span>`); subDailyGem(); saveProgress(); }
+  logLine(`<span class="win">🌙 정액 ${subActive()&&base>now?"연장":"시작"} — ${esc(why||"")} · ${subDaysLeft()}일 남음</span>`); subDailyGem(); saveProgress(); }
 function subDailyGem(){ if(!subActive()) return; const d=new Date().toDateString(); if(progress.sub.lastGem===d) return; progress.sub.lastGem=d; progress.gem=(progress.gem||0)+SUB_DAILY_GEM;
   logLine(`<span class="gain">🌙 정액 — 오늘의 새벽 결정 💎 +${SUB_DAILY_GEM}</span>`); saveProgress(); }
 function torchMax(){ return subActive()?SUB_TORCH_MAX:TORCH.max; }
@@ -14425,6 +14425,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
   {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "우편으로 30일 정액을 선물받을 수 있습니다. 받으면 보낸 일수만큼 정액이 시작되고, 이미 쓰는 중이면 남은 기간에 더해집니다.",
     "음유시인 기본 자동전투 규칙을 고쳤습니다. 투지의 노래 · 행진곡 · 조롱의 노래 · 안식의 노래를 '적이 2마리 이상'이 아니라 '이 기술의 효과가 없음'일 때 부릅니다(노래가 끊기면 다시 부름). 직접 바꾼 규칙은 그대로 둡니다.",
     "자동전투 조건을 정리했습니다. 없어진 시스템의 조건 12개를 지웠고, 룬이 있어야 쓰던 '적이 1마리' · '보스가 있음' · '내 체력이 가득 참' · '아군 전원 체력 70% 이상'을 누구나 씁니다. 새 조건 '내 보호막이 없음' · '약화된 적 없음' · '이 기술의 효과가 없음(노래 · 약화 · 취약)'을 넣었습니다. 연계 · 은신 조건은 도적에게만 보입니다.",
     "전투 속도를 1배속 · 2배속 · 3배속 · 4배속으로 바꿨습니다(예전 보통 · 조금 빠르게 · 빠르게 · 매우 빠르게 → 4배속은 예전 '매우 빠르게'와 거의 같음). 처음 깨는 막은 2배속까지, 이미 깬 막은 3배속까지 씁니다.",
@@ -14508,13 +14509,14 @@ const MAIL={list:[],at:0};
 async function mailRefresh(){ const N=NET(); if(!N||!progress||!progress.protag) return; try{ MAIL.list=await N.ops.mail(); MAIL.at=Date.now(); }catch(e){} renderMailDot(); }
 function mailOpen(){ const got=new Set((progress&&progress.mailGot)||[]); return MAIL.list.filter(x=>!got.has(x.id)&&!(x.exp&&x.exp<Date.now())); }
 function renderMailDot(){ const b=$("mailBtn"); if(!b) return; b.hidden=!NET(); const n=progress&&progress.protag?mailOpen().length:0; b.querySelector("i").textContent=n?String(n):""; }
-function mailGiftText(x){ const L=[]; if(x.gold) L.push(`골드 ${(+x.gold).toLocaleString("ko-KR")}`); if(x.ess) L.push(`밤의 정수 ${x.ess}`); if(x.gem) L.push(`💎 새벽 결정 ${x.gem}`); if(x.torch) L.push(`🔥 횃불 ${x.torch}`);
+function mailGiftText(x){ const L=[]; if(x.gold) L.push(`골드 ${(+x.gold).toLocaleString("ko-KR")}`); if(x.ess) L.push(`밤의 정수 ${x.ess}`); if(x.gem) L.push(`💎 새벽 결정 ${x.gem}`); if(x.torch) L.push(`🔥 횃불 ${x.torch}`); if(x.sub) L.push(`🌙 정액 ${x.sub}일`);
   for(const it of x.items||[]) if(it&&it.n>0) L.push(`${(RARITIES[RAR_IDX[it.r]]||{label:"장비"}).label} ${it.s?SLOT_LABEL[it.s]:"장비"} ×${it.n}`); return L.join(" · "); }
 function mailClaim(x){
   if(!progress||(progress.mailGot||[]).includes(x.id)) return;
   progress.mailGot=(progress.mailGot||[]).concat(x.id).slice(-300);
   if(x.gold) progress.gold+=+x.gold|0; if(x.ess) progress.ess=(progress.ess||0)+(+x.ess|0); if(x.gem) progress.gem=(progress.gem||0)+(+x.gem|0);
   if(x.torch) try{ torchAdd(+x.torch|0); }catch(e){}
+  if(x.sub) try{ subStart(Math.min(365,Math.max(0,+x.sub|0)),`우편 선물 ${x.sub|0}일`); }catch(e){}
   const tier=bestLootTier(); let n=0;
   for(const it of x.items||[]) for(let i=0;i<Math.min(20,+it.n|0);i++){ try{ const o={rarity:RAR_IDX[it.r]!=null?it.r:"rare"}; if(it.s&&ITEM_SLOTS.includes(it.s)) o.slot=it.s; const item=makeItem(false,tier,o); item.from="우편으로 받음"; progress.inv.push(item); n++; }catch(e){} }
   logLine(`<span class="gain">📮 우편 받음 — ${esc(x.t||"")}${mailGiftText(x)?` (${esc(mailGiftText(x))})`:""}</span>`);
@@ -14590,13 +14592,13 @@ async function openOps(tab){
       const slot=[""].concat(ITEM_SLOTS).map(k=>`<option value="${k}">${k?SLOT_LABEL[k]:"부위 무작위"}</option>`).join("");
       body.innerHTML=`<div class="opform"><label>받는 사람 <select id="mTo"><option value="all">전체(모든 플레이어 — 나중에 들어온 사람도)</option>${P.map(p=>`<option value="${esc(p.id)}">${esc(pName(p.id))} · ${esc(p.job||"")} Lv${p.lv||"?"}</option>`).join("")}</select></label>
         <input id="mT" maxlength="100" placeholder="제목"><textarea id="mB" maxlength="2000" placeholder="내용(선택)"></textarea>
-        <div class="opgrid"><label>골드 <input id="mG" type="number" min="0" value="0"></label><label>밤의 정수 <input id="mE" type="number" min="0" value="0"></label><label>💎 새벽 결정 <input id="mGem" type="number" min="0" value="0"></label><label>🔥 횃불 <input id="mTo2" type="number" min="0" value="0"></label></div>
+        <div class="opgrid"><label>골드 <input id="mG" type="number" min="0" value="0"></label><label>밤의 정수 <input id="mE" type="number" min="0" value="0"></label><label>💎 새벽 결정 <input id="mGem" type="number" min="0" value="0"></label><label>🔥 횃불 <input id="mTo2" type="number" min="0" value="0"></label><label>🌙 정액(일) <input id="mSub" type="number" min="0" max="365" value="0"></label></div>
         <div class="opgrid"><label>장비 등급 <select id="mR">${rar}</select></label><label>부위 <select id="mS">${slot}</select></label><label>개수 <input id="mN" type="number" min="0" max="20" value="1"></label><label>받을 수 있는 기간(일) <input id="mD" type="number" min="1" max="365" value="30"></label></div>
         <p class="msub">장비 단계는 받는 사람의 지금 진행(가장 높은 드롭 단계)에 맞춰 만들어집니다.</p><button class="btn" id="mGo">우편 보내기</button></div>
         <h3 class="oph">보낸 우편</h3>`+(L.length?L.map(x=>`<div class="ncard"><div class="nh"><b>${esc(x.t||"")}</b><span>${x.to==="all"?"전체":esc(pName(x.to))} · ${fmtDate(x.at)} <button class="mini" data-to="${esc(x.to)}" data-id="${esc(x.id)}">회수</button></span></div><div class="nb">${esc(mailGiftText(x)||"(선물 없음)")}</div></div>`).join(""):`<p class="msub">보낸 우편이 없어요.</p>`);
       body.querySelector("#mGo").onclick=async()=>{ const v=id=>Math.max(0,+body.querySelector(id).value||0);
         const t=body.querySelector("#mT").value.trim(); if(!t) return toast("제목을 써 주세요");
-        const o={t, body:body.querySelector("#mB").value.trim(), gold:v("#mG"), ess:v("#mE"), gem:v("#mGem"), torch:v("#mTo2"), exp:Date.now()+v("#mD")*86400e3, items:[]};
+        const o={t, body:body.querySelector("#mB").value.trim(), gold:v("#mG"), ess:v("#mE"), gem:v("#mGem"), torch:v("#mTo2"), sub:Math.min(365,Math.floor(v("#mSub"))), exp:Date.now()+v("#mD")*86400e3, items:[]};
         const r=body.querySelector("#mR").value; if(r&&v("#mN")>0) o.items.push({r, s:body.querySelector("#mS").value||"", n:Math.min(20,v("#mN"))});
         try{ await N.ops.mailSend(body.querySelector("#mTo").value,o); toast("우편을 보냈어요"); closeModal(); openOps("mail"); }catch(e){ toast("보내지 못했어요: "+esc(e.code||e.message)); } };
       for(const b of body.querySelectorAll("[data-id]")) b.onclick=async()=>{ try{ await N.ops.mailDel(b.dataset.to,b.dataset.id); closeModal(); openOps("mail"); }catch(e){ toast("회수하지 못했어요"); } };
