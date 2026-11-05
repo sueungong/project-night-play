@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793875339162"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793876781838"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -13462,10 +13462,18 @@ let hitPend=0;
 /* ===== v0.93 딜미터기 — 이번 전투에서 누가 무엇으로 얼마나 때리고·치유하고·막아 주고·맞았는지. 전투 중엔 화면에 보인 사건까지 실시간, 끝나면 그대로 남음 ===== */
 const MT={ cur:null, open:false, tab:"dmg", exp:{}, raf:0,
   TABS:[["dmg","주는 피해"],["heal","치유"],["shield","보호막"],["taken","받은 피해"]],
-  begin(sim,events,label){ this.cur={units:sim.units.map(u=>({id:u.id,name:u.name,side:u.side})), log:sim.meter||[], ev:events, n:0, agg:{dmg:{},heal:{},shield:{},taken:{}}, turn:0, done:false, label:label||"", result:null}; this.exp={}; this.draw(); },
+  // v0.94 막 누적: 같은 던전(한 막 · 최종 콘텐츠 한 번 도전) 안의 전투를 모두 더해 보여 줌 — 새 막에 들어가면 새로 셈
+  run:null,
+  begin(sim,events,label,R0){ const key=u=>u.cls||u.id, R=R0||runState;
+    if(!this.run||this.run.ref!==R||!R){ const rg=R&&REGIONS[R.regionKey];
+      this.run={ref:R, label:!R?"":R.mode?`${(EG_MODES[R.mode]||{name:"최종 콘텐츠"}).name}`:`${rg?rg.chapter+" ":""}${R.act||""}막`, units:{}, agg:{dmg:{},heal:{},shield:{},taken:{}}, battles:0, turns:0}; this.exp={}; }
+    const RN=this.run; RN.battles++; if(this.cur) RN.turns+=this.cur.turn||0;
+    for(const u of sim.units) if(u.side==="party"){ const k=key(u); RN.units[k]={name:u.name}; }
+    this.cur={units:sim.units.map(u=>({id:u.id,name:u.name,side:u.side,k:key(u)})), log:sim.meter||[], ev:events, n:0, turn:0, done:false, label:label||"", result:null};
+    this.cur.kOf=Object.fromEntries(this.cur.units.map(u=>[u.id,u.k])); this.draw(); },
   upto(i){ const C=this.cur; if(!C) return; let ch=false;
     while(C.n<C.log.length&&C.log[C.n].i<=i){ const e=C.log[C.n++]; const E=C.ev[e.i]||{}; const lab=e.s||(E.type==="action"?String(E.skillName||"").replace(/ · .*$/,""):E.type==="dot"?String(E.label||"").replace(/\s*\d+중첩$/,""):"")||"기타";
-      const A=C.agg[e.k][e.a]=C.agg[e.k][e.a]||{v:0,by:{}}; A.v+=e.v; A.by[lab]=(A.by[lab]||0)+e.v; ch=true; }
+      const ka=C.kOf[e.a]||e.a, RA=this.run.agg[e.k], A=RA[ka]=RA[ka]||{v:0,by:{}}; A.v+=e.v; A.by[lab]=(A.by[lab]||0)+e.v; ch=true; }
     const E=C.ev[i]; if(E&&E.type==="turn"){ C.turn=E.n; ch=true; } if(ch) this.draw(); },
   finish(ev){ const C=this.cur; if(!C) return; this.upto(1e9); C.done=true; C.result=ev&&ev.result; C.turn=(ev&&ev.turns)||C.turn; this.draw(); },
   toggle(){ this.open=!this.open; this.draw(true); },
@@ -13476,15 +13484,15 @@ const MT={ cur:null, open:false, tab:"dmg", exp:{}, raf:0,
     const C=this.cur, fmt=n=>Math.round(n).toLocaleString("ko-KR");
     let body="";
     if(!C) body=`<p class="mtnone">전투가 시작되면 여기에 기록됩니다.</p>`;
-    else { const party=C.units.filter(u=>u.side==="party"), A=C.agg[this.tab]; const rows=party.map(u=>({u,a:A[u.id]||{v:0,by:{}}})).sort((x,y)=>y.a.v-x.a.v); const tot=rows.reduce((t,r)=>t+r.a.v,0)||0, top=rows[0]?rows[0].a.v:0;
+    else { const RN=this.run, A=RN.agg[this.tab]; const rows=Object.entries(RN.units).map(([k,x])=>({u:{id:k,name:x.name},a:A[k]||{v:0,by:{}}})).sort((x,y)=>y.a.v-x.a.v); const turns=RN.turns+(C.turn||0); const tot=rows.reduce((t,r)=>t+r.a.v,0)||0, top=rows[0]?rows[0].a.v:0;
       body=rows.map(r=>{ const pc=tot?Math.round(r.a.v/tot*100):0, w=top?r.a.v/top*100:0, op=this.exp[this.tab+r.u.id];
         const det=op?`<ul class="mtdet">${Object.entries(r.a.by).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<li><span>${esc(k)}</span><b>${fmt(v)}</b><i>${r.a.v?Math.round(v/r.a.v*100):0}%</i></li>`).join("")||"<li><span>없음</span></li>"}</ul>`:"";
         return `<div class="mtrow${op?" on":""}" data-mt="row:${this.tab}${r.u.id}"><div class="mtbar" style="width:${w}%"></div><span class="mtn">${esc(r.u.name)}</span><b>${fmt(r.a.v)}</b><i>${pc}%</i></div>${det}`; }).join("")
-        +`<div class="mttot">합계 ${fmt(tot)}${C.turn?` · 턴당 ${fmt(tot/Math.max(1,C.turn))}`:""}</div>`; }
-    const st=!C?"":C.done?`끝 — ${C.result==="win"?"승리":C.result==="lose"?"패배":"후퇴"} · ${C.turn}턴`:`진행 중 · 턴 ${C.turn}`;
-    p.innerHTML=`<div class="mthd"><b>📊 딜미터기</b><span>${C?esc(C.label)+" · ":""}${st}</span><button data-mt="x:" aria-label="닫기">✕</button></div>
+        +`<div class="mttot">합계 ${fmt(tot)}${turns?` · 턴당 ${fmt(tot/Math.max(1,turns))}`:""}</div>`; }
+    const st=!C?"":`전투 ${this.run.battles}번째 ${C.done?`끝(${C.result==="win"?"승리":C.result==="lose"?"패배":"후퇴"})`:`진행 중 · 턴 ${C.turn}`}`;
+    p.innerHTML=`<div class="mthd"><b>📊 딜미터기</b><span>${C&&this.run.label?esc(this.run.label)+" 누적 · ":""}${st}</span><button data-mt="x:" aria-label="닫기">✕</button></div>
       <div class="mttabs">${this.TABS.map(([k,l])=>`<button data-mt="tab:${k}" class="${k===this.tab?"on":""}">${l}</button>`).join("")}</div>
-      <div class="mtbody">${body}</div><p class="mthint">이름을 누르면 기술별로 나눠 보여요 · 이번 전투 기준(다음 전투가 시작되면 새로 셈)</p>`; } };
+      <div class="mtbody">${body}</div><p class="mthint">이름을 누르면 기술별로 나눠 보여요 · 이번 막의 전투를 모두 더함(새 막에 들어가면 새로 셈)</p>`; } };
 async function waitHits(){ for(let i=0;i<40&&hitPend>0;i++) await sleep(50); }
 
 // v0.93 상태이상 모습: 사건마다 오는 상태 요약(sts)을 유닛 클래스로 — 빙결은 얼음빛·멈춤, 기절은 흔들림+별, 화상은 불빛 깜빡임, 독은 초록빛, 냉기는 옅은 푸른빛, 약화는 빛바램, 취약은 붉은 테
@@ -14433,6 +14441,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
   {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "컴퓨터에서 옆으로 넘기는 목록(장비 탭 영웅 목록 등)을 마우스 휠이나 끌어서 넘길 수 있습니다. 📊 딜미터기는 이제 구역마다 새로 세지 않고 한 막의 전투를 모두 더해 보여 줍니다.",
     "새 우편이 오면 바로 알림이 뜨고 위쪽 📮에 받지 않은 우편 수가 표시됩니다. 정액을 쓰는 동안 위쪽에 🌙이 보이고, 누르면 효과와 남은 일수가 나옵니다.",
     "우편으로 30일 정액을 선물받을 수 있습니다. 받으면 보낸 일수만큼 정액이 시작되고, 이미 쓰는 중이면 남은 기간에 더해집니다.",
     "음유시인 기본 자동전투 규칙을 고쳤습니다. 투지의 노래 · 행진곡 · 조롱의 노래 · 안식의 노래를 '적이 2마리 이상'이 아니라 '이 기술의 효과가 없음'일 때 부릅니다(노래가 끊기면 다시 부름). 직접 바꾼 규칙은 그대로 둡니다.",
@@ -14550,6 +14559,23 @@ async function openMail(){
     const open=mailOpen(); const all=m.querySelector("#mlAll"); all.hidden=!open.length; all.onclick=()=>{ for(const x of mailOpen()) mailClaim(x); draw(); }; };
   draw();
 }
+
+// ---- v0.94 컴퓨터(마우스)에서 옆으로 넘기는 목록: 휠을 굴리면 옆으로 · 눌러서 끌면 옆으로 (영웅 목록·장비 고르기·탭 줄 등 가로 목록 모두) ----
+(function(){
+  const hx=el=>{ for(let n=el;n&&n!==document.body&&n.nodeType===1;n=n.parentElement){ if(n.scrollWidth>n.clientWidth+1){ const o=getComputedStyle(n).overflowX; if(o==="auto"||o==="scroll") return n; } } return null; };
+  const vy=(el,stop)=>{ for(let n=el;n&&n!==stop&&n.nodeType===1;n=n.parentElement){ if(n.scrollHeight>n.clientHeight+1){ const o=getComputedStyle(n).overflowY; if(o==="auto"||o==="scroll") return true; } } return false; };
+  addEventListener("wheel",e=>{ if(e.ctrlKey||e.defaultPrevented||Math.abs(e.deltaX)>=Math.abs(e.deltaY)) return; const h=hx(e.target); if(!h||vy(e.target,h)) return;
+    const oy=getComputedStyle(h).overflowY; if((oy==="auto"||oy==="scroll")&&h.scrollHeight>h.clientHeight+1) return;   // 세로로도 넘기는 칸은 그대로
+    const max=h.scrollWidth-h.clientWidth, d=e.deltaY*(e.deltaMode===1?32:1); if((d<0&&h.scrollLeft<=0)||(d>0&&h.scrollLeft>=max-1)) return;   // 끝에 닿으면 화면 스크롤로 넘김
+    h.scrollLeft+=d; e.preventDefault(); },{passive:false});
+  let D=null, eat=false;
+  addEventListener("pointerdown",e=>{ if(e.pointerType!=="mouse"||e.button!==0||e.defaultPrevented) return; if(e.target.closest("input,select,textarea,[contenteditable],svg,canvas")) return;
+    const h=hx(e.target); if(!h) return; D={h,x:e.clientX,l:h.scrollLeft,moved:false}; });
+  addEventListener("pointermove",e=>{ if(!D) return; const dx=e.clientX-D.x; if(!D.moved&&Math.abs(dx)<6) return; D.moved=true; D.h.scrollLeft=D.l-dx; D.h.style.cursor="grabbing"; },{passive:true});
+  const up=()=>{ if(!D) return; if(D.moved){ eat=true; setTimeout(()=>eat=false,0); D.h.style.cursor=""; } D=null; };
+  addEventListener("pointerup",up); addEventListener("pointercancel",up);
+  addEventListener("click",e=>{ if(eat){ e.stopPropagation(); e.preventDefault(); eat=false; } },true);   // 끌다가 놓은 건 누르기로 치지 않음
+})();
 
 // ---- 오류 자동 수집(같은 오류는 한 번 · 한 번 켤 때 최대 15건) ----
 const ERR_SENT=new Set();
@@ -14946,7 +14972,7 @@ async function coopBattle(run,z){
   if(z.law){ const LL=(Array.isArray(z.law)?z.law:[z.law]).map(k=>ABYSS_LAWS[k]); for(const L of LL) logLine(`<span class="sk">${L.icon} ${z.floor}층의 법칙 — ${L.n}: ${esc(L.d)}</span>`);
     if(!instantMode()&&!(!COOP.isHost&&coopHostZone()!=null&&coopHostZone()>run.z)) await showBanner(`<span class="txt narr">${esc(z.label)}<br><small>${LL.map(L=>`${L.icon} ${esc(L.n)} — ${esc(L.d)}`).join("<br>")}</small></span>`, 2400); }
   logLine(`<span class="r">[전투 시작] 적 ${enemies.length}마리 · 난수 시드 ${seed} (모두 같음)</span>`);
-  const events=sim.run(); let n=0, endEv=null, ei=-1; MT.begin(sim,events,z.label);
+  const events=sim.run(); let n=0, endEv=null, ei=-1; MT.begin(sim,events,z.label,run);
   for(const ev of events){
     ei++;
     if(COOP.run!==run){ playing=false; return "gone"; }
