@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793883424006"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793894729064"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -444,6 +444,48 @@ select{background:#151c33; color:var(--ink); border:1px solid var(--line); borde
 .rule.off .rline:nth-child(2),.rule.off .rstat{display:none}
 input[type=checkbox]{accent-color:var(--accent); width:18px; height:18px}
 .rule.ro select,.rule.ro input,.rule.ro button{pointer-events:none; opacity:.85}
+/* v0.94 규칙 — 기술이 제목인 한 줄 · 누르면 그 자리에서 조건·대상 펼침 */
+.rl2{gap:6px}
+.rl{background:var(--panel2); border:1px solid #263052; border-radius:12px; overflow:hidden}
+.rl.open{border-color:#4f74b8}
+.rl.off .rlh{opacity:.55}
+.rlh{display:grid; grid-template-columns:22px 20px minmax(0,auto) minmax(0,1fr) auto 14px; align-items:center; gap:8px; padding:7px 10px; min-height:46px; cursor:pointer; -webkit-tap-highlight-color:transparent}
+.rlh:hover{background:#ffffff05}
+.rlh .no{font-size:16px; font-weight:700; color:var(--accent); text-align:center}
+.rlh .chk{width:18px; height:18px; margin:0}
+.rl select{height:34px; min-width:0; max-width:100%; background:#1d2f4a; color:#d7ecff; border:1px solid #3b5f8f; border-radius:9px; padding:0 6px; font:inherit; font-size:14px; font-weight:600}
+.rl select.sk{background:#2a2410; color:#ffe08f; border-color:#6b5a22; font-size:14.5px; max-width:220px}
+.rl select.rkind{background:#22264a; color:#c9d6ff; border-color:#4a4f8a}
+.rl select.tg{background:var(--raised); color:var(--ink); border-color:var(--line2); font-weight:500}
+.rl select.rlg{background:none; color:#c792ff; border:1px dashed #5a4a8a}
+.rsum{font-size:13px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.rsum em{font-style:normal; color:#ffd166; font-weight:700} .rsum .lgw{color:#c792ff; font-weight:600}
+.rtg{font-size:12px; color:var(--dim); white-space:nowrap}
+.rar{width:7px; height:7px; border-right:2px solid var(--muted); border-bottom:2px solid var(--muted); transform:rotate(45deg); margin-top:-4px; justify-self:center}
+.rl.open .rar{transform:rotate(225deg); margin-top:3px}
+.rlb{border-top:1px solid #263052; padding:8px 10px 10px 40px; display:flex; flex-direction:column; gap:7px}
+.rln{display:flex; flex-wrap:wrap; align-items:center; gap:6px}
+.rln > .w{color:var(--muted); font-size:12.5px; width:30px; flex:none}
+.rcond{display:inline-flex; flex-wrap:wrap; align-items:center; gap:5px}
+.rcond .w{color:var(--muted); font-size:13.5px}
+.rcond .rlock{color:#ffb347; font-size:12.5px; width:100%}
+.rstep{display:inline-flex; align-items:center; height:34px; background:#1d2f4a; border:1px solid #3b5f8f; border-radius:9px}
+.rstep button{width:32px; height:32px; background:none; border:0; color:#8fb8ff; font:inherit; font-size:17px; cursor:pointer; border-radius:8px}
+.rstep button:disabled{opacity:.3; cursor:default}
+.rstep i{font-style:normal; font-weight:800; color:#ffd166; min-width:38px; text-align:center; font-size:14px}
+.radd{width:34px; height:34px; background:none; border:1px dashed var(--line2); color:var(--muted); border-radius:9px; font:inherit; font-size:16px; cursor:pointer}
+.rmv{margin-left:auto; display:inline-flex; gap:4px}
+.rmv button{width:36px; height:34px; background:var(--raised); border:1px solid var(--line); color:var(--sub); border-radius:8px; cursor:pointer}
+.rmv button:disabled{opacity:.3}
+.rpv{font-size:12.5px; color:#9fe3c7}
+.rl .rstat{font-size:12.5px; color:var(--dim)} .rl .rstat.zero{color:#ffb347} .rl .rstat.hit{color:var(--good)}
+.rl.ro select,.rl.ro input,.rl.ro button{opacity:.85}
+@media (max-width:760px), (max-height:560px){
+  .rlh{grid-template-columns:20px 18px minmax(0,auto) minmax(0,1fr) 12px; gap:6px; padding:6px 8px}
+  .rlh .rtg{display:none}
+  .rl select.sk{max-width:170px; font-size:14px}
+  .rlb{padding:8px 8px 10px 12px}
+}
 @media (max-height:560px){ #rules .howto{display:none}
   .rule{gap:8px; padding:6px 8px; align-items:center; border-radius:10px} .rule .rnum{flex-direction:row; width:auto; gap:5px} .rule .no{font-size:15px}
   .rule .rbody{flex-direction:row; flex-wrap:wrap; align-items:center; gap:4px 8px} .rule .rline{gap:5px}
@@ -2151,6 +2193,68 @@ const COND = [
   {label:"내 보호막이 없음",type:"self_no_shield",value:0},
   {label:"약화된 적 없음",type:"enemy_unweak",value:0},
 ];
+// ===== v0.94 조건 문장: 종류 + 조절 칸 =====
+// 규칙의 c1·c2는 예전 번호(COND, 기본 규칙표·몬스터·장비 효과가 씀) 또는 아래 문자열. 둘 다 그대로 동작.
+//  al · hp:누가:몇:체력/마나:le/ge:% · foes:적/보스:몇:ge/le · fst:상태:중첩:몇(-1=전부):ge/le · ast:누가:상태 · res:자원:ge/le:몇 · turn:몇 · line:front/alone · evt:crit/fell/kill
+const CK=[["hp","체력·마나"],["foes","적 수"],["fst","적 상태"],["ast","나·아군 상태"],["res","직업 자원"],["turn","턴"],["line","진형"],["evt","전투 사건"],["al","항상"]];
+const CS_WHO={me:"나",ally:"아군",all:"아군 전원",foe:"적",boss:"보스"};
+const CS_ST={burn:"화상",poison:"독",chill:"냉기",stun:"기절·빙결",weak:"약화",vuln:"취약",air:"띄움",cc:"기절·약화·띄움",any:"아무 상태이상"};
+const CS_AST={me:{debuff:"내가 상태이상 중",shield:"내 보호막이 있음",noshield:"내 보호막이 없음",stealth:"내가 은신 중",nostealth:"내가 은신 중이 아님"},ally:{debuff:"아군이 상태이상 중",dead:"아군이 쓰러져 있음"}};
+const CS_RES={combo:["연계",5],mom:["기세",5],res:["공명",10],ammo:["탄창",6],aim:["조준",5],keg:["놓아 둔 화약 상자",0]};
+const CS_FW={foe:"적",boss:"보스",front:"적 전열",back:"적 후열",lane:"앞뒤로 겹친 적"};   // v0.94 줄 공격용: 전열·후열 마릿수, 같은 가로줄에 앞뒤로 선 적(일렬·관통 공격)
+const CS_LINE={front:"적 전열이 비어 있음",alone:"내가 전열에 혼자 서 있음"};
+const CS_EVT={crit:"직전 턴에 치명타를 냈음",fell:"아군이 직전 턴에 쓰러짐",kill:"이번 전투에서 적을 처치했음"};
+const CS_DEF={hp:"hp:me:1:hp:le:50",foes:"foes:foe:2:ge",fst:"fst:burn:0:1:ge",ast:"ast:me:debuff",res:"res:combo:ge:3",turn:"turn:3",line:"line:front",evt:"evt:crit",al:"al"};
+// 예전 번호 → 문장(38번 '내 체력 80% 이상 + 적 2마리 이상'은 두 조건으로 나눔 — 규칙을 바꿀 때)
+const LEG=["al","hp:me:1:hp:le:30","hp:me:1:hp:le:50","hp:ally:1:hp:le:30","hp:ally:1:hp:le:50","hp:ally:2:hp:le:60","foes:foe:3:ge","foes:foe:2:ge","hp:me:1:mp:ge:30","hp:me:1:mp:ge:70",
+  "hp:foe:1:hp:le:40","turn:3","hp:me:1:mp:le:30","line:front","ast:ally:dead","res:combo:ge:3","res:combo:ge:5","ast:me:stealth","fst:poison:3:1:ge","fst:poison:5:1:ge",
+  "fst:weak:0:1:ge","fst:stun:0:1:ge","fst:vuln:0:1:ge","ast:me:debuff","ast:ally:debuff","ast:me:shield","evt:crit","evt:fell","hp:me:1:hp:ge:100","foes:foe:1:le",
+  "foes:boss:1:ge","res:combo:le:0","hp:all:1:hp:ge:70","ast:me:nostealth","fst:burn:0:1:ge","turn:8","line:alone","evt:kill","hp:me:1:hp:ge:80","fst:any:0:-1:ge",
+  "res:mom:ge:3","res:mom:ge:5","res:res:ge:5","res:res:ge:8","res:ammo:le:2","res:aim:ge:2","fst:vuln:0:0:le","fst:air:0:1:ge","fst:cc:0:1:ge","res:keg:le:0",
+  "hp:boss:1:hp:le:50","fst:chill:2:1:ge","fst:burn:0:2:ge","ast:me:noshield","fst:weak:0:0:le"];
+// 잠긴 조건(룬·유물로 열림): 숫자로 조절하는 것은 v0.94부터 누구나(연계 0 · 8턴 · 체력 80%+적 2 · 화상 2마리), 상황·사건 조건만 잠금 유지
+const CS_LOCK={"ast:me:shield":25,"evt:crit":26,"evt:fell":27,"ast:me:nostealth":33,"line:alone":36,"evt:kill":37,"fst:any:0:-1:ge":39};
+for(const i of [31,35,38,52]) if(COND[i]) delete COND[i].lock;
+function cParse(k){ const a=String(k||"al").split(":"); const t=a[0]; const n=x=>+x||0;
+  switch(t){ case "hp": return {t,who:a[1]||"me",n:Math.max(1,n(a[2])),res:a[3]==="mp"?"mp":"hp",cmp:a[4]==="ge"?"ge":"le",pct:Math.max(0,Math.min(100,n(a[5])))};
+    case "foes": return {t,who:CS_FW[a[1]]?a[1]:"foe",n:Math.max(0,n(a[2])),cmp:a[3]==="le"?"le":"ge"};
+    case "fst": return {t,st:CS_ST[a[1]]?a[1]:"burn",stack:n(a[2]),n:a[3]==="-1"?-1:Math.max(0,n(a[3])),cmp:a[4]==="le"?"le":"ge"};
+    case "ast": return {t,who:a[1]==="ally"?"ally":"me",st:a[2]||"debuff",n:Math.max(1,n(a[3])||1)};
+    case "res": return {t,r:CS_RES[a[1]]?a[1]:"combo",cmp:a[2]==="le"?"le":"ge",n:n(a[3])};
+    case "turn": return {t,n:Math.max(1,n(a[1])),cmp:a[2]==="le"?"le":"ge"};
+    case "line": return {t,o:a[1]==="alone"?"alone":"front"};
+    case "evt": return {t,o:CS_EVT[a[1]]?a[1]:"crit"};
+    default: return {t:"al"}; } }
+function cJoin(o){ switch(o.t){ case "hp": return `hp:${o.who}:${o.n}:${o.res}:${o.cmp}:${o.pct}`; case "foes": return `foes:${o.who}:${o.n}:${o.cmp}`; case "fst": return `fst:${o.st}:${o.stack}:${o.n}:${o.cmp}`;
+  case "ast": return `ast:${o.who}:${o.st}`+(o.who==="ally"&&o.st==="debuff"&&o.n>1?`:${o.n}`:""); case "res": return `res:${o.r}:${o.cmp}:${o.n}`; case "turn": return `turn:${o.n}`+(o.cmp==="le"?":le":""); case "line": return `line:${o.o}`; case "evt": return `evt:${o.o}`; default: return "al"; } }
+const cKey=x=>typeof x==="string"?cJoin(cParse(x)):(LEG[x|0]||"al");
+const isAlw=x=>x==null||x===0||x==="al";
+function cValid(x){ return typeof x==="string"?true:!!COND[x|0]; }
+function cLabel(x,html){ if(typeof x!=="string"){ const c=COND[x|0]||COND[0]; return html?esc(c.label).replace(/(\d+%?)/g,"<em>$1</em>"):c.label; }
+  const o=cParse(x), N=v=>html?`<em>${v}</em>`:String(v), cmp=o.cmp==="ge"?"이상":"이하";
+  switch(o.t){
+    case "hp": { const r=o.res==="mp"?"마나":"체력";
+      if(o.who==="me"&&o.res==="hp"&&o.cmp==="ge"&&o.pct>=100) return "내 체력이 가득 참";
+      const w=o.who==="me"?"내":o.who==="ally"?`아군 ${N(o.n)}명 이상`:o.who==="all"?"아군 전원":o.who==="foe"?`적 ${N(o.n)}마리 이상`:"보스";
+      return `${w} ${r} ${N(o.pct+"%")} ${cmp}`; }
+    case "foes": if(o.who==="boss"&&o.cmp==="ge"&&o.n===1) return "보스가 있음"; if(o.who==="lane") return `앞뒤로 겹친 적 ${N(o.n)}줄 ${cmp}`; return `${o.who==="boss"?"보스가":o.who==="front"?"적 전열에":o.who==="back"?"적 후열에":"적이"} ${N(o.n)}마리 ${cmp}`;
+    case "fst": { const st=CS_ST[o.st]+((o.st==="poison"||o.st==="chill")&&o.stack>1?` ${N(o.stack)}중첩`:""); if(o.n===-1) return `모든 적이 ${o.st==="any"?"상태이상 중":st+" 상태"}`;
+      if(o.n===0&&o.cmp==="le") return `${st} 걸린 적 없음`; return `${st} 걸린 적 ${N(o.n)}마리 ${cmp}`; }
+    case "ast": if(o.who==="ally"&&o.st==="debuff"&&o.n>1) return `아군 ${N(o.n)}명 이상 상태이상 중`; return (CS_AST[o.who]||CS_AST.me)[o.st]||"내가 상태이상 중";
+    case "res": return o.r==="keg"?"놓아 둔 화약 상자 없음":`내 ${CS_RES[o.r][0]} ${N(o.n)} ${cmp}`;
+    case "turn": return o.cmp==="le"?`${N(o.n)}턴까지`:`${N(o.n)}턴 이후`;
+    case "line": return CS_LINE[o.o]; case "evt": return CS_EVT[o.o]; default: return "항상"; } }
+// 예전 번호처럼 쓰는 곳(규칙 교실 상황 만들기 등)을 위한 모양
+function cObj(x){ if(typeof x!=="string") return COND[x|0]||null; const k=cKey(x), li=LEG.indexOf(k); if(li>=0&&li!==38) return COND[li];
+  const o=cParse(k); let type="spec", value=0;
+  if(o.t==="hp"){ if(o.who==="me"&&o.res==="hp"&&o.cmp==="le"){ type="self_hp_below"; value=o.pct; } else if(o.who==="ally"&&o.res==="hp"&&o.cmp==="le"){ type=o.n>=2?"allies2_below":"ally_hp_below"; value=o.pct; } else if(o.who==="me"&&o.res==="mp"){ type=o.cmp==="ge"?"self_mp_above":"self_mp_below"; value=o.pct; } else if(o.who==="foe"&&o.cmp==="le"){ type="enemy_hp_below"; value=o.pct; } }
+  else if(o.t==="foes"&&o.who==="foe"&&o.cmp==="ge"){ type="enemy_cnt_gte"; value=o.n; } else if(o.t==="turn"){ type="turn_gte"; value=o.n; } else if(o.t==="al") type="always";
+  return {label:cLabel(k),type,value,lock:CS_LOCK[k]!=null?"rune":undefined}; }
+// 그 조건을 쓰려면 필요한 해금(예전 번호) — 없으면 -1
+function cLockIdx(x){ if(typeof x!=="string"){ const c=COND[x|0]; return c&&c.lock?(x|0):-1; } const k=cKey(x); return CS_LOCK[k]!=null?CS_LOCK[k]:-1; }
+// 이 직업이 볼 수 있는 직업 자원
+function cResOpts(cid){ const R=CLASSES[cid]&&CLASSES[cid].res; return cid==="rogue"?["combo"]:R==="mom"?["mom"]:R==="res"?["res"]:R==="ammo"?["ammo","aim","keg"]:[]; }
+
 function debuffed(x){ return !!((x._cold||0)>0||x.dots.burn||x.dots.poison||x.dots.frost||x.dots.bleed||(x.buffs.atk&&x.buffs.atk.value<0)||x.buffs.stun||x.buffs.silence||x.buffs.blind||x.buffs.fear||x.buffs.vuln||x.buffs.brand||x.buffs.air||x.buffs.mark); }
 const TARGET = ["자동","체력 비율이 가장 낮은 적","무작위 적","체력 비율이 가장 높은 적","앞줄 적 우선","체력 비율이 가장 낮은 아군","자신","무작위 아군","독이 가장 많이 쌓인 적","취약한 적 우선","띄운 적 우선","공격력이 가장 높은 아군","역할 몬스터 우선 (치유사·방패병·주술사)","뒷줄 적 우선","보스·우두머리 우선","화상 걸린 적 우선","약화·냉기·빙결된 적 우선"];   // v0.93 15·16   // v0.35: 이름을 분명하게(체력은 남은 비율 기준)
 
@@ -2361,7 +2465,7 @@ function ruleTable(cid,adv,st,skills,n){
   while(out.length<n) out.push({enabled:false,c1:0,logic:0,c2:0,skill:CLASSES[cid].skills[0],target:0});
   return out; }
 // 그 직업 표 어딘가에 있는 규칙인지(직접 고치지 않은 규칙인지 가려낼 때)
-function inRuleset(cid,r){ const T=RULESET[cid]; for(const k in T) for(const s in T[k]) for(const e of T[k][s]) if(e[0]===r.skill&&e[1]===(r.c1|0)&&e[2]===(r.logic|0)&&(!e[2]||e[3]===(r.c2|0))) return true; return false; }
+function inRuleset(cid,r){ const T=RULESET[cid]; for(const k in T) for(const s in T[k]) for(const e of T[k][s]) if(e[0]===r.skill&&cKey(e[1])===cKey(r.c1)&&e[2]===(r.logic|0)&&(!e[2]||cKey(e[3])===cKey(r.c2))) return true; return false; }
 // 기술 하나의 표 줄(지금 전직·성향 표 → 없으면 그 직업 다른 표)
 function rulesetEntry(cid,adv,st,sid){ const T=RULESET[cid]; const look=L=>(L||[]).find(e=>e[0]===sid);
   let e=look(((adv&&T[adv])||T.base)[st]); if(e) return e;
@@ -3918,7 +4022,7 @@ const ADV_PASSIVE_LV=14, ADV_EXTRA_LV=16;
 function advRamp(lv){ return Math.max(0,Math.min(1,((lv||0)-ADV_LEVEL+1)/10)); }
 function advSkills(a,lv){ return a?[a.skill,...((lv==null||lv>=ADV_EXTRA_LV)?(a.extra||[]):(a.extra||[]).slice(0,1))]:[]; }   // v0.92 Lv10: 대표 + 강화1 · Lv16: + 강화2 · 다리
 // 전직 스킬을 규칙에 넣는 순서: 뒤에서부터(맨 위로 가는 스킬이 여럿이면 대표 스킬이 가장 위에 오도록)
-function freeRuleSlots(cid){ const basic=CLASSES[cid].skills[0], rules=partyRules[cid]||[]; return rules.filter(r=>!r.enabled).length+Math.max(0,rules.filter(r=>r.enabled&&r.skill===basic&&(r.c1|0)===0&&(r.logic|0)===0).length); }
+function freeRuleSlots(cid){ const basic=CLASSES[cid].skills[0], rules=partyRules[cid]||[]; return rules.filter(r=>!r.enabled).length+Math.max(0,rules.filter(r=>r.enabled&&r.skill===basic&&isAlw(r.c1)&&(r.logic|0)===0).length); }
 function addAdvRules(cid,a){ try{ ensureRuleSlots(cid); }catch(e){}
   { const want=advSkills(a,progress.heroes[cid].level).filter(sid=>!(partyRules[cid]||[]).some(r=>r.enabled&&r.skill===sid)); if(!want.length) return [];
     // v0.91 동료이거나, 주인공이 규칙을 직접 고치지 않았으면 → 규칙 표대로 칸 전체를 새로 짬(표에서 이번 칸에 안 들어가는 기술은 skip)
@@ -4732,7 +4836,7 @@ function ruleMig094b(x){ if(!x||typeof x!=="object") return x; if((x.c2|0)===55)
 function rulesFrom(src){ if(!src) return; const cv=src._cv|0; for(const c of CLASS_IDS) if(Array.isArray(src[c])){ let r=cv<2?src[c].map(ruleMig093):src[c]; if(cv<3&&c==="bard") r=r.map(ruleMig094); if(cv<4) r=r.map(ruleMig094b); partyRules[c]=r; } partyRules._cv=4; }
 function normRules(){ for(const c of CLASS_IDS){ for(const x of partyRules[c]||[]){
     if(SKILL_MAP_092[x.skill]&&!(CLASSES[c].skills.includes(x.skill))){ x._o092=OLD_RULE_SIG_092.has(`${x.skill}:${x.c1|0}:${x.logic|0}:${(x.logic|0)?(x.c2|0):0}`)?1:2; x._o092e=x.enabled!==false; x.skill=x._o092s=SKILL_MAP_092[x.skill]; }   // v0.92 예전 기술 → 새 기술(표에서 다시 짜는 것은 migrateProgress)
-    if(!COND[x.c1]) x.c1=0; if(!COND[x.c2]) x.c2=0; if(!(x.target<TARGET.length)) x.target=0;
+    if(!cValid(x.c1)) x.c1=0; if(!cValid(x.c2)) x.c2=0; if(!(x.target<TARGET.length)) x.target=0;
     if((x.target|0)===12) x.target=0;
     if(x.skill==="defend"){ x.enabled=false; x.skill=CLASSES[c].skills[0]; } }
     // v0.89 그 영웅이 쓸 수 없는 기술(예전 스킬북 등)·같은 기술 두 번은 끔
@@ -5094,11 +5198,11 @@ function migrate092(out){
     const H=out.heroes[c]||{}, a=(ADV[c]||[]).find(x=>x.key===H.adv)||null, own=[...CLASSES[c].skills,...advSkills(a,H.level)], b=CLASSES[c].skills[0];
     const st=(typeof STANCES!=="undefined"&&STANCES[H.stance])?H.stance:RULESET_STANCE0[c], n=H.adv?RULE_SLOTS_ADV:RULE_SLOTS;
     const T=ruleTable(c,a&&a.key,st,own,n), comp=!!(out.protag&&out.protag.cid!==c);
-    const okC=r=>COND[r.c1|0]&&!((r.logic|0)&&!COND[r.c2|0]);
-    const U=[]; if(!comp){ for(const r of R){ const sk=r&&(r._o092s||r.skill); if(r&&r._o092===2&&r._o092e&&okC(r)&&own.includes(sk)&&sk!==b&&!U.some(x=>x.skill===sk)) U.push({enabled:true,c1:r.c1|0,logic:r.logic|0,c2:r.c2|0,skill:sk,target:r.target|0}); }
+    const okC=r=>cValid(r.c1)&&!((r.logic|0)&&!cValid(r.c2));
+    const U=[]; if(!comp){ for(const r of R){ const sk=r&&(r._o092s||r.skill); if(r&&r._o092===2&&r._o092e&&okC(r)&&own.includes(sk)&&sk!==b&&!U.some(x=>x.skill===sk)) U.push({enabled:true,c1:typeof r.c1==="string"?r.c1:r.c1|0,logic:r.logic|0,c2:typeof r.c2==="string"?r.c2:r.c2|0,skill:sk,target:r.target|0}); }
       for(const r of R) if(r&&!r._o092&&r.enabled&&own.includes(r.skill)&&r.skill!==b&&!U.some(x=>x.skill===r.skill)) U.push(Object.assign({},r)); }
     for(const r of T) if(r.enabled&&!U.some(x=>x.skill===r.skill)) U.push(r);
-    const fill=U.filter(r=>(r.c1|0)===0&&!(r.logic|0)), non=U.filter(r=>!fill.includes(r));
+    const fill=U.filter(r=>isAlw(r.c1)&&!(r.logic|0)), non=U.filter(r=>!fill.includes(r));
     const res=non.slice(0,n-(fill.length?1:0)).concat(fill.slice(0,1)); while(res.length<n) res.push({enabled:false,c1:0,logic:0,c2:0,skill:b,target:0});
     partyRules[c]=res; out._rules092=1; }
   if(typeof partyRules==="object"&&partyRules) for(const c of CLASS_IDS) for(const r of (partyRules[c]||[])) if(r){ delete r._o092; delete r._o092e; delete r._o092s; }
@@ -5120,11 +5224,11 @@ function autoAddRule(cid,sid){
   const A=autoRuleOf(cid,sid); const rules=partyRules[cid];
   if(!A||!rules||rules.some(r=>r.enabled&&r.skill===sid)) return null;
   let idx=-1; for(let i=rules.length-1;i>=0;i--) if(!rules[i].enabled){ idx=i; break; }
-  if(idx<0){ const basic=CLASSES[cid].skills[0]; for(let i=rules.length-1;i>=0;i--) if(rules[i].skill===basic&&(rules[i].c1|0)===0&&(rules[i].logic|0)===0){ idx=i; break; } }
+  if(idx<0){ const basic=CLASSES[cid].skills[0]; for(let i=rules.length-1;i>=0;i--) if(rules[i].skill===basic&&isAlw(rules[i].c1)&&(rules[i].logic|0)===0){ idx=i; break; } }
   if(idx<0) return {failed:true};
   rules.splice(idx,1);
   let pos=0;
-  if(A.at!=="top"){ pos=rules.findIndex(r=>r.enabled&&(r.c1|0)===0&&(r.logic|0)===0); if(pos<0) pos=rules.length; }
+  if(A.at!=="top"){ pos=rules.findIndex(r=>r.enabled&&isAlw(r.c1)&&(r.logic|0)===0); if(pos<0) pos=rules.length; }
   rules.splice(pos,0,{enabled:true,c1:A.c1,logic:A.l||0,c2:A.c2||0,skill:sid,target:A.t||0});
   return {pos:pos+1};
 }
@@ -5464,7 +5568,7 @@ class Sim {
   foes(u){ return this.units.filter(x=>x.alive&&x.side!==u.side); }
   hpPct(u){ return u.hp/u.hp_max*100; }
   mpPct(u){ return u.mp_max<=0?0:u.mp/u.mp_max*100; }
-  cond(u,idx,sk){ const c=COND[idx]; if(!c) return false; const v=c.value;
+  cond(u,idx,sk){ if(typeof idx==="string") return this.condSpec(u,idx); const c=COND[idx|0]; if(!c) return false; const v=c.value;
     if(this.blockedBy(u,c)) return false;
     switch(c.type){
       case "self_no_shield": return !((u.shield||0)>0);   // v0.93
@@ -5512,13 +5616,36 @@ class Sim {
       case "no_keg": return !Object.values(this.kegs[this.opp(u.side)]).some(k=>k.owner===u.id);
       case "boss_hp_below": return this.foes(u).some(f=>f.isBossKind&&this.hpPct(f)<=v);
     } return false; }
-  rulePasses(u,r){ const a=this.cond(u,r.c1|0,r.skill);
-    if(r.logic===1) return a&&this.cond(u,r.c2|0,r.skill);
-    if(r.logic===2) return a||this.cond(u,r.c2|0,r.skill);
+  // v0.94 조건 문장(종류 + 조절 칸) 판정 — 예전 번호 조건과 같은 기준(아군에는 나도 포함, 이하·이상은 경계 포함)
+  condSpec(u,k){ const li=cLockIdx(k); if(li>=0&&!(u.unlocks&&u.unlocks.includes(li))) return false;
+    const o=cParse(k), cmp=(a,b)=>o.cmp==="ge"?a>=b:a<=b;
+    switch(o.t){
+      case "al": return true;
+      case "hp": { const pc=x=>o.res==="mp"?this.mpPct(x):this.hpPct(x);
+        if(o.who==="me") return cmp(pc(u),o.pct);
+        if(o.who==="all") return this.allies(u).every(a=>cmp(pc(a),o.pct));
+        if(o.who==="ally") return this.allies(u).filter(a=>cmp(pc(a),o.pct)).length>=o.n;
+        if(o.who==="foe") return this.foes(u).filter(f=>cmp(this.hpPct(f),o.pct)).length>=o.n;
+        return this.foes(u).some(f=>f.isBossKind&&cmp(this.hpPct(f),o.pct)); }
+      case "foes": { const F=this.foes(u); const n=o.who==="boss"?F.filter(f=>f.boss).length:o.who==="front"?F.filter(f=>f.row==="front").length:o.who==="back"?F.filter(f=>f.row!=="front").length:o.who==="lane"?new Set(F.filter(f=>f.row==="front"&&F.some(g=>g.row!=="front"&&(g.lane|0)===(f.lane|0))).map(f=>f.lane|0)).size:F.length; return o.cmp==="ge"?n>=o.n:n<=o.n; }
+      case "fst": { const T={burn:f=>!!f.dots.burn, poison:f=>!!(f.dots.poison&&f.dots.poison.stacks>=Math.max(1,o.stack)), chill:f=>this.coldOf(f)>=Math.max(1,o.stack), stun:f=>!!f.buffs.stun,
+          weak:f=>!!(f.buffs.atk&&f.buffs.atk.value<0), vuln:f=>this.vulnOf(f)>0, air:f=>!!f.buffs.air, cc:f=>this.ccd(f), any:f=>debuffed(f)}[o.st]||(()=>false);
+        const F=this.foes(u); if(o.n===-1) return F.length>0&&F.every(T); const n=F.filter(T).length; return o.cmp==="ge"?n>=o.n:n<=o.n; }
+      case "ast": if(o.who==="ally") return o.st==="dead"?this.deadAllies(u).length>0:this.allies(u).filter(a=>debuffed(a)).length>=o.n;
+        return o.st==="shield"?(u.shield||0)>0:o.st==="noshield"?!((u.shield||0)>0):o.st==="stealth"?!!u.buffs.stealth:o.st==="nostealth"?!u.buffs.stealth:debuffed(u);
+      case "res": { if(o.r==="keg") return !Object.values(this.kegs[this.opp(u.side)]).some(k=>k.owner===u.id);
+        if(o.r==="ammo"&&!((u.ammoMax||0)>0)) return false; const v={combo:u._combo,mom:u._mom,res:u._res,ammo:u._ammo,aim:u._aim}[o.r]||0; return cmp(v,o.n); }
+      case "turn": return o.cmp==="le"?this.turn<=o.n:this.turn>=o.n;
+      case "line": return o.o==="alone"?(u.row==="front"&&!this.allies(u).some(a=>a!==u&&a.row==="front")):!this.foes(u).some(f=>f.row==="front");
+      case "evt": return o.o==="crit"?!!u._lastCrit:o.o==="kill"?(u._killsTotal||0)>0:this.units.some(x=>x.side===u.side&&x!==u&&this.fellTurn[x.id]!=null&&this.turn-this.fellTurn[x.id]<=1);
+    } return false; }
+  rulePasses(u,r){ const a=this.cond(u,r.c1==null?0:r.c1,r.skill);
+    if(r.logic===1) return a&&this.cond(u,r.c2==null?0:r.c2,r.skill);
+    if(r.logic===2) return a||this.cond(u,r.c2==null?0:r.c2,r.skill);
     return a; }
-  ruleText(r){ let t=COND[r.c1|0].label;
-    if(r.logic===1) t+=" + "+COND[r.c2|0].label;
-    if(r.logic===2) t+=" / "+COND[r.c2|0].label;
+  ruleText(r){ let t=cLabel(r.c1);
+    if(r.logic===1) t+=" + "+cLabel(r.c2);
+    if(r.logic===2) t+=" / "+cLabel(r.c2);
     return t; }
   // v0.43 가로줄 배치: 고정(보스) → 저장된 자리 → 빈 칸. 한 줄(앞·뒤)에 4칸까지, 넘치면 다른 줄로. 같은 입력이면 늘 같은 결과(함께하기 동기화)
   placeLanes(){ for(const side of ["party","enemy"]){ const us=this.units.filter(x=>x.side===side), used={front:new Set(),back:new Set()};
@@ -7482,8 +7609,8 @@ const TUT={
   // 가르칠 순서: 자주 맞는 조건(항상·마나)부터 → 상황 조건(적 수) → 위급 조건(체력)
   plan(cid){ cid=cid||this.cid(); if(!cid) return [];
     const C=CLASSES[cid], basic=C.skills[0];
-    const score=r=>({0:0,8:1,9:2,7:3,6:4,10:5,11:5,12:6,15:6}[r.c1] ?? 7)+(r.logic?10:0)+(/취약|띄|독|은신|연계/.test(COND[r.c1].label)?6:0);   // 두 조건·다른 스킬에 기대는 조건은 뒤로
-    return C.default_rules.map((r,i)=>({r,i})).filter(x=>x.r.enabled&&!(x.r.skill===basic&&x.r.c1===0&&!x.r.logic))
+    const score=r=>({0:0,8:1,9:2,7:3,6:4,10:5,11:5,12:6,15:6}[r.c1] ?? 7)+(r.logic?10:0)+(/취약|띄|독|은신|연계/.test(cLabel(r.c1))?6:0);   // 두 조건·다른 스킬에 기대는 조건은 뒤로
+    return C.default_rules.map((r,i)=>({r,i})).filter(x=>x.r.enabled&&!(x.r.skill===basic&&isAlw(x.r.c1)&&!x.r.logic))
       .sort((a,b)=>score(a.r)-score(b.r)||b.i-a.i); },
   total(){ return this.plan().length+1; },
   learning(){ return !!(progress&&progress.protag)&&this.st().rl<this.total(); },
@@ -7503,9 +7630,9 @@ const TUT={
   // 예전 세이브는 다 배운 것으로
   markOld(p){ if(!p.tut){ p.tut={rl:99,seen:{},demo:{},wins:0}; for(const k of Object.keys(COACH)) if(k!=="torch") p.tut.seen[k]=true; } },
   ruleCard(r,cls,no){ const sk=SKILLS[r.skill]||{name:r.skill};
-    return `<div class="tutrule ${cls||""}"><span class="no">${no}</span><span class="w">만약</span><b class="c">${esc(COND[r.c1].label)}</b>${r.logic?`<span class="w">${r.logic===1?"그리고":"또는"}</span><b class="c">${esc(COND[r.c2].label)}</b>`:""}<span class="w">이면 →</span><b class="s">${esc(sk.name)}</b><span class="w">(${esc(targetLabel(r,this.cid()))})</span></div>`; },
+    return `<div class="tutrule ${cls||""}"><span class="no">${no}</span><span class="w">만약</span><b class="c">${esc(cLabel(r.c1))}</b>${r.logic?`<span class="w">${r.logic===1?"그리고":"또는"}</span><b class="c">${esc(COND[r.c2].label)}</b>`:""}<span class="w">이면 →</span><b class="s">${esc(sk.name)}</b><span class="w">(${esc(targetLabel(r,this.cid()))})</span></div>`; },
   // v0.70 이번 전투에서 이 규칙이 꼭 쓰이도록 만들어 주는 상황(설명 + 실제 준비)
-  sitText(r){ const c=[r.c1].concat(r.logic===1?[r.c2]:[]).map(i=>COND[i]).filter(Boolean); const out=[];
+  sitText(r){ const c=[r.c1].concat(r.logic===1?[r.c2]:[]).map(cObj).filter(Boolean); const out=[];
     for(const x of c){ const t=x.type, v=x.value;
       if(t==="self_hp_below") out.push("내 체력이 낮은 채로 시작해요");
       else if(t==="ally_hp_below") out.push("다친 동료가 있는 채로 시작해요");
@@ -7527,7 +7654,7 @@ const TUT={
     const all=P.slice().sort((a,b)=>a.i-b.i);
     const list=(cur)=>all.map((x,j)=>this.ruleCard(x.r,x===cur?"new":"",j+1)).join("")+`<div class="tutrule fall"><span class="no">–</span><span class="w">아무것도 안 맞으면 →</span><b class="s">${esc(basicName)}</b><span class="w">(마나 없이)</span></div>`;
     if(n<=L){
-      const cur=P[n-1], sk=SKILLS[cur.r.skill], cl=COND[cur.r.c1].label+(cur.r.logic?(cur.r.logic===1?" 그리고 ":" 또는 ")+COND[cur.r.c2].label:"");
+      const cur=P[n-1], sk=SKILLS[cur.r.skill], cl=cLabel(cur.r.c1)+(cur.r.logic?(cur.r.logic===1?" 그리고 ":" 또는 ")+cLabel(cur.r.c2):"");
       const intro=n===1?`<p class="msub">전투는 자동이에요. 대신 <b>${nm}</b>님이 <b>"만약 [조건]이면 → [스킬]"</b> 규칙을 정해 둡니다. 차례가 오면 <b>위에서부터</b> 확인해서 <b>처음 맞는 규칙 하나</b>를 써요. 하나도 안 맞으면 기본공격.</p>`:"";
       return head+`<h2>📜 ${n===1?"자동전투 규칙":"규칙 "+n}: ${esc(sk.name)}</h2>${intro}
         <div class="tutbig"><span class="w">만약</span><b class="c">${esc(cl)}</b><span class="w">이면 →</span><b class="s">${esc(sk.name)}</b></div>
@@ -7575,7 +7702,7 @@ const TUT={
     const bats=zones.filter(z=>z.type==="battle"&&!z.actEnd&&!z.boss);
     while(bats.length<L-k+1){ const src=bats[bats.length-1]||zones.find(z=>z.type==="battle"); if(!src) break; const cp=JSON.parse(JSON.stringify(src)); cp.actEnd=false; cp.boss=false; cp.named=false; cp.mid=false; zones.splice(zones.indexOf(bats[bats.length-1]||src)+1,0,cp); bats.push(cp); }
     for(const z of bats){ if(k>L) break; const r=this.plan()[k-1].r; z.tut=k;
-      const need=[r.c1].concat(r.logic===1?[r.c2]:[]).map(i=>COND[i]).filter(c=>c&&c.type==="enemy_cnt_gte").reduce((a,c)=>Math.max(a,c.value),0);
+      const need=[r.c1].concat(r.logic===1?[r.c2]:[]).map(cObj).filter(c=>c&&c.type==="enemy_cnt_gte").reduce((a,c)=>Math.max(a,c.value),0);
       if(need) while(z.mobs.length<Math.max(3,need)) z.mobs.push({...z.mobs[z.mobs.length%Math.max(1,z.mobs.length)]});
       z.label=`${z.label} · 📜 규칙 ${k}`; k++; }
     for(const z of zones) if(z.type==="battle"&&!z.tut) z.tutEase=true; },
@@ -7585,7 +7712,7 @@ const TUT={
     const cur=this.plan()[z.tut-1]; if(!cur) return; const r=cur.r, cid=this.cid(), P=runState.party.filter(u=>u.alive), me=P.find(u=>u.id===cid); if(!me) return;
     for(const e of enemies){ e.hp_max=e.hp=Math.round(e.hp_max*1.3); e.atk=Math.max(1,Math.round(e.atk*0.5)); }   // 배우는 전투: 오래 버티고 덜 아프게
     const others=P.filter(u=>u!==me); const post={me}; me.mp=me.mp_max; me.spd+=30;   // 마나가 모자라 못 쓰는 일이 없게(마나 조건 수업은 아래에서 따로 맞춤) · 주인공이 먼저 움직여 상황이 바뀌기 전에 규칙이 맞게(이 전투만)
-    for(const i of [r.c1].concat(r.logic===1?[r.c2]:[])){ const c=COND[i]; if(!c) continue; const v=+c.value||0;
+    for(const i of [r.c1].concat(r.logic===1?[r.c2]:[])){ const c=cObj(i); if(!c) continue; const v=+c.value||0;
       if(c.type==="self_hp_below") me.hp=Math.max(1,Math.floor(me.hp_max*(v-10)/100));
       else if(c.type==="ally_hp_below"){ const a=others[0]||me; a.hp=Math.max(1,Math.floor(a.hp_max*(v-15)/100)); }
       else if(c.type==="allies2_below"){ for(const a of (others.length>=2?others.slice(0,2):[me].concat(others)).slice(0,2)) a.hp=Math.max(1,Math.floor(a.hp_max*(v-15)/100)); }
@@ -7598,7 +7725,7 @@ const TUT={
       else if(c.type==="self_ammo_lte") post.ammo=v;
     }
     this._post=post;
-    if(r.logic===1&&[r.c1,r.c2].some(i=>COND[i]&&COND[i].type==="self_mp_above")) me.mp=me.mp_max;
+    if(r.logic===1&&[r.c1,r.c2].some(i=>{ const c=cObj(i); return c&&c.type==="self_mp_above"; })) me.mp=me.mp_max;
     logLine(`<span class="win">📜 규칙 교실 ${z.tut} — ${esc(SKILLS[r.skill].name)}: ${esc(this.sitText(r))}</span>`); },
   async flush(){ if(!this.pend||this.busy||!this.learning()) return false; this.pend=false; await this.lesson(); return true; },
   // 전투 기록 이벤트를 보고 설명할 순간인지
@@ -7611,8 +7738,8 @@ const TUT={
   async callout(c){
     const nm=esc(progress.protag.name), ev=c.ev, r=c.cur.r;
     let txt;
-    if(c.kind==="rule") txt=`${nm}님 차례! 규칙을 위에서부터 확인했어요 → <b>${ev.ruleNo}번</b> '${esc(COND[r.c1].label)}' 조건이 맞아서 <b>${esc(ev.skillName)}</b>!${ev.ruleNo>1?` <span class="w">(1~${ev.ruleNo-1}번은 조건이 안 맞거나 마나가 모자라 건너뜀)</span>`:""}`;
-    else txt=`${nm}님 차례였지만 규칙 '${esc(COND[r.c1].label)} → ${esc(SKILLS[r.skill].name)}'의 조건이 맞지 않았어요(또는 마나 부족). 그래서 <b>${esc(ev.skillName)}</b>${ev.skillName==="기본공격"?"":"(기본공격)"}을 했어요.`;
+    if(c.kind==="rule") txt=`${nm}님 차례! 규칙을 위에서부터 확인했어요 → <b>${ev.ruleNo}번</b> '${esc(cLabel(r.c1))}' 조건이 맞아서 <b>${esc(ev.skillName)}</b>!${ev.ruleNo>1?` <span class="w">(1~${ev.ruleNo-1}번은 조건이 안 맞거나 마나가 모자라 건너뜀)</span>`:""}`;
+    else txt=`${nm}님 차례였지만 규칙 '${esc(cLabel(r.c1))} → ${esc(SKILLS[r.skill].name)}'의 조건이 맞지 않았어요(또는 마나 부족). 그래서 <b>${esc(ev.skillName)}</b>${ev.skillName==="기본공격"?"":"(기본공격)"}을 했어요.`;
     await showBanner(`<img src="${heroIcon(this.cid())}" alt=""><span style="min-width:0"><span class="who">📜 규칙 교실 — 방금 일어난 일</span><span class="txt tutcall">${txt}</span></span>`, 9000);
   },
   // 마을에서 할 일: 첫 안내 → 규칙 교실 1 → 쌓인 다음 수업 → 새로 열린 콘텐츠 안내
@@ -7633,7 +7760,7 @@ const TUT={
     if(tab==="traits"&&!(progress.heroes[this.cid()]||{}).adv) return;   // 특성은 전직한 뒤에 안내
     setTimeout(()=>{ if(curView===tab&&!$("modal")&&!$("coach")) coachRun(tab); },260); }
 };
-function condHint(i){ const c=COND[i]; if(!c) return "";
+function condHint(i){ const c=cObj(i); if(!c) return "";
   const T={always:"언제나 맞아요 — 마나만 있으면 매번 써요",self_hp_below:"내 체력이 그만큼 깎였을 때만 — 위급할 때 쓰는 스킬에",ally_hp_below:"아군 누군가가 위험할 때",allies2_below:"아군 여럿이 다쳤을 때 — 광역 회복에",
     enemy_cnt_gte:"적이 여럿일 때 — 광역 스킬이나 도발에",self_mp_above:"마나가 넉넉할 때 — 마나를 아껴 두다가 쓰는 스킬에",self_mp_below:"마나가 바닥날 때 — 마나 회복 스킬에",enemy_hp_below:"쓰러뜨리기 직전의 적이 있을 때 — 마무리 스킬에",
     turn_gte:"전투가 조금 진행된 뒤",ally_dead:"쓰러진 아군이 있을 때 — 부활에",self_combo_gte:"연계를 쌓았을 때",self_stealth:"은신 중일 때"};
@@ -7682,9 +7809,9 @@ const COACH={
   rules:{ name:"자동전투 규칙", steps:[
     {sel:"#charpick", t:"누구의 규칙?", x:"주인공도 동료도 규칙을 직접 짜요. 동료는 '작전 성향대로 채우기'로 시작해 고쳐도 돼요."},
     {sel:".howto", t:"읽는 법", x:"매 턴 1번부터 차례로 확인해서 처음 맞는 규칙 하나만 써요. 아무것도 안 맞으면 기본공격."},
-    {sel:".rules .rule .rline select", t:"조건", x:"'만약' 뒤에서 조건을 골라요. 옆 '+ 조건'으로 두 번째 조건(그리고/또는)을 붙일 수 있어요."},
-    {sel:".rules .rule select.sk", t:"스킬과 대상", x:"조건이 맞으면 쓸 스킬, 그리고 누구에게 쓸지(대상)."},
-    {sel:".rules .rule .mv", t:"순서", x:"↑↓로 칸을 옮겨요. 위에 있을수록 먼저 확인해요."},
+    {sel:".rules .rl select.sk", t:"기술", x:"한 줄의 제목이 쓸 기술이에요. 옆 회색 글은 언제 쓰는지(조건) 요약이에요."},
+    {sel:".rules .rl .rlh", t:"조건 · 대상", x:"줄을 누르면 그 자리에서 펼쳐져요. 조건 종류를 고르고 숫자는 −/+로(예: 아군 2명 이상 체력 50% 이하), ＋로 두 번째 조건(그리고/또는)을 붙이고, 대상도 여기서 골라요. 같은 효과가 아직 남아 있으면 그 기술은 건너뛰어요."},
+    {sel:".rules .rl", t:"순서", x:"펼친 줄의 ↑↓로 칸을 옮겨요. 위에 있을수록 먼저 확인해요."},
     {sel:".skillside", t:"스킬 목록·숙련", x:"가진 스킬과 효과, 숙련도. 스킬을 많이 쓸수록 숙련이 올라 변형 효과가 열려요."}]},
   codex:{ name:"도감·증표", steps:[
     {sel:"#body-codex .cxtabs", t:"도감·증표", x:"탭으로 나뉘어 있어요 — 군단장의 증표(모두 모으면 다른 결말), 세트 장비 모음, 게임 규칙."}]},
@@ -7820,7 +7947,7 @@ function heroRuleCountFull(cid){ const h=(typeof progress!=="undefined"&&progres
 function ensureRuleSlots(cid){
   const n=heroRuleCount(cid); const rules=partyRules[cid]; const basic=CLASSES[cid].skills[0];
   if(rules.length>n){   // 예전 6~9칸 → 4칸: 켜 둔 규칙(맨 끝 '항상 기본공격'은 빼고)을 위에서부터 남김
-    const isFall=r=>r.skill===basic&&(r.c1|0)===0&&!(r.logic|0);
+    const isFall=r=>r.skill===basic&&isAlw(r.c1)&&!(r.logic|0);
     const keep=[...rules.filter(r=>r.enabled&&!isFall(r)),...rules.filter(r=>!r.enabled||isFall(r)).map(r=>isFall(r)?{...r,enabled:false}:r)].slice(0,n);
     rules.length=0; rules.push(...keep); }
   while(rules.length<n) rules.push({enabled:false,c1:0,logic:0,c2:0,skill:basic,target:0});
@@ -8016,7 +8143,7 @@ function itemExtraText(it){
   { const cu=cUniq(it); if(cu) parts.push(`👑 ${CLASSES[it.cuniqCls].name} 전용: ${cu.label}`); }
   if(it.proc) parts.push("✨ "+it.proc.label);
   if(it.engrave&&ENGRAVES[it.engrave]) parts.push("📜 각인: "+ENGRAVES[it.engrave].text);
-  if(it.relic&&RELICS[it.relic]){ parts.push("🔮 "+RELICS[it.relic].text+" · 조건 해금: "+COND[RELICS[it.relic].cond].label); const st=relicStar(it); parts.push("각성 "+"★".repeat(st)+"☆".repeat(3-st)+(st>=3?" · "+RELIC_AWAKE[it.relic].t3:" · ★3: "+RELIC_AWAKE[it.relic].t3)); }
+  if(it.relic&&RELICS[it.relic]){ parts.push("🔮 "+RELICS[it.relic].text+(COND[RELICS[it.relic].cond].lock?" · 조건 해금: "+cLabel(RELICS[it.relic].cond):"")); const st=relicStar(it); parts.push("각성 "+"★".repeat(st)+"☆".repeat(3-st)+(st>=3?" · "+RELIC_AWAKE[it.relic].t3:" · ★3: "+RELIC_AWAKE[it.relic].t3)); }
   if(it.mythic&&MYTHIC[it.mythic]) parts.push("🌠 신화 — "+MYTHIC[it.mythic].desc);
   if(it.rune&&RUNES[it.rune]&&COND[RUNES[it.rune].cond].lock) parts.push("◈ 조건 해금: "+COND[RUNES[it.rune].cond].label);
   if(it.fate){ const F=FATES[it.fate.key]; parts.push(it.fate.done?`🔓 운명 — ${F.btxt}`:`🔒 운명 — ${F.text(it.fate.need)} (${it.fate.prog}/${it.fate.need}) → ${F.btxt}`); }
@@ -8138,7 +8265,7 @@ function stanceLetter(st){ return {atk:"a",surv:"s",supp:"p"}[st]; }
 
 // v0.91 동료 규칙 = 규칙 표(지금 전직 · 성향 · 가진 기술 · 칸 수)
 // v0.91 표에 있는 규칙 · 예전 기본 규칙 · 예전 자동 추가 규칙이면 '직접 고치지 않은 규칙'
-function isDefaultRule(cid,r){ const same=d=>d.enabled!==false&&d.skill===r.skill&&(d.c1|0)===(r.c1|0)&&(d.logic|0)===(r.logic|0)&&(!d.logic||(d.c2|0)===(r.c2|0));
+function isDefaultRule(cid,r){ const same=d=>d.enabled!==false&&d.skill===r.skill&&cKey(d.c1)===cKey(r.c1)&&(d.logic|0)===(r.logic|0)&&(!d.logic||cKey(d.c2)===cKey(r.c2));
   if(inRuleset(cid,r)) return true; if((CLASSES[cid].old_default||[]).some(same)) return true;
   const A=AUTO_RULES[r.skill]; return !!(A&&same({skill:r.skill,c1:A.c1,logic:A.l||0,c2:A.c2||0})); }
 function tableRules(cid){ const h=progress.heroes[cid]||{}; return ruleTable(cid,h.adv,heroStance(cid),classSkills(cid),heroRuleCount(cid)); }
@@ -11283,6 +11410,7 @@ function sel(options,value,onchange){
 }
 let ruleHits={}, ruleHitsSeen=false, resetRulesArmed=false;
 const LOGIC_UI=["+ 조건","그리고","또는"];
+const RULE_OPEN={};   // v0.94 영웅마다 펼친 규칙 번호(한 번에 하나)
 function renderRules(){
   const box=$("rules"); box.innerHTML=""; const SXr=heroSkillsEx(selected);   // v0.93 규칙 기술 칸도 강화·무기를 반영한 마나
   const rules=partyRules[selected];
@@ -11335,53 +11463,84 @@ function renderRules(){
   else if(isCompanion(selected)){ const n=document.createElement("div"); n.className="compnote";   // v0.57: 동료 규칙도 직접 — 성향대로 한 번에 채우는 단추만
     n.innerHTML=`🧭 동료의 규칙도 직접 정합니다. 처음이라면 <button class="ghostbtn" id="compFill">작전 성향 '${esc(STANCES[heroStance(selected)].name)}'대로 채우기</button>로 시작해 고쳐 보세요.`;
     col.appendChild(n); n.querySelector("#compFill").onclick=()=>{ partyRules[selected]=companionRules(selected); ensureRuleSlots(selected); saveRules(); renderRules(); logLine(`<span class="r">📜 ${esc(heroDisplayName(selected))}의 규칙을 작전 성향대로 채웠습니다.</span>`); }; }
-  const list=document.createElement("div"); list.className="rules"; col.appendChild(list);
-  const condOpts=COND.map((c,i)=>({label:c.label+(c.lock&&!DV.unlocks.includes(i)?" 🔒":""), locked:!!c.lock&&!DV.unlocks.includes(i)}));
-  const myRes=CLASSES[selected].res||"";
-  const condSel=(val,cb)=>{ const sl=sel(condOpts,val,cb); [...sl.options].forEach((op,i)=>{ if(condOpts[i].locked&&i!==val){ op.disabled=true; op.title=COND[i].lock==="rune"?"룬을 소켓에 끼운 장비를 착용하면 열립니다":"군단장 유물을 착용하면 열립니다"; }
-      if(((COND[i].res&&COND[i].res!==myRes)||(COND[i].cls&&COND[i].cls!==selected))&&i!==val){ op.hidden=true; op.disabled=true; } }); return sl; };   // 다른 직업 자원·전용 조건은 숨김(v0.93 연계·은신은 도적만)
+  const list=document.createElement("div"); list.className="rules rl2"; col.appendChild(list);
+  // v0.94 규칙 = 기술이 제목인 한 줄 · 누르면 그 자리에서 조건(종류 + 조절 칸)과 대상이 펼쳐짐
+  const myResOpts=cResOpts(selected), unl=DV.unlocks||[];
   const hits=ruleHits[selected]||{};
+  const skLabel=sid=>{ const s=SXr[sid]||SKILLS[sid]; return SKILLS[sid].name+(s.mp>0?` · 마나 ${s.mp}`:"")+(s.ammo?` · 탄 ${s.ammo}`:"")+(s.momCost?` · 기세 ${s.momCost}`:s.momAll||s.momMin?" · 기세 모두":"")+(s.resCost?` · 공명 ${s.resCost}`:"")+(s.type==="song"?" · 노래":""); };
+  const mkSel=(opts,val,cb,cls)=>{ const e=document.createElement("select"); if(cls) e.className=cls; for(const o of opts){ const op=document.createElement("option"); op.value=o.v; op.textContent=o.l; if(o.dis){ op.disabled=true; op.title=o.dis; } e.appendChild(op); } e.value=String(val); e.onchange=()=>cb(e.value); e.disabled=ro; return e; };
+  const mkStep=(val,unit,min,max,step,cb)=>{ const w=document.createElement("span"); w.className="rstep"; const m=document.createElement("button"), p=document.createElement("button"), v=document.createElement("i");
+    m.textContent="−"; p.textContent="+"; v.textContent=val+unit; m.disabled=ro||val<=min; p.disabled=ro||val>=max; m.setAttribute("aria-label","줄이기"); p.setAttribute("aria-label","늘리기");
+    m.onclick=()=>cb(Math.max(min,val-step)); p.onclick=()=>cb(Math.min(max,val+step)); w.append(m,v,p); return w; };
   const W=t=>{ const w=document.createElement("span"); w.className="w"; w.textContent=t; return w; };
-  rules.forEach((r,i)=>{
+  const lockTip=i=>COND[i]&&COND[i].lock==="relic"?"군단장 유물을 착용하면 열립니다":"룬을 소켓에 끼운 장비를 착용하면 열립니다";
+  // 조건 하나의 칸들
+  const condCtl=(key,set)=>{ const o=cParse(cKey(key)); const box=document.createElement("span"); box.className="rcond";
+    const up=f=>{ f(o); set(cJoin(o)); };
+    const kinds=CK.filter(([k])=>k!=="res"||myResOpts.length).map(([k,l])=>({v:k,l}));
+    box.appendChild(mkSel(kinds,o.t,v=>set(v==="res"?`res:${myResOpts[0]}:ge:${myResOpts[0]==="ammo"?2:3}`:CS_DEF[v]),"rkind"));
+    const yn=(arr,cur,f)=>box.appendChild(mkSel(arr,cur,v=>up(x=>f(x,v))));
+    switch(o.t){
+      case "hp": yn(Object.entries(CS_WHO).map(([v,l])=>({v,l})),o.who,(x,v)=>{ x.who=v; if(v==="foe"||v==="boss") x.res="hp"; });
+        if(o.who==="ally"||o.who==="foe"){ box.appendChild(mkStep(o.n,o.who==="ally"?"명":"마리",1,6,1,v=>up(x=>x.n=v))); box.appendChild(W("이상")); }
+        if(o.who==="me"||o.who==="ally"||o.who==="all") yn([{v:"hp",l:"체력"},{v:"mp",l:"마나"}],o.res,(x,v)=>x.res=v); else box.appendChild(W("체력"));
+        box.appendChild(mkStep(o.pct,"%",10,100,10,v=>up(x=>x.pct=v))); yn([{v:"le",l:"이하"},{v:"ge",l:"이상"}],o.cmp,(x,v)=>x.cmp=v); break;
+      case "foes": yn(Object.entries(CS_FW).map(([v,l])=>({v,l})),o.who,(x,v)=>{ x.who=v; x.n=Math.max(1,Math.min(v==="lane"?3:6,x.n)); }); box.appendChild(mkStep(o.n,o.who==="lane"?"줄":"마리",o.cmp==="le"?0:1,o.who==="lane"?3:6,1,v=>up(x=>x.n=v))); yn([{v:"ge",l:"이상"},{v:"le",l:"이하"}],o.cmp,(x,v)=>x.cmp=v); break;
+      case "fst": yn(Object.entries(CS_ST).map(([v,l])=>({v,l})),o.st,(x,v)=>{ x.st=v; x.stack=(v==="poison"?3:v==="chill"?2:0); });
+        if(o.st==="poison"||o.st==="chill") box.appendChild(mkStep(Math.max(1,o.stack),"중첩",1,o.st==="poison"?10:3,1,v=>up(x=>x.stack=v)));
+        box.appendChild(W("걸린 적"));
+        yn([{v:"0",l:"없음"},...[1,2,3,4,5,6].map(n=>({v:String(n),l:`${n}마리 이상`})),{v:"-1",l:"전부"+(o.st==="any"&&!unl.includes(39)?" 🔒":""),dis:o.st==="any"&&!unl.includes(39)&&o.n!==-1?lockTip(39):""}],String(o.n),(x,v)=>{ x.n=+v; x.cmp=+v===0?"le":"ge"; }); break;
+      case "ast": { const who=o.who; yn([{v:"me",l:"나"},{v:"ally",l:"아군"}],who,(x,v)=>{ x.who=v; x.st="debuff"; });
+        const L=Object.entries(CS_AST[who]).filter(([v])=>(v!=="stealth"&&v!=="nostealth")||selected==="rogue").map(([v,l])=>{ const li=CS_LOCK[`ast:${who}:${v}`]; const lk=li!=null&&!unl.includes(li); return {v,l:l.replace(/^(내가|내|아군이) /,"")+(lk?" 🔒":""),dis:lk&&o.st!==v?lockTip(li):""}; });
+        yn(L,o.st,(x,v)=>x.st=v); if(who==="ally"&&o.st==="debuff"){ box.appendChild(mkStep(o.n,"명",1,6,1,v=>up(x=>x.n=v))); box.appendChild(W("이상")); } break; }
+      case "res": if(myResOpts.length>1) yn(myResOpts.map(v=>({v,l:CS_RES[v][0]})),o.r,(x,v)=>{ x.r=v; x.n=v==="keg"?0:2; x.cmp=v==="keg"||v==="ammo"?"le":"ge"; });
+        if(o.r==="keg"){ box.appendChild(W("없음")); break; } box.appendChild(W(CS_RES[o.r][0])); box.appendChild(mkStep(o.n,"",0,CS_RES[o.r][1],1,v=>up(x=>x.n=v))); yn([{v:"ge",l:"이상"},{v:"le",l:"이하"}],o.cmp,(x,v)=>x.cmp=v); break;
+      case "turn": box.appendChild(mkStep(o.n,"턴",1,30,1,v=>up(x=>x.n=v))); yn([{v:"ge",l:"이후"},{v:"le",l:"까지"}],o.cmp,(x,v)=>x.cmp=v); break;
+      case "line": yn(Object.entries(CS_LINE).map(([v,l])=>{ const li=CS_LOCK[`line:${v}`]; const lk=li!=null&&!unl.includes(li); return {v,l:l+(lk?" 🔒":""),dis:lk&&o.o!==v?lockTip(li):""}; }),o.o,(x,v)=>x.o=v); break;
+      case "evt": yn(Object.entries(CS_EVT).map(([v,l])=>{ const li=CS_LOCK[`evt:${v}`]; const lk=li!=null&&!unl.includes(li); return {v,l:l+(lk?" 🔒":""),dis:lk&&o.o!==v?lockTip(li):""}; }),o.o,(x,v)=>x.o=v); break;
+    }
+    const li=cLockIdx(cJoin(o)); if(li>=0&&!unl.includes(li)){ const w=W("🔒 잠긴 조건 — "+lockTip(li)); w.classList.add("rlock"); box.appendChild(w); }
+    return box; };
+  // 예전 번호로 저장된 규칙은 보여 줄 때 문장으로 바꿈(38번은 두 조건으로)
+  const toSpec=r=>{ if(typeof r.c1!=="string"){ if((r.c1|0)===38){ r.c1="hp:me:1:hp:ge:80"; if(!(r.logic|0)){ r.logic=1; r.c2="foes:foe:2:ge"; } } else r.c1=cKey(r.c1); }
+    if(typeof r.c2!=="string") r.c2=(r.c2|0)===38?"hp:me:1:hp:ge:80":cKey(r.c2); };
+  const rowEls=[];
+  const drawRow=i=>{ const r=rules[i]; toSpec(r);
     if(!skills.includes(r.skill)){ r.skill=skills[0]; saveRules(); }
-    const row=document.createElement("div");
-    row.className="rule"+(r.enabled?"":" off")+(ro?" ro":"");
-    const rnum=document.createElement("div"); rnum.className="rnum";
+    const open=RULE_OPEN[selected]===i;
+    const row=document.createElement("div"); row.className="rl"+(r.enabled?"":" off")+(ro?" ro":"")+(open?" open":"");
+    const hd=document.createElement("div"); hd.className="rlh";
     const no=document.createElement("span"); no.className="no"; no.textContent=i+1;
-    const chk=document.createElement("input"); chk.type="checkbox"; chk.className="chk"; chk.checked=r.enabled; chk.title="이 규칙 사용";
+    const chk=document.createElement("input"); chk.type="checkbox"; chk.className="chk"; chk.checked=r.enabled; chk.title="이 규칙 사용"; chk.disabled=ro;
     chk.onchange=()=>{ r.enabled=chk.checked; if(r.enabled&&r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); saveRules(); renderRules(); };
-    rnum.append(no,chk);
-    const body=document.createElement("div"); body.className="rbody";
-    const l1=document.createElement("div"); l1.className="rline";
-    const c1=condSel(r.c1,v=>{r.c1=v;saveRules();}); c1.className="c1";
-    const c2=condSel(r.c2,v=>{r.c2=v;saveRules();}); c2.className="c2"+(r.logic===0?" hide":""); c2.disabled=r.logic===0;
-    const lg=sel(LOGIC_UI.map(l=>({label:l})),r.logic,v=>{r.logic=v;c2.disabled=v===0;c2.classList.toggle("hide",v===0);saveRules();}); lg.className="lg"; lg.title="조건을 하나 더 붙입니다";
-    l1.append(W("만약"),c1,lg,c2,W("이면"));
-    const l2=document.createElement("div"); l2.className="rline";
-    const arrow=document.createElement("span"); arrow.className="arrow"; arrow.textContent="→";
-    const sk=sel(skills.map(sid=>{ const s=SXr[sid]||SKILLS[sid]; return {label:SKILLS[sid].name+(s.mp>0?` · 마나 ${s.mp}`:"")+(s.ammo?` · 탄 ${s.ammo}`:"")+(s.momCost?` · 기세 ${s.momCost}`:s.momAll||s.momMin?" · 기세 모두":"")+(s.resCost?` · 공명 ${s.resCost}`:"")+(s.type==="song"?" · 노래":"")}; }),
-      Math.max(0,skills.indexOf(r.skill)), v=>{ r.skill=skills[v]; if(r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); saveRules(); renderRules(); });
-    sk.className="sk";   // v0.89 같은 기술은 한 칸만 — 다른 칸에서 쓰는 기술은 고를 수 없음(고르면 그 칸이 꺼짐)
-    [...sk.options].forEach((op,v)=>{ const sid=skills[v]; if(sid!==skills[0]&&sid!==r.skill&&rules.some((o,j)=>j!==i&&o.enabled&&o.skill===sid)) op.textContent+=" (다른 칸)"; });
-    const tg=document.createElement("select"); tg.className="tg";
-    const fillTg=()=>{ const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)){ r.target=T.opts[0].v; saveRules(); }
-      tg.innerHTML=""; for(const o of T.opts){ const op=document.createElement("option"); op.value=String(o.v); op.textContent=o.label; tg.appendChild(op); }
-      tg.value=String(r.target); tg.disabled=ro||T.opts.length<2; tg.title=T.hint; };
-    tg.onchange=()=>{ r.target=+tg.value; saveRules(); };
-    sk.addEventListener("change",fillTg); fillTg();
-    l2.append(arrow,sk,W("을(를)"),tg,W("에게"));
-    body.append(l1,l2);
-    if(ruleHitsSeen&&r.enabled){ const n=hits[i+1]||0; const st=document.createElement("div"); st.className="rstat "+(n?"hit":"zero");
-      st.textContent=n?`지난 던전에서 ${n}회 발동`:"지난 던전에서 한 번도 안 쓰임 — 조건이 맞은 적이 없거나 위 규칙이 먼저 걸렸어요"; body.appendChild(st); }
-    const mv=document.createElement("div"); mv.className="mv";
-    const up=document.createElement("button"); up.textContent="↑"; up.title="우선순위 올리기"; up.setAttribute("aria-label",`${i+1}번 규칙 위로`);
-    const dn=document.createElement("button"); dn.textContent="↓"; dn.title="우선순위 내리기"; dn.setAttribute("aria-label",`${i+1}번 규칙 아래로`);
-    up.onclick=()=>moveRule(i,-1); dn.onclick=()=>moveRule(i,1);
-    mv.append(up,dn);
-    if(ro) for(const x of [chk,c1,lg,c2,sk,tg,up,dn]) x.disabled=true;
-    row.append(rnum,body,mv);
-    list.appendChild(row);
-  });
+    const sk=mkSel(skills.map(sid=>({v:sid,l:skLabel(sid)+(sid!==skills[0]&&sid!==r.skill&&rules.some((o,j)=>j!==i&&o.enabled&&o.skill===sid)?" (다른 칸)":"")})),r.skill,v=>{ r.skill=v; if(r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)) r.target=T.opts[0].v; saveRules(); renderRules(); },"sk");
+    sk.onclick=e=>e.stopPropagation();
+    const sum=document.createElement("span"); sum.className="rsum"; sum.innerHTML=cLabel(r.c1,true)+((r.logic|0)?` <b class="lgw">${r.logic===1?"그리고":"또는"}</b> `+cLabel(r.c2,true):"");
+    const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)){ r.target=T.opts[0].v; saveRules(); }
+    const tgl=document.createElement("span"); tgl.className="rtg"; tgl.textContent=(T.opts.find(o=>o.v===r.target)||T.opts[0]).label;
+    const ar=document.createElement("b"); ar.className="rar"; ar.setAttribute("aria-hidden","true");
+    hd.append(no,chk,sk,sum,tgl,ar);
+    hd.onclick=e=>{ if(e.target.closest("select,input,button")) return; RULE_OPEN[selected]=open?-1:i; rowEls.forEach((_,j)=>redraw(j)); };
+    row.appendChild(hd);
+    if(open){ const bd=document.createElement("div"); bd.className="rlb";
+      const l1=document.createElement("div"); l1.className="rln"; l1.appendChild(W("조건"));
+      l1.appendChild(condCtl(r.c1,v=>{ r.c1=v; saveRules(); redraw(i); }));
+      if(r.logic|0){ l1.appendChild(mkSel([{v:"1",l:"그리고"},{v:"2",l:"또는"}],String(r.logic),v=>{ r.logic=+v; saveRules(); redraw(i); },"rlg"));
+        l1.appendChild(condCtl(r.c2,v=>{ r.c2=v; saveRules(); redraw(i); }));
+        const del=document.createElement("button"); del.className="radd"; del.textContent="－"; del.title="두 번째 조건 빼기"; del.disabled=ro; del.onclick=()=>{ r.logic=0; r.c2="al"; saveRules(); redraw(i); }; l1.appendChild(del); }
+      else if(!isAlw(r.c1)){ const add=document.createElement("button"); add.className="radd"; add.textContent="＋"; add.title="조건 하나 더(그리고·또는)"; add.disabled=ro; add.onclick=()=>{ r.logic=1; r.c2="foes:foe:2:ge"; saveRules(); redraw(i); }; l1.appendChild(add); }
+      const l2=document.createElement("div"); l2.className="rln"; l2.appendChild(W("대상"));
+      const tg=mkSel(T.opts.map(o=>({v:String(o.v),l:o.label})),String(r.target),v=>{ r.target=+v; saveRules(); redraw(i); },"tg"); tg.disabled=ro||T.opts.length<2; tg.title=T.hint; l2.appendChild(tg);
+      const mv=document.createElement("span"); mv.className="rmv"; for(const [t,d,lb] of [["↑",-1,"위로"],["↓",1,"아래로"]]){ const b=document.createElement("button"); b.textContent=t; b.title="우선순위 "+lb; b.setAttribute("aria-label",`${i+1}번 규칙 ${lb}`); b.disabled=ro||(d<0?i===0:i===rules.length-1); b.onclick=()=>{ RULE_OPEN[selected]=i+d; moveRule(i,d); }; mv.appendChild(b); }
+      l2.appendChild(mv);
+      const pv=document.createElement("div"); pv.className="rpv"; const nm=SKILLS[r.skill].name;
+      pv.textContent=!r.enabled?"꺼진 규칙 — 왼쪽 칸에 체크해야 씁니다.":isAlw(r.c1)&&!(r.logic|0)?`${nm}을(를) 늘 씁니다. 같은 효과가 남아 있거나 쓸 수 없으면 다음 규칙으로 넘어갑니다.`:`${cLabel(r.c1)}${(r.logic|0)?(r.logic===1?" 그리고 ":" 또는 ")+cLabel(r.c2):""}일 때 ${nm}을(를) 씁니다. 아니면 다음 규칙으로.`;
+      bd.append(l1,l2,pv);
+      if(ruleHitsSeen&&r.enabled){ const n=hits[i+1]||0; const st=document.createElement("div"); st.className="rstat "+(n?"hit":"zero"); st.textContent=n?`지난 던전에서 ${n}회 발동`:"지난 던전에서 한 번도 안 쓰임 — 조건이 맞은 적이 없거나 위 규칙이 먼저 걸렸어요"; bd.appendChild(st); }
+      row.appendChild(bd); }
+    return row; };
+  const redraw=i=>{ const n=drawRow(i); if(rowEls[i]) rowEls[i].replaceWith(n); rowEls[i]=n; };
+  rules.forEach((r,i)=>{ const n=drawRow(i); rowEls[i]=n; list.appendChild(n); });
   if(TUT.ruleLock(selected)){   // v0.33 규칙 교실: 아직 잠긴 칸
     for(let i=rules.length;i<heroRuleCountFull(selected);i++){ const row=document.createElement("div"); row.className="rule locked";
       row.innerHTML=`<div class="rnum"><span class="no">${i+1}</span></div><div class="rbody"><span class="w">🔒 아직 잠긴 칸 — 전투에서 이기면 '규칙 교실'에서 한 칸씩 열려요</span></div>`; list.appendChild(row); }
@@ -12888,7 +13047,7 @@ function makeNameCard(cid,edit){
     for(const s of SLOTS){ const it=findEquipped(cid,s.key); if(!it) continue; const E=ENH_SLOTS.includes(s.key)&&!it.noEnh?slotEnh(cid,s.key).l:0; g.fillStyle=col[it.mythic?"mythic":it.rarity]||"#aab3cf"; g.fillText(`${s.label}: ${E?"+"+E+" ":""}${itemLabel(it)}`,28,y); y+=16; if(y>H-30) break; }
     g.fillStyle="#f4c95d"; g.font="bold 13px sans-serif"; g.fillText("자동전투 규칙",330,186);
     g.fillStyle="#c7cfec"; g.font="12px sans-serif"; let y2=204;
-    partyRules[cid].filter(r=>r.enabled).slice(0,8).forEach((r,i)=>{ const t=`${i+1}. ${COND[r.c1].label}${r.logic===1?" + ":r.logic===2?" / ":""}${r.logic?COND[r.c2].label:""} → ${SKILLS[r.skill].name}`; g.fillText(t.length>40?t.slice(0,39)+"…":t,330,y2); y2+=16; });
+    partyRules[cid].filter(r=>r.enabled).slice(0,8).forEach((r,i)=>{ const t=`${i+1}. ${cLabel(r.c1)}${r.logic===1?" + ":r.logic===2?" / ":""}${r.logic?cLabel(r.c2):""} → ${SKILLS[r.skill].name}`; g.fillText(t.length>40?t.slice(0,39)+"…":t,330,y2); y2+=16; });
     g.fillStyle="#6f7da3"; g.font="11px sans-serif"; g.fillText(`프로젝트 나이트 · ${new Date().toLocaleDateString("ko-KR")}`,28,H-20);
     g.setTransform(1,0,0,1,0,0);
     if(edit){ cardEditor(cid,cv.toDataURL("image/png")); return; }   // v0.75 꾸미기: 스티커 없는 명함 위에서 끌어 옮김
@@ -12921,7 +13080,7 @@ function logAutoRule(cid,sid,ar){
   if(ar.failed&&TUT.ruleLock(cid)){ logLine(`<span class="r">📜 '${esc(SKILLS[sid].name)}'은(는) 규칙 교실을 마치면 빈 칸에 넣어 드려요.</span>`); return; }
   if(ar.failed){ logLine(`<span class="r">📜 ${esc(heroDisplayName(cid))}의 자동전투 규칙 칸이 꽉 차서 '${esc(SKILLS[sid].name)}'을(를) 넣지 못했습니다. 자동전투 탭에서 직접 넣어 주세요.</span>`); return; }
   const r=partyRules[cid][ar.pos-1];
-  logLine(`<span class="win">📜 ${esc(heroDisplayName(cid))} 자동전투 규칙 ${ar.pos}번에 '${esc(SKILLS[sid].name)}' 추가 — ${esc(COND[r.c1].label)} → ${esc(targetLabel(r,cid))}. (자동전투 탭에서 바꿀 수 있어요)</span>`);
+  logLine(`<span class="win">📜 ${esc(heroDisplayName(cid))} 자동전투 규칙 ${ar.pos}번에 '${esc(SKILLS[sid].name)}' 추가 — ${esc(cLabel(r.c1))} → ${esc(targetLabel(r,cid))}. (자동전투 탭에서 바꿀 수 있어요)</span>`);
 }
 // 예전 세이브: 이미 가진 전직·스킬북 스킬 중 규칙에 없는 것을 한 번만 채워 줌
 // v0.52: 주인공 규칙을 직업 기본 순서로. v0.50까지 규칙 교실이 칸을 하나씩 열며 순서를 바꿔 놓아(성직자: 축복이 맨 위 → 마나가 많으면 치유 대신 축복)
@@ -12933,7 +13092,7 @@ function protagDefaultRules(cid){ const basic=CLASSES[cid].skills[0];
 function autoRulePass(){
   try{ const cid=progress&&progress.protag&&progress.protag.cid;
     if(cid&&TUT.learning()) TUT.applyRules();
-    else if(cid&&(progress.rulesFixV|0)<2){ const en=(partyRules[cid]||[]).filter(r=>r.enabled); if(en.every(r=>isDefaultRule(cid,r)||(r.skill===CLASSES[cid].skills[0]&&r.c1===0&&!r.logic))) protagDefaultRules(cid); }
+    else if(cid&&(progress.rulesFixV|0)<2){ const en=(partyRules[cid]||[]).filter(r=>r.enabled); if(en.every(r=>isDefaultRule(cid,r)||(r.skill===CLASSES[cid].skills[0]&&isAlw(r.c1)&&!r.logic))) protagDefaultRules(cid); }
     if(progress&&progress.protag&&(progress.rulesFixV|0)<2){ for(const c of rosterIds()) if(isCompanion(c)){ partyRules[c]=companionRules(c); ensureRuleSlots(c); } saveRules(); }   // v0.91 동료 규칙을 새 규칙 표로
     if(progress&&progress.protag) progress.rulesFixV=2;
   }catch(e){}
@@ -13332,7 +13491,7 @@ function dpSetAct(a){ setAct(a); renderDungeonPicker(); }
 function bossInfoHTML(rk,a){ try{
   const MD=a<ACT_N?ACTS[rk][a-1].mid:null, key=MD?MD.key:REGIONS[rk].boss, B=MOBS[key]; if(!B||!B.rules) return "";
   const rows=B.rules.filter(r=>r.enabled!==false&&r.skill!=="basic_attack").map(r=>{ const S=skillSpec(r.skill); if(!S) return "";
-    const cond=COND[r.c1|0]?COND[r.c1|0].label:"항상", tg=S.tags.filter(t=>t.c==="tgt"||t.c==="rng").map(t=>t.t).join("·");
+    const cond=cLabel(r.c1), tg=S.tags.filter(t=>t.c==="tgt"||t.c==="rng").map(t=>t.t).join("·");
     const eff=[S.main].concat(S.rows.filter(x=>x.k==="st").map(x=>x.t)).filter(Boolean).join(" · ");
     return `<li><i>${esc(cond)}</i><b>${esc(S.name)}</b><span>${tg?`<em>${esc(tg)}</em> `:""}${esc(eff)}</span></li>`; }).join("");
   const small=innerHeight<=560;
@@ -14489,6 +14648,12 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"자동전투 규칙 새 화면", L:[
+    "자동전투 규칙 화면을 새로 만들었습니다. 한 줄의 제목이 쓸 기술이고, 줄을 누르면 그 자리에서 조건과 대상을 바꿉니다.",
+    "조건을 '종류 + 조절 칸'으로 바꿨습니다(체력·마나, 적 수, 적 상태, 나·아군 상태, 직업 자원, 턴, 진형, 전투 사건, 항상). 예: 아군 [2]명 이상 [체력] [50]% [이하]. 숫자는 −/+로 바꿉니다(체력·마나 10%씩).",
+    "새로 생긴 조건: 적 전열·후열 마릿수, 앞뒤로 겹친 적(일렬·관통 공격용), 아군 N명 이상 상태이상, N턴까지, 아군 마나, 적·보스 체력 '이상'.",
+    "숫자로 조절하는 조건은 누구나 씁니다(연계 0 · 8턴 이후 · 화상 걸린 적 2마리 등). 그래서 흐름 룬 · 브란도의 그을린 국자 · 운디르의 젖은 악보 · 카룸의 모래시계는 이제 능력치만 줍니다. 보호막 · 치명타 · 은신 아님 · 전열에 혼자 같은 상황 조건은 여전히 룬·유물로 열립니다.",
+    "저장된 규칙은 같은 뜻의 새 조건으로 그대로 옮겨집니다."]},
   {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
     "같은 효과가 아직 걸려 있으면 그 기술을 다시 쓰지 않는 규칙을 모든 지속 기술에 똑같이 적용했습니다(북돋는 선율도 이제 효과가 남은 아군에겐 안 씀). 그래서 따로 필요 없어진 '이 기술의 효과가 없음' 조건은 지웠고, 그 조건을 쓰던 규칙은 '항상'으로 바뀝니다.",
     "자동전투 탭의 스킬 목록을 한 줄 요약으로 바꿨습니다. 이름 · 대상 · 비용 · 핵심 효과가 한 줄에 보이고, 누르면 상태이상(주황) · 조건부 강화(초록) · 연계(보라) · 참고(회색) · 숙련이 펼쳐집니다. 수치는 금색으로 표시합니다.",
