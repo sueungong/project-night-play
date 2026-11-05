@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793863640126"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793864801040"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -14434,7 +14434,7 @@ async function openNotices(){
   const body=m.querySelector("#nBody");
   const showN=()=>{ body.innerHTML=`<div class="ncard pin"><div class="nh"><b>📌 테스트 안내</b></div>${TEST_NOTICE.map(x=>`<p>${x}</p>`).join("")}</div>`
       +(list.length?list.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t||"")}</b><span>${fmtDate(n.at)}</span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("")
-        :`<p class="msub">${N?"아직 운영 공지가 없어요.":"운영 공지는 휴대폰 주소(서버 연결)에서 보입니다."}</p>`); };
+        :`<p class="msub">${N?"아직 운영 공지가 없어요.":"운영 공지는 게임 주소(sueungong.github.io/project-night-play — PC·휴대폰)에서 보입니다."}</p>`); };
   const showU=()=>{ body.innerHTML=`<div class="news">${(document.getElementById("newsTpl")||{}).innerHTML||""}</div>`; };
   for(const b of m.querySelectorAll(".ntabs button")) b.onclick=()=>{ for(const x of m.querySelectorAll(".ntabs button")) x.classList.toggle("on",x===b); (b.dataset.t==="n"?showN:showU)(); };
   showN();
@@ -14502,7 +14502,7 @@ async function openOps(tab){
   m.querySelector("#mclose").onclick=closeModal;
   for(const b of m.querySelectorAll(".ntabs button")) b.onclick=()=>{ closeModal(); openOps(b.dataset.t); };
   const body=m.querySelector("#opBody");
-  if(!N){ body.innerHTML=`<p class="msub">운영 도구는 서버에 연결된 휴대폰 주소(sueungong.github.io/project-night-play)에서만 쓸 수 있어요.</p>`; return; }
+  if(!N){ body.innerHTML=`<p class="msub">운영 도구는 서버에 연결된 게임 주소 <b>sueungong.github.io/project-night-play</b>에서만 쓸 수 있어요(PC·휴대폰 모두). 지금 화면은 Claude 안 미리보기라 서버에 연결되지 않습니다 — 그 주소를 브라우저로 열고 Google로 로그인한 뒤 ⚙ 설정에서 관리자 코드를 다시 넣어 주세요.</p>`; return; }
   const srv=await N.ops.isAdmin(); if(!m.isConnected) return;
   if(!srv) m.querySelector("#opWarn").innerHTML=`<div class="ncard warn"><b>서버 관리자 등록이 필요해요</b><p>공지·우편을 쓰고 플레이어 기록·의견·오류를 읽으려면, Firebase 콘솔 → Realtime Database → 데이터에서 <code>admins</code> 아래에 내 계정 ID를 <code>true</code>로 한 번 넣어 주세요(Google로 로그인한 계정 권장).</p><p>내 계정 ID: <code id="opUid">${esc(N.ops.uid()||"")}</code> <button class="btn ghost" id="opCopy">복사</button></p></div>`;
   { const c=m.querySelector("#opCopy"); if(c) c.onclick=()=>fbCopy(N.ops.uid()||"").then(ok=>toast(ok?"계정 ID를 복사했어요":"복사하지 못했어요")); }
