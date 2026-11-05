@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793867854898"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793869830256"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1551,6 +1551,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
         <div class="dk-field"><span class="dk-cap">속도</span><div class="seg" id="speedSeg" role="group" aria-label="전투 속도"></div>
           <select id="speed" class="sr-only" aria-label="전투 속도"></select></div>
         <label class="dk-auto" title="구역을 마치면 '다음 구역' 버튼을 누르지 않아도 이어서 들어갑니다"><input type="checkbox" id="autoAdv"> <span class="long">구역 </span>자동<span class="long2"> 진행</span></label>
+        <label class="dk-auto dk-rep" title="막을 끝내면 같은 던전에 다시 들어갑니다(횃불이 떨어질 때까지)"><input type="checkbox" id="repOn" onchange="setRepeat(this.checked)"> 🔁 반복<b id="repN"></b></label>
         <button class="btn retreat" id="retreatBtn" hidden onclick="retreatRun()">후퇴</button>
         <button class="btn main" id="startBtn" onclick="mainButton()"><span class="mb1">▶ 던전 입장</span></button>
       </div>
@@ -3742,7 +3743,7 @@ const LIMITS=[
   ["세트 장비","세트마다 필요한 부위 수(4·5·6)와 부위 구성이 다릅니다 — 장비 칸 10개 중 세트가 쓰지 않는 칸은 전설 등으로 채웁니다. 효과 단계: 4부위 2/4 · 5부위 2/3/5 · 6부위 2/4/6(부위가 많은 세트일수록 완성 효과가 큼). 지역 세트 5종(달그림자 5 · 깊은 노래 6 · 황금 장부 5 · 태양의 잔해 6 · 별의 약속 5)은 그 장의 보스·중간보스, 연계 세트 3종(철주먹 서약 4 · 행진곡 4 · 사냥꾼의 과녁 5)은 자정·영원한 밤 장 보스(15%)에서. 전직 세트는 전직마다 2종(모두 36종 — 그 전직의 특성 두 갈래의 큰 효과를 세트로도 얻음, 특성과 같은 효과는 겹치지 않음) · 그 직업만 낄 수 있고 자정·영원한 밤 장 보스 20% · 중간보스·우두머리 10%(출전한 영웅 중 하나의 전직 세트). 새벽 교환소에서는 부위를 골라 살 수 있습니다(그 세트에 있는 부위만). 예전에 얻은 세트 조각은 지금 그 세트에 없는 부위라도 세트 개수로 셉니다(세트 부위 수까지)."],
   ["장비 성장","재련: 종류 바꾸기(정수 3+2×등급+재련 횟수) · 수치만(그 절반) · 한 줄 잠그고 전부(2배). 등급 올리기: 희귀→영웅 희귀 조각 3·정수 15, 영웅→전설 영웅 조각 5·정수 40(강화 단계 유지, 옵션 +1). 분해: 희귀·세트 → 희귀 조각 1, 영웅 → 영웅 조각 1, 전설 → 영웅 조각 2."],
   ["범위 기술","몬스터·보스 기술에는 범위 모양이 있습니다 — 가로줄 일렬(그 적과 같은 가로줄의 앞칸·뒷칸, 그 가로줄이 비어 있으면 영웅이 가장 많은 가로줄) · 십자(고른 한 명 + 같은 가로줄의 앞·뒷칸 + 같은 줄의 위아래 칸) · 가로줄 하나(아무 가로줄의 앞·뒷칸) · 앞줄 전체(앞줄이 비면 뒷줄 전체) · 뒷줄 전체(뒷줄이 비면 앞줄 전체) · 뒷줄 아무나 1명 · 뒷줄 체력 가장 많은 1명 · 앞줄 방어력 가장 높은 1명. 도발한 영웅이 있으면 가로줄·십자는 그 영웅을 중심으로, 한 줄 전체·한 명 기술은 그 영웅 한 명에게 갑니다(원거리는 절반만 끌려옴). 기를 모으는 동안 맞을 영웅이 빨갛게 표시됩니다. 보스는 늘 같은 가로줄에 서 있습니다."],
-  ["전투 속도","처음 깨는 막은 '조금 빠르게'(1.4×)까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 '빠르게'(2.2×)까지 쓸 수 있습니다. 정액·광고 30분 동안은 어디서나 '빠르게', 정액은 이미 깬 막에서 '매우 빠르게'(4.4×)도 씁니다."],
+  ["전투 속도","1배속 · 2배속 · 3배속 · 4배속. 처음 깨는 막은 2배속까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 3배속까지 쓸 수 있습니다. 정액·광고 30분 동안은 어디서나 3배속, 정액은 이미 깬 막에서 4배속도 씁니다."],
   ["직업 자원","권사 기세 최대 5(때리거나 맞을 때마다 +1) · 음유시인 공명 최대 10(내 노래가 걸려 있는 동안 매 턴 +2) · 총사 탄창 8발(무기·특성으로 바뀜, 0발이면 그 턴 자동 재장전) · 도적 연계 최대 5. 자원은 전투마다 처음부터 시작합니다."],
   ["노래","음유시인의 노래는 대상마다 3턴 동안 걸립니다. 같은 노래를 다시 부르면 남은 턴이 3턴으로 돌아가고, 서로 다른 노래는 함께 걸립니다. 음유시인이 쓰러져도 걸린 노래는 남은 턴까지 유지됩니다."],
   ["띄움·취약","띄움: 1~2턴, 회피·반격 불가, 가장 늦게 행동(보스는 띄울 수 없고 행동 순서만 밀림). 취약: 표적탄·발경·표적 각인·약점 간파·파편 수류탄·견제 찌르기 등이 걸고, 그 적이 받는 피해가 늘어나며(기술마다 10~25%, 겹치면 가장 큰 것 하나) 그 적에게는 치명타 확률 +10%p."],
@@ -7222,7 +7223,7 @@ function playFakeAd(kind,after){
     if(left<=0){ clearInterval(tick); const A=adsToday(); A[kind]++;
       if(kind==="torch"){ torchAdd(1); logLine(`<span class="gain">📺 광고 보상 — 횃불 +1 (오늘 ${A.torch}/${AD_DAILY.torch})</span>`); }
       else if(kind==="loot") adClaimLoot();
-      else if(kind==="fast"){ progress.adFastUntil=Math.max(progress.adFastUntil||0,Date.now())+AD_FAST_MS; logLine(`<span class="gain">📺 광고 보상 — 30분 동안 모든 전투에서 '빠르게' (${fmtWait(progress.adFastUntil-Date.now())} 남음)</span>`); speedRefresh(); }
+      else if(kind==="fast"){ progress.adFastUntil=Math.max(progress.adFastUntil||0,Date.now())+AD_FAST_MS; logLine(`<span class="gain">📺 광고 보상 — 30분 동안 모든 전투에서 3배속 (${fmtWait(progress.adFastUntil-Date.now())} 남음)</span>`); speedRefresh(); }
       saveProgress(); closeModal(); if(after) after(); } },1000);
   m.querySelector("#adStop").onclick=()=>{ clearInterval(tick); closeModal(); if(after) after(); };
 }
@@ -7291,7 +7292,7 @@ function gemShopBlock(){
   <div class="gscards">
     <div class="gscard packs"><h3>💎 새벽 결정 충전</h3><div class="gpacks">${GEM_PACKS.map(([w,g,b],i)=>`<button class="gpack" data-pk="${i}"><b>💎 ${(g+b).toLocaleString("ko-KR")}</b>${b?`<small>${g.toLocaleString("ko-KR")} + 덤 ${b.toLocaleString("ko-KR")}</small>`:"<small>&nbsp;</small>"}<span>${won(w)}</span></button>`).join("")}</div>${isAdmin()?`<div class="gsst">관리자: 누르면 결제 없이 시험 지급</div>`:""}</div>
     <div class="gscard sub${sub?" on":""}"><h3>🌙 30일 정액</h3>${sub?`<div class="gsst">사용 중 · ${subDaysLeft()}일 남음</div>`:""}
-      <ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 '빠르게' 상시 · 이미 깬 막은 '매우 빠르게'로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>가방 +${BAG_SUB}칸 (기본 ${BAG_BASE}칸)</li><li>매주 최종 콘텐츠 입장권 ${SUB_TICKETS}장</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>
+      <ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 3배속 상시 · 이미 깬 막은 4배속으로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>가방 +${BAG_SUB}칸 (기본 ${BAG_BASE}칸)</li><li>매주 최종 콘텐츠 입장권 ${SUB_TICKETS}장</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>
       <div class="gsbtns"><button class="btn" id="gsSub">${won(SUB_WON)} — ${sub?"30일 연장":"시작"}</button>${isAdmin()?`<button class="ghostbtn" id="gsSubAdm">관리자 시험 30일</button>`:""}</div></div>
     <div class="gscard pass${P.paid?" on":""}"><h3>🎟 아트 패스 — 시즌 ${P.season}</h3><div class="gsst">${lv}/${PASS_LEVELS}단계 · ${passDaysLeft()}일 남음 · ${P.paid?"유료 트랙 열림":"무료 트랙"}${passClaimable()?` · <b>받을 보상 ${passClaimable()}</b>`:""}</div>
       <div class="pbar"><i style="width:${Math.min(100,(P.xp%PASS_XP))}%"></i></div>
@@ -7300,7 +7301,7 @@ function gemShopBlock(){
     <div class="gscard ads"><h3>📺 광고</h3>
       <div class="adrow"><span>횃불 +1</span><small>오늘 ${A.torch}/${AD_DAILY.torch}</small><button class="btn" id="adTorch" ${adLeft("torch")?"":"disabled"}>보기</button></div>
       <div class="adrow"><span>마지막 돌파 금화 2배 + 보너스 장비</span><small>${lastRunClaimable()?`받을 수 있음 · 오늘 ${A.loot}/${AD_DAILY.loot}`:`막을 깬 뒤 24시간 안에 · 오늘 ${A.loot}/${AD_DAILY.loot}`}</small><button class="btn" id="adLoot" ${adLeft("loot")&&lastRunClaimable()?"":"disabled"}>보기</button></div>
-      <div class="adrow"><span>30분 동안 모든 전투 '빠르게'</span><small>${adFastOn()?`켜짐 · ${fmtWait(progress.adFastUntil-Date.now())} 남음`:`오늘 ${A.fast}/${AD_DAILY.fast}`}</small><button class="btn" id="adFast" ${adLeft("fast")?"":"disabled"}>보기</button></div></div>
+      <div class="adrow"><span>30분 동안 모든 전투 3배속</span><small>${adFastOn()?`켜짐 · ${fmtWait(progress.adFastUntil-Date.now())} 남음`:`오늘 ${A.fast}/${AD_DAILY.fast}`}</small><button class="btn" id="adFast" ${adLeft("fast")?"":"disabled"}>보기</button></div></div>
     <div class="gscard torch"><h3>🔥 횃불</h3><div class="gsst">💎 ${TORCH.gemCost} → 횃불 ${TORCH.gemGive}개</div><div class="gsbtns"><button class="btn" id="gsTorch">횃불 창 열기</button></div></div>
   </div>`;
   const q=s=>box.querySelector(s);
@@ -7598,7 +7599,7 @@ const COACH={
     {t:"등불 도시에 오신 걸 환영해요", x:()=>`${esc(progress.protag.name)}님, 여기는 밤과 싸우는 모험가들의 거점이에요. 화면을 한 곳씩 짚어 드릴게요. (언제든 '건너뛰기')`},
     {sel:".field", t:"전장", x:"왼쪽이 우리 파티, 오른쪽에서 적이 나타나요. 전투는 자동으로 진행되고, 여러분은 '규칙'으로 싸우는 방식을 정해요."},
     {sel:"#tab-dungeon", t:"던전", x:"누르면 갈 곳을 고르는 창이 열려요 — 난이도(황혼부터, 10장을 깨면 다음 난이도), 장(지역), 막(한 장은 5막, 5막 끝에 보스)을 차례로 고르고 '입장'. 깬 막은 다시 골라 반복 사냥할 수 있어요."},
-    {sel:"#fSpeed", t:"전투 속도", x:"전장 위 이 버튼을 누를 때마다 보통 → 조금 빠르게 → 빠르게 → 매우 빠르게로 바뀌어요. 전투 중에도 바꿀 수 있어요."},
+    {sel:"#fSpeed", t:"전투 속도", x:"전장 위 이 버튼을 누를 때마다 1배속 → 2배속 → 3배속 → 4배속으로 바뀌어요(쓸 수 있는 배속까지). 전투 중에도 바꿀 수 있어요."},
     {sel:"#torchChip,.fhgear", t:"🔥 횃불", x:`던전에 들어갈 때마다 1개를 써요. ${torchEvery()/60000}분마다 1개씩, 최대 ${torchMax()}개까지 저절로 차올라요. 지금은 배우는 중이라 들지 않아요!`},
     {sel:".rail", t:"메뉴", x:"파티, 장비, 상점, 특성, 자동전투, 도감, 함께하기. 처음 열 때마다 이렇게 안내해 드려요."},
     {sel:"#fNext", t:"던전으로", x:"준비가 되면 전장 아래 이 버튼(또는 왼쪽 '던전' 메뉴)! 갈 곳을 고르는 창이 열려요. 그 전에 이 게임에서 가장 중요한 '자동전투 규칙'부터 배워 볼게요."}]},
@@ -13047,7 +13048,7 @@ function setMainBtn(){
   if(progress){ renderDiffSeg(); renderSteps(); }
   // v0.35: 아래 조작대 대신 전장 위 — 진행 중 얻은 것 · 자동 진행 · '다음 구역' 버튼
   const fr=$("fRun"), fn=$("fNext"), coopRun=typeof COOP!=="undefined"&&COOP.run;
-  if(fr){ fr.hidden=!runState&&!coopRun; if(!fr.hidden){ const g=coopRun?COOP.run.gains:runState.gains; fr.innerHTML=`<span class="fg">경험치 <b>+${g.exp.toLocaleString("ko-KR")}</b> · 골드 <b>+${g.gold.toLocaleString("ko-KR")}</b> · 장비 <b>${g.items}</b></span>`+(coopRun?"":`<label class="fauto" title="구역을 마치면 자동으로 다음 구역에 들어갑니다"><input type="checkbox" ${autoAdv?"checked":""} onchange="setAutoAdv(this.checked)">자동 진행</label>`); } }
+  if(fr){ fr.hidden=!runState&&!coopRun; if(!fr.hidden){ const g=coopRun?COOP.run.gains:runState.gains; fr.innerHTML=`<span class="fg">경험치 <b>+${g.exp.toLocaleString("ko-KR")}</b> · 골드 <b>+${g.gold.toLocaleString("ko-KR")}</b> · 장비 <b>${g.items}</b></span>`+(coopRun?"":`<label class="fauto" title="구역을 마치면 자동으로 다음 구역에 들어갑니다"><input type="checkbox" ${autoAdv?"checked":""} onchange="setAutoAdv(this.checked)">자동 진행</label><label class="fauto" title="막을 끝내면 같은 던전에 다시 들어갑니다(횃불이 떨어질 때까지)"><input type="checkbox" class="repChk" ${REPEAT.on?"checked":""} onchange="setRepeat(this.checked)">🔁 반복${REPEAT.on&&REPEAT.n?` ${REPEAT.n}회`:""}</label>`); } }
   if(fn){ const town=!runState&&!playing&&!telling&&!coopRun&&!!progress&&!!progress.protag&&!onboardBusy;   // v0.41: 마을에서도 할 일이 보이게 — 던전 고르기 창을 엶
     const show=town||(!!runState&&!busy&&!coopRun&&!autoAdv&&!!runState.zones[runState.zone]&&runState.zone>0); fn.hidden=!show; fn.classList.toggle("go",town);
     if(show&&town){ const r=curRegion(); fn.innerHTML=egModeOf()?`${EG_MODES[egModeOf()].icon} ${esc(EG_MODES[egModeOf()].name)} ▶<small>던전 고르기</small>`:`던전으로 ▶<small>${esc(r.chapter)} ${esc(r.name)} · ${curAct()}막</small>`; }
@@ -13084,11 +13085,34 @@ function scheduleAuto(){
     enterZone(true); };
   setTimeout(tick, instantMode()?150:700);
 }
+/* v0.93 반복 전투: 막(또는 최종 콘텐츠)을 끝내면 같은 던전에 다시 들어감 — 횃불이 떨어지거나 · 가방이 차거나 · 직접 후퇴하거나 · (끄지 않았다면) 패배하면 멈춤 */
+const REPEAT={on:false, lose:safeGet("pn_rep_lose")==="1", n:0, tgt:null, last:null, t:null};
+function setRepeat(on){ REPEAT.on=!!on; if(!on){ REPEAT.n=0; clearTimeout(REPEAT.t); } else { if(!autoAdv) setAutoAdv(true); REPEAT.n=REPEAT.n||0; } renderRepeat(); if(on&&!runState) repeatToast(); }
+function setRepeatLose(on){ REPEAT.lose=!!on; safeSet("pn_rep_lose",REPEAT.lose?"1":"0"); renderRepeat(); }
+function renderRepeat(){ const c=$("repOn"); if(c) c.checked=REPEAT.on; const n=$("repN"); if(n) n.textContent=REPEAT.on&&REPEAT.n?` ${REPEAT.n}회`:""; for(const x of document.querySelectorAll(".repChk")) x.checked=REPEAT.on; for(const x of document.querySelectorAll(".repLose")) { x.checked=REPEAT.lose; x.closest("label").hidden=!REPEAT.on; } }
+function repeatToast(){ toast(`<span class="tc">🔁 반복 전투 켜짐</span>막을 끝내면 같은 던전에 다시 들어갑니다 — 횃불이 떨어지면 멈춰요.${REPEAT.lose?" 패배해도 계속합니다.":" 패배하면 멈춰요."}`,"",3200); }
+function repeatStop(why){ if(!REPEAT.on) return; REPEAT.on=false; clearTimeout(REPEAT.t); logLine(`<span class="r">🔁 반복 전투를 멈췄습니다 — ${why} (${REPEAT.n}회 반복)</span>`); toast(`<span class="tc">🔁 반복 전투 멈춤</span>${why}`,"",3600); REPEAT.n=0; renderRepeat(); }
+function repeatAfterRun(){
+  if(!REPEAT.on||!REPEAT.tgt) return;
+  if(REPEAT.last==="retreat") return repeatStop("직접 후퇴했어요");
+  if((REPEAT.last==="lose"||REPEAT.last==="draw")&&!REPEAT.lose) return repeatStop("패배했어요(⚙ 던전 창에서 '패배해도 계속'을 켜면 이어서 반복)");
+  clearTimeout(REPEAT.t); let waited=0;
+  const go=()=>{ if(!REPEAT.on) return; if(runState) return;
+    if(playing||telling||onboardBusy||$("modal")||TUT.busy){ waited++; if(waited>120) return repeatStop("다른 창이 열려 있어요"); REPEAT.t=setTimeout(go,1000); return; }
+    const T=REPEAT.tgt;
+    if(T.eg){ if(!egCanEnter(T.eg)) return repeatStop(`${EG_MODES[T.eg].name} 이번 주 입장을 다 썼어요`); progress.egMode=T.eg; }
+    else { progress.egMode=null; progress.diff=T.d; progress.lastRegion=T.rk; (progress.actSel=progress.actSel||{})[actKey(T.d,T.rk)]=T.act; try{ $("diffSel").value=String(T.d); }catch(e){} }
+    if(!torchCanEnter()) return repeatStop("횃불이 떨어졌어요");
+    if(bagOver()) return repeatStop(`가방이 가득 찼어요(${bagUsed()}/${bagCap()}칸)`);
+    REPEAT.n++; renderRepeat(); logLine(`<span class="zone">🔁 반복 전투 ${REPEAT.n}회째 — 다시 입장합니다</span>`);
+    mainButton(); };
+  REPEAT.t=setTimeout(go,1800); }
 function setAutoAdv(on){ autoAdv=!!on; const c=$("autoAdv"); if(c) c.checked=autoAdv; safeSet("pn_autoadv",autoAdv?"1":"0"); if(autoAdv&&runState&&!playing&&!telling) scheduleAuto(); try{ setMainBtn(); }catch(e){} }
 /* v0.32 전투 속도 4단계(일반) + 즉시(관리자 전용). tier: free 누구나 · paid 나중에 유료 상품 · admin 관리자만 */
-const SPEEDS=[{v:700,label:"보통",tier:"free"},{v:500,label:"조금 빠르게",tier:"free"},{v:320,label:"빠르게",tier:"cleared"},{v:160,label:"매우 빠르게",tier:"sub"},{v:0,label:"즉시",tier:"admin"}];
+const SPEEDS=[{v:700,label:"1배속",tier:"free"},{v:350,label:"2배속",tier:"free"},{v:233,label:"3배속",tier:"cleared"},{v:175,label:"4배속",tier:"sub"},{v:0,label:"즉시",tier:"admin"}];   // v0.93 1·2·3·4배속(예전 보통 700 · 조금 빠르게 500 · 빠르게 320 · 매우 빠르게 160)
+const SPEED_OLD={500:350,320:233,160:175};   // 예전에 저장된 속도 → 새 배속
 const SPEED_DEFAULT=320;
-const SPEED_SHORT={"보통":"1×","조금 빠르게":"1.4×","빠르게":"2.2×","매우 빠르게":"4.4×","즉시":"즉시"};   /* v0.93 실제 배율(700÷500·320·160)로 */   // v0.55.7: 전장 옆 작은 단추용
+const SPEED_SHORT={"즉시":"즉시"};   /* v0.93 배속 이름(1배속~4배속)을 그대로 씀 */   // v0.55.7: 전장 옆 작은 단추용
 const ADMIN={on:false};
 function isAdmin(){ return ADMIN.on; }
 function hasPaid(tier){ return false; }   // 유료 상품(나중): 결제한 속도 단계를 여기서 열어 줌
@@ -13107,7 +13131,7 @@ function buildSpeedOptions(){ const sel=$("speed"); if(!sel) return; const cur=s
   if(sel._sig===sig&&sel.options.length) return; sel._sig=sig; sel.innerHTML="";
   for(const o of SPEEDS){ if(!speedAllowed(o)) continue; const op=document.createElement("option"); op.value=String(o.v); op.textContent=o.label; sel.appendChild(op); }
   if(speedForced!=null&&![...sel.options].some(x=>x.value===speedForced)){ const o=SPEEDS.find(x=>String(x.v)===speedForced); const op=document.createElement("option"); op.value=speedForced; op.textContent=o?o.label:("점검 "+speedForced); sel.appendChild(op); }
-  const pref=safeGet("pn_speed")||String(SPEED_DEFAULT), want=speedForced!=null?speedForced:[...sel.options].some(x=>x.value===pref)?pref:(cur!==""?cur:pref);
+  let pref=safeGet("pn_speed")||String(SPEED_DEFAULT); if(SPEED_OLD[+pref]){ pref=String(SPEED_OLD[+pref]); safeSet("pn_speed",pref); } const want=speedForced!=null?speedForced:[...sel.options].some(x=>x.value===pref)?pref:(cur!==""?cur:pref);
   sel.value=[...sel.options].some(x=>x.value===want)?want:String(nearestSpeed(+want)); renderSpeedSeg(); try{ onSpeedChanged(); }catch(e){} }
 function nearestSpeed(v){ const ok=SPEEDS.filter(speedAllowed); if(!isFinite(v)) return SPEED_DEFAULT; let b=ok[0]; for(const o of ok) if(Math.abs(o.v-v)<Math.abs(b.v-v)) b=o; return isFinite(v)&&ok.length?b.v:SPEED_DEFAULT; }
 function setAdmin(on){ ADMIN.on=!!on; buildSpeedOptions(); if(!on&&instantMode()) setSpeed(SPEED_DEFAULT); }
@@ -13141,6 +13165,7 @@ function goCamp(){
   spawnField(campUnits());
   setMainBtn(); renderHud();
   setTimeout(()=>TUT.kick(),350);
+  if(had) repeatAfterRun();   // v0.93 반복 전투
 }
 /* ================= v0.35 던전 선택 창 ================= */
 // '던전'을 누르면: 진행 중이면 전장으로, 아니면 난이도 → 장 → 막을 차례로 고르는 창
@@ -13235,7 +13260,9 @@ function renderDungeonPicker(){
   }
   const free=torchFree(), tn=torchState().n;
   foot=`<div class="dpfoot"><span class="dpparty">${battleIds().map(c=>`<img src="${heroIcon(c)}" alt="" title="${esc(heroDisplayName(c))}">`).join("")}</span>
-    <label class="fauto"><input type="checkbox" ${autoAdv?"checked":""} onchange="setAutoAdv(this.checked)">구역 자동 진행</label><span class="spacer"></span>
+    <label class="fauto"><input type="checkbox" ${autoAdv?"checked":""} onchange="setAutoAdv(this.checked)">구역 자동 진행</label>
+    <label class="fauto" title="막을 끝내면 같은 던전에 다시 들어갑니다(횃불이 떨어질 때까지)"><input type="checkbox" class="repChk" ${REPEAT.on?"checked":""} onchange="setRepeat(this.checked)">🔁 반복 전투</label>
+    <label class="fauto" ${REPEAT.on?"":"hidden"}><input type="checkbox" class="repLose" ${REPEAT.lose?"checked":""} onchange="setRepeatLose(this.checked)">패배해도 계속</label><span class="spacer"></span>
     <span class="dptorch">${free?"🔥 무료":`🔥 1 사용 (남은 ${tn})`}</span><button class="btn main" onclick="dpEnter()"><span class="mb1">▶ 입장</span></button></div>`;
   box.innerHTML=`<div class="dphead"><h2>던전</h2><div class="dptabs">${tabs}</div><button class="ghostbtn" onclick="closeDungeonPicker()" aria-label="닫기">✕</button></div>${body}${foot}`;
 }
@@ -13272,10 +13299,11 @@ function startRun(){
     party:buildParty(), gains:{exp:0,gold:0,items:0}, chests:0, elites:0 };
   if(TUT.learning()&&d===0&&rk===REGION_KEYS[0]&&act===1) TUT.annotate(runState.zones);   // v0.70 규칙 교실은 1-1막 전투마다
   recRun("start");   // v0.93 플레이어 기록
+  REPEAT.tgt={d,rk,act}; REPEAT.last=null;
   $("log").innerHTML=""; logSink=null; curTurn=0;
   $("result").textContent=""; $("result").className="result";
   ruleHits={}; ruleHitsSeen=true; torchSpend("던전 입장"); runState.bank=runBankTake();
-  try{ const want=speedSubFastest()?160:speedRoomCleared()?320:0; if(want&&parseInt($("speed").value,10)>want) setSpeed(want); }catch(e){}   // v0.55.2: 이미 깬 막은 '빠르게'로 · v0.56: 정액이면 '매우 빠르게'
+  try{ const want=speedSubFastest()?175:speedRoomCleared()?233:0; if(want&&parseInt($("speed").value,10)>want) setSpeed(want); }catch(e){}   // v0.55.2: 이미 깬 막은 '빠르게'로 · v0.56: 정액이면 '매우 빠르게'
   passXpAdd(20,"던전 입장");
   spawnField([...runState.party]);   // v0.33: 입장하자마자 그 막 무대로(이야기 자막 동안 마을 모닥불이 남지 않게)
   showTab("dungeon"); setZoneLine(); renderHud();
@@ -13844,7 +13872,7 @@ function startEg(m){
   const bw=borrowModeOk(m)&&lendOn()&&progress.borrowSel&&progress.borrowSel.snap?progress.borrowSel:null;   // v0.67 빌린 영웅
   if(bw){ runState.eg.borrow={uid:bw.uid, nick:bw.nick, job:bw.job, lv:bw.lv, snap:bw.snap}; window.PNNet.lend.credit(bw.uid); }
   runState.party=refreshParty([]);   // v0.93 처음부터 출전 인원(최대 6) 그대로 — 적도 그 인원 기준
-  recRun("start");
+  recRun("start"); REPEAT.tgt={eg:m}; REPEAT.last=null;
   $("log").innerHTML=""; logSink=null; curTurn=0; $("result").textContent=""; $("result").className="result";
   ruleHits={}; ruleHitsSeen=true; torchSpend(EG_MODES[m].name); egEntryUse(m);
   spawnField([...runState.party]);
@@ -14333,7 +14361,7 @@ function openSettings(){
       <label class="msub" for="sndS">효과음 <input id="sndS" type="range" min="0" max="100" value="${Math.round(SND.st.sfx*100)}" style="vertical-align:middle"></label></div>
       <p class="msub">8비트 칩튠 — 마을 · 전투 · 보스(장엄) · 보스 광폭(체력 절반 아래). 위 막대의 🔊 버튼으로도 바로 끄고 켭니다.</p></div>
     <div class="sblock"><div class="slabel">전투 속도</div><div class="srow" id="spdSeg" style="display:flex;gap:6px;flex-wrap:wrap">${SPEEDS.filter(speedAllowed).map(o=>`<button class="btn ${$("speed").value===String(o.v)?"":"ghost"}" data-spd="${o.v}">${o.label}${o.tier==="admin"?" (관리자)":""}</button>`).join("")}</div>
-      <p class="msub">${isAdmin()?"관리자 모드 — 모든 속도(매우 빠르게 · 즉시 포함)를 쓸 수 있습니다.":"처음 깨는 막은 '조금 빠르게'까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 '빠르게'까지 쓸 수 있어요."}</p>
+      <p class="msub">${isAdmin()?"관리자 모드 — 모든 배속(4배속 · 즉시 포함)을 쓸 수 있습니다.":"처음 깨는 막은 2배속까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 3배속까지 쓸 수 있어요. 정액은 이미 깬 막에서 4배속."}</p>
       ${isAdmin()?`<div class="srow" style="margin-top:6px"><button class="btn" id="opsGo">🛠 운영 도구 — 공지 · 우편 · 플레이어 기록 · 의견 · 오류</button></div>`:`<div class="srow" style="display:flex;gap:6px;align-items:center;margin-top:6px"><input id="admCode" type="password" placeholder="관리자 코드" autocomplete="off" style="height:34px;flex:0 1 180px;min-width:0;background:var(--panel2);border:1px solid var(--line2);color:var(--ink);border-radius:8px;padding:0 10px"><button class="btn ghost" id="admGo">확인</button><span class="msub" id="admMsg"></span></div>`}</div>
     <div class="sblock"><div class="slabel">그래픽</div><div class="srow" id="gfxSeg" style="display:flex;gap:6px;flex-wrap:wrap">${[["auto","자동"],["high","높음"],["low","저사양"]].map(([k,l])=>`<button class="btn ${GFX.mode===k?"":"ghost"}" data-gfx="${k}">${l}</button>`).join("")}</div>
       <p class="msub">자동: 처음 몇 초 동안 재 보고 느리면 저사양으로 바꿉니다${GFX.mode==="auto"?` (지금 <b>${GFX.low?"저사양":"높음"}</b>)`:""}. 저사양: 초당 20장 · 화면 해상도 1배 · 그림자·흐림·앞쪽 날씨 끔 — 버벅이면 저사양으로 두세요.</p></div>
@@ -14391,6 +14419,8 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
   {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "전투 속도를 1배속 · 2배속 · 3배속 · 4배속으로 바꿨습니다(예전 보통 · 조금 빠르게 · 빠르게 · 매우 빠르게 → 4배속은 예전 '매우 빠르게'와 거의 같음). 처음 깨는 막은 2배속까지, 이미 깬 막은 3배속까지 씁니다.",
+    "🔁 반복 전투가 생겼습니다. 던전 창이나 전투 화면 위쪽에서 켜면 막을 끝낼 때마다 같은 던전에 다시 들어가고, 횃불이 떨어지면 멈춥니다. 패배하면 멈추고, '패배해도 계속'을 켜면 패배해도 이어서 반복합니다.",
     "게임 첫 화면이 생겼습니다. 게스트 또는 Google 계정으로 로그인하고, 한 번 로그인하면 다음부터는 자동으로 로그인됩니다.",
     "공지사항 · 📮 우편함 · 💬 의견 바로 보내기가 생겼고, 게임 오류는 자동으로 개발자에게 전달됩니다.",
     "새 게임은 9명 중 3명을 골라 시작하고 그중 1명이 주인공입니다. 황혼 1~6장을 처음 깰 때마다 남은 영웅 중 1명을 직접 골라 동료로 맞이합니다.",
@@ -14506,7 +14536,7 @@ try{ addEventListener("error",e=>errReport(`${(e.message||"오류").slice(0,300)
 // ---- 플레이어별 진행 기록(서버 players/<uid>): 막마다 입장·돌파·패배 수, 플레이 시간, 마지막 패배 ----
 function recOf(){ const R=progress.rec=progress.rec||{}; R.runs=R.runs||{}; R.play=R.play||0; return R; }
 function recKeyNow(){ if(!runState) return null; return runState.mode?("eg:"+runState.mode):`${runState.d}-${REGION_KEYS.indexOf(runState.regionKey)+1}-${runState.act}`; }
-function recRun(kind,extra){ try{ if(!progress) return; const k=recKeyNow(); if(!k) return; const R=recOf(), r=R.runs[k]=R.runs[k]||[0,0,0];
+function recRun(kind,extra){ REPEAT.last=kind==="clear"?"win":kind==="start"?null:kind; try{ if(!progress) return; const k=recKeyNow(); if(!k) return; const R=recOf(), r=R.runs[k]=R.runs[k]||[0,0,0];
   if(kind==="start") r[0]++; else if(kind==="clear") r[1]++; else { r[2]++; R.lastLose={k,z:String(extra||"").slice(0,60),at:Date.now()}; } }catch(e){} }
 function recKeyLabel(k){ if(k.startsWith("eg:")) return (EG_MODES[k.slice(3)]||{name:k}).name; const [d,c,a]=k.split("-"); return `${(DIFFS[+d]||{name:"?"}).name} ${c}장 ${a}막`; }
 let recPushAt=0;
