@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793898689217"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793901873099"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1444,7 +1444,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 @media (max-height:560px){ .gscards{grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:6px} .gscard{padding:8px; gap:5px} .gscard ul{font-size:12px} .pcell{flex-basis:80px; min-height:60px} }
 .lorelist{max-height:60vh;overflow:auto;display:flex;flex-direction:column;gap:6px;margin:8px 0}.lorepg{border:1px solid #3a3f66;border-radius:8px;padding:8px 10px;background:#141830}.lorepg summary{cursor:pointer;color:#d6b3ff}.lorepg p{margin:6px 0;line-height:1.6}.lorepg.locked{color:var(--muted)}.lorepg.locked small{margin-left:6px}button.lorebtn{background:#1f1a3a;color:#d6b3ff;border:1px solid #4a3f7a;border-radius:8px;padding:4px 10px;cursor:pointer}
 .bwlist{display:flex;flex-direction:column;gap:6px;max-height:46vh;overflow:auto}.bwrow{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid #3a3f66;border-radius:8px;padding:6px 10px;background:#141830}.bwrow.on{border-color:#d6b3ff}
-.eqquick{display:flex;gap:8px;justify-content:center;margin:6px 0;flex-wrap:wrap}.eqquick .btn{padding:6px 12px;font-size:13px}
+.eqquick{display:flex;flex-direction:column;gap:4px;align-items:stretch;width:100%;max-width:150px}.eqquick .btn{padding:5px 6px;font-size:12px;white-space:nowrap}
 .tutdots{display:flex;gap:5px;align-items:center;margin-left:10px}.tutdots i{width:8px;height:8px;border-radius:50%;background:#2a3352}.tutdots i.done{background:#8a7232}.tutdots i.on{background:var(--accent);box-shadow:0 0 0 3px #f4c95d33}
 .tutbig{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:17px;padding:12px 14px;margin:6px 0 10px;border-radius:12px;background:#221d0e;border:2px solid var(--accent)} .tutbig .w{color:var(--muted);font-size:15px} .tutbig .c{color:#d7ecff;background:#1d2f4a;border:1px solid #3b5f8f;border-radius:8px;padding:2px 10px} .tutbig .s{color:var(--accent);font-weight:800}
 .ubuffs{position:absolute; display:none; flex-direction:column; align-items:flex-end; gap:1px; z-index:45; pointer-events:none; white-space:nowrap} .ubuffs.rt{align-items:flex-start} .ubuffs.on{display:flex}
@@ -1543,7 +1543,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
       <button id="tab-equip" onclick="showTab('equip',1)" title="장비"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>장비<span class="nb up" id="eqDot" title="가방에 지금보다 더 좋은 장비가 있어요"></span></button>
       <button id="tab-shop" onclick="showTab('shop',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/></svg>상점</button>
       <button id="tab-traits" onclick="showTab('traits',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9M12 9L6 4M12 9l6-5M12 15l-5-3M12 15l5-3"/></svg>특성<span class="nb" id="traitDot"></span></button>
-      <button id="tab-rules" onclick="showTab('rules',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>자동전투</button>
+      <button id="tab-rules" onclick="showTab('rules',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>전투설정</button>
       <button id="tab-codex" onclick="showTab('codex',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-5a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h6z"/></svg>도감·증표</button>
       <button id="tab-coop" onclick="showTab('coop',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c0-3 3-5 6-5s6 2 6 5M14 15.5c.6-.3 1.3-.5 2-.5 3 0 6 2 6 5"/></svg>함께하기<span class="nb" id="coopDot"></span></button>
     </nav>
@@ -3430,7 +3430,7 @@ const WEAPONS={
   rifle:     { cls:"gunner", name:"장총",     desc:"치명타 피해 +25%, 적 뒷줄도 제 피해, 탄창 -2", two:true, mods:{ammo_add:-2, critdmg_add:0.25} },
   shotgun:   { cls:"gunner", name:"산탄총",   desc:"사격이 적 앞줄 전체에 50% · 적 뒷줄에게 피해 -20%", two:true, mods:{flags:["back_penalty"], skillMods:{shoot:{aoeFront:true,power:0.5}}} },
   /* v0.92 새 직업 */
-  shortbow:  { cls:"archer", name:"단궁",     desc:"기본. 연속 사격 발 수 +1 (4 → 5발)", mods:{skillMods:{ar_rapid:{multi:5}}} },
+  shortbow:  { cls:"archer", name:"단궁",     desc:"기본. 연속 사격 +1발 (4 → 5발)", mods:{skillMods:{ar_rapid:{multi:5}}} },
   longbow:   { cls:"archer", name:"장궁",     desc:"공격력 +15% — 보조 장비 불가", two:true, mods:{atk_mult:1.15} },
   crossbow:  { cls:"archer", name:"석궁",     desc:"치명타 피해 +25%, 공격력 -5%", mods:{atk_mult:0.95, critdmg_add:0.25} },
   lance:     { cls:"lancer", name:"장창",     desc:"기본. 꿰뚫기 위력 150 → 170%", mods:{skillMods:{ln_pierce:{power:1.7}}} },
@@ -3719,12 +3719,17 @@ const RUNES={
   r_shield: {name:"방패 룬",   cond:25, stat:{def:1}},
   r_crit:   {name:"섬광 룬",   cond:26, stat:{crit:1}},
   r_fall:   {name:"애도 룬",   cond:27, stat:{hp:10}},
-  r_full:   {name:"만월 룬",   cond:28, stat:{atk:1}},
-  r_lone:   {name:"결투 룬",   cond:29, stat:{critdmg:4}},
-  r_boss:   {name:"사냥 룬",   cond:30, stat:{pen:2}},
-  r_healthy:{name:"여유 룬",   cond:32, stat:{mp:6}},
-  r_combo:  {name:"흐름 룬",   cond:31, stat:{spd:1}},
+  r_full:   {name:"만월 룬",   cond:28, stat:{atk:1},     fx:{k:"rune_full",   v:0.04}},
+  r_lone:   {name:"결투 룬",   cond:29, stat:{critdmg:4}, fx:{k:"rune_lone",   v:0.04}},
+  r_boss:   {name:"사냥 룬",   cond:30, stat:{pen:2},     fx:{k:"rune_boss",   v:0.03}},
+  r_healthy:{name:"여유 룬",   cond:32, stat:{mp:6},      fx:{k:"rune_healthy",v:1}},
+  r_combo:  {name:"흐름 룬",   cond:31, stat:{spd:1},     fx:{k:"rune_gauge",  v:0.10}},
 };
+// v0.94 조건 해금이 사라진 룬의 고유 효과(등급 배율 m: 일반1·고급1.5·희귀2·영웅3·전설4·심연5)
+const RUNE_FX_TXT={rune_full:v=>`체력 100%일 때 주는 피해 +${Math.round(v*100)}%`, rune_lone:v=>`적이 1마리일 때 주는 피해 +${Math.round(v*100)}%`,
+  rune_boss:v=>`보스에게 주는 피해 +${Math.round(v*100)}%`, rune_healthy:v=>`아군 전원 체력 70% 이상이면 턴마다 마나 +${Math.round(v)}`, rune_gauge:v=>`전투 시작 행동 게이지 +${Math.round(v*100)}%`};
+function runeFx(k,rar,ab){ const R=RUNES[k]; if(!R||!R.fx) return null; const m=ab?5:(RUNE_RAR[rar]||RUNE_RAR.rare).m; return {k:R.fx.k, v:R.fx.v*m}; }
+function runeFxText(k,rar,ab){ const f=runeFx(k,rar,ab); return f?RUNE_FX_TXT[f.k](f.v):""; }
 const RUNE_KEYS=Object.keys(RUNES);
 // v0.38: 룬 등급 — 일반~전설. 높을수록 능력치가 큼(조건 해금은 같음). 소켓에는 "룬@등급"으로 저장(예전 저장 "룬"은 희귀)
 const RUNE_RAR={common:{w:44,m:1},fine:{w:30,m:1.5},rare:{w:17,m:2},epic:{w:7,m:3},legend:{w:2,m:4}};
@@ -3736,11 +3741,11 @@ function rollRuneRar(d){ const W=Object.entries(RUNE_RAR).map(([k,x],i)=>({key:k
 /* 군단장 유물 — 7군단장 각각의 유물. 그 군단장의 특기를 조건으로 연다 + 작은 패시브. 지역 보스에게서 드물게 */
 const RELICS={
   swamp:  {name:"뤼네의 달그림자 가면", cond:33, stat:{eva:4}, text:"회피 +4%"},
-  volcano:{name:"브란도의 그을린 국자", cond:52, stat:{atk:2}, text:"공격력 +2 · 화상 적 피해 +10%", flag:"relic_burn"},
-  sunken: {name:"운디르의 젖은 악보",   cond:35, stat:{regen:2}, text:"턴당 마나 +2"},
+  volcano:{name:"브란도의 그을린 국자", cond:52, stat:{atk:2}, text:"공격력 +2 · 화상 적에게 주는 피해 +20% · 내가 건 화상 +1턴", flag:"relic_burn"},
+  sunken: {name:"운디르의 젖은 악보",   cond:35, stat:{regen:2}, text:"턴당 마나 +2 · 8턴부터 주는 피해 +12%", flag:"relic_sheet"},
   forest: {name:"가라드의 나무 심장",   cond:36, stat:{def:3}, text:"방어력 +3"},
   gold:   {name:"펜로의 계산자",        cond:37, stat:{},      text:"골드 +15%", flag:"relic_gold"},
-  desert: {name:"카룸의 모래시계",      cond:38, stat:{spd:1}, text:"신속 +1"},
+  desert: {name:"카룸의 모래시계",      cond:38, stat:{spd:1}, text:"신속 +1 · 내 체력 80% 이상이면 주는 피해 +10%", flag:"relic_hourglass"},
   temple: {name:"솔바르의 검은 거울",    cond:39, stat:{res:6}, text:"상태이상 저항 +6%"},
 };
 /* v0.29 최종 콘텐츠 전용 성장 — 재료 2종(군단장의 혼 · 별의 정수)과 성장 3종(유물 각성 · 신화 무기 · 별자리 판)
@@ -3871,7 +3876,7 @@ const LIMITS=[
   ["레벨·각성","최고 레벨 40. 40에서 경험치가 다시 차면 각성 — 특성 포인트 +4. 각성은 횟수 제한 없이 계속할 수 있고, 할 때마다 특성 포인트를 줍니다."],
   ["퀘스트","왼쪽 메뉴의 📜 퀘스트 탭. 메인 의뢰는 황혼 1~10장마다 꼭 필요한 이야기 막 셋(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있습니다(모두 30개). 황혼에서 그 막을 처음 깨러 들어갈 때는 메인 의뢰를 받아야 하고(입장할 때 의뢰 창이 뜨면 [의뢰 받고 출발]), 앞 메인 의뢰를 보고해야 다음 메인 의뢰를 받을 수 있습니다. 막을 돌파한 뒤 보고하면 알게 된 이야기와 보상(1·3막: 그 장 일반 몹 평균 5마리분 경험치·골드 · 5막: 12마리분 + 밤의 정수 5×장 번호 + 희귀 장비 1개). 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막은 그 막 우두머리 이야기(받은 뒤 그 막 끝 우두머리를 쓰러뜨리기, 보상 5마리분), 그리고 막마다 몹 잡기 부탁(받은 뒤 그 장 그 막에서 정해진 몹 6~10마리, 어느 난이도든·정예 포함, 보상 4마리분 + 밤의 정수 장 번호, 5막은 희귀 장비 1개 더). 서브는 황혼에서 그 막이 열려 있으면 받을 수 있습니다. 받기·보고는 던전 밖에서 하고, 경험치는 그때 출전 중인 영웅마다 들어갑니다."],
   ["특성 포인트","전직(Lv10)부터 레벨마다 1점(Lv40에 31점) + 각성마다 4점 + 큰 별마다 1점. 특성은 가운데에서 서로 얽혀 뻗는 그물(영웅마다 215칸 — 직업 공통 갈래 3 + 고른 전직 갈래 2)이라, 이미 배운 칸과 이어진 칸만 배울 수 있습니다. 궁극은 갈래 끝 20개 중 3개까지."],
-  ["자동전투 규칙 칸","전직 전 3칸 · 전직 후 4칸. 칸마다 조건과 쓸 스킬을 정하고, 아무것도 안 맞으면 기본공격(칸을 차지하지 않음)."],
+  ["전투 규칙 칸","전직 전 3칸 · 전직 후 4칸. 칸마다 조건과 쓸 스킬을 정하고, 아무것도 안 맞으면 기본공격(칸을 차지하지 않음)."],
   ["장비 강화","최대 +15(심연 핵으로 연 부위는 +18). 단계가 오를수록 성공률이 낮아집니다."],
   ["보호막","한 사람이 가진 보호막은 최대 체력의 40%를 넘지 않습니다(모든 보호막 기술·특성 공통)."],
   ["반격","반격 확률은 최대 60%(반격의 왕 특성이 있으면 85%)."],
@@ -4008,7 +4013,7 @@ const ADV={
   archer:[
     { key:"gale_archer", name:"바람의 명궁", bonus:{atk:8,crit:5}, skill:"ar_thousand", extra:["ar_storm","ar_windread","ar_galepierce"],
       passive:"gale", passive_name:"바람결: 다단 히트 피해 +10%",
-      desc:"화살을 비처럼 쏟는 명궁. 대표 기술 '천 개의 화살'(적 전체 25% × 5발) · '폭풍 연사'(적 1명 40% × 7발) · '바람 읽기'로 다단 히트 발 수 +2" },
+      desc:"화살을 비처럼 쏟는 명궁. 대표 기술 '천 개의 화살'(적 전체 25% × 5발) · '폭풍 연사'(적 1명 40% × 7발) · '바람 읽기'로 여러 번 때리는 기술 +2발" },
     { key:"forest_hunter", name:"숲의 사냥꾼", bonus:{atk:5,hp:30}, skill:"ar_hound", extra:["ar_trap","ar_weakhunt","ar_vine"],
       passive:"hunt_instinct", passive_name:"사냥 본능: 전투에서 내가 처음 공격한 적에게 주는 피해 +15% (그 적이 쓰러지면 다음에 처음 공격한 적)",
       desc:"덫과 사냥개로 몰아 잡는 사냥꾼. 대표 기술 '사냥개 풀기'(3턴간 사냥개가 매 턴 사냥감을 공격, 공격력 80%) · '덫 놓기'(적 앞줄에 덫 — 그 줄 적이 행동하면 기절 1턴 + 100%, 1번 · 보스는 기절 10%)" } ],
@@ -4500,7 +4505,7 @@ const TRAITS2={
  ],
  archer:[
   BR("aa","🏹 연사","a",null,"atk crit cd spd",SM("가벼운 연속 사격",{sk:"ar_rapid",mp:-2}),[
-   [BG("빠른 시위","연속 사격 +1발","연속 사격 발 수 +1",{skmod:{sk:"ar_rapid",add:{multi:1}}}), SM("센 연속 사격",{sk:"ar_rapid",pow:0.1}), [
+   [BG("빠른 시위","연속 사격 +1발","연속 사격 +1발",{skmod:{sk:"ar_rapid",add:{multi:1}}}), SM("센 연속 사격",{sk:"ar_rapid",pow:0.1}), [
      [BG("연사 치명","연속 사격 치명 +10%p","연속 사격 치명타 확률 +10%p",{skmod:{sk:"ar_rapid",add:{critPlus:0.1}}}), SM("예리한 활쏘기",{sk:"ar_shot",add:{critPlus:0.05}}), UL("연사 숙달","연속 사격 +25%","연속 사격 위력 +25%",{skmod:{sk:"ar_rapid",pow:0.25}})],
      [BG("명사수","치명타 +8%","치명타 확률 +8%",{crit:8}), SM("연사 호흡",{sk:"ar_rapid",castmp:2}), UL("화살 소나기","치명타 시 50% 추가타","치명타를 맞히면 기본공격 50%로 한 번 더",{flag:"crit_followup"})]]],
    [BG("센 활쏘기","활쏘기 +20%","활쏘기(기본공격) 위력 +20%",{skmod:{sk:"ar_shot",pow:0.2}}), SM("활쏘기 호흡",{sk:"ar_shot",castmp:2}), [
@@ -4515,23 +4520,23 @@ const TRAITS2={
      [NB.boss_slayer("큰 사냥감"), SM("꿰뚫는 집중",{sk:"ar_pierce",add:{critPlus:0.08}}), UL("정예 사냥","정예·보스 +15%","정예·우두머리·보스에게 주는 피해 +15%",{flag:"elite_hunter"})]]]]),
   BR("av","🧪 상태 화살","p",null,"atk crit spd hp",SM("가벼운 독 화살",{sk:"ar_venom",mp:-3}),[
    [BG("맹독 화살촉","독 화살 독 60%","독 화살 발마다 독 확률 40→60%",{skmod:{sk:"ar_venom",add:{poisonCh:0.2}}}), SM("센 독 화살",{sk:"ar_venom",pow:0.1}), [
-     [BG("독 연사","독 화살 +1발","독 화살 발 수 +1 (3 → 4발)",{skmod:{sk:"ar_venom",add:{multi:1}}}), SM("독 화살 호흡",{sk:"ar_venom",castmp:2}), UL("지독한 독","독 피해 +30%","내가 건 독의 지속 피해 +30%",{flag:"venom_potent"})],
+     [BG("독 연사","독 화살 +1발","독 화살 +1발 (3 → 4발)",{skmod:{sk:"ar_venom",add:{multi:1}}}), SM("독 화살 호흡",{sk:"ar_venom",castmp:2}), UL("지독한 독","독 피해 +30%","내가 건 독의 지속 피해 +30%",{flag:"venom_potent"})],
      [BG("독 사냥","독 적 +15%","독에 걸린 적에게 주는 피해 +15%",{flag:"venom_hunter"}), SM("가벼운 독 화살",{sk:"ar_venom",mp:-2}), UL("독 묻은 화살","공격 30% 독 1","공격할 때 30% 확률로 독 1중첩",{flag:"venom_edge"})]]],
    [BG("단단한 매듭","묶는 화살 기절 35%","묶는 화살 기절 확률 25→35%",{skmod:{sk:"ar_bind",add:{"stun.chance":0.1}}}), SM("센 묶는 화살",{sk:"ar_bind",pow:0.1}), [
      [BG("기절 추격","기절한 적 아군 치명 +10%p","기절한 적에게 아군 치명타 +10%p",{flag:"stun_crit"}), SM("묶는 화살 호흡",{sk:"ar_bind",castmp:3}), UL("묶는 화살 숙달","묶는 화살 +25%·띄움 +1턴","묶는 화살 위력 +25%, 띄운 적의 띄움 연장 1→2턴",{skmod:{sk:"ar_bind",pow:0.25,add:{airExt:1}}})],
      [BG("공중 사냥","띄운 적 +20%","띄운 적에게 주는 피해 +20%",{flag:"air_chase"}), SM("가벼운 묶는 화살",{sk:"ar_bind",mp:-3}), UL("제압 사격","기절·띄운 적 +15%","기절·띄운 적에게 주는 피해 +15%",{flag:"cc_hunter"})]]]]),
   BR("aw","🌪 질풍","a","gale_archer","atk crit cd spd",SM("가벼운 천 개의 화살",{sk:"ar_thousand",mp:-4}),[
-   [BG("화살 폭우","천 개의 화살 +1발","천 개의 화살 발 수 +1 (5 → 6발)",{skmod:{sk:"ar_thousand",add:{multi:1}}}), SM("센 천 개의 화살",{sk:"ar_thousand",pow:0.1}), [
+   [BG("화살 폭우","천 개의 화살 +1발","천 개의 화살 +1발 (5 → 6발)",{skmod:{sk:"ar_thousand",add:{multi:1}}}), SM("센 천 개의 화살",{sk:"ar_thousand",pow:0.1}), [
      [BG("광역 숙련","광역 +20%","적 전체를 치는 광역 공격(천 개의 화살 등) 피해 +20%",{flag:"aoe_amp"}), SM("천 개의 화살 호흡",{sk:"ar_thousand",castmp:4}), UL("천 개의 화살 숙달","천 개의 화살 +25%","천 개의 화살 위력 +25%",{skmod:{sk:"ar_thousand",pow:0.25}})],
-     [BG("화살비 숙련","화살비 +2발","화살비 발 수 +2 (6 → 8발)",{skmod:{sk:"ar_rain",add:{hits:2}}}), SM("가벼운 화살비",{sk:"ar_rain",mp:-3}), UL("집중 낙하","같은 적 3발째부터 +30%","화살비가 같은 적에게 3발째 떨어질 때부터 피해 +30%",{flag:"meteor_focus"})]]],
-   [BG("폭풍의 눈","폭풍 연사 +1발","폭풍 연사 발 수 +1 (7 → 8발)",{skmod:{sk:"ar_storm",add:{multi:1}}}), SM("센 폭풍 연사",{sk:"ar_storm",pow:0.1}), [
+     [BG("화살비 숙련","화살비 +2발","화살비 +2발 (6 → 8발)",{skmod:{sk:"ar_rain",add:{hits:2}}}), SM("가벼운 화살비",{sk:"ar_rain",mp:-3}), UL("집중 낙하","같은 적 3발째부터 +30%","화살비가 같은 적에게 3발째 떨어질 때부터 피해 +30%",{flag:"meteor_focus"})]]],
+   [BG("폭풍의 눈","폭풍 연사 +1발","폭풍 연사 +1발 (7 → 8발)",{skmod:{sk:"ar_storm",add:{multi:1}}}), SM("센 폭풍 연사",{sk:"ar_storm",pow:0.1}), [
      [BG("폭풍 치명","폭풍 연사 치명 +10%p","폭풍 연사 치명타 확률 +10%p",{skmod:{sk:"ar_storm",add:{critPlus:0.1}}}), SM("가벼운 폭풍 연사",{sk:"ar_storm",mp:-3}), UL("폭풍 숙달","폭풍 연사 +25%","폭풍 연사 위력 +25%",{skmod:{sk:"ar_storm",pow:0.25}})],
      [NB.high_focus("고요한 조준"), SM("폭풍 호흡",{sk:"ar_storm",castmp:3}), UL("명궁의 눈","치명타 피해 +30%","치명타 피해 +30%",{critdmg:30})]]]]),
   BR("ag","🍃 바람길","s","gale_archer","hp eva spd crit",SM("가벼운 바람 읽기",{sk:"ar_windread",mp:-3}),[
    [BG("긴 바람","바람 읽기 +1턴","바람 읽기 지속 2→3턴",{skmod:{sk:"ar_windread",dur:1}}), SM("바람 읽기 호흡",{sk:"ar_windread",castmp:3}), [
      [NB.ranged_guard("바람막이"), SM("튼튼한 바람 읽기",{sk:"ar_windread",selfhp:0.04}), UL("바람의 걸음","회피 +6%","회피 +6%",{eva:6})],
      [NB.self_regen("바람 숨결"), SM("가벼운 꿰뚫는 바람",{sk:"ar_galepierce",mp:-3}), UL("흔들림 없는 시위","체력 70% 이상 피해 -15%","내 체력 70% 이상일 때 받는 피해 -15%",{flag:"steady"})]]],
-   [BG("꿰뚫는 바람 숙련","꿰뚫는 바람 +1발","꿰뚫는 바람 발 수 +1 (3 → 4발)",{skmod:{sk:"ar_galepierce",add:{multi:1}}}), SM("센 꿰뚫는 바람",{sk:"ar_galepierce",pow:0.1}), [
+   [BG("꿰뚫는 바람 숙련","꿰뚫는 바람 +1발","꿰뚫는 바람 +1발 (3 → 4발)",{skmod:{sk:"ar_galepierce",add:{multi:1}}}), SM("센 꿰뚫는 바람",{sk:"ar_galepierce",pow:0.1}), [
      [BG("엎드려 쏘기","광역 피해 -25%","광역 공격으로 받는 피해 -25%",{flag:"aoe_guard"}), SM("꿰뚫는 바람 호흡",{sk:"ar_galepierce",castmp:3}), UL("바람의 장막","위기 시 1회 은신","체력 35% 아래로 떨어지면 1회 자동 은신(2턴)",{flag:"vanish"})],
      [NB.last_ward("마지막 바람"), SM("꿰뚫는 바람 집중",{sk:"ar_galepierce",add:{critPlus:0.08}}), UL("질긴 명궁","체력 +8%·회피 +4%","체력 +8%, 회피 +4%",{hp_pct:0.08,eva:4})]]]]),
   BR("ah","🐺 사냥개","a","forest_hunter","atk crit cd hp",SM("가벼운 사냥개",{sk:"ar_hound",mp:-4}),[
@@ -5385,12 +5390,12 @@ function skillSpec(sid,sx){
       else if(s.buff==="clone") main=`${s.duration}턴간 내 공격이 한 번 더 (${P(s.value)}%)`;
       else if(s.buff==="evade"){ main=`${s.duration}턴간 회피 +${P(s.value)}%`; R("if",`피하면 → 기세 +${s.momGain||2}`); }
       else if(s.buff==="cover"){ main=`${s.duration}턴간 아군을 친 적에게 자동 사격 ${P(s.power||0.7)}%`; R("etc",`턴당 ${s.n||2}번까지 · 탄 안 씀`); }
-      else if(s.buff==="windread") main=`${s.duration}턴간 다단 히트 기술 발 수 +${s.value}`;
+      else if(s.buff==="windread") main=`${s.duration}턴간 여러 번 때리는 기술이 ${s.value}번 더 때림`;
       else if(s.buff==="hound"){ const hn=s.n||3; main=`${hn}턴간 사냥개가 매 턴 사냥감을 공격 (공격력 ${P(s.power||0.8)}%)`; R("etc",`쓸 때 한 번 + 다음 ${hn-1}턴 동안 턴 시작마다 한 번 (모두 ${hn}번)`); R("etc","사냥감이 없으면 체력 비율이 가장 낮은 적"); }
       else if(s.buff==="ctrdmg"){ main=`${s.duration}턴간 반격 피해 +${P(s.value)}%`; R("etc","반격 확률은 따로(창벽·특성·장비) · 거리 두기 반격에도"); }
       else main=s.name; break;
     case "foebuff": tags.push({c:"tgt",t:s.aoe?"적 여럿":"적 1명"});
-      if(s.buff==="sigil"){ main=`적 1명에 낙인 · ${s.duration}턴`; R("ln",`아군이 그 적을 칠 때마다 → 친 아군 체력 ${P(s.value)}% 회복`); }
+      if(s.buff==="sigil"){ main=`적 1명에 낙인 ${s.duration}턴 — 그 적을 친 아군은 체력 ${P(s.value)}% 회복`; }
       else if(s.buff==="decay"){ main=`독 걸린 적 모두 ${s.duration}턴간 받는 피해 + (독 중첩당 ${P(s.value)}%)`; R("etc","독 걸린 적 필요"); }
       else if(s.buff==="prey"){ main=`적 1명을 사냥감으로 지정 · ${s.duration}턴`; R("ln",`그 적이 다단 히트를 한 발 맞을 때마다 받는 피해 +${P(s.value)}% (최대 +${P(s.cap||0.3)}% · 누가 쳐도)`); R("etc","사냥감은 한 명 — 아직 남아 있으면 다시 걸지 않음"); }
       else main=s.name; break;
@@ -5401,7 +5406,7 @@ function skillSpec(sid,sx){
     case "laugh": main=`아군 전체 기절·공포 해제 + 1턴간 그 둘 면역`; tags.push({c:"tgt",t:"아군 전체"}); R("etc","기절한 아군이 있을 때만"); break;
     case "taunt": main=`적 전체의 공격을 나에게 끌어옴 · ${s.duration}턴`; tags.push({c:"tgt",t:"적 전체"}); R("etc","원거리 공격은 절반만 끌려옴 · 한 줄·십자 같은 범위 공격도 나를 노림 · 적 전체를 한꺼번에 치는 광역 공격은 못 막음"); if(s.markExt) R("if","취약한 적이 있으면 → 1턴 더"); break;
     case "breathe": main=`기세를 모두 써서 회복`; tags.push({c:"tgt",t:"자신"}); R("if",`기세 1당 → 체력 ${P(s.value)}% 회복`); R("etc",`내 상태이상 1개 해제`); break;
-    case "stance": main=`${s.name} · ${s.duration}턴${s.value?` · 받는 피해 -${P(s.value)}%`:""}`; tags.push({c:"tgt",t:"자신"}); R("etc","그동안 도발"); R("if",`공격받을 때마다 → ${P(s.power)}% 반격`); if(s.value) R("etc","받는 피해 감소는 겹치지 않음(가장 큰 것 하나)"); break;
+    case "stance": main=`${s.duration}턴간 도발${s.value?` · 받는 피해 -${P(s.value)}%`:""} · 맞을 때마다 ${P(s.power)}% 반격`; tags.push({c:"tgt",t:"자신"}); if(s.value) R("etc","받는 피해 감소는 겹치지 않음(가장 큰 것 하나)"); break;
     case "reload": main=`탄창을 가득 채움`; tags.push({c:"tgt",t:"자신"}); R("etc","다음 사격 피해 +30%"); break;
     case "aim": main=`쏘지 않고 조준 최대 · 탄창 가득`; tags.push({c:"tgt",t:"자신"}); break;
     case "trap": main=`적 앞줄(없으면 뒷줄)에 덫 설치`; tags.push({c:"tgt",t:"적 한 줄"}); R("if",`그 줄 적이 행동하려 하면 → 공격력 ${P(s.power)}% + 기절 1턴 (한 번 · 보스는 기절 10%)`); R("etc","덫은 터질 때까지 남음 · 한 줄에 하나 · 기절이 풀리면 3턴간 다시 기절하지 않음"); break;
@@ -5412,9 +5417,9 @@ function skillSpec(sid,sx){
     case "charge": main=`아군 1명이 곧바로 한 번 더 행동`; tags.push({c:"tgt",t:"아군 1명"}); break;
     case "allout": main=`다른 아군 전원이 곧바로 기본공격`; tags.push({c:"tgt",t:"아군 전체"}); R("if","취약한 적이 있으면 → 그 적에게"); break;
     case "debuff": tags.push({c:"tgt",t:s.one?"적 1명":"적 전체"});
-      if(s.stunAll){ main="적 전체에 기절"; R("st",`기절 ${P(s.stunAll.chance)}% 확률 · 1턴 (보스 ${P(s.stunAll.boss)}%)`); }
-      else if(s.fearAll){ main="적 전체에 약화"; R("st",`약화(공격력 -25%) ${s.fearAll>=1?"확정":P(s.fearAll)+"% 확률"} · 2턴`); }
-      else if(s.blindAll){ main="적 전체에 약화"; R("st",`약화(공격력 -20%) ${P(s.blindAll)}% 확률 · 2턴`); }
+      if(s.stunAll){ main=`적 전체 ${P(s.stunAll.chance)}% 확률로 기절 1턴`; R("st",`보스는 기절 ${P(s.stunAll.boss)}%`); }
+      else if(s.fearAll){ main=`적 전체 약화(공격력 -25%) ${s.fearAll>=1?"확정":P(s.fearAll)+"% 확률"} · 2턴`; }
+      else if(s.blindAll){ main=`적 전체 ${P(s.blindAll)}% 확률로 약화(공격력 -20%) · 2턴`; }
       else if(s.poisonAll){ main=`적 전체에 독 ${s.poisonAll}중첩`; }
       else if(s.weak){ main=`${s.one?"적 1명":"적 전체"} 약화(공격력 -${P(-s.weak.value)}%) · ${s.weak.turns}턴`; if(s.coldAll) R("st",`냉기 ${s.coldAll}중첩`); }
       else if(s.coldAll){ main=`${s.one?"적 1명":"적 전체"} 냉기 ${s.coldAll}중첩 (피해 없음)`; }
@@ -5467,6 +5472,7 @@ class Sim {
     this.seed=seed>>>0; this.rand=mulberry32(this.seed);
     for(const u of this.units){ u.buffs={}; u.dots={}; u.taunted_by=""; u._half=false; u._saidDefeat=false;
       u._lampUsed=false; u._undyingUsed=false; u._iceUsed=false; u._acted=false; if(!u.traits) u.traits={};
+      if(u.traits.rune_gauge) u._ag=(u._ag||0)+u.traits.rune_gauge;   // v0.94 흐름 룬: 전투 시작 행동 게이지
       u.shield=(u.startShield?Math.floor(u.hp_max*u.startShield):0)+(u.traits&&u.traits.reso_shield?Math.floor(u.hp_max*0.03*u.traits.reso_shield):0); u._rampage=0; u._angelUsed=false; u._kills=0; u._countering=false; u._fell=false; u._ledger=0; u._starUsed=false;
       u._combo=0; u._coat=0; u._vanishUsed=false; u._comboKill=0; u._restealth=false; u._critCombo=0; u._oathHit=false; u._oathDone=false; u._kingStk=0;
       u._killsTotal=0; u._bossKills=0; u._critsTotal=0; u._healDone=0; u._dmgTaken=0; u._counters=0; u._lastCrit=false; u._critNow=false;
@@ -5873,7 +5879,12 @@ class Sim {
     const sneak=skill.type==="damage"&&!!(att.buffs&&att.buffs.stealth);
     if(isAoe(skill)&&T0.aoe_mult) base*=T0.aoe_mult;
     if(isSk(skill)&&T0.skill_amp) base*=1+T0.skill_amp;
-    if(T0.relic_burn&&def.dots&&def.dots.burn) base*=1.1;
+    if(T0.relic_burn&&def.dots&&def.dots.burn) base*=1.2;
+    if(T0.relic_sheet&&this.turn>=8) base*=1.12;
+    if(T0.relic_hourglass&&att.hp>=att.hp_max*0.8) base*=1.1;
+    if(T0.rune_full&&att.hp>=att.hp_max) base*=1+T0.rune_full;
+    if(T0.rune_lone&&this.units.filter(x=>x.alive&&x.side!==att.side).length===1) base*=1+T0.rune_lone;
+    if(T0.rune_boss&&(def.boss||def.isBossKind)) base*=1+T0.rune_boss;
     for(const ca of (att.condAffixes||[])){
       if(ca.k==="c_turn3_atk"&&this.turn>=3) base*=1+ca.v/100;
       if(ca.k==="c_fullhp_dmg"&&att.hp>=att.hp_max) base*=1+ca.v/100;
@@ -6248,7 +6259,7 @@ class Sim {
   setBurn(att,t,ratio,label,fx,turns=2){
     if(!t.alive) return;
     if(this.resisted(t,fx,"화상")) return;
-    t.dots.burn={dmg:Math.max(1,Math.floor(att.atk*ratio*this.dotAmp(att,"burn"))),turns:turns+((att.gx&&att.gx.burn_turn)||0),label:"화상",src:att.id};
+    t.dots.burn={dmg:Math.max(1,Math.floor(att.atk*ratio*this.dotAmp(att,"burn"))),turns:turns+((att.gx&&att.gx.burn_turn)||0)+(att.traits&&att.traits.relic_burn?1:0),label:"화상",src:att.id};
     fx.push(this.fxBuff(t,label)); this.onDebuff(att,t,"burn");
   }
   poisonMax(att){ return 5+(this.hasPassive(att,"venom_master")?3:0)+((att.traits&&att.traits.venom_feast)?3:0); }
@@ -6681,7 +6692,7 @@ class Sim {
     // v0.85 피의 계약·광기: 마나 대신 체력
     if(skill.mp>0&&u.traits){ if(u.traits.blood_pact){ const c=Math.floor(u.hp_max*Math.min(0.2,skill.mp/150)); u.hp=Math.max(1,u.hp-c); fx.push({target:u.id,kind:"damage",amount:c,crit:false,killed:false,hp:u.hp,mp:u.mp,label:"피의 계약"}); }
       else if(u.traits.blood_cast&&u.mp<this.mpCost(u,skill)&&(skill.id==="kn_slam"||skill.id==="kn_final")){ const c=Math.floor(u.hp_max*0.08); u.hp=Math.max(1,u.hp-c); fx.push({target:u.id,kind:"damage",amount:c,crit:false,killed:false,hp:u.hp,mp:u.mp,label:"광기"}); u._bloodCastNow=true; } }
-    const wr=(u.buffs.windread&&u.buffs.windread.value)||0;   // v0.92 바람 읽기: 다단 히트 발 수 +2
+    const wr=(u.buffs.windread&&u.buffs.windread.value)||0;   // v0.92 바람 읽기: 다단 히트 +2발
     if(skill.hits){   // 다단 무작위: 매번 살아 있는 적 중에서 다시 고름
       this._hitCount={};
       for(let i=0;i<skill.hits+wr&&u.alive;i++){ const pool=this.reachableFoes(u,skill); if(!pool.length) break;
@@ -7137,6 +7148,7 @@ class Sim {
         if(u.side==="party"&&u.hpRegen>0&&u.hp<u.hp_max){ const hv=Math.min(u.hpRegen,u.hp_max-u.hp); u.hp=Math.min(u.hp_max,u.hp+hv); this.events.push({type:"regen",quiet:true,target:u.id,amount:hv,hp:u.hp,mp:u.mp}); }   // v0.90 매 턴 체력 회복(소량, 숫자 표시 없음)
         const rg=(u.side==="party"&&u.mp_max>0?(u.mpRegen!=null?u.mpRegen:MP_REGEN_BASE)*((u.wil18&&this.mpPct(u)<30)?2:1):0)+   /* v0.93 매 턴 마나 회복은 정수 능력치(mpRegenOf) */ (this.hasPassive(u,"mana3")?3:0)+((u.traits&&u.traits.mp_regen)||0)   // v0.92 집중된 마나: 매 턴 마나 +3
           +((u.traits&&u.traits.meditate&&this.mpPct(u)<50)?12:0)
+          +((u.traits&&u.traits.rune_healthy&&this.units.every(x=>x.side!==u.side||!x.alive||x.hp>=x.hp_max*0.7))?Math.round(u.traits.rune_healthy):0)   /* v0.94 여유 룬 */
           +(u.side==="enemy"&&u.mp_max>0?Math.ceil(u.mp_max*ENEMY_MP_REGEN):0);   // 적도 매 턴 마나 회복 → 보스·정예가 특기를 꾸준히 씀
         if(rg>0) u.mp=Math.min(u.mp_max,u.mp+rg);
         if(u.traits.mana_share){
@@ -7203,7 +7215,7 @@ function heroLook(cid){ const h=progress.heroes[cid]; if(!h) return null; const 
 function equippedItems(cid){ return heroSlots().map(s=>findEquipped(cid,s)).filter(Boolean); }
 function heroEquipTotals(cid){
   const abyss=new Set();   // v0.59 심연 룬 각인
-  const t={}; const procs=[]; const sets={}; const pct={}; const conds=[]; const uniques=[]; const cuniqs=[]; const runes=[]; let wtype=null, offhand=null, relic=null, relicSt=1, mythic=null; const engraves=[];
+  const t={}; const procs=[]; const sets={}; const pct={}; const conds=[]; const uniques=[]; const cuniqs=[]; const runes=[]; const rfx={}; let wtype=null, offhand=null, relic=null, relicSt=1, mythic=null; const engraves=[];
   for(const sk of heroSlots()){ const it=findEquipped(cid,sk); if(!it) continue;
     const st=effStats(it,it.noEnh?null:slotEnh(cid,sk));   // v0.45: 부위 강화
     for(const k of Object.keys(st)) t[k]=(t[k]||0)+st[k];
@@ -7218,13 +7230,13 @@ function heroEquipTotals(cid){
     if(it.engrave) engraves.push(it.engrave);
     if(it.proc) procs.push(it.proc);                       // 예전 세이브 호환
     if(it.set) sets[it.set]=(sets[it.set]||0)+1;
-    for(const r of (it.sockets||[])) if(r){ runes.push(runeK(r)); const ab=runeAb(r); for(const x of ab) abyss.add(x); for(const [k,v] of Object.entries(runeStat(runeK(r),runeR(r),ab.length>0))) t[k]=(t[k]||0)+v; }   // v0.36: 끼운 룬의 능력치도 더함(카드 표시대로)
+    for(const r of (it.sockets||[])) if(r){ runes.push(runeK(r)); const ab=runeAb(r); for(const x of ab) abyss.add(x); for(const [k,v] of Object.entries(runeStat(runeK(r),runeR(r),ab.length>0))) t[k]=(t[k]||0)+v; const fx=runeFx(runeK(r),runeR(r),ab.length>0); if(fx) rfx[fx.k]=(rfx[fx.k]||0)+fx.v; }   // v0.36: 끼운 룬의 능력치도 더함(카드 표시대로)
     if(it.slot==="weapon") wtype=it.wtype||null;
     if(it.slot==="offhand") offhand=it;
     if(it.slot==="relic"){ relic=it.relic; relicSt=relicStar(it); }
     if(it.mythic) mythic=it.mythic;
   }
-  return {t,procs,sets,pct,conds,uniques,cuniqs,runes,wtype,offhand,relic,relicSt,mythic,engraves,abyss:[...abyss]};
+  return {t,procs,sets,pct,conds,uniques,cuniqs,runes,wtype,offhand,relic,relicSt,mythic,engraves,abyss:[...abyss],rfx};
 }
 function setEffects(sets){
   const out=[];
@@ -7286,6 +7298,7 @@ function heroDerived(cid){
   for(const [k,v] of Object.entries(tr.mult||{})) traits[k]=v; if(tr.mp_cost) traits.mp_cost=tr.mp_cost; if(tr.mp_cost_heal) traits.mp_cost_heal=tr.mp_cost_heal; if(tr.heal_taken) traits.heal_taken=tr.heal_taken;   // v0.85 특성 배율
   if(tr.res_regen) traits.res_regen=tr.res_regen; if(tr.march_minus) traits.march_minus=tr.march_minus; if(tr.noSkill&&tr.noSkill.length) traits.noSkill=tr.noSkill.slice();
   if(E.relic&&RELICS[E.relic]&&RELICS[E.relic].flag) traits[RELICS[E.relic].flag]=true;
+  for(const [k,v] of Object.entries(E.rfx||{})) traits[k]=(traits[k]||0)+v;   // v0.94 룬 고유 효과
   if(E.relic&&E.relicSt>=3&&RELIC_AWAKE[E.relic]) traits[RELIC_AWAKE[E.relic].flag]=true;
   if(traits.relic_bark) traits.dmg_cut=(traits.dmg_cut||0)+0.08;
   resoApply(traits);   // v0.61 심연 공명
@@ -7668,7 +7681,7 @@ const TUT={
     if(n<=L){
       const cur=P[n-1], sk=SKILLS[cur.r.skill], cl=cLabel(cur.r.c1)+(cur.r.logic?(cur.r.logic===1?" 그리고 ":" 또는 ")+cLabel(cur.r.c2):"");
       const intro=n===1?`<p class="msub">전투는 자동이에요. 대신 <b>${nm}</b>님이 <b>"만약 [조건]이면 → [스킬]"</b> 규칙을 정해 둡니다. 차례가 오면 <b>위에서부터</b> 확인해서 <b>처음 맞는 규칙 하나</b>를 써요. 하나도 안 맞으면 기본공격.</p>`:"";
-      return head+`<h2>📜 ${n===1?"자동전투 규칙":"규칙 "+n}: ${esc(sk.name)}</h2>${intro}
+      return head+`<h2>📜 ${n===1?"전투 규칙":"규칙 "+n}: ${esc(sk.name)}</h2>${intro}
         <div class="tutbig"><span class="w">만약</span><b class="c">${esc(cl)}</b><span class="w">이면 →</span><b class="s">${esc(sk.name)}</b></div>
         ${replay?"":`<p class="tnote">▶ 이번 전투: <b>${esc(this.sitText(cur.r))}</b>. 이 규칙이 쓰이는 순간 잠깐 멈춰서 보여 드릴게요.</p>`}
         <div class="tutlist">${list(cur)}</div>
@@ -7676,9 +7689,9 @@ const TUT={
     }
     const comp=rosterIds().filter(c=>c!==cid);
     return head+`<h2>📜 규칙 교실 끝!</h2>
-      <p class="msub">${nm}님의 규칙 ${L}개가 모두 실제 전투에서 쓰이는 걸 봤어요. 이제 자동전투 탭에서 마음대로 바꿔 보세요.</p>
+      <p class="msub">${nm}님의 규칙 ${L}개가 모두 실제 전투에서 쓰이는 걸 봤어요. 이제 전투설정 탭에서 마음대로 바꿔 보세요.</p>
       <div class="tutlist">${list(null)}</div>
-      ${comp.length?`<p class="tnote warn">⚠ <b>동료(${comp.map(c=>esc(jobName(c))).join("·")})도 같은 규칙으로 싸워요.</b> 기본 규칙이 들어 있지만, 동료마다 스킬과 역할이 다르니 <b>자동전투 탭에서 동료를 하나씩 골라 미리 확인·조정</b>해 두세요. 새 동료가 합류할 때도 마찬가지예요.</p>`:""}
+      ${comp.length?`<p class="tnote warn">⚠ <b>동료(${comp.map(c=>esc(jobName(c))).join("·")})도 같은 규칙으로 싸워요.</b> 기본 규칙이 들어 있지만, 동료마다 스킬과 역할이 다르니 <b>전투설정 탭에서 동료를 하나씩 골라 미리 확인·조정</b>해 두세요. 새 동료가 합류할 때도 마찬가지예요.</p>`:""}
       <ul class="tutul">
         <li><b>순서</b> — 위에 있을수록 먼저 확인해요. 위급할 때 쓸 스킬은 위로.</li>
         <li><b>조건 두 개</b> — '+ 조건'으로 <b>그리고</b>(둘 다) / <b>또는</b>(하나만)을 붙일 수 있어요.</li>
@@ -7787,8 +7800,8 @@ const COACH={
     {sel:"#tab-dungeon", t:"던전", x:"누르면 갈 곳을 고르는 창이 열려요 — 난이도(황혼부터, 10장을 깨면 다음 난이도), 장(지역), 막(한 장은 5막, 5막 끝에 보스)을 차례로 고르고 '입장'. 깬 막은 다시 골라 반복 사냥할 수 있어요."},
     {sel:"#fSpeed", t:"전투 속도", x:"전장 위 이 버튼을 누를 때마다 1배속 → 2배속 → 3배속 → 4배속으로 바뀌어요(쓸 수 있는 배속까지). 전투 중에도 바꿀 수 있어요."},
     {sel:"#torchChip,.fhgear", t:"🔥 횃불", x:`던전에 들어갈 때마다 1개를 써요. ${torchEvery()/60000}분마다 1개씩, 최대 ${torchMax()}개까지 저절로 차올라요. 지금은 배우는 중이라 들지 않아요!`},
-    {sel:".rail", t:"메뉴", x:"파티, 장비, 상점, 특성, 자동전투, 도감, 함께하기. 처음 열 때마다 이렇게 안내해 드려요."},
-    {sel:"#fNext", t:"던전으로", x:"준비가 되면 전장 아래 이 버튼(또는 왼쪽 '던전' 메뉴)! 갈 곳을 고르는 창이 열려요. 그 전에 이 게임에서 가장 중요한 '자동전투 규칙'부터 배워 볼게요."}]},
+    {sel:".rail", t:"메뉴", x:"파티, 장비, 상점, 특성, 전투설정, 도감, 함께하기. 처음 열 때마다 이렇게 안내해 드려요."},
+    {sel:"#fNext", t:"던전으로", x:"준비가 되면 전장 아래 이 버튼(또는 왼쪽 '던전' 메뉴)! 갈 곳을 고르는 창이 열려요. 그 전에 이 게임에서 가장 중요한 '전투 규칙'부터 배워 볼게요."}]},
   battle:{ name:"첫 전투", steps:[
     {sel:()=>"#u-"+TUT.cid()+" img", t:"이게 나예요", x:()=>`★ ${esc(progress.protag.name)}님이에요. 발밑의 빨간 바는 체력, 파란 바는 마나. 스킬은 마나를 써요. 흰 막대가 붙으면 보호막. 캐릭터를 누르면 정확한 숫자가 보여요.`},
     {sel:"#row-enemy-front .unit img,#row-enemy-back .unit img", t:"적", x:"체력이 0이 되면 쓰러져요. 맞을 때마다 머리 위로 피해 숫자가 찍혀요."},
@@ -7818,7 +7831,7 @@ const COACH={
     {sel:"#traitPick", t:"특성", x:"전직(Lv10)하면 열리는 영웅만의 특성 그물이에요. 전직한 Lv10부터 레벨마다 1포인트, 각성할 때마다 4포인트를 받아요."},
     {sel:".tmap", t:"특성 그물", x:"가운데에서 시작해 서로 얽힌 칸들로 뻗어 나가요. 이미 배운 칸과 이어진 칸만 배울 수 있어서, 어느 쪽으로 뻗어 가느냐에 따라 같은 직업도 전혀 다르게 커요. 끌어서 움직이고 두 손가락이나 ＋－로 확대해요."},
     {sel:"#traitDetail", t:"자세히", x:"칸을 누르면 여기서 효과를 보고 배울 수 있어요. 멀리 있는 칸은 '길 따라 배우기'로 한 번에 이어 찍고, 끝에 있는 칸은 골드를 내고 한 칸씩 되돌릴 수 있어요."}]},
-  rules:{ name:"자동전투 규칙", steps:[
+  rules:{ name:"전투설정", steps:[
     {sel:"#charpick", t:"누구의 규칙?", x:"주인공도 동료도 규칙을 직접 짜요. 동료는 '작전 성향대로 채우기'로 시작해 고쳐도 돼요."},
     {sel:".howto", t:"읽는 법", x:"매 턴 1번부터 차례로 확인해서 처음 맞는 규칙 하나만 써요. 아무것도 안 맞으면 기본공격."},
     {sel:".rules .rl select.sk", t:"기술", x:"한 줄의 제목이 쓸 기술이에요. 옆 회색 글은 언제 쓰는지(조건) 요약이에요."},
@@ -7997,7 +8010,7 @@ function heroSkillsEx(cid,wtype){
     if(m.mods.mpFlat&&m.mp>0) m.mp=Math.max(0,m.mp-m.mods.mpFlat);
     if(m.mods.dur&&m.duration) m.duration+=m.mods.dur;
     if(m.mods.val&&typeof m.value==="number"&&m.value<1) m.value=+(m.value+m.mods.val).toFixed(3);
-    if(m.mastered&&!(m.power>0)&&typeof m.value==="number"&&m.value>0) m.value=+(m.value*1.05).toFixed(3);   // v0.36: 위력이 없는 스킬도 숙달 효과 +5%
+    if(m.mastered&&!(m.power>0)&&typeof m.value==="number"&&m.value>0&&m.value<1) m.value=+(m.value*1.05).toFixed(3);   // v0.36: 위력이 없는 스킬도 숙달 효과 +5%
     out[sid]=m;
   }
   return out;
@@ -8157,6 +8170,7 @@ function itemExtraText(it){
   if(it.engrave&&ENGRAVES[it.engrave]) parts.push("📜 각인: "+ENGRAVES[it.engrave].text);
   if(it.relic&&RELICS[it.relic]){ parts.push("🔮 "+RELICS[it.relic].text+(COND[RELICS[it.relic].cond].lock?" · 조건 해금: "+cLabel(RELICS[it.relic].cond):"")); const st=relicStar(it); parts.push("각성 "+"★".repeat(st)+"☆".repeat(3-st)+(st>=3?" · "+RELIC_AWAKE[it.relic].t3:" · ★3: "+RELIC_AWAKE[it.relic].t3)); }
   if(it.mythic&&MYTHIC[it.mythic]) parts.push("🌠 신화 — "+MYTHIC[it.mythic].desc);
+  if(it.rune&&RUNES[it.rune]&&RUNES[it.rune].fx) parts.push("◈ "+runeFxText(it.rune,it.rarity,!!(it.abyss&&it.abyss.length)));
   if(it.rune&&RUNES[it.rune]&&COND[RUNES[it.rune].cond].lock) parts.push("◈ 조건 해금: "+COND[RUNES[it.rune].cond].label);
   if(it.fate){ const F=FATES[it.fate.key]; parts.push(it.fate.done?`🔓 운명 — ${F.btxt}`:`🔒 운명 — ${F.text(it.fate.need)} (${it.fate.prog}/${it.fate.need}) → ${F.btxt}`); }
   if(it.sockets&&it.sockets.length) parts.push("소켓: "+it.sockets.map(r=>r?`${runeAb(r).length?"심연의 ":""}${RUNES[runeK(r)].name}(${runeAb(r).length?"심연 · "+runeAb(r).map(x=>ABYSS_LAWS[x].n).join("·"):RARITIES[RAR_IDX[runeR(r)]].label})`:"빈 칸").join(", "));
@@ -8219,7 +8233,7 @@ function codexRecord(it){
 function codexCount(k){ const c=((progress.codex||{}).sets||{})[k]||{}; return SETS[k]?setSlotsU(SETS[k]).filter(s=>c[s]).length:0; }
 
 /* ================= 동료의 판단 (v0.16) =================
-   주인공이 아닌 영웅은 '작전 성향' 하나만 지시받고, 나머지(능력치·전직·특성·숙련·각성·자동전투 규칙)는 스스로 정한다.
+   주인공이 아닌 영웅은 '작전 성향' 하나만 지시받고, 나머지(능력치·전직·특성·숙련·각성·전투 규칙)는 스스로 정한다.
    난수를 쓰지 않는다 — 같은 상황이면 언제나 같은 판단(웹·Godot·밸런스 봇 공통). */
 const STANCES={
   atk:{name:"공격 우선", short:"공격", desc:"적을 빨리 쓰러뜨리는 쪽으로 성장하고 싸운다"},
@@ -8310,7 +8324,7 @@ function companionThink(cid){
   // 2) 전직
   if(COMP_AUTO_ADV&&!h.adv&&h.level>=ADV_LEVEL){ const key=COMPANION.adv[cid][st]; const a=ADV[cid].find(x=>x.key===key)||ADV[cid][0]; h.adv=a.key;
     msgs.push(`⭐ ${who}${jo(who,"이","가")} 스스로 전직 → ${a.name} (${S.name}) — ${a.desc}`);
-    try{ const ar=addAdvRules(cid,a); for(const [sid,x] of ar) msgs.push(x&&x.skip?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — ${STANCES[st].name} 규칙 표에서는 이번 칸에 넣지 않음`:x&&x.failed?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — 규칙 칸이 모자라 넣지 못함(자동전투 탭에서 직접)`:`📜 ${who}: 새 스킬 '${SKILLS[sid].name}'을(를) 규칙에 넣음 — 순서는 자동전투 탭에서`); }catch(e){} }
+    try{ const ar=addAdvRules(cid,a); for(const [sid,x] of ar) msgs.push(x&&x.skip?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — ${STANCES[st].name} 규칙 표에서는 이번 칸에 넣지 않음`:x&&x.failed?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — 규칙 칸이 모자라 넣지 못함(전투설정 탭에서 직접)`:`📜 ${who}: 새 스킬 '${SKILLS[sid].name}'을(를) 규칙에 넣음 — 순서는 전투설정 탭에서`); }catch(e){} }
   // 3) 능력치 배분
   if(h.pts>0){ const R=COMPANION.alloc[cid][st]; const add={};
     while(h.pts>0){ const tot=PRIM.reduce((a,k)=>a+(h.alloc[k]||0),0)+1; let best=null, bd=-1e9;
@@ -8626,7 +8640,7 @@ function onRegionChange(){
   goCamp();
 }
 const VIEWS=["dungeon","quest","party","equip","shop","traits","rules","codex","coop"];
-const VIEW_NAMES={dungeon:"던전 준비",quest:"퀘스트",party:"파티",equip:"장비",shop:"상점",traits:"특성",rules:"자동전투 규칙",codex:"도감·증표",coop:"함께하기"};
+const VIEW_NAMES={dungeon:"던전 준비",quest:"퀘스트",party:"파티",equip:"장비",shop:"상점",traits:"특성",rules:"전투설정",codex:"도감·증표",coop:"함께하기"};
 let curView="dungeon";
 // v0.33: 던전 진행 중에는 캐릭터에 영향을 주는 탭(파티·장비·상점·특성)은 못 열고, 자동전투 규칙은 보기만
 const RUN_LOCK_TABS=["party","equip","shop","traits"];
@@ -10961,24 +10975,25 @@ const WX = (()=>{
     const xLo = it => it.enemy ? W * 0.56 + it.bw / 2 : it.bw / 2 + 2, xHi = it => it.enemy ? W - it.bw / 2 - 2 : W * 0.44 - it.bw / 2;   // 가운데 12%는 비워 둠
     const clamp = it => { it.y = Math.max(yLo(it), Math.min(yHi(it), it.y)); it.x = Math.max(xLo(it), Math.min(xHi(it), it.x)); };
     const start = items.map(it => [it.x, it.y]);
-    for(let attempt = 0; attempt < 8; attempt++){   // 칸이 모자라면(좁은 화면) 몬스터를 조금씩 작게 해서 다시
+    // v0.94 몬스터를 줄이는 건 '몬스터끼리' 겹칠 때만 — 예전엔 영웅끼리(6명) 겹쳐도 몬스터를 최대 30%까지 줄여 몬스터가 아주 작게 보였음. 최소 60%
+    for(let attempt = 0; attempt < 5; attempt++){   // 칸이 모자라면(좁은 화면) 몬스터를 조금씩 작게 해서 다시
       shrink = 1 - 0.1 * attempt; items.forEach((it, k) => { it.x = start[k][0]; it.y = start[k][1]; put(it); });
       for(const it of items){ const im = it.el.querySelector("img"), ub = it.el.querySelector(".ubelow"); const sk = it.enemy ? shrink : 1; it.sh = im ? im.offsetHeight : 80; it.bh = ub ? ub.offsetHeight : 40; it.bw = Math.max(im ? im.offsetWidth * 0.8 : 70, (ub ? ub.offsetWidth : 80) * sk, (mob ? 84 : 104) * sk) + 6; it.bh = it.bh * sk + 6; }
   // 아이콘 4개+n 이 들어갈 너비는 늘 확보
       items.forEach(clamp);
-      let left = 0;
-      for(let iter = 0; iter < 80; iter++){ left = 0;
+      let left = 0, leftE = 0;
+      for(let iter = 0; iter < 80; iter++){ left = 0; leftE = 0;
         for(let i = 0; i < items.length; i++) for(let j = i + 1; j < items.length; j++){ const A = items[i], B = items[j];
           const ow = Math.min(A.x + A.bw / 2, B.x + B.bw / 2) - Math.max(A.x - A.bw / 2, B.x - B.bw / 2);
           const oh = Math.min(A.y + A.bh, B.y + B.bh) - Math.max(A.y - A.sh * 0.85, B.y - B.sh * 0.85);
-          if(ow <= 0 || oh <= 0) continue; left++;
+          if(ow <= 0 || oh <= 0) continue; left++; if(A.enemy && B.enemy) leftE++;
           const [U, D] = A.y <= B.y ? [A, B] : [B, A];
           const stuck = iter > 20 && (U.y <= yLo(U) + 0.5 || D.y >= yHi(D) - 0.5);   // v0.55: 위아래로 밀어도 안 풀리면(한쪽이 끝에 닿음) 옆으로
           if(oh <= ow * 1.4 && !stuck){ const d = oh / 2 + 1; U.y -= d; D.y += d; }
           else { const [L, R] = A.x <= B.x ? [A, B] : [B, A]; const d = ow / 2 + 1; L.x -= d; R.x += d; }
           clamp(A); clamp(B); }
         if(!left) break; }
-      if(!left) break; }
+      if(!leftE) break; }
     for(const it of items){ const el = it.el; const first = !el.style.left; if(first) el.style.transition = "none";   // v0.32: 처음 놓일 때는 제자리에 바로
       el.style.left = it.x.toFixed(1) + "px"; el.style.top = it.y.toFixed(1) + "px"; el.style.zIndex = String(10 + Math.round((it.y - hz) / Math.max(1, arR.height - hz) * 60));
       if(first){ void el.offsetWidth; el.style.transition = ""; } }
@@ -11407,7 +11422,8 @@ function heroPickBtn(cid,on,sub,onclick){
 function renderCharPick(){
   const box=$("charpick"); box.innerHTML="";
   const rids=rosterIds(); if(rids.length&&!rids.includes(selected)) selected=rids[0];
-  for(const cid of rids) box.appendChild(heroPickBtn(cid,cid===selected,isProtag(cid)?"주인공":"동료",()=>{ selected=cid; renderCharPick(); renderRules(); }));
+  const B=battleIds().filter(c=>rids.includes(c)), order=[...B,...rids.filter(c=>!B.includes(c))];   // v0.94 출전 영웅이 왼쪽부터
+  for(const cid of order) box.appendChild(heroPickBtn(cid,cid===selected,isProtag(cid)?"주인공":"동료",()=>{ selected=cid; renderCharPick(); renderRules(); }));
   const advSel=advInfo(selected);
   $("passive").textContent="패시브 — "+CLASSES[selected].passive_name
     +(advSel&&advSel.passive_name?("  /  "+advSel.passive_name+((progress.heroes[selected].level||0)<ADV_PASSIVE_LV?` (Lv${ADV_PASSIVE_LV}부터)`:"")):"");
@@ -12293,6 +12309,11 @@ function renderEquip(){
   { const tp=document.createElement("div"); tp.className="eqtop"; for(const k of DOLL_TOP) tp.appendChild(eqSlotBtn(cid,k)); mid.appendChild(tp); }
   mid.appendChild(eqFigure(cid));
   const nm=document.createElement("div"); nm.className="eqname"; nm.innerHTML=`<b>${heroNameHTML(cid)}</b><span>Lv.${h.level}${h.awaken?` ✦${h.awaken}`:""} · ${esc(WEAPONS[D.wtype].name)}</span>`; mid.appendChild(nm);
+  { const qb=document.createElement("div"); qb.className="eqquick"; const busy=runBusy(), up=upgradeCount(cid), worn=Object.values(h.equip).filter(x=>x!=null).length;   // v0.94 인물 아래로 옮김
+    qb.innerHTML=`<button class="btn" id="eqBest" ${busy||!up?"disabled":""}>장비 일괄 장착${up?` (${up})`:""}</button><button class="btn ghost" id="eqOff" ${busy||!worn?"disabled":""}>장비 일괄 해제</button>`;
+    qb.querySelector("#eqBest").onclick=()=>equipBest(cid);
+    qb.querySelector("#eqOff").onclick=e=>{ const b=e.currentTarget; if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 해제"; return; } unequipAll(cid); };
+    mid.appendChild(qb); }
   doll.append(cl,mid,cr); L.appendChild(doll);
   const ps=document.createElement("div"); ps.className="eqpow"; ps.innerHTML=[["공격",d.atk],["체력",d.hp],["방어",d.def],["신속",d.spd],["치명",pct(d.crit)+"%"],["명중",pct(d.acc)+"%"]].map(([k,v])=>`<span><i>${k}</i><b>${v}</b></span>`).join(""); L.appendChild(ps);   // v0.55.6: 인형 아래 한 줄(가운데 칸이 좁은 화면에서 글자가 세로로 꺾이던 문제)
   { const S=enhSummary(cid); const es=document.createElement("div"); es.className="eqenh"; const t=enhSummaryText(cid);   // v0.55.6: 한 줄로, 인형 아래 전체 너비
@@ -12303,11 +12324,6 @@ function renderEquip(){
   if(progress._senhNote){ const n=document.createElement("div"); n.className="hintline"; n.style.color="var(--accent)";
     n.innerHTML=`🔨 강화가 <b>부위 강화</b>로 바뀌었습니다 — 끼고 있던 장비의 강화는 그 부위로 옮겼고, 이제 장비를 바꿔 껴도 강화가 그대로 붙습니다.${progress._senhNote.ref?` 가방 장비에 있던 강화는 밤의 정수 ${progress._senhNote.ref}로 돌려드렸습니다.`:""} <button class="mini" id="senhOk">확인</button>`;
     L.appendChild(n); setTimeout(()=>{ const b=$("senhOk"); if(b) b.onclick=()=>{ delete progress._senhNote; saveProgress(); renderParty(); }; },0); }
-  { const qb=document.createElement("div"); qb.className="eqquick"; const busy=runBusy(), up=upgradeCount(cid), worn=Object.values(h.equip).filter(x=>x!=null).length;   // v0.68 한 번에 장착·해제
-    qb.innerHTML=`<button class="btn" id="eqBest" ${busy||!up?"disabled":""}>⬆ 좋은 장비 한 번에 장착${up?` (${up})`:""}</button><button class="btn ghost" id="eqOff" ${busy||!worn?"disabled":""}>⬇ 모두 해제</button>`;
-    qb.querySelector("#eqBest").onclick=()=>equipBest(cid);
-    qb.querySelector("#eqOff").onclick=e=>{ const b=e.currentTarget; if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 모두 해제"; return; } unequipAll(cid); };
-    L.appendChild(qb); }
   const tip=document.createElement("div"); tip.className="hintline"; tip.textContent=runBusy()?"🔒 던전 진행 중 — 장비는 마을에서 바꿀 수 있어요":"칸을 누르면 정보 · 옆 단추로 부위 강화 · ▲ = 가방에 더 좋은 장비"; L.appendChild(tip);
   pane.appendChild(L);
   // ── 오른쪽: 가방 ──
@@ -12547,7 +12563,7 @@ function stanceRow(cid){
       runCompanions(); saveProgress(); renderParty(); renderRules(); if(!runState&&!playing&&!telling) goCamp(); };
     row.appendChild(b); }
   const note=document.createElement("div"); note.className="compnote";
-  note.textContent=`능력치·특성·숙련은 ${heroDisplayName(cid)}${jo(heroDisplayName(cid),"이","가")} '${STANCES[st].name}'에 맞춰 스스로 정합니다. 전직(Lv${ADV_LEVEL})·장비·자동전투 규칙은 직접 정해 주세요.`;
+  note.textContent=`능력치·특성·숙련은 ${heroDisplayName(cid)}${jo(heroDisplayName(cid),"이","가")} '${STANCES[st].name}'에 맞춰 스스로 정합니다. 전직(Lv${ADV_LEVEL})·장비·전투 규칙은 직접 정해 주세요.`;
   const wrap=document.createElement("div"); wrap.append(row,note); return wrap;
 }
 function runCompanions(){
@@ -12692,7 +12708,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   }
   const mk3=card.children.length;
   const tools=document.createElement("div"); tools.className="alloc";
-  if(!comp){ const cardBtn=document.createElement("button"); cardBtn.textContent="🪪 명함 만들기"; cardBtn.title="주인공의 외형·칭호·능력치·자동전투 규칙을 한 장 그림으로";
+  if(!comp){ const cardBtn=document.createElement("button"); cardBtn.textContent="🪪 명함 만들기"; cardBtn.title="주인공의 외형·칭호·능력치·전투 규칙을 한 장 그림으로";
     cardBtn.onclick=()=>makeNameCard(cid); tools.appendChild(cardBtn); }
   if(!comp&&h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)){
     const aw=document.createElement("button"); aw.textContent=`✦ 각성 (${h.awaken+1}번째)`; aw.title=`레벨 상한에서 경험치가 가득 찼습니다. 각성: 특성 포인트 +${TRAIT_AWAKEN}`;
@@ -12808,10 +12824,10 @@ function itemRow(it,cid,pv){
       const b=document.createElement("button"); b.textContent="룬 장착"; b.onclick=()=>{ const t=targets[parseInt(s.value,10)||0]; const si=t.sockets.findIndex(r=>!r); if(si<0) return;
         t.sockets[si]=runeSock(it); const i=progress.inv.findIndex(x=>x.id===it.id); if(i>=0) progress.inv.splice(i,1); saveProgress(); renderParty(); renderRules();
         const ow=itemOwner(t.id);
-        logLine(`<span class="win">◈ ${ow?esc(heroDisplayName(ow))+"의 ":"인벤토리의 "}${esc(itemLabel(t))}에 ${esc(RUNES[it.rune].name)} 장착 — ${!COND[RUNES[it.rune].cond].lock?"능력치가 올랐습니다":ow?`${esc(heroDisplayName(ow))}${jo(heroDisplayName(ow),"이","가")} 조건 '${esc(COND[RUNES[it.rune].cond].label)}'을(를) 쓸 수 있습니다`:`조건 '${esc(COND[RUNES[it.rune].cond].label)}'은(는) 이 장비를 낀 영웅만 쓸 수 있습니다`}</span>`); };
+        logLine(`<span class="win">◈ ${ow?esc(heroDisplayName(ow))+"의 ":"인벤토리의 "}${esc(itemLabel(t))}에 ${esc(RUNES[it.rune].name)} 장착 — ${!COND[RUNES[it.rune].cond].lock?"능력치와 '"+esc(runeFxText(it.rune,it.rarity,!!(it.abyss&&it.abyss.length)))+"' 효과가 붙었습니다":ow?`${esc(heroDisplayName(ow))}${jo(heroDisplayName(ow),"이","가")} 조건 '${esc(COND[RUNES[it.rune].cond].label)}'을(를) 쓸 수 있습니다`:`조건 '${esc(COND[RUNES[it.rune].cond].label)}'은(는) 이 장비를 낀 영웅만 쓸 수 있습니다`}</span>`); };
       acts.appendChild(b); }
     const rn=document.createElement("div"); rn.className="cmp"; rn.style.width="100%";
-    rn.innerHTML=`<span class="who">${COND[RUNES[it.rune].cond].lock?`해금 조건: '${esc(COND[RUNES[it.rune].cond].label)}' — 이 룬을 끼운 장비를 착용한 영웅만 자동전투 규칙에서 쓸 수 있습니다.`:`능력치를 올려 주는 룬입니다(조건 '${esc(COND[RUNES[it.rune].cond].label)}'은 v0.93부터 누구나 씀).`} 목록은 ${esc(heroDisplayName(cid))}의 장비가 먼저 나옵니다.</span>`;
+    rn.innerHTML=`<span class="who">${COND[RUNES[it.rune].cond].lock?`해금 조건: '${esc(COND[RUNES[it.rune].cond].label)}' — 이 룬을 끼운 장비를 착용한 영웅만 전투설정의 규칙에서 쓸 수 있습니다.`:`능력치와 함께 '${esc(runeFxText(it.rune,it.rarity,!!(it.abyss&&it.abyss.length)))}' 효과를 줍니다(등급이 높을수록 큼).`} 목록은 ${esc(heroDisplayName(cid))}의 장비가 먼저 나옵니다.</span>`;
     acts.appendChild(rn);
   } else {
     if(pv){ const eb=document.createElement("button"); eb.className="equipb"; eb.textContent=`장착 → ${heroDisplayName(cid)}`; eb.onclick=()=>equip(cid,it.id,pv.slot); acts.appendChild(eb); }
@@ -12849,7 +12865,7 @@ function openProtagSwap(cid){
   const old=progress.protag.cid, nm=progress.protag.name, own=heroOwnName(cid);
   const html=`<h2>★ 주인공 교체</h2><p class="sub">주인공을 <b>${esc(nm)}</b>(${esc(jobName(old))})에서 <b>${esc(own||jobName(cid))}</b>(${esc(jobName(cid))})(으)로 바꿉니다.<br>
     · 밤의 정수 <b>${PROTAG_SWAP_ESS}</b>을 씁니다 (보유 ${progress.ess}).<br>
-    · <b>${esc(nm)}</b>은(는) 이름과 키운 모습 그대로 동료가 됩니다 — 능력치·특성·숙련·자동전투 규칙은 지금 상태로 남고, 앞으로 얻는 포인트만 스스로 씁니다.<br>
+    · <b>${esc(nm)}</b>은(는) 이름과 키운 모습 그대로 동료가 됩니다 — 능력치·특성·숙련·전투 규칙은 지금 상태로 남고, 앞으로 얻는 포인트만 스스로 씁니다.<br>
     · ${own?`<b>${esc(own)}</b>은(는) 예전 이름 그대로 다시 주인공이 됩니다.`:`<b>${esc(jobName(cid))}</b>은(는) 아직 이름이 없어요 — 새 이름을 지어 주세요.`} 지금까지 자란 상태를 그대로 이어받고, 이제부터 직접 조정합니다.<br>
     · 던전 밖(마을)에서만 바꿀 수 있습니다.</p>
     ${own?"":`<div class="cname psname"><label for="psName">이름</label><input id="psName" maxlength="8" placeholder="최대 8자" autocomplete="off"><button id="psDice" title="무작위 이름" aria-label="무작위 이름">🎲</button></div>`}
@@ -13057,7 +13073,7 @@ function makeNameCard(cid,edit){
     const col={common:"#aab3cf",fine:"#6fdc8c",rare:"#5eaaff",epic:"#c98bff",legend:"#ffb347",set:"#45e0cf",mythic:"#ff7ad9"};
     { const S=enhSummary(cid); if(S&&S.sum){ g.fillStyle="#c7cfec"; g.fillText(`부위 강화 합 +${S.sum}${enhSummaryText(cid)?" — "+enhSummaryText(cid):""}`.slice(0,46),28,y); y+=16; } }   // v0.55.3
     for(const s of SLOTS){ const it=findEquipped(cid,s.key); if(!it) continue; const E=ENH_SLOTS.includes(s.key)&&!it.noEnh?slotEnh(cid,s.key).l:0; g.fillStyle=col[it.mythic?"mythic":it.rarity]||"#aab3cf"; g.fillText(`${s.label}: ${E?"+"+E+" ":""}${itemLabel(it)}`,28,y); y+=16; if(y>H-30) break; }
-    g.fillStyle="#f4c95d"; g.font="bold 13px sans-serif"; g.fillText("자동전투 규칙",330,186);
+    g.fillStyle="#f4c95d"; g.font="bold 13px sans-serif"; g.fillText("전투 규칙",330,186);
     g.fillStyle="#c7cfec"; g.font="12px sans-serif"; let y2=204;
     partyRules[cid].filter(r=>r.enabled).slice(0,8).forEach((r,i)=>{ const t=`${i+1}. ${cLabel(r.c1)}${r.logic===1?" + ":r.logic===2?" / ":""}${r.logic?cLabel(r.c2):""} → ${SKILLS[r.skill].name}`; g.fillText(t.length>40?t.slice(0,39)+"…":t,330,y2); y2+=16; });
     g.fillStyle="#6f7da3"; g.font="11px sans-serif"; g.fillText(`프로젝트 나이트 · ${new Date().toLocaleDateString("ko-KR")}`,28,H-20);
@@ -13088,11 +13104,11 @@ function genStock(){
 }
 function logAutoRule(cid,sid,ar){
   if(!ar) return;
-  if(ar.skip){ logLine(`<span class="r">📜 '${esc(SKILLS[sid].name)}' — 규칙 표(${esc(STANCES[heroStance(cid)].name)})에서는 이번 칸에 넣지 않았습니다. 자동전투 탭에서 직접 넣을 수 있어요.</span>`); return; }
+  if(ar.skip){ logLine(`<span class="r">📜 '${esc(SKILLS[sid].name)}' — 규칙 표(${esc(STANCES[heroStance(cid)].name)})에서는 이번 칸에 넣지 않았습니다. 전투설정 탭에서 직접 넣을 수 있어요.</span>`); return; }
   if(ar.failed&&TUT.ruleLock(cid)){ logLine(`<span class="r">📜 '${esc(SKILLS[sid].name)}'은(는) 규칙 교실을 마치면 빈 칸에 넣어 드려요.</span>`); return; }
-  if(ar.failed){ logLine(`<span class="r">📜 ${esc(heroDisplayName(cid))}의 자동전투 규칙 칸이 꽉 차서 '${esc(SKILLS[sid].name)}'을(를) 넣지 못했습니다. 자동전투 탭에서 직접 넣어 주세요.</span>`); return; }
+  if(ar.failed){ logLine(`<span class="r">📜 ${esc(heroDisplayName(cid))}의 전투 규칙 칸이 꽉 차서 '${esc(SKILLS[sid].name)}'을(를) 넣지 못했습니다. 전투설정 탭에서 직접 넣어 주세요.</span>`); return; }
   const r=partyRules[cid][ar.pos-1];
-  logLine(`<span class="win">📜 ${esc(heroDisplayName(cid))} 자동전투 규칙 ${ar.pos}번에 '${esc(SKILLS[sid].name)}' 추가 — ${esc(cLabel(r.c1))} → ${esc(targetLabel(r,cid))}. (자동전투 탭에서 바꿀 수 있어요)</span>`);
+  logLine(`<span class="win">📜 ${esc(heroDisplayName(cid))} 전투 규칙 ${ar.pos}번에 '${esc(SKILLS[sid].name)}' 추가 — ${esc(cLabel(r.c1))} → ${esc(targetLabel(r,cid))}. (전투설정 탭에서 바꿀 수 있어요)</span>`);
 }
 // 예전 세이브: 이미 가진 전직·스킬북 스킬 중 규칙에 없는 것을 한 번만 채워 줌
 // v0.52: 주인공 규칙을 직업 기본 순서로. v0.50까지 규칙 교실이 칸을 하나씩 열며 순서를 바꿔 놓아(성직자: 축복이 맨 위 → 마나가 많으면 치유 대신 축복)
@@ -13119,7 +13135,7 @@ function autoRulePass(){
     for(const [sid,ar] of ars) if(ar&&ar.pos) added.push(`${heroDisplayName(cid)} ${ar.pos}번 '${SKILLS[sid].name}'`);
   }
   progress.autoRules=1; saveRules(); saveProgress();
-  if(added.length) logLine(`<span class="win">📜 규칙에 없던 습득 스킬을 자동전투 규칙에 넣었습니다: ${esc(added.join(", "))}. 원치 않으면 자동전투 탭에서 끄거나 바꾸세요.</span>`);
+  if(added.length) logLine(`<span class="win">📜 규칙에 없던 습득 스킬을 전투 규칙에 넣었습니다: ${esc(added.join(", "))}. 원치 않으면 전투설정 탭에서 끄거나 바꾸세요.</span>`);
 }
 let shopWho="all", shopHide=false;
 
@@ -13814,7 +13830,7 @@ function recordBattle(party,result){
     h.mastery=h.mastery||{};
     for(const [sid,n] of Object.entries(R.skillUse||{})){ if(!SKILLS[sid]||SKILLS[sid].mp===0&&sid===CLASSES[u.id].skills[0]) continue; const m=h.mastery[sid]=h.mastery[sid]||{xp:0,pick:{}}; const before=m.xp;
       m.xp=Math.min(MASTERY_MAX,m.xp+n);
-      for(const th of MASTERY_STEPS) if(before<th&&m.xp>=th) logLine(`<span class="lv">📘 ${esc(heroDisplayName(u.id))}의 '${esc(SKILLS[sid].name)}' 숙련 ${th} 달성${th<MASTERY_MAX?(isCompanion(u.id)?"":" — 자동전투 탭에서 변형을 고르세요"):" — 숙달!"}</span>`); }
+      for(const th of MASTERY_STEPS) if(before<th&&m.xp>=th) logLine(`<span class="lv">📘 ${esc(heroDisplayName(u.id))}의 '${esc(SKILLS[sid].name)}' 숙련 ${th} 달성${th<MASTERY_MAX?(isCompanion(u.id)?"":" — 전투설정 탭에서 변형을 고르세요"):" — 숙달!"}</span>`); }
     for(const it of equippedItems(u.id)) if(it.fate&&!it.fate.done){
       const F=it.fate; const add={kills:R.kills,boss:R.bossKills,survive:R.lowSurvive,heal:R.healed,taken:R.dmgTaken,crits:R.crits}[F.key]||0;
       if(add>0){ F.prog=Math.min(F.need,F.prog+add); if(F.prog>=F.need){ F.done=true; logLine(`<span class="win">🔓 운명이 열렸다 — ${esc(itemLabel(it))}: ${esc(FATES[F.key].btxt)}</span>`); if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:#ffb347">🔓 운명이 열렸다 — ${esc(itemDisplayName(it))}: ${esc(FATES[F.key].btxt)}</span>`,2200); } }
@@ -14490,7 +14506,7 @@ async function maybeOnboard(){
         for(const l of outro) logLine(`<span class="story">${esc(l)}</span>`);
         await showNarration(outro);
         saveProgress(); rerenderAll();
-        logLine(`<span class="r">자동전투 탭에서 각자의 행동 규칙을 정하고, ▶ 던전 입장으로 출발하세요. 이름은 상단 ⚙ 설정에서 바꿀 수 있습니다.</span>`);
+        logLine(`<span class="r">전투설정 탭에서 각자의 행동 규칙을 정하고, ▶ 던전 입장으로 출발하세요. 이름은 상단 ⚙ 설정에서 바꿀 수 있습니다.</span>`);
       } else logLine(`<span class="r">진행은 그대로입니다. 주인공 이름은 상단 ⚙ 설정에서 바꿀 수 있습니다.</span>`);
     }
   } finally {
@@ -14664,11 +14680,19 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
-  {d:"2026.11.06", v:"v0.94", t:"자동전투 규칙 새 화면", L:[
+  {d:"2026.11.06", v:"v0.94", t:"룬·유물 고유 효과 · 전투설정", L:[
+    "조건을 열던 룬 5종에 고유 효과를 붙였습니다(등급 배율 일반 1 · 고급 1.5 · 희귀 2 · 영웅 3 · 전설 4 · 심연 5). 흐름: 전투 시작 행동 게이지 +10% · 만월: 체력 100%일 때 주는 피해 +4% · 결투: 적이 1마리일 때 +4% · 사냥: 보스에게 +3% · 여유: 아군 전원 체력 70% 이상이면 턴마다 마나 +1. 예: 전설 사냥 룬은 보스에게 +12%.",
+    "유물: 브란도의 그을린 국자 — 화상 적에게 주는 피해 +10% → +20%, 내가 건 화상 +1턴. 운디르의 젖은 악보 — 8턴부터 주는 피해 +12% 추가. 카룸의 모래시계 — 내 체력 80% 이상이면 주는 피해 +10% 추가. 기존 능력치는 그대로입니다.",
+    "'자동전투' 메뉴 이름을 '전투설정'으로 바꿨습니다. 위쪽 영웅 목록은 출전하는 영웅이 왼쪽부터 나옵니다.",
+    "장비 탭의 단추 이름을 '장비 일괄 장착' · '장비 일괄 해제'로 바꾸고, 인물 그림 바로 아래로 옮겼습니다.",
+    "1024×600처럼 세로가 낮은 화면에서 전투 몹이 0.2배로 작게 보이던 문제를 고쳤습니다. 몹끼리 겹칠 때만 줄이고, 최소 0.6배입니다.",
+    "숙달한 얼음 감옥이 '냉기 3.15중첩', 바람 읽기가 '+2.1'처럼 소수로 나오던 문제를 고쳤습니다. 중첩·횟수는 숙달해도 그대로입니다(3중첩 · 2발).",
+    "기술 설명 첫 줄에 확률·수치를 넣었습니다. 예: '적 전체에 기절' → '적 전체 20% 확률로 기절 1턴', 부동 자세 → '2턴간 도발 · 받는 피해 -25% · 맞을 때마다 100% 반격'. '발 수 +1'은 '+1발'로 바꿨습니다."]},
+  {d:"2026.11.06", v:"v0.94", t:"전투 규칙 새 화면", L:[
     "자동전투 규칙 화면을 새로 만들었습니다. 한 줄의 제목이 쓸 기술이고, 줄을 누르면 그 자리에서 조건과 대상을 바꿉니다.",
     "조건을 '종류 + 조절 칸'으로 바꿨습니다(체력·마나, 적 수, 적 상태, 나·아군 상태, 직업 자원, 턴, 진형, 전투 사건, 항상). 예: 아군 [2]명 이상 [체력] [50]% [이하]. 숫자는 −/+로 바꿉니다(체력·마나 10%씩).",
     "새로 생긴 조건: 적 전열·후열 마릿수, 앞뒤로 겹친 적(일렬·관통 공격용), 아군 N명 이상 상태이상, N턴까지, 아군 마나, 적·보스 체력 '이상'.",
-    "숫자로 조절하는 조건은 누구나 씁니다(연계 0 · 8턴 이후 · 화상 걸린 적 2마리 등). 그래서 흐름 룬 · 브란도의 그을린 국자 · 운디르의 젖은 악보 · 카룸의 모래시계는 이제 능력치만 줍니다. 보호막 · 치명타 · 은신 아님 · 전열에 혼자 같은 상황 조건은 여전히 룬·유물로 열립니다.",
+    "숫자로 조절하는 조건은 누구나 씁니다(연계 0 · 8턴 이후 · 화상 걸린 적 2마리 등). 그래서 조건을 열던 룬·유물에는 대신 고유 효과를 붙였습니다(아래 항목). 보호막 · 치명타 · 은신 아님 · 전열에 혼자 같은 상황 조건은 여전히 룬·유물로 열립니다.",
     "저장된 규칙은 같은 뜻의 새 조건으로 그대로 옮겨집니다.",
     "동료 기본 규칙표를 전직 컨셉에 맞게 새로 짰습니다. 도발·방벽·노래·자세 같은 지속 기술은 '항상'으로 두어 보스만 남아도 씁니다(효과가 남아 있으면 건너뜀). 광역은 적 2마리·전열 2마리·앞뒤로 겹친 적일 때, 처형기는 적 체력 35% 이하일 때 씁니다. 예전 기본 규칙 그대로인 영웅은 새 표로 바뀌고, 직접 고친 영웅은 그대로입니다.",
     "겹치던 궁극 특성 이름을 바꿨습니다: 권사 철의 도발 → 부동명왕, 창술사 가시 갑옷 → 가시 창벽, 창술사 용의 분노 → 역린, 마법사 매 턴 회복 → 서리 재생, 권사 매 턴 회복 → 내공 순환 회복(효과는 그대로)."]},
@@ -14842,7 +14866,7 @@ function recPush(force){ const N=NET(); if(!N||!progress||!progress.protag||!boo
   try{ const pg=progress.protag, R=recOf();
     N.ops.playerPut({name:pg.name, cid:pg.cid, job:jobName(pg.cid), lv:progress.heroes[pg.cid].level, aw:progress.heroes[pg.cid].awaken||0,
       heroes:rosterIds().map(c=>[CLASSES[c].name,progress.heroes[c].level,advInfo(c)?advInfo(c).name:""]), diffMax:progress.diffMax|0, prog:progressSummary(progress),
-      gold:progress.gold|0, ess:progress.ess|0, gem:progress.gem|0, play:R.play, runs:R.runs, lastLose:R.lastLose||null, ver:gameVersion(), dev:fbDevice()}).catch(()=>{}); }catch(e){} }
+      gold:progress.gold|0, ess:progress.ess|0, gem:progress.gem|0, sub:subDaysLeft(), play:R.play, runs:R.runs, lastLose:R.lastLose||null, ver:gameVersion(), dev:fbDevice()}).catch(()=>{}); }catch(e){} }
 setInterval(()=>{ try{ if(bootDone&&progress&&progress.protag&&document.visibilityState==="visible"){ recOf().play+=60; recPush(); } }catch(e){} },60000);
 try{ document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") recPush(true); }); }catch(e){}
 
@@ -14896,7 +14920,7 @@ async function openOps(tab){
       body.innerHTML=`<p class="msub">플레이어 ${P.length}명 · 1분마다·앱을 내릴 때 기록됩니다. 이름을 누르면 막마다 입장·돌파·패배 수가 나와요.</p>`+P.map(p=>{
         const runs=Object.entries(p.runs||{}).sort((a,b)=>b[1][0]-a[1][0]);
         return `<details class="ncard prow"><summary><b>${esc(p.name||"?")}</b> <span>${esc(p.job||"")} Lv${p.lv||"?"}${p.aw?` ✦${p.aw}`:""} · ${p.anon?"게스트":"Google "+esc(p.gname||"")} · ${esc(p.prog||"")} · 플레이 ${fmtPlay(p.play)} · 마지막 ${fmtDate(p.at)} · ${esc(p.ver||"")}</span></summary>
-          <div class="nb">영웅: ${esc((p.heroes||[]).map(h=>`${h[0]} ${h[1]}${h[2]?`(${h[2]})`:""}`).join(", "))}<br>골드 ${(p.gold||0).toLocaleString("ko-KR")} · 정수 ${p.ess||0} · 결정 ${p.gem||0} · 기기 ${esc(p.dev||"")}
+          <div class="nb">영웅: ${esc((p.heroes||[]).map(h=>`${h[0]} ${h[1]}${h[2]?`(${h[2]})`:""}`).join(", "))}<br>골드 ${(p.gold||0).toLocaleString("ko-KR")} · 정수 ${p.ess||0} · 결정 ${p.gem||0}${p.sub?` · 🌙 정액 ${p.sub}일`:""} · 기기 ${esc(p.dev||"")}
           ${p.lastLose?`<br>마지막 패배: ${esc(recKeyLabel(p.lastLose.k))} ${esc(p.lastLose.z||"")} (${fmtDate(p.lastLose.at)})`:""}
           <table class="optable"><tr><th>막</th><th>입장</th><th>돌파</th><th>패배·후퇴</th></tr>${runs.map(([k,r])=>`<tr><td>${esc(recKeyLabel(k))}</td><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table></div></details>`; }).join("");
     }
