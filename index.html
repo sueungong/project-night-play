@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793902738151"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793904747031"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2309,7 +2309,7 @@ const CLASSES = {
     stats:{hp:156,mp:70,atk:37,def:8,spd:11,crit:0.11},
     prim:{str:8,agi:13,int:7,con:10,wil:11,luk:11}, base:{hp:56,mp:26,atk:23,def:3,spd:4,crit:0.10}, caster:false,
     skills:["shoot","gn_precise","gn_pierce","gn_mark","gn_cover","gn_scatter","gn_flash"],
-    passive:"hunter_sense", passive_name:"사냥감: 탄창 8발(0발이면 그 턴 자동 재장전) · 사격마다 10% 화상" },
+    passive:"hunter_sense", passive_name:"사냥감: 탄창 8발(0발이면 그 턴 자동 재장전) · 탄을 쓰는 공격마다 10% 화상" },
   bard:{ name:"음유시인", sprite:"bard", row:"back", role:"후열 · 노래", res:"res",
     tip:"음유시인의 노래는 3턴 동안 걸리고, 내 노래가 걸려 있는 동안 매 턴 공명이 쌓입니다. 같은 노래를 다시 부르면 3턴으로 돌아가고, 다른 노래끼리는 함께 걸립니다.",
     pitch:"노래로 파티 전체를 끌어올리는 지원가. 노래는 3턴 동안 아군(또는 적)에게 걸리고, 걸려 있는 동안 쌓이는 공명으로 보조 기술을 쓴다.",
@@ -4001,7 +4001,7 @@ const ADV={
       passive:"aim_eye", passive_name:"조준: 매 턴 조준 +1 (최대 3), 공격하면 모두 써서 조준 1당 피해 +10%",
       desc:"한 발로 끝내는 명사수. 대표 기술 '일격 관통'(200% + 같은 줄 뒷줄 100%) · '머리 겨누기'는 취약한 적에게 확정 치명" },
     { key:"bomber", name:"폭탄마", bonus:{atk:9,hp:40}, skill:"gn_blast", extra:["gn_keg","gn_firerain","gn_frag"],
-      passive:"chain_powder", passive_name:"화약 연쇄: 사격 화상 확률 2배",
+      passive:"chain_powder", passive_name:"화약 연쇄: 탄 공격 화상 확률 2배",
       desc:"폭탄으로 전장을 터뜨리는 광역 딜러. 대표 기술 '대폭발'(화상 걸린 적 모두의 화상을 터뜨림 + 150%) · '소이탄 비'로 적 전체에 화상" } ],
   bard:[
     { key:"war_band", name:"군악사", bonus:{atk:4,hp:30,spd:1}, skill:"bd_march", extra:["bd_order","bd_drum","bd_volley"],
@@ -4413,9 +4413,9 @@ const TRAITS2={
    [BG("확장 탄창","탄창 12","탄창 8→12",{flag:"ammo_plus4"}), SM("단단한 엄호",{sk:"gn_cover",selfhp:0.03}), [
      [BG("빠른 재장전","재장전 뒤 +60%","재장전 뒤 첫 사격 +30→60%",{flag:"reload_amp"}), SM("엄호 숨",{sk:"gn_cover",castmp:4}), UL("무한 탄창","재장전 뒤 2턴 탄 안 씀","재장전 뒤 2턴간 탄을 쓰지 않음",{flag:"infinite_ammo2"})],
      [BG("장전 사격","재장전 뒤 바로 한 발","재장전 뒤 곧바로 사격 한 발",{flag:"reload_shot"}), SM("엄호 결의",{sk:"gn_cover",selfhp:0.02}), UL("장전 보호막","재장전 때 보호막 12%","재장전할 때 보호막 12%",{flag:"reload_shield"})]]],
-   [BG("화상탄 전문","사격 화상 25%","사격 화상 확률 10→25%",{flag:"incendiary25"}), SM("센 관통탄",{sk:"gn_pierce",pow:0.1}), [
+   [BG("화상탄 전문","탄 공격 화상 25%","탄을 쓰는 공격의 화상 확률 10→25%",{flag:"incendiary25"}), SM("센 관통탄",{sk:"gn_pierce",pow:0.1}), [
      [BG("관통탄 숙련","뒷줄 관통 100%","관통탄 같은 줄 뒷줄 70→100%",{skmod:{sk:"gn_pierce",set:{lance:1}}}), SM("가벼운 관통탄",{sk:"gn_pierce",add:{ammo:-1}}), UL("관통탄 숙달","관통탄 +25%","관통탄 위력 +25%",{skmod:{sk:"gn_pierce",pow:0.25}})],
-     [BG("화상탄 +","사격 화상 +10%p","사격 화상 확률 +10%p",{flag:"special_plus3"}), SM("관통탄 집중",{sk:"gn_pierce",add:{critPlus:0.08}}), UL("긴 불씨","사격 화상 +1턴","사격으로 건 화상이 1턴 더 남음",{flag:"incendiary_long"})]]]]),
+     [BG("화상탄 +","탄 공격 화상 +10%p","탄을 쓰는 공격의 화상 확률 +10%p",{flag:"special_plus3"}), SM("관통탄 집중",{sk:"gn_pierce",add:{critPlus:0.08}}), UL("긴 불씨","탄 공격 화상 +1턴","탄을 쓰는 공격으로 건 화상이 1턴 더 남음",{flag:"incendiary_long"})]]]]),
   BR("gk","📡 취약","p",null,"crit spd atk cd",SM("가벼운 취약",{sk:"gn_mark",pow:0.1}),[
    [BG("붉은 과녁","취약 1.5배","취약 효과 1.5배",{flag:"mark_x15"}), SM("긴 취약",{sk:"gn_mark",dur:1}), [
      [BG("두 개의 과녁","취약 2명","취약을 2명까지",{flag:"mark_two"}), SM("센 표적탄",{sk:"gn_mark",pow:0.1}), UL("사냥꾼의 지휘","취약 적 아군 치명 +10%p","취약한 적에게 아군 전체 치명타 +10%p",{flag:"hunters_call10"})],
@@ -4449,7 +4449,7 @@ const TRAITS2={
      [BG("화약 장인","화상 피해 +30%","화상 피해 +30%",{flag:"burn_amp30"}), SM("예리한 파편",{sk:"gn_frag",add:{critPlus:0.08}}), UL("불꽃놀이","화상 처치 시 폭발 80%","화상으로 쓰러진 적 자리에 폭발 80%",{flag:"fireworks80"})],
      [BG("번지는 불길","처치 시 화상 번짐","화상 적을 쓰러뜨리면 다른 적에게 화상",{flag:"spread_burn"}), SM("소각 집중",{sk:"shoot",add:{"burn.chance":0.1}}), UL("화상 사냥","화상 적 +20%","화상에 걸린 적에게 피해 +20%",{flag:"burn_hunter"})]]],
    [BG("섬광 폭발","폭발 20% 약화","화약 상자 폭발이 20% 확률로 약화",{flag:"blast_blind"}), SM("센 상자",{sk:"gn_keg",pow:0.1}), [
-     [BG("화염 지대","폭발한 줄 2턴 화상","폭발한 줄에 2턴 화상 지대",{flag:"fire_zone"}), SM("예리한 상자",{sk:"gn_keg",add:{critPlus:0.08}}), UL("화약 연쇄 강화","사격 화상 +10%p","사격 화상 확률 +10%p",{flag:"incendiary10"})],
+     [BG("화염 지대","폭발한 줄 2턴 화상","폭발한 줄에 2턴 화상 지대",{flag:"fire_zone"}), SM("예리한 상자",{sk:"gn_keg",add:{critPlus:0.08}}), UL("화약 연쇄 강화","탄 공격 화상 +10%p","탄을 쓰는 공격의 화상 확률 +10%p",{flag:"incendiary10"})],
      [BG("폭발 취약","폭발 맞은 적 취약","화약 상자 폭발을 맞은 적은 취약 2턴",{flag:"blast_vuln"}), SM("상자 호흡",{sk:"gn_keg",castmp:3}), UL("폭탄마의 눈","폭발·화상 피해 +15%","폭발·화상 피해 +15%",{flag:"blast_amp15"})]]]]),
  ],
  bard:[
@@ -5434,6 +5434,10 @@ function skillSpec(sid,sx){
 }
 const SK_ROWK={st:["상태이상","st"],if:["조건부 강화","if"],ln:["🔗 연계","ln"],etc:["참고","etc"]};
 const SK_ORD=["st","if","ln","etc"], SK_OPEN=new Set();
+// v0.94 탄을 쓰는 공격의 화상(총사 패시브) — 엔진과 기술 설명이 같은 식을 씀
+function ammoBurnChance(T,chain){ T=T||{}; return (0.10+(T.special_plus||0)+(T.special_plus3?0.1:0)+(T.incendiary25?0.15:0)+(T.incendiary10?0.1:0)+(T.incendiary_bonus||0))*(chain?2:1); }
+function ammoBurnRow(cid){ try{ const u=buildHeroUnit(cid); if(!(u.ammoMax>0)) return null; const T=u.traits||{}; const p=ammoBurnChance(T,u.passive==="chain_powder"||(u.passives||[]).includes("chain_powder"));
+  return `패시브 화상 ${Math.round(Math.min(1,p)*100)}% 확률 · 턴마다 35% · ${2+(T.incendiary_long?1:0)}턴 (탄을 쓰는 공격마다 · 이미 화상이면 안 걸림)`; }catch(e){ return null; } }
 function skHi(t){ return esc(t).replace(/(\d+(?:\.\d+)?%p?|× ?\d+번?|\d+턴|\d+중첩)/g,'<span class="sknum">$1</span>'); }   // 수치(%·턴·횟수·중첩)는 금색
 
 function skillCardHTML(sid,opt){
@@ -6399,7 +6403,7 @@ class Sim {
     if(killed&&skill.killHeal&&att.alive&&att.hp<att.hp_max){ const hv=Math.max(1,Math.floor(att.hp_max*skill.killHeal)); att.hp=Math.min(att.hp_max,att.hp+hv); fx.push({target:att.id,kind:"heal",amount:hv,crit:false,killed:false,hp:att.hp,mp:att.mp,label:skill.name}); }   // v0.92 최후의 일격
     if(killed&&skill.airKillMom&&wasAir&&(att.momMax||0)>0) att._mom=Math.min(att.momMax,(att._mom||0)+skill.airKillMom);   // v0.92 승천권
     if(!killed&&r.crit&&T.crit_vuln&&!def.buffs.vuln) this.applyStatus(att,def,"vuln",2,0.15,"죄의 고백(취약)",fx);   // v0.85
-    if(!killed&&skill.ammo&&(att.ammoMax||0)>0){ const sp=(0.10+(T.special_plus||0)+(T.special_plus3?0.1:0)+(T.incendiary25?0.15:0)+(T.incendiary10?0.1:0)+(T.incendiary_bonus||0))*(this.hasPassive(att,"chain_powder")?2:1);
+    if(!killed&&skill.ammo&&(att.ammoMax||0)>0){ const sp=ammoBurnChance(T,this.hasPassive(att,"chain_powder"));
       if(this.rand()<sp&&!def.dots.burn) this.setBurn(att,def,0.35,"소이탄(화상)",fx,2+(T.incendiary_long?1:0)); }
     if(this.vulnOf(def)>0&&att.side!==def.side&&att.alive&&!this._countering){ for(const ms of this.songBards(att.side,"hunt_signal")) if(ms!==att&&this.hasPassive(ms,"hunter_sense")&&(ms._ammo||0)<(ms.ammoMax||0)&&this.rand()<0.25) ms._ammo++; }   // v0.92 사냥 신호(특성): 취약한 적을 아군이 치면 25% 탄 +1
     if(T.throw_mark&&def.buffs.mark) att._comboBonus=(att._comboBonus||0)+1;
@@ -11462,8 +11466,10 @@ function renderRules(){
   const SX=heroSkillsEx(selected,DV.wtype);
   // v0.94 스킬 목록(B안): 평소엔 한 줄 요약(이름 · 대상 · 비용 · 핵심 효과 · 색 점), 누르면 상태이상·조건부 강화·연계·참고·숙련이 펼쳐짐
   const lst=document.createElement("div"); lst.className="sklist"; det.appendChild(lst);
+  const abRow=ammoBurnRow(selected);
   for(const sid of skills){
     const S=skillSpec(sid,SX[sid]); if(!S) continue;
+    if(abRow&&(SX[sid]||SKILLS[sid]).ammo&&SKILLS[sid].type==="damage") S.rows.push({k:"st",t:abRow});
     const adv=!CLASSES[selected].skills.includes(sid);
     const inRule=rules.some(r=>r.enabled&&r.skill===sid)||sid===CLASSES[selected].skills[0];
     const ms=((progress.heroes[selected].mastery||{})[sid])||{xp:0,pick:{}}; const msPick=MASTERY_STEPS.slice(0,3).some((th,i)=>(ms.xp||0)>=th&&!(ms.pick&&ms.pick[i]))&&!isCompanion(selected)&&!runBusy();
@@ -14690,7 +14696,8 @@ const UPDATES=[
     "1024×600처럼 세로가 낮은 화면에서 전투 몹이 0.2배로 작게 보이던 문제를 고쳤습니다. 몹끼리 겹칠 때만 줄이고, 최소 0.6배입니다.",
     "숙달한 얼음 감옥이 '냉기 3.15중첩', 바람 읽기가 '+2.1'처럼 소수로 나오던 문제를 고쳤습니다. 중첩·횟수는 숙달해도 그대로입니다(3중첩 · 2발).",
     "기술 설명 첫 줄에 확률·수치를 넣었습니다. 예: '적 전체에 기절' → '적 전체 20% 확률로 기절 1턴', 부동 자세 → '2턴간 도발 · 받는 피해 -25% · 맞을 때마다 100% 반격'. '발 수 +1'은 '+1발'로 바꿨습니다.",
-    "특성 '소각 집중'(폭탄마 사격)과 '뜨거운 타격'(심판관 성스러운 타격)을 찍으면 상태이상 칸에 '턴마다 NaN% · undefined턴'이 나오던 문제를 고쳤습니다. 실제 전투에서는 이 화상에 걸린 적의 체력이 숫자가 아니게 되어(NaN) 그 뒤로 아무리 때려도 쓰러지지 않았습니다. 이제 다른 화상과 같게 턴마다 공격력 35% · 2턴입니다(확률 10%)."]},
+    "특성 '소각 집중'(폭탄마 사격)과 '뜨거운 타격'(심판관 성스러운 타격)을 찍으면 상태이상 칸에 '턴마다 NaN% · undefined턴'이 나오던 문제를 고쳤습니다. 실제 전투에서는 이 화상에 걸린 적의 체력이 숫자가 아니게 되어(NaN) 그 뒤로 아무리 때려도 쓰러지지 않았습니다. 이제 다른 화상과 같게 턴마다 공격력 35% · 2턴입니다(확률 10%).",
+    "총사 패시브의 '사격마다 10% 화상'은 실제로는 '사격' 기술만이 아니라 탄을 쓰는 공격 전부(정밀 사격 · 관통탄 · 표적탄 · 산탄 사격 등)에 적용됩니다. 그래서 패시브와 특성 4개(화상탄 전문 · 화상탄 + · 긴 불씨 · 화약 연쇄 강화)의 문구를 '탄을 쓰는 공격'으로 바꿨습니다. 전투설정의 기술 목록에서 탄을 쓰는 공격 기술을 펼치면, 특성·폭탄마 패시브(×2)까지 반영한 실제 화상 확률이 보입니다. 예: 기본 10% · 폭탄마 20%."]},
   {d:"2026.11.06", v:"v0.94", t:"전투 규칙 새 화면", L:[
     "자동전투 규칙 화면을 새로 만들었습니다. 한 줄의 제목이 쓸 기술이고, 줄을 누르면 그 자리에서 조건과 대상을 바꿉니다.",
     "조건을 '종류 + 조절 칸'으로 바꿨습니다(체력·마나, 적 수, 적 상태, 나·아군 상태, 직업 자원, 턴, 진형, 전투 사건, 항상). 예: 아군 [2]명 이상 [체력] [50]% [이하]. 숫자는 −/+로 바꿉니다(체력·마나 10%씩).",
