@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793878454140"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793883424006"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2150,7 +2150,6 @@ const COND = [
   /* v0.93 새 조건 — 버프·약화를 다시 걸 때 */
   {label:"내 보호막이 없음",type:"self_no_shield",value:0},
   {label:"약화된 적 없음",type:"enemy_unweak",value:0},
-  {label:"이 기술의 효과가 없음 (노래·약화·취약)",type:"skill_off",value:0},
 ];
 function debuffed(x){ return !!((x._cold||0)>0||x.dots.burn||x.dots.poison||x.dots.frost||x.dots.bleed||(x.buffs.atk&&x.buffs.atk.value<0)||x.buffs.stun||x.buffs.silence||x.buffs.blind||x.buffs.fear||x.buffs.vuln||x.buffs.brand||x.buffs.air||x.buffs.mark); }
 const TARGET = ["자동","체력 비율이 가장 낮은 적","무작위 적","체력 비율이 가장 높은 적","앞줄 적 우선","체력 비율이 가장 낮은 아군","자신","무작위 아군","독이 가장 많이 쌓인 적","취약한 적 우선","띄운 적 우선","공격력이 가장 높은 아군","역할 몬스터 우선 (치유사·방패병·주술사)","뒷줄 적 우선","보스·우두머리 우선","화상 걸린 적 우선","약화·냉기·빙결된 적 우선"];   // v0.93 15·16   // v0.35: 이름을 분명하게(체력은 남은 비율 기준)
@@ -2315,17 +2314,17 @@ const RULESET={
       surv:[["gn_blast",7,0,0,0],["gn_firerain",7,0,0,0],["gn_flash",3,0,0,0],["gn_keg",49,1,7,0],["gn_cover",7,0,0,0],["gn_pierce",0,0,0,4]],
       supp:[["gn_frag",46,0,0,0],["gn_blast",7,0,0,0],["gn_keg",49,1,7,0],["gn_mark",46,0,0,3],["gn_firerain",6,0,0,0],["gn_scatter",0,0,0,0]] } },
   bard:{
-    base:{ atk:[["bd_valor",55,0,0,0],["bd_echo",42,0,0,0],["bd_uplift",0,0,0,11]],
-           surv:[["bd_rest",55,0,0,0],["bd_soothe",4,2,24,0],["bd_echo",0,0,0,0]],
-           supp:[["bd_soothe",4,0,0,0],["bd_valor",55,0,0,0],["bd_rest",4,1,55,0],["bd_uplift",0,0,0,11]] },
+    base:{ atk:[["bd_valor",0,0,0,0],["bd_echo",42,0,0,0],["bd_uplift",0,0,0,11]],
+           surv:[["bd_rest",0,0,0,0],["bd_soothe",4,2,24,0],["bd_echo",0,0,0,0]],
+           supp:[["bd_soothe",4,0,0,0],["bd_valor",0,0,0,0],["bd_rest",4,0,0,0],["bd_uplift",0,0,0,11]] },
     war_band:{
-      atk:[["bd_march",55,0,0,0],["bd_volley",43,0,0,0],["bd_order",42,1,10,11],["bd_valor",55,0,0,0],["bd_uplift",0,0,0,11]],
-      surv:[["bd_march",55,0,0,0],["bd_soothe",4,2,24,0],["bd_rest",4,1,55,0],["bd_drum",42,0,0,0],["bd_uplift",0,0,0,11]],
-      supp:[["bd_march",55,0,0,0],["bd_drum",42,0,0,0],["bd_valor",55,0,0,0],["bd_order",42,0,0,11],["bd_uplift",0,0,0,11]] },
+      atk:[["bd_march",0,0,0,0],["bd_volley",43,0,0,0],["bd_order",42,1,10,11],["bd_valor",0,0,0,0],["bd_uplift",0,0,0,11]],
+      surv:[["bd_march",0,0,0,0],["bd_soothe",4,2,24,0],["bd_rest",4,0,0,0],["bd_drum",42,0,0,0],["bd_uplift",0,0,0,11]],
+      supp:[["bd_march",0,0,0,0],["bd_drum",42,0,0,0],["bd_valor",0,0,0,0],["bd_order",42,0,0,11],["bd_uplift",0,0,0,11]] },
     jester:{
-      atk:[["bd_mock",55,0,0,0],["bd_dance",6,0,0,0],["bd_lullaby",42,0,0,14],["bd_valor",55,0,0,0],["bd_unease",0,0,0,0]],
-      surv:[["bd_laugh",24,0,0,0],["bd_soothe",4,0,0,0],["bd_mock",55,0,0,0],["bd_rest",55,0,0,0],["bd_lullaby",42,0,0,14]],
-      supp:[["bd_mock",55,0,0,0],["bd_dance",6,1,42,0],["bd_lullaby",42,0,0,14],["bd_rest",4,1,55,0],["bd_unease",0,0,0,0]] } },
+      atk:[["bd_mock",0,0,0,0],["bd_dance",6,0,0,0],["bd_lullaby",42,0,0,14],["bd_valor",0,0,0,0],["bd_unease",0,0,0,0]],
+      surv:[["bd_laugh",24,0,0,0],["bd_soothe",4,0,0,0],["bd_mock",0,0,0,0],["bd_rest",0,0,0,0],["bd_lullaby",42,0,0,14]],
+      supp:[["bd_mock",0,0,0,0],["bd_dance",6,1,42,0],["bd_lullaby",42,0,0,14],["bd_rest",4,0,0,0],["bd_unease",0,0,0,0]] } },
   archer:{
     base:{ atk:[["ar_prey",8,0,0,14],["ar_rain",6,0,0,0],["ar_rapid",0,0,0,1]],
            surv:[["ar_bind",7,0,0,0],["ar_venom",8,0,0,0],["ar_rapid",0,0,0,0]],
@@ -2353,7 +2352,7 @@ const RULESET={
 };
 const RULESET_STANCE0={knight:"surv", mage:"atk", priest:"supp", rogue:"atk", fighter:"atk", gunner:"atk", bard:"supp", archer:"atk", lancer:"atk"};   // = STANCE_DEFAULT (아래에서 정의 — 순서 때문에 여기 따로)
 function ruleRow(e){ return {enabled:true,c1:e[1],logic:e[2],c2:e[3],skill:e[0],target:e[4]}; }
-function isFillerRow(e){ return (e[1]|0)===0&&!(e[2]|0); }
+function isFillerRow(e){ return (e[1]|0)===0&&!(e[2]|0)&&!(SKILLS[e[0]]&&SKILLS[e[0]].type==="song"); }   // v0.94 노래는 "항상"이어도 맨 끝 채움 줄이 아님(같은 노래가 남아 있으면 다음 규칙으로 넘어가므로 앞에 둠)
 // 표에서 규칙 n칸을 만든다: 가진 기술만 위에서부터 · '항상' 줄은 마지막 칸
 function ruleTable(cid,adv,st,skills,n){
   const T=RULESET[cid], L=((adv&&T[adv])||T.base)[st]||((adv&&T[adv])||T.base)[RULESET_STANCE0[cid]], has=new Set(skills);
@@ -4693,7 +4692,7 @@ let progress=null;
 let selected="knight";
 let equippedStore=[];
 
-function defaultRules(){ const o={_cv:3}; for(const c of CLASS_IDS) o[c]=CLASSES[c].default_rules.map(r=>({...r})); return o; }   // _cv 2 = v0.93 조건 번호 · 3 = v0.94 노래 규칙(효과 없음)
+function defaultRules(){ const o={_cv:4}; for(const c of CLASS_IDS) o[c]=CLASSES[c].default_rules.map(r=>({...r})); return o; }   // _cv 2 = v0.93 조건 번호 · 3 = v0.94 노래 규칙 · 4 = 효과 없음 조건 삭제
 function emptyEquip(){ const e={}; for(const s of SLOTS) e[s.key]=null; return e; }
 // v0.15: 옛 아이템(stats·trinket·proc)을 새 구조(base·affixes·부위 11)로
 function migrateItem(it){
@@ -4723,13 +4722,14 @@ function defaultProgress(){
 const COND_GONE_093=[20,47,48,49,53,55,56,57,59,60,61,62];
 function condMap093(i){ i=i|0; if(i===49) i=23; if(COND_GONE_093.includes(i)) return -1; return i-COND_GONE_093.filter(g=>g<i).length; }
 function ruleMig093(x){ if(!x||typeof x!=="object") return x; const a=condMap093(x.c1), b=condMap093(x.c2); if(a<0){ x.enabled=false; x.c1=0; } else x.c1=a; if(b<0){ x.c2=0; x.logic=0; } else x.c2=b; return x; }
-/* v0.94 음유시인 기본 규칙: 노래 조건 '적이 2마리 이상'(7) → '이 기술의 효과가 없음'(55). 예전 기본 줄과 똑같은 규칙만 바꿈(플레이어가 바꾼 규칙은 그대로) */
+/* v0.94 음유시인 기본 규칙: 노래 조건 '적이 2마리 이상'(7) → '항상'(0). 예전 기본 줄과 똑같은 규칙만 바꿈(플레이어가 바꾼 규칙은 그대로) */
 const SONG_SK_094=["bd_valor","bd_march","bd_mock","bd_rest"];
 function ruleMig094(x){ if(!x||typeof x!=="object"||(x.target|0)!==0||(x.logic|0)!==0) return x;
-  if(SONG_SK_094.includes(x.skill)&&(x.c1|0)===7){ x.c1=55; x.c2=0; }
-  else if(x.skill==="bd_rest"&&(x.c1|0)===4){ x.logic=1; x.c2=55; }
+  if(SONG_SK_094.includes(x.skill)&&(x.c1|0)===7){ x.c1=0; x.c2=0; }   // 노래: 적 2마리 이상 → 항상(같은 노래가 남아 있으면 게임이 알아서 안 부름)
   return x; }
-function rulesFrom(src){ if(!src) return; const cv=src._cv|0; for(const c of CLASS_IDS) if(Array.isArray(src[c])){ let r=cv<2?src[c].map(ruleMig093):src[c]; if(cv<3&&c==="bard") r=r.map(ruleMig094); partyRules[c]=r; } partyRules._cv=3; }
+// v0.94 '이 기술의 효과가 없음' 조건(55)을 없앰 — 같은 효과가 남아 있으면 어떤 조건이든 그 기술을 다시 쓰지 않으므로. 그 조건을 쓰던 규칙은 '항상'으로
+function ruleMig094b(x){ if(!x||typeof x!=="object") return x; if((x.c2|0)===55){ x.c2=0; x.logic=0; } if((x.c1|0)===55){ if((x.logic|0)&&x.c2){ x.c1=x.c2; x.c2=0; x.logic=0; } else x.c1=0; } return x; }
+function rulesFrom(src){ if(!src) return; const cv=src._cv|0; for(const c of CLASS_IDS) if(Array.isArray(src[c])){ let r=cv<2?src[c].map(ruleMig093):src[c]; if(cv<3&&c==="bard") r=r.map(ruleMig094); if(cv<4) r=r.map(ruleMig094b); partyRules[c]=r; } partyRules._cv=4; }
 function normRules(){ for(const c of CLASS_IDS){ for(const x of partyRules[c]||[]){
     if(SKILL_MAP_092[x.skill]&&!(CLASSES[c].skills.includes(x.skill))){ x._o092=OLD_RULE_SIG_092.has(`${x.skill}:${x.c1|0}:${x.logic|0}:${(x.logic|0)?(x.c2|0):0}`)?1:2; x._o092e=x.enabled!==false; x.skill=x._o092s=SKILL_MAP_092[x.skill]; }   // v0.92 예전 기술 → 새 기술(표에서 다시 짜는 것은 migrateProgress)
     if(!COND[x.c1]) x.c1=0; if(!COND[x.c2]) x.c2=0; if(!(x.target<TARGET.length)) x.target=0;
@@ -5469,11 +5469,6 @@ class Sim {
     switch(c.type){
       case "self_no_shield": return !((u.shield||0)>0);   // v0.93
       case "enemy_unweak": return !this.foes(u).some(f=>f.buffs.atk&&f.buffs.atk.value<0);
-      case "skill_off": { const S=sk&&this.skillOf(u,sk); if(!S) return true;   // v0.93 이 규칙의 기술 효과가 아직 없을 때(노래 · 약화 · 취약)
-        if(S.song) return S.foe?!this.foes(u).some(f=>f.buffs["sg_"+S.song]):!this.allies(u).some(a=>a.buffs["sg_"+S.song]);
-        if(S.type==="deathmark"||S.vuln) return !this.foes(u).some(f=>this.vulnOf(f)>0);
-        if(S.weak||S.type==="debuff") return !this.foes(u).some(f=>f.buffs.atk&&f.buffs.atk.value<0);
-        return true; }
       case "enemy_status": return this.foes(u).some(f=>v==="stun"?!!f.buffs.stun:v==="vuln"?this.vulnOf(f)>0:!!(f.dots[v]||f.buffs[v]));
       case "enemy_chilled": return this.foes(u).some(f=>f.buffs.atk&&f.buffs.atk.value<0);
       case "self_debuffed": return debuffed(u);
@@ -5571,7 +5566,7 @@ class Sim {
     if(skill.lane&&!skill._laneIn){ const t=this.resolveTargets(u,Object.assign({},skill,{_laneIn:true}),tIdx); if(!t.length) return t;   // v0.92 꿰뚫는 바람·천공: 고른 적의 가로줄(앞·뒷줄) 모두
       const c=t[0]; return this.foes(u).filter(x=>x.lane===c.lane&&!x.buffs.stealth&&!this.untargetable(x)).sort((a,b)=>(a.row==="front"?0:1)-(b.row==="front"?0:1)); }
     if(st==="trap"||st==="leap"||st==="unbroken") return st==="unbroken"?this.allies(u):[u];
-    if(st==="guard"){ const o=this.allies(u).filter(a=>a!==u&&!(a.buffs.guardctr&&a.buffs.guardctr.turns>1)); if(!o.length) return [];   // v0.92 거리 두기: 나를 뺀 아군 1명
+    if(st==="guard"){ const o=this.allies(u).filter(a=>a!==u&&!a.buffs.guardctr); if(!o.length) return [];   // v0.92 거리 두기: 나를 뺀 아군 1명
       switch(tIdx){ case 5: return [this.lowest(o)]; case 7: return [o[this.ri(0,o.length-1)]]; case 11: return [o.reduce((b,x)=>x.atk>b.atk?x:b,o[0])];
         default: { const f=o.filter(a=>a.row==="front"); return [this.lowest(f.length?f:o)]; } } }
     if(st==="buff_def"&&skill.laneAllies) return this.allies(u).filter(a=>a.lane===u.lane);   // v0.92 방진: 나와 같은 가로줄 아군(나 포함)
@@ -5582,13 +5577,15 @@ class Sim {
     if(st==="drum"||st==="laugh"||st==="regen") return this.allies(u);
     if(st==="freeze"){ const pool=this.reachableFoes(u,skill).filter(f=>!(f.buffs.stun&&f.buffs.stun.frozen)&&!this.ccImmuneT(f)&&!this.ccImmune(f)); if(!pool.length) return []; const nb=pool.filter(x=>!(x.isBossKind||x.boss));
       if(tIdx===14){ const b=pool.find(x=>x.isBossKind||x.boss); if(b) return [b]; } if(tIdx===1&&nb.length) return [this.lowest(nb)]; return [nb.length?this.highest(nb):this.highest(pool)]; }
-    if(st==="foebuff"&&skill.buff==="prey"&&this.foes(u).some(f=>f.buffs.prey&&f.buffs.prey.src===u.id&&f.buffs.prey.turns>1)) return [];   // v0.92 사냥감은 한 명 — 아직 남아 있으면 다시 걸지 않음
-    if(st==="foebuff"){ const k=skill.buff; let pool=this.reachableFoes(u,skill).filter(f=>!(f.buffs[k]&&f.buffs[k].turns>1)); if(skill.poisonOnly) pool=pool.filter(f=>f.dots.poison); if(!pool.length) return []; if(skill.aoe) return pool;
+    if(st==="foebuff"&&skill.buff==="prey"&&this.foes(u).some(f=>f.buffs.prey&&f.buffs.prey.src===u.id)) return [];   // v0.92 사냥감은 한 명 — 아직 남아 있으면 다시 걸지 않음
+    if(st==="foebuff"){ const k=skill.buff; let pool=this.reachableFoes(u,skill).filter(f=>!f.buffs[k]); if(skill.poisonOnly) pool=pool.filter(f=>f.dots.poison); if(!pool.length) return []; if(skill.aoe) return pool;
       const b=pool.find(x=>x.isBossKind||x.boss); if(tIdx===1) return [this.lowest(pool)]; if(tIdx===4){ const f=pool.find(x=>x.row==="front"); if(f) return [f]; } return [b||this.highest(pool)]; }
     if(st==="debuff"){ const vis=this.foes(u).filter(x=>!x.buffs.stealth&&!this.untargetable(x)); const pool=vis.length?vis:this.foes(u); if(!skill.one||!pool.length) return pool;
       switch(tIdx){ case 1: return [this.lowest(pool)]; case 2: return [pool[this.ri(0,pool.length-1)]]; case 4: { const f=pool.find(x=>x.row==="front"); return [f??pool[0]]; } case 14: { const b=pool.find(x=>x.isBossKind||x.boss); return [b||this.highest(pool)]; } default: { const s2=pool.filter(x=>!(x.buffs.atk&&x.buffs.atk.value<0)); const q=s2.length?s2:pool; return [q.reduce((b,x)=>x.atk>b.atk?x:b,q[0])]; } } }
     if(st==="charge"||st==="inspire"){
-      let pool=this.allies(u); if(st==="charge"||pool.length>1) pool=pool.filter(a=>a!==u); if(st==="charge") pool=pool.filter(a=>!a.buffs.stun); if(!pool.length) return [];
+      let pool=this.allies(u); if(st==="charge"||pool.length>1) pool=pool.filter(a=>a!==u); if(st==="charge") pool=pool.filter(a=>!a.buffs.stun);
+      if(st==="inspire") pool=pool.filter(a=>!a.buffs.rally);   // v0.94 같은 효과가 남아 있는 아군에겐 다시 안 씀
+      if(!pool.length) return [];
       switch(tIdx){ case 5: return [this.lowest(pool)]; case 7: return [pool[this.ri(0,pool.length-1)]];
         default: return [pool.reduce((b,x)=>x.atk*this.buffMult(x,"atk")>b.atk*this.buffMult(b,"atk")?x:b,pool[0])]; } }
     if(st==="barrier") return this.allies(u);
@@ -5643,7 +5640,7 @@ class Sim {
   defCutOf(u){ return Math.max((u.buffs.def&&u.buffs.def.value>0)?u.buffs.def.value:0, this.songOf(u,"rest")); }
   // v0.92 이미 같은(또는 더 센) 효과가 다 걸려 있어 쓸 이유가 없는 버프인지
   buffRedundant(u,skill,tg){ const key=skill.type==="buff_atk"?"atk":"def"; const extra=skill.resUp||skill.leech||skill.selfAtkCut||skill.frostCoat||skill.holyWard||skill.stImm;
-    if(extra) return tg.every(t=>(t.buffs[key]&&t.buffs[key].value>=skill.value&&t.buffs[key].turns>1)&&(!skill.resUp||(t.buffs.resup&&t.buffs.resup.value>=skill.resUp))&&(!skill.leech||t.buffs.leech)&&(!skill.frostCoat||t.buffs.frostcoat)&&(!skill.holyWard||t.buffs.holyward)&&(!skill.stImm||t.buffs.stimm));
+    if(extra) return tg.every(t=>(t.buffs[key]&&t.buffs[key].value>=skill.value)&&(!skill.resUp||(t.buffs.resup&&t.buffs.resup.value>=skill.resUp))&&(!skill.leech||t.buffs.leech)&&(!skill.frostCoat||t.buffs.frostcoat)&&(!skill.holyWard||t.buffs.holyward)&&(!skill.stImm||t.buffs.stimm));
     return !tg.some(t=>!(t.buffs[key]&&t.buffs[key].value>=skill.value)); }
   mpCost(u,skill){ let c=skill.mp||0;   /* v0.90 기술 비용은 고정 숫자(최대 마나의 %가 아님) */ if(skill.type==="stealth"&&u.traits.stealth_long) return 0; if(u.traits.blood_pact) return 0; if(u.traits.mana_cycle) c*=u.traits.mana_cycle_v?1-u.traits.mana_cycle_v:0.75; if(u.traits.overload_v) c*=1.15;
     if(u._int18) c*=0.9;   // 지능 18 통찰
@@ -5676,11 +5673,11 @@ class Sim {
     if(skill.resCost&&(u._res||0)<this.resCost(u,skill)) return false;
     if(st==="stance"&&u.buffs.stance) return false;
     // v0.92 새 종류
-    if(st==="song"){ const k="sg_"+skill.song; if((skill.foe?this.foes(u):this.allies(u)).every(t=>t.buffs[k]&&t.buffs[k].turns>1)) return false; }   // 모두에게 2턴 이상 남아 있으면 아직 다시 부르지 않음
+    if(st==="song"){ const k="sg_"+skill.song; if((skill.foe?this.foes(u):this.allies(u)).every(t=>t.buffs[k])) return false; }   // v0.94 같은 노래가 모두에게 남아 있으면 다시 부르지 않음(끝난 뒤에 부름)
     if(st==="selfbuff"&&u.buffs[skill.buff]) return false;
     if(st==="foebuff"&&!this.resolveTargets(u,skill,0).length) return false;
     if(st==="freeze"&&!this.resolveTargets(u,skill,0).length) return false;
-    if(st==="regen"&&!this.allies(u).some(a=>a.hp<a.hp_max&&!(a.dots.regen&&a.dots.regen.turns>1))) return false;
+    if(st==="regen"&&!this.allies(u).some(a=>a.hp<a.hp_max&&!a.dots.regen)) return false;
     if(st==="drum"&&this.allies(u).length<2) return false;
     if(st==="laugh"&&!this.allies(u).some(a=>a.buffs.stun&&!a.buffs.stun.frozen)) return false;
     if(st==="debuff"&&skill.one&&skill.weak&&this.foes(u).every(f=>f.buffs.atk&&f.buffs.atk.value<=skill.weak.value)&&!skill.coldAll) return false;
@@ -5695,7 +5692,7 @@ class Sim {
     if(st==="trap"){ const fs=this.foes(u); const row=fs.some(f=>f.row==="front")?"front":fs.length?"back":null; if(!row||this.traps[this.opp(u.side)][row]) return false; }
     if(st==="leap"&&(u.buffs.leap||!this.reachableFoes(u,skill).length)) return false;
     if(st==="guard"&&!this.resolveTargets(u,skill,0).length) return false;
-    if(st==="unbroken"&&this.allies(u).every(a=>a.buffs.resup&&a.buffs.resup.value>=skill.resUp&&a.buffs.resup.turns>1)&&u.buffs.def&&u.buffs.def.value>=skill.value&&u.buffs.def.turns>1) return false;
+    if(st==="unbroken"&&this.allies(u).every(a=>a.buffs.resup&&a.buffs.resup.value>=skill.resUp)&&u.buffs.def&&u.buffs.def.value>=skill.value) return false;
     if(st==="reload"&&(u._ammo||0)>=(u.ammoMax||0)) return false;
     if(st==="aim"&&(u._aim||0)>=((u.traits&&u.traits.aim_max4)?4:3)&&(u._ammo||0)>=(u.ammoMax||0)) return false;
     if(st==="keg"){ const fs=this.foes(u); const rows=[...new Set(fs.map(f=>f.row))]; if(!rows.some(r=>!this.kegs[this.opp(u.side)][r]||((u.traits&&u.traits.keg_chain)&&!this.kegs[this.opp(u.side)][r].two))) return false; }
@@ -14493,13 +14490,14 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
   {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "같은 효과가 아직 걸려 있으면 그 기술을 다시 쓰지 않는 규칙을 모든 지속 기술에 똑같이 적용했습니다(북돋는 선율도 이제 효과가 남은 아군에겐 안 씀). 그래서 따로 필요 없어진 '이 기술의 효과가 없음' 조건은 지웠고, 그 조건을 쓰던 규칙은 '항상'으로 바뀝니다.",
     "자동전투 탭의 스킬 목록을 한 줄 요약으로 바꿨습니다. 이름 · 대상 · 비용 · 핵심 효과가 한 줄에 보이고, 누르면 상태이상(주황) · 조건부 강화(초록) · 연계(보라) · 참고(회색) · 숙련이 펼쳐집니다. 수치는 금색으로 표시합니다.",
     "동료 합류 무렵 게임이 멈추던 문제를 고쳤습니다. 동료 고르기 창이 다른 창에 가려 사라지면 다시 띄우고, 반복 전투 중이면 동료를 먼저 고른 뒤 반복을 이어 갑니다.",
     "컴퓨터에서 옆으로 넘기는 목록(장비 탭 영웅 목록 등)을 마우스 휠이나 끌어서 넘길 수 있습니다. 📊 딜미터기는 이제 구역마다 새로 세지 않고 한 막의 전투를 모두 더해 보여 줍니다.",
     "새 우편이 오면 바로 알림이 뜨고 위쪽 📮에 받지 않은 우편 수가 표시됩니다. 정액을 쓰는 동안 위쪽에 🌙이 보이고, 누르면 효과와 남은 일수가 나옵니다.",
     "우편으로 30일 정액을 선물받을 수 있습니다. 받으면 보낸 일수만큼 정액이 시작되고, 이미 쓰는 중이면 남은 기간에 더해집니다.",
-    "음유시인 기본 자동전투 규칙을 고쳤습니다. 투지의 노래 · 행진곡 · 조롱의 노래 · 안식의 노래를 '적이 2마리 이상'이 아니라 '이 기술의 효과가 없음'일 때 부릅니다(노래가 끊기면 다시 부름). 직접 바꾼 규칙은 그대로 둡니다.",
-    "자동전투 조건을 정리했습니다. 없어진 시스템의 조건 12개를 지웠고, 룬이 있어야 쓰던 '적이 1마리' · '보스가 있음' · '내 체력이 가득 참' · '아군 전원 체력 70% 이상'을 누구나 씁니다. 새 조건 '내 보호막이 없음' · '약화된 적 없음' · '이 기술의 효과가 없음(노래 · 약화 · 취약)'을 넣었습니다. 연계 · 은신 조건은 도적에게만 보입니다.",
+    "음유시인 기본 자동전투 규칙을 고쳤습니다. 투지의 노래 · 행진곡 · 조롱의 노래 · 안식의 노래를 '적이 2마리 이상'이 아니라 '항상'으로 둬서 보스전에도 부릅니다(노래가 남아 있으면 다시 부르지 않음). 직접 바꾼 규칙은 그대로 둡니다.",
+    "자동전투 조건을 정리했습니다. 없어진 시스템의 조건 12개를 지웠고, 룬이 있어야 쓰던 '적이 1마리' · '보스가 있음' · '내 체력이 가득 참' · '아군 전원 체력 70% 이상'을 누구나 씁니다. 새 조건 '내 보호막이 없음' · '약화된 적 없음'을 넣었습니다. 연계 · 은신 조건은 도적에게만 보입니다.",
     "전투 속도를 1배속 · 2배속 · 3배속 · 4배속으로 바꿨습니다(예전 보통 · 조금 빠르게 · 빠르게 · 매우 빠르게 → 4배속은 예전 '매우 빠르게'와 거의 같음). 처음 깨는 막은 2배속까지, 이미 깬 막은 3배속까지 씁니다.",
     "🔁 반복 전투가 생겼습니다. 던전 창이나 전투 화면 위쪽에서 켜면 막을 끝낼 때마다 같은 던전에 다시 들어가고, 횃불이 떨어지면 멈춥니다. 패배하면 멈추고, '패배해도 계속'을 켜면 패배해도 이어서 반복합니다.",
     "게임 첫 화면이 생겼습니다. 게스트 또는 Google 계정으로 로그인하고, 한 번 로그인하면 다음부터는 자동으로 로그인됩니다.",
