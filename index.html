@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793859686658"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793863640126"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1402,6 +1402,43 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .decohandle{position:fixed; z-index:55; border:2px dashed #ffd27a; border-radius:6px; background:rgba(255,210,122,.08); cursor:grab; touch-action:none}
 .cardedit{position:relative; width:100%; max-width:min(640px,calc((100vh - 150px)*1.6)); margin:0 auto; touch-action:none} .cardedit img{width:100%; display:block; border-radius:8px; user-select:none} .cesti{position:absolute; width:8.75%; transform:translate(-50%,-50%); image-rendering:pixelated; cursor:grab; outline:2px dashed #ffd27a; outline-offset:2px; touch-action:none}
 .field.campfire.arranging .unit{cursor:grab; outline:2px dashed #ffd27a88; outline-offset:2px; border-radius:8px; touch-action:none} .field.campfire.arranging .unit.dragging{cursor:grabbing; outline-color:#ffd27a}
+/* v0.93 테스트 운영: 첫 화면 · 공지 · 우편 · 운영 도구 */
+#title{position:fixed; inset:0; z-index:9000; display:flex; align-items:center; justify-content:center; padding:16px; overflow-y:auto;
+  background:radial-gradient(120% 90% at 50% 110%, #2a2213 0%, #121828 45%, var(--bg) 80%); transition:opacity .25s ease}
+#title.out{opacity:0}
+#title .ttl-box{width:min(440px,100%); text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px}
+#title .ttl-eyebrow{font-size:12px; letter-spacing:.32em; color:var(--muted); font-weight:700}
+#title h1{margin:0; font-size:34px; color:var(--accent); letter-spacing:.02em}
+#title .ttl-sub{margin:0; color:var(--sub); font-size:14px}
+#title .ttl-heroes{display:flex; justify-content:center; gap:4px; margin:8px 0 6px; flex-wrap:wrap}
+#title .ttl-heroes img{width:36px; height:36px; image-rendering:pixelated}
+#title .ttl-btns{display:flex; flex-direction:column; gap:10px; width:min(300px,100%)}
+#title .ttl-btns .btn{height:48px; font-size:16px; font-weight:700; justify-content:center; display:flex; align-items:center; gap:8px}
+#title .ttl-g svg{width:20px; height:20px}
+#title .ttl-who{margin:4px 0 0; color:var(--ink); font-size:15px}
+#title .ttl-out{background:none; border:0; color:var(--muted); font:inherit; font-size:13.5px; text-decoration:underline; cursor:pointer; padding:6px}
+#title .ttl-note{margin:0; color:var(--muted); font-size:13px; line-height:1.55; max-width:340px}
+#title .ttl-msg{margin:0; min-height:1em; color:var(--sub); font-size:13px; line-height:1.55; max-width:360px}
+#title .ttl-link{background:none; border:0; color:var(--accent); text-decoration:underline; font:inherit; cursor:pointer}
+@media (max-height:560px){ #title .ttl-box{gap:6px} #title h1{font-size:26px} #title .ttl-heroes{margin:2px 0} #title .ttl-heroes img{width:28px; height:28px} #title .ttl-btns .btn{height:42px; font-size:15px} }
+.modal.notices .mpanel{width:min(760px,100%); display:flex; flex-direction:column; max-height:calc(100dvh - 32px)}
+.ntabs{display:flex; gap:6px; margin:4px 0 10px; flex-wrap:wrap} .ntabs button{background:var(--panel2); border:1px solid var(--line); color:var(--sub); border-radius:999px; padding:6px 14px; font:inherit; font-size:14px; cursor:pointer}
+.ntabs button.on{background:var(--accent); color:var(--accent-ink); border-color:var(--accent); font-weight:700}
+.nbody{overflow-y:auto; min-height:0; flex:1; display:flex; flex-direction:column; gap:8px; padding-right:2px}
+.ncard{background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:10px 14px; font-size:14px; line-height:1.6}
+.ncard.pin{border-color:#6b5a2a; background:#1a1810} .ncard.warn{border-color:#7a4a2a} .ncard.done{opacity:.6}
+.ncard p{margin:4px 0} .ncard .nh{display:flex; justify-content:space-between; gap:8px; align-items:baseline; flex-wrap:wrap} .ncard .nh span{color:var(--muted); font-size:12.5px}
+.ncard .nb{color:var(--sub); margin-top:4px; word-break:keep-all} .ncard .mgift{margin-top:6px; color:var(--accent)} .ncard .mact{display:flex; justify-content:flex-end; margin-top:6px}
+.ncard code{background:#0b1020; border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:12.5px; word-break:break-all}
+.mailbtn{position:relative} .mailbtn i{position:absolute; top:-4px; right:-4px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:var(--accent); color:var(--accent-ink); font-size:10.5px; font-style:normal; font-weight:700; display:flex; align-items:center; justify-content:center}
+.mailbtn i:empty{display:none}
+.opform{display:flex; flex-direction:column; gap:8px; background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:10px 12px}
+.opform input,.opform textarea,.opform select{background:var(--bg); border:1px solid var(--line2); color:var(--ink); border-radius:8px; padding:7px 10px; font:inherit; font-size:14px; min-width:0}
+.opform textarea{min-height:80px; resize:vertical} .opform label{display:flex; flex-direction:column; gap:3px; font-size:12.5px; color:var(--muted)}
+.opgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px} .oph{margin:10px 0 0; font-size:15px}
+.prow summary{cursor:pointer; line-height:1.6} .prow summary span{color:var(--muted); font-size:13px}
+.optable{border-collapse:collapse; margin-top:8px; font-size:13px} .optable td,.optable th{border:1px solid var(--line); padding:3px 8px; text-align:right} .optable td:first-child,.optable th:first-child{text-align:left}
+@media (max-height:560px){ .modal.notices .mpanel{max-height:calc(100dvh - 12px); padding:12px 14px} .ncard{padding:8px 12px; font-size:13.5px} }
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
@@ -1413,6 +1450,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
     <div class="chips" id="hudChips"></div>
     <button class="gear" id="fsBtn" onclick="toggleFullscreen()" title="전체 화면" aria-label="전체 화면" hidden>⛶</button>
     <button class="gear" id="sndBtn" onclick="SND.set({on:!SND.st.on})" title="소리 켜기·끄기 (음량은 ⚙ 설정)" aria-label="소리 켜기·끄기">🔊</button>
+    <button class="gear" id="noticeBtn" onclick="openNotices()" title="공지사항 · 업데이트 내역" aria-label="공지사항">📢</button>
+    <button class="gear mailbtn" id="mailBtn" onclick="openMail()" title="우편함" aria-label="우편함" hidden>📮<i></i></button>
     <button class="gear fbbtn" id="fbBtn" onclick="openFeedback()" title="의견 보내기 — 버그·밸런스·아이디어" aria-label="의견 보내기">💬</button>
     <button class="gear" id="gearBtn" onclick="openSettings()" title="주인공 이름 · 새 소식 · 새 게임">⚙ 설정</button>
   </header>
@@ -1520,7 +1559,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 </div>
 
 <template id="newsTpl">
-v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 의뢰는 장마다 꼭 필요한 이야기 막(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있고, 황혼에서 그 막을 처음 깨러 들어갈 때 의뢰를 받아야 합니다(입장할 때 의뢰 창 → [의뢰 받고 출발]). 돌파 뒤 보고하면 이야기와 보상(그 장 몹 5마리분 경험치·골드, 5막은 12마리분 + 밤의 정수 + 희귀 장비 1개)을 받고 다음 메인 의뢰가 열립니다. 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막 우두머리 이야기(그 막 우두머리 쓰러뜨리기)와 막마다 몹 잡기 부탁으로, 그 막이 열려 있으면 받고 반복 사냥하며 채웁니다. <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율)이고, 난이도가 오르면 1장 보스부터 앞 난이도 10장 보스보다 체력 1.25배 이상 셉니다. <b>최종 콘텐츠:</b> 밤의 심연 1층 · 낙성 강림 1단계의 일반 몹을 영원한 밤 10장 일반 몹의 1.05배로 맞췄습니다(그 위로 층·단계마다 오르는 비율은 그대로). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로). 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%→70% · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 맞추되, 보스 공격은 그 장 일반 몹 평균의 1.2배 아래로는 내려가지 않습니다. 자정 장 보스 체력 배율 2.1 → 2.6. <b>새 게임:</b> 9명 중 함께 출발할 3명을 직접 고릅니다(캐릭터를 누르면 소개 · 능력치 · 두 전직 설명이 나오고 [선택]으로 담음) — 그 셋 중 한 명이 주인공, 나머지 둘이 동료입니다. 그 뒤 황혼의 장을 깨 자리가 날 때마다(1~6장) 아직 합류하지 않은 영웅 중 한 명을 직접 골라 합류시킵니다 — 정해진 순서로 오지 않음. <b>체력 자연 회복:</b> 마나처럼 정수 능력치로 — 직업마다 시작값 + 정해진 레벨마다 +1(검사 2·5레벨마다 · 창술사 2·10 · 권사 2·20 · 성직자 1·20 · 음유시인 1·24 · 도적·총사·궁수 1·30 · 마법사 1·99) + 체질이 직업 시작값보다 3 높을 때마다 +1. 파티 탭 '전투 능력치'에 '턴당 체력 회복'이 보입니다. <b>마지막 보스들:</b> 뒤 장 보스 체력을 낮추고(10장 보스 = 일반 몹의 황혼 7.5배 · 자정 18배 · 영원한 밤 10배) 보스 회복 기술(옛 약속 · 용사의 결의 · 긴급 예비비)은 전투당 2번까지, 보스의 '재생'은 턴당 5% → 2%, 공허 베기 마나 30 → 72(매 턴 쓰던 문제) — <b>최종 콘텐츠 인원:</b> 밤의 심연 · 낙성 강림의 적을 실제 출전 인원(최대 6명) 기준으로 맞춥니다 — 예전엔 첫 전투(낙성 강림은 전투가 한 번뿐이라 늘) 4명 기준 적과 싸웠습니다. 적 '재생'(접두사 · 재생의 이끼)이 이번 판 중간에 잠시 회복하지 않던 문제도 고쳤습니다. <b>세트 보강:</b> 연기의 장막(2: 회피 +5% · 치명 +5% / 4: 연기 뒤 확정 치명 · 공격력 +18%), 바람길 망토(2: 회피 +5% · 공격력 +5% / 4: 꿰뚫는 바람 +1발 · 치명 +8%). <b>마나:</b> 매 턴 마나 회복을 '최대 마나의 %'에서 정수 능력치로 바꿔 소수점이 생기지 않습니다 — 기본 2 + 직업마다 정해진 레벨마다 +1(마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20레벨마다) + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 마나 +N'. 예전 비율 회복과 레벨별 평균이 같게 맞췄습니다(예: 마법사 Lv1 2 · Lv10 4 · Lv25 8 · Lv40 11). 파티 탭 '전투 능력치'에 '턴당 마나 회복'이 보입니다. <b>능력치 찍기:</b> 능력치를 누르면 효과가 나오고, ▲▼로 넣을 점수를 정하면 바뀌는 전투 능력치(예: 마나 70 → 82 · 턴당 마나 회복 2 → 3)를 미리 보여 주며, [확인]을 눌러야 확정됩니다(모바일에서도 같은 방식). <b>그 밖:</b> 동료도 Lv10이 되면 전직을 직접 고릅니다(영웅 버튼에 ⭐전직 · 파티 탭 숫자에 포함). 던전 중 레벨업하면 그 영웅의 체력·마나가 가득 찹니다. 적도 영웅과 같은 자리(앞줄 3 · 뒷줄 3)에 서고, 가로줄마다 엇갈리던 배치를 없애 앞줄·뒷줄이 세로 한 줄로 보입니다. 기술 설명에 '앞줄(세로 한 줄) 전체 — 앞줄이 모두 쓰러졌으면 뒷줄 전체', 근접 대상 규칙을 적었습니다. 구역·전투마다 무대를 다시 불러 끊기고 날씨(비)가 바뀌던 문제를 고쳤습니다. 창술사 '창 찌르기'가 던지는 모습으로 나오던 문제(같은 이름의 적 기술로 잘못 읽음)를 고치고, 창은 찌르기 · 활은 화살 · 던지는 창은 창 · 방패 치기는 묵직한 타격으로 보입니다. 빙결(얼음빛·멈춤) · 기절(흔들림) · 화상 · 독 · 냉기 · 약화 · 취약이 유닛 모습에 보입니다. 전투 중 쓰러진 영웅은 그 전투의 경험치를 받지 못합니다(살아 있는 영웅만 받음). 전투 뒤 전리품 창은 5초 뒤 저절로 닫히고(마우스를 올리면 멈춤), 창 바깥을 누르면 바로 닫힙니다. <b>기술 강화 마나:</b> 특성의 기술 보정(피해·지속·효과 등) 하나 · 숙련 변형 하나 · 숙달마다 그 기술의 마나 비용이 기본의 10%씩 늘어납니다(정수 올림 · 마나를 줄이거나 돌려주는 선택은 빼고 셈) — 강하게 키운 기술일수록 마나를 더 씀. 기술 설명의 마나 숫자에 그대로 반영됩니다. <b>마나 흡수(마법사):</b> 내 마나 +15 대신, 마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 20%를 회복합니다(특성의 '마나 흡수 +N'은 +N%p로). <b>상태이상 연계 기술:</b> 걸어 둔 상태이상을 쓰는 기술이 주력기만 쓰는 것보다 약하던 문제 — 잿불 폭발 60%·화상 터뜨림 1배 → 200%·4배(불새만 쓸 때보다 +11~13% · 마나는 덜 씀), 맹독 파열 30%+중첩당 40% → 50%+85%, 증기 폭발 냉기 1중첩당 130% → 180% · 빙결 350% → 450%(측정: 각 연계가 주력기만 쓸 때보다 +3~21%). 대폭발·단죄의 망치·영겁의 겨울은 이미 연계가 유리해 그대로. <b>규칙:</b> '화상 중인 적 존재' 조건을 누구나 쓸 수 있게(독 3중첩 조건처럼 — 브란도의 국자는 새 조건 '화상 중인 적 2마리 이상'을 엶). 대상에 '화상 걸린 적 우선' · '약화·냉기·빙결된 적 우선'을 더했습니다. 잿불 폭발·대폭발은 화상 걸린 적 모두를 맞히는 기술이라 대상 칸이 '적 전체'로 고정입니다. 규칙의 기술 칸 마나도 강화·무기를 반영한 실제 값으로 보입니다(기술 설명엔 '기본 12 · 강화 3번'). <b>숙련 다시 짜기:</b> 칸마다 같은 기술을 다른 방향으로 키우는 둘 중 하나 — 강하게(피해 +10%, 마나가 늘어남) vs 싸게(마나 -25%) · 치명타 +12% vs 체력 40% 이하 적 +25% · 취약 vs 흡혈, 여러 번 때리는 기술은 '한 번 더(한 번당 -15%)' vs 치명타. 맞지 않는 변형은 그 기술의 다른 칸과 겹치지 않는 변형(첫 3턴 +20% · 아군 전체 체력 3% · 아군 전체 마나 +3 등)으로 바뀝니다. 예전에 고른 칸은 같은 자리(a·b)의 새 변형으로 이어집니다. <b>세트 조각 기본 능력치:</b> 전설과 같은 단계 · 옵션 4개(고유 효과·직업 전용 효과·운명·소켓 2칸 대신 세트 효과) — 측정(Lv40 · 영원한 밤 9장 보스 · 30번 평균)에서 세트 완성이 전설만 낀 것보다 -20%~+11%로 비슷하게(예전엔 -0~-47%). 질풍의 깃·화약통 벨트 6세트에 공격력 +8%를 더했습니다. 장비 탭 영웅 칸은 이번 난이도에 출전하는 영웅이 먼저 나옵니다. <b>세트 장비 개편:</b> 세트마다 4·5·6부위로 필요한 부위 수와 구성이 다릅니다(예: 무기·목걸이·반지·반지 / 투구·장갑·신발·망토 / 6부위 갑주) — 세트를 완성해도 나머지 칸은 전설로 채울 수 있음. 전직마다 2종씩 전직 세트 36종을 새로 넣었습니다(그 전직 특성 두 갈래의 큰 효과를 세트로도 얻음 — 예: [대마법사] 불새의 깃 5부위: 치명 +5% · 불새 화상 +10%p · 기술 20% 재시전). 예전 세트 8종은 4~6부위로 나눴고(철주먹 서약 4: 체력·추격 · 행진곡 4: 마나·대합창 — 예전 4세트 효과는 빠짐), 예전 조각은 그대로 셉니다. <b>되받아치기:</b> 보스·우두머리의 근접 공격은 다 막지 못하고 피해 -50%만(반격은 그대로) — 근접 보스를 혼자 피해 없이 잡던 문제. <b>무작위 다단 기술(불새·화살비 등):</b> 같은 적을 거듭 맞히면 그 적에게는 기술에 정해진 한 발 피해(예: 불새 80%)의 100% · 90% · 80% …로 줄어듭니다(최소 40% — 불새 4발이 한 적에 모두 맞으면 80+72+64+56%). 적이 많아 흩어지면 그대로이고, 앞으로 생기는 무작위 다단 기술도 같습니다(완드 마력탄 2발은 무기 특성이라 제외). 오라·망토의 움직임도 전투 속도를 따라 빨라집니다(매우 빠르게 ≈ 4.4배). <b>📊 딜미터기:</b> 전장 오른쪽 '딜미터' 단추 — 이번 전투에서 영웅마다 주는 피해 · 치유 · 보호막 · 받은 피해를 막대로 보여 주고, 이름을 누르면 기술별로 나눠 보여 줍니다. 전투 중엔 화면에 나온 만큼 실시간으로, 끝나면 다음 전투 전까지 그대로 남습니다. <b>전설 직업 전용 효과:</b> 직업마다 3개(고정 수치)였던 것을 기본 기술 + 두 전직의 대표 기술까지 10~12개로 넓히고, 수치는 장비마다 범위 안에서 무작위로 나옵니다(예: 내려찍기 피해 +20~40% · [대마법사] 불새 화상 확률 +10~25%p · [대마법사] 비전 과부하 효과 +5~15%p · 매 턴 마나 +2~4). 장비 설명에 범위가 함께 보입니다. 예전에 얻은 전설 장비는 예전 고정 수치 그대로입니다. 전직 이름이 붙은 효과는 그 전직의 기술을 쓸 때만 효과가 있습니다. <b>고친 것:</b> 3장 3막 '영주의 수문'에서 물 파문을 그리다 오류가 나 무대 그리기가 매 장 멈추던 문제(비가 보였다 안 보였다 하고 끊기던 원인)를 고쳤고, 무대 그리기에 오류가 나도 효과 그리기가 멈추지 않게 했습니다. '매우 빠르게'에서 마지막 한 방(투사체·돌진)이 닿기 전에 전투가 끝나 적이 살아 있는 채로 다음 구역으로 넘어가거나 클리어되어 보이던 문제 — 이제 남은 공격이 닿고 쓰러지는 모습까지 보여 준 뒤 끝납니다(전투 결과 자체는 원래도 계산대로였음). 던전 탭 아래 기술 정보와 막 단추·구역 줄에서 아직 만나지 않은 중간보스도 ???로 가립니다(그 막 끝 전투에 들어가거나 그 막을 깨면 공개). 가방에서 여러 개 골라 판매·분해를 마치면 원래 가방 화면으로 돌아갑니다.<br>
+v0.93: <b>퀘스트 · 적 강함 다시 짜기 · 보스 기술 조정</b> — <b>🧪 지인 테스트 준비:</b> 휴대폰 주소에서 게임을 열면 <b>첫 화면</b>이 먼저 나옵니다 — [게스트로 시작] 또는 [Google로 로그인](한 번 로그인하면 다음부턴 로그인된 채로 [게임 시작] · 로그아웃 단추). 시작하면 <b>📢 공지사항</b> 창(테스트 안내 · 운영 공지 · 업데이트 내역)이 뜨고, 위쪽 📢 단추로 다시 볼 수 있습니다. <b>📮 우편함</b>: 운영자가 보낸 공지·골드·재화·장비를 받습니다. <b>💬 의견 보내기</b>에 [🚀 개발자에게 보내기]가 생겨 바로 전달되고, 게임 오류는 자동으로 전달됩니다. <b>📜 퀘스트 탭</b>(왼쪽 메뉴 '던전' 아래): 메인 의뢰는 장마다 꼭 필요한 이야기 막(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있고, 황혼에서 그 막을 처음 깨러 들어갈 때 의뢰를 받아야 합니다(입장할 때 의뢰 창 → [의뢰 받고 출발]). 돌파 뒤 보고하면 이야기와 보상(그 장 몹 5마리분 경험치·골드, 5막은 12마리분 + 밤의 정수 + 희귀 장비 1개)을 받고 다음 메인 의뢰가 열립니다. 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막 우두머리 이야기(그 막 우두머리 쓰러뜨리기)와 막마다 몹 잡기 부탁으로, 그 막이 열려 있으면 받고 반복 사냥하며 채웁니다. <b>적 강함:</b> 장마다 들쭉날쭉하던 적 배율을 없애고, 장이 지날수록 · 난이도가 오를수록 일반 몹이 늘 강해지도록 바꿨습니다. 기준은 그 장에 들어올 때 보통 파티의 체력·공격(영원한 밤은 만렙 + 장비·강화·특성을 거의 채운 파티)이고, 난이도마다 뒤 장으로 갈수록 조금씩 더 버거워집니다. 장 보스는 그 장 일반 몹의 체력 5.6배(1장) → 18배(10장) · 공격 1.75배(+난이도별 보스 배율)이고, 난이도가 오르면 1장 보스부터 앞 난이도 10장 보스보다 체력 1.25배 이상 셉니다. <b>최종 콘텐츠:</b> 밤의 심연 1층 · 낙성 강림 1단계의 일반 몹을 영원한 밤 10장 일반 몹의 1.05배로 맞췄습니다(그 위로 층·단계마다 오르는 비율은 그대로). <b>보스 기술:</b> 운디르·펜로·오렌·솔바르·모르스·이스라·루멘이 큰 광역기와 회복을 너무 자주 써서 거의 못 깨던 문제 — 큰 광역은 3~4턴에 한 번, 회복은 광역과 마나를 나눠 쓰게 마나 비용을 올렸고, 뒷줄을 한 번에 지우던 기술의 위력을 낮췄습니다(태양 설교 125%→90% · 태양 폭발 115%→85% · 광휘 130%→95% · 배신의 칼 200%→160% · 청구서 폭탄 125%→105% · 예산 삭감 75%→60% · 금화 투척 140%→80%, 대상은 무작위로). 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%→70% · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 맞추되, 보스 공격은 그 장 일반 몹 평균의 1.2배 아래로는 내려가지 않습니다. 자정 장 보스 체력 배율 2.1 → 2.6. <b>새 게임:</b> 9명 중 함께 출발할 3명을 직접 고릅니다(캐릭터를 누르면 소개 · 능력치 · 두 전직 설명이 나오고 [선택]으로 담음) — 그 셋 중 한 명이 주인공, 나머지 둘이 동료입니다. 그 뒤 황혼의 장을 깨 자리가 날 때마다(1~6장) 아직 합류하지 않은 영웅 중 한 명을 직접 골라 합류시킵니다 — 정해진 순서로 오지 않음. <b>체력 자연 회복:</b> 마나처럼 정수 능력치로 — 직업마다 시작값 + 정해진 레벨마다 +1(검사 2·5레벨마다 · 창술사 2·10 · 권사 2·20 · 성직자 1·20 · 음유시인 1·24 · 도적·총사·궁수 1·30 · 마법사 1·99) + 체질이 직업 시작값보다 3 높을 때마다 +1. 파티 탭 '전투 능력치'에 '턴당 체력 회복'이 보입니다. <b>마지막 보스들:</b> 뒤 장 보스 체력을 낮추고(10장 보스 = 일반 몹의 황혼 7.5배 · 자정 18배 · 영원한 밤 10배) 보스 회복 기술(옛 약속 · 용사의 결의 · 긴급 예비비)은 전투당 2번까지, 보스의 '재생'은 턴당 5% → 2%, 공허 베기 마나 30 → 72(매 턴 쓰던 문제) — <b>최종 콘텐츠 인원:</b> 밤의 심연 · 낙성 강림의 적을 실제 출전 인원(최대 6명) 기준으로 맞춥니다 — 예전엔 첫 전투(낙성 강림은 전투가 한 번뿐이라 늘) 4명 기준 적과 싸웠습니다. 인원 보정은 일반 콘텐츠와 같은 공식(6명 = 적 체력 ×1.5 · 공격 ×1.23)으로 바꿨고, 낙성의 사도 기본 체력·공격을 40% 낮췄습니다(측정: 최대 성장 6명 기준 1단계 승률 0~8% → 목표 40~60%). 적 '재생'(접두사 · 재생의 이끼)이 이번 판 중간에 잠시 회복하지 않던 문제도 고쳤습니다. <b>세트 보강:</b> 연기의 장막(2: 회피 +5% · 치명 +5% / 4: 연기 뒤 확정 치명 · 공격력 +18%), 바람길 망토(2: 회피 +5% · 공격력 +5% / 4: 꿰뚫는 바람 +1발 · 치명 +8%). <b>마나:</b> 매 턴 마나 회복을 '최대 마나의 %'에서 정수 능력치로 바꿔 소수점이 생기지 않습니다 — 기본 2 + 직업마다 정해진 레벨마다 +1(마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20레벨마다) + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성의 '턴당 마나 +N'. 예전 비율 회복과 레벨별 평균이 같게 맞췄습니다(예: 마법사 Lv1 2 · Lv10 4 · Lv25 8 · Lv40 11). 파티 탭 '전투 능력치'에 '턴당 마나 회복'이 보입니다. <b>능력치 찍기:</b> 능력치를 누르면 효과가 나오고, ▲▼로 넣을 점수를 정하면 바뀌는 전투 능력치(예: 마나 70 → 82 · 턴당 마나 회복 2 → 3)를 미리 보여 주며, [확인]을 눌러야 확정됩니다(모바일에서도 같은 방식). <b>그 밖:</b> 동료도 Lv10이 되면 전직을 직접 고릅니다(영웅 버튼에 ⭐전직 · 파티 탭 숫자에 포함). 던전 중 레벨업하면 그 영웅의 체력·마나가 가득 찹니다. 적도 영웅과 같은 자리(앞줄 3 · 뒷줄 3)에 서고, 가로줄마다 엇갈리던 배치를 없애 앞줄·뒷줄이 세로 한 줄로 보입니다. 기술 설명에 '앞줄(세로 한 줄) 전체 — 앞줄이 모두 쓰러졌으면 뒷줄 전체', 근접 대상 규칙을 적었습니다. 구역·전투마다 무대를 다시 불러 끊기고 날씨(비)가 바뀌던 문제를 고쳤습니다. 창술사 '창 찌르기'가 던지는 모습으로 나오던 문제(같은 이름의 적 기술로 잘못 읽음)를 고치고, 창은 찌르기 · 활은 화살 · 던지는 창은 창 · 방패 치기는 묵직한 타격으로 보입니다. 빙결(얼음빛·멈춤) · 기절(흔들림) · 화상 · 독 · 냉기 · 약화 · 취약이 유닛 모습에 보입니다. 전투 중 쓰러진 영웅은 그 전투의 경험치를 받지 못합니다(살아 있는 영웅만 받음). 전투 뒤 전리품 창은 5초 뒤 저절로 닫히고(마우스를 올리면 멈춤), 창 바깥을 누르면 바로 닫힙니다. <b>기술 강화 마나:</b> 특성의 기술 보정(피해·지속·효과 등) 하나 · 숙련 변형 하나 · 숙달마다 그 기술의 마나 비용이 기본의 10%씩 늘어납니다(정수 올림 · 마나를 줄이거나 돌려주는 선택은 빼고 셈) — 강하게 키운 기술일수록 마나를 더 씀. 기술 설명의 마나 숫자에 그대로 반영됩니다. <b>마나 흡수(마법사):</b> 내 마나 +15 대신, 마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 20%를 회복합니다(특성의 '마나 흡수 +N'은 +N%p로). <b>상태이상 연계 기술:</b> 걸어 둔 상태이상을 쓰는 기술이 주력기만 쓰는 것보다 약하던 문제 — 잿불 폭발 60%·화상 터뜨림 1배 → 200%·4배(불새만 쓸 때보다 +11~13% · 마나는 덜 씀), 맹독 파열 30%+중첩당 40% → 50%+85%, 증기 폭발 냉기 1중첩당 130% → 180% · 빙결 350% → 450%(측정: 각 연계가 주력기만 쓸 때보다 +3~21%). 대폭발·단죄의 망치·영겁의 겨울은 이미 연계가 유리해 그대로. <b>규칙:</b> '화상 중인 적 존재' 조건을 누구나 쓸 수 있게(독 3중첩 조건처럼 — 브란도의 국자는 새 조건 '화상 중인 적 2마리 이상'을 엶). 대상에 '화상 걸린 적 우선' · '약화·냉기·빙결된 적 우선'을 더했습니다. 잿불 폭발·대폭발은 화상 걸린 적 모두를 맞히는 기술이라 대상 칸이 '적 전체'로 고정입니다. 규칙의 기술 칸 마나도 강화·무기를 반영한 실제 값으로 보입니다(기술 설명엔 '기본 12 · 강화 3번'). <b>숙련 다시 짜기:</b> 칸마다 같은 기술을 다른 방향으로 키우는 둘 중 하나 — 강하게(피해 +10%, 마나가 늘어남) vs 싸게(마나 -25%) · 치명타 +12% vs 체력 40% 이하 적 +25% · 취약 vs 흡혈, 여러 번 때리는 기술은 '한 번 더(한 번당 -15%)' vs 치명타. 맞지 않는 변형은 그 기술의 다른 칸과 겹치지 않는 변형(첫 3턴 +20% · 아군 전체 체력 3% · 아군 전체 마나 +3 등)으로 바뀝니다. 예전에 고른 칸은 같은 자리(a·b)의 새 변형으로 이어집니다. <b>세트 조각 기본 능력치:</b> 전설과 같은 단계 · 옵션 4개(고유 효과·직업 전용 효과·운명·소켓 2칸 대신 세트 효과) — 측정(Lv40 · 영원한 밤 9장 보스 · 30번 평균)에서 세트 완성이 전설만 낀 것보다 -20%~+11%로 비슷하게(예전엔 -0~-47%). 질풍의 깃·화약통 벨트 6세트에 공격력 +8%를 더했습니다. 장비 탭 영웅 칸은 이번 난이도에 출전하는 영웅이 먼저 나옵니다. <b>세트 장비 개편:</b> 세트마다 4·5·6부위로 필요한 부위 수와 구성이 다릅니다(예: 무기·목걸이·반지·반지 / 투구·장갑·신발·망토 / 6부위 갑주) — 세트를 완성해도 나머지 칸은 전설로 채울 수 있음. 전직마다 2종씩 전직 세트 36종을 새로 넣었습니다(그 전직 특성 두 갈래의 큰 효과를 세트로도 얻음 — 예: [대마법사] 불새의 깃 5부위: 치명 +5% · 불새 화상 +10%p · 기술 20% 재시전). 예전 세트 8종은 4~6부위로 나눴고(철주먹 서약 4: 체력·추격 · 행진곡 4: 마나·대합창 — 예전 4세트 효과는 빠짐), 예전 조각은 그대로 셉니다. <b>되받아치기:</b> 보스·우두머리의 근접 공격은 다 막지 못하고 피해 -50%만(반격은 그대로) — 근접 보스를 혼자 피해 없이 잡던 문제. <b>무작위 다단 기술(불새·화살비 등):</b> 같은 적을 거듭 맞히면 그 적에게는 기술에 정해진 한 발 피해(예: 불새 80%)의 100% · 90% · 80% …로 줄어듭니다(최소 40% — 불새 4발이 한 적에 모두 맞으면 80+72+64+56%). 적이 많아 흩어지면 그대로이고, 앞으로 생기는 무작위 다단 기술도 같습니다(완드 마력탄 2발은 무기 특성이라 제외). 오라·망토의 움직임도 전투 속도를 따라 빨라집니다(매우 빠르게 ≈ 4.4배). <b>📊 딜미터기:</b> 전장 오른쪽 '딜미터' 단추 — 이번 전투에서 영웅마다 주는 피해 · 치유 · 보호막 · 받은 피해를 막대로 보여 주고, 이름을 누르면 기술별로 나눠 보여 줍니다. 전투 중엔 화면에 나온 만큼 실시간으로, 끝나면 다음 전투 전까지 그대로 남습니다. <b>전설 직업 전용 효과:</b> 직업마다 3개(고정 수치)였던 것을 기본 기술 + 두 전직의 대표 기술까지 10~12개로 넓히고, 수치는 장비마다 범위 안에서 무작위로 나옵니다(예: 내려찍기 피해 +20~40% · [대마법사] 불새 화상 확률 +10~25%p · [대마법사] 비전 과부하 효과 +5~15%p · 매 턴 마나 +2~4). 장비 설명에 범위가 함께 보입니다. 예전에 얻은 전설 장비는 예전 고정 수치 그대로입니다. 전직 이름이 붙은 효과는 그 전직의 기술을 쓸 때만 효과가 있습니다. <b>고친 것:</b> 3장 3막 '영주의 수문'에서 물 파문을 그리다 오류가 나 무대 그리기가 매 장 멈추던 문제(비가 보였다 안 보였다 하고 끊기던 원인)를 고쳤고, 무대 그리기에 오류가 나도 효과 그리기가 멈추지 않게 했습니다. '매우 빠르게'에서 마지막 한 방(투사체·돌진)이 닿기 전에 전투가 끝나 적이 살아 있는 채로 다음 구역으로 넘어가거나 클리어되어 보이던 문제 — 이제 남은 공격이 닿고 쓰러지는 모습까지 보여 준 뒤 끝납니다(전투 결과 자체는 원래도 계산대로였음). 던전 탭 아래 기술 정보와 막 단추·구역 줄에서 아직 만나지 않은 중간보스도 ???로 가립니다(그 막 끝 전투에 들어가거나 그 막을 깨면 공개). 가방에서 여러 개 골라 판매·분해를 마치면 원래 가방 화면으로 돌아갑니다.<br>
 v0.92: <b>기술·패시브 전면 개편 · 새 직업 둘</b> — 기존 7직업의 기술을 모두 새로 만들었습니다(새 이름·새 효과). <b>새 직업:</b> 후열 <b>궁수</b>(연사 — 같은 적을 연달아 맞히면 한 발마다 피해 +2%, 최대 +20% · 전직 바람의 명궁·숲의 사냥꾼)와 전열 <b>창술사</b>(앞줄 적을 근접 공격하면 같은 가로줄 뒷줄 적에게도 40% · 전직 용기병·방진 수호자)가 황혼 5장 황금 도시·6장 붉은 사막을 깬 다음 차례로 동료로 합류하고, 새 게임에서 주인공으로도 고를 수 있습니다(모두 9직업 · 활·창 무기 3종씩). 직업마다 기본 기술 6개(갈래 3개 × 2개) + 전직마다 4개(대표 1 · 강화 2 · 다리 1). 전직하면 Lv10에 대표 기술 + 강화 1개, Lv16에 강화 1개 + 다리 기술. <b>기술 칸:</b> 전직 전 3칸 · 전직 후 4칸(기본공격은 칸 밖에서 저절로). <b>패시브:</b> 직업·전직 패시브를 모두 바꿨습니다(예: 검사 반격 본능 — 원거리 공격에도 25% 확률로 80% 반격 · 마법사 집중된 마나 — 매 턴 마나 +3 · 성직자 은총의 넘침 — 넘친 치유의 50%를 보호막으로). <b>음유시인:</b> 오라를 없앴습니다. 노래는 칸에 넣는 3턴 버프 기술이고, 같은 노래를 다시 부르면 3턴으로 돌아가며 다른 노래끼리는 함께 걸립니다. 내 노래가 걸려 있는 동안 매 턴 공명 +2. <b>총사:</b> 보통 사격 기술은 탄만(마나 0), 사격이 아닌 기술은 마나만, 표적탄·화약 상자는 탄과 마나 둘 다. 재장전 기술은 없어지고 탄이 0이면 그 턴 저절로 재장전. <b>권사:</b> 올려차기·공중 연타·회오리 발차기는 기세 2. 받는 피해를 줄이는 기술은 겹치지 않고 가장 큰 것 하나만 적용됩니다. <b>예전 저장:</b> 예전 기술로 짠 규칙은 규칙 표로 다시 짜고(직접 고친 규칙은 같은 역할의 새 기술로 옮김), 숙련·장비 기술 옵션·특성 연결도 새 기술로 옮겼습니다. 자동전투 조건 '내가 켠 오라가 없음'·'아군 오라가 켜져 있음'·'내 내공 15% 이상'은 없어졌습니다.
 v0.91: <b>적의 상태이상</b> — 몹마다 특기 상태이상(장마다 주제)이 생겼습니다. 한 번 맞힐 때 확률 황혼 10% · 자정 30% · 영원한 밤 50%, 한 전투에서 거는 몹은 1 · 2 · 3마리까지(보스·우두머리는 그 장의 특기 전부, 자정부터 정예도). 영원한 밤의 적은 상태이상 걸린 영웅에게 피해 +20%. 막는 법: 상태이상 저항 상한 75% → 70%, 장비 저항 옵션이 더 자주·더 크게(2~9, 예전 1~7), 수호의 노래·수호기사 철벽 저항 +15%p, 권사 호흡 고르기가 내 상태이상 하나를 풂, 성직자 정화. 일반 몹 기술에 따로 붙어 있던 화상·약화·기절은 특기 상태이상으로 바뀜(보스 기술은 그대로). 한 전투 몹 수: 자정 3~5 · 영원한 밤 4~5마리. <b>자동전투 규칙 표</b> — 동료 규칙·처음 규칙·전직 때 새 기술 자리를 한 표에서 정합니다(직업 × 전직 × 성향). '항상'은 맨 끝 칸만, 검사 도발·성직자 치유·소생·전직 대표 기술은 꼭 들어가고, 음유시인 오라는 하나만. 직접 고친 주인공 규칙은 그대로 둡니다. 연소는 화상 걸린 적이 있을 때만 씁니다.
 v0.90: <b>마나·회복 다시 짜기</b> — <b>회복:</b> 구역 사이 회복(10%)을 없애고, 매 턴 직업 기본값 + 체질(체력)·의지(마나)만큼 조금씩 회복합니다. 막 중간 쉼터는 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료도 30%로 일어남). <b>마나:</b> 기술 비용은 최대 마나의 %가 아니라 정해진 숫자입니다(레벨이 오를수록 더 자주 씀). 권사·총사·음유시인의 기세·탄약·공명 기술도 마나를 씁니다. 최대 마나는 의지 1당 +4(지능은 마나에 영향 없음). 레벨업 때 마나는 직업마다 다른 기준값(마법사 7 · 도적 4 · 성직자 3.5 · 검사 3 · 권사·총사 2 · 음유시인 1.5, 의지 1당 +2%)의 80~120% 사이에서 무작위로 오릅니다. 장비의 마나 옵션 수치는 예전의 30%(예: 마나 +40 → +12). <b>장비 수준:</b> 난이도 안에서 1장 → 10장 +20%(난이도 사이 +30%는 그대로).
@@ -8133,7 +8172,7 @@ function fallLoreLog(pages){ for(const pg of pages){ logLine(`<span class="win">
 function fallLoreOpen(){ const g=fallLoreGot();
   const m=openModal(`<h2>🌠 낙성 기록</h2><p class="sub">별들이 장막 아래로 내려온 숨은 이야기 · ${g.length}/${FALL_LORE.length}</p><div class="lorelist">${FALL_LORE.map((p,i)=>g.includes(p.id)?`<details class="lorepg"${i===0?" open":""}><summary><b>${i+1}. ${esc(p.t)}</b></summary>${p.l.map(l=>`<p>${esc(storyName(l))}</p>`).join("")}</details>`:`<div class="lorepg locked"><b>${i+1}. ???</b> <small>${esc(p.need)} 열립니다</small></div>`).join("")}</div><div class="mfoot"><button class="btn" id="loreClose">닫기</button></div>`,"small");
   m.querySelector("#loreClose").onclick=closeModal; }
-const FALL_G={hp:1.18, atk:1.08}, FALL_BASE={hp:2.4, atk:1.1};
+const FALL_G={hp:1.18, atk:1.08}, FALL_BASE={hp:1.44, atk:0.66};   // v0.93 2.4·1.1 → ×0.6(인원 공식을 일반과 같게 바꾼 뒤에도 최대 성장 6명 1단계 0~8% → 측정 목표 40~60%)
 function fallEnvoy(wk){ wk=wk==null?weekId():wk; return FALL_ENVOYS[((wk%FALL_ENVOYS.length)+FALL_ENVOYS.length)%FALL_ENVOYS.length]; }
 function fallZone(ek,lv){ const E=FALL_ENVOYS.find(x=>x.key===ek)||FALL_ENVOYS[0], R=REGIONS.starfall, k=Math.max(0,lv-1);
   const sc={hp:+(Math.pow(FALL_G.hp,k)).toFixed(4), atk:+(Math.pow(FALL_G.atk,k)).toFixed(4)};
@@ -8295,8 +8334,8 @@ function egState(){ const wk=weekId(); const e=progress.eg=progress.eg||{};
 // v0.43 혼자 5~6명 출전: 4명 기준보다 많으면 함께하기와 같은 식으로 적을 강하게(4명 이하는 그대로)
 function soloScaleEnemies(enemies,n,eg){ return n>4?partyScaleEnemies(enemies,n,4,eg):enemies; }
 function partyScaleEnemies(enemies,n,base,egMode){
-  base=base||4; const r=n/base, eg=egMode===undefined?base>=4:!!egMode;            // 최종 콘텐츠(기준 4명)는 인원이 늘면 더 가파르게 — 6명이 4명보다 조금만 쉬운 정도로
-  const fh=Math.max(0.45,eg&&r>1?Math.pow(r,1.6):r), fa=Math.max(0.6,1+(eg&&r>1?0.7:0.45)*(r-1));
+  base=base||4; const r=n/base;   // v0.93 최종 콘텐츠도 일반과 같은 공식(6명 = 체력 ×1.5 · 공격 ×1.23) — 예전 가파른 공식(×1.91 · ×1.35)은 최대 성장 6명도 낙성 1단계 0%
+  const fh=Math.max(0.45,r), fa=Math.max(0.6,1+0.45*(r-1));
   for(const e of enemies){ e.hp_max=Math.max(1,Math.round(e.hp_max*fh)); e.hp=e.hp_max; e.atk=Math.max(1,Math.round(e.atk*fa)); }
   return enemies;
 }
@@ -13027,6 +13066,7 @@ function doRetreat(){
   retreatReq=false;
   if(!runState) return;
   logSink=null; markAct(null);
+  if(!runState.mode) recRun("retreat",(runState.zones[runState.zone]||{}).label);
   if(runState.mode){ logLine(`<span class="lose">↩ 후퇴했다.</span>`); egEnd("retreat"); return; }
   const g=runState.gains, region=REGIONS[runState.regionKey];
   const kept=runRestoreKeepItems(runState.bank,runState.expBy||g.exp);
@@ -13072,7 +13112,7 @@ function nearestSpeed(v){ const ok=SPEEDS.filter(speedAllowed); if(!isFinite(v))
 function setAdmin(on){ ADMIN.on=!!on; buildSpeedOptions(); if(!on&&instantMode()) setSpeed(SPEED_DEFAULT); }
 // 관리자 코드: Claude 페이지 밖(일반 주소)에서도 관리자로 — 설정에서 한 번 넣으면 이 브라우저에 기억. 코드는 글자 그대로 두지 않고 해시로만 비교
 function adminHash(t){ let h=2166136261; for(const ch of String(t).trim()){ h^=ch.codePointAt(0); h=Math.imul(h,16777619)>>>0; } return h.toString(36); }
-const ADMIN_KEY="6gi9wz";
+const ADMIN_KEY="1736i74";   // v0.93 관리자 코드 변경(해시만 둠) — 화면 잠금용. 서버에 쓰는 관리자 권한(공지·우편)은 Firebase admins/<uid>로 따로 막음
 if(safeGet("pn_admin")===ADMIN_KEY) setTimeout(()=>setAdmin(true),0);
 // 관리자 = 이 게임(아티팩트) 주인. claude.ai 안에서 열었을 때만 알 수 있음 — 그 밖(파일로 연 경우 등)에서는 일반 플레이어
 (async()=>{ try{ if(typeof window!=="undefined"&&window.claude&&window.claude.use){ const u=await window.claude.use("user"); if(u&&u.isOwner&&u.isOwner()) setAdmin(true); } }catch(e){} })();
@@ -13230,6 +13270,7 @@ function startRun(){
   runState={ regionKey:rk, d, act, zones:genRun(rk,d,act), zone:0,
     party:buildParty(), gains:{exp:0,gold:0,items:0}, chests:0, elites:0 };
   if(TUT.learning()&&d===0&&rk===REGION_KEYS[0]&&act===1) TUT.annotate(runState.zones);   // v0.70 규칙 교실은 1-1막 전투마다
+  recRun("start");   // v0.93 플레이어 기록
   $("log").innerHTML=""; logSink=null; curTurn=0;
   $("result").textContent=""; $("result").className="result";
   ruleHits={}; ruleHitsSeen=true; torchSpend("던전 입장"); runState.bank=runBankTake();
@@ -13607,6 +13648,7 @@ function endZoneBattle(ev,zone){
   } else if(runState.mode){ egEnd(ev.result==="lose"?"lose":"draw");
   } else if(ev.result==="lose"){
     const kept=runRestoreKeepItems(runState.bank,runState.expBy||runState.gains.exp);
+    recRun("lose",(runState.zones[runState.zone]||{}).label);
     logLine(`<span class="lose">✖ 전멸… 이번 입장에서 얻은 골드 ${runState.gains.gold}는 잃고${kept?`, ${kept}는 가져간다`:""}. 등불 도시로 돌아간다.</span>`);
     logLine(`<span class="r">장비·강화·특성·규칙 — 네 가지 중 무엇이든 강해질 길이 있습니다.</span>`);
     $("result").textContent=`패배 — ${DIFFS[runState.d].name} ${region.name}`; $("result").className="result lose";
@@ -13647,7 +13689,7 @@ function advanceZone(){
 }
 function clearAct(){
   const rk=runState.regionKey, d=runState.d, act=runState.act, region=REGIONS[rk], D=DIFFS[d];
-  const first=actsDone(d,rk)<act;
+  const first=actsDone(d,rk)<act; recRun("clear");
   progress.acts[d][rk]=Math.max(actsDone(d,rk),act);
   $("result").textContent=`${D.name} ${region.name} ${act}막 돌파!`; $("result").className="result win";
   logLine(`<span class="win">★ ${D.icon} ${D.name} · ${region.chapter} ${esc(region.name)} ${act}막 '${esc(actName(rk,act))}' 돌파!</span>`);
@@ -13801,6 +13843,7 @@ function startEg(m){
   const bw=borrowModeOk(m)&&lendOn()&&progress.borrowSel&&progress.borrowSel.snap?progress.borrowSel:null;   // v0.67 빌린 영웅
   if(bw){ runState.eg.borrow={uid:bw.uid, nick:bw.nick, job:bw.job, lv:bw.lv, snap:bw.snap}; window.PNNet.lend.credit(bw.uid); }
   runState.party=refreshParty([]);   // v0.93 처음부터 출전 인원(최대 6) 그대로 — 적도 그 인원 기준
+  recRun("start");
   $("log").innerHTML=""; logSink=null; curTurn=0; $("result").textContent=""; $("result").className="result";
   ruleHits={}; ruleHitsSeen=true; torchSpend(EG_MODES[m].name); egEntryUse(m);
   spawnField([...runState.party]);
@@ -13865,6 +13908,7 @@ function egAfterWin(z){
   if(R.mode==="exped"){ R.eg.coins+=z.kind==="elite"?6:3; R.eg.steps=(z.step||0)+1; if(z.boss){ egEnd("clear"); return; } advanceZone(); }
 }
 function egEnd(res){
+  recRun(res==="clear"?"clear":res,(runState&&runState.zones&&runState.zones[runState.zone]||{}).label);
   const R=runState, E=egState(), M=EG_MODES[R.mode]; let msg="", win=res==="clear"; const items=[];
   if(R.mode==="fall"){ const z=R.zones[0]; msg=`${M.icon} ${M.name} — ${res==="clear"?`${z.label} 처치!`:`${z.label}에게서 물러났다`}`; win=res==="clear"; }
   if(R.mode==="abyss"){ const A=abyssRec(); msg=`${M.icon} ${M.name} — ${R.eg.top>=R.eg.start?`${R.eg.top}층까지 내려갔다`:`${R.eg.start}층에서 물러났다`} (최고 ${A.best}층${A.ck?` · 체크포인트 ${A.ck}층`:""})`; win=R.eg.top>=R.eg.start; }
@@ -14245,11 +14289,11 @@ async function fbCopy(t){ try{ await navigator.clipboard.writeText(t); return tr
 function openFeedback(){
   let draft=""; try{ draft=safeGet("pn_fb_draft")||""; }catch(e){}
   const m=openModal(`<h2>💬 의견 보내기</h2>
-    <p class="msub">버그·난이도·불편한 점·아이디어 무엇이든 좋아요. 적은 뒤 <b>공유하기</b>(카톡·문자 등)나 <b>복사하기</b>로 개발자에게 보내 주세요.</p>
+    <p class="msub">버그·난이도·불편한 점·아이디어 무엇이든 좋아요. ${NET()?"적은 뒤 <b>🚀 개발자에게 보내기</b>를 누르면 바로 전달됩니다.":"적은 뒤 <b>공유하기</b>(카톡·문자 등)나 <b>복사하기</b>로 개발자에게 보내 주세요."}</p>
     <div class="fbcats" role="radiogroup">${FB_CATS.map(([k,l])=>`<button data-c="${k}" class="${fbCat===k?"on":""}" role="radio" aria-checked="${fbCat===k}">${l}</button>`).join("")}</div>
     <textarea id="fbText" maxlength="1500" placeholder="예) 자정 3장 보스에서 계속 져요 / 장비 창 버튼이 손가락에 너무 작아요 / 이런 직업이 있으면 좋겠어요">${esc(draft)}</textarea>
     <label class="fbopt"><input type="checkbox" id="fbState" checked> 게임 상태 함께 보내기 (버전·기기·진행·최근 전투 기록·오류 — 개인 정보 없음)</label>
-    <div class="fbacts"><button class="btn" id="fbShare">📤 공유하기</button><button class="btn ghost" id="fbCopy">📋 복사하기</button><button class="btn ghost" id="fbGh" title="GitHub 계정이 있으면 이슈로 바로 올릴 수 있어요">GitHub 이슈로</button></div>
+    <div class="fbacts">${NET()?`<button class="btn" id="fbSend">🚀 개발자에게 보내기</button>`:""}<button class="btn${NET()?" ghost":""}" id="fbShare">📤 공유하기</button><button class="btn ghost" id="fbCopy">📋 복사하기</button><button class="btn ghost" id="fbGh" title="GitHub 계정이 있으면 이슈로 바로 올릴 수 있어요">GitHub 이슈로</button></div>
     <div class="fbmsg" id="fbMsg" aria-live="polite"></div>
     <details><summary class="msub" style="cursor:pointer">함께 보낼 게임 상태 보기</summary><div class="fbprev" id="fbPrev"></div></details>
     <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small fbm");
@@ -14259,6 +14303,11 @@ function openFeedback(){
   ta.oninput=()=>{ try{ safeSet("pn_fb_draft",ta.value); }catch(e){} };
   for(const b of m.querySelectorAll(".fbcats button")) b.onclick=()=>{ fbCat=b.dataset.c; for(const x of m.querySelectorAll(".fbcats button")){ x.classList.toggle("on",x===b); x.setAttribute("aria-checked",x===b); } };
   const done=()=>{ try{ safeSet("pn_fb_draft",""); }catch(e){} };
+  { const sb=m.querySelector("#fbSend"); if(sb) sb.onclick=async()=>{ const t=ta.value.trim(); if(!t){ say("내용을 적어 주세요."); ta.focus(); return; }
+      sb.disabled=true; say("보내는 중…");
+      try{ await NET().ops.feedback({cat:(FB_CATS.find(x=>x[0]===fbCat)||FB_CATS[0])[1], t:t.slice(0,1500), st:st.checked?fbState().slice(0,15000):"", ver:gameVersion(), name:progress&&progress.protag?progress.protag.name:"", dev:fbDevice()});
+        say("✓ 보냈어요. 고마워요!"); ta.value=""; done(); }catch(e){ say("보내지 못했어요 — 공유하기나 복사하기를 써 주세요. ("+esc((e&&(e.code||e.message))||"")+")"); }
+      sb.disabled=false; }; }
   m.querySelector("#fbShare").onclick=async()=>{ const t=fbText(ta.value,st.checked);
     if(navigator.share){ try{ await navigator.share({title:"프로젝트 나이트 의견",text:t}); say("✓ 보냈어요. 고마워요!"); done(); return; }catch(e){ if(e&&e.name==="AbortError"){ say("공유를 취소했어요."); return; } } }
     const ok=await fbCopy(t); say(ok?"이 기기에서는 공유가 안 돼서 복사해 두었어요 — 카톡·문자에 붙여 넣어 보내 주세요.":"복사도 안 돼요 — 위 내용을 길게 눌러 직접 복사해 주세요."); if(ok) done(); };
@@ -14284,7 +14333,7 @@ function openSettings(){
       <p class="msub">8비트 칩튠 — 마을 · 전투 · 보스(장엄) · 보스 광폭(체력 절반 아래). 위 막대의 🔊 버튼으로도 바로 끄고 켭니다.</p></div>
     <div class="sblock"><div class="slabel">전투 속도</div><div class="srow" id="spdSeg" style="display:flex;gap:6px;flex-wrap:wrap">${SPEEDS.filter(speedAllowed).map(o=>`<button class="btn ${$("speed").value===String(o.v)?"":"ghost"}" data-spd="${o.v}">${o.label}${o.tier==="admin"?" (관리자)":""}</button>`).join("")}</div>
       <p class="msub">${isAdmin()?"관리자 모드 — 모든 속도(매우 빠르게 · 즉시 포함)를 쓸 수 있습니다.":"처음 깨는 막은 '조금 빠르게'까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 '빠르게'까지 쓸 수 있어요."}</p>
-      ${isAdmin()?"":`<div class="srow" style="display:flex;gap:6px;align-items:center;margin-top:6px"><input id="admCode" type="password" placeholder="관리자 코드" autocomplete="off" style="height:34px;flex:0 1 180px;min-width:0;background:var(--panel2);border:1px solid var(--line2);color:var(--ink);border-radius:8px;padding:0 10px"><button class="btn ghost" id="admGo">확인</button><span class="msub" id="admMsg"></span></div>`}</div>
+      ${isAdmin()?`<div class="srow" style="margin-top:6px"><button class="btn" id="opsGo">🛠 운영 도구 — 공지 · 우편 · 플레이어 기록 · 의견 · 오류</button></div>`:`<div class="srow" style="display:flex;gap:6px;align-items:center;margin-top:6px"><input id="admCode" type="password" placeholder="관리자 코드" autocomplete="off" style="height:34px;flex:0 1 180px;min-width:0;background:var(--panel2);border:1px solid var(--line2);color:var(--ink);border-radius:8px;padding:0 10px"><button class="btn ghost" id="admGo">확인</button><span class="msub" id="admMsg"></span></div>`}</div>
     <div class="sblock"><div class="slabel">그래픽</div><div class="srow" id="gfxSeg" style="display:flex;gap:6px;flex-wrap:wrap">${[["auto","자동"],["high","높음"],["low","저사양"]].map(([k,l])=>`<button class="btn ${GFX.mode===k?"":"ghost"}" data-gfx="${k}">${l}</button>`).join("")}</div>
       <p class="msub">자동: 처음 몇 초 동안 재 보고 느리면 저사양으로 바꿉니다${GFX.mode==="auto"?` (지금 <b>${GFX.low?"저사양":"높음"}</b>)`:""}. 저사양: 초당 20장 · 화면 해상도 1배 · 그림자·흐림·앞쪽 날씨 끔 — 버벅이면 저사양으로 두세요.</p></div>
     ${helpBlockHTML()}
@@ -14300,6 +14349,7 @@ function openSettings(){
   for(const b of m.querySelectorAll("[data-help]")) b.onclick=()=>helpOpen(b.dataset.help);
   for(const b of m.querySelectorAll("[data-spd]")) b.onclick=()=>{ setSpeed(+b.dataset.spd); closeModal(); openSettings(); };
   m.querySelector("#sndOn").onclick=()=>{ SND.set({on:!SND.st.on}); closeModal(); openSettings(); };
+  { const og=m.querySelector("#opsGo"); if(og) og.onclick=()=>{ closeModal(); openOps(); }; }
   { const ab=m.querySelector("#admGo"); if(ab){ const go=()=>{ const v=m.querySelector("#admCode").value; if(adminHash(v)===ADMIN_KEY){ safeSet("pn_admin",ADMIN_KEY); setAdmin(true); closeModal(); openSettings(); toast(`<span class="tc">관리자</span>관리자 모드를 켰습니다 — 모든 속도를 쓸 수 있어요.`,"good"); } else { m.querySelector("#admMsg").textContent="코드가 맞지 않습니다."; } };
     ab.onclick=go; m.querySelector("#admCode").onkeydown=e=>{ if(e.key==="Enter") go(); }; } }
   m.querySelector("#sndB").oninput=e=>SND.set({bgm:e.target.value/100}); m.querySelector("#sndS").oninput=e=>{ SND.set({sfx:e.target.value/100}); SND.fx("ui_click"); };
@@ -14327,6 +14377,181 @@ function newGame(){
   saveProgress(); rerenderAll(); goCamp();
   logLine(`<span class="r">새 게임을 시작합니다.</span>`);
   maybeOnboard();
+}
+
+/* ================= v0.93 테스트 운영: 첫 화면(로그인) · 공지 · 우편 · 의견/오류 자동 수집 · 플레이어 기록 · 운영 도구 =================
+   서버(Firebase)는 휴대폰 주소(배포본)에만 있음 — window.PNNet. Claude 안(아티팩트)에선 첫 화면 없이 바로 시작하고, 공지 창은 고정 안내·업데이트 내역만 보임. */
+function NET(){ return (typeof window!=="undefined"&&window.PNNet&&window.PNNet.auth&&window.PNNet.ops)?window.PNNet:null; }
+const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트 기간은 정해져 있지 않고, 그동안 게임은 계속 업데이트됩니다.",
+  "업데이트 뒤에도 진행은 이어지지만, 밸런스(수치·보상·난이도)는 수시로 바뀔 수 있어요.",
+  "<b>테스트 중의 계정·진행·플레이 기록은 정식 출시 뒤 모두 삭제됩니다.</b>",
+  "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
+function fmtDate(t){ if(!t) return ""; const d=new Date(t); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`; }
+function fmtPlay(sec){ sec=sec|0; const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h?`${h}시간 ${m}분`:`${m}분`; }
+
+// ---- 첫 화면: 게스트 / Google 로그인 → [게임 시작]. 한 번 로그인하면 다음부터는 로그인된 채로 이 화면이 뜸 ----
+function titleScreen(){
+  const N=NET();
+  return new Promise(done=>{
+    const el=document.createElement("div"); el.id="title"; document.body.appendChild(el);
+    const heroes=CLASS_IDS.map(c=>`<img src="${SPRITES[CLASSES[c].sprite]}" alt="">`).join("");
+    const frame=inner=>`<div class="ttl-box"><div class="ttl-eyebrow">PROJECT NIGHT</div><h1>프로젝트 나이트</h1>
+      <p class="ttl-sub">영원한 밤을 걷는 자동전투 RPG · 테스트판 ${esc(gameVersion())}</p><div class="ttl-heroes">${heroes}</div>${inner}</div>`;
+    let outArm=false;
+    const msg=t=>{ const m=el.querySelector("#tMsg"); if(m) m.innerHTML=t||""; };
+    const finish=()=>{ const st=N.auth.state();
+      try{ const last=safeGet("pn_last_uid"); if(st&&last&&last!==st.uid){ for(const k of ["pn_progress_v02","pn_rules_v01"]) localStorage.removeItem(k); } if(st) safeSet("pn_last_uid",st.uid); }catch(e){}   // 다른 계정으로 바꿔 들어오면 이 기기의 예전 진행을 섞지 않음
+      el.classList.add("out"); setTimeout(()=>el.remove(),260); done(); };
+    const render=()=>{ const st=N.auth.state(); outArm=false;
+      if(!st){
+        el.innerHTML=frame(`<div class="ttl-btns"><button class="btn" id="tGuest">게스트로 시작</button>
+          <button class="btn ghost ttl-g" id="tGoogle"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.3c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2-1.9 3.3-4.7 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.5-2.7c-1 .7-2.3 1.1-3.8 1.1-2.9 0-5.4-2-6.3-4.6H2.1v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.7 14.1a6.6 6.6 0 0 1 0-4.2V7.1H2.1a11 11 0 0 0 0 9.8z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.1-3.1A11 11 0 0 0 2.1 7.1l3.6 2.8C6.6 7.4 9.1 5.4 12 5.4z"/></svg>Google로 로그인</button></div>
+          <p class="ttl-note">게스트는 이 기기에서만 이어집니다. Google로 로그인하면 휴대폰·PC 어디서나 같은 진행이 이어져요.</p><p class="ttl-msg" id="tMsg"></p>`);
+        el.querySelector("#tGuest").onclick=async()=>{ msg("들어가는 중…"); try{ await N.auth.guest(); render(); }catch(e){ fail(e); } };
+        el.querySelector("#tGoogle").onclick=async()=>{ msg("Google 창을 여는 중…"); try{ const r=await N.auth.google(); if(r) render(); }catch(e){ if(e&&/popup-closed|cancelled-popup/.test(e.code||"")){ msg(""); return; } fail(e); } };
+        return; }
+      el.innerHTML=frame(`<p class="ttl-who">${st.anon?"👤 게스트로 로그인됨":"🔑 "+esc(st.email||st.name||"Google 계정")}</p>
+        <div class="ttl-btns"><button class="btn ttl-start" id="tStart">게임 시작</button></div>
+        <button class="ttl-out" id="tOut">로그아웃</button><p class="ttl-msg" id="tMsg"></p>`);
+      el.querySelector("#tStart").onclick=finish;
+      el.querySelector("#tOut").onclick=async()=>{
+        if(!outArm){ outArm=true; el.querySelector("#tOut").textContent="한 번 더 누르면 로그아웃"; msg(st.anon?"⚠ 게스트는 로그아웃하면 다시 들어올 수 없어 <b>지금 진행이 사라집니다</b>. 지키려면 게임 안 ⚙ 설정에서 Google 계정을 먼저 연결하세요.":"로그아웃해도 진행은 Google 계정에 남아 있어요."); return; }
+        msg("로그아웃하는 중…"); try{ await N.auth.logout(); }catch(e){} render(); };
+    };
+    const fail=e=>{ msg(`로그인하지 못했어요 (${esc((e&&(e.code||e.message))||"알 수 없음")}). 인터넷 연결을 확인해 주세요. <button class="ttl-link" id="tOff">이 기기에만 저장하고 시작</button>`);
+      const o=el.querySelector("#tOff"); if(o) o.onclick=()=>{ N.auth.offline(); el.remove(); done(); }; };
+    el.innerHTML=frame(`<p class="ttl-note">서버에 연결하는 중…</p>`);
+    N.auth.init().then(()=>{ render(); const er=N.auth.lastError&&N.auth.lastError(); if(er) fail(er); });
+  });
+}
+
+// ---- 공지 창: 고정 테스트 안내 + 운영 공지(관리자) + 업데이트 내역 ----
+async function openNotices(){
+  const N=NET(); let list=[];
+  const m=openModal(`<h2>📢 공지사항</h2><div class="ntabs"><button class="on" data-t="n">공지</button><button data-t="u">업데이트 내역</button></div><div id="nBody" class="nbody"><p class="msub">불러오는 중…</p></div>
+    <div class="mfoot"><button id="mclose" class="btn">확인</button></div>`,"notices");
+  m.querySelector("#mclose").onclick=closeModal;
+  const body=m.querySelector("#nBody");
+  const showN=()=>{ body.innerHTML=`<div class="ncard pin"><div class="nh"><b>📌 테스트 안내</b></div>${TEST_NOTICE.map(x=>`<p>${x}</p>`).join("")}</div>`
+      +(list.length?list.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t||"")}</b><span>${fmtDate(n.at)}</span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("")
+        :`<p class="msub">${N?"아직 운영 공지가 없어요.":"운영 공지는 휴대폰 주소(서버 연결)에서 보입니다."}</p>`); };
+  const showU=()=>{ body.innerHTML=`<div class="news">${(document.getElementById("newsTpl")||{}).innerHTML||""}</div>`; };
+  for(const b of m.querySelectorAll(".ntabs button")) b.onclick=()=>{ for(const x of m.querySelectorAll(".ntabs button")) x.classList.toggle("on",x===b); (b.dataset.t==="n"?showN:showU)(); };
+  showN();
+  if(N){ try{ list=await N.ops.notices(); }catch(e){} if(m.isConnected&&m.querySelector(".ntabs .on").dataset.t==="n") showN(); }
+}
+
+// ---- 우편: 관리자가 보낸 공지·재화·장비 (전체 또는 한 사람) ----
+const MAIL={list:[],at:0};
+async function mailRefresh(){ const N=NET(); if(!N||!progress||!progress.protag) return; try{ MAIL.list=await N.ops.mail(); MAIL.at=Date.now(); }catch(e){} renderMailDot(); }
+function mailOpen(){ const got=new Set((progress&&progress.mailGot)||[]); return MAIL.list.filter(x=>!got.has(x.id)&&!(x.exp&&x.exp<Date.now())); }
+function renderMailDot(){ const b=$("mailBtn"); if(!b) return; b.hidden=!NET(); const n=progress&&progress.protag?mailOpen().length:0; b.querySelector("i").textContent=n?String(n):""; }
+function mailGiftText(x){ const L=[]; if(x.gold) L.push(`골드 ${(+x.gold).toLocaleString("ko-KR")}`); if(x.ess) L.push(`밤의 정수 ${x.ess}`); if(x.gem) L.push(`💎 새벽 결정 ${x.gem}`); if(x.torch) L.push(`🔥 횃불 ${x.torch}`);
+  for(const it of x.items||[]) if(it&&it.n>0) L.push(`${(RARITIES[RAR_IDX[it.r]]||{label:"장비"}).label} ${it.s?SLOT_LABEL[it.s]:"장비"} ×${it.n}`); return L.join(" · "); }
+function mailClaim(x){
+  if(!progress||(progress.mailGot||[]).includes(x.id)) return;
+  progress.mailGot=(progress.mailGot||[]).concat(x.id).slice(-300);
+  if(x.gold) progress.gold+=+x.gold|0; if(x.ess) progress.ess=(progress.ess||0)+(+x.ess|0); if(x.gem) progress.gem=(progress.gem||0)+(+x.gem|0);
+  if(x.torch) try{ torchAdd(+x.torch|0); }catch(e){}
+  const tier=bestLootTier(); let n=0;
+  for(const it of x.items||[]) for(let i=0;i<Math.min(20,+it.n|0);i++){ try{ const o={rarity:RAR_IDX[it.r]!=null?it.r:"rare"}; if(it.s&&ITEM_SLOTS.includes(it.s)) o.slot=it.s; const item=makeItem(false,tier,o); item.from="우편으로 받음"; progress.inv.push(item); n++; }catch(e){} }
+  logLine(`<span class="gain">📮 우편 받음 — ${esc(x.t||"")}${mailGiftText(x)?` (${esc(mailGiftText(x))})`:""}</span>`);
+  saveProgress(); rerenderAll(); renderMailDot();
+}
+async function openMail(){
+  const N=NET(); if(!N) return;
+  const m=openModal(`<h2>📮 우편함</h2><div id="mlBody" class="nbody"><p class="msub">불러오는 중…</p></div><div class="mfoot"><button id="mlAll" class="btn" hidden>모두 받기</button><button id="mclose" class="btn ghost">닫기</button></div>`,"notices");
+  m.querySelector("#mclose").onclick=closeModal;
+  await mailRefresh(); if(!m.isConnected) return;
+  const draw=()=>{ const got=new Set(progress.mailGot||[]); const L=MAIL.list.filter(x=>!(x.exp&&x.exp<Date.now()));
+    m.querySelector("#mlBody").innerHTML=L.length?L.map(x=>{ const g=mailGiftText(x), done=got.has(x.id);
+      return `<div class="ncard${done?" done":""}"><div class="nh"><b>${x.mine?"✉ ":""}${esc(x.t||"")}</b><span>${fmtDate(x.at)}${x.exp?` · ${fmtDate(x.exp).slice(0,10)}까지`:""}</span></div>${x.body?`<div class="nb">${esc(x.body).replace(/\n/g,"<br>")}</div>`:""}
+        ${g?`<div class="mgift">🎁 ${esc(g)}</div>`:""}<div class="mact">${done?`<span class="msub">받음</span>`:g?`<button class="btn" data-id="${esc(x.id)}">받기</button>`:`<button class="btn ghost" data-id="${esc(x.id)}">읽음</button>`}</div></div>`; }).join(""):`<p class="msub">받은 우편이 없어요.</p>`;
+    for(const b of m.querySelectorAll(".mact button")) b.onclick=()=>{ const x=MAIL.list.find(y=>y.id===b.dataset.id); if(x) mailClaim(x); draw(); };
+    const open=mailOpen(); const all=m.querySelector("#mlAll"); all.hidden=!open.length; all.onclick=()=>{ for(const x of mailOpen()) mailClaim(x); draw(); }; };
+  draw();
+}
+
+// ---- 오류 자동 수집(같은 오류는 한 번 · 한 번 켤 때 최대 15건) ----
+const ERR_SENT=new Set();
+function errReport(m){ const N=NET(); if(!N||ERR_SENT.size>=15||ERR_SENT.has(m)) return; ERR_SENT.add(m);
+  try{ N.ops.error({m:String(m).slice(0,1500), ver:gameVersion(), dev:fbDevice(), name:progress&&progress.protag?progress.protag.name:"", where:(typeof curView!=="undefined"?curView:"")+(runState?" · 던전":""), prog:progress?progressSummary(progress):""}).catch(()=>{}); }catch(e){} }
+try{ addEventListener("error",e=>errReport(`${(e.message||"오류").slice(0,300)} @${(e.filename||"").split("/").pop()}:${e.lineno||0}:${e.colno||0}`+(e.error&&e.error.stack?"\n"+String(e.error.stack).slice(0,800):"")));
+  addEventListener("unhandledrejection",e=>errReport("약속 오류: "+String(e.reason&&(e.reason.stack||e.reason.message)||e.reason).slice(0,800))); }catch(e){}
+
+// ---- 플레이어별 진행 기록(서버 players/<uid>): 막마다 입장·돌파·패배 수, 플레이 시간, 마지막 패배 ----
+function recOf(){ const R=progress.rec=progress.rec||{}; R.runs=R.runs||{}; R.play=R.play||0; return R; }
+function recKeyNow(){ if(!runState) return null; return runState.mode?("eg:"+runState.mode):`${runState.d}-${REGION_KEYS.indexOf(runState.regionKey)+1}-${runState.act}`; }
+function recRun(kind,extra){ try{ if(!progress) return; const k=recKeyNow(); if(!k) return; const R=recOf(), r=R.runs[k]=R.runs[k]||[0,0,0];
+  if(kind==="start") r[0]++; else if(kind==="clear") r[1]++; else { r[2]++; R.lastLose={k,z:String(extra||"").slice(0,60),at:Date.now()}; } }catch(e){} }
+function recKeyLabel(k){ if(k.startsWith("eg:")) return (EG_MODES[k.slice(3)]||{name:k}).name; const [d,c,a]=k.split("-"); return `${(DIFFS[+d]||{name:"?"}).name} ${c}장 ${a}막`; }
+let recPushAt=0;
+function recPush(force){ const N=NET(); if(!N||!progress||!progress.protag||!bootDone) return; if(!force&&Date.now()-recPushAt<60000) return; recPushAt=Date.now();
+  try{ const pg=progress.protag, R=recOf();
+    N.ops.playerPut({name:pg.name, cid:pg.cid, job:jobName(pg.cid), lv:progress.heroes[pg.cid].level, aw:progress.heroes[pg.cid].awaken||0,
+      heroes:rosterIds().map(c=>[CLASSES[c].name,progress.heroes[c].level,advInfo(c)?advInfo(c).name:""]), diffMax:progress.diffMax|0, prog:progressSummary(progress),
+      gold:progress.gold|0, ess:progress.ess|0, gem:progress.gem|0, play:R.play, runs:R.runs, lastLose:R.lastLose||null, ver:gameVersion(), dev:fbDevice()}).catch(()=>{}); }catch(e){} }
+setInterval(()=>{ try{ if(bootDone&&progress&&progress.protag&&document.visibilityState==="visible"){ recOf().play+=60; recPush(); } }catch(e){} },60000);
+try{ document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") recPush(true); }); }catch(e){}
+
+// ---- 운영 도구(관리자 코드로 연 뒤): 공지 · 우편 · 플레이어 · 의견 · 오류 ----
+async function openOps(tab){
+  const N=NET(); tab=tab||"notice";
+  const m=openModal(`<h2>🛠 운영 도구</h2><div class="ntabs">${[["notice","공지"],["mail","우편"],["players","플레이어"],["fb","의견"],["err","오류"]].map(([k,l])=>`<button data-t="${k}" class="${k===tab?"on":""}">${l}</button>`).join("")}</div>
+    <div id="opWarn"></div><div id="opBody" class="nbody"><p class="msub">불러오는 중…</p></div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"notices ops");
+  m.querySelector("#mclose").onclick=closeModal;
+  for(const b of m.querySelectorAll(".ntabs button")) b.onclick=()=>{ closeModal(); openOps(b.dataset.t); };
+  const body=m.querySelector("#opBody");
+  if(!N){ body.innerHTML=`<p class="msub">운영 도구는 서버에 연결된 휴대폰 주소(sueungong.github.io/project-night-play)에서만 쓸 수 있어요.</p>`; return; }
+  const srv=await N.ops.isAdmin(); if(!m.isConnected) return;
+  if(!srv) m.querySelector("#opWarn").innerHTML=`<div class="ncard warn"><b>서버 관리자 등록이 필요해요</b><p>공지·우편을 쓰고 플레이어 기록·의견·오류를 읽으려면, Firebase 콘솔 → Realtime Database → 데이터에서 <code>admins</code> 아래에 내 계정 ID를 <code>true</code>로 한 번 넣어 주세요(Google로 로그인한 계정 권장).</p><p>내 계정 ID: <code id="opUid">${esc(N.ops.uid()||"")}</code> <button class="btn ghost" id="opCopy">복사</button></p></div>`;
+  { const c=m.querySelector("#opCopy"); if(c) c.onclick=()=>fbCopy(N.ops.uid()||"").then(ok=>toast(ok?"계정 ID를 복사했어요":"복사하지 못했어요")); }
+  const err=e=>`<p class="msub">불러오지 못했어요: ${esc((e&&(e.code||e.message))||e)}</p>`;
+  try{
+    if(tab==="notice"){
+      const L=await N.ops.notices();
+      body.innerHTML=`<div class="opform"><input id="nT" maxlength="100" placeholder="제목"><textarea id="nB" maxlength="4000" placeholder="내용 (줄바꿈 그대로 보임)"></textarea><button class="btn" id="nGo">공지 올리기</button></div>`
+        +L.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t)}</b><span>${fmtDate(n.at)} <button class="mini" data-del="${esc(n.id)}">지우기</button></span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("");
+      body.querySelector("#nGo").onclick=async()=>{ const t=body.querySelector("#nT").value.trim(), b=body.querySelector("#nB").value.trim(); if(!t) return toast("제목을 써 주세요");
+        try{ await N.ops.noticeAdd({t,body:b}); toast("공지를 올렸어요"); closeModal(); openOps("notice"); }catch(e){ toast("올리지 못했어요: "+esc(e.code||e.message)); } };
+      for(const b of body.querySelectorAll("[data-del]")) b.onclick=async()=>{ try{ await N.ops.noticeDel(b.dataset.del); closeModal(); openOps("notice"); }catch(e){ toast("지우지 못했어요"); } };
+    }
+    if(tab==="mail"){
+      let P=[]; try{ P=await N.ops.players(); }catch(e){}
+      const L=await N.ops.mailList().catch(()=>[]);
+      const pName=uid=>{ const p=P.find(x=>x.id===uid); return p?`${p.name||"?"}${p.gname?` (${p.gname})`:""}`:uid.slice(0,8); };
+      const rar=["","fine","rare","epic","legend"].map(k=>`<option value="${k}">${k?RARITIES[RAR_IDX[k]].label:"장비 없음"}</option>`).join("");
+      const slot=[""].concat(ITEM_SLOTS).map(k=>`<option value="${k}">${k?SLOT_LABEL[k]:"부위 무작위"}</option>`).join("");
+      body.innerHTML=`<div class="opform"><label>받는 사람 <select id="mTo"><option value="all">전체(모든 플레이어 — 나중에 들어온 사람도)</option>${P.map(p=>`<option value="${esc(p.id)}">${esc(pName(p.id))} · ${esc(p.job||"")} Lv${p.lv||"?"}</option>`).join("")}</select></label>
+        <input id="mT" maxlength="100" placeholder="제목"><textarea id="mB" maxlength="2000" placeholder="내용(선택)"></textarea>
+        <div class="opgrid"><label>골드 <input id="mG" type="number" min="0" value="0"></label><label>밤의 정수 <input id="mE" type="number" min="0" value="0"></label><label>💎 새벽 결정 <input id="mGem" type="number" min="0" value="0"></label><label>🔥 횃불 <input id="mTo2" type="number" min="0" value="0"></label></div>
+        <div class="opgrid"><label>장비 등급 <select id="mR">${rar}</select></label><label>부위 <select id="mS">${slot}</select></label><label>개수 <input id="mN" type="number" min="0" max="20" value="1"></label><label>받을 수 있는 기간(일) <input id="mD" type="number" min="1" max="365" value="30"></label></div>
+        <p class="msub">장비 단계는 받는 사람의 지금 진행(가장 높은 드롭 단계)에 맞춰 만들어집니다.</p><button class="btn" id="mGo">우편 보내기</button></div>
+        <h3 class="oph">보낸 우편</h3>`+(L.length?L.map(x=>`<div class="ncard"><div class="nh"><b>${esc(x.t||"")}</b><span>${x.to==="all"?"전체":esc(pName(x.to))} · ${fmtDate(x.at)} <button class="mini" data-to="${esc(x.to)}" data-id="${esc(x.id)}">회수</button></span></div><div class="nb">${esc(mailGiftText(x)||"(선물 없음)")}</div></div>`).join(""):`<p class="msub">보낸 우편이 없어요.</p>`);
+      body.querySelector("#mGo").onclick=async()=>{ const v=id=>Math.max(0,+body.querySelector(id).value||0);
+        const t=body.querySelector("#mT").value.trim(); if(!t) return toast("제목을 써 주세요");
+        const o={t, body:body.querySelector("#mB").value.trim(), gold:v("#mG"), ess:v("#mE"), gem:v("#mGem"), torch:v("#mTo2"), exp:Date.now()+v("#mD")*86400e3, items:[]};
+        const r=body.querySelector("#mR").value; if(r&&v("#mN")>0) o.items.push({r, s:body.querySelector("#mS").value||"", n:Math.min(20,v("#mN"))});
+        try{ await N.ops.mailSend(body.querySelector("#mTo").value,o); toast("우편을 보냈어요"); closeModal(); openOps("mail"); }catch(e){ toast("보내지 못했어요: "+esc(e.code||e.message)); } };
+      for(const b of body.querySelectorAll("[data-id]")) b.onclick=async()=>{ try{ await N.ops.mailDel(b.dataset.to,b.dataset.id); closeModal(); openOps("mail"); }catch(e){ toast("회수하지 못했어요"); } };
+    }
+    if(tab==="players"){
+      const P=await N.ops.players();
+      body.innerHTML=`<p class="msub">플레이어 ${P.length}명 · 1분마다·앱을 내릴 때 기록됩니다. 이름을 누르면 막마다 입장·돌파·패배 수가 나와요.</p>`+P.map(p=>{
+        const runs=Object.entries(p.runs||{}).sort((a,b)=>b[1][0]-a[1][0]);
+        return `<details class="ncard prow"><summary><b>${esc(p.name||"?")}</b> <span>${esc(p.job||"")} Lv${p.lv||"?"}${p.aw?` ✦${p.aw}`:""} · ${p.anon?"게스트":"Google "+esc(p.gname||"")} · ${esc(p.prog||"")} · 플레이 ${fmtPlay(p.play)} · 마지막 ${fmtDate(p.at)} · ${esc(p.ver||"")}</span></summary>
+          <div class="nb">영웅: ${esc((p.heroes||[]).map(h=>`${h[0]} ${h[1]}${h[2]?`(${h[2]})`:""}`).join(", "))}<br>골드 ${(p.gold||0).toLocaleString("ko-KR")} · 정수 ${p.ess||0} · 결정 ${p.gem||0} · 기기 ${esc(p.dev||"")}
+          ${p.lastLose?`<br>마지막 패배: ${esc(recKeyLabel(p.lastLose.k))} ${esc(p.lastLose.z||"")} (${fmtDate(p.lastLose.at)})`:""}
+          <table class="optable"><tr><th>막</th><th>입장</th><th>돌파</th><th>패배·후퇴</th></tr>${runs.map(([k,r])=>`<tr><td>${esc(recKeyLabel(k))}</td><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table></div></details>`; }).join("");
+    }
+    if(tab==="fb"||tab==="err"){
+      const L=tab==="fb"?await N.ops.feedbackList():await N.ops.errorList(); let P=[]; try{ P=await N.ops.players(); }catch(e){}
+      const who=uid=>{ const p=P.find(x=>x.id===uid); return p?(p.name||"?"):uid.slice(0,8); };
+      body.innerHTML=(L.length?"":`<p class="msub">아직 없어요.</p>`)+L.map(x=>`<div class="ncard"><div class="nh"><b>${tab==="fb"?esc(x.cat||"의견"):"⚠ "+esc(String(x.m||"").split("\n")[0].slice(0,120))}</b><span>${esc(x.name||who(x.u))} · ${fmtDate(x.at)} · ${esc(x.ver||"")} <button class="mini" data-p="${tab==="fb"?"feedback":"errors"}/${esc(x.id)}">지우기</button></span></div>
+        <div class="nb">${tab==="fb"?esc(x.t||"").replace(/\n/g,"<br>"):esc(x.m||"").replace(/\n/g,"<br>")}${x.where?`<br><span class="msub">${esc(x.where)} · ${esc(x.prog||"")} · ${esc(x.dev||"")}</span>`:""}</div>${x.st?`<details><summary class="msub">게임 상태</summary><pre class="fbprev">${esc(x.st)}</pre></details>`:""}</div>`).join("");
+      for(const b of body.querySelectorAll("[data-p]")) b.onclick=async()=>{ try{ await N.ops.del(b.dataset.p); b.closest(".ncard").remove(); }catch(e){ toast("지우지 못했어요"); } };
+    }
+  }catch(e){ body.innerHTML=err(e); }
 }
 
 /* ---- 부팅 ---- */
@@ -14877,7 +15102,10 @@ function confirmLeaveRun(){ COOP.notice="함께 던전 진행 중에는 방을 �
 
 (function(){ const upd=()=>{ const d=document.getElementById('dock'); if(d) document.documentElement.style.setProperty('--dockh',d.offsetHeight+'px'); };
   try{ new ResizeObserver(upd).observe(document.getElementById('dock')); }catch(e){} addEventListener('resize',upd); setTimeout(upd,300); })();
-window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+(function(){ const go=()=>{ window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {}); };
+  // v0.93 휴대폰 주소(서버 연결)에서는 첫 화면(로그인)을 지나야 게임이 시작되고, 시작하면 공지 창이 뜸
+  if(NET()) titleScreen().then(()=>{ go(); setTimeout(()=>{ try{ if(!$("modal")) openNotices(); }catch(e){} mailRefresh(); setInterval(mailRefresh,180000); },1600); });
+  else go(); })();
 </script>
 
 </html>

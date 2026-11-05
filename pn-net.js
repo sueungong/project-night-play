@@ -1,6 +1,8 @@
 /* 프로젝트 나이트 — 휴대폰 테스트 배포본(GitHub Pages) 전용 서버 연결 (Firebase)
    게임 본문은 아티팩트의 window.claude.use("room" | "db" | "user") 를 쓰므로, 여기서 같은 모양의 함수를 Firebase로 만들어 끼운다.
-   - 계정: 처음엔 익명 로그인(가입 없이 바로) · 설정에서 Google 계정을 연결하면 다른 기기에서도 같은 진행
+   - 계정(v0.93): 게임 첫 화면에서 '게스트로 시작'(익명) 또는 'Google로 로그인'을 고름 — 한 번 로그인하면 다음부턴 자동 로그인 · 첫 화면에 로그아웃 단추
+     게스트는 설정에서 Google 계정을 연결하면 다른 기기에서도 같은 진행
+   - v0.93 테스트 운영: notices(공지) · mail(우편) · feedback(의견) · errors(오류) · players(플레이어별 진행 기록) · admins(관리자 uid)
    - room: 실시간 데이터베이스 rooms/<방 이름>/<접속자> 에 각자의 상태(presence)를 JSON 글자로 둠 · 창을 닫으면 자동으로 지워짐
    - db: data/users/<uid>/save → saves/<uid> (클라우드 저장)
    이 파일은 tools/deploy/build_play.js 가 배포본에 넣는다(아티팩트에는 들어가지 않음). */
@@ -11,12 +13,12 @@
   try { fb.initializeApp(window.PN_FIREBASE); } catch (e) { console.warn("[PNNet] init", e); return; }
   const auth = fb.auth(), rtdb = fb.database(), TS = fb.database.ServerValue.TIMESTAMP;
   const TAB = Math.random().toString(36).slice(2, 8);
-  let user = null, readyRes; const ready = new Promise(r => readyRes = r);
-  auth.onAuthStateChanged(u => {
-    if (u) { user = u; readyRes(u); render(); }
-    else auth.signInAnonymously().catch(e => { console.warn("[PNNet] 익명 로그인 실패", e); readyRes(null); });
-  });
-  setTimeout(() => readyRes(null), 15000);   // 15초 안에 로그인이 안 되면 이 기기에만 저장(함께하기 꺼짐)
+  // v0.93 자동으로 손님 로그인하지 않음 — 첫 화면에서 고른 뒤에 ready가 풀림(게임은 첫 화면을 지나야 시작)
+  let user = null, readyRes, authInitRes, authErr = null; const ready = new Promise(r => readyRes = r), authInit = new Promise(r => authInitRes = r);
+  const authSubs = [];
+  auth.onAuthStateChanged(u => { user = u || null; authInitRes(); if (u) readyRes(u); render(); for (const f of authSubs) try { f(user); } catch (e) {} });
+  try { if (auth.getRedirectResult) auth.getRedirectResult().catch(e => { authErr = e; console.warn("[PNNet] redirect", e); }); } catch (e) {}
+  setTimeout(() => authInitRes(), 8000);   // 서버가 안 닿으면 8초 뒤 첫 화면이 '오프라인으로 시작'을 보여 줌
 
   const safeKey = s => String(s).replace(/[.#$\[\]\/]/g, "_").slice(0, 64);
   // ---------- room ----------
@@ -121,7 +123,44 @@
     collect: async () => { const u = await ready; if (!u) return 0; const r = rtdb.ref("credits/" + safeKey(u.uid));
       const s = await r.once("value"); const n = s.exists() ? Object.keys(s.val() || {}).length : 0; if (n) await r.remove(); return n; }
   };
-  window.PNNet = { lend,
+  // ---------- v0.93 첫 화면 로그인 ----------
+  const authApi = {
+    init: () => authInit,
+    state: () => user ? { uid: user.uid, anon: !!user.isAnonymous, name: user.displayName || "", email: user.email || "" } : null,
+    onChange: f => { authSubs.push(f); },
+    lastError: () => authErr,
+    guest: async () => { await auth.signInAnonymously(); return authApi.state(); },
+    google: async () => { const prov = new fb.auth.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
+      try { await auth.signInWithPopup(prov); return authApi.state(); }
+      catch (e) { if (e && (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment")) { await auth.signInWithRedirect(prov); return null; } throw e; } },
+    logout: async () => { try { for (const k of ["pn_progress_v02", "pn_rules_v01", "pn_last_uid"]) localStorage.removeItem(k); } catch (e) {} await auth.signOut(); },
+    offline: () => readyRes(null)
+  };
+  // ---------- v0.93 테스트 운영(공지 · 우편 · 의견 · 오류 · 플레이어 기록) ----------
+  const val = async path => { const s = await rtdb.ref(path).once("value"); return s.val(); };
+  const list = o => Object.entries(o || {}).map(([id, v]) => { let x = Object.assign({ id }, v); if (typeof v.j === "string") { try { x = Object.assign(x, JSON.parse(v.j)); } catch (e) {} delete x.j; } return x; });
+  const ops = {
+    isAdmin: async () => { const u = await ready; if (!u) return false; try { return (await val("admins/" + u.uid)) === true; } catch (e) { return false; } },
+    notices: async () => list(await val("notices")).sort((a, b) => (b.at || 0) - (a.at || 0)),
+    noticeAdd: async o => { const u = await ready; await rtdb.ref("notices").push(Object.assign({}, o, { by: u.uid, at: TS })); },
+    noticeDel: async id => { await rtdb.ref("notices/" + safeKey(id)).remove(); },
+    mail: async () => { const u = await ready; if (!u) return [];
+      const [a, m] = await Promise.all([val("mail/all").catch(() => null), val("mail/u/" + u.uid).catch(() => null)]);
+      return list(a).concat(list(m).map(x => Object.assign(x, { mine: true }))).sort((x, y) => (y.at || 0) - (x.at || 0)); },
+    mailSend: async (to, o) => { const u = await ready; const ref = to === "all" ? rtdb.ref("mail/all") : rtdb.ref("mail/u/" + safeKey(to)); await ref.push(Object.assign({}, o, { by: u.uid, at: TS })); },
+    mailList: async () => { const [a, u] = await Promise.all([val("mail/all"), val("mail/u")]); const out = list(a).map(x => Object.assign(x, { to: "all" }));
+      for (const [uid, box] of Object.entries(u || {})) for (const x of list(box)) out.push(Object.assign(x, { to: uid })); return out.sort((x, y) => (y.at || 0) - (x.at || 0)); },
+    mailDel: async (to, id) => { await rtdb.ref((to === "all" ? "mail/all/" : "mail/u/" + safeKey(to) + "/") + safeKey(id)).remove(); },
+    feedback: async o => { const u = await ready; if (!u) throw new Error("로그인 안 됨"); await rtdb.ref("feedback").push({ j: JSON.stringify(o), u: u.uid, at: TS }); },
+    error: async o => { const u = await ready; if (!u) return; await rtdb.ref("errors").push({ j: JSON.stringify(o), u: u.uid, at: TS }); },
+    feedbackList: async () => list(await val("feedback")).sort((a, b) => (b.at || 0) - (a.at || 0)),
+    errorList: async () => list(await val("errors")).sort((a, b) => (b.at || 0) - (a.at || 0)),
+    del: async path => { if (!/^(feedback|errors)\/[\w-]+$/.test(path)) return; await rtdb.ref(path).remove(); },
+    playerPut: async o => { const u = await ready; if (!u) return; await rtdb.ref("players/" + u.uid).set({ j: JSON.stringify(o), at: TS, anon: !!u.isAnonymous, gname: u.displayName || "" }); },
+    players: async () => list(await val("players")).sort((a, b) => (b.at || 0) - (a.at || 0)),
+    uid: () => user && user.uid
+  };
+  window.PNNet = { lend, auth: authApi, ops,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
     bindSettings: () => bind(document.getElementById("pnAcct")),
     ready, get user() { return user; }
