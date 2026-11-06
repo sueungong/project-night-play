@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793968965985"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793974094886"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -4872,6 +4872,16 @@ function rosterIds(){
 function partyIds(){ const ps=(progress&&Array.isArray(progress.party))?progress.party:BASE_IDS; const r=rosterIds(); return [...new Set(ps)].filter(c=>r.includes(c)); }   // v0.35: 진영 순서대로
 function safeGet(k){ try{ return localStorage.getItem(k);}catch(e){ return null; } }
 function safeSet(k,v){ try{ localStorage.setItem(k,v);}catch(e){} }
+/* v0.94 화면이 가려져도(알트탭·최소화) 게임이 제 속도로 진행되게 — 브라우저는 숨은 페이지의 타이머를 최소 1초(5분 뒤엔 1분)로 늦춤.
+   숨어 있는 동안의 대기는 작업자(Worker) 타이머로 돌림(작업자 타이머는 늦춰지지 않음). 보이는 동안은 예전처럼 setTimeout */
+const BGT=(()=>{ let w=null, n=0; const cb=new Map();
+  try{ const src="onmessage=function(e){var d=e.data;if(d.c){clearTimeout(self['t'+d.c]);delete self['t'+d.c];}else{self['t'+d.i]=setTimeout(function(){delete self['t'+d.i];postMessage(d.i);},d.ms);}};";
+    w=new Worker(URL.createObjectURL(new Blob([src],{type:"text/javascript"}))); w.onmessage=e=>{ const f=cb.get(e.data); if(f){ cb.delete(e.data); try{ f(); }catch(err){ setTimeout(()=>{ throw err; }); } } }; w.onerror=()=>{ w=null; }; }catch(e){ w=null; }
+  function set(fn,ms){ ms=Math.max(0,+ms||0); if(!w||!document.hidden) return {t:setTimeout(fn,ms)}; const i=++n; cb.set(i,fn); w.postMessage({i,ms}); return {i}; }
+  function clear(h){ if(!h) return; if(typeof h==="number"){ clearTimeout(h); return; } if(h.t!=null) clearTimeout(h.t); if(h.i!=null){ cb.delete(h.i); try{ w&&w.postMessage({c:h.i}); }catch(e){} } }
+  return {set, clear, on:()=>!!w}; })();
+function bgSet(fn,ms){ return BGT.set(fn,ms); }
+function bgClear(h){ BGT.clear(h); }
 
 let partyRules={};
 let progress=null;
@@ -9080,7 +9090,7 @@ let bannerRes=null, bannerTimer=null;
 function dismissBanner(){
   if(!bannerRes) return;
   if($("saybox").classList.contains("choice")) return;
-  clearTimeout(bannerTimer); bannerTimer=null;
+  bgClear(bannerTimer); bannerTimer=null;
   const r=bannerRes; bannerRes=null;
   $("saybox").hidden=true;
   r();
@@ -9095,7 +9105,7 @@ function showBanner(html, ms, opt){
     b.innerHTML=html; b.hidden=false;
     b.style.animation="none"; void b.offsetWidth; b.style.animation="";
     if(opt&&opt.mode==="bubble"&&opt.anchor) followBubble(b,opt.anchor,res);
-    bannerTimer=setTimeout(dismissBanner, ms);
+    bannerTimer=bgSet(dismissBanner, ms);
   });
 }
 // v0.33 말풍선: 말하는 캐릭터 머리 위에 붙어 다님(전장 안에서만, 화면 밖으로 안 나가게)
@@ -13601,25 +13611,25 @@ function scheduleAuto(){
   if(!autoAdv||!runState) return;
   const rs=runState, z=rs.zone; let tries=0;
   const tick=()=>{ if(!autoAdv||runState!==rs||rs.zone!==z) return;
-    if(playing||telling||TUT.busy||$("modal")||$("coach")){ if(++tries<4000) setTimeout(tick,150); return; }
+    if(playing||telling||TUT.busy||$("modal")||$("coach")){ if(++tries<4000) bgSet(tick,150); return; }
     enterZone(true); };
-  setTimeout(tick, instantMode()?150:700);
+  bgSet(tick, instantMode()?150:700);
 }
 /* v0.93 반복 전투: 막(또는 최종 콘텐츠)을 끝내면 같은 던전에 다시 들어감 — 횃불이 떨어지거나 · 가방이 차거나 · 직접 후퇴하거나 · (끄지 않았다면) 패배하면 멈춤 */
 const REPEAT={on:false, lose:safeGet("pn_rep_lose")==="1", n:0, tgt:null, last:null, t:null};
-function setRepeat(on){ REPEAT.on=!!on; if(!on){ REPEAT.n=0; clearTimeout(REPEAT.t); } else { if(!autoAdv) setAutoAdv(true); REPEAT.n=REPEAT.n||0; } renderRepeat(); if(on&&!runState) repeatToast(); }
+function setRepeat(on){ REPEAT.on=!!on; if(!on){ REPEAT.n=0; bgClear(REPEAT.t); } else { if(!autoAdv) setAutoAdv(true); REPEAT.n=REPEAT.n||0; } renderRepeat(); if(on&&!runState) repeatToast(); }
 function setRepeatLose(on){ REPEAT.lose=!!on; safeSet("pn_rep_lose",REPEAT.lose?"1":"0"); renderRepeat(); }
 function renderRepeat(){ const c=$("repOn"); if(c) c.checked=REPEAT.on; const n=$("repN"); if(n) n.textContent=REPEAT.on&&REPEAT.n?` ${REPEAT.n}회`:""; for(const x of document.querySelectorAll(".repChk")) x.checked=REPEAT.on; for(const x of document.querySelectorAll(".repLose")) { x.checked=REPEAT.lose; x.closest("label").hidden=!REPEAT.on; } }
 function repeatToast(){ toast(`<span class="tc">🔁 반복 전투 켜짐</span>막을 끝내면 같은 던전에 다시 들어갑니다 — 횃불이 떨어지면 멈춰요.${REPEAT.lose?" 패배해도 계속합니다.":" 패배하면 멈춰요."}`,"",3200); }
-function repeatStop(why){ if(!REPEAT.on) return; REPEAT.on=false; clearTimeout(REPEAT.t); logLine(`<span class="r">🔁 반복 전투를 멈췄습니다 — ${why} (${REPEAT.n}회 반복)</span>`); toast(`<span class="tc">🔁 반복 전투 멈춤</span>${why}`,"",3600); REPEAT.n=0; renderRepeat(); }
+function repeatStop(why){ if(!REPEAT.on) return; REPEAT.on=false; bgClear(REPEAT.t); logLine(`<span class="r">🔁 반복 전투를 멈췄습니다 — ${why} (${REPEAT.n}회 반복)</span>`); toast(`<span class="tc">🔁 반복 전투 멈춤</span>${why}`,"",3600); REPEAT.n=0; renderRepeat(); }
 function repeatAfterRun(){
   if(!REPEAT.on||!REPEAT.tgt) return;
   if(REPEAT.last==="retreat") return repeatStop("직접 후퇴했어요");
   if((REPEAT.last==="lose"||REPEAT.last==="draw")&&!REPEAT.lose) return repeatStop("패배했어요(⚙ 던전 창에서 '패배해도 계속'을 켜면 이어서 반복)");
-  clearTimeout(REPEAT.t); let waited=0;
+  bgClear(REPEAT.t); let waited=0;
   const go=()=>{ if(!REPEAT.on) return; if(runState) return;
-    if(onboardBusy||(!runState&&joinPendingN(progress)>0)){ REPEAT.t=setTimeout(go,1000); return; }   // v0.94 새 동료 고르기가 먼저(끝나면 반복 이어감)
-    if(playing||telling||$("modal")||TUT.busy){ waited++; if(waited>120) return repeatStop("다른 창이 열려 있어요"); REPEAT.t=setTimeout(go,1000); return; }
+    if(onboardBusy||(!runState&&joinPendingN(progress)>0)){ REPEAT.t=bgSet(go,1000); return; }   // v0.94 새 동료 고르기가 먼저(끝나면 반복 이어감)
+    if(playing||telling||$("modal")||TUT.busy){ waited++; if(waited>120) return repeatStop("다른 창이 열려 있어요"); REPEAT.t=bgSet(go,1000); return; }
     const T=REPEAT.tgt;
     if(T.eg){ if(!egCanEnter(T.eg)) return repeatStop(`${EG_MODES[T.eg].name} 이번 주 입장을 다 썼어요`); progress.egMode=T.eg; }
     else { progress.egMode=null; progress.diff=T.d; progress.lastRegion=T.rk; (progress.actSel=progress.actSel||{})[actKey(T.d,T.rk)]=T.act; try{ $("diffSel").value=String(T.d); }catch(e){} }
@@ -13627,7 +13637,7 @@ function repeatAfterRun(){
     if(bagOver()) return repeatStop(`가방이 가득 찼어요(${bagUsed()}/${bagCap()}칸)`);
     REPEAT.n++; renderRepeat(); logLine(`<span class="zone">🔁 반복 전투 ${REPEAT.n}회째 — 다시 입장합니다</span>`);
     mainButton(); };
-  REPEAT.t=setTimeout(go,1800); }
+  REPEAT.t=bgSet(go,1800); }
 function setAutoAdv(on){ autoAdv=!!on; const c=$("autoAdv"); if(c) c.checked=autoAdv; safeSet("pn_autoadv",autoAdv?"1":"0"); if(autoAdv&&runState&&!playing&&!telling) scheduleAuto(); try{ setMainBtn(); }catch(e){} }
 /* v0.32 전투 속도 4단계(일반) + 즉시(관리자 전용). tier: free 누구나 · paid 나중에 유료 상품 · admin 관리자만 */
 const SPEEDS=[{v:700,label:"1배속",tier:"free"},{v:350,label:"2배속",tier:"free"},{v:233,label:"3배속",tier:"cleared"},{v:175,label:"4배속",tier:"sub"},{v:0,label:"즉시",tier:"admin"}];   // v0.93 1·2·3·4배속(예전 보통 700 · 조금 빠르게 500 · 빠르게 320 · 매우 빠르게 160)
@@ -13962,7 +13972,7 @@ async function runBattle(z){
   if(retreatReq){ try{ KA.reset(); POP.reset(); }catch(e){} doRetreat(); }
   setMainBtn();
 }
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const sleep=ms=>new Promise(r=>bgSet(r,ms));   // v0.94 숨어 있어도 제 속도(BGT)
 /* v0.93 아직 닿지 않은 공격(투사체·돌진)이 남아 있으면 기다림 — '매우 빠르게'에서 마지막 한 방이 화면에 닿기도 전에 전투가 끝나
    적이 살아 있는 채로 다음 구역으로 넘어가거나 막이 클리어되어 보이던 문제(전투 결과 자체는 시뮬레이션대로 맞음) */
 let hitPend=0;
@@ -14059,7 +14069,7 @@ function handleFx(fx,ev){
   const tn=tu?esc(tu.name):"?";
   KA.onFx(fx);
   // v0.55.5: 돌진·투사체가 닿는 순간에 맞춰 숫자·체력바·쓰러짐을 보여 줌 — 전에는 공격이 닿기 전에 몹이 먼저 쓰러져 '죽은 몹을 때리는' 것처럼 보였음
-  const hw=KA.hitWait(fx.target), atHit=fn=>{ if(hw>8){ hitPend++; setTimeout(()=>{ hitPend--; fn(); },hw); } else fn(); }; const sq=++hpSeq;
+  const hw=KA.hitWait(fx.target), atHit=fn=>{ if(hw>8){ hitPend++; bgSet(()=>{ hitPend--; fn(); },hw); } else fn(); }; const sq=++hpSeq;
   if(fx.kind==="miss"){
     logLine(`<span class="fx">↳ ${tn} — <span class="r">${esc(fx.label||"빗나감")}</span></span>`);
     atHit(()=>{ const el=$("u-"+fx.target); if(el){ el.classList.remove("missed"); void el.offsetWidth; el.classList.add("missed"); setTimeout(()=>el.classList.remove("missed"),700); }
@@ -14580,7 +14590,7 @@ const ENDINGS={
 function showChoice(html, options){
   return new Promise(res=>{
     const b=$("saybox");
-    bannerRes=null; clearTimeout(bannerTimer);
+    bannerRes=null; bgClear(bannerTimer);
     b.innerHTML=`<span style="min-width:0">${html}<span class="choices">${options.map((o,i)=>`<button data-i="${i}">${esc(o)}</button>`).join("")}</span></span>`;
     b.hidden=false; b.classList.add("choice");
     for(const btn of b.querySelectorAll("button")) btn.onclick=(e)=>{ e.stopPropagation(); b.hidden=true; b.classList.remove("choice"); res(+btn.dataset.i); };
@@ -14954,6 +14964,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"알트탭해도 계속 진행", L:[
+    "PC에서 알트탭·최소화로 게임 창이 가려지면 전투가 멈추거나 아주 느려지던 문제를 고쳤습니다. 브라우저가 가려진 페이지의 대기 시간을 최소 1초(5분 뒤엔 1분)로 늘리던 것입니다.",
+    "이제 가려져 있는 동안의 대기는 브라우저가 늦추지 않는 별도 타이머로 돌려, 보일 때와 같은 속도로 전투·구역 자동 진행·반복 전투가 이어집니다(측정: 15초 동안 예전 9줄 → 46줄, 보일 때 38~47줄)."]},
   {d:"2026.11.06", v:"v0.94", t:"대기실 장식 크기", L:[
     "함께하기 대기실에서 영웅을 앞뒤로 옮기면 모닥불 꾸미기 장식이 같이 커졌다 작아졌다 하던 문제를 고쳤습니다(측정: 예전 4.28 ↔ 5.35배 → 이제 4.81배 그대로). 장식 크기가 영웅의 원근 크기를 따라가던 것입니다."]},
   {d:"2026.11.06", v:"v0.94", t:"방어 전직 지원 · 대기실 곡 두 개", L:[
