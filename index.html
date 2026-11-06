@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793904747031"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793928990936"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -45,7 +45,8 @@ button{font:inherit}
 .chip b{font-size:15px}
 .chip .ico{width:10px; height:10px; border-radius:50%; background:var(--accent)}
 .chip .ico.ess{border-radius:2px; background:#9fd9ff; transform:rotate(45deg)}
-.chip.gold b{color:var(--accent)} .chip.ess b{color:#9fd9ff}
+.chip.gold b{color:var(--accent)} .chip.ess b{color:#9fd9ff} .chip.gem b{color:#c9a8ff}
+@media (max-width:1100px){ .chips .chip .lbl{display:none} }
 .cloud{font-size:13px; color:var(--good); white-space:nowrap} .cloud.error{color:var(--bad)} .cloud.connecting,.cloud.saving{color:var(--muted)}
 .gear{height:40px; background:var(--raised); border:1px solid var(--line); color:var(--ink); border-radius:10px; padding:0 14px; font-size:14px; cursor:pointer}
 .gear:hover{border-color:var(--accent); color:var(--accent)}
@@ -8575,7 +8576,7 @@ function renderHud(){
   const egm=runState?runState.mode:egModeOf();
   $("hud").innerHTML=`${pg?`<span class="star">★</span><b class="pname">${esc(pg.name)}</b>`:""}<span class="diffpill">${egm?`${EG_MODES[egm].icon} ${EG_MODES[egm].name}`:`${D.icon} ${D.name}`}</span>${where}`;
   $("hudChips").innerHTML=torchChipHTML()+`<span class="chip gold"><span class="ico"></span><span class="lbl">골드 </span><b>${Number(progress.gold).toLocaleString("ko-KR")}</b></span>`
-    +`<span class="chip ess"><span class="ico ess"></span>밤의 정수 <b>${progress.ess}</b></span>${(()=>{ const F=fragStore(); return F.rare||F.epic?`<span class="chip frag" title="장비 조각 — 희귀·세트 장비를 분해하면 희귀 조각, 영웅·전설은 영웅 조각. 등급 올리기에 씀"><span class="rar-rare">◆${F.rare}</span> <span class="rar-epic">◆${F.epic}</span></span>`:""; })()}${cl?`<span class="cloud ${cloud.status}">${cl}</span>`:""}`;
+    +`<span class="chip ess"><span class="ico ess"></span><span class="lbl">밤의 정수 </span><b>${progress.ess}</b></span><span class="chip gem" title="새벽 결정 — 상점의 💎 탭에서 씀">💎 <b>${Number(progress.gem||0).toLocaleString("ko-KR")}</b></span>${(()=>{ const F=fragStore(); return F.rare||F.epic?`<span class="chip frag" title="장비 조각 — 희귀·세트 장비를 분해하면 희귀 조각, 영웅·전설은 영웅 조각. 등급 올리기에 씀"><span class="rar-rare">◆${F.rare}</span> <span class="rar-epic">◆${F.epic}</span></span>`:""; })()}${cl?`<span class="cloud ${cloud.status}">${cl}</span>`:""}`;
 }
 function renderPtsDot(){
   const ids=rosterIds().filter(c=>!isCompanion(c));
@@ -14688,6 +14689,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"💎 보유량 표시", L:[
+    "관리자 우편으로 💎 새벽 결정을 보내고 받는 흐름을 점검했습니다. 보내기·받기·💎 늘어나기는 정상이었지만, 💎 보유량이 화면 위쪽에 나오지 않아 받은 게 보이지 않았습니다(상점·횃불 창 안에서만 보였음).",
+    "위쪽 줄 골드·밤의 정수 옆에 💎 보유량을 넣었습니다. 휴대폰 가로 화면처럼 좁을 때는 밤의 정수 대신 💎가 보입니다. 폭 1,100px 이하에서는 '골드'·'밤의 정수' 글자를 빼고 숫자만 보여 자리를 줄였습니다."]},
   {d:"2026.11.06", v:"v0.94", t:"룬·유물 고유 효과 · 전투설정", L:[
     "조건을 열던 룬 5종에 고유 효과를 붙였습니다(등급 배율 일반 1 · 고급 1.5 · 희귀 2 · 영웅 3 · 전설 4 · 심연 5). 흐름: 전투 시작 행동 게이지 +10% · 만월: 체력 100%일 때 주는 피해 +4% · 결투: 적이 1마리일 때 +4% · 사냥: 보스에게 +3% · 여유: 아군 전원 체력 70% 이상이면 턴마다 마나 +1. 예: 전설 사냥 룬은 보스에게 +12%.",
     "유물: 브란도의 그을린 국자 — 화상 적에게 주는 피해 +10% → +20%, 내가 건 화상 +1턴. 운디르의 젖은 악보 — 8턴부터 주는 피해 +12% 추가. 카룸의 모래시계 — 내 체력 80% 이상이면 주는 피해 +10% 추가. 기존 능력치는 그대로입니다.",
