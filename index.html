@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793952474171"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793953051316"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -186,7 +186,7 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .rp-tip{font-size:12.5px; color:var(--sub); margin:6px 2px}
 .rp-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(52px,1fr)); gap:6px} .rp-cell{padding:0; border:0; background:none; cursor:pointer; display:grid; place-items:center; aspect-ratio:1} .rp-cell .icell{--ic:50px} .rp-cell.sel .icell{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent)}
 .rp-det{margin-top:8px; padding:8px 10px; border:1px solid var(--line); border-radius:10px; font-size:13px; line-height:1.5} .rp-acts{display:flex; gap:6px; margin-top:6px; flex-wrap:wrap} .rp-acts .btn{height:32px; padding:0 10px; font-size:12.5px}
-.eqsock{position:absolute; left:50%; bottom:15px; transform:translateX(-50%); font-size:10px; line-height:1; letter-spacing:1px; color:#c9b8ff; background:rgba(16,12,32,.85); border:1px solid #6a5a9a; border-radius:6px; padding:2px 4px; cursor:pointer; z-index:2}
+.eqsock{position:absolute; left:50%; bottom:15px; transform:translateX(-50%); font-size:10px; line-height:1; letter-spacing:1px; color:#c9b8ff; background:rgba(16,12,32,.85); border:1px solid #6a5a9a; border-radius:6px; padding:2px 4px; pointer-events:none; z-index:2}
 .eqsock.on{color:#1a1306; background:var(--accent); border-color:var(--accent)} .eqslot.rpon .icell{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent)}
 .rp-cell{touch-action:manipulation; user-select:none; -webkit-user-select:none}
 .ttl-code{display:flex; gap:8px; justify-content:center} .ttl-code input{width:200px; height:44px; border-radius:10px; border:1px solid var(--line); background:#0d1324; color:var(--ink); font-size:17px; letter-spacing:.06em; text-align:center; text-transform:uppercase}
@@ -8723,6 +8723,7 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
   if(rail&&t===curView&&t!=="dungeon"&&t!=="log"&&document.body.dataset.view===t) t="dungeon";   // v0.35: 열린 탭을 다시 누르면 대기실(마을)로
   try{ if(typeof curView!=="undefined"&&curView!==t) SND.fx("ui_tab"); }catch(e){}
   if(t==="log") t="dungeon";
+  if(t==="equip"&&curView!=="equip"){ bagTab="gear"; rpRune=null; rpSock=null; rpTap=null; }   // v0.94 장비 탭을 열면 늘 가방부터
   if(!VIEWS.includes(t)) t="dungeon";
   try{ if(t!=="equip"&&(bagPick||bagSel.size)){ bagPick=false; bagSel.clear(); bagArm=null; } }catch(e){}   // v0.80 '여러 개 골라 정리'는 장비 탭을 떠나면 꺼짐
   curView=t; document.body.dataset.view=t;   // v0.32: 던전 밖 탭에서는 아래 조작대를 숨김(가로 화면 공간 확보)
@@ -12319,10 +12320,10 @@ function eqSlotBtn(cid,sk){ const it=findEquipped(cid,sk), s=SLOTS.find(x=>x.key
   b.innerHTML+=`<span class="eqsl">${esc(s.label)}${!it&&sk==="offhand"&&W.two?" ✕":""}</span>${up?`<span class="equp" title="가방에 더 좋은 ${esc(s.label)} ${up}개">▲${up}</span>`:""}`;
   if(bagTab==="rune"&&rpSk===sk) b.classList.add("rpon");
   if(it&&it.sockets&&it.sockets.length){ const on=bagTab==="rune"&&rpSk===sk;   // v0.94 소켓 표시 ◆(룬 있음) ◇(빈 칸) — 누르면 오른쪽 룬주머니에 이 장비만
-    b.innerHTML+=`<span class="eqsock${on?" on":""}" title="소켓 ${it.sockets.filter(Boolean).length}/${it.sockets.length} — 눌러서 룬주머니에서 룬 끼우기·빼기">${it.sockets.map(r=>r?"◆":"◇").join("")}</span>`;
+    b.innerHTML+=`<span class="eqsock${on?" on":""}" title="소켓 ${it.sockets.filter(Boolean).length}/${it.sockets.length}">${it.sockets.map(r=>r?"◆":"◇").join("")}</span>`;
     if(on) b.classList.add("rpon"); }
   b.title=(it?[itemLabel(it),itemSummary(it)].concat(itemExtraText(it)):[`${s.label} — 비어 있음`]).concat(ENH_SLOTS.includes(sk)?[`부위 강화 +${E.l} (장비 능력치 +${E.l*6}%)`]:[]).join("\n");
-  b.onclick=e=>{ if(bagTab==="rune"||e.target.closest(".eqsock")){ bagTab="rune"; rpSk=sk; rpSock=null; renderParty(); return; } openWornItem(cid,sk); };   // v0.94 룬주머니를 보는 중엔 칸을 누르면 그 장비의 소켓만(정보 창 안 염)
+  b.onclick=()=>{ if(bagTab==="rune"){ rpSk=sk; rpSock=null; renderParty(); return; } openWornItem(cid,sk); };   // 소켓 표시(◆◇)는 보여 주기만   // v0.94 룬주머니를 보는 중엔 칸을 누르면 그 장비의 소켓만(정보 창 안 염)
   return b; }
 // v0.55.2: 칸 옆 강화 단추 — 위: 현재 단계(+N, 재질 색), 아래: 성공률(또는 수리·최대). 누르면 바로 강화(비용은 길게 누르거나 칸을 눌러 확인)
 function enhSideBtn(cid,sk){
@@ -14818,7 +14819,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 const UPDATES=[
   {d:"2026.11.06", v:"v0.94", t:"룬주머니", L:[
     "장비 탭 오른쪽에 [🎒 가방]과 [💠 룬주머니] 탭을 나눴습니다. 가방에는 장비·유물만 나오고, 룬은 룬주머니에서 따로 관리합니다. 룬은 가방 칸을 차지하지 않습니다.",
-    "왼쪽 장비 칸에 소켓이 있는 장비는 ◆(룬 있음) ◇(빈 칸)로 표시됩니다. 룬주머니를 보는 중에는 왼쪽 장비 칸을 누르면 정보 창 대신 오른쪽에 그 장비 하나와 소켓이 나옵니다(가방 탭에서는 ◆◇ 표시를 누르면 룬주머니로 넘어감).",
+    "왼쪽 장비 칸에 소켓이 있는 장비는 ◆(룬 있음) ◇(빈 칸)로 표시됩니다(표시만, 눌러지지 않음). 룬주머니를 보는 중에는 왼쪽 장비 칸을 누르면 정보 창 대신 오른쪽에 그 장비 하나와 소켓이 나옵니다. 장비 탭을 열면 늘 가방부터 보입니다.",
     "룬주머니의 룬을 두 번 빠르게 누르면(마우스 더블클릭 · 터치 두 번, 0.4초 안) 고른 장비의 빈 소켓에 바로 끼워집니다.",
     "빈 소켓을 누르고 룬을 누르거나, 룬을 누르고 빈 소켓을 누르면 끼워집니다. 룬을 고른 뒤 [무기에 끼우기]처럼 단추를 눌러도 됩니다. 끼운 룬 줄에는 이름과 효과가 나오고, 누르면 빼서 룬주머니로 돌아옵니다(비용 없음 — 예전에는 한 번 끼우면 뺄 수 없었음).",
     "룬이 끼워진 장비를 팔거나 분해하면 그 룬은 룬주머니로 돌아옵니다(예전에는 같이 사라짐). 가방의 '한 번에 고르기'는 룬을 고르지 않습니다."]},
