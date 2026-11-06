@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793953306449"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793959423746"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -939,6 +939,22 @@ button.dis{background:var(--raised); color:#9fd9ff; border:1px solid #2c4a6b; bo
 .cxhead{display:flex; justify-content:space-between; align-items:baseline} .cxn{font-weight:700; color:var(--accent)}
 .cxbar{height:6px; border-radius:4px; background:#0c1122; overflow:hidden} .cxbar i{display:block; height:100%; background:var(--accent)}
 .cxslots{display:flex; gap:6px}
+.field.lobby .unit .bar,.field.lobby .unit .hptext,.field.lobby .unit .utags{display:none}
+.field.lobby .unit{transition:left .9s ease-in-out, top .9s ease-in-out}
+.field.lobby .unit.mine .uname{color:var(--accent)}
+.field.lobby .arena{cursor:pointer}
+.lbub{position:absolute; bottom:100%; left:50%; transform:translateX(-50%); margin-bottom:6px; max-width:180px; width:max-content; padding:4px 9px; border-radius:10px; background:#f4f1e6; color:#1b1d2a; font-size:12.5px; line-height:1.35; white-space:normal; word-break:keep-all; pointer-events:none; z-index:5; animation:lbubIn .18s ease-out}
+.lbub::after{content:""; position:absolute; top:100%; left:50%; margin-left:-5px; border:5px solid transparent; border-top-color:#f4f1e6}
+@keyframes lbubIn{from{opacity:0; transform:translate(-50%,4px)} to{opacity:1; transform:translate(-50%,0)}}
+#lobbyBox{position:absolute; left:8px; bottom:8px; z-index:90; width:min(330px,calc(100% - 16px)); background:rgba(12,15,30,.8); border:1px solid var(--line2); border-radius:10px; padding:6px 8px; display:flex; flex-direction:column; gap:4px}
+#lobbyBox .lbh{display:flex; justify-content:space-between; align-items:center; gap:6px; font-size:12.5px} #lobbyBox .lbh .ghostbtn{padding:2px 8px; font-size:12px}
+#lobbyBox .lbm{font-size:12.5px; max-height:70px; overflow-y:auto; color:var(--sub)} #lobbyBox .lbm .me b{color:var(--accent)}
+@media (max-height:560px){ #lobbyBox{width:min(240px,calc(100% - 16px)); padding:4px 6px; gap:3px} #lobbyBox .lbm{max-height:34px; font-size:12px} #lobbyBox input{padding:3px 6px; font-size:12.5px} #lobbyBox form .btn{padding:3px 8px; font-size:12.5px} }
+#lobbyBox form{display:flex; gap:4px} #lobbyBox input{flex:1; min-width:0} #lobbyBox form .btn{padding:4px 10px}
+#lobbyBox #lbIn{height:32px; min-height:0; padding:2px 8px; font-size:13px} #lobbyBox form .btn{height:32px; min-height:0; font-size:13px}
+@media (max-height:560px){ #lobbyBox #lbIn,#lobbyBox form .btn{height:28px; font-size:12.5px} }
+.cxset{cursor:pointer} .cxcaret{font-style:normal; font-size:11.5px; color:var(--muted); margin-left:4px} .ess-ic{display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:8px; background:#1b2350; color:#9fd9ff; font-size:22px}
+.cxfx{margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,.08); font-size:12.5px; line-height:1.45; color:var(--muted,#b9b3a6); text-align:left} .cxfx b{color:#7fe3d6; font-weight:700; margin-right:4px}
 .cxslot{width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; background:#0c1122; border:1px dashed var(--line2); filter:grayscale(1); opacity:.45}
 .cxslot.got{filter:none; opacity:1; border:1px solid #22c7b8; background:radial-gradient(circle at 50% 40%,#22c7b8,#0a3634 82%)}
 .cxslot img{width:28px; height:28px; image-rendering:pixelated}
@@ -1569,7 +1585,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
   <div class="shell">
     <nav class="rail" role="tablist" aria-label="주 메뉴">
       <button id="tab-home" onclick="goHome()" title="모닥불(대기실)로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1.5 3 4 4.5 4 8a4 4 0 0 1-8 0c0-2 1-3 2-4 0 1.5.8 2.5 2 2.5 0-2.5-1-4 0-6.5zM4 21l16-3M4 18l16 3"/></svg><span id="homeLbl">대기실</span></button>
-      <button id="tab-dungeon" onclick="dungeonTab()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V10l7-6 7 6v11M10 21v-6h4v6"/></svg>던전</button>
+      <button id="tab-dungeon" onclick="dungeonTab()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V10l7-6 7 6v11M10 21v-6h4v6"/></svg>던전<span class="nb" id="coopDot"></span></button>
       <button id="tab-quest" onclick="showTab('quest',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7"/><path d="M7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>퀘스트<span class="nb" id="questDot"></span></button>
       <button id="tab-party" onclick="showTab('party',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7a3 3 0 1 0 0.01 0M17 9a2.5 2.5 0 1 0 0.01 0M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 6 2 6 5.5"/></svg>파티<span class="nb" id="ptsDot"></span></button>
       <button id="tab-equip" onclick="showTab('equip',1)" title="장비"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>장비<span class="nb up" id="eqDot" title="가방에 지금보다 더 좋은 장비가 있어요"></span></button>
@@ -1577,7 +1593,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
       <button id="tab-traits" onclick="showTab('traits',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9M12 9L6 4M12 9l6-5M12 15l-5-3M12 15l5-3"/></svg>특성<span class="nb" id="traitDot"></span></button>
       <button id="tab-rules" onclick="showTab('rules',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>전투설정</button>
       <button id="tab-codex" onclick="showTab('codex',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-5a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h6z"/></svg>도감·증표</button>
-      <button id="tab-coop" onclick="showTab('coop',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c0-3 3-5 6-5s6 2 6 5M14 15.5c.6-.3 1.3-.5 2-.5 3 0 6 2 6 5"/></svg>함께하기<span class="nb" id="coopDot"></span></button>
+      <button id="tab-coop" hidden onclick="showTab('coop',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c0-3 3-5 6-5s6 2 6 5M14 15.5c.6-.3 1.3-.5 2-.5 3 0 6 2 6 5"/></svg>함께하기</button>
     </nav>
 
     <main class="stage">
@@ -7869,7 +7885,7 @@ const COACH={
     {sel:"#tab-dungeon", t:"던전", x:"누르면 갈 곳을 고르는 창이 열려요 — 난이도(황혼부터, 10장을 깨면 다음 난이도), 장(지역), 막(한 장은 5막, 5막 끝에 보스)을 차례로 고르고 '입장'. 깬 막은 다시 골라 반복 사냥할 수 있어요."},
     {sel:"#fSpeed", t:"전투 속도", x:"전장 위 이 버튼을 누를 때마다 1배속 → 2배속 → 3배속 → 4배속으로 바뀌어요(쓸 수 있는 배속까지). 전투 중에도 바꿀 수 있어요."},
     {sel:"#torchChip,.fhgear", t:"🔥 횃불", x:`던전에 들어갈 때마다 1개를 써요. ${torchEvery()/60000}분마다 1개씩, 최대 ${torchMax()}개까지 저절로 차올라요. 지금은 배우는 중이라 들지 않아요!`},
-    {sel:".rail", t:"메뉴", x:"파티, 장비, 상점, 특성, 전투설정, 도감, 함께하기. 처음 열 때마다 이렇게 안내해 드려요."},
+    {sel:".rail", t:"메뉴", x:"파티, 장비, 상점, 특성, 전투설정, 도감(함께하기는 던전 안에). 처음 열 때마다 이렇게 안내해 드려요."},
     {sel:"#fNext", t:"던전으로", x:"준비가 되면 전장 아래 이 버튼(또는 왼쪽 '던전' 메뉴)! 갈 곳을 고르는 창이 열려요. 그 전에 이 게임에서 가장 중요한 '전투 규칙'부터 배워 볼게요."}]},
   battle:{ name:"첫 전투", steps:[
     {sel:()=>"#u-"+TUT.cid()+" img", t:"이게 나예요", x:()=>`★ ${esc(progress.protag.name)}님이에요. 발밑의 빨간 바는 체력, 파란 바는 마나. 스킬은 마나를 써요. 흰 막대가 붙으면 보호막. 캐릭터를 누르면 정확한 숫자가 보여요.`},
@@ -8733,6 +8749,7 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
     $("body-"+k).hidden=t!==k;
   }
   if(t==="dungeon"&&!runBusy()&&!$("dpick")) $("tab-dungeon").classList.remove("on");
+  if(t==="coop") $("tab-dungeon").classList.add("on");   // v0.94 함께하기는 던전 안으로 옮김
   if(t==="dungeon"&&!runState) try{ cosRefreshHeroes(); }catch(e){}   // v0.79 장비·강화를 바꾸고 대기실로 오면 오라·외형을 바로 반영
   { const hb=$("tab-home"); if(hb){ hb.classList.toggle("on",t==="dungeon"&&!$("dpick")); const l=$("homeLbl"); if(l) l.textContent=runBusy()?"전장":"대기실"; } }   // 마을(기본 화면)에서는 '던전'이 눌리지 않은 상태
   if(t==="party"||t==="equip") renderParty();
@@ -11020,9 +11037,9 @@ const WX = (()=>{
   const COLS = {"party-back": 0.1, "party-front": 0.31, "enemy-front": 0.69, "enemy-back": 0.9};   // v0.32: 가로로 넓은 전장 — 아군·적 사이를 벌림
   function layout(force){
     const f = field(); if(!f || !f.classList.contains("stage")) return; const ar = f.querySelector(".arena"); if(!ar) return;
-    const g = force ? (geom = fit()) : (geom || fit()); const arR = ar.getBoundingClientRect(), fR = g.r; if(!arR.width) return;   // v0.32: 새 전투 배치는 지금 화면 크기로(묵은 크기로 놓았다가 미끄러지지 않게)
+    const g = force ? (geom = fit()) : (geom || fit()); const arR = ar.getBoundingClientRect(), fR = g.r; if(!arR.width){ laySig = ""; return; }   // v0.94 숨은 채 새로 그린 유닛은 다음 번에 꼭 다시 배치   // v0.32: 새 전투 배치는 지금 화면 크기로(묵은 크기로 놓았다가 미끄러지지 않게)
     const sig = [Math.round(arR.width), Math.round(arR.height), Math.round(g.hzY), ...Object.keys(COLS).map(k => [...$("row-" + k).children].map(e => e.id).join("."))].join(",");
-    if(!force && sig === laySig) return; laySig = sig;
+    if(!force && sig === laySig && !ar.querySelector(".unit:not([style*='left'])")) return; laySig = sig;   // v0.94 자리 없는 유닛(기본값=불 위 한가운데)이 있으면 무조건 배치
     const mob = innerHeight <= 560, base = Math.max(0.55, Math.min(1, arR.height / (mob ? 470 : 540)));   // v0.35: 아래 조작대가 없어져 전장이 높아짐 — 크기는 예전과 비슷하게   // v0.32 가로 전용: 전장 높이에 맞춰 크기
     if(f.classList.contains("campfire") && A.fire && !ar.querySelector("#row-enemy-front .unit, #row-enemy-back .unit")){ campLayout(f, ar, g, arR, base); return; }
     const hz = g.hzY + fR.top - arR.top, bot = Math.min(arR.height, g.bot + fR.top - arR.top) - (mob ? 4 : 8);
@@ -11087,7 +11104,7 @@ const WX = (()=>{
     const AN = campAngles(n);
     const CP_ = (typeof progress !== "undefined" && progress && progress.campPos) || {};
     const P = units.map((el, i) => { const a = AN[i % AN.length] * Math.PI / 180; let x = cx + Math.cos(a) * rx, y = Math.min(arR.height - 30, cy + Math.sin(a) * ry);
-      const id = (el.id || "").replace(/^u-/, ""), sp = (CAMP_EDIT && CAMP_EDIT[id]) || CP_[id]; let fixed = false;   // v0.79 내가 놓은 자리
+      const id = (el.id || "").replace(/^u-/, ""), sp = (COOP_LB && COOP_LB.on && COOP_LB.pos[id]) || (CAMP_EDIT && CAMP_EDIT[id]) || CP_[id]; let fixed = false;   // v0.79 내가 놓은 자리
       if(sp){ x = Math.max(30, Math.min(arR.width - 30, cx + sp[0] * g.s)); y = Math.max(60, Math.min(arR.height - 24, cy + sp[1] * g.s)); fixed = true; }
       const depth = Math.max(0, Math.min(1, (y - (cy - ry)) / Math.max(1, 2 * ry))); const sc = (0.82 + 0.22 * depth) * base * 0.95 * crowd;
       return {el, x, y, sc, depth, fixed, w: 88 * sc * 1.05 + 10, h: 88 * sc * 0.85 + 26}; });
@@ -11273,11 +11290,11 @@ const WX = (()=>{
     if(COS2.CAPE_KEY[ds.cape] || ds.sa){ const R = COS2.forEl(el, now); COS2.blit(cx, R.b, ox, oy, P * dpr, flip, !GFX.low); } }
   // v0.58 모닥불 장식(최대 3개) — 불 둘레, 영웅 도트 크기에 맞춰
   let decoG = null;
-  function drawDeco(now, r, dpr){ const f = field(); if(!f || !f.classList.contains("campfire") || !A.fire || typeof cosOn !== "function") return; const D = cosOn("deco"); if(!D || !D.length) return;
+  function drawDeco(now, r, dpr){ const f = field(); if(!f || !f.classList.contains("campfire") || !A.fire || typeof cosOn !== "function") return; const CD = typeof coopLobbyDeco === "function" ? coopLobbyDeco() : null; const D = CD ? CD.ids : cosOn("deco"); if(!D || !D.length) return;
     const imgs = frameUnits(now); let P = 0; for(const el of imgs){ const ir = frameRect(el); if(ir.height){ P = ir.height / 16; break; } } if(!P) P = geom.s * 2.2;
     const fx0 = geom.ox + A.fire.x * geom.s, fy0 = geom.oy + A.fire.y * geom.s;
     decoG = {fx0, fy0, P, rl: r.left, rt: r.top, rw: r.width, rh: r.height};   // v0.75 꾸미기 모드가 화면 자리를 알도록
-    D.forEach((id, i) => { const c = cosDecoFrame(id.slice(3), now + i * 333); if(!c) return; const [dx, dy] = decoPosOf(id, i); const S = 16 * P * dpr;
+    D.forEach((id, i) => { const c = cosDecoFrame(id.slice(3), now + i * 333); if(!c) return; const [dx, dy] = CD ? (CD.pos[i] || DECO_SPOT[i] || [0, 8]) : decoPosOf(id, i); const S = 16 * P * dpr;
       cx.drawImage(c, Math.round((fx0 + dx * P) * dpr - S / 2), Math.round((fy0 + dy * P) * dpr - S), Math.round(S), Math.round(S)); }); }
   let lastT = 0, lastLay = 0;
   function draw(now){
@@ -11347,7 +11364,7 @@ function spawnField(units){
     div.innerHTML=`<img alt=""><div class="ubelow"><span class="uname"></span><span class="bar"><i></i><b class="shb"></b></span><span class="bar mp"><i></i></span><span class="hptext"></span><div class="utags"></div></div>`;
     unitShield[u.id]=initShield(u,units);
     if(u._bench) div.classList.add("bench");
-    div.addEventListener("click",()=>{ const fc=div.closest(".field"); if(fc&&fc.classList.contains("campfire")&&!runState&&CLASSES[u.id]&&!bannerRes&&!telling&&!onboardBusy){ partySel=u.id; showTab("party"); return; }   // v0.33 쉼터: 누르면 그 영웅의 파티·장비
+    div.addEventListener("click",()=>{ if(coopLobbyOn()) return; const fc=div.closest(".field"); if(fc&&fc.classList.contains("campfire")&&!runState&&CLASSES[u.id]&&!bannerRes&&!telling&&!onboardBusy){ partySel=u.id; showTab("party"); return; }   // v0.33 쉼터: 누르면 그 영웅의 파티·장비
       buffPeek(div,u.id); div.classList.add("peek"); clearTimeout(div._pk); div._pk=setTimeout(()=>div.classList.remove("peek"),3500); });   // 누르면 잠깐 체력 숫자 · v0.71 걸린 효과 목록
     { const m=/^(.*?)( Lv\.\d+)$/.exec(u.name||""); div.querySelector(".uname").innerHTML=esc((u.alive?"":"☠ ")+(m?m[1]:u.name))+(m?`<small class="ulv">${esc(m[2])}</small>`:""); }   // v0.32: 낮은 화면에선 레벨을 숨겨 이름이 안 잘리게
     if(u.affixes&&u.affixes.length){ const ax=document.createElement("span"); ax.className="affx"; ax.textContent="["+u.affixes.map(a=>AFFIXES[a].name).join("·")+"]"; div.querySelector(".uname").after(ax); }
@@ -12660,6 +12677,7 @@ function renderQuest(){
   pane.querySelectorAll(".qsa").forEach(b=>b.onclick=()=>questSubAccept(b.dataset.id));
   pane.querySelectorAll(".qsr").forEach(b=>b.onclick=()=>questSubReport(b.dataset.id));
 }
+const cxOpen=new Set();
 function renderCodex(){
   const pane=$("codexPane"); if(!pane) return; pane.innerHTML="";
   const done=Object.keys(SETS).filter(k=>(progress.codex.done||{})[k]).length;
@@ -12678,10 +12696,12 @@ function renderCodex(){
   } else if(codexTab==="sets"){
     body.innerHTML=`<div class="cxsub">세트의 부위를 한 번씩 모두 얻으면 완성 — 완성 보상 밤의 정수 40</div><div class="cxgrid st">`
       +Object.keys(SETS).map(k=>{ const S=SETS[k], c=(progress.codex.sets||{})[k]||{}, n=codexCount(k), N=setSlotsU(S).length, fin=!!(progress.codex.done||{})[k], A=S.adv&&(ADV[S.cls]||[]).find(a=>a.key===S.adv);
-        return `<div class="cxcard${fin?" got":""}"><div class="cxhead"><span class="cxname">${esc(S.name)}</span><span class="cxn">${n}/${N}</span></div>
+        return `<div class="cxcard cxset${fin?" got":""}${cxOpen.has(k)?" open":""}" data-set="${k}" role="button" tabindex="0" aria-expanded="${cxOpen.has(k)}"><div class="cxhead"><span class="cxname">${esc(S.name)}</span><span class="cxn">${n}/${N} <i class="cxcaret">${cxOpen.has(k)?"▴":"▾ 효과"}</i></span></div>
           <div class="cxbar"><i style="width:${n/N*100}%"></i></div>
           <div class="cxslots">${setSlotsU(S).map(sl=>`<span class="cxslot${c[sl]?" got":""}" title="${esc(S.pieces[sl])}${c[sl]?"":" (아직)"}"><img src="${itemIconURL({slot:sl,wtype:"sword",rarity:"set"})}" alt="${esc(S.pieces[sl])}"></span>`).join("")}</div>
-          <div class="cxmeta">${S.size}부위 · ${A?`${esc(CLASSES[S.cls].name)} [${esc(A.name)}] — 자정·영원한 밤 보스·중간보스 · 새벽 교환소`:S.regions&&S.regions.length?esc(S.regions.map(r=>REGIONS[r].chapter).join(" · ")):"자정·영원한 밤 보스 · 새벽 교환소"}</div></div>`; }).join("")+`</div>`;
+          <div class="cxmeta">${S.size}부위 · ${A?`${esc(CLASSES[S.cls].name)} [${esc(A.name)}] — 자정·영원한 밤 보스·중간보스 · 새벽 교환소`:S.regions&&S.regions.length?esc(S.regions.map(r=>REGIONS[r].chapter).join(" · ")):"자정·영원한 밤 보스 · 새벽 교환소"}</div>
+          ${cxOpen.has(k)?`<div class="cxfx">${setBonuses(S).map(([q,B])=>`<div><b>${q}부위</b> ${esc(B.desc)}</div>`).join("")}</div>`:""}</div>`; }).join("")+`</div>`;   // v0.94 세트를 누르면 효과를 펼쳐 보여 줌
+    body.querySelectorAll(".cxset").forEach(c=>{ const tg=()=>{ const k=c.dataset.set; cxOpen.has(k)?cxOpen.delete(k):cxOpen.add(k); renderCodex(); }; c.onclick=tg; c.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); tg(); } }; });
   } else {
     body.innerHTML=`<div class="cxgrid lm">`+LIMITS.map(([k,v])=>`<div class="cxrule"><div class="cxrk">${esc(k)}</div><div class="cxrv">${esc(v)}</div></div>`).join("")+`</div>`;
   }
@@ -13120,7 +13140,7 @@ function unequip(cid,slot,quiet){
 /* v0.79 대기실 영웅 배치 — '배치'를 누르면 영웅을 끌어 옮기고 '확정'하면 그 자리에 그대로(불 기준이라 화면 크기가 달라도 같은 자리) */
 let CAMP_EDIT=null;
 function campArrange(){
-  if(runState||CAMP_EDIT) return; showTab("dungeon"); const f=document.querySelector(".field.campfire"); if(!f) return;
+  if(runState||CAMP_EDIT||coopLobbyOn()) return; showTab("dungeon"); const f=document.querySelector(".field.campfire"); if(!f) return;
   CAMP_EDIT=Object.assign({},progress.campPos||{}); f.classList.add("arranging");
   const bar=document.createElement("div"); bar.className="decobar"; bar.id="campBar";
   const DE=decoEditBegin();   // 모닥불 장식도 함께
@@ -13231,14 +13251,31 @@ function makeNameCard(cid,edit){
 }
 
 /* ---- 상점 ---- */
+// v0.94 오늘의 진열: 6칸을 칸마다 무작위로 — 장비 55% · 룬 30% · 밤의 정수 묶음 15%. 3시간마다 저절로 바뀜.
+//        직접 새로고침은 하루 5회까지(100 → 200 → 300 → 400 → 500 골드, 자정에 초기화)
+const SHOP_N=6, SHOP_AUTO_MS=3*3600e3, SHOP_RR=[100,200,300,400,500];
 function genStock(){
-  progress.shopStock=[];
-  const luck=partyLuck();
-  for(let i=0;i<3;i++){
-    const it=makeItem(true,bestLootTier(),{luck,src:"mid"});   // v0.44: 상점은 중간보스 등급표
-    progress.shopStock.push({item:it, price:buyPrice(it)});
-  }
+  progress.shopStock=[]; progress.shopAt=Date.now();
+  const luck=partyLuck(), d=Math.max(0,Math.min(2,progress.diffMax|0));
+  for(let i=0;i<SHOP_N;i++){ const r=Math.random();
+    if(r<0.55){ const it=makeItem(true,bestLootTier(),{luck,src:"mid"}); progress.shopStock.push({kind:"gear", item:it, price:buyPrice(it)}); }   // v0.44: 상점은 중간보스 등급표
+    else if(r<0.85){ const it=makeRune(null,null,d); progress.shopStock.push({kind:"rune", item:it, price:buyPrice(it)}); }
+    else { const n=[5,10,15][Math.floor(Math.random()*3)]; progress.shopStock.push({kind:"ess", n, price:n*40}); } }
 }
+function shopDay(){ const t=new Date(); return t.getFullYear()+"-"+(t.getMonth()+1)+"-"+t.getDate(); }
+function shopRrLeft(){ const r=progress.shopRr; return r&&r.day===shopDay()?Math.max(0,SHOP_RR.length-(r.n|0)):SHOP_RR.length; }
+function shopRrCost(){ return SHOP_RR[Math.min(SHOP_RR.length-1,SHOP_RR.length-shopRrLeft())]; }
+function shopTick(){ if(!progress) return false; const S=progress.shopStock;
+  if(!Array.isArray(S)||S.length!==SHOP_N||!(progress.shopAt>0)||Date.now()-progress.shopAt>=SHOP_AUTO_MS){ genStock(); return true; } return false; }
+function shopNextText(){ const ms=Math.max(0,(progress.shopAt||Date.now())+SHOP_AUTO_MS-Date.now()), m=Math.ceil(ms/60000); return `다음 자동 새로고침 ${m>=60?Math.floor(m/60)+"시간 ":""}${m%60}분 뒤`; }
+function shopBuyEss(e){ if(e.sold) return false; if(progress.gold<e.price){ logLine(`<span class="r">골드가 부족합니다 (${e.price}G 필요).</span>`); return false; }
+  progress.gold-=e.price; progress.ess+=e.n; e.sold=true; saveProgress(); renderShop(); renderHud();
+  logLine(`<span class="gain">구매: 밤의 정수 ×${e.n} (골드 -${e.price})</span>`); toast(`<span class="tc">구매 — 밤의 정수 +${e.n}</span>지금 ${progress.ess}개`,"good"); return true; }
+function shopEssCard(e){ const c=document.createElement("div"); c.className="sgcard r-fine";
+  c.innerHTML=`<div class="sgtop"><span class="ic ess-ic" aria-hidden="true">✦</span><span class="sgtx"><span class="iname">밤의 정수 ×${e.n}</span><span class="sgsub">재료 · 강화 · 등급 올리기</span></span></div>
+    <span class="sgst">지금 ${progress.ess}개 → ${progress.ess+e.n}개</span><div class="sgbot"><span class="sgno">개당 40 골드</span><button class="buy"${progress.gold>=e.price?"":" disabled"}>${e.price} 골드</button></div>`;
+  c.querySelector("button.buy").onclick=()=>shopBuyEss(e); return c; }
+setInterval(()=>{ try{ if(!progress||!progress.protag) return; if(shopTick()){ saveProgress(); if(curView==="shop") renderShop(); } else if(curView==="shop"){ const el=$("shopNext"); if(el) el.textContent=shopNextText(); } }catch(e){} },30000);
 function logAutoRule(cid,sid,ar){
   if(!ar) return;
   if(ar.skip){ logLine(`<span class="r">📜 '${esc(SKILLS[sid].name)}' — 규칙 표(${esc(STANCES[heroStance(cid)].name)})에서는 이번 칸에 넣지 않았습니다. 전투설정 탭에서 직접 넣을 수 있어요.</span>`); return; }
@@ -13290,7 +13327,7 @@ function genMarket(){
 /* v0.40 상점: 탭(오늘의 장비 · 스킬북 · 밤의 시장 · 새벽 교환소)으로 나눠 한 화면에 한 가지만 — 좁은 가로 화면에서도 진열이 한눈에.
    장비는 아이콘 큰 칸 카드(누르면 자세히 + 영웅별 비교), 스킬북은 영웅 고르기 + 촘촘한 카드 */
 let shopTab="gear";
-function shopBuyGear(entry){ const it=entry.item;
+function shopBuyGear(entry){ const it=entry.item; if(entry.sold) return false;
   if(progress.gold<entry.price){ logLine(`<span class="r">골드가 부족합니다 (${entry.price}G 필요).</span>`); return false; }
   progress.gold-=entry.price; entry.sold=true; progress.inv.push(it); codexRecord(it); saveProgress(); renderShop();
   logLine(`<span class="gain">구매: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`);
@@ -13324,12 +13361,12 @@ function openShopItem(it,priceTxt,can,onBuy){
 
 function renderShop(){
   const pane=$("shopPane"); pane.innerHTML="";
-  if(!Array.isArray(progress.shopStock)||!progress.shopStock.length) genStock();
+  if(shopTick()) saveProgress();
   const mkOpen=progress.diffMax>=2;
   if(mkOpen&&(!progress.market||!Array.isArray(progress.market.goods))) genMarket();
   const tabs=[["gear","🛡 오늘의 장비"],["market","🌌 밤의 시장"]].concat(egOpen()?[["dawn","🌅 새벽 교환소"]]:[]).concat(egOpen()?[["tok","🌑 심연"]]:[]).concat([["gem","💎 새벽 상점"],["cos","🎨 외형"]]).concat(lendOn()||(progress.friend|0)>0?[["fr","🤝 우정 상점"]]:[]);
   if(!tabs.some(t=>t[0]===shopTab)) shopTab="gear";
-  const gearUp=progress.shopStock.filter(e=>!e.sold&&shopBest(e.item)).length;
+  const gearUp=progress.shopStock.filter(e=>!e.sold&&e.item&&e.kind!=="rune"&&e.item.slot!=="rune"&&shopBest(e.item)).length;
   const bookLeft=SKILLBOOKS.filter(bk=>rosterIds().includes(bk.cls)&&!progress.heroes[bk.cls].learned.includes(bk.skill)).length;
   const mkLeft=mkOpen?progress.market.goods.filter(g=>!g.sold).length:0;
   const head=document.createElement("div"); head.className="shophead";
@@ -13340,13 +13377,16 @@ function renderShop(){
   const body=document.createElement("div"); body.className="shbody"; pane.appendChild(body);
   if(shopTab==="gear"){
     const bar=document.createElement("div"); bar.className="shbar";
-    bar.innerHTML=`<span class="shopnote">던전을 깰 때마다 바뀝니다 · 판매·분해는 장비 탭 가방에서 · 카드를 누르면 자세히</span>`;
-    const rb=document.createElement("button"); rb.className="ghostbtn"; rb.textContent="진열 새로고침 · 30 골드"; rb.disabled=progress.gold<30;
-    rb.onclick=()=>{ if(progress.gold<30){ logLine(`<span class="r">골드가 부족합니다 (30G 필요).</span>`); return; } progress.gold-=30; genStock(); saveProgress(); renderShop(); };
+    const left=shopRrLeft(), cost=shopRrCost();
+    bar.innerHTML=`<span class="shopnote"><b id="shopNext">${shopNextText()}</b> · 장비·룬·밤의 정수가 무작위로 · 카드를 누르면 자세히</span>`;
+    const rb=document.createElement("button"); rb.className="ghostbtn"; rb.textContent=left?`지금 새로고침 · ${cost} 골드 (오늘 ${left}/${SHOP_RR.length}회 남음)`:`오늘 새로고침 다 씀 (${SHOP_RR.length}/${SHOP_RR.length})`; rb.disabled=!left||progress.gold<cost;
+    rb.onclick=()=>{ const L=shopRrLeft(), C=shopRrCost(); if(!L) return; if(progress.gold<C){ logLine(`<span class="r">골드가 부족합니다 (${C}G 필요).</span>`); return; }
+      progress.gold-=C; const r=progress.shopRr&&progress.shopRr.day===shopDay()?progress.shopRr:{day:shopDay(),n:0}; r.n=(r.n|0)+1; progress.shopRr=r; genStock(); saveProgress(); renderShop(); renderHud(); };
     rb.classList.add("shref"); head.appendChild(rb); body.appendChild(bar);
     const g=document.createElement("div"); g.className="sggrid"; body.appendChild(g);
     for(const entry of progress.shopStock){
-      if(entry.sold){ g.appendChild(shopSoldCard("판매 완료 — 새로고침하면 새 장비")); continue; }
+      if(entry.sold){ g.appendChild(shopSoldCard("판매 완료 — 새로고침하면 새 물건")); continue; }
+      if(entry.kind==="ess"){ g.appendChild(shopEssCard(entry)); continue; }
       g.appendChild(shopGearCard(entry.item,`${entry.price} 골드`,progress.gold>=entry.price,()=>shopBuyGear(entry))); }
   } else if(shopTab==="book"){ shopTab="gear"; body.appendChild(document.createTextNode("")); }
   else if(shopTab==="market"){ body.appendChild(marketBlock()); }
@@ -13370,6 +13410,7 @@ function marketBlock(){
 
 /* ---- 던전 진행 ---- */
 function zoneLabel(){
+  if(!runState&&coopLobbyOn()) return `🤝 함께하기 대기실 — ${COOP.title||"방"} · ${Math.max(1,COOP.mem.length)}/${COOP.mx}명${COOP.isHost?" · 내가 방장":""}`;
   const r=curRegion(), D=DIFFS[progress.diff];
   if(!runState&&egModeOf()){ const M=EG_MODES[egModeOf()]; return `등불 도시 — ${M.icon} ${M.name} 준비 (4명 출전)`; }
   if(!runState) return `등불 도시 — ${D.icon} ${D.name} · ${r.chapter} ${r.name} · ${curAct()}막 '${actName(progress.lastRegion,curAct())}' 준비`;
@@ -13425,7 +13466,7 @@ function setMainBtn(){
   else if(busy) b.innerHTML=`<span class="mb1">진행 중…</span><span class="mb2">${runState.zone+1}구역 · ${zoneKind(runState.zones[runState.zone])}</span>`;
   else { const nz=runState.zones[runState.zone]; b.innerHTML=`<span class="mb1">다음 구역으로 ▶</span><span class="mb2">${nz?`${runState.zone+1}구역 · ${zoneKind(nz)}`:""}</span>`; }
   const rb=$("retreatBtn"); rb.hidden=true;
-  { const fa=$("fArrange"); if(fa) fa.hidden=!!runState; }
+  { const fa=$("fArrange"); if(fa) fa.hidden=!!runState||coopLobbyOn(); }
   { const fr=$("fRetreat"); if(fr){ const can=!!runState&&!telling&&!(typeof TUT!=="undefined"&&TUT.busy)&&!retreatReq; fr.hidden=!runState; fr.disabled=!can;
       fr.classList.toggle("arm",retreatArm&&can); fr.textContent=retreatArm&&can?"한 번 더 누르면 후퇴":"↩ 후퇴"; } }   // v0.50: 전장 위 후퇴 — 패배와 같은 결과
   if(runState){ const g=runState.gains; $("dkGains").innerHTML=`경험치 <b>+${g.exp.toLocaleString("ko-KR")}</b> · 골드 <b>+${g.gold.toLocaleString("ko-KR")}</b> · 장비 <b>${g.items}</b>개`; }
@@ -13436,7 +13477,8 @@ function setMainBtn(){
   if(fr){ fr.hidden=!runState&&!coopRun; if(!fr.hidden){ const g=coopRun?COOP.run.gains:runState.gains; fr.innerHTML=`<span class="fg">경험치 <b>+${g.exp.toLocaleString("ko-KR")}</b> · 골드 <b>+${g.gold.toLocaleString("ko-KR")}</b> · 장비 <b>${g.items}</b></span>`+(coopRun?"":`<label class="fauto" title="구역을 마치면 자동으로 다음 구역에 들어갑니다"><input type="checkbox" ${autoAdv?"checked":""} onchange="setAutoAdv(this.checked)">자동 진행</label><label class="fauto" title="막을 끝내면 같은 던전에 다시 들어갑니다(횃불이 떨어질 때까지)"><input type="checkbox" class="repChk" ${REPEAT.on?"checked":""} onchange="setRepeat(this.checked)">🔁 반복${REPEAT.on&&REPEAT.n?` ${REPEAT.n}회`:""}</label>`); } }
   if(fn){ const town=!runState&&!playing&&!telling&&!coopRun&&!!progress&&!!progress.protag&&!onboardBusy;   // v0.41: 마을에서도 할 일이 보이게 — 던전 고르기 창을 엶
     const show=town||(!!runState&&!busy&&!coopRun&&!autoAdv&&!!runState.zones[runState.zone]&&runState.zone>0); fn.hidden=!show; fn.classList.toggle("go",town);
-    if(show&&town){ const r=curRegion(); fn.innerHTML=egModeOf()?`${EG_MODES[egModeOf()].icon} ${esc(EG_MODES[egModeOf()].name)} ▶<small>던전 고르기</small>`:`던전으로 ▶<small>${esc(r.chapter)} ${esc(r.name)} · ${curAct()}막</small>`; }
+    if(show&&town&&coopLobbyOn()){ const R=COOP.mode?null:REGIONS[COOP.rk]; fn.innerHTML=`🤝 방 설정 · ${COOP.isHost?"출발":"준비"} ▶<small>${COOP.mode?`${EG_MODES[COOP.mode].icon} ${esc(EG_MODES[COOP.mode].name)}`:R?`${esc(R.chapter)} ${esc(R.name)}`:"방장이 고르는 중"}</small>`; }
+    else if(show&&town){ const r=curRegion(); fn.innerHTML=egModeOf()?`${EG_MODES[egModeOf()].icon} ${esc(EG_MODES[egModeOf()].name)} ▶<small>던전 고르기</small>`:`던전으로 ▶<small>${esc(r.chapter)} ${esc(r.name)} · ${curAct()}막</small>`; }
     else if(show){ const nz=runState.zones[runState.zone]; fn.innerHTML=`다음 구역 ▶<small>${runState.zone+1}구역 · ${zoneKind(nz)}</small>`; } }
   const td=$("tab-dungeon"); if(td&&curView==="dungeon") td.classList.toggle("on",runBusy()||!!$("dpick"));
 }
@@ -13548,7 +13590,7 @@ function goCamp(){
   if(had) try{ const l=JSON.parse(safeGet("pn_run_lock")||"null"); if(l&&l.view===VIEW_ID) safeSet("pn_run_lock","null"); }catch(e){}
   if(progress&&progress.protag) runCompanions();
   setZoneLine();
-  spawnField(campUnits());
+  if(coopLobbyOn()){ const lu=coopLobbyUnits(); spawnField(lu); coopLobbyAfter(lu); } else { if(COOP_LB) COOP_LB.sig=""; spawnField(campUnits()); } coopLobbyBox();   // v0.94 함께하기 방 = 방장의 대기실
   setMainBtn(); renderHud();
   setTimeout(()=>TUT.kick(),350);
   if(had) repeatAfterRun();   // v0.93 반복 전투
@@ -13556,7 +13598,7 @@ function goCamp(){
 /* ================= v0.35 던전 선택 창 ================= */
 // '던전'을 누르면: 진행 중이면 전장으로, 아니면 난이도 → 장 → 막을 차례로 고르는 창
 let dpTab=null;
-function fNextClick(){ if(!runState) dungeonTab(); else mainButton(); }
+function fNextClick(){ if(coopLobbyOn()){ showTab("coop"); return; } if(!runState) dungeonTab(); else mainButton(); }
 /* v0.42 휴대폰 전체 화면 — Claude 페이지 틀 안에서는 막혀 있어서, 게임을 일반 주소로 열었을 때만 ⛶ 버튼이 보임.
    '홈 화면에 추가'로 열면 주소창 없이 가로 전체 화면(안드로이드: 앱 정보 manifest, 아이폰: apple-mobile-web-app 설정) */
 function fsEl(){ return document.fullscreenElement||document.webkitFullscreenElement||null; }
@@ -13630,7 +13672,7 @@ function renderDungeonPicker(){
   const box=$("dpick"); if(!box) return;
   const eg=dpTab==="eg", d=eg?progress.diff:dpTab, rk=progress.lastRegion;
   const tabs=DIFFS.map((D,i)=>{ const op=i<=progress.diffMax; return `<button class="${!eg&&i===d?"on":""}" ${op?`onclick="dpSetDiff(${i})"`:`disabled title="${esc(DIFFS[i-1].name)} 10장을 깨면 열립니다"`}>${op?D.icon:"🔒"} ${esc(D.name)}</button>`; }).join("")
-    +(egOpen()?`<button class="${eg?"on":""}" onclick="dpSetDiff('eg')">✦ 최종 콘텐츠</button>`:"");
+    +(egOpen()?`<button class="${eg?"on":""}" onclick="dpSetDiff('eg')">✦ 최종 콘텐츠</button>`:"")+`<button onclick="dpCoop()">🤝 함께하기${coopLobbyOn()?" · 방":""}</button>`;   // v0.94 함께하기를 던전 탭 안으로
   let body="", foot="";
   if(!eg){
     const cards=REGION_KEYS.map(k=>{ const R=REGIONS[k], ok=chapterUnlocked(d,k), dn=ok?actsDone(d,k):0, B=MOBS[R.boss], sel=k===rk&&d===progress.diff;
@@ -13654,6 +13696,7 @@ function renderDungeonPicker(){
 }
 function dpSetDiff(i){ if(i==="eg"){ dpTab="eg"; if(!egModeOf()){ progress.egMode=EG_KEYS[0]; saveProgress(); goCamp(); } renderDungeonPicker(); return; }
   dpTab=i; progress.egMode=null; if(i!==progress.diff){ $("diffSel").value=String(i); progress.diff=i; if(!regionUnlocked(progress.lastRegion)) progress.lastRegion="swamp"; saveProgress(); renderRegionSel(); goCamp(); } else { saveProgress(); goCamp(); } renderDungeonPicker(); }
+function dpCoop(){ closeDungeonPicker(); showTab("coop"); }
 function dpSetRegion(k){ progress.egMode=null; progress.lastRegion=k; saveProgress(); goCamp(); renderDungeonPicker(); }
 function dpSetAct(a){ setAct(a); renderDungeonPicker(); }
 // v0.55.2: 고른 막의 우두머리(1·2막 중간보스 · 3막 보스)가 쓰는 기술 — 조건 → 기술 · 대상 · 효과 (몬스터 규칙 그대로 읽어 줌)
@@ -14817,6 +14860,15 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"함께하기 대기실 · 상점 6칸 · 세트 도감", L:[
+    "함께하기를 던전 안으로 옮겼습니다. 던전 선택 창 탭 줄 끝의 '🤝 함께하기'를 누르면 열립니다. 왼쪽 메뉴의 함께하기 버튼은 없앴고, 접속 인원 숫자는 던전 버튼에 붙습니다.",
+    "방을 만들거나 들어가면 게임 화면이 방장의 모닥불 대기실로 바뀝니다. 방에 있는 모든 사람의 영웅(최종 콘텐츠는 한 사람당 최대 3명)이 불 둘레에 모이고, 장식은 방장 것이 보입니다.",
+    "대기실 왼쪽 아래 채팅 칸에 쓰면 말한 사람 머리 위에 말풍선이 5.5초 뜹니다. 화면을 누르면 내 대표 영웅이 0.9초 동안 그 자리로 걸어가고, 다른 사람 화면에서도 같은 자리로 움직입니다.",
+    "아래 가운데 버튼은 대기실에서 '방 설정 · 준비(방장은 출발)'가 됩니다. 함께 던전이 끝나면 다시 방 대기실로, 방을 나가면 내 대기실로 돌아옵니다.",
+    "상점 '오늘의 장비'가 3칸 → 6칸입니다. 칸마다 무작위로 장비 55% · 룬 30% · 밤의 정수 묶음(5·10·15개, 개당 40골드) 15%가 나옵니다.",
+    "진열은 3시간마다 저절로 바뀝니다. 직접 새로고침은 하루 5회까지, 100 → 200 → 300 → 400 → 500골드(예전 30골드, 무제한)이고 자정에 초기화됩니다.",
+    "도감 → 세트 장비에서 세트 카드를 누르면 2·4·6부위 효과가 펼쳐집니다. 다시 누르면 접힙니다.",
+    "모닥불 위 한가운데에 영웅이 하나로 겹쳐 보이던 문제를 고쳤습니다. 화면이 가려진 채 대기실을 다시 그리면 자리 잡기를 건너뛰고, 다시 보일 때도 '이미 배치함'으로 보고 건너뛰어 기본 자리(한가운데)에 남던 것입니다."]},
   {d:"2026.11.06", v:"v0.94", t:"등급 올리기 비용", L:[
     "등급 올리기가 너무 싸서 파밍이 쉬웠습니다. 희귀 → 영웅: 희귀 조각 3 + 정수 15 → 희귀 조각 8 + 정수 60. 영웅 → 전설: 영웅 조각 5 + 정수 40 → 영웅 조각 20 + 정수 300.",
     "전설을 분해하면 영웅 조각 2 → 1개입니다.",
@@ -15239,7 +15291,7 @@ function coopHero(){ const ids=rosterIds(); if(!COOP.heroCid||!ids.includes(COOP
 function coopRid(n){ const a="abcdefghijkmnpqrstuvwxyz23456789"; let s=""; for(let i=0;i<n;i++) s+=a[Math.floor(Math.random()*a.length)]; return s; }
 function coopMyPeer(rt){ const me=(rt||COOP.rt).peers().find(p=>p.sameTab); return me?me.peer:null; }
 function coopPeers(rt){ return (rt.peers()||[]).filter(p=>p.kind!=="agent"); }
-function coopRender(){ if(COOP.renderDue) return; COOP.renderDue=true; requestAnimationFrame(()=>{ COOP.renderDue=false; if(curView==="coop") renderCoop(); renderCoopDot(); }); }
+function coopRender(){ if(COOP.renderDue) return; COOP.renderDue=true; requestAnimationFrame(()=>{ COOP.renderDue=false; if(curView==="coop") renderCoop(); renderCoopDot(); coopLobbyBox(); }); }
 function renderCoopDot(){ const d=$("coopDot"); if(!d) return; const n=COOP.rt?coopPeers(COOP.rt).length-1:0; d.textContent=COOP.run?"▶":n>0?String(n):""; }
 
 async function coopInit(){
@@ -15267,10 +15319,15 @@ function coopPushRoom(extra){
   const p={ v:2, nick:coopNick(), cid, job:jobName(cid), lv:h.level, ready:COOP.ready&&!!COOP.mySnapz, snapz:COOP.ready?COOP.mySnapz:null, nh:COOP.mySnaps?COOP.mySnaps.length:0, chat:COOP.myRoomChat,
     ack:COOP.run?{id:COOP.run.id, z:COOP.run.z}:null, abck:abyssRec().ck, flb:fallRec(fallEnvoy().key).best };
   if(COOP.isHost) p.host={ t:COOP.title, mx:COOP.mx, rk:COOP.rk, d:COOP.d, mem:COOP.mem, run:COOP.hostRun||null, mode:COOP.mode, st:COOP.egStart };
+  p.lk=coopLobbyLk(); p.cam=Array.isArray(COOP.cam)?COOP.cam:null; if(COOP.isHost) p.cd=coopMyDeco();   // v0.94 대기실: 내 영웅 외형 · 내 자리 · (방장) 장식
   Object.assign(p, extra||{});
   const sz=o=>new Blob([JSON.stringify(o)]).size;
   while(sz(p)>3950&&p.chat&&p.chat.length) p.chat=p.chat.slice(1);       // 영웅 정보가 크면 채팅 줄부터 덜어냄
+  if(sz(p)>3950&&p.lk&&p.lk.length>1) p.lk=p.lk.slice(0,1);
+  if(sz(p)>3950) delete p.cd;
+  if(sz(p)>3950&&p.lk) p.lk=p.lk.map(x=>({c:x.c,j:x.j}));
   COOP.nr.presence(p).catch(e=>{ COOP.notice="상태를 보내지 못했습니다: "+(e&&e.message||e&&e.code||""); coopRender(); });
+  coopLobbyRefresh();
 }
 // 전투에 들어갈 내 영웅 한 명(숫자는 소수 4자리로 줄여 4KB 안에)
 function coopSnap(cid){
@@ -15293,7 +15350,8 @@ function coopReadChat(peers,where){
   const list=where==="room"?COOP.roomChat:COOP.lobbyChat; let added=false;
   for(const p of peers){ const ch=p.presence&&p.presence.chat; if(!Array.isArray(ch)) continue;
     for(const m of ch){ if(!m||typeof m.t!=="string"||typeof m.i!=="string") continue; const key=where+"|"+p.peer+"|"+m.i; if(COOP.seen[key]) continue; COOP.seen[key]=1;
-      list.push({nick:String(p.presence.nick||"?").slice(0,12), t:m.t.slice(0,COOP_MAX_CHAT), a:+m.a||Date.now(), me:p.isMe&&p.sameTab}); added=true; } }
+      list.push({nick:String(p.presence.nick||"?").slice(0,12), t:m.t.slice(0,COOP_MAX_CHAT), a:+m.a||Date.now(), me:p.isMe&&p.sameTab}); added=true;
+      if(where==="room"&&Math.abs(Date.now()-(+m.a||0))<15000) coopLobbyBubble(p.peer,m.t.slice(0,COOP_MAX_CHAT)); } }
   if(added){ list.sort((x,y)=>x.a-y.a); if(list.length>80) list.splice(0,list.length-80); }
 }
 // ---------- 방 ----------
@@ -15310,7 +15368,8 @@ async function coopJoin(code,asHost){
     COOP.nr=nr; COOP.code=code; COOP.isHost=!!asHost; COOP.roomChat=[]; COOP.myRoomChat=[]; COOP.ready=false; COOP.mem=[];
     if(asHost) COOP.mem=[coopMyPeer(nr)||"me"];
     COOP.roomUnsub.push(nr.onPeers(()=>coopOnRoom(), e=>{ COOP.notice="방 연결이 끊겼습니다("+e.code+")"; coopLeaveRoom(true); }));
-    coopPushRoom(); coopPushLobby(); coopRender();
+    COOP.cam=null; coopPushRoom(); coopPushLobby(); coopRender();
+    if(!runState){ showTab("dungeon"); if(!playing&&!telling) goCamp(); }   // v0.94 방에 들어가면 게임 화면이 방장의 대기실
   }catch(e){ COOP.notice="방에 들어가지 못했습니다("+(e&&e.code||e)+")"; COOP.code=null; COOP.isHost=false; coopRender(); }
 }
 async function coopLeaveRoom(quiet){
@@ -15318,7 +15377,7 @@ async function coopLeaveRoom(quiet){
   COOP.roomUnsub=[];
   const nr=COOP.nr; COOP.nr=null; COOP.code=null; COOP.isHost=false; COOP.ready=false; COOP.mem=[]; COOP.hostRun=null;
   if(nr) try{ await nr.leave(); }catch(e){}
-  coopPushLobby(); if(!quiet) coopRender();
+  COOP.cam=null; coopPushLobby(); if(!quiet) coopRender(); coopLobbyRefresh();
 }
 function coopHostPeer(){ if(!COOP.nr) return null; return coopPeers(COOP.nr).find(p=>p.presence&&p.presence.host&&!(p.isMe&&p.sameTab&&!COOP.isHost))||null; }
 function coopOnRoom(){
@@ -15341,7 +15400,7 @@ function coopOnRoom(){
       if(R&&R.id&&R.id!==COOP.lastRunId&&me&&COOP.mem.includes(me)&&!COOP.run) coopStartRun(hp,R);
     } else if(!COOP.run){ if(!COOP.hostGoneAt) COOP.hostGoneAt=Date.now(); else if(Date.now()-COOP.hostGoneAt>4000){ COOP.notice="방장이 방을 나갔습니다."; coopLeaveRoom(); return; } }
   }
-  coopRender();
+  coopRender(); coopLobbyRefresh();
 }
 async function coopToggleReady(){
   if(!COOP.nr||COOP.run) return;
@@ -15676,6 +15735,7 @@ function renderCoop(){
     main=`<div class="panel coop-main">
       <div class="coop-row"><h3 style="margin:0">${esc(COOP.title||"방")} <span class="ph-sub">코드 ${esc(COOP.code)}</span></h3><span class="spacer"></span>${conn}<button class="ghostbtn" id="coopLeave">방 나가기</button></div>${notice}
       <div class="coop-mems">${cards}</div>${waiting?`<div class="ph-sub">대기 중 ${waiting}명(자리가 나면 들어옵니다)</div>`:""}
+      ${COOP.run?"":`<div class="coop-row"><button class="btn coop-go" onclick="showTab('dungeon')">🔥 대기실 보기</button><span class="ph-sub">대기실에서 채팅하고, 화면을 누르면 내 영웅이 그 자리로 걸어갑니다</span></div>`}
       <div class="coop-row">${heroSel}<button class="btn ${COOP.ready?"coop-ready":"coop-go"}" id="coopReady" ${COOP.run?"disabled":""}>${COOP.ready?"준비 취소":"준비 완료"}</button></div>
       ${hostCtl}
       ${COOP.run?`<div class="coop-row"><b>함께 던전 진행 중</b> — ${COOP.run.z+1}/${COOP.run.zones.length}구역 <button class="btn coop-go" onclick="showTab('dungeon')">던전 화면 보기</button></div>`:""}
@@ -15704,6 +15764,58 @@ function renderCoop(){
   on("coopEgStart","change",e=>{ COOP.egStart=+e.target.value||1; coopPushRoom(); coopRender(); });
   on("coopChatForm","submit",e=>{ e.preventDefault(); const i=$("coopChatIn"); coopSay(COOP.nr?"room":"lobby",i.value); i.value=""; });
 }
+
+/* ---- v0.94 함께하기 대기실: 방에 있는 동안 게임 화면은 방장의 모닥불 대기실. 모두의 영웅이 모이고, 채팅은 머리 위 말풍선,
+        화면을 누르면 내 (대표) 영웅이 그 자리로 걸어감(자리는 상태에 실어 모두에게 같게) ---- */
+var COOP_LB={on:false, sig:"", pos:{}};   // var: 시작 중(이 줄 전에) 대기실을 그려도 오류 없게
+function coopLobbyOn(){ try{ return !!COOP.nr&&!COOP.run&&!runState; }catch(e){ return false; } }
+function coopLobbyLk(){ try{ return coopHeroList(coopHeroCount()).slice(0,3).map(c=>({c, j:String(jobName(c)).slice(0,10), l:heroLook(c)})); }catch(e){ return []; } }
+function coopMyDeco(){ try{ const D=cosOn("deco"); if(!D||!D.length) return {ids:[],pos:[]}; const ids=D.slice(0,12); return {ids, pos:ids.map((id,i)=>{ const q=decoPosOf(id,i); return [Math.round(q[0]*10)/10,Math.round(q[1]*10)/10]; })}; }catch(e){ return null; } }
+function coopLobbyDeco(){ if(!coopLobbyOn()||COOP.isHost) return null; const hp=coopHostPeer(), cd=hp&&hp.presence&&hp.presence.cd;
+  if(!cd||!Array.isArray(cd.ids)) return {ids:[],pos:[]};
+  return {ids:cd.ids.filter(x=>typeof x==="string").slice(0,12), pos:Array.isArray(cd.pos)?cd.pos.map(q=>Array.isArray(q)?[+q[0]||0,+q[1]||0]:null):[]}; }
+const camOk=q=>Array.isArray(q)&&q.length===2&&q.every(v=>typeof v==="number"&&isFinite(v)&&Math.abs(v)<400);
+function coopLobbyUnits(){
+  const nr=COOP.nr, peers=coopPeers(nr), me=coopMyPeer(nr);
+  let order=COOP.mem.map(x=>x==="me"?me:x).filter(Boolean); if(!order.length) order=[me].filter(Boolean); if(me&&!order.includes(me)) order.push(me);
+  const out=[]; COOP_LB.pos={};
+  order.slice(0,6).forEach((pe,i)=>{ const isMe=pe===me, p=peers.find(x=>x.peer===pe), q=(p&&p.presence)||{};
+    const L=isMe?coopLobbyLk():(Array.isArray(q.lk)?q.lk:(CLASSES[q.cid]?[{c:q.cid,j:q.job}]:[]));
+    const nick=isMe?coopNick():String(q.nick||"?").slice(0,12);
+    L.slice(0,3).forEach((x,j)=>{ if(!x||!CLASSES[x.c]) return; let look=x.l&&typeof x.l==="object"?x.l:null; if(look) try{ lookKey(look); lookSprite(look); }catch(e){ look=null; }
+      const id=`lb${i}_${j}`;
+      out.push({id, name:j?`${nick}의 ${String(x.j||CLASSES[x.c].name).slice(0,10)}`:nick, side:"party", row:"front", alive:true, hp:1, hp_max:1, mp:0, mp_max:1, look, sprite:CLASSES[x.c].sprite, traits:{}, lobbyPeer:pe, lobbyMain:j===0, mine:isMe});
+      const cam=isMe?COOP.cam:q.cam; if(j===0&&camOk(cam)) COOP_LB.pos[id]=cam; }); });
+  COOP_LB.on=true;
+  return out; }
+function coopLobbySig(units){ return units.map(u=>u.id+":"+u.sprite+":"+u.name+":"+(u.look?lookKey(u.look):"")).join("|"); }
+function coopLobbyAfter(units){ COOP_LB.sig=coopLobbySig(units); for(const u of units){ const el=$("u-"+u.id); if(el) el.classList.toggle("mine",!!u.mine); } }
+function coopLobbyRefresh(){ try{
+  if(!coopLobbyOn()){ COOP_LB.on=false; if(COOP_LB.sig){ COOP_LB.sig=""; if(typeof COOP!=="undefined"&&!COOP.run&&!runState&&!playing&&!telling) goCamp(); } coopLobbyBox(); return; }
+  if(playing||telling) return;
+  const units=coopLobbyUnits();
+  if(coopLobbySig(units)!==COOP_LB.sig){ spawnField(units); coopLobbyAfter(units); } else WX.layout();
+  coopLobbyBox(); setZoneLine(); setMainBtn(); }catch(e){} }
+let coopCamT=0;
+function coopLobbyMove(cx0,cy0){ const G=WX.campGeom(), ar=document.querySelector(".field .arena"); if(!G||!ar) return; const R=ar.getBoundingClientRect(); if(!R.width) return;
+  const x=Math.max(30,Math.min(R.width-30,cx0-R.left)), y=Math.max(60,Math.min(R.height-24,cy0-R.top));
+  COOP.cam=[Math.round((x-G.cx)/G.s*100)/100, Math.round((y-G.cy)/G.s*100)/100];
+  const mine=(typeof curUnits!=="undefined"?curUnits:[]).find(u=>u.mine&&u.lobbyMain); if(mine){ COOP_LB.pos[mine.id]=COOP.cam; WX.layout(); }
+  clearTimeout(coopCamT); coopCamT=setTimeout(()=>coopPushRoom(),150); }
+function coopLobbyBubble(peer,text){ if(!coopLobbyOn()) return; const u=(typeof curUnits!=="undefined"?curUnits:[]).find(x=>x.lobbyPeer===peer&&x.lobbyMain); const el=u&&$("u-"+u.id); if(!el) return;
+  const old=el.querySelector(".lbub"); if(old) old.remove(); const b=document.createElement("span"); b.className="lbub"; b.textContent=text; el.appendChild(b);
+  setTimeout(()=>b.remove(),5500); }
+function coopLobbyBox(){ const f=document.querySelector(".field"); if(!f) return; const on=coopLobbyOn(); f.classList.toggle("lobby",on);
+  let box=$("lobbyBox"); if(!on){ if(box) box.remove(); return; }
+  if(!box){ box=document.createElement("div"); box.id="lobbyBox";
+    box.innerHTML=`<div class="lbh"><b id="lbTitle"></b></div><div class="lbm" id="lbMsgs"></div>
+      <form id="lbForm"><input id="lbIn" maxlength="${COOP_MAX_CHAT}" placeholder="채팅 (말풍선으로 보여요)" aria-label="대기실 채팅" autocomplete="off"><button class="btn coop-go" type="submit">보내기</button></form>`;
+    f.appendChild(box); box.addEventListener("click",e=>e.stopPropagation());
+    $("lbForm").addEventListener("submit",e=>{ e.preventDefault(); const i=$("lbIn"); coopSay("room",i.value); i.value=""; }); }
+  $("lbTitle").textContent=`💬 방 채팅 · 나: ${COOP.ready?"준비 완료":"준비 전"}`;
+  const ms=$("lbMsgs"), last=COOP.roomChat.slice(-4); ms.innerHTML=last.length?last.map(m=>`<div class="${m.me?"me":""}"><b>${esc(m.nick)}</b> ${esc(m.t)}</div>`).join(""):`<div class="ph-sub">화면을 누르면 내 영웅이 걸어가요</div>`; ms.scrollTop=ms.scrollHeight; }
+document.addEventListener("click",e=>{ if(!coopLobbyOn()||curView!=="dungeon") return; const f=e.target.closest&&e.target.closest(".field.campfire"); if(!f) return;
+  if(e.target.closest("#lobbyBox, button, input, select, a, #saybox, .fieldhead, .fieldfoot")) return; coopLobbyMove(e.clientX,e.clientY); });
 function confirmLeaveRun(){ COOP.notice="함께 던전 진행 중에는 방을 나갈 수 없습니다. 끝난 뒤에 나가 주세요."; coopRender(); return false; }
 
 (function(){ const upd=()=>{ const d=document.getElementById('dock'); if(d) document.documentElement.style.setProperty('--dockh',d.offsetHeight+'px'); };
