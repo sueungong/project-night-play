@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793935191438"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793935456682"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -4656,7 +4656,10 @@ function buildTraitGraph2(cid,adv){
 function traitIdx(cid){ const adv=(progress&&progress.heroes&&progress.heroes[cid]&&progress.heroes[cid].adv)||null; const k=cid+"|"+(adv||""); return TRAIT_IDX[k]||(TRAIT_IDX[k]=buildTraitGraph2(cid,adv)); }
 // 특성 포인트(v0.34): 전직(Lv10)부터 레벨마다 1 → Lv40에 31 · 각성마다 4 · 큰 별마다 1
 const TRAIT_AWAKEN=4, AWAKEN_MAX=10;   // v0.94 각성은 10번까지(특성 포인트 Lv40 31 + 각성 40 = 71, 전체 129칸 중)
-function canAwaken(h){ return !!(h&&h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)&&(h.awaken||0)<AWAKEN_MAX); }
+// v0.94 B안: n번째 각성에 드는 경험치 = Lv40 경험치(30,358) × n — 1번째 30,358 · 5번째 151,790 · 10번째 303,580 (합계 1,669,690)
+function awakenNeed(h){ return expNeed(LEVEL_CAP)*Math.min(AWAKEN_MAX,(h.awaken||0)+1); }
+function heroExpNeed(h){ return h.level>=LEVEL_CAP?awakenNeed(h):expNeed(h.level); }
+function canAwaken(h){ return !!(h&&h.level>=LEVEL_CAP&&h.exp>=awakenNeed(h)&&(h.awaken||0)<AWAKEN_MAX); }
 // v0.94 난이도마다 영웅의 상태이상 저항이 깎임(황혼 0 · 자정 -20%p · 영원한 밤 -40%p) — 화면에는 지금 고른(진행 중인) 난이도 기준
 function curDiffIdx(){ try{ if(typeof COOP!=="undefined"&&COOP.run&&COOP.run.d!=null) return COOP.run.d; if(typeof runState!=="undefined"&&runState&&runState.d!=null) return runState.d; return (progress&&progress.diff)|0; }catch(e){ return 0; } }
 function heroResPen(d){ const D=DIFFS[d==null?curDiffIdx():d]; return (D&&D.resPen)||0; }
@@ -12592,7 +12595,7 @@ function runCompanions(){
 function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·전직·성향) / "equip"(장비 탭 — 장비만)
   const c=CLASSES[cid]; const h=progress.heroes[cid]; const D=heroDerived(cid); const d=D.stats; d.caster=c.caster;
   const card=document.createElement("div"); card.className="hero";
-  const need=expNeed(h.level);
+  const need=heroExpNeed(h);
   const top=document.createElement("div"); top.className="top";
   const tt=heroTitleObj(cid);
   const W=WEAPONS[D.wtype];
@@ -12633,7 +12636,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
     card.appendChild(advNote);
   }
   if(!comp&&canAwaken(h)){
-    const aw=document.createElement("button"); aw.className="btn"; aw.textContent=`✦ 각성 (${h.awaken+1}/${AWAKEN_MAX})`; aw.title=`레벨 상한에서 경험치가 가득 찼습니다. 각성: 특성 포인트 +${TRAIT_AWAKEN}`;
+    const aw=document.createElement("button"); aw.className="btn"; aw.textContent=`✦ 각성 (${h.awaken+1}/${AWAKEN_MAX})`; aw.title=`레벨 상한에서 경험치가 가득 찼습니다(${awakenNeed(h).toLocaleString("ko-KR")}). 각성: 특성 포인트 +${TRAIT_AWAKEN} · 다음 각성은 경험치 ${(expNeed(LEVEL_CAP)*Math.min(AWAKEN_MAX,(h.awaken||0)+2)).toLocaleString("ko-KR")}`;
     aw.onclick=()=>{ h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&progress.heroes[cid].adv) addAdvRules(cid,advInfo(cid)); saveRules(); saveProgress(); renderParty(); renderRules(); renderPtsDot();
       logLine(`<span class="win">✦ ${esc(heroDisplayName(cid))} 각성 ${h.awaken}! 특성 포인트 +${TRAIT_AWAKEN}.</span>`); };
     const awBox=document.createElement("div"); awBox.className="alloc actbox"; awBox.appendChild(aw); card.appendChild(awBox);
@@ -14362,7 +14365,7 @@ function grantExp(exp,ids){
   for(const cid of (ids||partyIds())){
     const h=progress.heroes[cid];
     h.exp+=exp;
-    if(h.level>=LEVEL_CAP){ if(h.exp>=expNeed(h.level)){ h.exp=expNeed(h.level); if(!isCompanion(cid)&&(h.awaken||0)<AWAKEN_MAX) logLine(`<span class="lv">✦ ${heroDisplayName(cid)} — 경험치가 가득 찼습니다. 파티·장비 탭에서 각성할 수 있습니다.</span>`); } continue; }
+    if(h.level>=LEVEL_CAP){ if(h.exp>=awakenNeed(h)){ h.exp=awakenNeed(h); if(!isCompanion(cid)&&(h.awaken||0)<AWAKEN_MAX) logLine(`<span class="lv">✦ ${heroDisplayName(cid)} — 경험치가 가득 찼습니다. 파티·장비 탭에서 각성할 수 있습니다.</span>`); } continue; }
     while(h.exp>=expNeed(h.level)&&h.level<LEVEL_CAP){
       h.exp-=expNeed(h.level);
       h.level++; const gr=rollGrowth(cid);   // v0.89 레벨업 = 체력·마나·공격력 무작위 성장(포인트 없음)
@@ -14703,6 +14706,7 @@ const UPDATES=[
     "각성은 영웅마다 10번까지입니다(예전에는 끝없이). 특성 포인트는 Lv40 31점 + 각성 40점 = 최대 71점(큰 별 +3)이라, 전직 후 215칸 중 3분의 1 정도만 찍을 수 있습니다.",
     "10번을 넘겨 각성한 저장은 10으로 맞춥니다. 이미 배운 특성은 그대로 둡니다.",
     "각성 단추에 '각성 (3/10)'처럼 횟수가 나오고, 10번을 채우면 경험치 줄에 '각성 최대(10/10)'로 나옵니다.",
+    "각성에 드는 경험치가 횟수만큼 늘어납니다: n번째 각성 = 30,358 × n (1번째 30,358 · 2번째 60,716 · 5번째 151,790 · 10번째 303,580, 10번 합계 1,669,690 — 예전의 5.5배). 경험치 줄에 다음 각성까지 필요한 양이 나옵니다.",
     "궁극 특성은 영웅마다 3개 → 4개까지 찍을 수 있습니다.",
     "운영 도구 우편: '우편 보내기'를 누르면 결과가 창 안에 바로 나옵니다(보내는 중 → 보냈어요 / 보내지 못한 이유). 예전에는 결과 알림이 창 뒤에 가려 아무 반응이 없는 것처럼 보였습니다. 서버가 15초 동안 답하지 않으면 그것도 알려 줍니다."]},
   {d:"2026.11.06", v:"v0.94", t:"상태이상 저항 · 전직·각성 알림", L:[
