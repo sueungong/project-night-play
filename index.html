@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793953051316"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793953306449"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3873,9 +3873,9 @@ function itemPctBonus(it){ const o={}; if(it.fate&&it.fate.done) for(const [k,v]
 function itemLabel(it){ return itemDisplayName(it); }
 function enhTag(E){ return E&&E.l?`+${E.l} `:""; }
 function dismantleValue(it){ return ({common:1,fine:2,rare:4,epic:8,legend:14,set:6}[it.rarity]||1)*(1+Math.floor((it.tier||0)/10)); }
-/* v0.44 분해 재료 — 희귀·세트 → 희귀 조각, 영웅 → 영웅 조각, 전설 → 영웅 조각 2 (등급 올리기에 씀) */
+/* v0.44 분해 재료 — 희귀·세트 → 희귀 조각, 영웅 → 영웅 조각, 전설 → 영웅 조각 1(v0.94) (등급 올리기에 씀) */
 const FRAG_LABEL={rare:"희귀 조각",epic:"영웅 조각"};
-function fragOf(it){ if(!it||it.slot==="rune"||it.slot==="relic"||it.mythic) return {}; return it.rarity==="rare"||it.rarity==="set"?{rare:1}:it.rarity==="epic"?{epic:1}:it.rarity==="legend"?{epic:2}:{}; }
+function fragOf(it){ if(!it||it.slot==="rune"||it.slot==="relic"||it.mythic) return {}; return it.rarity==="rare"||it.rarity==="set"?{rare:1}:it.rarity==="epic"?{epic:1}:it.rarity==="legend"?{epic:1}:{}; }   // v0.94 전설 분해 영웅 조각 2 → 1
 function fragStore(){ const f=progress.frag=progress.frag&&typeof progress.frag==="object"?progress.frag:{}; f.rare=f.rare|0; f.epic=f.epic|0; return f; }
 function fragAdd(f,acc){ const S=fragStore(); for(const [k,v] of Object.entries(f||{})){ S[k]+=v; if(acc) acc[k]=(acc[k]||0)+v; } }
 function fragText(f){ return Object.entries(f||{}).filter(([,v])=>v).map(([k,v])=>`${FRAG_LABEL[k]} +${v}`).join(" · "); }
@@ -3923,7 +3923,7 @@ const LIMITS=[
   ["장비 드롭","[일반·고급·희귀·영웅·전설] 일반 몹 50·32·14·3.7·0.3% · 정예/우두머리 25·35·28·11·1% · 중간보스 10·30·38·19·3% · 장 보스 0·25·40·28·7% · 보물상자 20·35·30·13·2%. 자정은 영웅·전설 ×1.3, 영원한 밤 ×1.6, 행운은 희귀 이상을 조금씩 올림. 영웅 이상 무기·보조는 70%가 출전 중인 영웅의 것."],
   ["부위 강화","강화는 장비가 아니라 영웅의 부위(무기·보조·투구·갑옷·장갑·신발·망토·반지 2·목걸이, 유물 제외)에 쌓입니다. 장비를 바꿔 껴도 그 칸의 강화가 새 장비에 그대로 붙고(+1~+9 단계당 능력치 +5%, +10~+15 단계당 +9%, 심연 핵으로 연 +16~+18 단계당 +15% · 퍼센트 능력치는 절반), 가방의 장비에는 강화가 없습니다. 비용은 지금까지 연 콘텐츠 수준을 따릅니다. +0~+5에서 강화하다 실패하면 그대로, +6부터는 실패하면 한 단계만 내려갑니다."],
   ["세트 장비","세트마다 필요한 부위 수(4·5·6)와 부위 구성이 다릅니다 — 장비 칸 10개 중 세트가 쓰지 않는 칸은 전설 등으로 채웁니다. 효과 단계: 4부위 2/4 · 5부위 2/3/5 · 6부위 2/4/6(부위가 많은 세트일수록 완성 효과가 큼). 지역 세트 5종(달그림자 5 · 깊은 노래 6 · 황금 장부 5 · 태양의 잔해 6 · 별의 약속 5)은 그 장의 보스·중간보스, 연계 세트 3종(철주먹 서약 4 · 행진곡 4 · 사냥꾼의 과녁 5)은 자정·영원한 밤 장 보스(15%)에서. 전직 세트는 전직마다 2종(모두 36종 — 그 전직의 특성 두 갈래의 큰 효과를 세트로도 얻음, 특성과 같은 효과는 겹치지 않음) · 그 직업만 낄 수 있고 자정·영원한 밤 장 보스 20% · 중간보스·우두머리 10%(출전한 영웅 중 하나의 전직 세트). 새벽 교환소에서는 부위를 골라 살 수 있습니다(그 세트에 있는 부위만). 예전에 얻은 세트 조각은 지금 그 세트에 없는 부위라도 세트 개수로 셉니다(세트 부위 수까지)."],
-  ["장비 성장","재련: 종류 바꾸기(정수 3+2×등급+재련 횟수) · 수치만(그 절반) · 한 줄 잠그고 전부(2배). 등급 올리기: 희귀→영웅 희귀 조각 3·정수 15, 영웅→전설 영웅 조각 5·정수 40(강화 단계 유지, 옵션 +1). 분해: 희귀·세트 → 희귀 조각 1, 영웅 → 영웅 조각 1, 전설 → 영웅 조각 2."],
+  ["장비 성장","재련: 종류 바꾸기(정수 3+2×등급+재련 횟수) · 수치만(그 절반) · 한 줄 잠그고 전부(2배). 등급 올리기: 희귀→영웅 희귀 조각 8·정수 60, 영웅→전설 영웅 조각 20·정수 300(강화 단계 유지, 옵션 +1). 분해: 희귀·세트 → 희귀 조각 1, 영웅 → 영웅 조각 1, 전설 → 영웅 조각 1."],
   ["범위 기술","몬스터·보스 기술에는 범위 모양이 있습니다 — 가로줄 일렬(그 적과 같은 가로줄의 앞칸·뒷칸, 그 가로줄이 비어 있으면 영웅이 가장 많은 가로줄) · 십자(고른 한 명 + 같은 가로줄의 앞·뒷칸 + 같은 줄의 위아래 칸) · 가로줄 하나(아무 가로줄의 앞·뒷칸) · 앞줄 전체(앞줄이 비면 뒷줄 전체) · 뒷줄 전체(뒷줄이 비면 앞줄 전체) · 뒷줄 아무나 1명 · 뒷줄 체력 가장 많은 1명 · 앞줄 방어력 가장 높은 1명. 도발한 영웅이 있으면 가로줄·십자는 그 영웅을 중심으로, 한 줄 전체·한 명 기술은 그 영웅 한 명에게 갑니다(원거리는 절반만 끌려옴). 기를 모으는 동안 맞을 영웅이 빨갛게 표시됩니다. 보스는 늘 같은 가로줄에 서 있습니다."],
   ["전투 속도","1배속 · 2배속 · 3배속 · 4배속. 처음 깨는 막은 2배속까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 3배속까지 쓸 수 있습니다. 정액·광고 30분 동안은 어디서나 3배속, 정액은 이미 깬 막에서 4배속도 씁니다."],
   ["직업 자원","권사 기세 최대 5(때리거나 맞을 때마다 +1) · 음유시인 공명 최대 10(내 노래가 걸려 있는 동안 매 턴 +2) · 총사 탄창 8발(무기·특성으로 바뀜, 0발이면 그 턴 자동 재장전) · 도적 연계 최대 5. 자원은 전투마다 처음부터 시작합니다."],
@@ -13060,7 +13060,7 @@ function openReforge(it,lock){
   const ab=$("rfAll"); if(ab) ab.onclick=()=>{ if(progress.ess<ca.ess) return; progress.ess-=ca.ess; reforgeAll(it,lock); closeModal(); done(`${lock!=null?"잠근 줄 빼고 ":""}모든 줄을 다시 굴렸다`); };
 }
 /* v0.44 등급 올리기 — 희귀 → 영웅 → 전설. 기본 능력치가 새 등급 범위로, 옵션 1개 추가, 영웅은 고유 효과·소켓, 전설은 운명·직업 전용 효과 */
-const GRADE_UP={rare:{to:"epic",frag:"rare",n:3,ess:15}, epic:{to:"legend",frag:"epic",n:5,ess:40}};
+const GRADE_UP={rare:{to:"epic",frag:"rare",n:8,ess:60}, epic:{to:"legend",frag:"epic",n:20,ess:300}};   // v0.94 C안: 3·15 → 8·60 / 5·40 → 20·300
 function gradeUpInfo(it){ if(!it||it.mythic||it.relic||it.slot==="rune"||it.set) return null; return GRADE_UP[it.rarity]||null; }
 function gradeUpCan(it){ const G=gradeUpInfo(it); return !!G&&fragStore()[G.frag]>=G.n&&progress.ess>=G.ess; }
 function gradeUp(it){
@@ -14817,6 +14817,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"등급 올리기 비용", L:[
+    "등급 올리기가 너무 싸서 파밍이 쉬웠습니다. 희귀 → 영웅: 희귀 조각 3 + 정수 15 → 희귀 조각 8 + 정수 60. 영웅 → 전설: 영웅 조각 5 + 정수 40 → 영웅 조각 20 + 정수 300.",
+    "전설을 분해하면 영웅 조각 2 → 1개입니다.",
+    "자정 기준으로 원하는 부위의 전설 하나를 만드는 데 약 4.6막 → 약 17막이 걸립니다(전설이 그냥 나오는 건 약 5막에 1개, 부위는 무작위)."]},
   {d:"2026.11.06", v:"v0.94", t:"룬주머니", L:[
     "장비 탭 오른쪽에 [🎒 가방]과 [💠 룬주머니] 탭을 나눴습니다. 가방에는 장비·유물만 나오고, 룬은 룬주머니에서 따로 관리합니다. 룬은 가방 칸을 차지하지 않습니다.",
     "왼쪽 장비 칸에 소켓이 있는 장비는 ◆(룬 있음) ◇(빈 칸)로 표시됩니다(표시만, 눌러지지 않음). 룬주머니를 보는 중에는 왼쪽 장비 칸을 누르면 정보 창 대신 오른쪽에 그 장비 하나와 소켓이 나옵니다. 장비 탭을 열면 늘 가방부터 보입니다.",
