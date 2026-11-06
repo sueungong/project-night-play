@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793948881372"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793950720715"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -172,6 +172,14 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .mtoasts{position:fixed!important; z-index:80!important; top:12px!important; left:50%!important; right:auto!important; bottom:auto!important; transform:translateX(-50%)!important; width:min(360px,90vw)!important}
 .fchip .ford{position:absolute; left:-6px; top:-6px; z-index:3; min-width:20px; height:20px; padding:0 5px; border-radius:999px; background:var(--accent); color:#1a1306; font:800 12px/20px system-ui; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.5)}
 .fordline{margin:6px 2px 2px; font-size:13px; color:var(--sub); line-height:1.6} .fordline b{color:var(--ink)} .fordline span{white-space:nowrap} .fordline small{color:var(--dim)}
+.bagtabs{display:flex; gap:6px; margin-bottom:8px} .bagtabs button{flex:1; height:36px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-weight:700; cursor:pointer} .bagtabs button.on{background:var(--accent); color:#1a1306; border-color:var(--accent)} .bagtabs small{font-weight:600; opacity:.8}
+.rpouch .rp-h{display:flex; align-items:baseline; gap:8px; margin:6px 2px} .rpouch .rp-h small{color:var(--dim)}
+.rp-item{display:flex; align-items:center; gap:8px; padding:5px 6px; border:1px solid var(--line); border-radius:10px; margin-bottom:5px; background:rgba(255,255,255,.02)}
+.rp-ic .icell,.rp-sock .icell{width:38px; height:38px} .rp-nm{flex:1; min-width:0; display:flex; flex-direction:column} .rp-nm b{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:13px} .rp-nm small{color:var(--dim); font-size:11.5px}
+.rp-socks{display:flex; gap:5px} .rp-sock{position:relative; width:44px; height:44px; border-radius:50%; border:2px dashed #6a5a9a; background:rgba(120,90,200,.08); color:#b9a6ff; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0}
+.rp-sock.full{border-style:solid; border-color:#8d74e0} .rp-sock.full i{position:absolute; bottom:-3px; left:50%; transform:translateX(-50%); font-style:normal; font-size:9.5px; background:#1b1530; color:#cbbcff; padding:0 4px; border-radius:6px; opacity:0} .rp-sock.full:hover i{opacity:1}
+.rp-sock.empty.on{border-color:var(--accent); background:rgba(255,200,90,.15); color:var(--accent)} .rp-tip{font-size:12.5px; color:var(--sub); margin:6px 2px}
+.rp-det{margin-top:8px; padding:8px 10px; border:1px solid var(--line); border-radius:10px; font-size:13px; line-height:1.5} .rp-acts{display:flex; gap:6px; margin-top:6px; flex-wrap:wrap} .rp-acts .btn{height:32px; padding:0 10px; font-size:12.5px}
 .ttl-code{display:flex; gap:8px; justify-content:center} .ttl-code input{width:200px; height:44px; border-radius:10px; border:1px solid var(--line); background:#0d1324; color:var(--ink); font-size:17px; letter-spacing:.06em; text-align:center; text-transform:uppercase}
 .toasts{position:absolute; right:12px; top:110px; z-index:6; width:300px; display:flex; flex-direction:column; gap:8px; pointer-events:none}
 .toast{background:#141b30; border:1px solid var(--line2); border-radius:12px; padding:9px 12px; font-size:14px; line-height:1.45; box-shadow:0 10px 30px #000a; animation:toastin .25s}
@@ -3862,6 +3870,8 @@ function fragOf(it){ if(!it||it.slot==="rune"||it.slot==="relic"||it.mythic) ret
 function fragStore(){ const f=progress.frag=progress.frag&&typeof progress.frag==="object"?progress.frag:{}; f.rare=f.rare|0; f.epic=f.epic|0; return f; }
 function fragAdd(f,acc){ const S=fragStore(); for(const [k,v] of Object.entries(f||{})){ S[k]+=v; if(acc) acc[k]=(acc[k]||0)+v; } }
 function fragText(f){ return Object.entries(f||{}).filter(([,v])=>v).map(([k,v])=>`${FRAG_LABEL[k]} +${v}`).join(" · "); }
+// v0.94 장비를 팔거나 분해하면 끼워 둔 룬은 룬주머니로 돌아옴
+function popRunes(it){ let n=0; if(it&&it.slot!=="rune"&&Array.isArray(it.sockets)) for(let i=0;i<it.sockets.length;i++){ const r=it.sockets[i]; if(r&&RUNES[runeK(r)]){ progress.inv.push(makeRune(r)); it.sockets[i]=null; n++; } } return n; }
 function dismantleGive(it,acc){ const e=dismantleValue(it); progress.ess+=e; fragAdd(fragOf(it),acc); return e; }
 const STAT_LABEL = Object.assign({}, SEC_LABEL);
 function statText(k,v){ const lbl=STAT_LABEL[k]||k; return `${lbl} +${v}${PCT_KEYS.has(k)?"%":""}`; }
@@ -7520,8 +7530,8 @@ const BAG_BASE=30, BAG_SUB=20;   // v0.56.2: 기본 30칸 · 정액 +20. 가득 
 function bagCap(){ return BAG_BASE+(subActive()?BAG_SUB:0); }
 // v0.56.3: 칸 수는 묶음으로 센다 — 같은 룬(종류·등급)은 몇 개든 1칸
 function runeKeyOf(it){ return it&&it.slot==="rune"?"rune|"+it.rune+"|"+it.rarity+(it.abyss&&it.abyss.length?"|"+it.abyss.join("+"):""):null; }
-function bagUsed(){ if(!progress) return 0; const keys=new Set(); let n=0; for(const it of progress.inv){ if(!it) continue; const k=runeKeyOf(it); if(k){ if(!keys.has(k)){ keys.add(k); n++; } } else n++; } return n; }
-function bagHasRoom(it){ const k=runeKeyOf(it); if(k&&progress.inv.some(x=>runeKeyOf(x)===k)) return true; return bagUsed()<bagCap(); }
+function bagUsed(){ if(!progress) return 0; let n=0; for(const it of progress.inv){ if(!it||it.slot==="rune") continue; n++; } return n; }   // v0.94 룬은 룬주머니(가방 칸을 차지하지 않음)
+function bagHasRoom(it){ if(it&&it.slot==="rune") return true; return bagUsed()<bagCap(); }
 function bagOver(){ return progress&&bagUsed()>=bagCap(); }
 function bagGate(){ if(!bagOver()) return true; toast(`<span class="tc">🎒 가방이 가득</span>${bagUsed()}/${bagCap()}칸 — 이대로 들어가면 새 장비를 못 줍습니다. 장비 탭에서 판매·분해하거나 자동 정리를 켜 두세요.`,"",4200); return true; }
 // ---- 최종 콘텐츠 주간 입장 횟수(v0.56.1): 탑 10 · 레이드 5 · 원정 5 (매주 월요일 초기화) · 다 쓰면 입장권(정액은 매주 5장) ----
@@ -12273,7 +12283,7 @@ const ITEM_ICON=(()=>{
 })();
 
 // ===== v0.38 장비 화면: 가운데 캐릭터(지금 모습·오라 그대로) + 둘레 부위 칸 / 가방은 정사각형 칸 격자 + 여러 개 골라 판매·분해 =====
-let bagPick=false, bagSel=new Set(), bagArm=null, eqFigTimer=0;
+let bagPick=false, bagSel=new Set(), bagArm=null, eqFigTimer=0, bagTab="gear", rpRune=null, rpSock=null;   // v0.94 룬주머니: 고른 룬(묶음 키) · 고른 빈 소켓
 const DOLL_L=["helm","armor","cape","gloves","boots"], DOLL_R=["weapon","offhand","amulet","ring1","ring2"], DOLL_TOP=["relic"];   // v0.55.6: 유물은 가운데 위(투구·무기 사이) — 좌우 5칸씩 높이 맞춤
 const SLOT_GHOST={weapon:"sword",offhand:"off_knight",helm:"helm",armor:"armor",gloves:"gloves",boots:"boots",cape:"cape",ring1:"ring",ring2:"ring",amulet:"amulet",relic:"relic"};
 function itemIconURL(it){ try{ return ITEM_ICON.url(it); }catch(e){ return ""; } }
@@ -12347,11 +12357,53 @@ function bagGroups(list){ const out=[], idx={}; for(const it of list){ if(it.slo
 function bagSelTotals(){ const its=progress.inv.filter(x=>bagSel.has(x.id)); return {n:its.length, g:its.reduce((a,x)=>a+sellPrice(x),0), e:its.reduce((a,x)=>a+dismantleValue(x),0), its}; }
 function bagApply(kind){ const T=bagSelTotals(); if(!T.n) return;
   if(bagArm!==kind){ bagArm=kind; renderParty(); setTimeout(()=>{ if(bagArm===kind){ bagArm=null; if(!$("body-equip").hidden) renderParty(); } },3500); return; }
-  bagArm=null; const ids=new Set(T.its.map(x=>x.id)); progress.inv=progress.inv.filter(x=>!ids.has(x.id));
+  bagArm=null; const ids=new Set(T.its.map(x=>x.id)); progress.inv=progress.inv.filter(x=>!ids.has(x.id)); for(const x of T.its) popRunes(x);
   if(kind==="sell"){ progress.gold+=T.g; logLine(`<span class="gain">🪙 ${T.n}개 판매 — 골드 +${T.g}</span>`); try{ SND.fx("coin"); }catch(e){} }
   else { const fr={}; for(const x of T.its) dismantleGive(x,fr); logLine(`<span class="gain">⚒ ${T.n}개 분해 — 밤의 정수 +${T.e}${fragText(fr)?" · "+fragText(fr):""}</span>`); }
   bagSel.clear(); bagPick=false; saveProgress(); renderParty(); }   // v0.93 판매·분해가 끝나면 고르기 모드를 닫고 원래 가방으로
-function bagQuick(maxTier,keepUp){ bagSel.clear(); for(const it of progress.inv){ if(it.lock||it.slot==="relic") continue; if(rarityTier(it)>maxTier||it.rarity==="set"&&maxTier<5) continue; if(keepUp&&it.slot!=="rune"&&isUpgradeForAnyone(it)) continue; bagSel.add(it.id); } renderParty(); }
+function bagQuick(maxTier,keepUp){ bagSel.clear(); for(const it of progress.inv){ if(it.lock||it.slot==="relic"||it.slot==="rune") continue; if(rarityTier(it)>maxTier||it.rarity==="set"&&maxTier<5) continue; if(keepUp&&it.slot!=="rune"&&isUpgradeForAnyone(it)) continue; bagSel.add(it.id); } renderParty(); }
+// v0.94 룬주머니 — 위: 이 영웅이 낀 장비의 소켓(빈 칸 누르고 룬 누르면 끼움 · 끼운 룬 누르면 빼서 주머니로) · 아래: 가진 룬
+function rpGroups(){ const out=[], idx={}; for(const it of progress.inv){ if(it.slot!=="rune") continue; const k=runeKeyOf(it); if(idx[k]!=null){ out[idx[k]].items.push(it); continue; } idx[k]=out.length; out.push({key:k,items:[it]}); }
+  return out.sort((a,b)=>rarityTier(b.items[0])-rarityTier(a.items[0])||RUNE_KEYS.indexOf(a.items[0].rune)-RUNE_KEYS.indexOf(b.items[0].rune)); }
+function rpFxLine(it){ const R=RUNES[it.rune]; if(!R) return ""; const ab=!!(it.abyss&&it.abyss.length);
+  const st=itemSummary(it);
+  const fx=runeFxText(it.rune,it.rarity,ab), lk=COND[R.cond]&&COND[R.cond].lock?`조건 해금: ${COND[R.cond].label}`:""; return [st,fx,lk].filter(Boolean).join(" · "); }
+function rpSocketed(cid){ const h=progress.heroes[cid]; const out=[]; for(const sk of heroSlots()){ const id=h.equip[sk]; if(id==null) continue; const it=findEquipped(cid,sk); if(it&&it.sockets&&it.sockets.length) out.push({sk,it}); } return out; }
+function rpInsert(item,idx,runeIt){ if(!item||!item.sockets||item.sockets[idx]||!runeIt) return false; item.sockets[idx]=runeSock(runeIt); const i=progress.inv.findIndex(x=>x.id===runeIt.id); if(i>=0) progress.inv.splice(i,1);
+  saveProgress(); logLine(`<span class="win">◈ ${esc(itemLabel(item))}에 ${esc(RUNES[runeIt.rune].name)}(${esc((RARITIES.find(r=>r.key===runeIt.rarity)||{label:""}).label)}) 끼움 — ${esc(rpFxLine(runeIt))}</span>`); return true; }
+function rpRemove(item,idx){ const r=item&&item.sockets&&item.sockets[idx]; if(!r) return false; item.sockets[idx]=null; progress.inv.push(makeRune(r)); saveProgress(); logLine(`<span class="gain">◈ ${esc(itemLabel(item))}에서 ${esc(RUNES[runeK(r)].name)} 뺌 — 룬주머니로</span>`); return true; }
+function renderRunePouch(B,cid){
+  const busy=runBusy(), G=rpGroups(), S=rpSocketed(cid);
+  if(rpRune&&!G.some(g=>g.key===rpRune)) rpRune=null;
+  const selG=G.find(g=>g.key===rpRune), selIt=selG&&selG.items[0];
+  const box=document.createElement("div"); box.className="rpouch";
+  const empties=[]; for(const {it} of S) it.sockets.forEach((r,i)=>{ if(!r) empties.push({it,i}); });
+  if(rpSock&&!S.some(x=>x.it.id===rpSock.id&&!x.it.sockets[rpSock.i])) rpSock=null;
+  let html=`<div class="rp-h"><b>${esc(heroDisplayName(cid))}의 소켓</b> <small>빈 칸 ${empties.length}</small></div>`;
+  if(!S.length) html+=`<p class="msub">소켓이 있는 장비를 끼고 있지 않아요 — 영웅·세트 장비 1칸 · 전설 2칸 · 희귀는 30% 확률로 1칸.</p>`;
+  html+=S.map(({sk,it})=>`<div class="rp-item"><span class="rp-ic">${iconCell(it,{})}</span><span class="rp-nm"><b class="${rarityCls(it)}">${esc(itemLabel(it))}</b><small>${esc((SLOTS.find(x=>x.key===sk)||{label:sk}).label)}${it.sockets.some(Boolean)?" · "+it.sockets.filter(Boolean).map(r=>esc(RUNES[runeK(r)].name)+"("+esc((RARITIES.find(q=>q.key===runeR(r))||{label:""}).label)+")").join(" · "):""}</small></span>
+      <span class="rp-socks">${it.sockets.map((r,i)=>{ if(r){ const ri=makeRune(r); return `<button class="rp-sock full ${rarityCls(ri)}" data-it="${it.id}" data-i="${i}" title="${esc(RUNES[runeK(r)].name)} — ${esc(rpFxLine(ri))}
+누르면 빼서 룬주머니로">${iconCell(ri,{})}<i>빼기</i></button>`; }
+        const on=rpSock&&rpSock.id===it.id&&rpSock.i===i; return `<button class="rp-sock empty${on?" on":""}" data-it="${it.id}" data-i="${i}" title="빈 소켓 — 누르고 아래 룬을 고르면 끼웁니다">＋</button>`; }).join("")}</span></div>`).join("");
+  html+=`<p class="rp-tip">${busy?"🔒 던전 진행 중 — 룬은 마을에서 바꿀 수 있어요":selIt?`<b>${esc(RUNES[selIt.rune].name)}</b>${jo(RUNES[selIt.rune].name,"을","를")} 끼울 <b>빈 소켓(＋)</b>을 누르세요${empties.length?"":" — 빈 소켓이 없어요"}`:rpSock?"끼울 <b>룬</b>을 아래에서 누르세요":"빈 소켓(＋)과 룬을 차례로 누르면 끼우고, 끼운 룬을 누르면 빼서 주머니로 돌아갑니다(비용 없음)."}</p>`;
+  html+=`<div class="rp-h"><b>룬주머니</b> <small>${progress.inv.filter(x=>x.slot==="rune").length}개 · 가방 칸을 차지하지 않음</small></div>`;
+  html+=G.length?`<div class="bggrid rp-grid">${G.map(g=>{ const it=g.items[0]; return `<button class="bcell${g.key===rpRune?" sel":""}" data-g="${esc(g.key)}" title="${esc(itemLabel(it))}${g.items.length>1?` ×${g.items.length}`:""}
+${esc(rpFxLine(it))}">${iconCell(it,{n:g.items.length})}</button>`; }).join("")}</div>`:`<p class="msub">아직 룬이 없어요. 보물상자·보스에서 얻습니다.</p>`;
+  if(selIt) html+=`<div class="rp-det"><b class="${rarityCls(selIt)}">${esc(itemLabel(selIt))}</b> <small>×${selG.items.length}</small><div>${esc(rpFxLine(selIt))}</div>
+    <div class="rp-acts"><button class="btn" id="rpPut" ${busy||!empties.length?"disabled":""}>${rpSock?"고른 소켓에 끼우기":"빈 소켓에 끼우기"}</button><button class="btn ghost" id="rpSell">판매 +${sellPrice(selIt)}G</button><button class="btn ghost" id="rpDis">분해 +${dismantleValue(selIt)}정수</button></div></div>`;
+  box.innerHTML=html; B.appendChild(box);
+  const findIt=id=>S.map(x=>x.it).find(x=>String(x.id)===String(id));
+  for(const b of box.querySelectorAll(".rp-sock")) b.onclick=()=>{ if(busy) return; const it=findIt(b.dataset.it), i=+b.dataset.i;
+    if(b.classList.contains("full")){ rpRemove(it,i); rpSock=null; renderParty(); renderRules(); return; }
+    if(selIt){ rpInsert(it,i,selIt); rpSock=null; rpRune=G.find(g=>g.key===rpRune)&&selG.items.length>1?rpRune:null; renderParty(); renderRules(); return; }
+    rpSock=(rpSock&&rpSock.id===it.id&&rpSock.i===i)?null:{id:it.id,i}; renderParty(); };
+  for(const b of box.querySelectorAll("[data-g]")) b.onclick=()=>{ const g=G.find(x=>x.key===b.dataset.g); if(!g) return;
+    if(rpSock&&!busy){ const it=findIt(rpSock.id); if(it&&rpInsert(it,rpSock.i,g.items[0])){ rpSock=null; rpRune=null; renderParty(); renderRules(); return; } }
+    rpRune=rpRune===g.key?null:g.key; renderParty(); };
+  const put=box.querySelector("#rpPut"); if(put) put.onclick=()=>{ const t=rpSock?{it:findIt(rpSock.id),i:rpSock.i}:empties[0]; if(t&&rpInsert(t.it,t.i,selIt)){ rpSock=null; if(selG.items.length<=1) rpRune=null; renderParty(); renderRules(); } };
+  const sl=box.querySelector("#rpSell"); if(sl) sl.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===selIt.id); if(i<0) return; progress.inv.splice(i,1); progress.gold+=sellPrice(selIt); saveProgress(); logLine(`<span class="gain">${esc(itemDisplayName(selIt))} 판매 — 골드 +${sellPrice(selIt)}</span>`); renderParty(); };
+  const ds=box.querySelector("#rpDis"); if(ds) ds.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===selIt.id); if(i<0) return; progress.inv.splice(i,1); const fr={}; const e=dismantleGive(selIt,fr); saveProgress(); logLine(`<span class="gain">${esc(itemLabel(selIt))} 분해 — 밤의 정수 +${e}</span>`); renderParty(); };
+}
 function renderEquip(){
   const pane=$("equipPane"); const view=$("body-equip"); const scrollTop=view.scrollTop; const innerKeep=keepInnerScroll(pane); pane.innerHTML=""; pane.className="eqpane";
   const rids=rosterIds(); if(!rids.includes(partySel)) partySel=(progress.protag&&rids.includes(progress.protag.cid))?progress.protag.cid:rids[0];
@@ -12387,14 +12439,19 @@ function renderEquip(){
   pane.appendChild(L);
   // ── 오른쪽: 가방 ──
   const B=document.createElement("div"); B.className="panel eqbag";
-  const FILT={all:()=>true, weapon:it=>it.slot==="weapon", offhand:it=>it.slot==="offhand", armor:it=>["armor","helm","cape"].includes(it.slot),
-    acc:it=>["gloves","boots"].includes(it.slot), jewel:it=>it.slot==="ring"||it.slot==="amulet", rune:it=>it.slot==="rune"||it.slot==="relic"};
+  { const nR=progress.inv.filter(x=>x.slot==="rune").length; const tb=document.createElement("div"); tb.className="bagtabs";   // v0.94 가방 · 룬주머니
+    tb.innerHTML=`<button data-bt="gear" class="${bagTab==="gear"?"on":""}">🎒 가방 <small>${bagUsed()}/${bagCap()}</small></button><button data-bt="rune" class="${bagTab==="rune"?"on":""}">💠 룬주머니 <small>${nR}</small></button>`;
+    for(const b of tb.querySelectorAll("button")) b.onclick=()=>{ bagTab=b.dataset.bt; bagPick=false; bagSel.clear(); rpRune=null; rpSock=null; renderParty(); };
+    B.appendChild(tb); }
+  if(bagTab==="rune"){ renderRunePouch(B,cid); pane.appendChild(B); renderCodex(); view.scrollTop=scrollTop; innerKeep(); return; }
+  const FILT={all:it=>it.slot!=="rune", weapon:it=>it.slot==="weapon", offhand:it=>it.slot==="offhand", armor:it=>["armor","helm","cape"].includes(it.slot),
+    acc:it=>["gloves","boots"].includes(it.slot), jewel:it=>it.slot==="ring"||it.slot==="amulet", rune:it=>it.slot==="relic"};
   const head=document.createElement("div"); head.className="bghead"; head.id="invHead";
   head.innerHTML=`<h2 class="ph">가방 <small${bagOver()?' style="color:var(--bad)"':""}>${bagUsed()}/${bagCap()}칸</small></h2>`;
   const pk=document.createElement("button"); pk.className="ghostbtn"+(bagPick?" on":""); pk.textContent=bagPick?"✓ 고르는 중":"여러 개 골라 정리"; pk.onclick=()=>{ bagPick=!bagPick; bagSel.clear(); bagArm=null; renderParty(); }; head.appendChild(pk);
   B.appendChild(head);
   const fb=document.createElement("div"); fb.className="filters";
-  for(const [k,label] of [["all","전체"],["weapon","무기"],["offhand","보조"],["armor","방어구"],["acc","장갑·신발"],["jewel","장신구"],["rune","룬·유물"]]){ const b=document.createElement("button"); b.textContent=label; b.className=invFilter===k&&!invSlot?"on":""; b.onclick=()=>{ invFilter=k; invSlot=null; renderParty(); }; fb.appendChild(b); }
+  for(const [k,label] of [["all","전체"],["weapon","무기"],["offhand","보조"],["armor","방어구"],["acc","장갑·신발"],["jewel","장신구"],["rune","유물"]]){ const b=document.createElement("button"); b.textContent=label; b.className=invFilter===k&&!invSlot?"on":""; b.onclick=()=>{ invFilter=k; invSlot=null; renderParty(); }; fb.appendChild(b); }
   if(invSlot){ const c=document.createElement("span"); c.className="slotchip"; c.textContent=`${(SLOTS.find(x=>x.key===invSlot)||{label:invSlot}).label}만 ✕`; c.onclick=()=>{ invSlot=null; renderParty(); }; fb.appendChild(c); }
   const ss=document.createElement("select"); for(const [v,t] of [["rarity","등급순"],["best",`${heroDisplayName(cid)}에게 좋은 순`],["new","최근 순"],["slot","부위순"]]){ const o=document.createElement("option"); o.value=v; o.textContent=t; ss.appendChild(o); }
   ss.value=invSort; ss.onchange=()=>{ invSort=ss.value; renderParty(); }; ss.setAttribute("aria-label","정렬"); fb.appendChild(ss);
@@ -12897,13 +12954,13 @@ function itemRow(it,cid,pv){
   }
   const sb=document.createElement("button"); sb.className="sell"; sb.textContent=`판매 +${sellPrice(it)}G`;
   sb.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0) return;
-    progress.inv.splice(i,1); progress.gold+=sellPrice(it); saveProgress(); renderParty();
+    progress.inv.splice(i,1); popRunes(it); progress.gold+=sellPrice(it); saveProgress(); renderParty();
     logLine(`<span class="gain">${esc(itemDisplayName(it))} 판매 — 골드 +${sellPrice(it)}</span>`); };
   acts.appendChild(sb);
   const db=document.createElement("button"); db.className="dis"; db.textContent=`분해 +${dismantleValue(it)}정수${fragText(fragOf(it))?" · "+fragText(fragOf(it)).replace(/ \+/," +"):""}`;
   db.title="아이템을 부숴 강화 재료 '밤의 정수'를 얻습니다";
   db.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0) return;
-    progress.inv.splice(i,1); const fr={}; const e=dismantleGive(it,fr); saveProgress(); renderParty();
+    progress.inv.splice(i,1); popRunes(it); const fr={}; const e=dismantleGive(it,fr); saveProgress(); renderParty();
     logLine(`<span class="gain">${esc(itemLabel(it))} 분해 — 밤의 정수 +${e}${fragText(fr)?" · "+fragText(fr):""}</span>`); };
   acts.appendChild(db);
   more.appendChild(acts);
@@ -14741,6 +14798,11 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"룬주머니", L:[
+    "장비 탭 오른쪽에 [🎒 가방]과 [💠 룬주머니] 탭을 나눴습니다. 가방에는 장비·유물만 나오고, 룬은 룬주머니에서 따로 관리합니다. 룬은 가방 칸을 차지하지 않습니다.",
+    "룬주머니 위쪽에 고른 영웅이 낀 장비의 소켓이 나옵니다. 빈 소켓(＋)을 누르고 룬을 누르거나, 룬을 누르고 빈 소켓을 누르면 끼워집니다. 룬을 고른 뒤 [빈 소켓에 끼우기]를 눌러도 됩니다.",
+    "끼운 룬을 누르면 빼서 룬주머니로 돌아옵니다(비용 없음 — 예전에는 한 번 끼우면 뺄 수 없었음). 소켓 줄에 끼운 룬 이름·등급이 함께 나옵니다.",
+    "룬이 끼워진 장비를 팔거나 분해하면 그 룬은 룬주머니로 돌아옵니다(예전에는 같이 사라짐). 가방의 '한 번에 고르기'는 룬을 고르지 않습니다."]},
   {d:"2026.11.06", v:"v0.94", t:"흐름 룬 · 패시브 설명 · 연결 알림", L:[
     "흐름 룬: '전투 시작 행동 게이지'는 남는 게이지로만 쌓여 효과가 거의 없었습니다. '턴마다 행동 게이지 +2.5%'로 바꿨습니다(등급 배율 적용 — 전설 +10%면 10턴마다 한 번 더 행동). 여러 개를 끼워도 영웅당 턴마다 최대 +30%입니다.",
     "여러 기술에 상태이상을 붙이는 패시브를 해당 기술 설명에 실제 확률로 넣었습니다: 서리술사 냉기 서림(공격 기술 · 냉기 1중첩 25%, 특성으로 40%) · 심판관 단죄(기본공격 빼고 공격 기술 · 화상 30%, 특성으로 45%).",
