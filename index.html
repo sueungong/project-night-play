@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793961534853"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793962875178"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -8685,6 +8685,10 @@ function renderPtsDot(){
   const ids=rosterIds().filter(c=>!isCompanion(c));
   const slots=partyOpenSlots(), mp=masteryPendingAll();
   noteRise("slots",slots,`<span class="tc">🧭 출전 자리가 생겼어요 (빈 자리 ${slots})</span>파티 탭에서 대기 영웅을 진영에 끌어다 놓아야 출전해요.`);
+  try{ const dm=progress.diffMax|0; let ch=0; for(let d=0;d<=dm;d++) for(const k of REGION_KEYS) if(chapterUnlocked(d,k)) ch++;
+    noteRise("diff",dm,`<span class="tc">${DIFFS[dm].icon} 새 난이도 '${DIFFS[dm].name}' 열림</span>던전 선택 창 맨 위 탭에서 고를 수 있어요.`);
+    noteRise("ch",ch,`<span class="tc">🗺 새 장이 열렸어요</span>던전 선택 창에서 고를 수 있어요.`);
+    noteRise("eg",egOpen()?1:0,`<span class="tc">✦ 최종 콘텐츠 열림</span>던전 선택 창 '✦ 최종 콘텐츠' 탭 — 밤의 탑 · 군단장 레이드 · 밤의 원정.`); }catch(e){}
   noteRise("mast",mp,`<span class="tc">📘 숙련 강화를 고를 수 있어요</span>전투설정 탭 → 기술 아래 '선택 →'에서 고르세요.`);
   { const rd=$("rulesDot"); if(rd) rd.textContent=mp>0?String(mp):""; }
   const n=ids.reduce((a,c)=>a+(progress.heroes[c].pts||0),0)+rosterIds().filter(advReady).length+ids.filter(awakenReady).length+slots;   // v0.93 전직할 수 있는 영웅도 셈 · v0.94 각성할 수 있는 주인공도 · 빈 출전 자리도
@@ -9393,6 +9397,33 @@ const CHIP = (() => {
       bass: { w: "tri", v: 0.32, oct: 1, pat: "R . R . R . R . R . R . O . R .", dbl: { w: "saw", v: 0.07, lp: 450 } },
       arp: { w: "tri", v: 0.0, oct: 4, pat: ". . . . . . . . . . . . . . . ." },
       drum: { pat: "T - - k s - k - T - - k s - t t", v: 0.65 } },
+    // v0.94 타이틀 화면 — 밤의 서곡(E단조 84, 느린 피리 선율 위 종·팀파니) · 중간보스·우두머리 — 그림자 돌격(C단조 132)
+    title: { name: "밤의 서곡", bpm: 84,
+      chords: ["Em", "C", "G", "D", "Em", "C", "Am", "B7"],
+      lead: { w: "tri", v: 0.11, vib: [4.5, 0.008], a: 0.04, r: 0.4, lp: 1900, mel:
+        "E5 . . . . . . . B4 . . . G4 . . . | E5 . . . . . G5 . . . F#5 . E5 . . . | D5 . . . . . . . B4 . . . D5 . G5 . | F#5 . . . . . . . - - - - A4 . . . |" +
+        "G5 . . . . . F#5 . E5 . . . B4 . . . | C5 . . . E5 . . . G5 . . . C6 . . . | B5 . . . A5 . . . G5 . . . E5 . . . | D#5 . . . . . . . F#5 . . . B4 . . . |" +
+        "B5 . . . . . . . G5 . . . E5 . . . | G5 . . . . . E5 . . . D5 . C5 . . . | B4 . . . D5 . . . G5 . . . B5 . . . | A5 . . . . . . . F#5 . . . D5 . . . |" +
+        "E5 . . . G5 . B5 . . . A5 . G5 . F#5 . | E5 . . . . . . . C5 . . . E5 . G5 . | A5 . . . . . G5 . F#5 . . . E5 . . . | D#5 . . . F#5 . . . B5 . . . . . . . |" },
+      pad: { w: "saw", v: 0.035, oct: 3, lp: 700, a: 0.5 },
+      pad2: { w: "tri", v: 0.025, oct: 4, a: 0.6 },
+      bell: { v: 0.04, oct: 5 },
+      bass: { w: "tri", v: 0.26, oct: 1, pat: "R . . . . . . . R . . . O . . ." },
+      arp: { w: "sine", v: 0.03, oct: 4, pat: "1 . . 2 . . 3 . . 2 . . 1 . . ." },
+      drum: { pat: "T - - - - - - - - - - - t - - -", v: 0.6 } },
+    named: { name: "그림자 돌격", bpm: 132,
+      chords: ["Cm", "Ab", "Bb", "G", "Cm", "Ab", "Fm", "G7"],
+      lead: { w: "saw", v: 0.065, tr: -12, vib: [5, 0.008], a: 0.02, r: 0.15, lp: 1300, mel:
+        "C5 . . . . . Eb5 . G5 . . . F5 . Eb5 . | C5 . . . . . . . Ab4 . C5 . Eb5 . Ab5 . | Bb5 . . . . . Ab5 . G5 . . . F5 . D5 . | B4 . . . . . . . D5 . . . G5 . . . |" +
+        "Eb5 . . . G5 . . . C6 . . . . . Bb5 . | Ab5 . . . G5 . F5 . Eb5 . . . C5 . . . | F5 . . . Ab5 . . . C6 . . . Ab5 . F5 . | G5 . . . . . F5 . D5 . . . B4 . . . |" +
+        "G5 . . . Eb5 . . . C5 . Eb5 . G5 . C6 . | C6 . . . . . Bb5 . Ab5 . . . Eb5 . . . | D5 . . . F5 . Bb5 . . . Ab5 . G5 . F5 . | G5 . . . . . . . B4 . D5 . F5 . G5 . |" +
+        "C6 . . . . . G5 . Eb5 . . . G5 . . . | Ab5 . . . C6 . . . Eb6 . . . C6 . Ab5 . | F5 . Ab5 . C6 . . . Bb5 . Ab5 . G5 . F5 . | G5 . . . . . . . B4 . . . - - - - |" },
+      pad: { w: "saw", v: 0.04, oct: 3, lp: 750, a: 0.25 },
+      pad2: { w: "tri", v: 0.022, oct: 4, a: 0.4 },
+      bell: { v: 0.035, oct: 5 },
+      bass: { w: "tri", v: 0.32, oct: 1, pat: "R . R . R . O . R . R . R . O R", dbl: { w: "saw", v: 0.07, lp: 450 } },
+      arp: { w: "tri", v: 0.0, oct: 4, pat: ". . . . . . . . . . . . . . . ." },
+      drum: { pat: "T - - k s - - - T - k - s - t t", v: 0.7 } },
     battle_altar: { name: "새벽의 제단", bpm: 156,
       chords: ["Dm", "Bb", "C", "A", "Dm", "Bb", "Gm", "A7"],
       lead: { w: "saw", v: 0.065, tr: -12, vib: [5.5, 0.007], a: 0.015, r: 0.1, lp: 1700, mel:
@@ -11481,7 +11512,7 @@ function updateWidget(id,hp,mp,killed,seq){
     el.title=`${u.name} — 체력 ${hp}/${u.hp_max}`+(sh?` · 보호막 ${sh}`:"")+(u.mp_max?` · 마나 ${mp}/${u.mp_max}`:""); }
   el.querySelector(".bar.mp>i").style.width=(u.mp_max?mp/u.mp_max*100:0)+"%";
   el.querySelector(".hptext").textContent=`${hp}/${u.hp_max}`+((unitShield[id]||0)>0?` +${unitShield[id]}`:"");
-  if(u.side==="enemy"&&u.isBossKind&&!u.noRage&&!killed&&hp>0&&hp<u.hp_max*0.5&&curUnits.filter(x=>x.side==="enemy"&&x.isBossKind).length){ try{ SND.bossHalf(); }catch(e){} el.classList.add("raged"); }
+  if(u.side==="enemy"&&u.isBossKind&&!u.noRage&&!killed&&hp>0&&hp<u.hp_max*0.5&&curUnits.filter(x=>x.side==="enemy"&&x.isBossKind).length){ try{ if(!u.named||u.finalBoss) SND.bossHalf(); }catch(e){} el.classList.add("raged"); }   // v0.94 중간보스·우두머리는 광폭 곡으로 안 바뀜(그림자 돌격 유지)
   if(killed){
     const img0=el.querySelector("img"), first=!(img0&&img0.dataset.liveSrc);   // 새 구역에 쓰러진 채로 나와도 쓰러진 그림으로
     el.classList.add("dead"); el.classList.remove("hit","healed","buffed","missed");
@@ -13848,7 +13879,7 @@ async function resolveChest(){ try{ SND.fx("chest"); }catch(e){}
   advanceZone();
 }
 async function runBattle(z){
-  traitUndo={}; try{ if(z.boss||z.named){ if(!SND.rage||!z.boss){ SND.scene(z.eg==="abyss"?"boss_abyss":z.eg==="fall"?"boss_fall":"boss"); SND.fx("boss_appear"); } } else SND.battle(runState.regionKey); }catch(e){}
+  traitUndo={}; try{ if(z.boss||z.named){ if(!SND.rage||!z.boss){ SND.scene(z.eg==="abyss"?"boss_abyss":z.eg==="fall"?"boss_fall":z.boss?"boss":"named"); SND.fx("boss_appear"); } } else SND.battle(runState.regionKey); }catch(e){}   // v0.94 중간보스·우두머리는 '그림자 돌격'
   playing=true; setMainBtn(); $("resetBtn").disabled=true;
   $("actbar").hidden=true; markAct(null);
   if(z.boss&&!runState.mode) markBossSeen(runState.regionKey);   // v0.87
@@ -14044,7 +14075,8 @@ function recordBattle(party,result){
       if(add>0){ F.prog=Math.min(F.need,F.prog+add); if(F.prog>=F.need){ F.done=true; logLine(`<span class="win">🔓 운명이 열렸다 — ${esc(itemLabel(it))}: ${esc(FATES[F.key].btxt)}</span>`); if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:#ffb347">🔓 운명이 열렸다 — ${esc(itemDisplayName(it))}: ${esc(FATES[F.key].btxt)}</span>`,2200); } }
     }
     for(const t of TITLES) if((h.stats[t.stat]||0)>=t.need&&!(h.titles||[]).includes(t.key)){ h.titles=h.titles||[]; h.titles.push(t.key); if(!h.title) h.title=t.key;
-      logLine(`<span class="win">🏷 ${esc(heroDisplayName(u.id))} 칭호 획득 — [${esc(t.name)}] ${esc(t.desc)} (파티 탭에서 바꿀 수 있어요)</span>`); }
+      logLine(`<span class="win">🏷 ${esc(heroDisplayName(u.id))} 칭호 획득 — [${esc(t.name)}] ${esc(t.desc)} (파티 탭에서 바꿀 수 있어요)</span>`);
+      try{ toast(`<span class="tc">🏷 칭호 획득 — [${esc(t.name)}]</span>${esc(heroDisplayName(u.id))} · ${esc(t.desc)}`,"good",5200); }catch(e){} }
   }
 }
 /* v0.44 득템 연출 — 쓰러진 적 자리에 등급색 빛기둥, 전설은 화면이 금빛으로 */
@@ -14744,6 +14776,7 @@ async function maybeLateJoin(){
       logLine(`<span class="story">${esc(C.name)}: ${esc(C.join)}</span>`);
       await showBanner(`<img src="${SPRITES[C.sprite]}" alt=""><span style="min-width:0"><span class="who">${esc(C.name)} — 동료 합류</span><span class="txt">${esc(C.join)}</span></span>`, bannerDur(C.join));
       logLine(`<span class="win">✚ ${esc(C.name)}${jo(C.name,"이","가")} 동료로 합류했다! (Lv.${h.level}${inP?"":" · 대기"})</span>`);
+      try{ toast(`<span class="tc">✚ ${esc(C.name)} 합류</span>${inP?"출전 명단에 들어갔어요.":"대기 중 — 파티 탭 진영에 끌어다 놓으면 출전해요."}`,"good",5200); }catch(e){}
       runCompanions();
       if(!inP) logLine(`<span class="r">출전은 ${partyCap()}명까지입니다. 파티 탭 진영에서 영웅을 끌어다 놓아 바꿀 수 있습니다. (대기 중엔 경험치 없음)</span>`);
       if(C.tip) logLine(`<span class="r">💡 ${esc(C.tip)}</span>`);
@@ -14888,6 +14921,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"새 배경음악 · 알림 더하기", L:[
+    "중간보스·우두머리 전투에 새 곡 '그림자 돌격'(C단조 132 bpm, 16마디)이 나옵니다. 예전엔 보스와 같은 곡이었습니다. 체력이 절반 아래로 내려가도 광폭 곡으로 바뀌지 않습니다(진짜 보스만 바뀜).",
+    "타이틀 화면(휴대폰 주소의 첫 화면)에 새 곡 '밤의 서곡'(E단조 84 bpm, 16마디)이 나옵니다. 화면을 처음 누르면 시작됩니다.",
+    "알림을 더 넣었습니다: 칭호 획득 · 동료 합류(대기면 배치 안내) · 새 난이도 열림 · 새 장 열림 · 최종 콘텐츠 열림."]},
   {d:"2026.11.06", v:"v0.94", t:"출전 자리 · 숙련 알림 · 도감 보상 · 대기실 채팅", L:[
     "빈 출전 자리를 대기 영웅으로 몰래 채우던 것을 없앴습니다. 이제 파티 탭 진영에 직접 놓은 영웅만 출전합니다(예: 자정을 열어 5자리가 돼도 4명만 놓았으면 4명 출전).",
     "출전 자리가 늘면 바로 알림이 뜨고, 파티 탭 숫자와 진영 위 '빈 자리 N' 표시로 알려 줍니다.",
@@ -15005,7 +15042,7 @@ function fmtPlay(sec){ sec=sec|0; const h=Math.floor(sec/3600), m=Math.floor(sec
 function titleScreen(){
   const N=NET();
   return new Promise(done=>{
-    const el=document.createElement("div"); el.id="title"; document.body.appendChild(el);
+    const el=document.createElement("div"); el.id="title"; document.body.appendChild(el); try{ SND.scene("title"); }catch(e){}   // v0.94 타이틀 곡(첫 터치에 시작)
     const heroes=CLASS_IDS.map(c=>`<img src="${SPRITES[CLASSES[c].sprite]}" alt="">`).join("");
     const frame=inner=>`<div class="ttl-box"><div class="ttl-eyebrow">PROJECT NIGHT</div><h1>프로젝트 나이트</h1>
       <p class="ttl-sub">영원한 밤을 걷는 자동전투 RPG · 테스트판 ${esc(gameVersion())}</p><div class="ttl-heroes">${heroes}</div>${inner}</div>`;
@@ -15547,7 +15584,7 @@ async function coopRest(run){
   playing=false;
 }
 async function coopBattle(run,z){
-  try{ if(z.boss||z.named){ SND.scene(z.eg==="abyss"?"boss_abyss":z.eg==="fall"?"boss_fall":"boss"); SND.fx("boss_appear"); } else SND.battle(run.rk); }catch(e){}
+  try{ if(z.boss||z.named){ SND.scene(z.eg==="abyss"?"boss_abyss":z.eg==="fall"?"boss_fall":z.boss?"boss":"named"); SND.fx("boss_appear"); } else SND.battle(run.rk); }catch(e){}
   playing=true; setMainBtn(); $("actbar").hidden=true; markAct(null);
   if(z.boss&&!run.mode) markBossSeen(run.rk);   // v0.87
   logLine(`<span class="zone">⟡ 구역 ${run.z+1} — ${esc(z.label)}</span>`);
