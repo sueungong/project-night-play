@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793950720715"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793951383332"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -173,13 +173,21 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .fchip .ford{position:absolute; left:-6px; top:-6px; z-index:3; min-width:20px; height:20px; padding:0 5px; border-radius:999px; background:var(--accent); color:#1a1306; font:800 12px/20px system-ui; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.5)}
 .fordline{margin:6px 2px 2px; font-size:13px; color:var(--sub); line-height:1.6} .fordline b{color:var(--ink)} .fordline span{white-space:nowrap} .fordline small{color:var(--dim)}
 .bagtabs{display:flex; gap:6px; margin-bottom:8px} .bagtabs button{flex:1; height:36px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-weight:700; cursor:pointer} .bagtabs button.on{background:var(--accent); color:#1a1306; border-color:var(--accent)} .bagtabs small{font-weight:600; opacity:.8}
-.rpouch .rp-h{display:flex; align-items:baseline; gap:8px; margin:6px 2px} .rpouch .rp-h small{color:var(--dim)}
-.rp-item{display:flex; align-items:center; gap:8px; padding:5px 6px; border:1px solid var(--line); border-radius:10px; margin-bottom:5px; background:rgba(255,255,255,.02)}
-.rp-ic .icell,.rp-sock .icell{width:38px; height:38px} .rp-nm{flex:1; min-width:0; display:flex; flex-direction:column} .rp-nm b{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:13px} .rp-nm small{color:var(--dim); font-size:11.5px}
-.rp-socks{display:flex; gap:5px} .rp-sock{position:relative; width:44px; height:44px; border-radius:50%; border:2px dashed #6a5a9a; background:rgba(120,90,200,.08); color:#b9a6ff; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0}
-.rp-sock.full{border-style:solid; border-color:#8d74e0} .rp-sock.full i{position:absolute; bottom:-3px; left:50%; transform:translateX(-50%); font-style:normal; font-size:9.5px; background:#1b1530; color:#cbbcff; padding:0 4px; border-radius:6px; opacity:0} .rp-sock.full:hover i{opacity:1}
-.rp-sock.empty.on{border-color:var(--accent); background:rgba(255,200,90,.15); color:var(--accent)} .rp-tip{font-size:12.5px; color:var(--sub); margin:6px 2px}
+.rpouch .rp-h{display:flex; align-items:baseline; gap:8px; margin:10px 2px 6px} .rpouch .rp-h small{color:var(--dim); font-size:12px}
+.rp-cur{display:flex; align-items:center; gap:10px; padding:4px 2px} .rp-cur.none{display:block}
+.rp-ic{flex:none} .rp-ic .icell{--ic:46px} .rp-nm{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px} .rp-nm b{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:14px} .rp-nm small{color:var(--dim); font-size:12px}
+.rp-socks{display:flex; flex-direction:column; gap:6px; margin-top:6px}
+.rp-sock{position:relative; display:flex; align-items:center; gap:10px; width:100%; min-height:52px; padding:5px 8px; border-radius:10px; border:1.5px dashed #6a5a9a; background:rgba(120,90,200,.07); color:var(--sub); cursor:pointer; text-align:left; overflow:hidden}
+.rp-sock .icell{--ic:40px; flex:none} .rp-sock.full{border-style:solid; border-color:#7d66cf; background:rgba(120,90,200,.12)}
+.rp-sock .rp-st{flex:1; min-width:0; display:flex; flex-direction:column; gap:1px} .rp-sock .rp-st b{font-size:13px} .rp-sock .rp-st small{font-size:11.5px; color:var(--dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.rp-sock i{flex:none; font-style:normal; font-size:11.5px; color:#cbbcff; border:1px solid #6a5a9a; border-radius:7px; padding:1px 7px}
+.rp-plus{flex:none; width:40px; height:40px; border-radius:50%; border:2px dashed #6a5a9a; display:grid; place-items:center; font-size:20px; color:#b9a6ff}
+.rp-sock.empty.on{border-color:var(--accent); background:rgba(255,200,90,.12)} .rp-sock.empty.on .rp-plus{border-color:var(--accent); color:var(--accent)}
+.rp-tip{font-size:12.5px; color:var(--sub); margin:6px 2px}
+.rp-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(52px,1fr)); gap:6px} .rp-cell{padding:0; border:0; background:none; cursor:pointer; display:grid; place-items:center; aspect-ratio:1} .rp-cell .icell{--ic:50px} .rp-cell.sel .icell{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent)}
 .rp-det{margin-top:8px; padding:8px 10px; border:1px solid var(--line); border-radius:10px; font-size:13px; line-height:1.5} .rp-acts{display:flex; gap:6px; margin-top:6px; flex-wrap:wrap} .rp-acts .btn{height:32px; padding:0 10px; font-size:12.5px}
+.eqsock{position:absolute; left:50%; bottom:15px; transform:translateX(-50%); font-size:10px; line-height:1; letter-spacing:1px; color:#c9b8ff; background:rgba(16,12,32,.85); border:1px solid #6a5a9a; border-radius:6px; padding:2px 4px; cursor:pointer; z-index:2}
+.eqsock.on{color:#1a1306; background:var(--accent); border-color:var(--accent)} .eqslot.rpon .icell{border-color:var(--accent)}
 .ttl-code{display:flex; gap:8px; justify-content:center} .ttl-code input{width:200px; height:44px; border-radius:10px; border:1px solid var(--line); background:#0d1324; color:var(--ink); font-size:17px; letter-spacing:.06em; text-align:center; text-transform:uppercase}
 .toasts{position:absolute; right:12px; top:110px; z-index:6; width:300px; display:flex; flex-direction:column; gap:8px; pointer-events:none}
 .toast{background:#141b30; border:1px solid var(--line2); border-radius:12px; padding:9px 12px; font-size:14px; line-height:1.45; box-shadow:0 10px 30px #000a; animation:toastin .25s}
@@ -12283,7 +12291,7 @@ const ITEM_ICON=(()=>{
 })();
 
 // ===== v0.38 장비 화면: 가운데 캐릭터(지금 모습·오라 그대로) + 둘레 부위 칸 / 가방은 정사각형 칸 격자 + 여러 개 골라 판매·분해 =====
-let bagPick=false, bagSel=new Set(), bagArm=null, eqFigTimer=0, bagTab="gear", rpRune=null, rpSock=null;   // v0.94 룬주머니: 고른 룬(묶음 키) · 고른 빈 소켓
+let bagPick=false, bagSel=new Set(), bagArm=null, eqFigTimer=0, bagTab="gear", rpRune=null, rpSock=null, rpSk=null;   // v0.94 룬주머니: 고른 룬(묶음 키) · 고른 빈 소켓 번호 · 고른 장비 칸
 const DOLL_L=["helm","armor","cape","gloves","boots"], DOLL_R=["weapon","offhand","amulet","ring1","ring2"], DOLL_TOP=["relic"];   // v0.55.6: 유물은 가운데 위(투구·무기 사이) — 좌우 5칸씩 높이 맞춤
 const SLOT_GHOST={weapon:"sword",offhand:"off_knight",helm:"helm",armor:"armor",gloves:"gloves",boots:"boots",cape:"cape",ring1:"ring",ring2:"ring",amulet:"amulet",relic:"relic"};
 function itemIconURL(it){ try{ return ITEM_ICON.url(it); }catch(e){ return ""; } }
@@ -12308,8 +12316,11 @@ function eqSlotBtn(cid,sk){ const it=findEquipped(cid,sk), s=SLOTS.find(x=>x.key
   const up=runBusy()?0:slotBetterCount(cid,sk); const b=document.createElement("button"); b.className="eqslot"+(it?"":" empty")+(up?" hasup":"");
   b.innerHTML=it?iconCell(it,{enh:it.noEnh?null:E}):`<span class="icell r-none ghost${E.gilt?" gilt":""}"><img src="${slotGhostURL(sk,cid)}" alt="">${E.l?`<b class="ic-enh ${enhTier(E.l).cls}">+${E.l}</b>`:""}</span>`;
   b.innerHTML+=`<span class="eqsl">${esc(s.label)}${!it&&sk==="offhand"&&W.two?" ✕":""}</span>${up?`<span class="equp" title="가방에 더 좋은 ${esc(s.label)} ${up}개">▲${up}</span>`:""}`;
+  if(it&&it.sockets&&it.sockets.length){ const on=bagTab==="rune"&&rpSk===sk;   // v0.94 소켓 표시 ◆(룬 있음) ◇(빈 칸) — 누르면 오른쪽 룬주머니에 이 장비만
+    b.innerHTML+=`<span class="eqsock${on?" on":""}" title="소켓 ${it.sockets.filter(Boolean).length}/${it.sockets.length} — 눌러서 룬주머니에서 룬 끼우기·빼기">${it.sockets.map(r=>r?"◆":"◇").join("")}</span>`;
+    if(on) b.classList.add("rpon"); }
   b.title=(it?[itemLabel(it),itemSummary(it)].concat(itemExtraText(it)):[`${s.label} — 비어 있음`]).concat(ENH_SLOTS.includes(sk)?[`부위 강화 +${E.l} (장비 능력치 +${E.l*6}%)`]:[]).join("\n");
-  b.onclick=()=>openWornItem(cid,sk);
+  b.onclick=e=>{ if(e.target.closest(".eqsock")){ bagTab="rune"; rpSk=sk; rpSock=null; renderParty(); return; } openWornItem(cid,sk); };
   return b; }
 // v0.55.2: 칸 옆 강화 단추 — 위: 현재 단계(+N, 재질 색), 아래: 성공률(또는 수리·최대). 누르면 바로 강화(비용은 길게 누르거나 칸을 눌러 확인)
 function enhSideBtn(cid,sk){
@@ -12374,33 +12385,34 @@ function rpInsert(item,idx,runeIt){ if(!item||!item.sockets||item.sockets[idx]||
 function rpRemove(item,idx){ const r=item&&item.sockets&&item.sockets[idx]; if(!r) return false; item.sockets[idx]=null; progress.inv.push(makeRune(r)); saveProgress(); logLine(`<span class="gain">◈ ${esc(itemLabel(item))}에서 ${esc(RUNES[runeK(r)].name)} 뺌 — 룬주머니로</span>`); return true; }
 function renderRunePouch(B,cid){
   const busy=runBusy(), G=rpGroups(), S=rpSocketed(cid);
+  if(!S.some(x=>x.sk===rpSk)) rpSk=S.length?S[0].sk:null;   // 고른 장비(왼쪽 칸의 ◆◇ 표시를 누르면 바뀜)
+  const cur=S.find(x=>x.sk===rpSk);
   if(rpRune&&!G.some(g=>g.key===rpRune)) rpRune=null;
   const selG=G.find(g=>g.key===rpRune), selIt=selG&&selG.items[0];
-  const box=document.createElement("div"); box.className="rpouch";
-  const empties=[]; for(const {it} of S) it.sockets.forEach((r,i)=>{ if(!r) empties.push({it,i}); });
-  if(rpSock&&!S.some(x=>x.it.id===rpSock.id&&!x.it.sockets[rpSock.i])) rpSock=null;
-  let html=`<div class="rp-h"><b>${esc(heroDisplayName(cid))}의 소켓</b> <small>빈 칸 ${empties.length}</small></div>`;
-  if(!S.length) html+=`<p class="msub">소켓이 있는 장비를 끼고 있지 않아요 — 영웅·세트 장비 1칸 · 전설 2칸 · 희귀는 30% 확률로 1칸.</p>`;
-  html+=S.map(({sk,it})=>`<div class="rp-item"><span class="rp-ic">${iconCell(it,{})}</span><span class="rp-nm"><b class="${rarityCls(it)}">${esc(itemLabel(it))}</b><small>${esc((SLOTS.find(x=>x.key===sk)||{label:sk}).label)}${it.sockets.some(Boolean)?" · "+it.sockets.filter(Boolean).map(r=>esc(RUNES[runeK(r)].name)+"("+esc((RARITIES.find(q=>q.key===runeR(r))||{label:""}).label)+")").join(" · "):""}</small></span>
-      <span class="rp-socks">${it.sockets.map((r,i)=>{ if(r){ const ri=makeRune(r); return `<button class="rp-sock full ${rarityCls(ri)}" data-it="${it.id}" data-i="${i}" title="${esc(RUNES[runeK(r)].name)} — ${esc(rpFxLine(ri))}
-누르면 빼서 룬주머니로">${iconCell(ri,{})}<i>빼기</i></button>`; }
-        const on=rpSock&&rpSock.id===it.id&&rpSock.i===i; return `<button class="rp-sock empty${on?" on":""}" data-it="${it.id}" data-i="${i}" title="빈 소켓 — 누르고 아래 룬을 고르면 끼웁니다">＋</button>`; }).join("")}</span></div>`).join("");
-  html+=`<p class="rp-tip">${busy?"🔒 던전 진행 중 — 룬은 마을에서 바꿀 수 있어요":selIt?`<b>${esc(RUNES[selIt.rune].name)}</b>${jo(RUNES[selIt.rune].name,"을","를")} 끼울 <b>빈 소켓(＋)</b>을 누르세요${empties.length?"":" — 빈 소켓이 없어요"}`:rpSock?"끼울 <b>룬</b>을 아래에서 누르세요":"빈 소켓(＋)과 룬을 차례로 누르면 끼우고, 끼운 룬을 누르면 빼서 주머니로 돌아갑니다(비용 없음)."}</p>`;
+  if(rpSock!=null&&!(cur&&!cur.it.sockets[rpSock])) rpSock=null;
+  const box=document.createElement("div"); box.className="rpouch"; let html="";
+  if(busy) html+=`<p class="rp-tip">🔒 던전 진행 중 — 룬은 마을에서 바꿀 수 있어요</p>`;
+  if(!cur) html+=`<div class="rp-cur none"><p class="msub">${esc(heroDisplayName(cid))}${jo(heroDisplayName(cid),"은","는")} 소켓이 있는 장비를 끼고 있지 않아요 — 영웅·세트 장비 1칸 · 전설 2칸 · 희귀는 30% 확률로 1칸.</p></div>`;
+  else { const it=cur.it, sl=(SLOTS.find(x=>x.key===cur.sk)||{label:cur.sk}).label;
+    html+=`<div class="rp-cur"><span class="rp-ic">${iconCell(it,{})}</span><span class="rp-nm"><b class="${rarityCls(it)}">${esc(itemLabel(it))}</b><small>${esc(sl)} · 소켓 ${it.sockets.filter(Boolean).length}/${it.sockets.length}</small></span></div>
+      <div class="rp-socks">${it.sockets.map((r,i)=>{ if(r){ const ri=makeRune(r); return `<button class="rp-sock full" data-i="${i}" title="누르면 빼서 룬주머니로">${iconCell(ri,{})}<span class="rp-st"><b class="${rarityCls(ri)}">${esc(RUNES[runeK(r)].name)}</b><small>${esc(rpFxLine(ri))}</small></span><i>빼기</i></button>`; }
+        return `<button class="rp-sock empty${rpSock===i?" on":""}" data-i="${i}"><span class="rp-plus">＋</span><span class="rp-st"><b>빈 소켓</b><small>${selIt?`눌러서 ${esc(RUNES[selIt.rune].name)} 끼우기`:"아래에서 룬을 고르세요"}</small></span></button>`; }).join("")}</div>
+      ${S.length>1?`<p class="rp-tip">다른 장비의 소켓은 왼쪽 장비 칸의 <b>◆◇</b> 표시를 누르세요.</p>`:""}`; }
   html+=`<div class="rp-h"><b>룬주머니</b> <small>${progress.inv.filter(x=>x.slot==="rune").length}개 · 가방 칸을 차지하지 않음</small></div>`;
-  html+=G.length?`<div class="bggrid rp-grid">${G.map(g=>{ const it=g.items[0]; return `<button class="bcell${g.key===rpRune?" sel":""}" data-g="${esc(g.key)}" title="${esc(itemLabel(it))}${g.items.length>1?` ×${g.items.length}`:""}
-${esc(rpFxLine(it))}">${iconCell(it,{n:g.items.length})}</button>`; }).join("")}</div>`:`<p class="msub">아직 룬이 없어요. 보물상자·보스에서 얻습니다.</p>`;
-  if(selIt) html+=`<div class="rp-det"><b class="${rarityCls(selIt)}">${esc(itemLabel(selIt))}</b> <small>×${selG.items.length}</small><div>${esc(rpFxLine(selIt))}</div>
-    <div class="rp-acts"><button class="btn" id="rpPut" ${busy||!empties.length?"disabled":""}>${rpSock?"고른 소켓에 끼우기":"빈 소켓에 끼우기"}</button><button class="btn ghost" id="rpSell">판매 +${sellPrice(selIt)}G</button><button class="btn ghost" id="rpDis">분해 +${dismantleValue(selIt)}정수</button></div></div>`;
+  html+=G.length?`<div class="rp-grid">${G.map(g=>{ const it=g.items[0]; return `<button class="rp-cell${g.key===rpRune?" sel":""}" data-g="${esc(g.key)}" title="${esc(itemLabel(it))}${g.items.length>1?` ×${g.items.length}`:""}\n${esc(rpFxLine(it))}">${iconCell(it,{n:g.items.length})}</button>`; }).join("")}</div>`:`<p class="msub">아직 룬이 없어요. 보물상자·보스에서 얻습니다.</p>`;
+  if(selIt){ const em=cur?cur.it.sockets.findIndex(r=>!r):-1;
+    html+=`<div class="rp-det"><b class="${rarityCls(selIt)}">${esc(itemLabel(selIt))}</b> <small>×${selG.items.length}</small><div>${esc(rpFxLine(selIt))}</div>
+    <div class="rp-acts"><button class="btn" id="rpPut" ${busy||em<0?"disabled":""}>${cur?(em<0?"빈 소켓 없음":`${esc((SLOTS.find(x=>x.key===cur.sk)||{label:""}).label)}에 끼우기`):"끼울 장비 없음"}</button><button class="btn ghost" id="rpSell">판매 +${sellPrice(selIt)}G</button><button class="btn ghost" id="rpDis">분해 +${dismantleValue(selIt)}정수</button></div></div>`; }
   box.innerHTML=html; B.appendChild(box);
-  const findIt=id=>S.map(x=>x.it).find(x=>String(x.id)===String(id));
-  for(const b of box.querySelectorAll(".rp-sock")) b.onclick=()=>{ if(busy) return; const it=findIt(b.dataset.it), i=+b.dataset.i;
-    if(b.classList.contains("full")){ rpRemove(it,i); rpSock=null; renderParty(); renderRules(); return; }
-    if(selIt){ rpInsert(it,i,selIt); rpSock=null; rpRune=G.find(g=>g.key===rpRune)&&selG.items.length>1?rpRune:null; renderParty(); renderRules(); return; }
-    rpSock=(rpSock&&rpSock.id===it.id&&rpSock.i===i)?null:{id:it.id,i}; renderParty(); };
+  const after=()=>{ renderParty(); renderRules(); };
+  for(const b of box.querySelectorAll(".rp-sock")) b.onclick=()=>{ if(busy||!cur) return; const i=+b.dataset.i;
+    if(b.classList.contains("full")){ rpRemove(cur.it,i); rpSock=null; after(); return; }
+    if(selIt){ rpInsert(cur.it,i,selIt); rpSock=null; if(selG.items.length<=1) rpRune=null; after(); return; }
+    rpSock=rpSock===i?null:i; renderParty(); };
   for(const b of box.querySelectorAll("[data-g]")) b.onclick=()=>{ const g=G.find(x=>x.key===b.dataset.g); if(!g) return;
-    if(rpSock&&!busy){ const it=findIt(rpSock.id); if(it&&rpInsert(it,rpSock.i,g.items[0])){ rpSock=null; rpRune=null; renderParty(); renderRules(); return; } }
+    if(rpSock!=null&&cur&&!busy&&rpInsert(cur.it,rpSock,g.items[0])){ rpSock=null; rpRune=null; after(); return; }
     rpRune=rpRune===g.key?null:g.key; renderParty(); };
-  const put=box.querySelector("#rpPut"); if(put) put.onclick=()=>{ const t=rpSock?{it:findIt(rpSock.id),i:rpSock.i}:empties[0]; if(t&&rpInsert(t.it,t.i,selIt)){ rpSock=null; if(selG.items.length<=1) rpRune=null; renderParty(); renderRules(); } };
+  const put=box.querySelector("#rpPut"); if(put) put.onclick=()=>{ const i=rpSock!=null?rpSock:cur.it.sockets.findIndex(r=>!r); if(i>=0&&rpInsert(cur.it,i,selIt)){ rpSock=null; if(selG.items.length<=1) rpRune=null; after(); } };
   const sl=box.querySelector("#rpSell"); if(sl) sl.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===selIt.id); if(i<0) return; progress.inv.splice(i,1); progress.gold+=sellPrice(selIt); saveProgress(); logLine(`<span class="gain">${esc(itemDisplayName(selIt))} 판매 — 골드 +${sellPrice(selIt)}</span>`); renderParty(); };
   const ds=box.querySelector("#rpDis"); if(ds) ds.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===selIt.id); if(i<0) return; progress.inv.splice(i,1); const fr={}; const e=dismantleGive(selIt,fr); saveProgress(); logLine(`<span class="gain">${esc(itemLabel(selIt))} 분해 — 밤의 정수 +${e}</span>`); renderParty(); };
 }
@@ -14800,8 +14812,8 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 const UPDATES=[
   {d:"2026.11.06", v:"v0.94", t:"룬주머니", L:[
     "장비 탭 오른쪽에 [🎒 가방]과 [💠 룬주머니] 탭을 나눴습니다. 가방에는 장비·유물만 나오고, 룬은 룬주머니에서 따로 관리합니다. 룬은 가방 칸을 차지하지 않습니다.",
-    "룬주머니 위쪽에 고른 영웅이 낀 장비의 소켓이 나옵니다. 빈 소켓(＋)을 누르고 룬을 누르거나, 룬을 누르고 빈 소켓을 누르면 끼워집니다. 룬을 고른 뒤 [빈 소켓에 끼우기]를 눌러도 됩니다.",
-    "끼운 룬을 누르면 빼서 룬주머니로 돌아옵니다(비용 없음 — 예전에는 한 번 끼우면 뺄 수 없었음). 소켓 줄에 끼운 룬 이름·등급이 함께 나옵니다.",
+    "왼쪽 장비 칸에 소켓이 있는 장비는 ◆(룬 있음) ◇(빈 칸)로 표시됩니다. 그 표시를 누르면 오른쪽 룬주머니 위에 그 장비 하나와 소켓이 나옵니다(처음엔 소켓이 있는 첫 장비).",
+    "빈 소켓을 누르고 룬을 누르거나, 룬을 누르고 빈 소켓을 누르면 끼워집니다. 룬을 고른 뒤 [무기에 끼우기]처럼 단추를 눌러도 됩니다. 끼운 룬 줄에는 이름과 효과가 나오고, 누르면 빼서 룬주머니로 돌아옵니다(비용 없음 — 예전에는 한 번 끼우면 뺄 수 없었음).",
     "룬이 끼워진 장비를 팔거나 분해하면 그 룬은 룬주머니로 돌아옵니다(예전에는 같이 사라짐). 가방의 '한 번에 고르기'는 룬을 고르지 않습니다."]},
   {d:"2026.11.06", v:"v0.94", t:"흐름 룬 · 패시브 설명 · 연결 알림", L:[
     "흐름 룬: '전투 시작 행동 게이지'는 남는 게이지로만 쌓여 효과가 거의 없었습니다. '턴마다 행동 게이지 +2.5%'로 바꿨습니다(등급 배율 적용 — 전설 +10%면 10턴마다 한 번 더 행동). 여러 개를 끼워도 영웅당 턴마다 최대 +30%입니다.",
