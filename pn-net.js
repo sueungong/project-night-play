@@ -164,7 +164,33 @@
     players: async () => list(await val("players")).sort((a, b) => (b.at || 0) - (a.at || 0)),
     uid: () => user && user.uid
   };
-  window.PNNet = { lend, auth: authApi, ops,
+  // ---------- v0.94 비공개 테스트 초대 코드 ----------
+  // config/inviteOnly=true 일 때만 막음 · invites/<코드>={at, used:uid} · invited/<uid>={code|g, at}
+  // 통과: 관리자 · 코드를 쓴 계정 · Google 로그인 + 이미 서버 저장이 있는 계정(기존 지인 — 처음 한 번 자동 등록)
+  const CODE_ABC = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const normCode = c => String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").replace(/^(NIGHT)?/, "").slice(0, 8);
+  const invite = {
+    on: async () => { try { return (await val("config/inviteOnly")) === true; } catch (e) { return false; } },
+    status: async () => { const u = await ready; if (!u) return { ok: true, why: "offline" };
+      if (!(await invite.on())) return { ok: true, why: "off" };
+      try { if ((await val("admins/" + u.uid)) === true) return { ok: true, why: "admin" }; } catch (e) {}
+      try { if (await val("invited/" + u.uid)) return { ok: true, why: "invited" }; } catch (e) { return { ok: false, why: "err", err: (e && (e.code || e.message)) || String(e) }; }
+      if (!u.isAnonymous && u.email) { try { await rtdb.ref("invited/" + u.uid).set({ g: true, at: TS }); return { ok: true, why: "google" }; } catch (e) {} }
+      return { ok: false, why: "need", anon: !!u.isAnonymous }; },
+    redeem: async raw => { const u = await ready; if (!u) throw new Error("서버에 연결되어 있지 않습니다"); const c = normCode(raw); if (c.length !== 8) throw new Error("코드는 NIGHT- 뒤 8자리입니다");
+      const code = "NIGHT-" + c;
+      try { await rtdb.ref().update({ ["invites/" + code + "/used"]: u.uid, ["invited/" + u.uid]: { code, at: TS } }); }
+      catch (e) { throw new Error("없는 코드이거나 이미 다른 사람이 쓴 코드입니다"); } return code; },
+    setOn: async on => { await rtdb.ref("config/inviteOnly").set(!!on); },
+    make: async n => { n = Math.max(1, Math.min(100, n | 0)); const up = {}, out = [];
+      for (let i = 0; i < n; i++) { let c = "NIGHT-"; const b = new Uint32Array(8); crypto.getRandomValues(b); for (const x of b) c += CODE_ABC[x % CODE_ABC.length]; up["invites/" + c] = { at: TS }; out.push(c); }
+      await rtdb.ref().update(up); return out; },
+    list: async () => Object.entries((await val("invites")) || {}).map(([code, v]) => Object.assign({ code }, v)).sort((a, b) => (a.at || 0) - (b.at || 0)),
+    invited: async () => (await val("invited")) || {},
+    revoke: async code => { const v = await val("invites/" + code); const up = { ["invites/" + code]: null }; if (v && v.used) up["invited/" + v.used] = null; await rtdb.ref().update(up); },
+    unInvite: async uid => { await rtdb.ref("invited/" + safeKey(uid)).remove(); }
+  };
+  window.PNNet = { lend, auth: authApi, ops, invite,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
     bindSettings: () => bind(document.getElementById("pnAcct")),
     ready, get user() { return user; }
