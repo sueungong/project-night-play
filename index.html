@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793962875178"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793964735211"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1904,7 +1904,7 @@ const SKILLS = {
   kn_oath:       { name:"보호 서약",       type:"intercept", power:0,   mp:20, aoe:false, range:"self",  duration:2, value:0.5 },
   kn_unyield:    { name:"불굴",            type:"purify",    power:0,   mp:14, aoe:false, range:"self",  selfShield:0.18 },
   kn_retal:      { name:"응징의 방패",     type:"selfbuff",  power:0,   mp:14, aoe:false, range:"self",  buff:"reflect", duration:2, value:0.5 },
-  kn_rampart:    { name:"성벽",            type:"buff_def",  power:0,   mp:26, aoe:true,  range:"ranged", duration:3, value:0.25, selfAtkCut:0.5 },
+  kn_rampart:    { name:"성벽",            type:"buff_def",  power:0,   mp:26, aoe:true,  range:"ranged", duration:3, value:0.25, selfAtkCut:0.5, allyShield:{v:0.06} },   // v0.94 + 아군 전체 보호막 6%
   kn_bloodprice: { name:"피의 대가",       type:"damage",    power:3.0, mp:0,  aoe:false, range:"melee", hpCost:0.15 },
   kn_frenzy:     { name:"광폭 휘두르기",   type:"damage",    power:1.1, mp:20, aoe:false, range:"melee", aoeFront:true, lowAmp:0.4 },
   kn_drink:      { name:"피 마시기",       type:"buff_def",  power:0,   mp:12, aoe:false, range:"self",  duration:3, value:0.1, leech:0.3 },
@@ -1962,7 +1962,7 @@ const SKILLS = {
   ft_breath:     { name:"운기조식",        type:"breathe",   power:0,   mp:6,  aoe:false, range:"self",  momAll:true, momMin:2, value:0.05 },
   ft_parry:      { name:"흘려내기",        type:"selfbuff",  power:0,   mp:8,  aoe:false, range:"self",  buff:"evade", duration:1, value:0.4, momGain:2 },
   ft_stance:     { name:"부동 자세",       type:"stance",    power:1.0, mp:10, aoe:false, range:"self",  duration:2, value:0.25, momCost:2 },
-  ft_cycle:      { name:"내공 순환",       type:"purify",    power:0,   mp:8,  aoe:false, range:"self",  selfShield:0.15, momCost:2 },
+  ft_cycle:      { name:"내공 순환",       type:"purify",    power:0,   mp:8,  aoe:false, range:"self",  selfShield:0.15, momCost:2, allyShieldAdv:{adv:"monk",v:0.10,lane:true,other:true} },   // v0.94 수도승: 같은 가로줄 아군에게도 보호막 10%
   ft_palm:       { name:"장풍",            type:"damage",    power:1.2, mp:10, aoe:false, range:"ranged", lance:0.7, momCost:2 },
   ft_diamond:    { name:"금강불괴",        type:"buff_def",  power:0,   mp:18, aoe:false, range:"self",  duration:2, value:0.4, stImm:true, momCost:3 },
   ft_aircombo:   { name:"공중 연타",       type:"damage",    power:0.55, mp:14, aoe:false, range:"melee", multi:3, airMulti:5, airFinish:1.2, momCost:2 },
@@ -2028,7 +2028,7 @@ const SKILLS = {
   ln_flurry:     { name:"연속 찌르기",     type:"damage",    power:0.6, mp:14, aoe:false, range:"melee", multi:4, airMulti:6 },
   ln_hunt:       { name:"사냥창",          type:"damage",    power:1.4, mp:10, aoe:false, range:"melee", tauntOne:1 },
   ln_unbroken:   { name:"불굴의 창",       type:"unbroken",  power:0,   mp:22, aoe:true,  range:"ranged", duration:2, value:0.3, resUp:0.25 },
-  ln_phalanx:    { name:"방진",            type:"buff_def",  power:0,   mp:18, aoe:true,  range:"ranged", duration:2, value:0.3, laneAllies:true },
+  ln_phalanx:    { name:"방진",            type:"buff_def",  power:0,   mp:18, aoe:true,  range:"ranged", duration:2, value:0.3, laneAllies:true, allyRegen:{v:0.03,turns:2,lane:true} },   // v0.94 + 같은 가로줄 매 턴 체력 3%
   ln_tipcounter: { name:"창끝 반격",       type:"selfbuff",  power:0,   mp:12, aoe:false, range:"self",  buff:"ctrdmg", duration:2, value:0.6 },
   ln_check:      { name:"견제 찌르기",     type:"damage",    power:1.2, mp:12, aoe:false, range:"melee", vulnS:0.15, vulnT:2, gaugeDown:0.2 },
   /* --- 적 스킬 --- */
@@ -2465,9 +2465,9 @@ const RULESET={
            surv:[["ft_breath",R_ME50,2,R_MEDEB,0],["ft_parry",R_F2,0,0,0],["ft_triple",R_A,0,0,10]],
            supp:[["ft_shoulder",R_MOM3,0,0,0],["ft_breath",R_MEDEB,0,0,0],["ft_triple",R_A,0,0,10]] },
     monk:{   // 수도승: 부동 자세로 붙잡고 버팀
-      atk:[["ft_stance",R_A,0,0,0],["ft_burst",R_MOM5,0,0,0],["ft_diamond",R_ME50,0,0,0],["ft_palm",R_LANE,0,0,4],["ft_triple",R_A,0,0,10]],
+      atk:[["ft_stance",R_A,0,0,0],["ft_burst",R_MOM5,0,0,0],["ft_diamond",R_ME50,0,0,0],["ft_cycle",R_A2_70,0,0,0],["ft_palm",R_LANE,0,0,4],["ft_triple",R_A,0,0,10]],
       surv:[["ft_cycle",R_MEDEB,0,0,0],["ft_stance",R_A,0,0,0],["ft_diamond",R_ME50,0,0,0],["ft_parry",R_A,0,0,0]],
-      supp:[["ft_stance",R_A,0,0,0],["ft_diamond",R_ME50,2,R_MEDEB,0],["ft_shoulder",R_MOM3,0,0,0],["ft_triple",R_A,0,0,10]] },
+      supp:[["ft_stance",R_A,0,0,0],["ft_diamond",R_ME50,2,R_MEDEB,0],["ft_cycle",R_A2_70,0,0,0],["ft_shoulder",R_MOM3,0,0,0],["ft_triple",R_A,0,0,10]] },
     dragon_fist:{   // 용권사: 띄우고 공중에서 두들김
       atk:[["ft_heavendragon",R_AIR,0,0,0],["ft_aircombo",R_AIR,0,0,10],["ft_launch",R_A,0,0,0],["ft_triple",R_A,0,0,10]],
       surv:[["ft_breath",R_ME50,2,R_MEDEB,0],["ft_heavendragon",R_AIR,0,0,0],["ft_ascend",R_AIR,0,0,10],["ft_launch",R_A,0,0,0],["ft_triple",R_A,0,0,10]],
@@ -2517,7 +2517,7 @@ const RULESET={
       surv:[["ln_wall",R_A,0,0,0],["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_pierce",R_A,0,0,0]],
       supp:[["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,14],["ln_pierce",R_A,0,0,0]] },
     phalanx:{   // 방진 수호자: 방진 · 불굴의 창으로 줄을 지키고 반격
-      atk:[["ln_tipcounter",R_A,0,0,0],["ln_unbroken",R_ADEB,2,R_ME50,0],["ln_check",R_A,0,0,0],["ln_sweep",R_FR2,0,0,0],["ln_pierce",R_A,0,0,0]],
+      atk:[["ln_tipcounter",R_A,0,0,0],["ln_unbroken",R_ADEB,2,R_ME50,0],["ln_phalanx",R_A,0,0,0],["ln_check",R_A,0,0,0],["ln_sweep",R_FR2,0,0,0],["ln_pierce",R_A,0,0,0]],
       surv:[["ln_unbroken",R_ADEB,2,R_ME50,0],["ln_phalanx",R_A,0,0,0],["ln_wall",R_A,0,0,0],["ln_pierce",R_A,0,0,0]],
       supp:[["ln_phalanx",R_A,0,0,0],["ln_unbroken",R_ADEB,2,R_A2_60,0],["ln_distance",R_AL50,0,0,5],["ln_check",R_A,0,0,0]] } },
 };
@@ -5504,6 +5504,9 @@ function skillSpec(sid,sx){
     default: main=s.name;
   }
   if(s.selfShield) R("etc",`나에게 보호막(최대 체력의 ${P(s.selfShield)}%)`);
+  if(s.allyShield) R("etc",`${s.allyShield.lane?"나와 같은 가로줄 아군에게":"아군 전체에"} 보호막(최대 체력의 ${P(s.allyShield.v)}%)`);
+  if(s.allyShieldAdv) R("etc",`수도승이면 나와 같은 가로줄 아군에게도 보호막(최대 체력의 ${P(s.allyShieldAdv.v)}%)`);
+  if(s.allyRegen) R("etc",`${s.allyRegen.lane?"같은 가로줄 아군":"아군 전체"} ${s.allyRegen.turns}턴간 매 턴 체력 ${P(s.allyRegen.v)}% 회복`);
   return {name:s.name,tags,main,rows};
 }
 const SK_ROWK={st:["상태이상","st"],if:["조건부 강화","if"],ln:["🔗 연계","ln"],etc:["참고","etc"]};
@@ -5872,7 +5875,9 @@ class Sim {
   // v0.92 받는 피해 감소: 가장 큰 것 하나만(buffs.def · 안식의 노래)
   defCutOf(u){ return Math.max((u.buffs.def&&u.buffs.def.value>0)?u.buffs.def.value:0, this.songOf(u,"rest")); }
   // v0.92 이미 같은(또는 더 센) 효과가 다 걸려 있어 쓸 이유가 없는 버프인지
-  buffRedundant(u,skill,tg){ const key=skill.type==="buff_atk"?"atk":"def"; const extra=skill.resUp||skill.leech||skill.selfAtkCut||skill.frostCoat||skill.holyWard||skill.stImm;
+  buffRedundant(u,skill,tg){ const key=skill.type==="buff_atk"?"atk":"def";
+    if(skill.allyRegen&&tg.some(t=>t.alive&&t.hp<t.hp_max&&!t.dots.regen)) return false;   // v0.94 재생·보호막이 붙는 방어 기술은 그것만으로도 쓸 이유가 있음
+    if(skill.allyShield&&tg.some(t=>t.alive&&(t.shield||0)<Math.floor(t.hp_max*skill.allyShield.v))) return false; const extra=skill.resUp||skill.leech||skill.selfAtkCut||skill.frostCoat||skill.holyWard||skill.stImm;
     if(extra) return tg.every(t=>(t.buffs[key]&&t.buffs[key].value>=skill.value)&&(!skill.resUp||(t.buffs.resup&&t.buffs.resup.value>=skill.resUp))&&(!skill.leech||t.buffs.leech)&&(!skill.frostCoat||t.buffs.frostcoat)&&(!skill.holyWard||t.buffs.holyward)&&(!skill.stImm||t.buffs.stimm));
     return !tg.some(t=>!(t.buffs[key]&&t.buffs[key].value>=skill.value)); }
   mpCost(u,skill){ let c=skill.mp||0;   /* v0.90 기술 비용은 고정 숫자(최대 마나의 %가 아님) */ if(skill.type==="stealth"&&u.traits.stealth_long) return 0; if(u.traits.blood_pact) return 0; if(u.traits.mana_cycle) c*=u.traits.mana_cycle_v?1-u.traits.mana_cycle_v:0.75; if(u.traits.overload_v) c*=1.15;
@@ -6980,6 +6985,10 @@ class Sim {
     if(skill.type==="smoke"&&u.alive) this.goStealth(u,1,"은신",fx);   // 연기 구슬: 자신 은신 1턴
     /* ---- v0.92 기술 하나에 한 번 붙는 효과 ---- */
     if(skill.allyDef&&u.alive) for(const a of this.allies(u)) if(!(a.buffs.def&&a.buffs.def.value>=skill.allyDef.value)){ a.buffs.def={turns:skill.allyDef.turns||1,value:skill.allyDef.value}; fx.push(this.fxBuff(a,`받는 피해 -${Math.round(skill.allyDef.value*100)}%`)); }   // 냉기 결계
+    /* v0.94 방어 전직의 소량 지원(성직자 없이도 버티게): 아군 보호막 · 가로줄 재생 */
+    { const AS=skill.allyShield||(skill.allyShieldAdv&&u.adv===skill.allyShieldAdv.adv?skill.allyShieldAdv:null);
+      if(AS&&u.alive) for(const a of this.allies(u)){ if(!a.alive||(AS.lane&&a.lane!==u.lane)||(AS.other&&a===u)) continue; const cap=Math.floor(a.hp_max*0.4), add=Math.floor(a.hp_max*AS.v), bf=a.shield||0; a.shield=Math.min(cap,bf+add); if(a.shield>bf) fx.push(this.fxBuff(a,`보호막 ${a.shield}`)); }
+      const AR=skill.allyRegen; if(AR&&u.alive) for(const a of this.allies(u)){ if(!a.alive||(AR.lane&&a.lane!==u.lane)) continue; const amt=Math.max(1,Math.floor(a.hp_max*AR.v)); if(!(a.dots.regen&&a.dots.regen.amt>=amt&&a.dots.regen.turns>=AR.turns)){ a.dots.regen={amt,turns:AR.turns,src:u.id}; fx.push(this.fxBuff(a,`재생 ${amt}/턴`)); } } }
     if(skill.selfAtkCut&&u.alive){ u.buffs.wallcut={turns:skill.duration,value:skill.selfAtkCut}; fx.push(this.fxBuff(u,`내 공격 피해 -${Math.round(skill.selfAtkCut*100)}%`)); }   // 성벽
     if(u.buffs.clone&&skill.type==="damage"&&u.alive&&!this._cloning&&!this._following){ this._cloning=true;   // 그림자 분신: 내 공격이 50%로 한 번 더
       const tl=skill.hits?[this.reachableFoes(u,skill)[0]].filter(Boolean):targets.filter(x=>x.alive); const S2=Object.assign({},skill,{power:(skill.power||0)*(skill.multi||1)*u.buffs.clone.value});
@@ -8125,7 +8134,7 @@ function buildHeroUnit(cid){
     { const P=heroPrim(cid); u._str18=P.str>=STAT_CAP; u._int18=P.int>=STAT_CAP; u._con18=P.con>=STAT_CAP; u.wil18=P.wil>=STAT_CAP; u._agi18=P.agi>=STAT_CAP; u._luk18=P.luk>=STAT_CAP; u.mpRegen=d.stats.mpRegen; u.hpRegen=d.stats.hpRegen; }   // v0.89 18 특혜   // v0.88 전직 패시브는 Lv14부터
     u.traits=d.traits; u.wtype=d.wtype; u.condAffixes=d.conds; u.gx={}; for(const a of d.conds) if(a.k!=="c_sk") u.gx[a.k.slice(2)]=(u.gx[a.k.slice(2)]||0)+a.v;
     u.unlocks=d.unlocks; u.engraves=d.engraves.map(e=>({key:e,cd:0}));   // v0.44 장비 옵션 합계(u.gx)
-    u.cls=cid; Object.assign(u,d.res); u.res=d.stats.resRaw; u.resPart=true; u.look=heroLook(cid); u.lane=heroLane(cid);
+    u.cls=cid; Object.assign(u,d.res); u.res=d.stats.resRaw; u.resPart=true; u.look=heroLook(cid); u.lane=heroLane(cid); u.adv=(progress.heroes[cid]&&progress.heroes[cid].adv)||null;   // v0.94 전직별 기술 효과(수도승 내공 순환)
     if(d.traits.relic_noburn) u.immune={burn:true};
     if(d.traits.venom_immune){ u.immune=Object.assign(u.immune||{},{poison:true}); u.res=(u.res||0)+0.2; }   // v0.85 항독 체질 (v0.94 상한은 전투 계산에서)
     if(d.traits.eva_mult) u.eva=(u.eva||0)*d.traits.eva_mult;   // 반격의 춤 대가
@@ -9233,7 +9242,7 @@ const CHIP = (() => {
   // v0.32: 마을은 잔잔하게(삼각파 피리·부드러운 화음, 북 거의 없음) · 전투는 빠르고 어둡게(한 옥타브 낮은 톱니 선율·몰아치는 베이스)
   //        보스는 장엄하게(낮은 금관 선율·합창 같은 화음·팀파니, 8분 베이스로 앞으로 밀고 나감) · 광폭은 같은 주제를 더 빠르고 거칠게
   const SONGS = {
-    town: { name: "등불 도시", bpm: 76, swing: 0.04,
+    town: { name: "등불 도시", bpm: 76, swing: 0.04, then: "camp", loops: 2,   // v0.94 두 번 돌면 모닥불 밤으로(잠깐 쉬고 서서히 들어옴)
       chords: ["F", "C", "Dm", "Bb", "F", "C", "Bb", "F", "Dm", "Bb", "F", "C", "Dm", "Bb", "C", "F"],
       lead: { w: "tri", v: 0.12, vib: [4.5, 0.006], a: 0.02, r: 0.22, lp: 2200, mel:
         "A4 . . . C5 . A4 . G4 . F4 . G4 . . . | E4 . . . G4 . C5 . . . B4 . A4 . G4 . | F4 . . . A4 . D5 . . . C5 . A4 . . . | D5 . . . C5 . A4 . Bb4 . . . A4 . G4 . |" +
@@ -9398,6 +9407,18 @@ const CHIP = (() => {
       arp: { w: "tri", v: 0.0, oct: 4, pat: ". . . . . . . . . . . . . . . ." },
       drum: { pat: "T - - k s - k - T - - k s - t t", v: 0.65 } },
     // v0.94 타이틀 화면 — 밤의 서곡(E단조 84, 느린 피리 선율 위 종·팀파니) · 중간보스·우두머리 — 그림자 돌격(C단조 132)
+    // v0.94 모닥불 밤 — 대기실에서 등불 도시와 번갈아(북 없이 부드러운 펄스음 선율 + 튕기는 화음, D장조 70)
+    camp: { name: "모닥불 밤", bpm: 70, swing: 0.05, then: "town", loops: 2,
+      chords: ["D", "A", "Bm", "G", "D", "A", "G", "A"],
+      lead: { w: "p25", v: 0.075, vib: [4.5, 0.005], a: 0.02, r: 0.25, lp: 1800, mel:
+        "F#4 . . . A4 . D5 . . . C#5 . A4 . . . | E4 . . . A4 . C#5 . . . B4 . A4 . . . | B4 . . . D5 . F#5 . . . E5 . D5 . C#5 . | B4 . . . . . . . - - - - G4 . A4 . |" +
+        "A4 . . . D5 . . . F#5 . . . E5 . D5 . | C#5 . . . E5 . . . A5 . . . G5 . E5 . | D5 . . . B4 . G4 . A4 . B4 . D5 . . . | C#5 . . . . . . . . . . . - - - - |" +
+        "D5 . . . . . F#5 . A5 . . . F#5 . . . | E5 . . . . . C#5 . . . A4 . . . . . | D5 . . . C#5 . B4 . F#4 . . . B4 . . . | D5 . . . . . . . B4 . . . G4 . . . |" +
+        "F#4 . . . A4 . . . D5 . . . F#5 . . . | E5 . . . . . . . C#5 . . . A4 . . . | B4 . . . D5 . G5 . . . F#5 . E5 . D5 . | E5 . . . . . . . . . . . - - - - |" },
+      pad: { w: "tri", v: 0.028, oct: 3, a: 0.5 },
+      bass: { w: "tri", v: 0.22, oct: 2, pat: "R . . . . . . . 5 . . . . . . ." },
+      arp: { w: "tri", v: 0.04, oct: 4, pat: "1 . 2 . 3 . 2 . 1 . 2 . 3 . 2 ." },
+      drum: { pat: "- - - - - - - - - - - - - - - -", v: 0 } },
     title: { name: "밤의 서곡", bpm: 84,
       chords: ["Em", "C", "G", "D", "Em", "C", "Am", "B7"],
       lead: { w: "tri", v: 0.11, vib: [4.5, 0.008], a: 0.04, r: 0.4, lp: 1900, mel:
@@ -9458,11 +9479,18 @@ const CHIP = (() => {
     if (dp === "k") tone(bgmG, { w: "sine", f: 150, f2: 70, t, d: 0.08, v: 0.42 * dv, r: 0.05 });
     if (dp === "s") { noise(bgmG, { f: 900, q: 0.6, t, d: 0.05, v: 0.22 * dv, r: 0.08 }); tone(bgmG, { w: "tri", f: 190, f2: 120, t, d: 0.06, v: 0.2 * dv, r: 0.05 }); }
   }
+  function inChain(a, b) { let k = a; for (let i = 0; i < 6 && k && SONGS[k]; i++) { if (k === b) return true; k = SONGS[k].then; } return false; }
+  // v0.94 묶음의 다음 곡으로: 지금 곡은 마디 끝에서 서서히 줄고, 0.5초 쉰 뒤 다음 곡이 2초에 걸쳐 커짐
+  function chainTo(name) { const T = nextT, old = bgmG; old.gain.setTargetAtTime(0.0001, T, 0.5); setTimeout(() => { try { old.disconnect(); } catch (e) {} }, Math.max(0, T - now()) * 1000 + 5000);
+    bgmG = ctx.createGain(); bgmG.gain.setValueAtTime(0.0001, now()); bgmG.gain.setValueAtTime(0.0001, T + 0.45); bgmG.gain.linearRampToValueAtTime(vols.bgm, T + 2.5); bgmG.connect(bgmBus);
+    cur = name; song = SONGS[name]; mel = parseMel(song.lead.mel); step = 0; nextT = T + 0.5; }
   function pump() { if (!song) return; const sp = 60 / song.bpm / 4; if (nextT < now() - 0.02) { const miss = Math.ceil((now() + 0.03 - nextT) / sp); step += miss; nextT += miss * sp; }   // v0.32: 화면이 바빠 밀렸으면 지난 음은 건너뜀
-    while (nextT < now() + 0.25) { const sw = (step % 2 === 1 && song.swing) ? song.swing * sp : 0; schedStep(song, step, nextT + sw); nextT += sp; step++; } }
+    while (nextT < now() + 0.25) { if (song.then && SONGS[song.then] && step > 0 && step % mel.length === 0 && step / mel.length >= (song.loops || 2)) { chainTo(song.then); continue; }
+      const sp2 = 60 / song.bpm / 4, sw = (step % 2 === 1 && song.swing) ? song.swing * sp2 : 0; schedStep(song, step, nextT + sw); nextT += sp2; step++; } }
   let want = null;   // 소리가 아직 안 켜졌을 때 틀어야 할 곡(첫 클릭 때 시작)
   function bgm(name) {
     want = name || null; if (!enabled || !ctx || ctx.state !== "running") return; if (name === cur) return;
+    if (name && cur && inChain(cur, name)) return;   // v0.94 번갈아 도는 곡 묶음(등불 도시 ↔ 모닥불 밤) 안이면 지금 곡을 그대로
     const old = bgmG; if (old) { old.gain.setTargetAtTime(0.0001, now(), 0.12); setTimeout(() => { try { old.disconnect(); } catch (e) {} }, 800); }
     bgmG = ctx.createGain(); bgmG.gain.value = vols.bgm; bgmG.connect(bgmBus);
     clearInterval(timer); cur = name || null; song = SONGS[name] || null; if (!song) return;
@@ -14921,6 +14949,12 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"방어 전직 지원 · 대기실 곡 두 개", L:[
+    "성직자 없이도 버틸 수 있게 방어 전직 기술에 소량 지원을 붙였습니다. 수호기사 '성벽': 아군 전체 보호막(최대 체력 6%). 방진 수호자 '방진': 같은 가로줄 아군 2턴간 매 턴 체력 3% 회복. 수도승 '내공 순환': 같은 가로줄 다른 아군에게도 보호막(최대 체력 10%).",
+    "보호막은 한 사람당 최대 체력 40%까지 쌓입니다. 재생은 더 센 재생(생명의 샘 등)이 걸려 있으면 덮어쓰지 않습니다.",
+    "동료(직접 규칙을 짜지 않는 영웅)의 공격 성향 규칙에도 넣었습니다: 방진 수호자는 '항상 → 방진'(모두 이미 재생 중이면 건너뜀), 수도승은 '아군 2명 이상 체력 70% 이하 → 내공 순환'.",
+    "대기실 곡이 '등불 도시'(F장조 76 bpm)와 새 곡 '모닥불 밤'(D장조 70 bpm, 북 없음)을 번갈아 냅니다. 한 곡을 두 번 돌면(약 1분 40초) 마디 끝에서 서서히 줄고, 0.5초 쉰 뒤 다음 곡이 2초에 걸쳐 들어옵니다.",
+    "던전 안 쉼터 구역에서는 앞 전투곡이 그대로 이어집니다."]},
   {d:"2026.11.06", v:"v0.94", t:"새 배경음악 · 알림 더하기", L:[
     "중간보스·우두머리 전투에 새 곡 '그림자 돌격'(C단조 132 bpm, 16마디)이 나옵니다. 예전엔 보스와 같은 곡이었습니다. 체력이 절반 아래로 내려가도 광폭 곡으로 바뀌지 않습니다(진짜 보스만 바뀜).",
     "타이틀 화면(휴대폰 주소의 첫 화면)에 새 곡 '밤의 서곡'(E단조 84 bpm, 16마디)이 나옵니다. 화면을 처음 누르면 시작됩니다.",
