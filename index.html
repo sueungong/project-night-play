@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793931650283"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793935191438"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3877,7 +3877,7 @@ const LIMITS=[
   ["명중","기본 85% + 민첩 1당 0.4%p(10 기준) + 장비(투구·장갑) 명중. 실제로 맞힐 확률 = 명중 − 상대 회피(최소 20%). 띄운 적은 회피하지 못함."],
   ["레벨·각성","최고 레벨 40. 40에서 경험치가 다시 차면 각성 — 특성 포인트 +4. 각성은 횟수 제한 없이 계속할 수 있고, 할 때마다 특성 포인트를 줍니다."],
   ["퀘스트","왼쪽 메뉴의 📜 퀘스트 탭. 메인 의뢰는 황혼 1~10장마다 꼭 필요한 이야기 막 셋(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있습니다(모두 30개). 황혼에서 그 막을 처음 깨러 들어갈 때는 메인 의뢰를 받아야 하고(입장할 때 의뢰 창이 뜨면 [의뢰 받고 출발]), 앞 메인 의뢰를 보고해야 다음 메인 의뢰를 받을 수 있습니다. 막을 돌파한 뒤 보고하면 알게 된 이야기와 보상(1·3막: 그 장 일반 몹 평균 5마리분 경험치·골드 · 5막: 12마리분 + 밤의 정수 5×장 번호 + 희귀 장비 1개). 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막은 그 막 우두머리 이야기(받은 뒤 그 막 끝 우두머리를 쓰러뜨리기, 보상 5마리분), 그리고 막마다 몹 잡기 부탁(받은 뒤 그 장 그 막에서 정해진 몹 6~10마리, 어느 난이도든·정예 포함, 보상 4마리분 + 밤의 정수 장 번호, 5막은 희귀 장비 1개 더). 서브는 황혼에서 그 막이 열려 있으면 받을 수 있습니다. 받기·보고는 던전 밖에서 하고, 경험치는 그때 출전 중인 영웅마다 들어갑니다."],
-  ["특성 포인트","전직(Lv10)부터 레벨마다 1점(Lv40에 31점) + 각성마다 4점 + 큰 별마다 1점. 특성은 가운데에서 서로 얽혀 뻗는 그물(영웅마다 215칸 — 직업 공통 갈래 3 + 고른 전직 갈래 2)이라, 이미 배운 칸과 이어진 칸만 배울 수 있습니다. 궁극은 갈래 끝 20개 중 3개까지."],
+  ["특성 포인트","전직(Lv10)부터 레벨마다 1점(Lv40에 31점) + 각성마다 4점 + 큰 별마다 1점. 특성은 가운데에서 서로 얽혀 뻗는 그물(영웅마다 215칸 — 직업 공통 갈래 3 + 고른 전직 갈래 2)이라, 이미 배운 칸과 이어진 칸만 배울 수 있습니다. 궁극은 갈래 끝 20개 중 4개까지. 각성은 10번까지(최대 71점)."],
   ["전투 규칙 칸","전직 전 3칸 · 전직 후 4칸. 칸마다 조건과 쓸 스킬을 정하고, 아무것도 안 맞으면 기본공격(칸을 차지하지 않음)."],
   ["장비 강화","최대 +15(심연 핵으로 연 부위는 +18). 단계가 오를수록 성공률이 낮아집니다."],
   ["보호막","한 사람이 가진 보호막은 최대 체력의 40%를 넘지 않습니다(모든 보호막 기술·특성 공통)."],
@@ -4608,7 +4608,7 @@ const TRAITS2={
      [BG("넓은 거리","거리 두기 반격 100%","거리 두기 반격 80→100%",{skmod:{sk:"ln_distance",add:{value:0.2}}}), SM("가벼운 거리 두기",{sk:"ln_distance",mp:-3}), UL("굳건한 거리","거리 두기 저항 +30%p","거리 두기 상태이상 저항 +20→30%p",{skmod:{sk:"ln_distance",add:{resUp:0.1}}})]]]]),
  ],
 };
-const KS_MAX=3; function ksMax(cid){ return KS_MAX; }   // v0.87: 궁극은 대가 없는 마무리 특성 — 영웅마다 3개까지(갈래 20개 중 무엇을 고를지가 그 영웅의 색)
+const KS_MAX=4; function ksMax(cid){ return KS_MAX; }   // v0.94 3→4   // v0.87: 궁극은 대가 없는 마무리 특성 — 영웅마다 3개까지(갈래 20개 중 무엇을 고를지가 그 영웅의 색)
 
 const EFF_TXT={atk_pct:v=>`공격력 ${v>0?"+":""}${Math.round(v*100)}%`,hp_pct:v=>`체력 ${v>0?"+":""}${Math.round(v*100)}%`,def:v=>`방어력 +${v}`,def_pct:v=>`방어력 +${Math.round(v*100)}%`,
   crit:v=>`치명타 확률 ${v>0?"+":""}${v}%`,critdmg:v=>`치명타 피해 ${v>0?"+":""}${v}%`,spd:v=>`신속 +${v}`,counter:v=>`반격 +${Math.round(v*100)}%`,mp_pct:v=>`마나 +${Math.round(v*100)}%`,
@@ -4655,7 +4655,8 @@ function buildTraitGraph2(cid,adv){
 }
 function traitIdx(cid){ const adv=(progress&&progress.heroes&&progress.heroes[cid]&&progress.heroes[cid].adv)||null; const k=cid+"|"+(adv||""); return TRAIT_IDX[k]||(TRAIT_IDX[k]=buildTraitGraph2(cid,adv)); }
 // 특성 포인트(v0.34): 전직(Lv10)부터 레벨마다 1 → Lv40에 31 · 각성마다 4 · 큰 별마다 1
-const TRAIT_AWAKEN=4;
+const TRAIT_AWAKEN=4, AWAKEN_MAX=10;   // v0.94 각성은 10번까지(특성 포인트 Lv40 31 + 각성 40 = 71, 전체 129칸 중)
+function canAwaken(h){ return !!(h&&h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)&&(h.awaken||0)<AWAKEN_MAX); }
 // v0.94 난이도마다 영웅의 상태이상 저항이 깎임(황혼 0 · 자정 -20%p · 영원한 밤 -40%p) — 화면에는 지금 고른(진행 중인) 난이도 기준
 function curDiffIdx(){ try{ if(typeof COOP!=="undefined"&&COOP.run&&COOP.run.d!=null) return COOP.run.d; if(typeof runState!=="undefined"&&runState&&runState.d!=null) return runState.d; return (progress&&progress.diff)|0; }catch(e){ return 0; } }
 function heroResPen(d){ const D=DIFFS[d==null?curDiffIdx():d]; return (D&&D.resPen)||0; }
@@ -5119,7 +5120,7 @@ function migrateProgress(p){
     if(!Array.isArray(out.heroes[c].learned)) out.heroes[c].learned=[];
     if(!Array.isArray(out.heroes[c].traits)) out.heroes[c].traits=[];
     if(p.traitsVer!==9){ if(out.heroes[c].traits.length) out._traitRefund=true; out.heroes[c].traits=[]; }   // v0.86 특성 나무 다시 짬 → 모두 돌려줌
-    { const T=out.heroes[c].traits, isU=k=>/_(aa|ab|ba|bb)6$/.test(k); let n=T.filter(isU).length; for(let i=T.length-1;i>=0&&n>3;i--) if(isU(T[i])){ T.splice(i,1); n--; } }   // v0.87 궁극 3개 제한 — 넘친 궁극(나중에 찍은 것부터)은 포인트로 돌려줌(궁극은 가지 끝이라 빼도 길이 끊기지 않음)
+    { const T=out.heroes[c].traits, isU=k=>/_(aa|ab|ba|bb)6$/.test(k); let n=T.filter(isU).length; for(let i=T.length-1;i>=0&&n>KS_MAX;i--) if(isU(T[i])){ T.splice(i,1); n--; } }   // v0.87 궁극 3개 제한 — 넘친 궁극(나중에 찍은 것부터)은 포인트로 돌려줌(궁극은 가지 끝이라 빼도 길이 끊기지 않음)
     const eq=Object.assign({}, out.heroes[c].equip||{});
     if(eq.trinket!==undefined){ eq.amulet=eq.amulet??eq.trinket; delete eq.trinket; }
     out.heroes[c].equip=Object.assign(emptyEquip(), eq);
@@ -5139,6 +5140,7 @@ function migrateProgress(p){
     if(!out.heroes[c].mastery||typeof out.heroes[c].mastery!=="object") out.heroes[c].mastery={};
     if(!out.heroes[c].stats||typeof out.heroes[c].stats!=="object") out.heroes[c].stats={};
     if(typeof out.heroes[c].awaken!=="number") out.heroes[c].awaken=0;
+    if(out.heroes[c].awaken>AWAKEN_MAX) out.heroes[c].awaken=AWAKEN_MAX;   // v0.94 각성 10번 상한(넘던 저장은 10으로 — 이미 배운 특성은 그대로 둠)
     if(!STANCES[out.heroes[c].stance]) out.heroes[c].stance=null;
     if(out.heroes[c].title&&!TITLES.some(t=>t.key===out.heroes[c].title)) out.heroes[c].title=null;
   }
@@ -8327,13 +8329,13 @@ function companionPickTrait(cid){
 }
 // 한 동료가 스스로 판단 — 바뀐 것이 있으면 로그 문구 목록을 돌려준다
 var COMP_AUTO_ADV=false;   // v0.93 동료 전직은 플레이어가 고름(밸런스 봇만 스스로 전직)
-function awakenReady(cid){ const h=progress&&progress.heroes&&progress.heroes[cid]; return !!(h&&!isCompanion(cid)&&h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)&&traitsTaken(cid).length+Math.max(0,traitPtsLeft(cid))<allTraitNodes(cid).length); }   // 특성을 다 찍을 만큼 포인트가 있으면 알림 안 함
+function awakenReady(cid){ const h=progress&&progress.heroes&&progress.heroes[cid]; return !!(h&&!isCompanion(cid)&&canAwaken(h)); }   // 특성을 다 찍을 만큼 포인트가 있으면 알림 안 함
 function advReady(cid){ const h=progress&&progress.heroes&&progress.heroes[cid]; return !!(h&&!h.adv&&h.level>=ADV_LEVEL); }
 function companionThink(cid){
   if(!isCompanion(cid)) return [];
   const h=progress.heroes[cid], st=heroStance(cid), S=STANCES[st], who=heroDisplayName(cid), msgs=[];
   // 1) 각성
-  if(h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)){ h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&progress.heroes[cid].adv) addAdvRules(cid,advInfo(cid)); msgs.push(`✦ ${who} 스스로 각성 ${h.awaken}! (특성 +${TRAIT_AWAKEN})`); }
+  if(canAwaken(h)){ h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&progress.heroes[cid].adv) addAdvRules(cid,advInfo(cid)); msgs.push(`✦ ${who} 스스로 각성 ${h.awaken}! (특성 +${TRAIT_AWAKEN})`); }
   // 2) 전직
   if(COMP_AUTO_ADV&&!h.adv&&h.level>=ADV_LEVEL){ const key=COMPANION.adv[cid][st]; const a=ADV[cid].find(x=>x.key===key)||ADV[cid][0]; h.adv=a.key;
     msgs.push(`⭐ ${who}${jo(who,"이","가")} 스스로 전직 → ${a.name} (${S.name}) — ${a.desc}`);
@@ -8897,7 +8899,7 @@ function renderTraits(){
   }
   renderTraitMap(cid,pane);
   const leg=document.createElement("div"); leg.className="hintline tleg2";
-  leg.innerHTML=`특성 포인트: 전직(Lv${ADV_LEVEL})부터 레벨마다 1 (Lv${LEVEL_CAP}에 ${traitBase(LEVEL_CAP)}) · 각성마다 +${TRAIT_AWAKEN} · 큰 별마다 +1 — 가운데에서 이어진 칸만 배울 수 있어요. 갈래 5개(직업 공통 3 + 전직 2) · 갈래마다 줄기에서 두 길로, 길마다 다시 두 가지로 갈라져요(갈래당 35칸 · 큰 특성 6 · ★궁극 4). 잔가지 → <span style="color:#8fd9cc">✦ 작은 특성</span>(기술 하나 다듬기) → 큰 특성(기술의 동작을 바꿈) → <span style="color:#f2c14e">★ 궁극</span>(가지 끝의 마무리 — 대가 없음, 영웅마다 ${ksMax(cid)}개까지). 큰 특성·궁극 사이는 늘 3칸 · 이음길로 옆 갈래·옆 가지로 건너갈 수 있어요.`;
+  leg.innerHTML=`특성 포인트: 전직(Lv${ADV_LEVEL})부터 레벨마다 1 (Lv${LEVEL_CAP}에 ${traitBase(LEVEL_CAP)}) · 각성마다 +${TRAIT_AWAKEN}(최대 ${AWAKEN_MAX}번) · 큰 별마다 +1 — 가운데에서 이어진 칸만 배울 수 있어요. 갈래 5개(직업 공통 3 + 전직 2) · 갈래마다 줄기에서 두 길로, 길마다 다시 두 가지로 갈라져요(갈래당 35칸 · 큰 특성 6 · ★궁극 4). 잔가지 → <span style="color:#8fd9cc">✦ 작은 특성</span>(기술 하나 다듬기) → 큰 특성(기술의 동작을 바꿈) → <span style="color:#f2c14e">★ 궁극</span>(가지 끝의 마무리 — 대가 없음, 영웅마다 ${ksMax(cid)}개까지). 큰 특성·궁극 사이는 늘 3칸 · 이음길로 옆 갈래·옆 가지로 건너갈 수 있어요.`;
   pane.appendChild(leg);
   renderTraitDetail(cid);
 }
@@ -12597,7 +12599,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   const comp=isCompanion(cid);
   top.innerHTML=`<img src="${heroIcon(cid)}" alt=""${heroAuraStyle(cid)}><div class="tinfo"><div><span class="hname">${heroNameHTML(cid)}</span> <span class="lv">Lv.${h.level}${h.awaken?` <span class="awk" title="각성 ${h.awaken} — 특성 +${TRAIT_AWAKEN*h.awaken}">✦${h.awaken}</span>`:""}</span>${tt?` <span class="title" title="${esc(tt.desc)}">[${esc(tt.name)}]</span>`:""}</div>`
     +`<div class="statline">무기: <b>${esc(W.name)}</b> — ${esc(W.desc)}</div>`
-    +`<div style="display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;min-width:0"><div class="expbar" style="flex:1 1 80px"><i style="width:${Math.min(100,h.exp/need*100)}%"></i></div><span class="statline" style="white-space:normal">경험치 ${h.exp.toLocaleString("ko-KR")} / ${need.toLocaleString("ko-KR")}${h.level>=LEVEL_CAP?" · 상한(가득 차면 각성)":""}</span></div></div>`;
+    +`<div style="display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;min-width:0"><div class="expbar" style="flex:1 1 80px"><i style="width:${Math.min(100,h.exp/need*100)}%"></i></div><span class="statline" style="white-space:normal">경험치 ${h.exp.toLocaleString("ko-KR")} / ${need.toLocaleString("ko-KR")}${h.level>=LEVEL_CAP?((h.awaken||0)>=AWAKEN_MAX?` · 각성 최대(${AWAKEN_MAX}/${AWAKEN_MAX})`:` · 상한(가득 차면 각성 ${(h.awaken||0)+1}/${AWAKEN_MAX})`):""}</span></div></div>`;
   const pts=document.createElement("span"); pts.className="pts"+(comp?" comp":"");
   pts.textContent=comp?"동료 — 스스로 성장":h.pts>0?`보너스 포인트 ${h.pts}`:"";
   top.appendChild(pts);
@@ -12630,8 +12632,8 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
     advNote.innerHTML=ADV[cid].map(a=>`<b>${a.name}</b> — ${a.desc}`).join("<br>");
     card.appendChild(advNote);
   }
-  if(!comp&&h.level>=LEVEL_CAP&&h.exp>=expNeed(h.level)){
-    const aw=document.createElement("button"); aw.className="btn"; aw.textContent=`✦ 각성 (${h.awaken+1}번째)`; aw.title=`레벨 상한에서 경험치가 가득 찼습니다. 각성: 특성 포인트 +${TRAIT_AWAKEN}`;
+  if(!comp&&canAwaken(h)){
+    const aw=document.createElement("button"); aw.className="btn"; aw.textContent=`✦ 각성 (${h.awaken+1}/${AWAKEN_MAX})`; aw.title=`레벨 상한에서 경험치가 가득 찼습니다. 각성: 특성 포인트 +${TRAIT_AWAKEN}`;
     aw.onclick=()=>{ h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&progress.heroes[cid].adv) addAdvRules(cid,advInfo(cid)); saveRules(); saveProgress(); renderParty(); renderRules(); renderPtsDot();
       logLine(`<span class="win">✦ ${esc(heroDisplayName(cid))} 각성 ${h.awaken}! 특성 포인트 +${TRAIT_AWAKEN}.</span>`); };
     const awBox=document.createElement("div"); awBox.className="alloc actbox"; awBox.appendChild(aw); card.appendChild(awBox);
@@ -14360,7 +14362,7 @@ function grantExp(exp,ids){
   for(const cid of (ids||partyIds())){
     const h=progress.heroes[cid];
     h.exp+=exp;
-    if(h.level>=LEVEL_CAP){ if(h.exp>=expNeed(h.level)){ h.exp=expNeed(h.level); if(!isCompanion(cid)) logLine(`<span class="lv">✦ ${heroDisplayName(cid)} — 경험치가 가득 찼습니다. 파티·장비 탭에서 각성할 수 있습니다.</span>`); } continue; }
+    if(h.level>=LEVEL_CAP){ if(h.exp>=expNeed(h.level)){ h.exp=expNeed(h.level); if(!isCompanion(cid)&&(h.awaken||0)<AWAKEN_MAX) logLine(`<span class="lv">✦ ${heroDisplayName(cid)} — 경험치가 가득 찼습니다. 파티·장비 탭에서 각성할 수 있습니다.</span>`); } continue; }
     while(h.exp>=expNeed(h.level)&&h.level<LEVEL_CAP){
       h.exp-=expNeed(h.level);
       h.level++; const gr=rollGrowth(cid);   // v0.89 레벨업 = 체력·마나·공격력 무작위 성장(포인트 없음)
@@ -14697,12 +14699,18 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"각성 10번 · 궁극 4개", L:[
+    "각성은 영웅마다 10번까지입니다(예전에는 끝없이). 특성 포인트는 Lv40 31점 + 각성 40점 = 최대 71점(큰 별 +3)이라, 전직 후 215칸 중 3분의 1 정도만 찍을 수 있습니다.",
+    "10번을 넘겨 각성한 저장은 10으로 맞춥니다. 이미 배운 특성은 그대로 둡니다.",
+    "각성 단추에 '각성 (3/10)'처럼 횟수가 나오고, 10번을 채우면 경험치 줄에 '각성 최대(10/10)'로 나옵니다.",
+    "궁극 특성은 영웅마다 3개 → 4개까지 찍을 수 있습니다.",
+    "운영 도구 우편: '우편 보내기'를 누르면 결과가 창 안에 바로 나옵니다(보내는 중 → 보냈어요 / 보내지 못한 이유). 예전에는 결과 알림이 창 뒤에 가려 아무 반응이 없는 것처럼 보였습니다. 서버가 15초 동안 답하지 않으면 그것도 알려 줍니다."]},
   {d:"2026.11.06", v:"v0.94", t:"상태이상 저항 · 전직·각성 알림", L:[
     "상태이상 저항 상한 70% → 75%.",
     "난이도가 오를수록 영웅의 기본 저항이 깎입니다: 황혼 0 · 자정 -20%p · 영원한 밤 -40%p. 장비·기본 합계에서 빼고 상한 75%를 적용합니다. 예: 합계 80%면 황혼 75% · 자정 60% · 영원한 밤 40%. 기술로 올리는 저항(결속의 외침 등)은 깎이지 않습니다.",
     "파티 탭 능력치에 지금 난이도 기준 저항이 나오고, 옆에 '(자정 −20)'처럼 깎인 만큼 표시됩니다.",
     "전직·각성할 수 있으면 파티 탭에 숫자 점이 뜹니다. 전직·각성 단추는 영웅 카드 맨 위로 옮기고 테두리로 눈에 띄게 했습니다.",
-    "각성하면 특성 탭에 남은 특성 포인트가 점으로 뜹니다. 129칸을 다 찍을 수 있으면 더는 점이 뜨지 않습니다."]},
+    "각성하면 특성 탭에 남은 특성 포인트가 점으로 뜹니다."]},
   {d:"2026.11.06", v:"v0.94", t:"💎 보유량 표시", L:[
     "관리자 우편으로 💎 새벽 결정을 보내고 받는 흐름을 점검했습니다. 보내기·받기·💎 늘어나기는 정상이었지만, 💎 보유량이 화면 위쪽에 나오지 않아 받은 게 보이지 않았습니다(상점·횃불 창 안에서만 보였음).",
     "위쪽 줄 골드·밤의 정수 옆에 💎 보유량을 넣었습니다. 휴대폰 가로 화면처럼 좁을 때는 밤의 정수 대신 💎가 보입니다. 폭 1,100px 이하에서는 '골드'·'밤의 정수' 글자를 빼고 숫자만 보여 자리를 줄였습니다."]},
@@ -14934,13 +14942,18 @@ async function openOps(tab){
         <input id="mT" maxlength="100" placeholder="제목"><textarea id="mB" maxlength="2000" placeholder="내용(선택)"></textarea>
         <div class="opgrid"><label>골드 <input id="mG" type="number" min="0" value="0"></label><label>밤의 정수 <input id="mE" type="number" min="0" value="0"></label><label>💎 새벽 결정 <input id="mGem" type="number" min="0" value="0"></label><label>🔥 횃불 <input id="mTo2" type="number" min="0" value="0"></label><label>🌙 정액(일) <input id="mSub" type="number" min="0" max="365" value="0"></label></div>
         <div class="opgrid"><label>장비 등급 <select id="mR">${rar}</select></label><label>부위 <select id="mS">${slot}</select></label><label>개수 <input id="mN" type="number" min="0" max="20" value="1"></label><label>받을 수 있는 기간(일) <input id="mD" type="number" min="1" max="365" value="30"></label></div>
-        <p class="msub">장비 단계는 받는 사람의 지금 진행(가장 높은 드롭 단계)에 맞춰 만들어집니다.</p><button class="btn" id="mGo">우편 보내기</button></div>
+        <p class="msub">장비 단계는 받는 사람의 지금 진행(가장 높은 드롭 단계)에 맞춰 만들어집니다.</p><button class="btn" id="mGo">우편 보내기</button><p class="msub" id="mSt" role="status"></p></div>
         <h3 class="oph">보낸 우편</h3>`+(L.length?L.map(x=>`<div class="ncard"><div class="nh"><b>${esc(x.t||"")}</b><span>${x.to==="all"?"전체":esc(pName(x.to))} · ${fmtDate(x.at)} <button class="mini" data-to="${esc(x.to)}" data-id="${esc(x.id)}">회수</button></span></div><div class="nb">${esc(mailGiftText(x)||"(선물 없음)")}</div></div>`).join(""):`<p class="msub">보낸 우편이 없어요.</p>`);
+      const st=body.querySelector("#mSt"), go=body.querySelector("#mGo"), say=(h,bad)=>{ st.innerHTML=h; st.style.color=bad?"#ff8a8a":"var(--accent)"; };   // v0.94 결과를 창 안에 표시(알림은 창 뒤에 가려 안 보였음)
       body.querySelector("#mGo").onclick=async()=>{ const v=id=>Math.max(0,+body.querySelector(id).value||0);
-        const t=body.querySelector("#mT").value.trim(); if(!t) return toast("제목을 써 주세요");
+        const t=body.querySelector("#mT").value.trim(); if(!t){ say("제목을 써 주세요",true); return; }
         const o={t, body:body.querySelector("#mB").value.trim(), gold:v("#mG"), ess:v("#mE"), gem:v("#mGem"), torch:v("#mTo2"), sub:Math.min(365,Math.floor(v("#mSub"))), exp:Date.now()+v("#mD")*86400e3, items:[]};
         const r=body.querySelector("#mR").value; if(r&&v("#mN")>0) o.items.push({r, s:body.querySelector("#mS").value||"", n:Math.min(20,v("#mN"))});
-        try{ await N.ops.mailSend(body.querySelector("#mTo").value,o); toast("우편을 보냈어요"); closeModal(); openOps("mail"); }catch(e){ toast("보내지 못했어요: "+esc(e.code||e.message)); } };
+        const to=body.querySelector("#mTo").value; go.disabled=true; go.textContent="보내는 중…"; say("서버에 보내는 중…");
+        try{ await Promise.race([N.ops.mailSend(to,o), new Promise((_,rj)=>setTimeout(()=>rj(new Error("서버가 15초 동안 답하지 않음 — 인터넷 연결이나 로그인 상태를 확인해 주세요")),15000))]);
+          say(`✔ 보냈어요 — ${esc(to==="all"?"전체":pName(to))} · ${esc(mailGiftText(o)||"선물 없음")}`); toast("우편을 보냈어요"); setTimeout(()=>{ if(body.isConnected){ closeModal(); openOps("mail"); } },1200); }
+        catch(e){ const c=String((e&&(e.code||e.message))||e); say(`보내지 못했어요: ${esc(c)}${/PERMISSION|permission/.test(c)?" — 지금 로그인한 계정이 서버 관리자(admins)로 등록돼 있지 않습니다. 관리자로 등록한 Google 계정으로 로그인해 주세요.":""}`,true);
+          go.disabled=false; go.textContent="우편 보내기"; try{ N.ops.error&&N.ops.error({m:"ops mailSend: "+c,v:gameVersion()}); }catch(_){} } };
       for(const b of body.querySelectorAll("[data-id]")) b.onclick=async()=>{ try{ await N.ops.mailDel(b.dataset.to,b.dataset.id); closeModal(); openOps("mail"); }catch(e){ toast("회수하지 못했어요"); } };
     }
     if(tab==="players"){

@@ -151,7 +151,7 @@
       return list(a).concat(list(m).map(x => Object.assign(x, { mine: true }))).sort((x, y) => (y.at || 0) - (x.at || 0)); },
     mailWatch: async f => { const u = await ready; if (!u) return; const h = () => f();
       rtdb.ref("mail/all").on("value", h, () => {}); rtdb.ref("mail/u/" + u.uid).on("value", h, () => {}); },
-    mailSend: async (to, o) => { const u = await ready; const ref = to === "all" ? rtdb.ref("mail/all") : rtdb.ref("mail/u/" + safeKey(to)); await ref.push(Object.assign({}, o, { by: u.uid, at: TS })); },
+    mailSend: async (to, o) => { const u = await ready; if (!u) throw new Error("로그인되어 있지 않음(서버 연결 없음)"); const ref = to === "all" ? rtdb.ref("mail/all") : rtdb.ref("mail/u/" + safeKey(to)); await ref.push(Object.assign({}, o, { by: u.uid, at: TS })); },
     mailList: async () => { const [a, u] = await Promise.all([val("mail/all"), val("mail/u")]); const out = list(a).map(x => Object.assign(x, { to: "all" }));
       for (const [uid, box] of Object.entries(u || {})) for (const x of list(box)) out.push(Object.assign(x, { to: uid })); return out.sort((x, y) => (y.at || 0) - (x.at || 0)); },
     mailDel: async (to, id) => { await rtdb.ref((to === "all" ? "mail/all/" : "mail/u/" + safeKey(to) + "/") + safeKey(id)).remove(); },
