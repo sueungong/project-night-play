@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793964735211"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793968965985"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -8659,6 +8659,24 @@ const PARRY_BOSS_CUT=0.5;   // v0.93 되받아치기: 보스·우두머리 근�
 // v0.93 엔진 쪽(joinersDue·swapProtag)이 부르므로 UI 표식 앞에 둠 · 합류 순서: 시작 때 고른 둘 → 나머지(JOIN_ORDER 순서)
 function cleanName(v){ return String(v||"").replace(/[\u0000-\u001f<>&"'`\\]/g,"").replace(/\s+/g," ").trim().slice(0,8); }
 function joinOrderFor(pr){ const pc=pr.protag&&pr.protag.cid, base=JOIN_ORDER.filter(c=>c!==pc), sp=(pr.startPick||[]).filter(c=>base.includes(c)); return [...sp,...base.filter(c=>!sp.includes(c))]; }
+const GRADE_UP={rare:{to:"epic",frag:"rare",n:8,ess:60}, epic:{to:"legend",frag:"epic",n:20,ess:300}};   // v0.94 C안: 3·15 → 8·60 / 5·40 → 20·300
+function gradeUpInfo(it){ if(!it||it.mythic||it.relic||it.slot==="rune"||it.set) return null; return GRADE_UP[it.rarity]||null; }
+function gradeUpCan(it){ const G=gradeUpInfo(it); return !!G&&fragStore()[G.frag]>=G.n&&progress.ess>=G.ess; }
+function reforgeLm(it){ return lmOf(it.tier||0)*(1+LOOT_IN/9*(it.lmAdd||0)); }
+// v0.94 등급 올리기 핵심(게임 · 밸런스 봇 공통) — 화면·소리·저장은 부르는 쪽에서
+function gradeUpCore(it,owner){
+  const G=gradeUpInfo(it); if(!G||!gradeUpCan(it)) return null;
+  fragStore()[G.frag]-=G.n; progress.ess-=G.ess;
+  const old=it.rarity, nt=RAR_IDX[G.to], lm=reforgeLm(it);
+  it.rarity=G.to; it.base=makeBase(it.slot,nt,lm,it.cls,it.wtype);
+  it.affixes=rollAffixes((it.affixes||[]).length+1,nt,lm,affixCtx(it),it.affixes||[]);
+  if(PREFIX[old]&&it.name.includes(PREFIX[old])) it.name=it.name.replace(PREFIX[old],PREFIX[G.to]);
+  const R=RARITIES[nt]; if(R.sockets){ it.sockets=it.sockets||[]; while(it.sockets.length<R.sockets) it.sockets.push(null); }
+  if(G.to==="legend"&&!it.cls&&!it.cuniq){ if(owner&&CLASS_UNIQUES[owner]) cuRoll(it,owner); }   // 직업 전용 효과는 끼고 있는(또는 고른) 영웅의 직업으로
+  finishItem(it); return G; }
+// v0.89 늦게 합류한 동료는 지금 보유 영웅 평균 레벨까지 성장(합류하기 전 명단 기준) — 게임 · 밸런스 봇 공통
+function joinCatchUp(c){ const h=progress.heroes[c]; const ids=rosterIds().filter(x=>x!==c); const lv=Math.max(1,Math.floor(ids.reduce((a,x)=>a+progress.heroes[x].level,0)/Math.max(1,ids.length)));
+  if(h.level<lv){ for(let L=h.level;L<lv;L++) rollGrowth(c); h.level=lv; h.exp=0; } }
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
@@ -11201,7 +11219,7 @@ const WX = (()=>{
       for(const q of P) if(!q.fixed) q.x = Math.max(q.w / 2 + 4, Math.min(arR.width - q.w / 2 - 4, q.x)); if(!moved) break; }
     campGeom = {cx, cy, s: g.s, arR};
     P.forEach(q => { const el = q.el, x = q.x, y = q.y, sc = q.sc, depth = q.depth;
-      el.style.setProperty("--s", sc.toFixed(3)); el.style.setProperty("--bs", "1");
+      el.style.setProperty("--s", sc.toFixed(3)); el.style.setProperty("--bs", "1"); el.style.setProperty("--sb", (base * 0.95 * crowd).toFixed(3));   // --sb: 원근을 뺀 크기(장식 크기 기준)
       el.classList.toggle("faceL", x > cx);
       const first = !el.style.left; if(first) el.style.transition = "none";
       el.style.left = x.toFixed(1) + "px"; el.style.top = y.toFixed(1) + "px"; el.style.zIndex = String(10 + Math.round(depth * 60));
@@ -11375,7 +11393,7 @@ const WX = (()=>{
   // v0.58 모닥불 장식(최대 3개) — 불 둘레, 영웅 도트 크기에 맞춰
   let decoG = null;
   function drawDeco(now, r, dpr){ const f = field(); if(!f || !f.classList.contains("campfire") || !A.fire || typeof cosOn !== "function") return; const CD = typeof coopLobbyDeco === "function" ? coopLobbyDeco() : null; const D = CD ? CD.ids : cosOn("deco"); if(!D || !D.length) return;
-    const imgs = frameUnits(now); let P = 0; for(const el of imgs){ const ir = frameRect(el); if(ir.height){ P = ir.height / 16; break; } } if(!P) P = geom.s * 2.2;
+    const imgs = frameUnits(now); let P = 0; for(const el of imgs){ const ir = frameRect(el); if(ir.height){ const u = el.closest(".unit"), sc = u ? (parseFloat(u.style.getPropertyValue("--s")) || 1) : 1; const sb = u ? (parseFloat(u.style.getPropertyValue("--sb")) || sc) : sc; P = ir.height / sc * sb * 0.92 / 16; break; } } if(!P) P = geom.s * 2.2;   // v0.94 영웅의 원근 크기(--s)를 빼고 잼 — 영웅이 앞뒤로 움직여도 장식 크기가 그대로
     const fx0 = geom.ox + A.fire.x * geom.s, fy0 = geom.oy + A.fire.y * geom.s;
     decoG = {fx0, fy0, P, rl: r.left, rt: r.top, rw: r.width, rh: r.height};   // v0.75 꾸미기 모드가 화면 자리를 알도록
     D.forEach((id, i) => { const c = cosDecoFrame(id.slice(3), now + i * 333); if(!c) return; const [dx, dy] = CD ? (CD.pos[i] || DECO_SPOT[i] || [0, 8]) : decoPosOf(id, i); const S = 16 * P * dpr;
@@ -13124,7 +13142,6 @@ function openProtagSwap(cid){
 }
 /* v0.44 재련 — 줄마다 '종류 바꾸기'(정수 c) · '수치만'(정수 c/2, 종류 그대로) · 마음에 드는 줄 하나를 잠그고 나머지 전부 다시 굴리기(정수 c×2) */
 function reforgeTier(it){ return Math.min(it.rarity==="set"?3:4,RAR_IDX[it.rarity]||0); }
-function reforgeLm(it){ return lmOf(it.tier||0)*(1+LOOT_IN/9*(it.lmAdd||0)); }
 function reforgeValueCost(it){ return {ess:Math.max(1,Math.ceil(reforgeCost(it).ess/2))}; }
 function reforgeAllCost(it){ return {ess:reforgeCost(it).ess*2}; }
 function reforgeLine(it,i,mode){
@@ -13167,19 +13184,8 @@ function openReforge(it,lock){
   const ab=$("rfAll"); if(ab) ab.onclick=()=>{ if(progress.ess<ca.ess) return; progress.ess-=ca.ess; reforgeAll(it,lock); closeModal(); done(`${lock!=null?"잠근 줄 빼고 ":""}모든 줄을 다시 굴렸다`); };
 }
 /* v0.44 등급 올리기 — 희귀 → 영웅 → 전설. 기본 능력치가 새 등급 범위로, 옵션 1개 추가, 영웅은 고유 효과·소켓, 전설은 운명·직업 전용 효과 */
-const GRADE_UP={rare:{to:"epic",frag:"rare",n:8,ess:60}, epic:{to:"legend",frag:"epic",n:20,ess:300}};   // v0.94 C안: 3·15 → 8·60 / 5·40 → 20·300
-function gradeUpInfo(it){ if(!it||it.mythic||it.relic||it.slot==="rune"||it.set) return null; return GRADE_UP[it.rarity]||null; }
-function gradeUpCan(it){ const G=gradeUpInfo(it); return !!G&&fragStore()[G.frag]>=G.n&&progress.ess>=G.ess; }
 function gradeUp(it){
-  const G=gradeUpInfo(it); if(!G||!gradeUpCan(it)) return false;
-  fragStore()[G.frag]-=G.n; progress.ess-=G.ess;
-  const old=it.rarity, nt=RAR_IDX[G.to], lm=reforgeLm(it);
-  it.rarity=G.to; it.base=makeBase(it.slot,nt,lm,it.cls,it.wtype);
-  it.affixes=rollAffixes((it.affixes||[]).length+1,nt,lm,affixCtx(it),it.affixes||[]);
-  if(PREFIX[old]&&it.name.includes(PREFIX[old])) it.name=it.name.replace(PREFIX[old],PREFIX[G.to]);
-  const R=RARITIES[nt]; if(R.sockets){ it.sockets=it.sockets||[]; while(it.sockets.length<R.sockets) it.sockets.push(null); }
-  if(G.to==="legend"&&!it.cls&&!it.cuniq){ const ow=itemOwner(it.id)||partySel; if(ow&&CLASS_UNIQUES[ow]) cuRoll(it,ow); }   // 직업 전용 효과는 끼고 있는(또는 고른) 영웅의 직업으로
-  finishItem(it); saveProgress();
+  const old=it.rarity, G=gradeUpCore(it,(typeof itemOwner==="function"&&itemOwner(it.id))||partySel); if(!G) return false; saveProgress(); const R=RARITIES[RAR_IDX[G.to]];
   try{ SND.fx(G.to==="legend"?"loot_legend":"loot_rare"); }catch(e){}
   logLine(`<span class="win">⬆ 등급 올리기 — <span class="${rarityCls(it)}">${esc(itemLabel(it))}</span> (${RARITIES[RAR_IDX[old]].label} → ${R.label}) · ${FRAG_LABEL[G.frag]} -${G.n} · 정수 -${G.ess}</span>`);
   return true;
@@ -14794,8 +14800,7 @@ async function maybeLateJoin(){
     while(joinPendingN(progress)>0){
       const c=await pickJoiner(); if(!c||progress.roster.includes(c)) break;   // v0.93 누가 합류할지 플레이어가 고름
       const C=CLASSES[c], h=progress.heroes[c];
-      const ids=rosterIds(); const lv=Math.max(1,Math.floor(ids.reduce((a,x)=>a+progress.heroes[x].level,0)/Math.max(1,ids.length)));
-      if(h.level<lv){ for(let L=h.level;L<lv;L++) rollGrowth(c); h.level=lv; h.exp=0; }   // v0.89 늦게 합류한 동료도 그 레벨까지 성장
+      joinCatchUp(c);   // v0.89 늦게 합류한 동료도 그 레벨까지 성장(밸런스 봇과 같은 함수)
       progress.roster.push(c);
       const inP=progress.party.length<partyCap(); if(inP) progress.party.push(c);
       const lines=C.lateScene||[];
@@ -14949,6 +14954,8 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.06", v:"v0.94", t:"대기실 장식 크기", L:[
+    "함께하기 대기실에서 영웅을 앞뒤로 옮기면 모닥불 꾸미기 장식이 같이 커졌다 작아졌다 하던 문제를 고쳤습니다(측정: 예전 4.28 ↔ 5.35배 → 이제 4.81배 그대로). 장식 크기가 영웅의 원근 크기를 따라가던 것입니다."]},
   {d:"2026.11.06", v:"v0.94", t:"방어 전직 지원 · 대기실 곡 두 개", L:[
     "성직자 없이도 버틸 수 있게 방어 전직 기술에 소량 지원을 붙였습니다. 수호기사 '성벽': 아군 전체 보호막(최대 체력 6%). 방진 수호자 '방진': 같은 가로줄 아군 2턴간 매 턴 체력 3% 회복. 수도승 '내공 순환': 같은 가로줄 다른 아군에게도 보호막(최대 체력 10%).",
     "보호막은 한 사람당 최대 체력 40%까지 쌓입니다. 재생은 더 센 재생(생명의 샘 등)이 걸려 있으면 덮어쓰지 않습니다.",
