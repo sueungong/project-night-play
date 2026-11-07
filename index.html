@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794022208514"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794039284114"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -5031,7 +5031,7 @@ function cloudStatusHTML(){
     <p class="msub">계정 ID(전체): <code style="user-select:all;word-break:break-all">${esc((window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||"")}</code><br>휴대폰과 PC의 계정 ID가 같아야 같은 진행이 이어집니다. 진행이 안 보이면 이 ID를 관리자에게 알려 주세요.</p></div>`; }
 function cloudTakeRemote(){ const R=cloud.remote; if(!R||!R.doc) return; if(runState||playing){ toast("던전이 끝난 뒤에 바꿀 수 있어요.","warn"); return; }
   const before=JSON.parse(JSON.stringify(progress)), br=JSON.parse(JSON.stringify(partyRules));
-  if(applyCloud(R.doc)){ safeSet("pn_local_backup", JSON.stringify({progress:before, rules:br, at:Date.now()})); writeLocal(); closeModal(); toast(`☁ 서버 진행으로 바꿨어요 — ${esc(progressSummary(progress))}`,"good",5000); logLine(`<span class="win">☁ 서버 진행으로 바꿨습니다(이 기기 진행은 백업). ${esc(progressSummary(progress))}</span>`); } }
+  if(applyCloud(R.doc)){ { const c=(window.PNNet&&window.PNNet.auth&&window.PNNet.auth.state&&window.PNNet.auth.state())||{}; safeSet("pn_local_backup", JSON.stringify({progress:before, rules:br, at:Date.now(), uid:c.uid||"", anon:!!c.anon})); } writeLocal(); closeModal(); toast(`☁ 서버 진행으로 바꿨어요 — ${esc(progressSummary(progress))}`,"good",5000); logLine(`<span class="win">☁ 서버 진행으로 바꿨습니다(이 기기 진행은 백업). ${esc(progressSummary(progress))}</span>`); } }
 function devLabel(){ try{ const u=navigator.userAgent; return /Android/i.test(u)?"안드로이드":/iPhone|iPad/i.test(u)?"아이폰·아이패드":/Windows/i.test(u)?"윈도우 PC":/Mac/i.test(u)?"맥":/Linux/i.test(u)?"리눅스":"기기"; }catch(e){ return "기기"; } }
 function cloudPayload(){
   progress._equipped=equippedStore; progress.run=curRunSave();
@@ -5111,8 +5111,14 @@ function cloudApplyPending(){
   cloud.pending=null;
   if(applyCloud(x,true)){ setCloud("synced"); logLine(`<span class="win">☁ 다른 기기의 최신 진행을 반영했습니다 — ${esc(progressSummary(progress))}</span>`); }
 }
+// v0.94 이 기기 백업을 지금 계정이 쓸 수 있나 — 같은 계정의 백업이거나 게스트(손님) 계정에서 나온 백업만. 다른 Google 계정의 진행은 절대 넘기지 않음
+function backupUsable(b){ if(!b||!b.progress) return false; const N=window.PNNet; if(!N||!N.auth||!N.auth.state) return true;   // Claude 안: 계정이 하나뿐
+  const cur=N.auth.state(); if(!cur) return false;
+  if(b.uid) return b.uid===cur.uid||b.anon===true;
+  return !b.why;   // 계정 정보가 없는 옛 백업: 같은 계정 안에서 만든 것(서버 진행으로 바꾸기 전 백업)만
+}
 function restoreLocalBackup(){
-  const b=safeGet("pn_local_backup"); if(!b) return;
+  const b=safeGet("pn_local_backup"); if(!b) return; try{ if(!backupUsable(JSON.parse(b))) return; }catch(e){ return; }
   try{
     const data=JSON.parse(b);
     partyRules=defaultRules();
@@ -5127,11 +5133,12 @@ function restoreLocalBackup(){
 // v0.94 계정을 바꿔 들어온 직후(게스트 → Google 연결 중 전환 · 직접 로그아웃 뒤 새 로그인): 게스트 진행 / 이 계정 진행 중 고르게 함
 function offerBackupAdopt(cloudReal){ try{
   const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress||!hasMeaningfulProgress(b.progress)) return;
+  if(!b.anon||!backupUsable(b)) return;   // v0.94 게스트 진행만 다른 계정으로 넘길 수 있음(Google 계정 진행은 그 계정 로그인에서만)
   if(b.asked||!/^(switch|logout)$/.test(b.why||"")||Date.now()-(b.at||0)>7*86400e3) return;   // 계정을 바꿔 들어온 직후 한 번만
   const mark=()=>{ try{ const x=JSON.parse(safeGet("pn_local_backup")||"null"); if(x){ x.asked=true; safeSet("pn_local_backup",JSON.stringify(x)); } }catch(e){} };
   const who=P=>{ const pg=P.protag; const lv=pg&&P.heroes&&P.heroes[pg.cid]?P.heroes[pg.cid].level||1:"?"; return pg?`<b>${esc(pg.name||"이름 없음")}</b> · ${esc((CLASSES[pg.cid]||{}).name||"")} Lv.${lv}${P.heroes&&P.heroes[pg.cid]&&P.heroes[pg.cid].awaken?` · 각성 ${P.heroes[pg.cid].awaken}`:""}`:"<b>주인공 없음</b>"; };
   const takeGuest=()=>{ adoptAsking=false; closeModal(); if(onboardBusy&&creationCancel) creationCancel();
-    const keep=hasMeaningfulProgress(progress)?{progress:JSON.parse(JSON.stringify(progress)), rules:JSON.parse(JSON.stringify(partyRules)), at:Date.now(), why:"account", asked:true}:null;
+    const keep=hasMeaningfulProgress(progress)?{progress:JSON.parse(JSON.stringify(progress)), rules:JSON.parse(JSON.stringify(partyRules)), at:Date.now(), why:"account", asked:true, uid:((window.PNNet&&window.PNNet.auth&&window.PNNet.auth.state&&window.PNNet.auth.state())||{}).uid||"", anon:false}:null;
     restoreLocalBackup(); try{ if(keep) safeSet("pn_local_backup",JSON.stringify(keep)); else localStorage.removeItem("pn_local_backup"); }catch(x){} cloudFlush();
     toast(`☁ 게스트 진행을 이 계정 진행으로 정했어요 — ${esc(progressSummary(progress))}`,"good",6000); };
   const keepAcct=()=>{ adoptAsking=false; mark(); closeModal(); if(!hasMeaningfulProgress(progress)){ telling=false; maybeOnboard(); } };
@@ -5176,7 +5183,7 @@ async function cloudInit(){
     if(applyCloud(d)){
       setCloud("synced");
       if(localReal&&JSON.stringify(before.heroes)!==JSON.stringify(cloudProg.heroes)){
-        safeSet("pn_local_backup", JSON.stringify({progress:before, rules:beforeRules, at:Date.now()}));
+        { const c=(window.PNNet&&window.PNNet.auth&&window.PNNet.auth.state&&window.PNNet.auth.state())||{}; safeSet("pn_local_backup", JSON.stringify({progress:before, rules:beforeRules, at:Date.now(), uid:c.uid||"", anon:!!c.anon})); }
         logLine(`<span class="win">☁ 다른 기기에서 저장한 진행을 불러왔습니다 — ${esc(progressSummary(progress))}</span>`);
         logLine(`<span class="r">이 기기의 이전 진행(${esc(progressSummary(before))})은 백업해 두었습니다. <button class="mini" onclick="restoreLocalBackup()">이 기기 진행으로 되돌리기</button></span>`);
         showTab("log");
@@ -14957,7 +14964,7 @@ function openSettings(){
     <div class="sblock"><div class="slabel">그래픽</div><div class="srow" id="gfxSeg" style="display:flex;gap:6px;flex-wrap:wrap">${[["auto","자동"],["high","높음"],["low","저사양"]].map(([k,l])=>`<button class="btn ${GFX.mode===k?"":"ghost"}" data-gfx="${k}">${l}</button>`).join("")}</div>
       <p class="msub">자동: 처음 몇 초 동안 재 보고 느리면 저사양으로 바꿉니다${GFX.mode==="auto"?` (지금 <b>${GFX.low?"저사양":"높음"}</b>)`:""}. 저사양: 초당 20장 · 화면 해상도 1배 · 그림자·흐림·앞쪽 날씨 끔 — 버벅이면 저사양으로 두세요.</p></div>
     ${helpBlockHTML()}
-    ${window.PNNet?window.PNNet.settingsHTML():""}${cloudStatusHTML()}${(()=>{ try{ const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress) return ""; return `<div class="sblock"><div class="slabel">이 기기의 이전 진행</div><p class="msub">계정을 바꾸거나 다른 기기 진행을 불러오기 전에 이 기기에 있던 진행을 보관해 두었습니다: <b>${esc(progressSummary(migrateProgress(JSON.parse(JSON.stringify(b.progress)))))}</b> (${fmtDate(b.at)}). 되돌리면 이 진행이 지금 계정에 저장되어 모든 기기에 반영됩니다.</p><div class="srow"><button class="btn ghost" id="bkRestore">이 진행으로 되돌리기</button></div></div>`; }catch(e){ return ""; } })()}
+    ${window.PNNet?window.PNNet.settingsHTML():""}${cloudStatusHTML()}${(()=>{ try{ const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress||!backupUsable(b)) return ""; return `<div class="sblock"><div class="slabel">이 기기의 이전 진행</div><p class="msub">계정을 바꾸거나 다른 기기 진행을 불러오기 전에 이 기기에 있던 진행을 보관해 두었습니다: <b>${esc(progressSummary(migrateProgress(JSON.parse(JSON.stringify(b.progress)))))}</b> (${fmtDate(b.at)}). 되돌리면 이 진행이 지금 계정에 저장되어 모든 기기에 반영됩니다.</p><div class="srow"><button class="btn ghost" id="bkRestore">이 진행으로 되돌리기</button></div></div>`; }catch(e){ return ""; } })()}
     <div class="sblock"><div class="slabel">의견 보내기</div><p class="msub">버그·난이도·불편한 점·아이디어를 게임 상태와 함께 보낼 수 있어요.</p><div class="srow"><button class="btn" onclick="closeModal();openFeedback()">💬 의견 보내기</button></div></div>
     
     <div class="sblock"><div class="slabel">새 게임</div><p class="msub">레벨·장비·골드·증표·엔딩 기록이 모두 지워지고 프롤로그부터 다시 시작합니다. 클라우드 저장도 함께 초기화되어 <b>다른 컴퓨터에서도</b> 처음부터 시작합니다. 되돌릴 수 없습니다.</p><button id="newGame" class="dangerb">처음부터 다시 시작</button></div>
@@ -15009,6 +15016,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.07", v:"v0.94", t:"계정 진행 분리", L:[
+    "Google 계정으로 하다가 로그아웃하고 게스트로 들어오면 Google 계정 진행이 게스트에 넘어갈 수 있던 문제를 고쳤습니다. 이제 Google 계정 진행은 그 Google 계정으로 로그인했을 때만 쓸 수 있습니다.",
+    "다른 계정으로 넘길 수 있는 건 게스트(손님) 진행뿐입니다(게스트 → Google 연결). 다른 계정에서 나온 진행은 설정 '이 기기의 이전 진행'에도 보이지 않습니다."]},
   {d:"2026.11.07", v:"v0.94", t:"계정 · 서버 저장 바로잡기", L:[
     "게스트로 하다가 초대 코드 화면에서 '다른 계정으로 로그인'을 누르면 이 기기 진행이 백업 없이 지워지던 문제를 고쳤습니다. 이제 로그아웃 · 계정 바꾸기 전에는 늘 이 기기 진행을 백업하고, ⚙ 설정 '이 기기의 이전 진행'에서 되살릴 수 있습니다.",
     "첫 화면과 초대 코드 화면에 '이 게스트 진행 그대로 Google 계정 연결' 단추를 넣었습니다(같은 계정 ID를 유지해 진행이 그대로 Google 계정에 붙음).",
@@ -15163,8 +15173,8 @@ function titleScreen(){
     let outArm=false;
     const msg=t=>{ const m=el.querySelector("#tMsg"); if(m) m.innerHTML=t||""; };
     const finish=()=>{ const st=N.auth.state();
-      try{ const last=safeGet("pn_last_uid"); if(st&&last&&last!==st.uid){ try{ const pg=safeGet("pn_progress_v02"), rl=safeGet("pn_rules_v01"); if(pg){ const P=JSON.parse(pg); if(P&&P.heroes&&hasMeaningfulProgress(P)) safeSet("pn_local_backup",JSON.stringify({progress:P, rules:rl?JSON.parse(rl):null, at:Date.now(), why:"switch", uid:last})); } }catch(x){}   // v0.94 지우기 전에 백업
-          for(const k of ["pn_progress_v02","pn_rules_v01"]) localStorage.removeItem(k); } if(st) safeSet("pn_last_uid",st.uid); }catch(e){}   // 다른 계정으로 바꿔 들어오면 이 기기의 예전 진행을 섞지 않음
+      try{ const last=safeGet("pn_last_uid"); if(st&&last&&last!==st.uid){ try{ const pg=safeGet("pn_progress_v02"), rl=safeGet("pn_rules_v01"); if(pg){ const P=JSON.parse(pg); if(P&&P.heroes&&hasMeaningfulProgress(P)) safeSet("pn_local_backup",JSON.stringify({progress:P, rules:rl?JSON.parse(rl):null, at:Date.now(), why:"switch", uid:last, anon:safeGet("pn_last_anon")==="1"})); } }catch(x){}   // v0.94 지우기 전에 백업
+          for(const k of ["pn_progress_v02","pn_rules_v01"]) localStorage.removeItem(k); } if(st){ safeSet("pn_last_uid",st.uid); safeSet("pn_last_anon",st.anon?"1":"0"); } }catch(e){}   // 다른 계정으로 바꿔 들어오면 이 기기의 예전 진행을 섞지 않음
       el.classList.add("out"); setTimeout(()=>el.remove(),260); done(); };
     const render=()=>{ const st=N.auth.state(); outArm=false;
       if(!st){

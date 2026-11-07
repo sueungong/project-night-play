@@ -97,7 +97,7 @@
   }
   // v0.94 이 기기 진행을 지우는 모든 길(로그아웃 · 계정 바꾸기)에서 먼저 백업 — 설정 '이 기기의 이전 진행'에서 되살림
   function backupLocal(why) { try { const pg = localStorage.getItem("pn_progress_v02"), rl = localStorage.getItem("pn_rules_v01"); if (!pg) return;
-    const P = JSON.parse(pg); if (!P || !P.heroes) return; localStorage.setItem("pn_local_backup", JSON.stringify({ progress: P, rules: rl ? JSON.parse(rl) : null, at: Date.now(), why, uid: (auth.currentUser && auth.currentUser.uid) || "" })); } catch (e) {} }
+    const P = JSON.parse(pg); if (!P || !P.heroes) return; localStorage.setItem("pn_local_backup", JSON.stringify({ progress: P, rules: rl ? JSON.parse(rl) : null, at: Date.now(), why, uid: (auth.currentUser && auth.currentUser.uid) || "", anon: !!(auth.currentUser && auth.currentUser.isAnonymous) })); } catch (e) {} }   // anon: 게스트 진행만 다른 계정으로 넘길 수 있음
   function confirmBox(t) { try { return window.confirm(t); } catch (e) { return true; } }
   async function google() {
     const prov = new fb.auth.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
