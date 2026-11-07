@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794070879862"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794072380749"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1968,7 +1968,7 @@ const SKILLS = {
   ft_aircombo:   { name:"공중 연타",       type:"damage",    power:0.55, mp:14, aoe:false, range:"melee", multi:3, airMulti:5, airFinish:1.2, momCost:2 },
   ft_whirl:      { name:"회오리 발차기",   type:"damage",    power:1.0, mp:16, aoe:false, range:"melee", aoeFront:true, airAmp:0.6, momCost:2 },
   ft_ascend:     { name:"승천권",          type:"damage",    power:1.4, mp:10, aoe:false, range:"melee", airKillMom:3, momCost:1 },
-  ft_heavendragon:{ name:"천룡파",         type:"damage",    power:2.5, mp:22, aoe:true,  range:"melee", reach:true, airOnly:true, momCost:5 },
+  ft_heavendragon:{ name:"천룡파",         type:"damage",    power:2.5, mp:22, aoe:true,  range:"melee", reach:true, airOnly:true, momCost:4 }   /* v0.95 기세 5 → 4: 올려차기(기세 2) 다음 행동에 바로 쓸 수 있게(최대 기세 5) */,
   /* 총사 — ① 한 방 ② 표식·지원 ③ 제압 (보통 사격 = 탄만 · 사격이 아닌 기술 = 마나만 · 특수탄 = 탄+마나) */
   gn_precise:    { name:"정밀 사격",       type:"damage",    power:2.4, mp:0,  aoe:false, range:"ranged", ammo:3, synCrit:true },
   gn_pierce:     { name:"관통탄",          type:"damage",    power:1.7, mp:0,  aoe:false, range:"ranged", ammo:2, pierceAll:true, lance:0.7 },
@@ -2410,7 +2410,7 @@ const R_A="al", R_F2="foes:foe:2:ge", R_F3="foes:foe:3:ge", R_FR2="foes:front:2:
   R_MP30="hp:me:1:mp:ge:30", R_MP40="hp:me:1:mp:ge:40", R_MP50="hp:me:1:mp:ge:50", R_MP70="hp:me:1:mp:ge:70",
   R_LOW35="hp:foe:1:hp:le:35", R_DEAD="ast:ally:dead", R_ADEB="ast:ally:debuff", R_ADEB2="ast:ally:debuff:2", R_MEDEB="ast:me:debuff", R_STEALTH="ast:me:stealth",
   R_CC="fst:cc:0:1:ge", R_AIR="fst:air:0:1:ge", R_BURN="fst:burn:0:1:ge", R_BURN2="fst:burn:0:2:ge", R_CHILL2="fst:chill:2:1:ge", R_VULN="fst:vuln:0:1:ge", R_NOVULN="fst:vuln:0:0:le", R_NOWEAK="fst:weak:0:0:le",
-  R_PSN3="fst:poison:3:1:ge", R_PSN5="fst:poison:5:1:ge", R_CB3="res:combo:ge:3", R_MOM3="res:mom:ge:3", R_MOM5="res:mom:ge:5", R_RES5="res:res:ge:5", R_RES8="res:res:ge:8", R_AMMO1="res:ammo:le:1", R_NOKEG="res:keg:le:0", R_T3="turn:3", R_T3LE="turn:3:le", R_NOAIR="fst:air:0:0:le";
+  R_PSN3="fst:poison:3:1:ge", R_PSN5="fst:poison:5:1:ge", R_CB3="res:combo:ge:3", R_MOM3="res:mom:ge:3", R_MOM4="res:mom:ge:4", R_MOM5="res:mom:ge:5", R_RES5="res:res:ge:5", R_RES8="res:res:ge:8", R_AMMO1="res:ammo:le:1", R_NOKEG="res:keg:le:0", R_T3="turn:3", R_T3LE="turn:3:le", R_NOAIR="fst:air:0:0:le";
 const RULESET={
   knight:{   // 검사: 앞줄 방패 — 도발은 어느 성향이든 늘
     base:{ atk:[["kn_challenge",R_A,0,0,0],["kn_slam",R_CC,0,0,10],["kn_bash",R_A,0,0,0]],
@@ -2469,9 +2469,9 @@ const RULESET={
       surv:[["ft_diamond",R_ME50,2,R_MEDEB,0],["ft_stance",R_A,0,0,0],["ft_parry",R_A,0,0,0],["ft_palm",R_A,0,0,4]],
       supp:[["ft_stance",R_A,0,0,0],["ft_cycle",R_AL70,0,0,0],["ft_diamond",R_ME50,2,R_MEDEB,0],["ft_triple",R_A,0,0,10]] },
     dragon_fist:{   // 용권사: 띄우고 공중에서 두들김
-      atk:[["ft_heavendragon",R_AIR,1,R_MOM5,0],["ft_aircombo",R_AIR,0,0,10],["ft_launch",R_NOAIR,0,0,0],["ft_triple",R_A,0,0,10]],
-      surv:[["ft_breath",R_ME50,2,R_MEDEB,0],["ft_heavendragon",R_AIR,1,R_MOM5,0],["ft_launch",R_NOAIR,0,0,0],["ft_ascend",R_A,0,0,10]],
-      supp:[["ft_heavendragon",R_AIR,1,R_MOM5,0],["ft_whirl",R_AIR,0,0,0],["ft_launch",R_NOAIR,0,0,0],["ft_triple",R_A,0,0,10]] } },
+      atk:[["ft_heavendragon",R_AIR,1,R_MOM4,0],["ft_aircombo",R_AIR,0,0,10],["ft_launch",R_NOAIR,0,0,0],["ft_triple",R_A,0,0,10]],
+      surv:[["ft_breath",R_ME50,2,R_MEDEB,0],["ft_heavendragon",R_AIR,1,R_MOM4,0],["ft_launch",R_NOAIR,0,0,0],["ft_ascend",R_A,0,0,10]],
+      supp:[["ft_heavendragon",R_AIR,1,R_MOM4,0],["ft_whirl",R_AIR,0,0,0],["ft_launch",R_NOAIR,0,0,0],["ft_triple",R_A,0,0,10]] } },
   gunner:{   // 총사: 뒷줄 사격
     base:{ atk:[["gn_mark",R_NOVULN,0,0,3],["gn_pierce",R_LANE,0,0,4],["gn_precise",R_A,0,0,9]],
            surv:[["gn_flash",R_F2,0,0,0],["gn_cover",R_A,0,0,0],["gn_precise",R_A,0,0,9]],
@@ -2513,7 +2513,7 @@ const RULESET={
            surv:[["ln_wall",R_A,0,0,0],["ln_distance",R_AL50,0,0,5],["ln_pierce",R_A,0,0,0]],
            supp:[["ln_distance",R_ADEB,2,R_AL50,5],["ln_throw",R_BACK,0,0,0],["ln_pierce",R_A,0,0,0]] },
     dragoon:{   // 용기병: 일렬 천공 · 도약 · 띄운 적 연속 찌르기
-      atk:[["ln_skypierce",R_LANE,0,0,0],["ln_flurry",R_AIR,0,0,10],["ln_leap",R_MP30,0,0,1],["ln_charge",R_A,0,0,1]],
+      atk:[["ln_flurry",R_AIR,0,0,10],["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,1],["ln_charge",R_A,0,0,1]],
       surv:[["ln_wall",R_A,0,0,0],["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_pierce",R_A,0,0,0]],
       supp:[["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,14],["ln_pierce",R_A,0,0,0]] },
     phalanx:{   // 방진 수호자: 방진 · 불굴의 창으로 줄을 지키고 반격
@@ -2523,6 +2523,7 @@ const RULESET={
 };
 const OLD_RULE_SIG_094=new Set(["kn_challenge|foes:foe:2:ge|0|al", "kn_slam|fst:cc:0:1:ge|0|al", "kn_bash|al|0|al", "kn_stand|hp:me:1:hp:le:50|0|al", "kn_riposte|al|0|al", "kn_bond|ast:ally:debuff|2|hp:ally:2:hp:le:60", "kn_rampart|hp:ally:1:hp:le:50|0|al", "kn_retal|foes:foe:2:ge|0|al", "kn_unyield|ast:me:debuff|2|hp:me:1:hp:le:50", "kn_rampart|foes:foe:2:ge|0|al", "kn_oath|hp:ally:1:hp:le:50|0|al", "kn_bond|ast:ally:debuff|0|al", "kn_final|hp:foe:1:hp:le:40|0|al", "kn_frenzy|foes:foe:2:ge|0|al", "kn_challenge|foes:foe:3:ge|0|al", "kn_bloodprice|al|0|al", "kn_drink|hp:me:1:hp:le:50|0|al", "kn_stand|hp:me:1:hp:le:30|0|al", "mg_wave|foes:foe:3:ge|0|al", "mg_beam|hp:me:1:mp:ge:70|0|al", "mg_siphon|al|0|al", "mg_frostward|foes:foe:2:ge|1|hp:me:1:mp:ge:30", "mg_icicle|hp:me:1:mp:ge:30|0|al", "mg_frostward|foes:foe:3:ge|0|al", "mg_beam|fst:vuln:0:1:ge|0|al", "mg_ember|al|0|al", "mg_overload|hp:me:1:mp:ge:70|0|al", "mg_ashburst|foes:foe:2:ge|0|al", "mg_phoenix|hp:me:1:mp:ge:30|0|al", "mg_steam|fst:chill:2:1:ge|2|fst:stun:0:1:ge", "mg_phoenix|foes:foe:2:ge|0|al", "mg_steam|fst:chill:2:1:ge|0|al", "mg_eternal|fst:chill:2:1:ge|0|al", "mg_froststorm|foes:foe:3:ge|0|al", "mg_iceprison|foes:foe:2:ge|0|al", "mg_icicle|al|0|al", "mg_frostcoat|hp:ally:2:hp:le:60|0|al", "mg_froststorm|foes:foe:2:ge|0|al", "pr_rain|hp:ally:2:hp:le:60|0|al", "pr_mend|hp:ally:1:hp:le:30|0|al", "pr_lance|al|0|al", "pr_revive|ast:ally:dead|0|al", "pr_cleanse|ast:ally:debuff|0|al", "pr_mend|al|0|al", "pr_grace|foes:foe:2:ge|0|al", "pr_mend|hp:ally:1:hp:le:50|0|al", "pr_spring|hp:ally:2:hp:le:60|0|al", "pr_salvation|hp:ally:1:hp:le:30|0|al", "pr_barrier|foes:foe:2:ge|0|al", "pr_chant|ast:ally:debuff|0|al", "pr_barrier|hp:ally:1:hp:le:50|0|al", "pr_brand|foes:foe:2:ge|0|al", "pr_hammer|hp:me:1:mp:ge:30|0|al", "pr_judgefire|al|0|al", "pr_atone|al|0|al", "pr_hammer|al|0|al", "rg_finisher|res:combo:ge:3|0|al", "rg_shadowstep|turn:3|0|al", "rg_hamstring|al|0|al", "rg_smoke|hp:me:1:hp:le:50|0|al", "rg_venomblade|al|0|al", "rg_smoke|ast:ally:debuff|2|hp:ally:2:hp:le:60", "rg_clone|res:combo:ge:3|0|al", "rg_shadowblade|ast:me:stealth|0|al", "rg_throat|hp:foe:1:hp:le:40|0|al", "rg_shadowstep|al|0|al", "rg_mark|fst:vuln:0:0:le|0|al", "rg_smoke|ast:ally:debuff|0|al", "rg_decay|fst:poison:3:1:ge|0|al", "rg_rupture|fst:poison:3:1:ge|0|al", "rg_miasma|foes:foe:2:ge|1|hp:me:1:mp:ge:30", "rg_antidote|ast:ally:debuff|0|al", "rg_dart|al|0|al", "rg_miasma|foes:foe:3:ge|0|al", "rg_smoke|hp:ally:2:hp:le:60|0|al", "ft_burst|res:mom:ge:5|0|al", "ft_launch|res:mom:ge:3|0|al", "ft_triple|al|0|al", "ft_breath|hp:me:1:hp:le:50|2|ast:me:debuff", "ft_parry|foes:foe:2:ge|0|al", "ft_shoulder|res:mom:ge:3|0|al", "ft_breath|ast:me:debuff|0|al", "ft_diamond|hp:me:1:hp:le:50|2|ast:me:debuff", "ft_palm|res:mom:ge:3|0|al", "ft_stance|foes:foe:3:ge|0|al", "ft_cycle|ast:me:debuff|0|al", "ft_diamond|hp:me:1:hp:le:50|0|al", "ft_stance|foes:foe:2:ge|0|al", "ft_breath|hp:me:1:hp:le:30|0|al", "ft_parry|al|0|al", "ft_diamond|ast:me:debuff|2|hp:me:1:hp:le:50", "ft_heavendragon|fst:air:0:1:ge|0|al", "ft_aircombo|fst:air:0:1:ge|0|al", "ft_whirl|foes:foe:3:ge|0|al", "ft_ascend|fst:air:0:1:ge|0|al", "gn_mark|fst:vuln:0:0:le|0|al", "gn_precise|fst:vuln:0:1:ge|0|al", "gn_pierce|al|0|al", "gn_flash|foes:foe:3:ge|0|al", "gn_cover|foes:foe:2:ge|0|al", "gn_precise|al|0|al", "gn_scatter|al|0|al", "gn_headshot|fst:vuln:0:1:ge|0|al", "gn_through|foes:foe:2:ge|0|al", "gn_hold|res:ammo:le:2|0|al", "gn_expose|fst:vuln:0:0:le|0|al", "gn_headshot|al|0|al", "gn_blast|foes:foe:2:ge|0|al", "gn_firerain|foes:foe:3:ge|0|al", "gn_keg|res:keg:le:0|1|foes:foe:2:ge", "gn_firerain|foes:foe:2:ge|0|al", "gn_flash|hp:ally:1:hp:le:30|0|al", "gn_frag|fst:vuln:0:0:le|0|al", "bd_valor|al|0|al", "bd_echo|res:res:ge:5|0|al", "bd_uplift|al|0|al", "bd_rest|al|0|al", "bd_soothe|hp:ally:1:hp:le:50|2|ast:ally:debuff", "bd_echo|al|0|al", "bd_soothe|hp:ally:1:hp:le:50|0|al", "bd_rest|hp:ally:1:hp:le:50|0|al", "bd_march|al|0|al", "bd_volley|res:res:ge:8|0|al", "bd_order|res:res:ge:5|1|hp:foe:1:hp:le:40", "bd_drum|res:res:ge:5|0|al", "bd_order|res:res:ge:5|0|al", "bd_mock|al|0|al", "bd_dance|foes:foe:3:ge|0|al", "bd_lullaby|res:res:ge:5|0|al", "bd_unease|al|0|al", "bd_laugh|ast:ally:debuff|0|al", "bd_dance|foes:foe:3:ge|1|res:res:ge:5", "ar_prey|hp:me:1:mp:ge:30|0|al", "ar_rain|foes:foe:3:ge|0|al", "ar_rapid|al|0|al", "ar_bind|foes:foe:2:ge|0|al", "ar_venom|hp:me:1:mp:ge:30|0|al", "ar_venom|foes:foe:2:ge|0|al", "ar_pierce|al|0|al", "ar_windread|hp:me:1:mp:ge:30|0|al", "ar_thousand|foes:foe:3:ge|0|al", "ar_storm|hp:me:1:mp:ge:30|0|al", "ar_rain|foes:foe:2:ge|0|al", "ar_galepierce|foes:foe:2:ge|0|al", "ar_bind|hp:me:1:mp:ge:30|0|al", "ar_storm|al|0|al", "ar_weakhunt|hp:foe:1:hp:le:40|0|al", "ar_hound|hp:me:1:mp:ge:30|0|al", "ar_trap|foes:foe:2:ge|0|al", "ar_vine|hp:me:1:hp:le:50|0|al", "ar_venom|al|0|al", "ar_vine|foes:foe:2:ge|0|al", "ar_trap|foes:foe:3:ge|0|al", "ln_sweep|foes:foe:3:ge|0|al", "ln_charge|hp:me:1:mp:ge:30|0|al", "ln_pierce|al|0|al", "ln_wall|hp:me:1:hp:le:50|2|foes:foe:2:ge", "ln_distance|hp:ally:1:hp:le:50|0|al", "ln_distance|ast:ally:debuff|2|hp:ally:1:hp:le:50", "ln_throw|hp:me:1:mp:ge:30|0|al", "ln_skypierce|foes:foe:2:ge|0|al", "ln_leap|hp:me:1:mp:ge:30|0|al", "ln_flurry|hp:me:1:mp:ge:30|0|al", "ln_wall|hp:me:1:hp:le:50|0|al", "ln_hunt|hp:ally:1:hp:le:50|0|al", "ln_leap|hp:me:1:hp:le:30|0|al", "ln_flurry|fst:air:0:1:ge|0|al", "ln_check|hp:me:1:mp:ge:30|0|al", "ln_unbroken|ast:ally:debuff|2|hp:ally:1:hp:le:50", "ln_tipcounter|foes:foe:2:ge|0|al", "ln_phalanx|hp:ally:1:hp:le:50|0|al", "ln_unbroken|ast:ally:debuff|2|hp:me:1:hp:le:50", "ln_wall|foes:foe:2:ge|0|al", "ln_phalanx|hp:me:1:hp:le:50|0|al", "ln_unbroken|ast:ally:debuff|2|hp:ally:2:hp:le:60", "ln_sweep|al|0|al"]);   // v0.93 기본 규칙표의 줄(기술|조건1|논리|조건2) — 직접 고치지 않은 규칙을 가려 새 표로 옮길 때
 // v0.95 전직 규칙표 조정(스킬 순환 진단) 전에만 있던 줄 — 예전 표 그대로인 영웅을 새 표로 바꿀 때 알아봄
+const OLD_RULE_SIG_095B=new Set(["ft_heavendragon|fst:air:0:1:ge|1|res:mom:ge:5"]);   // v0.95 천룡파 기세 4 — 먼저 받은 새 표(기세 5 조건)
 const OLD_RULE_SIG_095=new Set(["kn_rampart|al|0|al","kn_bloodprice|hp:me:1:hp:ge:50|0|al","mg_ashburst|fst:burn:0:2:ge|0|al","mg_iceprison|foes:foe:2:ge|0|al","mg_frostcoat|al|0|al","pr_barrier|al|0|al","pr_chant|ast:ally:debuff:2|0|al","pr_brand|al|0|al","pr_hammer|fst:burn:0:1:ge|0|al","pr_judgefire|foes:foe:2:ge|1|hp:me:1:mp:ge:50","ft_cycle|hp:ally:2:hp:le:70|0|al","ft_palm|foes:lane:1:ge|0|al","ft_cycle|ast:me:debuff|0|al","ft_heavendragon|fst:air:0:1:ge|0|al","ft_ascend|fst:air:0:1:ge|0|al","ft_whirl|foes:front:2:ge|0|al","bd_volley|res:res:ge:8|0|al","bd_order|res:res:ge:5|0|al","ar_storm|hp:me:1:mp:ge:30|0|al","ar_trap|al|0|al"]);
 const RULESET_STANCE0={knight:"surv", mage:"atk", priest:"supp", rogue:"atk", fighter:"atk", gunner:"atk", bard:"supp", archer:"atk", lancer:"atk"};   // = STANCE_DEFAULT (아래에서 정의 — 순서 때문에 여기 따로)
 function ruleRow(e){ return {enabled:true,c1:e[1],logic:e[2],c2:e[3],skill:e[0],target:e[4]}; }
@@ -3855,7 +3856,7 @@ const STAR_BIG_COST=10;
 function starOpen(cid){ return progress.heroes[cid].level>=STAR_LV; }
 /* 강화 15단계 · 재질 5티어 (v0.55.4: 금 감 없음 · 실패는 한 단계 하락만) */
 const ENH_MAX=15;
-const ENH_RATE=[1,1,1,0.95,0.9,0.85,0.75,0.65,0.55,0.35,0.25,0.18,0.12,0.08,0.05,0.05,0.03,0.02];   // v0.95 B안: +10~+15 성공률 낮춤(45/35/28/20/14/8% → 35/25/18/12/8/5%) — 보호 주문서와 함께   // v0.59: +16~+18은 심연 핵으로 연 부위만   // v0.55.4: 윗단계 성공률 크게 낮춤(+10→45% … +14→8%) — 하락이 한 단계뿐인 대신
+const ENH_RATE=[1,1,1,0.95,0.9,0.85,0.75,0.65,0.55,0.35,0.25,0.18,0.12,0.08,0.05,0.04,0.025,0.015];   // v0.95 B안: +10~+15 성공률 낮춤(45/35/28/20/14/8% → 35/25/18/12/8/5%) · 심연 +16~+18 5/3/2% → 4/2.5/1.5% — 보호 주문서와 함께   // v0.59: +16~+18은 심연 핵으로 연 부위만   // v0.55.4: 윗단계 성공률 크게 낮춤(+10→45% … +14→8%) — 하락이 한 단계뿐인 대신
 const ENH_TIERS=[{min:0,name:"철",cls:"m-iron"},{min:4,name:"강철",cls:"m-steel"},{min:7,name:"미스릴",cls:"m-mithril"},{min:10,name:"흑요석",cls:"m-obsidian"},{min:13,name:"별철",cls:"m-starsteel"},{min:16,name:"심연철",cls:"m-abyss"}];
 const ENH_ABYSS=18;   // v0.59: 심연 핵으로 부위 한계를 열면 +18까지
 function slotMax(cid,sk){ const H=progress&&progress.heroes[cid]; return H&&H.sopen&&H.sopen[sk]?ENH_ABYSS:ENH_MAX; }
@@ -5042,7 +5043,7 @@ const cloud={doc:null, ready:false, status:"off", writing:false, dirty:false, ti
 function cloudLabel(){
   return {off:"", connecting:"☁ 연결 중", synced:"☁ 동기화됨", saving:"☁ 저장 중", error:"☁ 연결 끊김(이 기기에만 저장)"}[cloud.status]||"";
 }
-function setCloud(st){ const was=cloud.status; cloud.status=st; renderHud(); try{ netWall(); }catch(e){}   // v0.94 위쪽 ☁ 표시 대신: 끊길 때 · 다시 이어질 때만 알림
+function setCloud(st){ const was=cloud.status; cloud.status=st; if(st==="error"&&!cloud.errAt) cloud.errAt=Date.now(); if(st==="synced") cloud.errAt=0;   // 끊긴 때부터(다시 올려 보는 중에도 이어서) 셈 renderHud(); try{ netWall(); }catch(e){}   // v0.94 위쪽 ☁ 표시 대신: 끊길 때 · 다시 이어질 때만 알림
   if(st==="error"&&!cloud.errSaid){ cloud.errSaid=true; if(!netRequired()) toast("☁ 서버 연결이 끊겼어요 — 지금 진행은 이 기기에만 저장됩니다. 다시 연결되면 자동으로 서버에 올라가요.","warn",7000); }
   else if(st==="synced"&&cloud.errSaid){ cloud.errSaid=false; toast("☁ 서버에 다시 연결돼 진행을 저장했어요.","good",4000); } }
 // v0.94 서버 저장 상태를 기록(설정 화면에 보임) · 실패하면 운영 도구 '오류'에 한 번 남기고 30초마다 다시 올려 봄
@@ -5054,7 +5055,11 @@ if(typeof document!=="undefined") setInterval(()=>{ try{ if(cloud.status==="erro
 /* v0.95 서버 연결 필수(출시판 = PNNet이 있는 화면만): 서버 진행을 읽기 전 · 연결이 끊긴 동안에는 플레이를 막는다
    (오프라인에서 고친 저장을 나중에 올리는 길을 막음). 막힌 동안 10초마다 다시 연결해 봄. Claude 안에서 연 개발판은 그대로 */
 function netRequired(){ return typeof window!=="undefined"&&!!window.PNNet; }
-function netBlocked(){ if(!netRequired()) return false; return !(cloud.ready&&(cloud.status==="synced"||cloud.status==="saving")); }
+function netBlocked(){ if(!netRequired()) return false; if(!cloud.ready) return true;
+  if(cloud.status==="synced"||cloud.status==="saving") return false;
+  if(cloud.status==="error"&&cloud.errAt&&Date.now()-cloud.errAt<NET_GRACE) return false;   // 잠깐 끊김(또는 큰 보상 직후 한 번 거절)은 15초 안에 다시 올려 봄 — 그동안은 막지 않음
+  return true; }
+const NET_GRACE=15000;
 function netGate(){ if(!netBlocked()) return true; toast("☁ 서버에 연결돼야 플레이할 수 있어요 — 다시 연결하는 중입니다.","warn",4000); netWall(); return false; }
 function netWall(){ if(typeof document==="undefined") return; let w=document.getElementById("netwall"); const on=netBlocked()&&bootDone;
   if(!on){ if(w) w.remove(); return; }
@@ -5063,11 +5068,12 @@ function netWall(){ if(typeof document==="undefined") return; let w=document.get
     w.innerHTML=`<div style="max-width:340px;background:#151a2c;border:1px solid #2c3554;border-radius:12px;padding:18px;text-align:center;color:#dfe6ff">
       <div style="font-size:28px">☁</div><b id="nwT"></b><p class="msub" id="nwP" style="margin:8px 0 12px"></p><button class="btn" id="nwB">다시 연결</button></div>`;
     document.body.appendChild(w); w.querySelector("#nwB").onclick=()=>{ netRetry(); }; }
-  const conn=!cloud.ready||cloud.status==="connecting";
-  w.querySelector("#nwT").textContent=conn?"서버에 연결하는 중":"서버 연결이 끊겼어요";
+  const conn=!cloud.ready||cloud.status==="connecting", perm=!conn&&cloud.lastErr&&/PERMISSION|permission/.test(cloud.lastErr.code||"");
+  w.querySelector("#nwT").textContent=conn?"서버에 연결하는 중":perm?"서버가 이 저장을 받지 않았어요":"서버 연결이 끊겼어요";
+  if(perm){ w.querySelector("#nwP").textContent="저장이 서버 확인(하루에 늘 수 있는 양 등)을 통과하지 못했어요. 계속되면 설정의 계정 ID를 관리자에게 알려 주세요. 10초마다 다시 올려 봅니다."; return; }
   w.querySelector("#nwP").textContent=conn?"진행을 서버에서 불러오는 중입니다. 잠시만 기다려 주세요.":"이 게임은 서버에 연결된 상태에서만 플레이할 수 있어요. 인터넷 연결을 확인해 주세요 — 10초마다 자동으로 다시 연결합니다."; }
 function netRetry(){ try{ if(cloud.doc&&cloud.ready&&!cloud.writing&&cloud.status==="error") cloudFlush(); }catch(e){} }
-if(typeof document!=="undefined") setInterval(()=>{ try{ if(netBlocked()) netRetry(); netWall(); }catch(e){} },10000);
+if(typeof document!=="undefined"){ setInterval(()=>{ try{ if(cloud.status==="error") netRetry(); }catch(e){} },5000); setInterval(()=>{ try{ netWall(); }catch(e){} },1000); }
 function cloudStatusHTML(){
   if(!window.PNNet) return `<div class="sblock"><div class="slabel">저장 위치</div><p class="msub">지금 이 화면(Claude 안에서 연 게임)의 진행은 <b>이 Claude 페이지에만</b> 저장됩니다. 휴대폰 테스트 주소(GitHub Pages)의 진행과는 서로 따로예요.</p></div>`;
   const ok=cloud.lastOk?fmtDate(cloud.lastOk):"아직 없음", er=cloud.lastErr, R=cloud.remote;
@@ -5081,9 +5087,21 @@ function cloudTakeRemote(){ const R=cloud.remote; if(!R||!R.doc) return; if(runS
   const before=JSON.parse(JSON.stringify(progress)), br=JSON.parse(JSON.stringify(partyRules));
   if(applyCloud(R.doc)){ { const c=(window.PNNet&&window.PNNet.auth&&window.PNNet.auth.state&&window.PNNet.auth.state())||{}; safeSet("pn_local_backup", JSON.stringify({progress:before, rules:br, at:Date.now(), uid:c.uid||"", anon:!!c.anon})); } writeLocal(); closeModal(); toast(`☁ 서버 진행으로 바꿨어요 — ${esc(progressSummary(progress))}`,"good",5000); logLine(`<span class="win">☁ 서버 진행으로 바꿨습니다(이 기기 진행은 백업). ${esc(progressSummary(progress))}</span>`); } }
 function devLabel(){ try{ const u=navigator.userAgent; return /Android/i.test(u)?"안드로이드":/iPhone|iPad/i.test(u)?"아이폰·아이패드":/Windows/i.test(u)?"윈도우 PC":/Mac/i.test(u)?"맥":/Linux/i.test(u)?"리눅스":"기기"; }catch(e){ return "기기"; } }
+/* v0.95 서버 검사용 숫자(B1안): 골드·정수·💎·강화 합계·최고 레벨·최고 각성을 저장 글과 따로 올림.
+   서버 규칙이 '하루(서버 시각 기준)에 늘 수 있는 양'(골드 2천만 · 정수 10만 · 💎 500 · 강화 합계 600)과 레벨 50 · 각성 10 이하를 확인하고, 넘으면 저장을 받지 않음.
+   b* = 오늘 늘어난 양(서버가 마지막으로 받은 값 cloud.chk 기준으로 계산 — 규칙과 같은 식) */
+const CHK_K=[["gold","bg"],["ess","be"],["gem","bm"],["enh","bn"]];
+function chkNow(){ const ids=Object.keys(progress.heroes||{}); let enh=0, lv=1, aw=0;
+  for(const c of ids){ const H=progress.heroes[c]||{}; for(const k of Object.keys(H.senh||{})) enh+=H.senh[k]|0; lv=Math.max(lv,H.level|0); aw=Math.max(aw,H.awaken|0); }
+  return {gold:Math.max(0,Math.floor(progress.gold||0)), ess:Math.max(0,Math.floor(progress.ess||0)), gem:Math.max(0,Math.floor(progress.gem||0)), enh, lv:Math.min(lv,LEVEL_CAP), aw:Math.min(aw,AWAKEN_MAX)}; }
+function chkPayload(){ const v=chkNow(), P=cloud.chk; let d=Math.floor(Date.now()/864e5);
+  if(!P||typeof P.d!=="number"){ return Object.assign(v,{d,bg:0,be:0,bm:0,bn:0}); }
+  if(d<P.d) d=P.d;
+  for(const [k,b] of CHK_K){ const g=v[k]-(P[k]||0); v[b]=d===P.d?(P[b]||0)+Math.max(0,g):Math.max(0,g); }
+  v.d=d; return v; }
 function cloudPayload(){
   progress._equipped=equippedStore; progress.run=curRunSave();
-  return { save: JSON.stringify({progress, rules:partyRules}), savedAt: progress.savedAt||0, ver: "0.7.5", dev: devLabel(), sum: (()=>{ try{ return progressSummary(progress).slice(0,160); }catch(e){ return ""; } })() };
+  return { save: JSON.stringify({progress, rules:partyRules}), savedAt: progress.savedAt||0, ver: "0.7.5", dev: devLabel(), sum: (()=>{ try{ return progressSummary(progress).slice(0,160); }catch(e){ return ""; } })(), chk: chkPayload() };
 }
 function cloudSchedule(){
   if(!cloud.doc||!cloud.ready) return;
@@ -5096,10 +5114,10 @@ async function cloudFlush(){
   if(!cloud.doc||!cloud.ready) return;
   if(cloud.writing){ cloud.dirty=true; return; }
   cloud.writing=true; setCloud("saving");
-  try{ await cloud.doc.set(cloudPayload()); cloudOk(); }
+  try{ const pl=cloudPayload(); await cloud.doc.set(pl); cloud.chk=pl.chk; cloudOk(); }
   catch(e){
     if(e&&e.code==="unavailable"){
-      try{ await new Promise(r=>setTimeout(r,800+Math.random()*800)); await cloud.doc.set(cloudPayload()); cloudOk(); }
+      try{ await new Promise(r=>setTimeout(r,800+Math.random()*800)); const pl=cloudPayload(); await cloud.doc.set(pl); cloud.chk=pl.chk; cloudOk(); }
       catch(e2){ cloudFail(e2); }
     } else cloudFail(e);
   }
@@ -5137,6 +5155,7 @@ function applyCloud(d, live){
   if(data.rules) rulesFrom(data.rules); normRules();
   progress=migrateProgress(data.progress);
   progress.savedAt=d.savedAt||progress.savedAt||0;
+  if(d.chk&&typeof d.chk==="object"){ cloud.chk=d.chk; for(const k of ["gold","ess","gem"]) if(typeof d.chk[k]==="number"&&(progress[k]||0)>d.chk[k]) progress[k]=d.chk[k]; }   // v0.95 서버가 확인한 숫자보다 많으면 그 숫자로
   equippedStore=Array.isArray(progress._equipped)?progress._equipped:[];
   let pr=progress.run; runPending=false;
   // 다른 창이 지금 진행 중인 던전은 이 창에서 이어받지 않는다(두 창이 같은 던전을 따로 굴리면 서로의 저장을 되돌림)
@@ -5216,6 +5235,7 @@ async function cloudInit(){
   }
   cloud.ready=true;
   const d=snap&&snap.exists?snap.data():null;
+  if(d&&d.chk) cloud.chk=d.chk;   // v0.95 서버가 마지막으로 받은 검사 숫자
   if(d) cloud.remote={savedAt:d.savedAt||0, dev:d.dev||"", sum:d.sum||(()=>{ try{ return progressSummary(JSON.parse(d.save).progress); }catch(e){ return ""; } })(), doc:d};
   let cloudProg=null;
   if(d&&typeof d.save==="string"){ try{ cloudProg=JSON.parse(d.save).progress; }catch(e){} }
@@ -5249,7 +5269,7 @@ async function cloudInit(){
   // 다른 기기가 저장하면 (쉬는 중일 때) 바로 반영
   cloud.unsub=cloud.doc.onSnapshot(sn=>{
     if(!sn.exists||sn.metadata.hasPendingWrites) return;
-    const x=sn.data();
+    const x=sn.data(); if(x&&x.chk&&(!cloud.chk||(x.chk.d|0)>=(cloud.chk.d|0))&&(x.savedAt||0)>=((cloud.remote&&cloud.remote.savedAt)||0)) cloud.chk=x.chk;
     try{ if(x&&typeof x.save==="string"&&(x.savedAt||0)>=((cloud.remote&&cloud.remote.savedAt)||0)) cloud.remote={savedAt:x.savedAt||0, dev:x.dev||"", sum:x.sum||"", doc:x, mine:(x.savedAt||0)===(progress.savedAt||0)}; }catch(e){}
     if(!x||typeof x.save!=="string"||(x.savedAt||0)<=(progress.savedAt||0)) return;
     try{ if(!hasMeaningfulProgress(JSON.parse(x.save).progress)&&hasMeaningfulProgress(progress)) return; }catch(e){ return; }
@@ -5593,7 +5613,7 @@ function skillSpec(sid,sx){
     case "reload": main=`탄창을 가득 채움`; tags.push({c:"tgt",t:"자신"}); R("etc","다음 사격 피해 +30%"); break;
     case "aim": main=`쏘지 않고 조준 최대 · 탄창 가득`; tags.push({c:"tgt",t:"자신"}); break;
     case "trap": main=`적 앞줄(없으면 뒷줄)에 덫 설치`; tags.push({c:"tgt",t:"적 한 줄"}); R("if",`그 줄 적이 행동하려 하면 → 공격력 ${P(s.power)}% + 기절 1턴 (한 번 · 보스는 기절 10%)`); R("etc","덫은 터질 때까지 남음 · 한 줄에 하나 · 기절이 풀리면 3턴간 다시 기절하지 않음"); break;
-    case "leap": main=`1턴간 도약 — 적이 노리지도 맞히지도 못함`; tags.push({c:"tgt",t:"적 1명"}); R("if",`다음 행동에 → 적 1명에게 공격력 ${P(s.power)}% (뒷줄까지)`); break;
+    case "leap": main=`1턴간 도약 — 적이 노리지도 맞히지도 못함`; tags.push({c:"tgt",t:"적 1명"}); R("if",`다음 행동에 → 적 1명에게 공격력 ${P(s.power)}% (뒷줄까지) · 맞은 적을 띄움(연속 찌르기 6연타로 이어짐)`); break;
     case "guard": main=`아군 1명 ${s.duration}턴간: 그 아군을 근접 공격한 적에게 내가 반격 ${P(s.value)}% · 그 아군 상태이상 저항 +${P(s.resUp||0)}%p`; tags.push({c:"tgt",t:"아군 1명"}); R("etc","나 말고 다른 아군에게 · 저항 증가는 겹치지 않음(가장 큰 것 하나)"); break;
     case "unbroken": main=`${s.duration}턴간 아군 전체 상태이상 저항 +${P(s.resUp||0)}%p · 나는 받는 피해 -${P(s.value)}%`; tags.push({c:"tgt",t:"아군 전체"}); R("etc","받는 피해 감소·저항 증가는 겹치지 않음(가장 큰 것 하나)"); break;
     case "keg": main=`적 앞줄(없으면 뒷줄)에 ${s.name} 설치`; tags.push({c:"tgt",t:"적 한 줄"}); R("if",`2턴 안에 그 줄의 적이 맞으면 → 줄 전체에 ${P(s.power)}% 폭발 + 화상`); break;
@@ -6050,7 +6070,7 @@ class Sim {
   }
   pickAction(u){
     if((u.ammoMax||0)>0&&(u._ammo||0)<=0){ const rs=SKILLS.reload; return { ruleNo:0, rule:null, skill:rs, targets:[u], forced:true }; }   // v0.92 탄 0이면 그 턴 자동 재장전(기술 칸에 없음)
-    if(u.buffs.leap){ const L=u._leapSkill||this.skillOf(u,"ln_leap")||SKILLS.ln_leap; const S=Object.assign({},L,{type:"damage",mp:0,name:L.name+" — 내리꽂기",id:undefined,leapLand:true,mods:Object.assign({},L.mods||{},{castmp:0,selfhp:0,selfshield:0})});   // v0.92 용의 도약: 다음 행동은 저절로 내리꽂기
+    if(u.buffs.leap){ const L=u._leapSkill||this.skillOf(u,"ln_leap")||SKILLS.ln_leap; const S=Object.assign({},L,{type:"damage",mp:0,name:L.name+" — 내리꽂기",id:undefined,leapLand:true,launch:true,mods:Object.assign({},L.mods||{},{castmp:0,selfhp:0,selfshield:0})});   // v0.92 용의 도약: 다음 행동은 저절로 내리꽂기
       return { ruleNo:0, rule:null, skill:S, targets:this.resolveTargets(u,S,u.buffs.leap.tIdx|0), forced:true }; }
     let i=0;
     for(const r of u.rules){ i++;
@@ -13530,6 +13550,7 @@ function autoRulePass(){
     if(progress&&progress.protag&&(progress.rulesFixV|0)<4){ for(const c of rosterIds()){ if(c===progress.protag.cid&&TUT.learning()) continue; const en=(partyRules[c]||[]).filter(r=>r.enabled);
         const sg=r=>`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`, chg=r=>OLD_RULE_SIG_095.has(sg(r));
         if(en.some(chg)&&en.every(r=>chg(r)||inRuleset(c,r)||(r.skill===CLASSES[c].skills[0]&&isAlw(r.c1)&&!r.logic))){ partyRules[c]=tableRules(c); ensureRuleSlots(c); } } saveRules(); progress.rulesFixV=4; }
+    if(progress&&progress.protag&&(progress.rulesFixV|0)<5){ for(const c of rosterIds()){ for(const r of (partyRules[c]||[])) if(r.enabled&&OLD_RULE_SIG_095B.has(`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`)) r.c2=R_MOM4; } saveRules(); progress.rulesFixV=5; }   // v0.95 천룡파 조건만 기세 4로
     if(progress&&progress.protag&&(progress.rulesFixV|0)<2) progress.rulesFixV=2;
   }catch(e){}
   if(!progress||progress.autoRules>=1) return;
@@ -15093,10 +15114,16 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.08", v:"v0.94", t:"서버 저장 확인 · 천룡파 · 용의 도약", L:[
+    "서버 저장 확인: 저장할 때 골드·정수·💎·강화 합계·최고 레벨·최고 각성을 따로 올리고, 서버가 '하루(서버 시각)에 늘 수 있는 양'(골드 2천만 · 정수 10만 · 💎 500 · 강화 합계 600)과 레벨 50 · 각성 10 이하를 확인합니다. 넘으면 저장을 받지 않습니다. 다른 기기에서 불러올 때도 서버가 확인한 숫자를 넘지 않습니다.",
+    "연결이 잠깐(15초 안) 끊기는 건 막지 않고 5초마다 다시 올려 봅니다. 15초 넘게 끊기면 화면이 잠깁니다.",
+    "천룡파: 기세 5 → 4. 올려차기 다음 행동에 바로 쓸 수 있습니다(기본 규칙 조건도 '기세 4 이상').",
+    "용의 도약: 내리꽂을 때 맞은 적을 띄웁니다(보스는 휘청) → 다음 행동에 연속 찌르기 6연타로 이어집니다. 용기병 공격 규칙은 연속 찌르기를 맨 위에.",
+    "심연 핵으로 연 +16~+18 강화 성공률 5/3/2% → 4/2.5/1.5%."]},
   {d:"2026.11.08", v:"v0.94", t:"일일 의뢰 · 보호 주문서 · 서버 연결 필수", L:[
     "📅 일일 의뢰 6개(퀘스트 탭 맨 위): 던전 막 3번 돌파 · 몹 100마리 · 보스·중간 보스 3마리 · 강화 5번 시도 · 장비 10개 분해 · 함께하기 1판 또는 상점 1번 구매. 의뢰마다 밤의 정수 25(셋은 골드도), 마친 수 2개 정수 30 · 4개 정수 60 · 6개 정수 100 + 🛡 보호 주문서 3 + 💎 5. 한국 시간 새벽 5시에 새로 시작합니다.",
     "🛡 보호 주문서: 부위 창에서 '보호 주문서 사용'을 켜면 강화할 때마다 1개를 쓰고, 실패해도 단계가 내려가지 않습니다(+6부터). 부위 상관없이 하루 10번까지. 💎 20개로 1개를 살 수 있습니다.",
-    "강화 성공률 조정: +9→10부터 +14→15까지 45/35/28/20/14/8% → 35/25/18/12/8/5%. 심연 핵으로 연 +16~+18은 그대로(5/3/2%).",
+    "강화 성공률 조정: +9→10부터 +14→15까지 45/35/28/20/14/8% → 35/25/18/12/8/5%. 심연 핵으로 연 +16~+18은 5/3/2% → 4/2.5/1.5%.",
     "서버 연결 필수: 휴대폰·PC 주소에서는 서버에 연결된 동안에만 플레이할 수 있습니다. 연결이 끊기면 화면이 잠기고 10초마다 다시 연결합니다."]},
   {d:"2026.11.08", v:"v0.94", t:"만렙 50 · 영원한 밤 골드 · 전직 규칙 다듬기", L:[
     "최고 레벨 40 → 50. 적 강함은 그대로라 41~50레벨은 그만큼 강해지는 구간입니다. 레벨로 받는 특성 포인트는 지금처럼 Lv40까지(최대 31점)이고, 각성 · 큰 별 포인트는 그대로입니다.",
