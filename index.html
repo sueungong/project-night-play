@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794039284114"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794069247458"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2405,12 +2405,12 @@ const CLASSES = {
 //   원칙: ① 탱커 도발·방어는 보스 1마리만 남아도 씀 ② 광역은 상황(적 2마리·전열 2마리·앞뒤로 겹친 줄) ③ 큰 기술은 마나 여유 · 처형기는 적 체력 낮을 때
 //         ④ 회복은 아군 체력 · 부활 · 해제는 상태이상 아군 ⑤ 전직 대표 기술은 전직 표마다 ⑥ 성향마다 칸 구성이 다름(공격 · 생존 · 지원)
 const R_A="al", R_F2="foes:foe:2:ge", R_F3="foes:foe:3:ge", R_FR2="foes:front:2:ge", R_LANE="foes:lane:1:ge", R_BACK="foes:back:1:ge", R_BOSS="foes:boss:1:ge",
-  R_AL50="hp:ally:1:hp:le:50", R_AL40="hp:ally:1:hp:le:40", R_AL30="hp:ally:1:hp:le:30", R_A2_70="hp:ally:2:hp:le:70", R_A2_60="hp:ally:2:hp:le:60",
+  R_AL70="hp:ally:1:hp:le:70", R_AL50="hp:ally:1:hp:le:50", R_AL40="hp:ally:1:hp:le:40", R_AL30="hp:ally:1:hp:le:30", R_A2_70="hp:ally:2:hp:le:70", R_A2_60="hp:ally:2:hp:le:60",
   R_ME60="hp:me:1:hp:le:60", R_ME50="hp:me:1:hp:le:50", R_ME30="hp:me:1:hp:le:30", R_MEHI="hp:me:1:hp:ge:50",
   R_MP30="hp:me:1:mp:ge:30", R_MP40="hp:me:1:mp:ge:40", R_MP50="hp:me:1:mp:ge:50", R_MP70="hp:me:1:mp:ge:70",
   R_LOW35="hp:foe:1:hp:le:35", R_DEAD="ast:ally:dead", R_ADEB="ast:ally:debuff", R_ADEB2="ast:ally:debuff:2", R_MEDEB="ast:me:debuff", R_STEALTH="ast:me:stealth",
   R_CC="fst:cc:0:1:ge", R_AIR="fst:air:0:1:ge", R_BURN="fst:burn:0:1:ge", R_BURN2="fst:burn:0:2:ge", R_CHILL2="fst:chill:2:1:ge", R_VULN="fst:vuln:0:1:ge", R_NOVULN="fst:vuln:0:0:le", R_NOWEAK="fst:weak:0:0:le",
-  R_PSN3="fst:poison:3:1:ge", R_PSN5="fst:poison:5:1:ge", R_CB3="res:combo:ge:3", R_MOM3="res:mom:ge:3", R_MOM5="res:mom:ge:5", R_RES5="res:res:ge:5", R_RES8="res:res:ge:8", R_AMMO1="res:ammo:le:1", R_NOKEG="res:keg:le:0", R_T3="turn:3";
+  R_PSN3="fst:poison:3:1:ge", R_PSN5="fst:poison:5:1:ge", R_CB3="res:combo:ge:3", R_MOM3="res:mom:ge:3", R_MOM5="res:mom:ge:5", R_RES5="res:res:ge:5", R_RES8="res:res:ge:8", R_AMMO1="res:ammo:le:1", R_NOKEG="res:keg:le:0", R_T3="turn:3", R_T3LE="turn:3:le", R_NOAIR="fst:air:0:0:le";
 const RULESET={
   knight:{   // 검사: 앞줄 방패 — 도발은 어느 성향이든 늘
     base:{ atk:[["kn_challenge",R_A,0,0,0],["kn_slam",R_CC,0,0,10],["kn_bash",R_A,0,0,0]],
@@ -2418,10 +2418,10 @@ const RULESET={
            supp:[["kn_bond",R_A2_70,2,R_ADEB,0],["kn_challenge",R_A,0,0,0],["kn_bash",R_A,0,0,0]] },
     guardian_knight:{   // 수호기사: 도발 + 아군 전체 방벽 · 동료 대신 맞기
       atk:[["kn_challenge",R_A,0,0,0],["kn_rampart",R_A2_70,0,0,0],["kn_retal",R_A,0,0,0],["kn_bash",R_A,0,0,0]],
-      surv:[["kn_unyield",R_MEDEB,2,R_ME30,0],["kn_challenge",R_A,0,0,0],["kn_rampart",R_A,0,0,0],["kn_riposte",R_A,0,0,0]],
-      supp:[["kn_oath",R_AL50,0,0,0],["kn_rampart",R_A,0,0,0],["kn_challenge",R_A,0,0,0],["kn_bash",R_A,0,0,0]] },
+      surv:[["kn_unyield",R_MEDEB,2,R_ME30,0],["kn_challenge",R_A,0,0,0],["kn_rampart",R_F3,2,R_A2_70,0],["kn_riposte",R_A,0,0,0]],
+      supp:[["kn_oath",R_AL50,0,0,0],["kn_rampart",R_F3,2,R_A2_70,0],["kn_challenge",R_A,0,0,0],["kn_bash",R_A,0,0,0]] },
     berserker:{   // 광전사: 체력을 걸고 처형 — 낮은 적 마무리 · 앞줄 휩쓸기
-      atk:[["kn_challenge",R_A,0,0,0],["kn_final",R_LOW35,0,0,1],["kn_frenzy",R_FR2,0,0,0],["kn_bloodprice",R_MEHI,0,0,3],["kn_bash",R_A,0,0,0]],
+      atk:[["kn_challenge",R_A,0,0,0],["kn_final",R_LOW35,0,0,1],["kn_frenzy",R_FR2,0,0,0],["kn_bloodprice",R_A,0,0,3]],
       surv:[["kn_drink",R_ME60,0,0,0],["kn_challenge",R_A,0,0,0],["kn_final",R_LOW35,0,0,1],["kn_bash",R_A,0,0,0]],
       supp:[["kn_challenge",R_A,0,0,0],["kn_bond",R_A2_70,2,R_ADEB,0],["kn_final",R_LOW35,0,0,1],["kn_bash",R_A,0,0,0]] } },
   mage:{   // 마법사: 뒷줄 화력
@@ -2429,25 +2429,25 @@ const RULESET={
            surv:[["mg_frostward",R_F2,1,R_MP30,0],["mg_icicle",R_MP30,0,0,0],["mg_siphon",R_A,0,0,0]],
            supp:[["mg_frostward",R_F2,0,0,0],["mg_beam",R_VULN,0,0,9],["mg_ember",R_A,0,0,0]] },
     archmage:{   // 대마법사: 과부하 → 화상 쌓기 → 잿불 폭발
-      atk:[["mg_overload",R_MP70,0,0,0],["mg_ashburst",R_BURN2,0,0,0],["mg_phoenix",R_MP40,0,0,0],["mg_wave",R_FR2,0,0,0],["mg_siphon",R_A,0,0,0]],
+      atk:[["mg_overload",R_MP70,0,0,0],["mg_ashburst",R_BURN,0,0,0],["mg_wave",R_FR2,0,0,0],["mg_phoenix",R_A,0,0,0]],
       surv:[["mg_overload",R_MP70,0,0,0],["mg_steam",R_CHILL2,2,"fst:stun:0:1:ge",0],["mg_frostward",R_F2,1,R_MP30,0],["mg_phoenix",R_MP40,0,0,0],["mg_siphon",R_A,0,0,0]],
       supp:[["mg_overload",R_MP70,0,0,0],["mg_beam",R_VULN,0,0,9],["mg_phoenix",R_MP40,0,0,0],["mg_ember",R_A,0,0,0]] },
     frostweaver:{   // 서리술사: 냉기를 쌓아 얼리고 아군을 지킴
-      atk:[["mg_eternal",R_CHILL2,0,0,0],["mg_froststorm",R_F2,0,0,0],["mg_iceprison",R_F2,0,0,3],["mg_icicle",R_A,0,0,0]],
-      surv:[["mg_frostcoat",R_A,0,0,0],["mg_eternal",R_CHILL2,0,0,0],["mg_froststorm",R_F2,0,0,0],["mg_icicle",R_A,0,0,0]],
-      supp:[["mg_frostcoat",R_A,0,0,0],["mg_eternal",R_CHILL2,0,0,0],["mg_iceprison",R_F2,0,0,3],["mg_icicle",R_A,0,0,0]] } },
+      atk:[["mg_eternal",R_CHILL2,0,0,0],["mg_iceprison",R_BOSS,0,0,3],["mg_froststorm",R_F2,0,0,0],["mg_icicle",R_A,0,0,0]],
+      surv:[["mg_frostcoat",R_A2_70,0,0,0],["mg_eternal",R_CHILL2,0,0,0],["mg_froststorm",R_F2,0,0,0],["mg_icicle",R_A,0,0,0]],
+      supp:[["mg_frostcoat",R_A2_70,0,0,0],["mg_iceprison",R_BOSS,0,0,3],["mg_eternal",R_CHILL2,0,0,0],["mg_frostward",R_A,0,0,0]] } },
   priest:{   // 성직자: 치유는 어느 성향이든 반드시
     base:{ atk:[["pr_rain",R_A2_60,0,0,0],["pr_mend",R_AL50,0,0,5],["pr_lance",R_A,0,0,9]],
            surv:[["pr_revive",R_DEAD,0,0,0],["pr_cleanse",R_ADEB,0,0,0],["pr_mend",R_A,0,0,5]],
            supp:[["pr_rain",R_A2_60,0,0,0],["pr_grace",R_A,0,0,5],["pr_mend",R_A,0,0,5]] },
     high_priest:{   // 대사제: 부활 · 큰 회복 · 보호막 · 정화
       atk:[["pr_revive",R_DEAD,0,0,0],["pr_salvation",R_AL30,0,0,5],["pr_spring",R_A2_70,0,0,0],["pr_mend",R_AL50,0,0,5],["pr_lance",R_A,0,0,9]],
-      surv:[["pr_revive",R_DEAD,0,0,0],["pr_spring",R_A2_70,0,0,0],["pr_barrier",R_A,0,0,0],["pr_mend",R_A,0,0,5]],
-      supp:[["pr_revive",R_DEAD,0,0,0],["pr_chant",R_ADEB2,0,0,0],["pr_spring",R_A2_70,0,0,0],["pr_mend",R_A,0,0,5]] },
+      surv:[["pr_revive",R_DEAD,0,0,0],["pr_spring",R_A2_70,0,0,0],["pr_barrier",R_BOSS,2,R_F3,0],["pr_mend",R_A,0,0,5]],
+      supp:[["pr_revive",R_DEAD,0,0,0],["pr_chant",R_ADEB,0,0,0],["pr_spring",R_A2_70,0,0,0],["pr_mend",R_A,0,0,5]] },
     inquisitor:{   // 심판관: 낙인 · 화상 · 심판의 불 — 때리며 회복
-      atk:[["pr_brand",R_A,0,0,14],["pr_revive",R_DEAD,0,0,0],["pr_mend",R_AL40,0,0,5],["pr_hammer",R_BURN,0,0,15],["pr_judgefire",R_F2,1,R_MP50,0],["pr_lance",R_A,0,0,9]],
-      surv:[["pr_revive",R_DEAD,0,0,0],["pr_mend",R_AL50,0,0,5],["pr_brand",R_A,0,0,14],["pr_atone",R_A,0,0,0],["pr_lance",R_A,0,0,9]],
-      supp:[["pr_revive",R_DEAD,0,0,0],["pr_mend",R_AL50,0,0,5],["pr_brand",R_A,0,0,14],["pr_grace",R_A,0,0,5]] } },
+      atk:[["pr_revive",R_DEAD,0,0,0],["pr_mend",R_AL40,0,0,5],["pr_brand",R_A2_70,0,0,14],["pr_judgefire",R_A,0,0,0]],
+      surv:[["pr_revive",R_DEAD,0,0,0],["pr_brand",R_BOSS,2,R_A2_70,14],["pr_mend",R_AL50,0,0,5],["pr_hammer",R_A,0,0,15]],
+      supp:[["pr_revive",R_DEAD,0,0,0],["pr_brand",R_BOSS,2,R_A2_70,14],["pr_mend",R_AL50,0,0,5],["pr_atone",R_A,0,0,0]] } },
   rogue:{   // 도적: 연계를 쌓아 마무리
     base:{ atk:[["rg_finisher",R_CB3,0,0,0],["rg_shadowstep",R_T3,0,0,0],["rg_hamstring",R_A,0,0,0]],
            surv:[["rg_smoke",R_ME50,0,0,0],["rg_finisher",R_CB3,0,0,0],["rg_venomblade",R_A,0,0,0]],
@@ -2457,7 +2457,7 @@ const RULESET={
       surv:[["rg_smoke",R_ME50,0,0,0],["rg_clone",R_CB3,0,0,0],["rg_throat",R_LOW35,0,0,1],["rg_hamstring",R_A,0,0,0]],
       supp:[["rg_mark",R_NOVULN,0,0,14],["rg_clone",R_CB3,0,0,0],["rg_finisher",R_CB3,0,0,0],["rg_hamstring",R_A,0,0,0]] },
     venom_fang:{   // 독왕: 독을 퍼뜨리고 쌓아서 터뜨림
-      atk:[["rg_rupture",R_PSN5,0,0,8],["rg_decay",R_PSN3,0,0,0],["rg_miasma",R_F2,1,R_MP30,0],["rg_venomblade",R_A,0,0,0]],
+      atk:[["rg_decay",R_PSN3,0,0,0],["rg_rupture",R_PSN5,0,0,8],["rg_miasma",R_F2,1,R_MP30,0],["rg_venomblade",R_A,0,0,0]],
       surv:[["rg_smoke",R_ME50,0,0,0],["rg_antidote",R_ADEB,0,0,0],["rg_decay",R_PSN3,0,0,0],["rg_dart",R_A,0,0,8]],
       supp:[["rg_antidote",R_ADEB,0,0,0],["rg_miasma",R_F2,0,0,0],["rg_decay",R_PSN3,0,0,0],["rg_dart",R_A,0,0,8]] } },
   fighter:{   // 권사: 기세를 모아 터뜨림
@@ -2465,23 +2465,23 @@ const RULESET={
            surv:[["ft_breath",R_ME50,2,R_MEDEB,0],["ft_parry",R_F2,0,0,0],["ft_triple",R_A,0,0,10]],
            supp:[["ft_shoulder",R_MOM3,0,0,0],["ft_breath",R_MEDEB,0,0,0],["ft_triple",R_A,0,0,10]] },
     monk:{   // 수도승: 부동 자세로 붙잡고 버팀
-      atk:[["ft_stance",R_A,0,0,0],["ft_burst",R_MOM5,0,0,0],["ft_diamond",R_ME50,0,0,0],["ft_cycle",R_A2_70,0,0,0],["ft_palm",R_LANE,0,0,4],["ft_triple",R_A,0,0,10]],
-      surv:[["ft_cycle",R_MEDEB,0,0,0],["ft_stance",R_A,0,0,0],["ft_diamond",R_ME50,0,0,0],["ft_parry",R_A,0,0,0]],
-      supp:[["ft_stance",R_A,0,0,0],["ft_diamond",R_ME50,2,R_MEDEB,0],["ft_cycle",R_A2_70,0,0,0],["ft_shoulder",R_MOM3,0,0,0],["ft_triple",R_A,0,0,10]] },
+      atk:[["ft_stance",R_A,0,0,0],["ft_diamond",R_ME50,0,0,0],["ft_burst",R_MOM5,0,0,0],["ft_triple",R_A,0,0,10]],
+      surv:[["ft_diamond",R_ME50,2,R_MEDEB,0],["ft_stance",R_A,0,0,0],["ft_parry",R_A,0,0,0],["ft_palm",R_A,0,0,4]],
+      supp:[["ft_stance",R_A,0,0,0],["ft_cycle",R_AL70,0,0,0],["ft_diamond",R_ME50,2,R_MEDEB,0],["ft_triple",R_A,0,0,10]] },
     dragon_fist:{   // 용권사: 띄우고 공중에서 두들김
-      atk:[["ft_heavendragon",R_AIR,0,0,0],["ft_aircombo",R_AIR,0,0,10],["ft_launch",R_A,0,0,0],["ft_triple",R_A,0,0,10]],
-      surv:[["ft_breath",R_ME50,2,R_MEDEB,0],["ft_heavendragon",R_AIR,0,0,0],["ft_ascend",R_AIR,0,0,10],["ft_launch",R_A,0,0,0],["ft_triple",R_A,0,0,10]],
-      supp:[["ft_launch",R_A,0,0,0],["ft_heavendragon",R_AIR,0,0,0],["ft_whirl",R_FR2,0,0,0],["ft_triple",R_A,0,0,10]] } },
+      atk:[["ft_heavendragon",R_AIR,1,R_MOM5,0],["ft_aircombo",R_AIR,0,0,10],["ft_launch",R_NOAIR,0,0,0],["ft_triple",R_A,0,0,10]],
+      surv:[["ft_breath",R_ME50,2,R_MEDEB,0],["ft_heavendragon",R_AIR,1,R_MOM5,0],["ft_launch",R_NOAIR,0,0,0],["ft_ascend",R_A,0,0,10]],
+      supp:[["ft_heavendragon",R_AIR,1,R_MOM5,0],["ft_whirl",R_AIR,0,0,0],["ft_launch",R_NOAIR,0,0,0],["ft_triple",R_A,0,0,10]] } },
   gunner:{   // 총사: 뒷줄 사격
     base:{ atk:[["gn_mark",R_NOVULN,0,0,3],["gn_pierce",R_LANE,0,0,4],["gn_precise",R_A,0,0,9]],
            surv:[["gn_flash",R_F2,0,0,0],["gn_cover",R_A,0,0,0],["gn_precise",R_A,0,0,9]],
            supp:[["gn_mark",R_NOVULN,0,0,3],["gn_cover",R_A,0,0,0],["gn_scatter",R_FR2,0,0,0],["gn_precise",R_A,0,0,9]] },
     sniper:{   // 저격수: 조준 → 취약한 적 머리 겨누기
-      atk:[["gn_hold",R_AMMO1,0,0,6],["gn_headshot",R_VULN,0,0,9],["gn_through",R_LANE,0,0,4],["gn_mark",R_NOVULN,0,0,14],["gn_precise",R_A,0,0,9]],
+      atk:[["gn_hold",R_AMMO1,0,0,6],["gn_headshot",R_VULN,0,0,9],["gn_through",R_LANE,0,0,4],["gn_mark",R_A,0,0,14]],
       surv:[["gn_hold",R_AMMO1,0,0,6],["gn_cover",R_A,0,0,0],["gn_through",R_LANE,0,0,4],["gn_precise",R_A,0,0,9]],
-      supp:[["gn_expose",R_NOVULN,0,0,14],["gn_through",R_LANE,0,0,4],["gn_headshot",R_VULN,0,0,9],["gn_cover",R_A,0,0,0],["gn_precise",R_A,0,0,9]] },
+      supp:[["gn_expose",R_NOVULN,0,0,14],["gn_hold",R_AMMO1,0,0,6],["gn_headshot",R_VULN,0,0,9],["gn_through",R_A,0,0,4]] },
     bomber:{   // 폭탄마: 화상을 깔고 대폭발
-      atk:[["gn_blast",R_BURN2,0,0,0],["gn_firerain",R_F2,0,0,0],["gn_keg",R_NOKEG,1,R_FR2,0],["gn_scatter",R_A,0,0,0]],
+      atk:[["gn_blast",R_BURN2,0,0,0],["gn_keg",R_NOKEG,1,R_FR2,0],["gn_firerain",R_F2,0,0,0],["gn_scatter",R_A,0,0,0]],
       surv:[["gn_blast",R_BURN2,0,0,0],["gn_cover",R_A,0,0,0],["gn_firerain",R_F2,0,0,0],["gn_precise",R_A,0,0,9]],
       supp:[["gn_frag",R_F2,1,R_NOVULN,0],["gn_blast",R_BURN2,0,0,0],["gn_firerain",R_F2,0,0,0],["gn_scatter",R_A,0,0,0]] } },
   bard:{   // 음유시인: 노래는 늘(남아 있으면 건너뜀) · 회복은 진정의 노래
@@ -2489,7 +2489,7 @@ const RULESET={
            surv:[["bd_rest",R_A,0,0,0],["bd_soothe",R_AL50,2,R_ADEB,0],["bd_echo",R_A,0,0,0]],
            supp:[["bd_soothe",R_AL50,0,0,0],["bd_valor",R_A,0,0,0],["bd_rest",R_A,0,0,0],["bd_uplift",R_A,0,0,11]] },
     war_band:{   // 군악사: 행진곡 · 북 · 명령으로 아군을 더 움직임
-      atk:[["bd_march",R_A,0,0,0],["bd_volley",R_RES8,0,0,0],["bd_order",R_RES5,0,0,11],["bd_uplift",R_A,0,0,11]],
+      atk:[["bd_march",R_A,0,0,0],["bd_volley","res:res:ge:7",0,0,0],["bd_order","res:res:ge:6",0,0,11],["bd_uplift",R_A,0,0,11]],
       surv:[["bd_march",R_A,0,0,0],["bd_soothe",R_AL50,2,R_ADEB,0],["bd_rest",R_A,0,0,0],["bd_uplift",R_A,0,0,11]],
       supp:[["bd_march",R_A,0,0,0],["bd_drum",R_RES5,0,0,0],["bd_valor",R_A,0,0,0],["bd_uplift",R_A,0,0,11]] },
     jester:{   // 광대: 조롱 · 약화 · 잠으로 적을 흐트러뜨림
@@ -2501,27 +2501,29 @@ const RULESET={
            surv:[["ar_bind",R_F2,0,0,0],["ar_venom",R_MP30,0,0,8],["ar_rapid",R_A,0,0,0]],
            supp:[["ar_prey",R_A,0,0,14],["ar_venom",R_F2,0,0,8],["ar_pierce",R_A,0,0,4]] },
     gale_archer:{   // 바람의 명궁: 바람 읽기로 발 수를 늘려 쏟아붓기
-      atk:[["ar_windread",R_MP30,0,0,0],["ar_thousand",R_F3,0,0,0],["ar_storm",R_MP30,0,0,1],["ar_rapid",R_A,0,0,1]],
+      atk:[["ar_windread",R_MP30,0,0,0],["ar_thousand",R_F3,0,0,0],["ar_storm","foes:foe:2:le",0,0,1],["ar_rapid",R_A,0,0,1]],
       surv:[["ar_thousand",R_F3,0,0,0],["ar_galepierce",R_LANE,0,0,4],["ar_bind",R_F2,0,0,0],["ar_rapid",R_A,0,0,1]],
       supp:[["ar_prey",R_A,0,0,14],["ar_windread",R_MP30,0,0,0],["ar_thousand",R_F3,0,0,0],["ar_storm",R_A,0,0,14]] },
     forest_hunter:{   // 숲의 사냥꾼: 사냥감 → 사냥개 · 약점 사냥 · 덫
       atk:[["ar_prey",R_A,0,0,14],["ar_hound",R_MP30,0,0,0],["ar_weakhunt",R_A,0,0,0],["ar_rapid",R_A,0,0,1]],
-      surv:[["ar_trap",R_A,0,0,0],["ar_hound",R_MP30,0,0,0],["ar_vine",R_ME50,0,0,3],["ar_venom",R_A,0,0,0]],
-      supp:[["ar_prey",R_A,0,0,14],["ar_hound",R_MP30,0,0,0],["ar_vine",R_A,0,0,3],["ar_pierce",R_A,0,0,4]] } },
+      surv:[["ar_trap",R_T3LE,0,0,0],["ar_vine",R_ME50,0,0,3],["ar_hound",R_MP30,0,0,0],["ar_venom",R_A,0,0,0]],
+      supp:[["ar_prey",R_A,0,0,14],["ar_hound",R_MP30,0,0,0],["ar_trap",R_T3LE,0,0,0],["ar_vine",R_A,0,0,3]] } },
   lancer:{   // 창술사: 긴 창으로 꿰뚫고 줄을 지킴
     base:{ atk:[["ln_sweep",R_FR2,0,0,0],["ln_charge",R_MP30,0,0,1],["ln_pierce",R_A,0,0,0]],
            surv:[["ln_wall",R_A,0,0,0],["ln_distance",R_AL50,0,0,5],["ln_pierce",R_A,0,0,0]],
            supp:[["ln_distance",R_ADEB,2,R_AL50,5],["ln_throw",R_BACK,0,0,0],["ln_pierce",R_A,0,0,0]] },
     dragoon:{   // 용기병: 일렬 천공 · 도약 · 띄운 적 연속 찌르기
-      atk:[["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,1],["ln_flurry",R_AIR,0,0,10],["ln_pierce",R_A,0,0,0]],
+      atk:[["ln_skypierce",R_LANE,0,0,0],["ln_flurry",R_AIR,0,0,10],["ln_leap",R_MP30,0,0,1],["ln_charge",R_A,0,0,1]],
       surv:[["ln_wall",R_A,0,0,0],["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_pierce",R_A,0,0,0]],
       supp:[["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,14],["ln_pierce",R_A,0,0,0]] },
     phalanx:{   // 방진 수호자: 방진 · 불굴의 창으로 줄을 지키고 반격
-      atk:[["ln_tipcounter",R_A,0,0,0],["ln_unbroken",R_ADEB,2,R_ME50,0],["ln_phalanx",R_A,0,0,0],["ln_check",R_A,0,0,0],["ln_sweep",R_FR2,0,0,0],["ln_pierce",R_A,0,0,0]],
+      atk:[["ln_tipcounter",R_A,0,0,0],["ln_unbroken",R_ADEB,2,R_ME50,0],["ln_phalanx",R_A,0,0,0],["ln_check",R_A,0,0,0]],
       surv:[["ln_unbroken",R_ADEB,2,R_ME50,0],["ln_phalanx",R_A,0,0,0],["ln_wall",R_A,0,0,0],["ln_pierce",R_A,0,0,0]],
       supp:[["ln_phalanx",R_A,0,0,0],["ln_unbroken",R_ADEB,2,R_A2_60,0],["ln_distance",R_AL50,0,0,5],["ln_check",R_A,0,0,0]] } },
 };
 const OLD_RULE_SIG_094=new Set(["kn_challenge|foes:foe:2:ge|0|al", "kn_slam|fst:cc:0:1:ge|0|al", "kn_bash|al|0|al", "kn_stand|hp:me:1:hp:le:50|0|al", "kn_riposte|al|0|al", "kn_bond|ast:ally:debuff|2|hp:ally:2:hp:le:60", "kn_rampart|hp:ally:1:hp:le:50|0|al", "kn_retal|foes:foe:2:ge|0|al", "kn_unyield|ast:me:debuff|2|hp:me:1:hp:le:50", "kn_rampart|foes:foe:2:ge|0|al", "kn_oath|hp:ally:1:hp:le:50|0|al", "kn_bond|ast:ally:debuff|0|al", "kn_final|hp:foe:1:hp:le:40|0|al", "kn_frenzy|foes:foe:2:ge|0|al", "kn_challenge|foes:foe:3:ge|0|al", "kn_bloodprice|al|0|al", "kn_drink|hp:me:1:hp:le:50|0|al", "kn_stand|hp:me:1:hp:le:30|0|al", "mg_wave|foes:foe:3:ge|0|al", "mg_beam|hp:me:1:mp:ge:70|0|al", "mg_siphon|al|0|al", "mg_frostward|foes:foe:2:ge|1|hp:me:1:mp:ge:30", "mg_icicle|hp:me:1:mp:ge:30|0|al", "mg_frostward|foes:foe:3:ge|0|al", "mg_beam|fst:vuln:0:1:ge|0|al", "mg_ember|al|0|al", "mg_overload|hp:me:1:mp:ge:70|0|al", "mg_ashburst|foes:foe:2:ge|0|al", "mg_phoenix|hp:me:1:mp:ge:30|0|al", "mg_steam|fst:chill:2:1:ge|2|fst:stun:0:1:ge", "mg_phoenix|foes:foe:2:ge|0|al", "mg_steam|fst:chill:2:1:ge|0|al", "mg_eternal|fst:chill:2:1:ge|0|al", "mg_froststorm|foes:foe:3:ge|0|al", "mg_iceprison|foes:foe:2:ge|0|al", "mg_icicle|al|0|al", "mg_frostcoat|hp:ally:2:hp:le:60|0|al", "mg_froststorm|foes:foe:2:ge|0|al", "pr_rain|hp:ally:2:hp:le:60|0|al", "pr_mend|hp:ally:1:hp:le:30|0|al", "pr_lance|al|0|al", "pr_revive|ast:ally:dead|0|al", "pr_cleanse|ast:ally:debuff|0|al", "pr_mend|al|0|al", "pr_grace|foes:foe:2:ge|0|al", "pr_mend|hp:ally:1:hp:le:50|0|al", "pr_spring|hp:ally:2:hp:le:60|0|al", "pr_salvation|hp:ally:1:hp:le:30|0|al", "pr_barrier|foes:foe:2:ge|0|al", "pr_chant|ast:ally:debuff|0|al", "pr_barrier|hp:ally:1:hp:le:50|0|al", "pr_brand|foes:foe:2:ge|0|al", "pr_hammer|hp:me:1:mp:ge:30|0|al", "pr_judgefire|al|0|al", "pr_atone|al|0|al", "pr_hammer|al|0|al", "rg_finisher|res:combo:ge:3|0|al", "rg_shadowstep|turn:3|0|al", "rg_hamstring|al|0|al", "rg_smoke|hp:me:1:hp:le:50|0|al", "rg_venomblade|al|0|al", "rg_smoke|ast:ally:debuff|2|hp:ally:2:hp:le:60", "rg_clone|res:combo:ge:3|0|al", "rg_shadowblade|ast:me:stealth|0|al", "rg_throat|hp:foe:1:hp:le:40|0|al", "rg_shadowstep|al|0|al", "rg_mark|fst:vuln:0:0:le|0|al", "rg_smoke|ast:ally:debuff|0|al", "rg_decay|fst:poison:3:1:ge|0|al", "rg_rupture|fst:poison:3:1:ge|0|al", "rg_miasma|foes:foe:2:ge|1|hp:me:1:mp:ge:30", "rg_antidote|ast:ally:debuff|0|al", "rg_dart|al|0|al", "rg_miasma|foes:foe:3:ge|0|al", "rg_smoke|hp:ally:2:hp:le:60|0|al", "ft_burst|res:mom:ge:5|0|al", "ft_launch|res:mom:ge:3|0|al", "ft_triple|al|0|al", "ft_breath|hp:me:1:hp:le:50|2|ast:me:debuff", "ft_parry|foes:foe:2:ge|0|al", "ft_shoulder|res:mom:ge:3|0|al", "ft_breath|ast:me:debuff|0|al", "ft_diamond|hp:me:1:hp:le:50|2|ast:me:debuff", "ft_palm|res:mom:ge:3|0|al", "ft_stance|foes:foe:3:ge|0|al", "ft_cycle|ast:me:debuff|0|al", "ft_diamond|hp:me:1:hp:le:50|0|al", "ft_stance|foes:foe:2:ge|0|al", "ft_breath|hp:me:1:hp:le:30|0|al", "ft_parry|al|0|al", "ft_diamond|ast:me:debuff|2|hp:me:1:hp:le:50", "ft_heavendragon|fst:air:0:1:ge|0|al", "ft_aircombo|fst:air:0:1:ge|0|al", "ft_whirl|foes:foe:3:ge|0|al", "ft_ascend|fst:air:0:1:ge|0|al", "gn_mark|fst:vuln:0:0:le|0|al", "gn_precise|fst:vuln:0:1:ge|0|al", "gn_pierce|al|0|al", "gn_flash|foes:foe:3:ge|0|al", "gn_cover|foes:foe:2:ge|0|al", "gn_precise|al|0|al", "gn_scatter|al|0|al", "gn_headshot|fst:vuln:0:1:ge|0|al", "gn_through|foes:foe:2:ge|0|al", "gn_hold|res:ammo:le:2|0|al", "gn_expose|fst:vuln:0:0:le|0|al", "gn_headshot|al|0|al", "gn_blast|foes:foe:2:ge|0|al", "gn_firerain|foes:foe:3:ge|0|al", "gn_keg|res:keg:le:0|1|foes:foe:2:ge", "gn_firerain|foes:foe:2:ge|0|al", "gn_flash|hp:ally:1:hp:le:30|0|al", "gn_frag|fst:vuln:0:0:le|0|al", "bd_valor|al|0|al", "bd_echo|res:res:ge:5|0|al", "bd_uplift|al|0|al", "bd_rest|al|0|al", "bd_soothe|hp:ally:1:hp:le:50|2|ast:ally:debuff", "bd_echo|al|0|al", "bd_soothe|hp:ally:1:hp:le:50|0|al", "bd_rest|hp:ally:1:hp:le:50|0|al", "bd_march|al|0|al", "bd_volley|res:res:ge:8|0|al", "bd_order|res:res:ge:5|1|hp:foe:1:hp:le:40", "bd_drum|res:res:ge:5|0|al", "bd_order|res:res:ge:5|0|al", "bd_mock|al|0|al", "bd_dance|foes:foe:3:ge|0|al", "bd_lullaby|res:res:ge:5|0|al", "bd_unease|al|0|al", "bd_laugh|ast:ally:debuff|0|al", "bd_dance|foes:foe:3:ge|1|res:res:ge:5", "ar_prey|hp:me:1:mp:ge:30|0|al", "ar_rain|foes:foe:3:ge|0|al", "ar_rapid|al|0|al", "ar_bind|foes:foe:2:ge|0|al", "ar_venom|hp:me:1:mp:ge:30|0|al", "ar_venom|foes:foe:2:ge|0|al", "ar_pierce|al|0|al", "ar_windread|hp:me:1:mp:ge:30|0|al", "ar_thousand|foes:foe:3:ge|0|al", "ar_storm|hp:me:1:mp:ge:30|0|al", "ar_rain|foes:foe:2:ge|0|al", "ar_galepierce|foes:foe:2:ge|0|al", "ar_bind|hp:me:1:mp:ge:30|0|al", "ar_storm|al|0|al", "ar_weakhunt|hp:foe:1:hp:le:40|0|al", "ar_hound|hp:me:1:mp:ge:30|0|al", "ar_trap|foes:foe:2:ge|0|al", "ar_vine|hp:me:1:hp:le:50|0|al", "ar_venom|al|0|al", "ar_vine|foes:foe:2:ge|0|al", "ar_trap|foes:foe:3:ge|0|al", "ln_sweep|foes:foe:3:ge|0|al", "ln_charge|hp:me:1:mp:ge:30|0|al", "ln_pierce|al|0|al", "ln_wall|hp:me:1:hp:le:50|2|foes:foe:2:ge", "ln_distance|hp:ally:1:hp:le:50|0|al", "ln_distance|ast:ally:debuff|2|hp:ally:1:hp:le:50", "ln_throw|hp:me:1:mp:ge:30|0|al", "ln_skypierce|foes:foe:2:ge|0|al", "ln_leap|hp:me:1:mp:ge:30|0|al", "ln_flurry|hp:me:1:mp:ge:30|0|al", "ln_wall|hp:me:1:hp:le:50|0|al", "ln_hunt|hp:ally:1:hp:le:50|0|al", "ln_leap|hp:me:1:hp:le:30|0|al", "ln_flurry|fst:air:0:1:ge|0|al", "ln_check|hp:me:1:mp:ge:30|0|al", "ln_unbroken|ast:ally:debuff|2|hp:ally:1:hp:le:50", "ln_tipcounter|foes:foe:2:ge|0|al", "ln_phalanx|hp:ally:1:hp:le:50|0|al", "ln_unbroken|ast:ally:debuff|2|hp:me:1:hp:le:50", "ln_wall|foes:foe:2:ge|0|al", "ln_phalanx|hp:me:1:hp:le:50|0|al", "ln_unbroken|ast:ally:debuff|2|hp:ally:2:hp:le:60", "ln_sweep|al|0|al"]);   // v0.93 기본 규칙표의 줄(기술|조건1|논리|조건2) — 직접 고치지 않은 규칙을 가려 새 표로 옮길 때
+// v0.95 전직 규칙표 조정(스킬 순환 진단) 전에만 있던 줄 — 예전 표 그대로인 영웅을 새 표로 바꿀 때 알아봄
+const OLD_RULE_SIG_095=new Set(["kn_rampart|al|0|al","kn_bloodprice|hp:me:1:hp:ge:50|0|al","mg_ashburst|fst:burn:0:2:ge|0|al","mg_iceprison|foes:foe:2:ge|0|al","mg_frostcoat|al|0|al","pr_barrier|al|0|al","pr_chant|ast:ally:debuff:2|0|al","pr_brand|al|0|al","pr_hammer|fst:burn:0:1:ge|0|al","pr_judgefire|foes:foe:2:ge|1|hp:me:1:mp:ge:50","ft_cycle|hp:ally:2:hp:le:70|0|al","ft_palm|foes:lane:1:ge|0|al","ft_cycle|ast:me:debuff|0|al","ft_heavendragon|fst:air:0:1:ge|0|al","ft_ascend|fst:air:0:1:ge|0|al","ft_whirl|foes:front:2:ge|0|al","bd_volley|res:res:ge:8|0|al","bd_order|res:res:ge:5|0|al","ar_storm|hp:me:1:mp:ge:30|0|al","ar_trap|al|0|al"]);
 const RULESET_STANCE0={knight:"surv", mage:"atk", priest:"supp", rogue:"atk", fighter:"atk", gunner:"atk", bard:"supp", archer:"atk", lancer:"atk"};   // = STANCE_DEFAULT (아래에서 정의 — 순서 때문에 여기 따로)
 function ruleRow(e){ return {enabled:true,c1:e[1],logic:e[2],c2:e[3],skill:e[0],target:e[4]}; }
 function isFillerRow(e){ return isAlw(e[1])&&!(e[2]|0)&&!(SKILLS[e[0]]&&SKILLS[e[0]].type==="song"); }   // v0.94 노래는 "항상"이어도 맨 끝 채움 줄이 아님(같은 노래가 남아 있으면 다음 규칙으로 넘어가므로 앞에 둠)
@@ -3231,6 +3233,13 @@ function bossRatioHp(d,c){ const r0=d===0?BOSS_RATIO.hp[0]:Math.max(BOSS_RATIO.h
 function curveAt(p,c){ return p[0]*Math.pow(p[1]/p[0],c/9); }
 function poolAvg(rk){ const R=REGIONS[rk]; let h=0,a=0,w=0; for(const q of R.pool){ const m=MOBS[q.key]; h+=m.stats.hp*q.w; a+=m.stats.atk*q.w; w+=q.w; } return {hp:h/w, atk:a/w}; }
 function enemyTarget(d,c){ return {hp:curveAt(ENEMY_REF.atk[d],c)*curveAt(ENEMY_PRESS.hp[d],c), atk:curveAt(ENEMY_REF.hp[d],c)*curveAt(ENEMY_PRESS.atk[d],c)}; }   // 일반 몹 평균(3막 기준, 정예·속성 전)
+/* v0.95 막 골드를 적 강함에 맞춤(가안): 황혼은 그대로. 자정·영원한 밤 c장 일반 몹 평균 골드 = 앞 난이도 10장 골드 × √(그 장 적 체력 ÷ 앞 난이도 10장 적 체력)
+   → 몹 1마리 평균 자정 1장 20→63 · 10장 112→109 · 영원한 밤 1장 33→158 · 10장 184→295. 최종 콘텐츠(낙성·심연)는 영원한 밤 10장 배율 */
+function poolGold(rk){ const R=REGIONS[rk]; let g=0,w=0; for(const q of R.pool){ g+=MOBS[q.key].gold*q.w; w+=q.w; } return g/w; }
+const GOLD_FIX=(()=>{ const out=[REGION_KEYS.map(()=>1)]; let prev=poolGold(REGION_KEYS[9])*DIFFS[0].gold, prevHp=enemyTarget(0,9).hp;
+  for(let d=1;d<3;d++){ const row=REGION_KEYS.map((rk,c)=>prev*Math.sqrt(enemyTarget(d,c).hp/prevHp)/(poolGold(rk)*DIFFS[d].gold)); out.push(row.map(x=>+x.toFixed(4)));
+    prev=poolGold(REGION_KEYS[9])*DIFFS[d].gold*row[9]; prevHp=enemyTarget(d,9).hp; } return out; })();
+function goldMul(d,rk){ const D=DIFFS[d]; let c=REGION_KEYS.indexOf(rk); if(c<0) c=9; return D.gold*((GOLD_FIX[d]&&GOLD_FIX[d][c])||1); }
 const DIFF_SCALE=[0,1,2].map(d=>REGION_KEYS.map((rk,c)=>{ const t=enemyTarget(d,c), a=poolAvg(rk); return {hp:+(t.hp/(a.hp*DIFF_K[d].hp)).toFixed(4), atk:+(t.atk/(a.atk*DIFF_K[d].atk)).toFixed(4)}; }));
 /* v0.93 A안: 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%(1장) → 70%(10장) · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 깎음(올리지는 않음 — 자정 1장 보스 공격이 황혼 10장 보스보다 낮아지지 않게 자정부터 70%).
    한 방 ≈ BOSS_HIT_K[d] × 보스 공격 ÷ 기준 영웅 체력 — BOSS_HIT_K는 봇 측정(큰 기술 위력 · 방어 · 대상)에서 잰 값 */
@@ -3388,7 +3397,7 @@ function battleRewards(zone,d,rk){
     exp+=MOBS[m.key].exp*k; gold+=MOBS[m.key].gold*k;
   }
   const luck=partyLuck();
-  exp=Math.round(exp*D.exp*(zone.rewardMul||1)); gold=Math.round(gold*D.gold*(zone.rewardMul||1)*(1+luck*0.01)*((partyIds().some(c=>heroDerived(c).traits.relic_gold2)?1.3:partyIds().some(c=>heroDerived(c).traits.relic_gold)?1.15:1)));
+  exp=Math.round(exp*D.exp*(zone.rewardMul||1)); gold=Math.round(gold*goldMul(d,rk)*(zone.rewardMul||1)*(1+luck*0.01)*((partyIds().some(c=>heroDerived(c).traits.relic_gold2)?1.3:partyIds().some(c=>heroDerived(c).traits.relic_gold)?1.15:1)));
   const tier=lootTierFor(d,rk)+(zone.lootBonus||0);
   const items=[];
   const els=zone.mobs.filter(m=>m.elite&&!m.chief).length;
@@ -3416,7 +3425,7 @@ function battleRewards(zone,d,rk){
 }
 function chestRewards(d,rk){
   const D=DIFFS[d], R=REGIONS[rk];
-  const gold=Math.round(R.chestGold()*D.gold);
+  const gold=Math.round(R.chestGold()*goldMul(d,rk));
   const items=[];
   if(Math.random()<0.8) items.push(makeItem(false,lootTierFor(d,rk),{luck:partyLuck(),src:"chest",d,from:`${D.name} ${R.chapter} 보물상자에서`}));
   return {gold,items,ess:ri(1,2)*(1+d)};
@@ -3837,8 +3846,8 @@ const MYTHIC={
 const MYTHIC_COST={shards:120, apo:7};
 // 신화 무기는 직업마다 1자루. 다시 벼리기 = 옵션을 새로 뽑고 무기 종류도 고름(강화 단계는 그대로) — 새벽 파편 30 + 군단장의 혼 아무거나 2개
 const MYTHIC_REFORGE={shards:30, apo:2};
-// 별자리 판: Lv40 영웅이 별의 정수로 밝힌다. 작은 별 24칸(1차 능력치 6종 × 4, 한 칸에 +2) · 큰 별 3칸(작은 별 8개마다 하나, 특성 포인트 +1)
-const STAR_SMALL=4, STAR_BIG=3, STAR_PER_BIG=8, STAR_LV=40;
+// 별자리 판: Lv50(v0.95 — 예전 Lv40) 영웅이 별의 정수로 밝힌다. 작은 별 24칸(1차 능력치 6종 × 4, 한 칸에 +2) · 큰 별 3칸(작은 별 8개마다 하나, 특성 포인트 +1)
+const STAR_SMALL=4, STAR_BIG=3, STAR_PER_BIG=8, STAR_LV=50;
 function heroStars(cid){ const h=progress.heroes[cid]; const st=h.stars=h.stars||{}; for(const k of PRIM) st[k]=st[k]||0; st.big=st.big||0; return st; }
 function starSmallLit(cid){ const st=heroStars(cid); return PRIM.reduce((a,k)=>a+st[k],0); }
 function starSmallCost(cid){ return 2+Math.floor(starSmallLit(cid)/4); }
@@ -3926,12 +3935,13 @@ const SKILLBOOKS_OLD = [
 ];
 const SKILLBOOKS = [];   // v0.89 스킬북 없앰 — 책 기술은 기본·전직 기술로 옮김(예전에 산 책은 골드로 돌려줌)
 /* ================= 성장 심화 — 숙련도 · 칭호 · 각성 ================= */
-const LEVEL_CAP=40;
+const LEVEL_CAP=50;   // v0.95 만렙 40 → 50(적 강함은 그대로 — 41~50은 순수하게 강해지는 구간)
+const TRAIT_LV_MAX=40;   // v0.95 레벨로 받는 특성 포인트는 지금처럼 Lv40까지(최대 31점) — Lv41~50은 특성 포인트 없음
 // v0.19: 게임 곳곳의 상한·제한을 한곳에 모아 도감에서 보여 준다(숨은 규칙 없음)
 const LIMITS=[
   ["능력치 상한","치명타 확률 75% · 회피 60% · 관통 75% · 상태이상 저항 75% · 명중 120%(100%를 넘는 명중은 적의 회피를 그만큼 상쇄). 상한에 닿으면 능력치 표에 '최대'가 붙고, 그 이상은 효과가 없습니다."],
   ["명중","기본 85% + 민첩 1당 0.4%p(10 기준) + 장비(투구·장갑) 명중. 실제로 맞힐 확률 = 명중 − 상대 회피(최소 20%). 띄운 적은 회피하지 못함."],
-  ["레벨·각성","최고 레벨 40. 40에서 경험치가 다시 차면 각성 — 특성 포인트 +4. 각성은 횟수 제한 없이 계속할 수 있고, 할 때마다 특성 포인트를 줍니다."],
+  ["레벨·각성","최고 레벨 50(v0.95 — 예전 40). 50에서 경험치가 다시 차면 각성 — 특성 포인트 +4. 각성은 횟수 제한 없이 계속할 수 있고, 할 때마다 특성 포인트를 줍니다."],
   ["퀘스트","왼쪽 메뉴의 📜 퀘스트 탭. 메인 의뢰는 황혼 1~10장마다 꼭 필요한 이야기 막 셋(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있습니다(모두 30개). 황혼에서 그 막을 처음 깨러 들어갈 때는 메인 의뢰를 받아야 하고(입장할 때 의뢰 창이 뜨면 [의뢰 받고 출발]), 앞 메인 의뢰를 보고해야 다음 메인 의뢰를 받을 수 있습니다. 막을 돌파한 뒤 보고하면 알게 된 이야기와 보상(1·3막: 그 장 일반 몹 평균 5마리분 경험치·골드 · 5막: 12마리분 + 밤의 정수 5×장 번호 + 희귀 장비 1개). 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막은 그 막 우두머리 이야기(받은 뒤 그 막 끝 우두머리를 쓰러뜨리기, 보상 5마리분), 그리고 막마다 몹 잡기 부탁(받은 뒤 그 장 그 막에서 정해진 몹 6~10마리, 어느 난이도든·정예 포함, 보상 4마리분 + 밤의 정수 장 번호, 5막은 희귀 장비 1개 더). 서브는 황혼에서 그 막이 열려 있으면 받을 수 있습니다. 받기·보고는 던전 밖에서 하고, 경험치는 그때 출전 중인 영웅마다 들어갑니다."],
   ["특성 포인트","전직(Lv10)부터 레벨마다 1점(Lv40에 31점) + 각성마다 4점 + 큰 별마다 1점. 특성은 가운데에서 서로 얽혀 뻗는 그물(영웅마다 215칸 — 직업 공통 갈래 3 + 고른 전직 갈래 2)이라, 이미 배운 칸과 이어진 칸만 배울 수 있습니다. 궁극은 갈래 끝 20개 중 4개까지. 각성은 10번까지(최대 71점)."],
   ["전투 규칙 칸","전직 전 3칸 · 전직 후 4칸. 칸마다 조건과 쓸 스킬을 정하고, 아무것도 안 맞으면 기본공격(칸을 차지하지 않음)."],
@@ -4712,16 +4722,16 @@ function buildTraitGraph2(cid,adv){
 function traitIdx(cid){ const adv=(progress&&progress.heroes&&progress.heroes[cid]&&progress.heroes[cid].adv)||null; const k=cid+"|"+(adv||""); return TRAIT_IDX[k]||(TRAIT_IDX[k]=buildTraitGraph2(cid,adv)); }
 // 특성 포인트(v0.34): 전직(Lv10)부터 레벨마다 1 → Lv40에 31 · 각성마다 4 · 큰 별마다 1
 const TRAIT_AWAKEN=4, AWAKEN_MAX=10;   // v0.94 각성은 10번까지(특성 포인트 Lv40 31 + 각성 40 = 71, 전체 129칸 중)
-// v0.94 B안: n번째 각성에 드는 경험치 = Lv40 경험치(30,358) × n — 1번째 30,358 · 5번째 151,790 · 10번째 303,580 (합계 1,669,690)
+// v0.95 n번째 각성에 드는 경험치 = Lv50 경험치(42,426) × n — 1번째 42,426 · 5번째 212,130 · 10번째 424,260 (합계 2,333,430) · v0.94 B안: Lv40 경험치(30,358) × n — 1번째 30,358 · 5번째 151,790 · 10번째 303,580 (합계 1,669,690)
 function awakenNeed(h){ return expNeed(LEVEL_CAP)*Math.min(AWAKEN_MAX,(h.awaken||0)+1); }
 function heroExpNeed(h){ return h.level>=LEVEL_CAP?awakenNeed(h):expNeed(h.level); }
 function canAwaken(h){ return !!(h&&h.level>=LEVEL_CAP&&h.exp>=awakenNeed(h)&&(h.awaken||0)<AWAKEN_MAX); }
 // v0.94 난이도마다 영웅의 상태이상 저항이 깎임(황혼 0 · 자정 -20%p · 영원한 밤 -40%p) — 화면에는 지금 고른(진행 중인) 난이도 기준
 function curDiffIdx(){ try{ if(typeof COOP!=="undefined"&&COOP.run&&COOP.run.d!=null) return COOP.run.d; if(typeof runState!=="undefined"&&runState&&runState.d!=null) return runState.d; return (progress&&progress.diff)|0; }catch(e){ return 0; } }
 function heroResPen(d){ const D=DIFFS[d==null?curDiffIdx():d]; return (D&&D.resPen)||0; }
-function traitBase(level){ return Math.max(0,Math.min(level,LEVEL_CAP)-ADV_LEVEL+1); }
-function traitGainAt(level){ return level>ADV_LEVEL&&level<=LEVEL_CAP; }
-function nextTraitLevel(level){ for(let L=level+1;L<=LEVEL_CAP;L++) if(traitGainAt(L)) return L; return null; }
+function traitBase(level){ return Math.max(0,Math.min(level,TRAIT_LV_MAX)-ADV_LEVEL+1); }
+function traitGainAt(level){ return level>ADV_LEVEL&&level<=TRAIT_LV_MAX; }
+function nextTraitLevel(level){ for(let L=level+1;L<=TRAIT_LV_MAX;L++) if(traitGainAt(L)) return L; return null; }
 function traitPoints(cid){
   const h=progress.heroes[cid];
   if(!h.adv) return 0;
@@ -9092,7 +9102,7 @@ function renderTraits(){
   }
   renderTraitMap(cid,pane);
   const leg=document.createElement("div"); leg.className="hintline tleg2";
-  leg.innerHTML=`특성 포인트: 전직(Lv${ADV_LEVEL})부터 레벨마다 1 (Lv${LEVEL_CAP}에 ${traitBase(LEVEL_CAP)}) · 각성마다 +${TRAIT_AWAKEN}(최대 ${AWAKEN_MAX}번) · 큰 별마다 +1 — 가운데에서 이어진 칸만 배울 수 있어요. 갈래 5개(직업 공통 3 + 전직 2) · 갈래마다 줄기에서 두 길로, 길마다 다시 두 가지로 갈라져요(갈래당 35칸 · 큰 특성 6 · ★궁극 4). 잔가지 → <span style="color:#8fd9cc">✦ 작은 특성</span>(기술 하나 다듬기) → 큰 특성(기술의 동작을 바꿈) → <span style="color:#f2c14e">★ 궁극</span>(가지 끝의 마무리 — 대가 없음, 영웅마다 ${ksMax(cid)}개까지). 큰 특성·궁극 사이는 늘 3칸 · 이음길로 옆 갈래·옆 가지로 건너갈 수 있어요.`;
+  leg.innerHTML=`특성 포인트: 전직(Lv${ADV_LEVEL})부터 레벨마다 1 (Lv${TRAIT_LV_MAX}에 ${traitBase(TRAIT_LV_MAX)} — 그 위 레벨은 없음) · 각성마다 +${TRAIT_AWAKEN}(최대 ${AWAKEN_MAX}번) · 큰 별마다 +1 — 가운데에서 이어진 칸만 배울 수 있어요. 갈래 5개(직업 공통 3 + 전직 2) · 갈래마다 줄기에서 두 길로, 길마다 다시 두 가지로 갈라져요(갈래당 35칸 · 큰 특성 6 · ★궁극 4). 잔가지 → <span style="color:#8fd9cc">✦ 작은 특성</span>(기술 하나 다듬기) → 큰 특성(기술의 동작을 바꿈) → <span style="color:#f2c14e">★ 궁극</span>(가지 끝의 마무리 — 대가 없음, 영웅마다 ${ksMax(cid)}개까지). 큰 특성·궁극 사이는 늘 3칸 · 이음길로 옆 갈래·옆 가지로 건너갈 수 있어요.`;
   pane.appendChild(leg);
   renderTraitDetail(cid);
 }
@@ -12911,7 +12921,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
     sb.textContent=`★ 주인공으로 삼기 (정수 ${PROTAG_SWAP_ESS})`; const why=protagSwapBlock(cid); sb.disabled=!!why; sb.title=why||"이 영웅을 직접 키웁니다";
     sb.onclick=()=>openProtagSwap(cid); top.appendChild(sb); }
   if(starOpen(cid)){ const st=heroStars(cid), b=document.createElement("button"); b.className="enhb"; b.style.marginLeft="8px";
-    b.textContent=`✦ 별자리 ${starSmallLit(cid)+st.big}/${PRIM.length*STAR_SMALL+STAR_BIG}`; b.title="Lv40 — 최종 콘텐츠에서 모은 별의 정수로 능력치·특성 포인트를 더합니다"; b.onclick=()=>openStarBoard(cid); top.appendChild(b); }
+    b.textContent=`✦ 별자리 ${starSmallLit(cid)+st.big}/${PRIM.length*STAR_SMALL+STAR_BIG}`; b.title=`Lv${STAR_LV} — 최종 콘텐츠에서 모은 별의 정수로 능력치·특성 포인트를 더합니다`; b.onclick=()=>openStarBoard(cid); top.appendChild(b); }
   card.appendChild(top);
   if(mode!=="equip"){   // v0.94 전직·각성은 카드 맨 위(눈에 잘 띄게)
   if(!h.adv&&h.level>=ADV_LEVEL){
@@ -13454,6 +13464,10 @@ function autoRulePass(){
     if(progress&&progress.protag&&(progress.rulesFixV|0)<3){ for(const c of rosterIds()){ if(c===progress.protag.cid&&TUT.learning()) continue; const en=(partyRules[c]||[]).filter(r=>r.enabled);
         const old=r=>OLD_RULE_SIG_094.has(`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`)||(r.skill===CLASSES[c].skills[0]&&isAlw(r.c1)&&!r.logic);
         if(en.length&&en.every(old)){ partyRules[c]=tableRules(c); ensureRuleSlots(c); } } saveRules(); progress.rulesFixV=3; }
+    // v0.95 전직 규칙표 조정 → 바뀐 줄이 하나라도 있고 나머지도 모두 표에 있던 줄인(직접 고치지 않은) 영웅은 새 표로
+    if(progress&&progress.protag&&(progress.rulesFixV|0)<4){ for(const c of rosterIds()){ if(c===progress.protag.cid&&TUT.learning()) continue; const en=(partyRules[c]||[]).filter(r=>r.enabled);
+        const sg=r=>`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`, chg=r=>OLD_RULE_SIG_095.has(sg(r));
+        if(en.some(chg)&&en.every(r=>chg(r)||inRuleset(c,r)||(r.skill===CLASSES[c].skills[0]&&isAlw(r.c1)&&!r.logic))){ partyRules[c]=tableRules(c); ensureRuleSlots(c); } } saveRules(); progress.rulesFixV=4; }
     if(progress&&progress.protag&&(progress.rulesFixV|0)<2) progress.rulesFixV=2;
   }catch(e){}
   if(!progress||progress.autoRules>=1) return;
@@ -15016,6 +15030,12 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.08", v:"v0.94", t:"만렙 50 · 영원한 밤 골드 · 전직 규칙 다듬기", L:[
+    "최고 레벨 40 → 50. 적 강함은 그대로라 41~50레벨은 그만큼 강해지는 구간입니다. 레벨로 받는 특성 포인트는 지금처럼 Lv40까지(최대 31점)이고, 각성 · 큰 별 포인트는 그대로입니다.",
+    "각성은 이제 Lv50에서 합니다. n번째 각성에 드는 경험치 = Lv50 경험치 42,426 × n(1번째 42,426 · 10번째 424,260). 이미 한 각성은 그대로 남습니다.",
+    "별자리 판은 Lv50부터 밝힐 수 있습니다. 이미 밝힌 별의 효과는 그대로입니다.",
+    "자정 · 영원한 밤 골드를 적 강함에 맞췄습니다(몹 1마리 평균: 자정 1장 20 → 63 · 영원한 밤 1장 33 → 158 · 영원한 밤 10장 184 → 295). 보물상자 골드도 같은 비율. 황혼은 그대로입니다.",
+    "전직 기본 규칙표를 다듬었습니다: 컨셉 기술이 칸이 모자라 빠지거나, 조건이 맞지 않아 거의 안 나가던 표(심판관 · 대마법사 · 서리술사 · 숲의 사냥꾼 · 용권사 · 용기병 · 수도승 · 저격수 · 폭탄마 등)를 고쳤습니다. 기본 규칙을 직접 고치지 않은 영웅은 새 표로 바뀝니다."]},
   {d:"2026.11.07", v:"v0.94", t:"계정 진행 분리", L:[
     "Google 계정으로 하다가 로그아웃하고 게스트로 들어오면 Google 계정 진행이 게스트에 넘어갈 수 있던 문제를 고쳤습니다. 이제 Google 계정 진행은 그 Google 계정으로 로그인했을 때만 쓸 수 있습니다.",
     "다른 계정으로 넘길 수 있는 건 게스트(손님) 진행뿐입니다(게스트 → Google 연결). 다른 계정에서 나온 진행은 설정 '이 기기의 이전 진행'에도 보이지 않습니다."]},
