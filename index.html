@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1793974094886"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794012940147"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -5014,6 +5014,15 @@ function cloudLabel(){
 function setCloud(st){ const was=cloud.status; cloud.status=st; renderHud();   // v0.94 위쪽 ☁ 표시 대신: 끊길 때 · 다시 이어질 때만 알림
   if(st==="error"&&!cloud.errSaid){ cloud.errSaid=true; toast("☁ 서버 연결이 끊겼어요 — 지금 진행은 이 기기에만 저장됩니다. 다시 연결되면 자동으로 서버에 올라가요.","warn",7000); }
   else if(st==="synced"&&cloud.errSaid){ cloud.errSaid=false; toast("☁ 서버에 다시 연결돼 진행을 저장했어요.","good",4000); } }
+// v0.94 서버 저장 상태를 기록(설정 화면에 보임) · 실패하면 운영 도구 '오류'에 한 번 남기고 30초마다 다시 올려 봄
+function cloudOk(){ cloud.lastOk=Date.now(); cloud.lastErr=null; setCloud("synced"); }
+function cloudFail(e){ const code=(e&&(e.code||e.message))||String(e); cloud.lastErr={code:String(code).slice(0,120), at:Date.now()}; setCloud("error");
+  if(!cloud.errLogged){ cloud.errLogged=true; try{ window.PNNet&&window.PNNet.ops&&window.PNNet.ops.error({kind:"cloud-save", code:cloud.lastErr.code, ver:gameVersion(), ua:navigator.userAgent.slice(0,160), uid:(window.PNNet.ops.uid&&window.PNNet.ops.uid())||""}); }catch(x){} } }
+if(typeof document!=="undefined") setInterval(()=>{ try{ if(cloud.status==="error"&&cloud.doc&&cloud.ready&&!cloud.writing) cloudFlush(); }catch(e){} },30000);
+function cloudStatusHTML(){
+  if(!window.PNNet) return `<div class="sblock"><div class="slabel">저장 위치</div><p class="msub">지금 이 화면(Claude 안에서 연 게임)의 진행은 <b>이 Claude 페이지에만</b> 저장됩니다. 휴대폰 테스트 주소(GitHub Pages)의 진행과는 서로 따로예요.</p></div>`;
+  const ok=cloud.lastOk?fmtDate(cloud.lastOk):"아직 없음", er=cloud.lastErr;
+  return `<div class="sblock"><div class="slabel">서버 저장 상태</div><p class="msub">마지막 서버 저장: <b>${esc(ok)}</b>${er?` · <span style="color:var(--bad,#e57373)">실패 (${esc(er.code)}, ${esc(fmtDate(er.at))})</span>`:""}<br>휴대폰과 PC의 '계정 ID' 앞 6글자가 같아야 같은 진행이 이어집니다.</p></div>`; }
 function cloudPayload(){
   progress._equipped=equippedStore; progress.run=curRunSave();
   return { save: JSON.stringify({progress, rules:partyRules}), savedAt: progress.savedAt||0, ver: "0.7.5" };
@@ -5029,12 +5038,12 @@ async function cloudFlush(){
   if(!cloud.doc||!cloud.ready) return;
   if(cloud.writing){ cloud.dirty=true; return; }
   cloud.writing=true; setCloud("saving");
-  try{ await cloud.doc.set(cloudPayload()); setCloud("synced"); }
+  try{ await cloud.doc.set(cloudPayload()); cloudOk(); }
   catch(e){
     if(e&&e.code==="unavailable"){
-      try{ await new Promise(r=>setTimeout(r,800+Math.random()*800)); await cloud.doc.set(cloudPayload()); setCloud("synced"); }
-      catch(e2){ setCloud("error"); }
-    } else setCloud("error");
+      try{ await new Promise(r=>setTimeout(r,800+Math.random()*800)); await cloud.doc.set(cloudPayload()); cloudOk(); }
+      catch(e2){ cloudFail(e2); }
+    } else cloudFail(e);
   }
   finally{ cloud.writing=false; if(cloud.dirty){ cloud.dirty=false; cloudFlush(); } }
 }
@@ -14912,7 +14921,7 @@ function openSettings(){
     <div class="sblock"><div class="slabel">그래픽</div><div class="srow" id="gfxSeg" style="display:flex;gap:6px;flex-wrap:wrap">${[["auto","자동"],["high","높음"],["low","저사양"]].map(([k,l])=>`<button class="btn ${GFX.mode===k?"":"ghost"}" data-gfx="${k}">${l}</button>`).join("")}</div>
       <p class="msub">자동: 처음 몇 초 동안 재 보고 느리면 저사양으로 바꿉니다${GFX.mode==="auto"?` (지금 <b>${GFX.low?"저사양":"높음"}</b>)`:""}. 저사양: 초당 20장 · 화면 해상도 1배 · 그림자·흐림·앞쪽 날씨 끔 — 버벅이면 저사양으로 두세요.</p></div>
     ${helpBlockHTML()}
-    ${window.PNNet?window.PNNet.settingsHTML():""}${(()=>{ try{ const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress) return ""; return `<div class="sblock"><div class="slabel">이 기기의 이전 진행</div><p class="msub">계정을 바꾸거나 다른 기기 진행을 불러오기 전에 이 기기에 있던 진행을 보관해 두었습니다: <b>${esc(progressSummary(migrateProgress(JSON.parse(JSON.stringify(b.progress)))))}</b> (${fmtDate(b.at)}). 되돌리면 이 진행이 지금 계정에 저장되어 모든 기기에 반영됩니다.</p><div class="srow"><button class="btn ghost" id="bkRestore">이 진행으로 되돌리기</button></div></div>`; }catch(e){ return ""; } })()}
+    ${window.PNNet?window.PNNet.settingsHTML():""}${cloudStatusHTML()}${(()=>{ try{ const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress) return ""; return `<div class="sblock"><div class="slabel">이 기기의 이전 진행</div><p class="msub">계정을 바꾸거나 다른 기기 진행을 불러오기 전에 이 기기에 있던 진행을 보관해 두었습니다: <b>${esc(progressSummary(migrateProgress(JSON.parse(JSON.stringify(b.progress)))))}</b> (${fmtDate(b.at)}). 되돌리면 이 진행이 지금 계정에 저장되어 모든 기기에 반영됩니다.</p><div class="srow"><button class="btn ghost" id="bkRestore">이 진행으로 되돌리기</button></div></div>`; }catch(e){ return ""; } })()}
     <div class="sblock"><div class="slabel">의견 보내기</div><p class="msub">버그·난이도·불편한 점·아이디어를 게임 상태와 함께 보낼 수 있어요.</p><div class="srow"><button class="btn" onclick="closeModal();openFeedback()">💬 의견 보내기</button></div></div>
     
     <div class="sblock"><div class="slabel">새 게임</div><p class="msub">레벨·장비·골드·증표·엔딩 기록이 모두 지워지고 프롤로그부터 다시 시작합니다. 클라우드 저장도 함께 초기화되어 <b>다른 컴퓨터에서도</b> 처음부터 시작합니다. 되돌릴 수 없습니다.</p><button id="newGame" class="dangerb">처음부터 다시 시작</button></div>
@@ -14964,6 +14973,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.07", v:"v0.94", t:"서버 저장 확인", L:[
+    "⚙ 설정 → '계정 · 서버 저장' 아래에 마지막 서버 저장 시각과, 실패했다면 그 이유가 보입니다. 휴대폰과 PC의 '계정 ID' 앞 6글자가 같아야 같은 진행이 이어집니다.",
+    "서버 저장이 실패하면 30초마다 다시 올려 봅니다(예전엔 다음 저장 때까지 기다림). 실패 이유는 운영 도구 '오류'에도 남습니다.",
+    "Claude 안에서 연 게임은 그 페이지에만 저장되고 휴대폰 테스트 주소와는 진행이 따로라는 안내를 설정에 넣었습니다."]},
   {d:"2026.11.06", v:"v0.94", t:"알트탭해도 계속 진행", L:[
     "PC에서 알트탭·최소화로 게임 창이 가려지면 전투가 멈추거나 아주 느려지던 문제를 고쳤습니다. 브라우저가 가려진 페이지의 대기 시간을 최소 1초(5분 뒤엔 1분)로 늘리던 것입니다.",
     "이제 가려져 있는 동안의 대기는 브라우저가 늦추지 않는 별도 타이머로 돌려, 보일 때와 같은 속도로 전투·구역 자동 진행·반복 전투가 이어집니다(측정: 15초 동안 예전 9줄 → 46줄, 보일 때 38~47줄)."]},
