@@ -101,11 +101,10 @@
   function confirmBox(t) { try { return window.confirm(t); } catch (e) { return true; } }
   async function google() {
     const prov = new fb.auth.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
-    try { await user.linkWithPopup(prov); await auth.currentUser.reload(); user = auth.currentUser; render(); note("Google 계정을 연결했습니다 — 이제 다른 기기에서도 이 진행이 이어집니다."); }
+    try { await user.linkWithPopup(prov); await auth.currentUser.reload(); user = auth.currentUser; render(); try { if (typeof window.cloudFlush === "function") window.cloudFlush(); } catch (x) {} note("Google 계정을 연결했습니다 — 지금 진행이 이 Google 계정에 저장됐고, 다른 기기에서도 이 계정으로 들어오면 이어집니다."); }
     catch (e) {
       if (e && e.code === "auth/credential-already-in-use" && e.credential) {
         // 이 Google 계정은 이미 다른 기기에서 쓰던 계정 → 그 계정으로 들어가고, 그쪽 진행을 불러온다(이 기기 진행은 게임이 백업해 둠)
-        if (!confirmBox("이 Google 계정에는 이미 다른 기기에서 저장한 진행이 있습니다. 그 진행으로 바꿀까요? (이 기기의 지금 진행 대신 그 계정의 진행으로 바뀝니다)")) return;
         try { backupLocal("switch"); localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (x) {}
         await auth.signInWithCredential(e.credential); location.reload(); return; }
       if (e && (e.code === "auth/popup-closed-by-user" || e.code === "auth/cancelled-popup-request")) return;
@@ -139,7 +138,7 @@
     // v0.94 게스트 → Google 계정 연결(같은 계정 ID 유지 · 지금 진행 그대로). 이미 쓰던 Google 계정이면 그 계정으로 들어가고 이 기기 진행은 백업
     linkGoogle: async () => { const u = auth.currentUser; const prov = new fb.auth.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
       if (!u) { await auth.signInWithPopup(prov); return { switched: true }; }
-      try { await u.linkWithPopup(prov); await auth.currentUser.reload(); user = auth.currentUser; render(); return { linked: true }; }
+      try { await u.linkWithPopup(prov); await auth.currentUser.reload(); user = auth.currentUser; render(); try { if (typeof window.cloudFlush === "function") window.cloudFlush(); } catch (x) {} return { linked: true }; }
       catch (e) { if (e && e.code === "auth/credential-already-in-use" && e.credential) { backupLocal("switch"); try { localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (x) {} await auth.signInWithCredential(e.credential); return { switched: true }; } throw e; } },
     offline: () => readyRes(null)
   };

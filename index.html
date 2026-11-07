@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794015562484"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794017112505"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -5124,6 +5124,14 @@ function restoreLocalBackup(){
     logLine(`<span class="win">↩ 이 기기의 이전 진행으로 되돌렸습니다 (${esc(progressSummary(progress))}). 이제 이 진행이 모든 기기에 반영됩니다.</span>`);
   }catch(e){ logLine(`<span class="r">백업을 불러오지 못했습니다.</span>`); }
 }
+// v0.94 계정을 바꿔 들어왔는데(게스트 → Google 등) 그 계정 서버 진행이 비어 있으면, 방금 이 기기에서 하던 진행을 그대로 이 계정 진행으로(묻지 않음)
+function offerBackupAdopt(cloudReal){ try{
+  if(cloudReal||hasMeaningfulProgress(progress)) return;
+  const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress||!hasMeaningfulProgress(b.progress)) return;
+  if(Date.now()-(b.at||0)>7*86400e3) return;
+  // 묻지 않고 바로: 게스트로 하던 진행이 그대로 이 (Google) 계정 진행이 되고 서버에 올라감 → 어느 기기에서 이 계정으로 들어와도 이어짐
+  if(onboardBusy&&creationCancel) creationCancel(); restoreLocalBackup(); try{ localStorage.removeItem("pn_local_backup"); }catch(x){} cloudFlush();
+  toast(`☁ 하던 진행을 이 계정에 이어 붙였어요 — ${esc(progressSummary(progress))}`,"good",6000); }catch(e){} }
 async function cloudInit(){
   if(!window.claude||typeof window.claude.use!=="function") return;
   setCloud("connecting");
@@ -5170,6 +5178,7 @@ async function cloudInit(){
     await cloudFlush();
     logLine(`<span class="win">☁ 클라우드 저장을 켰습니다 — 이제 다른 컴퓨터에서 열어도 이 진행이 이어집니다.</span>`);
   } else setCloud("synced");
+  offerBackupAdopt(cloudReal);
   // 다른 기기가 저장하면 (쉬는 중일 때) 바로 반영
   cloud.unsub=cloud.doc.onSnapshot(sn=>{
     if(!sn.exists||sn.metadata.hasPendingWrites) return;
@@ -14990,8 +14999,9 @@ const UPDATES=[
   {d:"2026.11.07", v:"v0.94", t:"계정 · 서버 저장 바로잡기", L:[
     "게스트로 하다가 초대 코드 화면에서 '다른 계정으로 로그인'을 누르면 이 기기 진행이 백업 없이 지워지던 문제를 고쳤습니다. 이제 로그아웃 · 계정 바꾸기 전에는 늘 이 기기 진행을 백업하고, ⚙ 설정 '이 기기의 이전 진행'에서 되살릴 수 있습니다.",
     "첫 화면과 초대 코드 화면에 '이 게스트 진행 그대로 Google 계정 연결' 단추를 넣었습니다(같은 계정 ID를 유지해 진행이 그대로 Google 계정에 붙음).",
-    "초대 코드를 켜기 전부터 하던 플레이어는 게스트든 Google이든 서버에 저장이나 플레이어 기록이 있으면 코드 없이 들어옵니다(예전엔 Google 계정만).",
+    "(초대 코드를 켤 때 대비) 이미 하던 플레이어는 게스트든 Google이든 서버에 저장이나 플레이어 기록이 있으면 코드 없이 들어옵니다.",
     "서버 저장이 '권한 없음'으로 막히면 그 이유와 계정 ID를 크게 알려 줍니다. ⚙ 설정에 계정 ID 전체가 보입니다.",
+    "게스트로 하다가 Google로 들어오면(설정에서 연결하든, 로그아웃 뒤 Google로 로그인하든) 게스트 진행이 바로 그 Google 계정 진행이 되어 서버에 올라갑니다. 그 뒤 휴대폰·PC 어디서 그 Google 계정으로 들어와도 같은 진행입니다. 그 Google 계정에 이미 진행이 있으면 그 진행을 불러오고 게스트 진행은 백업합니다.",
     "운영 도구에 '저장' 탭: 서버에 있는 모든 저장(계정 ID · 요약 · 시각 · 기기)을 보고, 한 계정의 진행을 다른 계정으로 옮길 수 있습니다(받는 쪽 원래 저장은 서버에 보관). '초대' 탭에서 계정 ID로 바로 허용할 수 있습니다."]},
   {d:"2026.11.07", v:"v0.94", t:"서버 저장 확인", L:[
     "⚙ 설정 → '계정 · 서버 저장' 아래에 마지막 서버 저장 시각과, 실패했다면 그 이유가 보입니다. 휴대폰과 PC의 '계정 ID' 앞 6글자가 같아야 같은 진행이 이어집니다.",
