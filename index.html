@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794069247458"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794070879862"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3855,7 +3855,7 @@ const STAR_BIG_COST=10;
 function starOpen(cid){ return progress.heroes[cid].level>=STAR_LV; }
 /* 강화 15단계 · 재질 5티어 (v0.55.4: 금 감 없음 · 실패는 한 단계 하락만) */
 const ENH_MAX=15;
-const ENH_RATE=[1,1,1,0.95,0.9,0.85,0.75,0.65,0.55,0.45,0.35,0.28,0.2,0.14,0.08,0.05,0.03,0.02];   // v0.59: +16~+18은 심연 핵으로 연 부위만   // v0.55.4: 윗단계 성공률 크게 낮춤(+10→45% … +14→8%) — 하락이 한 단계뿐인 대신
+const ENH_RATE=[1,1,1,0.95,0.9,0.85,0.75,0.65,0.55,0.35,0.25,0.18,0.12,0.08,0.05,0.05,0.03,0.02];   // v0.95 B안: +10~+15 성공률 낮춤(45/35/28/20/14/8% → 35/25/18/12/8/5%) — 보호 주문서와 함께   // v0.59: +16~+18은 심연 핵으로 연 부위만   // v0.55.4: 윗단계 성공률 크게 낮춤(+10→45% … +14→8%) — 하락이 한 단계뿐인 대신
 const ENH_TIERS=[{min:0,name:"철",cls:"m-iron"},{min:4,name:"강철",cls:"m-steel"},{min:7,name:"미스릴",cls:"m-mithril"},{min:10,name:"흑요석",cls:"m-obsidian"},{min:13,name:"별철",cls:"m-starsteel"},{min:16,name:"심연철",cls:"m-abyss"}];
 const ENH_ABYSS=18;   // v0.59: 심연 핵으로 부위 한계를 열면 +18까지
 function slotMax(cid,sk){ const H=progress&&progress.heroes[cid]; return H&&H.sopen&&H.sopen[sk]?ENH_ABYSS:ENH_MAX; }
@@ -3881,6 +3881,27 @@ function itemEnh(it){ if(!it||it.noEnh) return null; try{ for(const c of CLASS_I
 function enhCost(cid,sk){ const l=slotEnh(cid,sk).l; const dc=(typeof equippedStore!=="undefined"&&equippedStore.some(x=>x&&x.relic==="gold"&&relicStar(x)>=3))?0.9:1;
   const t=(typeof bestLootTier==="function"&&progress)?bestLootTier():0;   // 비용은 지금까지 연 콘텐츠 수준을 따름(낀 장비와 무관)
   return {gold:Math.round(20*(1+0.35*t)*Math.pow(l+1,1.3)*dc), ess:Math.ceil((2+Math.floor(l*l/2))*dc)}; }
+/* v0.95 보호 주문서: 강화를 시도할 때마다 1개 소모 — 실패해도 단계가 내려가지 않음(하락이 있는 +6부터만 씀). 부위 상관없이 하루 10번까지.
+   일일 의뢰를 모두 마치면 3개 · 더 필요하면 💎 20개에 1개. 하루는 한국 시간 새벽 5시에 바뀜 */
+const WARD_DAY_MAX=10, WARD_GEM=20, WARD_DAILY_GIVE=3;
+function dayKey(t){ return new Date((t||Date.now())+4*3600e3).toISOString().slice(0,10); }   // UTC+9 − 5시간
+function wardState(){ const W=progress.ward=progress.ward||{n:0,day:"",used:0,on:false}; if(W.day!==dayKey()){ W.day=dayKey(); W.used=0; } return W; }
+function wardUsable(l){ const W=wardState(); return enhFailRule(l).drop>0&&W.n>0&&W.used<WARD_DAY_MAX; }
+function wardSpend(){ const W=wardState(); W.n--; W.used++; }
+/* v0.95 일일 의뢰 6개 — 의뢰마다 밤의 정수 25(골드 표시는 지금 연 가장 높은 장 몹 10마리분) · 마친 수 2 / 4 / 6개마다 단계 보상 */
+const DAILY_Q=[{k:"act",t:"던전 막 3번 돌파",n:3,gold:true},{k:"kill",t:"몹 100마리 처치",n:100,gold:true},{k:"boss",t:"보스·중간 보스 3마리 처치",n:3},
+  {k:"enh",t:"장비 강화 5번 시도",n:5},{k:"dis",t:"장비 10개 분해",n:10},{k:"social",t:"함께하기 1판 또는 상점에서 1번 구매",n:1,gold:true}];
+const DAILY_ESS=25, DAILY_TIER=[{at:2,ess:30},{at:4,ess:60},{at:6,ess:100,ward:WARD_DAILY_GIVE,gem:5}];
+function dailyState(){ const D=progress.daily=progress.daily||{}; if(D.day!==dayKey()){ D.day=dayKey(); D.c={}; D.got={}; D.tier={}; } return D; }
+function dailyAdd(k,n){ try{ if(!progress) return; const D=dailyState(); const q=DAILY_Q.find(x=>x.k===k); if(!q) return; D.c[k]=Math.min(q.n,(D.c[k]||0)+(n||1)); }catch(e){} }
+function dailyDone(k){ const D=dailyState(), q=DAILY_Q.find(x=>x.k===k); return (D.c[k]||0)>=q.n; }
+function dailyGotN(){ const D=dailyState(); return DAILY_Q.filter(q=>D.got[q.k]).length; }
+function dailyGoldBase(){ let best=0; try{ for(let d=0;d<=(progress.diffMax|0);d++) for(const rk of REGION_KEYS) if(typeof chapterUnlocked!=="function"||chapterUnlocked(d,rk)) best=Math.max(best,poolGold(rk)*goldMul(d,rk)); }catch(e){} return Math.round((best||9)*10); }
+function dailyReward(k){ const q=DAILY_Q.find(x=>x.k===k); return {ess:DAILY_ESS, gold:q&&q.gold?dailyGoldBase():0}; }
+function dailyClaim(k){ const D=dailyState(); if(D.got[k]||!dailyDone(k)) return null; const r=dailyReward(k); D.got[k]=true; progress.ess+=r.ess; progress.gold+=r.gold; return r; }
+function dailyClaimTier(i){ const D=dailyState(), T=DAILY_TIER[i]; if(!T||D.tier[i]||dailyGotN()<T.at) return null; D.tier[i]=true; progress.ess+=T.ess||0;
+  if(T.ward) wardState().n+=T.ward; if(T.gem) progress.gem=(progress.gem||0)+T.gem; return T; }
+function dailyReadyN(){ const D=dailyState(); return DAILY_Q.filter(q=>!D.got[q.k]&&dailyDone(q.k)).length+DAILY_TIER.filter((T,i)=>!D.tier[i]&&dailyGotN()>=T.at).length; }
 function enhFailRule(l){ return l<6?{drop:0,gilt:0}:{drop:1,gilt:0}; }   // v0.55.4: 실패는 한 단계 하락만(+6까지는 하락 없음) · 금 감 없음 }
 function repairCost(cid,sk){ return {gold:Math.round(enhCost(cid,sk).gold*1.5), ess:4}; }
 // v0.88 강화 배율: +1~+9 단계당 5% · +10~+15 단계당 9% · +16~+18(심연 핵) 단계당 15% — % 능력치는 절반
@@ -3914,7 +3935,7 @@ function fragAdd(f,acc){ const S=fragStore(); for(const [k,v] of Object.entries(
 function fragText(f){ return Object.entries(f||{}).filter(([,v])=>v).map(([k,v])=>`${FRAG_LABEL[k]} +${v}`).join(" · "); }
 // v0.94 장비를 팔거나 분해하면 끼워 둔 룬은 룬주머니로 돌아옴
 function popRunes(it){ let n=0; if(it&&it.slot!=="rune"&&Array.isArray(it.sockets)) for(let i=0;i<it.sockets.length;i++){ const r=it.sockets[i]; if(r&&RUNES[runeK(r)]){ progress.inv.push(makeRune(r)); it.sockets[i]=null; n++; } } return n; }
-function dismantleGive(it,acc){ const e=dismantleValue(it); progress.ess+=e; fragAdd(fragOf(it),acc); return e; }
+function dismantleGive(it,acc){ const e=dismantleValue(it); progress.ess+=e; fragAdd(fragOf(it),acc); dailyAdd("dis",1); return e; }
 const STAT_LABEL = Object.assign({}, SEC_LABEL);
 function statText(k,v){ const lbl=STAT_LABEL[k]||k; return `${lbl} +${v}${PCT_KEYS.has(k)?"%":""}`; }
 const SKILLBOOKS_OLD = [
@@ -3945,7 +3966,7 @@ const LIMITS=[
   ["퀘스트","왼쪽 메뉴의 📜 퀘스트 탭. 메인 의뢰는 황혼 1~10장마다 꼭 필요한 이야기 막 셋(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있습니다(모두 30개). 황혼에서 그 막을 처음 깨러 들어갈 때는 메인 의뢰를 받아야 하고(입장할 때 의뢰 창이 뜨면 [의뢰 받고 출발]), 앞 메인 의뢰를 보고해야 다음 메인 의뢰를 받을 수 있습니다. 막을 돌파한 뒤 보고하면 알게 된 이야기와 보상(1·3막: 그 장 일반 몹 평균 5마리분 경험치·골드 · 5막: 12마리분 + 밤의 정수 5×장 번호 + 희귀 장비 1개). 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막은 그 막 우두머리 이야기(받은 뒤 그 막 끝 우두머리를 쓰러뜨리기, 보상 5마리분), 그리고 막마다 몹 잡기 부탁(받은 뒤 그 장 그 막에서 정해진 몹 6~10마리, 어느 난이도든·정예 포함, 보상 4마리분 + 밤의 정수 장 번호, 5막은 희귀 장비 1개 더). 서브는 황혼에서 그 막이 열려 있으면 받을 수 있습니다. 받기·보고는 던전 밖에서 하고, 경험치는 그때 출전 중인 영웅마다 들어갑니다."],
   ["특성 포인트","전직(Lv10)부터 레벨마다 1점(Lv40에 31점) + 각성마다 4점 + 큰 별마다 1점. 특성은 가운데에서 서로 얽혀 뻗는 그물(영웅마다 215칸 — 직업 공통 갈래 3 + 고른 전직 갈래 2)이라, 이미 배운 칸과 이어진 칸만 배울 수 있습니다. 궁극은 갈래 끝 20개 중 4개까지. 각성은 10번까지(최대 71점)."],
   ["전투 규칙 칸","전직 전 3칸 · 전직 후 4칸. 칸마다 조건과 쓸 스킬을 정하고, 아무것도 안 맞으면 기본공격(칸을 차지하지 않음)."],
-  ["장비 강화","최대 +15(심연 핵으로 연 부위는 +18). 단계가 오를수록 성공률이 낮아집니다."],
+  ["장비 강화","최대 +15(심연 핵으로 연 부위는 +18). 단계가 오를수록 성공률이 낮아집니다. +6부터 실패하면 한 단계 내려가는데, 보호 주문서를 쓰면 내려가지 않습니다(부위 상관없이 하루 10번)."],
   ["보호막","한 사람이 가진 보호막은 최대 체력의 40%를 넘지 않습니다(모든 보호막 기술·특성 공통)."],
   ["반격","반격 확률은 최대 60%(반격의 왕 특성이 있으면 85%)."],
   ["행동 게이지","매 턴 100%씩 차고 100%마다 한 번 행동합니다. 전쟁의 북·돌격·돌진(용기병)으로 더 차면 100%를 넘을 때마다 그 턴에 한 번 더 움직이고, 견제 찌르기·덩굴 화살로 깎이면 모자란 만큼이 쌓여 한 번 행동만큼이 되는 턴에 쉽니다."],
@@ -5021,8 +5042,8 @@ const cloud={doc:null, ready:false, status:"off", writing:false, dirty:false, ti
 function cloudLabel(){
   return {off:"", connecting:"☁ 연결 중", synced:"☁ 동기화됨", saving:"☁ 저장 중", error:"☁ 연결 끊김(이 기기에만 저장)"}[cloud.status]||"";
 }
-function setCloud(st){ const was=cloud.status; cloud.status=st; renderHud();   // v0.94 위쪽 ☁ 표시 대신: 끊길 때 · 다시 이어질 때만 알림
-  if(st==="error"&&!cloud.errSaid){ cloud.errSaid=true; toast("☁ 서버 연결이 끊겼어요 — 지금 진행은 이 기기에만 저장됩니다. 다시 연결되면 자동으로 서버에 올라가요.","warn",7000); }
+function setCloud(st){ const was=cloud.status; cloud.status=st; renderHud(); try{ netWall(); }catch(e){}   // v0.94 위쪽 ☁ 표시 대신: 끊길 때 · 다시 이어질 때만 알림
+  if(st==="error"&&!cloud.errSaid){ cloud.errSaid=true; if(!netRequired()) toast("☁ 서버 연결이 끊겼어요 — 지금 진행은 이 기기에만 저장됩니다. 다시 연결되면 자동으로 서버에 올라가요.","warn",7000); }
   else if(st==="synced"&&cloud.errSaid){ cloud.errSaid=false; toast("☁ 서버에 다시 연결돼 진행을 저장했어요.","good",4000); } }
 // v0.94 서버 저장 상태를 기록(설정 화면에 보임) · 실패하면 운영 도구 '오류'에 한 번 남기고 30초마다 다시 올려 봄
 function cloudOk(){ cloud.lastOk=Date.now(); cloud.lastErr=null; cloud.remote={savedAt:progress.savedAt||0, dev:devLabel(), sum:(()=>{ try{ return progressSummary(progress); }catch(e){ return ""; } })(), mine:true}; setCloud("synced"); }
@@ -5030,6 +5051,23 @@ function cloudFail(e){ const code=(e&&(e.code||e.message))||String(e); cloud.las
   if(/PERMISSION|permission/.test(code)&&!cloud.permSaid){ cloud.permSaid=true; try{ const id=(window.PNNet&&window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||""; toast(`☁ 이 계정은 서버 저장이 허용되지 않았어요(초대 확인 안 됨) — 진행은 이 기기에만 남아 있어요. 관리자에게 계정 ID <b>${esc(id.slice(0,10))}</b>를 알려 주세요.`,"warn",12000); }catch(x){} }
   if(!cloud.errLogged){ cloud.errLogged=true; try{ window.PNNet&&window.PNNet.ops&&window.PNNet.ops.error({kind:"cloud-save", code:cloud.lastErr.code, ver:gameVersion(), ua:navigator.userAgent.slice(0,160), uid:(window.PNNet.ops.uid&&window.PNNet.ops.uid())||""}); }catch(x){} } }
 if(typeof document!=="undefined") setInterval(()=>{ try{ if(cloud.status==="error"&&cloud.doc&&cloud.ready&&!cloud.writing) cloudFlush(); }catch(e){} },30000);
+/* v0.95 서버 연결 필수(출시판 = PNNet이 있는 화면만): 서버 진행을 읽기 전 · 연결이 끊긴 동안에는 플레이를 막는다
+   (오프라인에서 고친 저장을 나중에 올리는 길을 막음). 막힌 동안 10초마다 다시 연결해 봄. Claude 안에서 연 개발판은 그대로 */
+function netRequired(){ return typeof window!=="undefined"&&!!window.PNNet; }
+function netBlocked(){ if(!netRequired()) return false; return !(cloud.ready&&(cloud.status==="synced"||cloud.status==="saving")); }
+function netGate(){ if(!netBlocked()) return true; toast("☁ 서버에 연결돼야 플레이할 수 있어요 — 다시 연결하는 중입니다.","warn",4000); netWall(); return false; }
+function netWall(){ if(typeof document==="undefined") return; let w=document.getElementById("netwall"); const on=netBlocked()&&bootDone;
+  if(!on){ if(w) w.remove(); return; }
+  if(!w){ w=document.createElement("div"); w.id="netwall"; w.setAttribute("role","alertdialog");
+    w.style.cssText="position:fixed;inset:0;z-index:9000;background:rgba(8,10,20,.82);display:flex;align-items:center;justify-content:center;padding:16px";
+    w.innerHTML=`<div style="max-width:340px;background:#151a2c;border:1px solid #2c3554;border-radius:12px;padding:18px;text-align:center;color:#dfe6ff">
+      <div style="font-size:28px">☁</div><b id="nwT"></b><p class="msub" id="nwP" style="margin:8px 0 12px"></p><button class="btn" id="nwB">다시 연결</button></div>`;
+    document.body.appendChild(w); w.querySelector("#nwB").onclick=()=>{ netRetry(); }; }
+  const conn=!cloud.ready||cloud.status==="connecting";
+  w.querySelector("#nwT").textContent=conn?"서버에 연결하는 중":"서버 연결이 끊겼어요";
+  w.querySelector("#nwP").textContent=conn?"진행을 서버에서 불러오는 중입니다. 잠시만 기다려 주세요.":"이 게임은 서버에 연결된 상태에서만 플레이할 수 있어요. 인터넷 연결을 확인해 주세요 — 10초마다 자동으로 다시 연결합니다."; }
+function netRetry(){ try{ if(cloud.doc&&cloud.ready&&!cloud.writing&&cloud.status==="error") cloudFlush(); }catch(e){} }
+if(typeof document!=="undefined") setInterval(()=>{ try{ if(netBlocked()) netRetry(); netWall(); }catch(e){} },10000);
 function cloudStatusHTML(){
   if(!window.PNNet) return `<div class="sblock"><div class="slabel">저장 위치</div><p class="msub">지금 이 화면(Claude 안에서 연 게임)의 진행은 <b>이 Claude 페이지에만</b> 저장됩니다. 휴대폰 테스트 주소(GitHub Pages)의 진행과는 서로 따로예요.</p></div>`;
   const ok=cloud.lastOk?fmtDate(cloud.lastOk):"아직 없음", er=cloud.lastErr, R=cloud.remote;
@@ -12540,8 +12578,9 @@ function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find
     +(canOpen?`<div class="statline">🌑 심연 핵 ${progress.abyssCore|0}개 <button class="mini" id="abOpen" ${(progress.abyssCore|0)<1||runBusy()?"disabled":""}>심연 핵 1개로 이 부위 한계 열기 (+${ENH_ABYSS}까지)</button></div>`:""):"";
   const head=it?`<div class="imhead">${iconCell(it,{enh:it.noEnh?null:E})}<div><h2 class="${rarityCls(it)}">${it.noEnh?"":enhTag(E)}${esc(itemDisplayName(it))}</h2><div class="statline">${esc(rarityLabel(it))} · ${esc(s.label)}${itemClassText(it)?" · "+esc(itemClassText(it)):""} · <span class="wornchip">${esc(heroDisplayName(cid))} 착용 중</span></div></div></div>`
     :`<div class="imhead"><span class="icell r-none ghost"><img src="${slotGhostURL(sk,cid)}" alt=""></span><div><h2>${esc(s.label)} <small style="color:var(--muted)">비어 있음</small></h2><div class="statline">${esc(heroDisplayName(cid))}의 ${esc(s.label)} 칸</div></div></div>`;
+  const wardLine=canE&&!(it&&it.noEnh)&&E.l<slotMax(cid,sk)?wardRowHTML(E.l):"";
   const m=openModal(`${head}
-    <div class="imbody">${enhLine}${it?itemStatHTML(it)+(it.set?setInfoHTML(it,cid,null):""):""}</div><div class="imacts"></div><div class="mfoot"><button class="ghostbtn" id="imClose">닫기</button></div>`,"itemm");
+    <div class="imbody">${enhLine}${wardLine}${it?itemStatHTML(it)+(it.set?setInfoHTML(it,cid,null):""):""}</div><div class="imacts"></div><div class="mfoot"><button class="ghostbtn" id="imClose">닫기</button></div>`,"itemm");
   const acts=m.querySelector(".imacts");
   if(canE&&!(it&&it.noEnh)){ acts.appendChild(enhButton(cid,sk)); if(E.gilt) acts.appendChild(repairButton(cid,sk)); }
   if(it&&(it.affixes||[]).length){ const rb=document.createElement("button"); rb.textContent=`재련 (정수 ${reforgeCost(it).ess}~)`; rb.onclick=()=>openReforge(it); acts.appendChild(rb); }
@@ -12550,6 +12589,7 @@ function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find
   fb.onclick=()=>{ closeModal(); invSlot=sk; invFilter="all"; invSort="best"; renderParty(); }; acts.appendChild(fb);
   if(it){ const ub=document.createElement("button"); ub.textContent="해제"; ub.onclick=()=>{ closeModal(); unequip(cid,sk); }; acts.appendChild(ub); }
   m.querySelector("#imClose").onclick=closeModal; m.addEventListener("click",e=>{ if(e.target===m) closeModal(); });
+  wardBind(m,()=>{ closeModal(); openWornItem(cid,sk); });
   { const ob=m.querySelector("#abOpen"); if(ob) ob.onclick=()=>{ if((progress.abyssCore|0)<1||runBusy()) return; progress.abyssCore--; const H=progress.heroes[cid]; H.sopen=H.sopen||{}; H.sopen[sk]=true;
       logLine(`<span class="win">🌑 ${esc(heroDisplayName(cid))}의 ${esc(s.label)} — 심연 핵으로 한계를 열었다 (+${ENH_ABYSS}까지 강화 가능 · 남은 핵 ${progress.abyssCore})</span>`); saveProgress(); renderParty(); closeModal(); openWornItem(cid,sk); }; }   // v0.59
   acts.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; setTimeout(()=>{ if($("modal")===m&&b.classList.contains("enhb")) openWornItem(cid,sk); },0); }); }
@@ -12765,7 +12805,7 @@ function questReady(){ const out=[];
     for(const q of QS[rk]) if(questSubSt(q)==="rep") out.push({id:"s:"+q.id, rk, label:`서브 '${q.t}'`, kind:"report"}); }
   return out; }
 let QSEEN=null;
-function renderQuestDot(){ const el=$("questDot"); if(!el) return; const L=questReady(); el.textContent=L.length?String(L.length):"";
+function renderQuestDot(){ const el=$("questDot"); if(!el) return; const L=questReady(); const dn=(()=>{ try{ return dailyReadyN(); }catch(e){ return 0; } })(); el.textContent=L.length+dn?String(L.length+dn):"";
   const ids=L.filter(x=>x.kind==="report").map(x=>x.id);
   if(QSEEN){ const fresh=L.filter(x=>x.kind==="report"&&!QSEEN.has(x.id));
     for(const x of fresh){ logLine(`<span class="win">📜 ${esc(x.label)} — 목표 달성. 퀘스트 탭에서 보고하세요.</span>`); if(!instantMode()) toast(`<span class="tc">📜 보고할 수 있어요</span><b>${esc(x.label)}</b>`,"",2600); } }
@@ -12823,6 +12863,17 @@ function questSubReport(id){ if(questBusy()) return; const q=questSubById(id); i
     <div class="qtext">${questLines(q.done,"qsay")}</div><div class="qrw"><span>받은 보상: ${questRewardText(r).replace(" · 희귀 장비 1개","")}${got}</span></div>
     <div class="qbtns"><button class="btn ghost" id="qcls">닫기</button></div></div>`,"qdlg");
   m.querySelector("#qcls").onclick=closeModal; m.onclick=e=>{ if(e.target===m) closeModal(); }; }
+// v0.95 일일 의뢰(퀘스트 탭 맨 위) — 한국 시간 새벽 5시에 새로 시작
+function dailyHTML(){ const D=dailyState(), gotN=dailyGotN();
+  const rows=DAILY_Q.map(q=>{ const n=D.c[q.k]||0, done=n>=q.n, got=!!D.got[q.k], r=dailyReward(q.k);
+    return `<li class="qstep ${got?"done":done?"rep":"go"}"><div class="qsh"><span class="qmk">${got?"✓":"·"}</span><b>${esc(q.t)}</b><span class="qtg">${n}/${q.n}</span>
+      ${got?`<span class="qok">받음</span>`:done?`<button class="btn qbtn" data-dq="${q.k}">받기</button>`:""}</div><div class="qwho">보상: 밤의 정수 ${r.ess}${r.gold?` · 골드 ${r.gold}`:""}</div></li>`; }).join("");
+  const tiers=DAILY_TIER.map((T,i)=>{ const ok=gotN>=T.at, got=!!D.tier[i]; const txt=[`정수 ${T.ess}`].concat(T.ward?[`보호 주문서 ${T.ward}`]:[]).concat(T.gem?[`💎 ${T.gem}`]:[]).join(" · ");
+    return `<span class="qtg ${got?"done":ok?"rep":""}" style="display:inline-flex;gap:6px;align-items:center;margin:2px 6px 2px 0">${T.at}개: ${txt} ${got?"✓":ok?`<button class="mini" data-dt="${i}">받기</button>`:""}</span>`; }).join("");
+  return `<div class="panel qmain qdaily"><div class="qhd"><span class="qtag">일일</span><b>오늘의 의뢰</b><span class="qfrom">받은 보상 ${gotN}/${DAILY_Q.length} · 새벽 5시에 새로 시작</span></div>
+    <ol class="qsteps">${rows}</ol><div class="qrw"><span>마친 의뢰 수 보상 — ${tiers}</span></div></div>`; }
+function dailyBind(pane){ pane.querySelectorAll("[data-dq]").forEach(b=>b.onclick=()=>{ const r=dailyClaim(b.dataset.dq); if(r) logLine(`<span class="gain">📅 일일 의뢰 보상 — 밤의 정수 +${r.ess}${r.gold?` · 골드 +${r.gold}`:""}</span>`); questAfter(); });
+  pane.querySelectorAll("[data-dt]").forEach(b=>b.onclick=()=>{ const T=dailyClaimTier(+b.dataset.dt); if(T) logLine(`<span class="gain">📅 일일 의뢰 ${T.at}개 보상 — 밤의 정수 +${T.ess}${T.ward?` · 🛡 보호 주문서 +${T.ward}`:""}${T.gem?` · 💎 +${T.gem}`:""}</span>`); questAfter(); }); }
 function renderQuest(){
   const pane=$("questPane"); if(!pane) return; const Q=questState();
   const open=REGION_KEYS.filter(questMainOpen); const cur=open.find(rk=>questMainCur(rk).st!=="all")||open[open.length-1]||"swamp";
@@ -12846,7 +12897,8 @@ function renderQuest(){
     const btn=st==="ready"?`<button class="btn qsa" data-id="${q.id}">수락</button>`:st==="rep"?`<button class="btn qsr" data-id="${q.id}">보고하기</button>`:st==="done"?`<span class="qok">완료</span>`:"";
     return `<div class="panel qsub ${st}"><div class="qhd"><span class="qtag sub">서브 ${q.act}막${q.boss?" · 우두머리":""}</span><b>${st==="lock"?esc(actName(rk,q.act)):esc(q.t)}</b><span class="qfrom">${st==="lock"?"":esc(q.who)}</span></div>${body}
       ${st==="lock"?"":`<div class="qrw"><span>보상: ${questRewardText(r)}${st==="ready"?` · 목표 ${esc(questSubGoal(q))}`:""}</span>${btn}</div>`}</div>`; }).join("");
-  pane.innerHTML=`<div class="qwrap"><nav class="qlist" aria-label="장 목록">${list}</nav><div class="qbody">${mainHTML}<div class="qsubhd">서브 의뢰 — 막마다 1~2개 · 받은 뒤부터 그 막에서 셉니다(반복 사냥용)</div>${subHTML}</div></div>`;
+  pane.innerHTML=`<div class="qwrap"><nav class="qlist" aria-label="장 목록">${list}</nav><div class="qbody">${dailyHTML()}${mainHTML}<div class="qsubhd">서브 의뢰 — 막마다 1~2개 · 받은 뒤부터 그 막에서 셉니다(반복 사냥용)</div>${subHTML}</div></div>`;
+  dailyBind(pane);
   pane.querySelectorAll(".qch").forEach(b=>b.onclick=()=>{ Q.open=b.dataset.rk; renderQuest(); });
   pane.querySelectorAll("[data-b]").forEach(b=>b.onclick=()=>questBrief(rk,+b.dataset.b));
   pane.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>questReport(rk,+b.dataset.r));
@@ -13056,13 +13108,21 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   return card;
 }
 
+// v0.95 보호 주문서 줄(부위 창): 개수 · 오늘 쓴 횟수 · 사용 켜기/끄기 · 💎로 사기
+function wardRowHTML(l){ const W=wardState(), drop=enhFailRule(l).drop>0, gem=progress.gem||0;
+  return `<div class="statline">🛡 보호 주문서 <b>${W.n}</b>개 · 오늘 ${W.used}/${WARD_DAY_MAX}번 사용 — 강화할 때마다 1개, 실패해도 단계가 내려가지 않음${drop?"":" (지금 단계는 실패해도 내려가지 않아 쓰지 않음)"}
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><button class="mini" id="wardOn" ${runBusy()?"disabled":""}>${W.on?"✔ 보호 주문서 사용 중 — 끄기":"보호 주문서 사용 켜기"}</button>
+    <button class="mini" id="wardBuy" ${gem<WARD_GEM?"disabled":""}>💎 ${WARD_GEM}개로 1개 사기 <small>보유 ${gem}</small></button></div></div>`; }
+function wardBind(m,re){ const on=m.querySelector("#wardOn"), buy=m.querySelector("#wardBuy");
+  if(on) on.onclick=()=>{ const W=wardState(); W.on=!W.on; saveProgress(); re(); };
+  if(buy) buy.onclick=()=>{ if((progress.gem||0)<WARD_GEM) return; progress.gem-=WARD_GEM; wardState().n++; saveProgress(); logLine(`<span class="gain">💎 새벽 결정 ${WARD_GEM}개로 보호 주문서 1개를 샀습니다 (보유 ${wardState().n}개)</span>`); re(); }; }
 function enhButton(cid,sk){
   const b=document.createElement("button"); b.className="enhb";
   const E=slotEnh(cid,sk), l=E.l, s0=(SLOTS.find(x=>x.key===sk)||{label:sk}).label;
   if(l>=slotMax(cid,sk)){ b.textContent=`${s0} 최대 강화`; b.disabled=true; return b; }
   const c=enhCost(cid,sk), rate=Math.min(1,ENH_RATE[l]+enhLuck(cid));
   const fr=enhFailRule(l);
-  b.textContent=`${s0} 강화 +${l+1} (${Math.round(rate*100)}%)`;
+  b.textContent=`${s0} 강화 +${l+1} (${Math.round(rate*100)}%)${wardState().on&&fr.drop?" 🛡":""}`;
   b.title=`부위 강화 — 이 칸에 끼는 장비 모두에 붙습니다 · 비용: 골드 ${c.gold} · 밤의 정수 ${c.ess}${fr.drop?` · 실패 시 ${fr.drop}단계 하락`:""}${fr.gilt?` · ${Math.round(fr.gilt*100)}% 확률로 금이 감`:""} · 다음 재질: ${enhTier(l+1).name}`;
   b.disabled=progress.gold<c.gold||progress.ess<c.ess||E.gilt;
   b.onclick=(e)=>{ e.stopPropagation(); tryEnhance(cid,sk); };
@@ -13081,15 +13141,17 @@ function tryEnhance(cid,sk){
   const E=slotEnh(cid,sk), l=E.l; if(!ENH_SLOTS.includes(sk)||l>=slotMax(cid,sk)||E.gilt) return;
   const c=enhCost(cid,sk);
   if(progress.gold<c.gold||progress.ess<c.ess) return;
-  progress.gold-=c.gold; progress.ess-=c.ess;
+  const W=wardState(), useW=!!W.on&&enhFailRule(l).drop>0;   // v0.95 보호 주문서
+  if(useW&&!wardUsable(l)){ toast(W.n<=0?`🛡 보호 주문서가 없어요 — 사거나 '보호 주문서 사용'을 끄고 강화하세요.`:`🛡 보호 주문서는 하루 ${WARD_DAY_MAX}번까지예요 — 오늘은 다 썼어요(새벽 5시에 초기화). 끄고 강화할 수 있어요.`,"warn",3600); return; }
+  progress.gold-=c.gold; progress.ess-=c.ess; if(useW) wardSpend(); dailyAdd("enh",1);
   const ok=Math.random()<Math.min(1,ENH_RATE[l]+enhLuck(cid));
-  const fr=enhFailRule(l); let msg="", cls="r"; try{ SND.fx(ok?"enhance_ok":"enhance_fail"); }catch(e){}
+  const fr=useW?{drop:0,gilt:0}:enhFailRule(l); let msg="", cls="r"; try{ SND.fx(ok?"enhance_ok":"enhance_fail"); }catch(e){}
   const nm=`${heroDisplayName(cid)}의 ${(SLOTS.find(x=>x.key===sk)||{label:sk}).label}`;
   if(ok){ setSlotEnh(cid,sk,{l:l+1}); const t=enhTier(l+1), t0=enhTier(l); msg=`✨ 강화 성공! ${nm} +${l+1}${t!==t0?` — 재질이 ${t.name}(으)로 바뀌었다`:""}`; cls="win"; }
   else if(fr.drop){ setSlotEnh(cid,sk,{l:l-fr.drop}); msg=`💥 강화 실패 — ${fr.drop}단계 내려갔다: ${nm} +${Math.max(0,l-fr.drop)}`; cls="lose";
     if(fr.gilt&&Math.random()<fr.gilt){ setSlotEnh(cid,sk,{gilt:true}); msg+=" · 금이 갔다! (능력치 -10%, 수리 가능)"; } }
-  else msg=`강화 실패 — 단계는 그대로 (${nm} +${l})`;
-  logLine(`<span class="${cls}">${esc(msg)} (골드 -${c.gold} · 정수 -${c.ess})</span>`);
+  else msg=`강화 실패 — 단계는 그대로 (${nm} +${l})${useW?" · 🛡 보호 주문서가 막았다":""}`;
+  logLine(`<span class="${cls}">${esc(msg)} (골드 -${c.gold} · 정수 -${c.ess}${useW?` · 🛡 보호 주문서 1개 (오늘 ${W.used}/${WARD_DAY_MAX})`:""})</span>`);
   saveProgress(); renderParty();
   if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:${ok?"var(--accent)":fr.drop?"var(--bad)":"var(--muted)"}">${esc(msg)}</span>`, 1500);
 }
@@ -13433,7 +13495,7 @@ function shopTick(){ if(!progress) return false; const S=progress.shopStock;
   if(!Array.isArray(S)||S.length!==SHOP_N||!(progress.shopAt>0)||Date.now()-progress.shopAt>=SHOP_AUTO_MS){ genStock(); return true; } return false; }
 function shopNextText(){ const ms=Math.max(0,(progress.shopAt||Date.now())+SHOP_AUTO_MS-Date.now()), m=Math.ceil(ms/60000); return `다음 자동 새로고침 ${m>=60?Math.floor(m/60)+"시간 ":""}${m%60}분 뒤`; }
 function shopBuyEss(e){ if(e.sold) return false; if(progress.gold<e.price){ logLine(`<span class="r">골드가 부족합니다 (${e.price}G 필요).</span>`); return false; }
-  progress.gold-=e.price; progress.ess+=e.n; e.sold=true; saveProgress(); renderShop(); renderHud();
+  progress.gold-=e.price; progress.ess+=e.n; e.sold=true; dailyAdd("social",1); saveProgress(); renderShop(); renderHud();
   logLine(`<span class="gain">구매: 밤의 정수 ×${e.n} (골드 -${e.price})</span>`); toast(`<span class="tc">구매 — 밤의 정수 +${e.n}</span>지금 ${progress.ess}개`,"good"); return true; }
 function shopEssCard(e){ const c=document.createElement("div"); c.className="sgcard r-fine";
   c.innerHTML=`<div class="sgtop"><span class="ic ess-ic" aria-hidden="true">✦</span><span class="sgtx"><span class="iname">밤의 정수 ×${e.n}</span><span class="sgsub">재료 · 강화 · 등급 올리기</span></span></div>
@@ -13497,10 +13559,10 @@ function genMarket(){
 let shopTab="gear";
 function shopBuyGear(entry){ const it=entry.item; if(entry.sold) return false;
   if(progress.gold<entry.price){ logLine(`<span class="r">골드가 부족합니다 (${entry.price}G 필요).</span>`); return false; }
-  progress.gold-=entry.price; entry.sold=true; progress.inv.push(it); codexRecord(it); saveProgress(); renderShop();
+  progress.gold-=entry.price; entry.sold=true; progress.inv.push(it); codexRecord(it); dailyAdd("social",1); saveProgress(); renderShop();
   logLine(`<span class="gain">구매: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`);
   toast(`<div class="tit">${iconCell(it)}<div><span class="tc">구매 — 가방에 넣었습니다</span><span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></div></div>`,"good"); return true; }
-function shopBuyMarket(g){ const it=g.item; if(progress.ess<g.price) return false; progress.ess-=g.price; g.sold=true; progress.inv.push(it); codexRecord(it); saveProgress(); renderShop();
+function shopBuyMarket(g){ const it=g.item; if(progress.ess<g.price) return false; progress.ess-=g.price; g.sold=true; progress.inv.push(it); codexRecord(it); dailyAdd("social",1); saveProgress(); renderShop();
   logLine(`<span class="gain">🌌 밤의 시장에서 구매: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span> (정수 -${g.price})</span>`);
   toast(`<div class="tit">${iconCell(it)}<div><span class="tc">밤의 시장 — 가방에 넣었습니다</span><span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></div></div>`,"good"); return true; }
 function shopBest(it){ return rosterIds().map(c=>({c,p:upgradeFor(c,it)})).filter(x=>x.p&&x.p.pct>0.5).sort((a,b)=>b.p.pct-a.p.pct)[0]; }
@@ -13698,7 +13760,7 @@ function repeatAfterRun(){
     const T=REPEAT.tgt;
     if(T.eg){ if(!egCanEnter(T.eg)) return repeatStop(`${EG_MODES[T.eg].name} 이번 주 입장을 다 썼어요`); progress.egMode=T.eg; }
     else { progress.egMode=null; progress.diff=T.d; progress.lastRegion=T.rk; (progress.actSel=progress.actSel||{})[actKey(T.d,T.rk)]=T.act; try{ $("diffSel").value=String(T.d); }catch(e){} }
-    if(!torchCanEnter()) return repeatStop("횃불이 떨어졌어요");
+    if(netBlocked()) return repeatStop("서버 연결이 끊겼어요"); if(!torchCanEnter()) return repeatStop("횃불이 떨어졌어요");
     if(bagOver()) return repeatStop(`가방이 가득 찼어요(${bagUsed()}/${bagCap()}칸)`);
     REPEAT.n++; renderRepeat(); logLine(`<span class="zone">🔁 반복 전투 ${REPEAT.n}회째 — 다시 입장합니다</span>`);
     mainButton(); };
@@ -13885,7 +13947,7 @@ function mainButton(){
   if($("dpick")) closeModal();   // 던전 선택 창이 열려 있으면 닫고 진행
   if(typeof COOP!=="undefined"&&COOP.run) return;
   retreatArm=false;
-  if(!runState){ if(TUT.learning()&&TUT.st().rl<1){ TUT.lesson(1); return; } if(TUT.learning()&&TUT.st().rl>=TUT.plan().length&&!TUT.busy){ TUT.lesson(TUT.total()); return; } if(!bagGate()) return; if(egModeOf()&&!egGate(egModeOf())) return; if(!torchCanEnter()){ openTorch(true); return; } }
+  if(!runState){ if(TUT.learning()&&TUT.st().rl<1){ TUT.lesson(1); return; } if(TUT.learning()&&TUT.st().rl>=TUT.plan().length&&!TUT.busy){ TUT.lesson(TUT.total()); return; } if(!bagGate()) return; if(egModeOf()&&!egGate(egModeOf())) return; if(!netGate()) return; if(!torchCanEnter()){ openTorch(true); return; } }
   if(!runState&&!questGate()) return;   // v0.93 황혼 메인 의뢰가 걸린 막은 의뢰를 받아야 처음 들어감
   if(!runState){ if(egModeOf()) startEg(egModeOf()); else startRun(); }
   else enterZone();
@@ -14251,6 +14313,7 @@ function endZoneBattle(ev,zone){
     }
     const rw=battleRewards(zone,runState.d,runState.regionKey);
     if(!runState.mode) questOnWin(zone,runState.regionKey,runState.act);   // v0.93 서브 의뢰(그 막)
+    dailyAdd("kill",zone.mobs.length); if(zone.boss||zone.mid||zone.named) dailyAdd("boss",1);   // v0.95 일일 의뢰
     if(zone.boss||zone.mid||zone.named) passXpAdd(40,zone.boss?"보스 처치":"우두머리 처치");   // v0.56
     progress.gold+=rw.gold; runState.gains.gold+=rw.gold; runState.gains.exp+=rw.exp;
     progress.ess+=rw.ess||0;
@@ -14324,7 +14387,7 @@ function advanceZone(){
 }
 function clearAct(){
   const rk=runState.regionKey, d=runState.d, act=runState.act, region=REGIONS[rk], D=DIFFS[d];
-  const first=actsDone(d,rk)<act; recRun("clear");
+  const first=actsDone(d,rk)<act; recRun("clear"); dailyAdd("act",1);
   progress.acts[d][rk]=Math.max(actsDone(d,rk),act);
   $("result").textContent=`${D.name} ${region.name} ${act}막 돌파!`; $("result").className="result win";
   logLine(`<span class="win">★ ${D.icon} ${D.name} · ${region.chapter} ${esc(region.name)} ${act}막 '${esc(actName(rk,act))}' 돌파!</span>`);
@@ -14342,7 +14405,7 @@ function clearAct(){
 }
 function clearRun(){
   if(!runState.mode&&(runState.act||ACT_N)<ACT_N) return clearAct();
-  const rk=runState.regionKey, d=runState.d;
+  const rk=runState.regionKey, d=runState.d; dailyAdd("act",1);
   progress.acts[d][rk]=ACT_N; if(progress.actSel) delete progress.actSel[actKey(d,rk)];
   if(progress.diffMax>=2||d>=2) genMarket();
   const region=REGIONS[rk], D=DIFFS[d];
@@ -15030,6 +15093,11 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.08", v:"v0.94", t:"일일 의뢰 · 보호 주문서 · 서버 연결 필수", L:[
+    "📅 일일 의뢰 6개(퀘스트 탭 맨 위): 던전 막 3번 돌파 · 몹 100마리 · 보스·중간 보스 3마리 · 강화 5번 시도 · 장비 10개 분해 · 함께하기 1판 또는 상점 1번 구매. 의뢰마다 밤의 정수 25(셋은 골드도), 마친 수 2개 정수 30 · 4개 정수 60 · 6개 정수 100 + 🛡 보호 주문서 3 + 💎 5. 한국 시간 새벽 5시에 새로 시작합니다.",
+    "🛡 보호 주문서: 부위 창에서 '보호 주문서 사용'을 켜면 강화할 때마다 1개를 쓰고, 실패해도 단계가 내려가지 않습니다(+6부터). 부위 상관없이 하루 10번까지. 💎 20개로 1개를 살 수 있습니다.",
+    "강화 성공률 조정: +9→10부터 +14→15까지 45/35/28/20/14/8% → 35/25/18/12/8/5%. 심연 핵으로 연 +16~+18은 그대로(5/3/2%).",
+    "서버 연결 필수: 휴대폰·PC 주소에서는 서버에 연결된 동안에만 플레이할 수 있습니다. 연결이 끊기면 화면이 잠기고 10초마다 다시 연결합니다."]},
   {d:"2026.11.08", v:"v0.94", t:"만렙 50 · 영원한 밤 골드 · 전직 규칙 다듬기", L:[
     "최고 레벨 40 → 50. 적 강함은 그대로라 41~50레벨은 그만큼 강해지는 구간입니다. 레벨로 받는 특성 포인트는 지금처럼 Lv40까지(최대 31점)이고, 각성 · 큰 별 포인트는 그대로입니다.",
     "각성은 이제 Lv50에서 합니다. n번째 각성에 드는 경험치 = Lv50 경험치 42,426 × n(1번째 42,426 · 10번째 424,260). 이미 한 각성은 그대로 남습니다.",
@@ -15481,7 +15549,7 @@ function start(snap){
   setTimeout(()=>{ lendBoot().catch(()=>{}); },3000);   // v0.67 빌려 쓰기: 내 영웅 올리기 · 빌려 간 만큼 우정 점수
   (async()=>{
     await Promise.race([ci, new Promise(r=>setTimeout(r,(needOnboard&&NET())?15000:4000))]);   // v0.94 휴대폰 첫 접속: 서버 진행이 크면 4초로는 모자라 새 주인공 만들기가 먼저 떴음
-    bootDone=true;
+    bootDone=true; try{ netWall(); }catch(e){}
     autoRulePass();
     // v0.19: 던전 도중에 이어 받은 저장이면 goCamp가 안 불려 동료가 남은 특성 포인트를 던전 끝까지 안 썼다 → 시작할 때 바로 판단
     if(progress.protag&&runState) runCompanions();
@@ -15642,11 +15710,13 @@ function coopOnRoom(){
 }
 async function coopToggleReady(){
   if(!COOP.nr||COOP.run) return;
+  if(!COOP.ready&&!netGate()) return;
   if(!COOP.ready&&!torchCanEnter()){ COOP.notice="🔥 횃불이 없어 준비할 수 없습니다 — 횃불을 채운 뒤 다시 눌러 주세요."; coopRender(); openTorch(true); return; }
   COOP.ready=!COOP.ready; await coopRepack(); coopPushRoom(); coopRender();
 }
 async function coopHostStart(){
   if(!COOP.isHost||!COOP.nr||COOP.run) return;
+  if(!netGate()) return;
   if(!torchCanEnter()){ COOP.notice="🔥 횃불이 없어 출발할 수 없습니다 — 횃불을 채운 뒤 다시 눌러 주세요."; coopRender(); openTorch(true); return; }
 
   if(COOP.mode&&!egCanEnter(COOP.mode)){ COOP.notice=`${EG_MODES[COOP.mode].icon} 이번 주 ${EG_MODES[COOP.mode].name} 입장을 다 썼습니다(주 ${EG_WEEKLY[COOP.mode]}회).`; coopRender(); return; }
@@ -15787,6 +15857,7 @@ async function coopBattle(run,z){
   if(res==="win"){
     const rw=battleRewards(z,run.d,run.rk);
     progress.gold+=rw.gold; progress.ess+=rw.ess||0; run.gains.gold+=rw.gold; run.gains.exp+=rw.exp;
+    dailyAdd("kill",z.mobs.length); if(z.boss||z.mid||z.named) dailyAdd("boss",1);   // v0.95 일일 의뢰
     logLine(`<span class="gain">구역 돌파! 내 몫 — 경험치 +${rw.exp} (${esc(heroDisplayName(run.myCid))}) · 골드 +${rw.gold}${rw.ess?` · 밤의 정수 +${rw.ess}`:""}</span>`);
     grantExp(rw.exp,[...new Set([run.myCid].concat((run.myCids||[]).length&&run.mode?coopHeroList(+(COOP.hostRun||{}).k||coopHeroCount()):[]))]);
     const lootR=takeLoot(rw.items);
@@ -15805,11 +15876,11 @@ async function coopBattle(run,z){
   return res;
 }
 function coopEnd(res){
-  const run=COOP.run; if(!run) return;
+  const run=COOP.run; if(!run) return; if(res!=="err"&&res!=="gone") dailyAdd("social",1);   // v0.95 일일 의뢰: 함께하기 1판
   if(run.mode){ coopEgEnd(run,res); return; }
   if(res!=="clear"&&res!=="gone"&&res!=="err"&&run.bank){ const kept=runRestoreKeepItems(run.bank,run.gains.exp,[...new Set([run.myCid].concat((run.myCids||[]).length&&run.mode?coopHeroList(+(COOP.hostRun||{}).k||coopHeroCount()):[]))]); logLine(`<span class="lose">이번 함께하기에서 얻은 골드는 잃었다${kept?` — ${kept}는 가져간다`:""}.</span>`); }
   const R=REGIONS[run.rk], D=DIFFS[run.d], g=run.gains;
-  if(res==="clear"){ progress.coopClears=(progress.coopClears||0)+1;
+  if(res==="clear"){ progress.coopClears=(progress.coopClears||0)+1; dailyAdd("act",1);
     logLine(`<span class="win">★ 함께하기 클리어 — ${D.icon} ${D.name} · ${R.chapter} ${esc(R.name)}!</span>`);
     $("result").textContent=`함께하기 클리어 — ${D.name} ${R.name}`; $("result").className="result win"; }
   else if(res==="lose"){ logLine(`<span class="lose">✖ 전멸… 모두 등불 도시로 돌아간다.</span>`); $("result").textContent=`함께하기 패배 — ${D.name} ${R.name}`; $("result").className="result lose"; }
