@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794018438425"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794022208514"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -5124,24 +5124,26 @@ function restoreLocalBackup(){
     logLine(`<span class="win">↩ 이 기기의 이전 진행으로 되돌렸습니다 (${esc(progressSummary(progress))}). 이제 이 진행이 모든 기기에 반영됩니다.</span>`);
   }catch(e){ logLine(`<span class="r">백업을 불러오지 못했습니다.</span>`); }
 }
-// v0.94 계정을 바꿔 들어왔는데 그 계정 서버 진행이 비어 있을 때: Google 연결 중 바뀐 경우는 바로 이어 붙이고, 직접 로그아웃 뒤 새로 로그인한 경우는 물어봄
+// v0.94 계정을 바꿔 들어온 직후(게스트 → Google 연결 중 전환 · 직접 로그아웃 뒤 새 로그인): 게스트 진행 / 이 계정 진행 중 고르게 함
 function offerBackupAdopt(cloudReal){ try{
-  if(cloudReal||hasMeaningfulProgress(progress)) return;
   const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress||!hasMeaningfulProgress(b.progress)) return;
-  if(Date.now()-(b.at||0)>7*86400e3) return;
-  const take=()=>{ if(onboardBusy&&creationCancel) creationCancel(); restoreLocalBackup(); try{ localStorage.removeItem("pn_local_backup"); }catch(x){} cloudFlush();
-    toast(`☁ 하던 진행을 이 계정에 이어 붙였어요 — ${esc(progressSummary(progress))}`,"good",6000); };
-  // Google 연결 중 바뀐 경우(switch): 묻지 않고 바로 이어 붙임 · 직접 로그아웃하고 새로 로그인한 경우(logout): 가져올지 새로 시작할지 묻는다
-  if(b.why!=="logout"){ take(); return; }
+  if(b.asked||!/^(switch|logout)$/.test(b.why||"")||Date.now()-(b.at||0)>7*86400e3) return;   // 계정을 바꿔 들어온 직후 한 번만
+  const mark=()=>{ try{ const x=JSON.parse(safeGet("pn_local_backup")||"null"); if(x){ x.asked=true; safeSet("pn_local_backup",JSON.stringify(x)); } }catch(e){} };
+  const who=P=>{ const pg=P.protag; const lv=pg&&P.heroes&&P.heroes[pg.cid]?P.heroes[pg.cid].level||1:"?"; return pg?`<b>${esc(pg.name||"이름 없음")}</b> · ${esc((CLASSES[pg.cid]||{}).name||"")} Lv.${lv}${P.heroes&&P.heroes[pg.cid]&&P.heroes[pg.cid].awaken?` · 각성 ${P.heroes[pg.cid].awaken}`:""}`:"<b>주인공 없음</b>"; };
+  const takeGuest=()=>{ adoptAsking=false; closeModal(); if(onboardBusy&&creationCancel) creationCancel();
+    const keep=hasMeaningfulProgress(progress)?{progress:JSON.parse(JSON.stringify(progress)), rules:JSON.parse(JSON.stringify(partyRules)), at:Date.now(), why:"account", asked:true}:null;
+    restoreLocalBackup(); try{ if(keep) safeSet("pn_local_backup",JSON.stringify(keep)); else localStorage.removeItem("pn_local_backup"); }catch(x){} cloudFlush();
+    toast(`☁ 게스트 진행을 이 계정 진행으로 정했어요 — ${esc(progressSummary(progress))}`,"good",6000); };
+  const keepAcct=()=>{ adoptAsking=false; mark(); closeModal(); if(!hasMeaningfulProgress(progress)){ telling=false; maybeOnboard(); } };
+  // v0.94 계정을 바꿔 들어오면 늘 물어봄: 게스트 진행과 이 계정 진행(있으면)을 주인공 이름·레벨과 함께 보여 주고 고르게 함
+  const acctReal=cloudReal||hasMeaningfulProgress(progress);
   const ask=()=>{ if(typeof openModal!=="function") return;
-    const m=openModal(`<h2>이 기기에서 하던 게스트 진행이 있어요</h2><p class="msub">지금 로그인한 계정은 진행이 비어 있습니다. 로그아웃하기 전에 이 기기에서 하던 진행을 이 계정으로 불러올까요, 새로 시작할까요?</p>
-      <div class="ncard"><b>${esc(progressSummary(b.progress))}</b><p class="msub">${esc(fmtDate(b.at))}에 로그아웃</p></div>
-      <div class="srow"><button class="btn" id="bkTake">이 진행 불러오기</button><button class="btn ghost" id="bkNew">새로 시작</button></div>
-      <p class="msub">새로 시작해도 그 진행은 지우지 않고 보관해 두며, ⚙ 설정 '이 기기의 이전 진행'에서 나중에 불러올 수 있어요.</p>`);
-    m.querySelector("#bkTake").onclick=()=>{ adoptAsking=false; closeModal(); take(); };
-    m.querySelector("#bkNew").onclick=()=>{ adoptAsking=false; closeModal(); telling=false; maybeOnboard(); }; };
+    const m=openModal(`<h2>어느 진행으로 할까요?</h2><p class="msub">이 기기에서 하던 게스트 진행이 있어요. 이 계정에서 쓸 진행을 골라 주세요. 고르지 않은 진행도 지우지 않고 ⚙ 설정 '이 기기의 이전 진행'에 보관합니다.</p>
+      <div class="ncard"><div class="nh"><span>👤 게스트 진행</span><span class="msub">${esc(fmtDate(b.at))}</span></div><p>${who(b.progress)}</p><p class="msub">${esc(progressSummary(b.progress))}</p><div class="srow"><button class="btn" id="bkGuest">게스트 진행으로</button></div></div>
+      <div class="ncard"><div class="nh"><span>🔑 이 계정 진행</span></div>${acctReal?`<p>${who(progress)}</p><p class="msub">${esc(progressSummary(progress))}</p>`:`<p class="msub">아직 진행이 없어요(새로 시작)</p>`}<div class="srow"><button class="btn ghost" id="bkAcct">${acctReal?"이 계정 진행으로":"새로 시작"}</button></div></div>`);
+    m.querySelector("#bkGuest").onclick=takeGuest; m.querySelector("#bkAcct").onclick=keepAcct; };
   adoptAsking=true; if(onboardBusy&&creationCancel) creationCancel();
-  setTimeout(()=>{ ask(); const w=setInterval(()=>{ if(!adoptAsking){ clearInterval(w); return; } if(!$("modal")){ clearInterval(w); adoptAsking=false; telling=false; maybeOnboard(); } },500); },300); }catch(e){} }   // 고르지 않고 창을 닫으면 '새로 시작' 
+  setTimeout(()=>{ ask(); const w=setInterval(()=>{ if(!adoptAsking){ clearInterval(w); return; } if(!$("modal")){ clearInterval(w); keepAcct(); } },500); },300); }catch(e){} }   // 고르지 않고 창을 닫으면 지금 계정 진행(없으면 새로 시작)
 async function cloudInit(){
   if(!window.claude||typeof window.claude.use!=="function") return;
   setCloud("connecting");
@@ -15013,7 +15015,7 @@ const UPDATES=[
     "(초대 코드를 켤 때 대비) 이미 하던 플레이어는 게스트든 Google이든 서버에 저장이나 플레이어 기록이 있으면 코드 없이 들어옵니다.",
     "서버 저장이 '권한 없음'으로 막히면 그 이유와 계정 ID를 크게 알려 줍니다. ⚙ 설정에 계정 ID 전체가 보입니다.",
     "게스트로 하다가 Google 계정을 연결하면(설정 또는 첫 화면의 'Google 계정 연결') 게스트 진행이 바로 그 Google 계정 진행이 되어 서버에 올라갑니다. 그 뒤 휴대폰·PC 어디서 그 Google 계정으로 들어와도 같은 진행입니다.",
-    "게스트를 직접 로그아웃하고 새 Google 계정으로 로그인하면, '이 기기에서 하던 게스트 진행 불러오기 / 새로 시작' 중 고르도록 묻습니다. 새로 시작해도 게스트 진행은 보관됩니다.",
+    "게스트로 하다가 Google로 들어올 때(로그아웃 뒤 로그인 · 이미 쓰던 Google 계정에 연결) 게스트 진행과 그 Google 계정 진행을 주인공 이름 · 직업 · 레벨과 함께 나란히 보여 주고 고르게 합니다. Google 계정에 진행이 없으면 '게스트 진행으로 / 새로 시작' 중에서 고릅니다. 고르지 않은 진행도 지우지 않고 보관합니다.",
     "운영 도구에 '저장' 탭: 서버에 있는 모든 저장(계정 ID · 요약 · 시각 · 기기)을 보고, 한 계정의 진행을 다른 계정으로 옮길 수 있습니다(받는 쪽 원래 저장은 서버에 보관). '초대' 탭에서 계정 ID로 바로 허용할 수 있습니다."]},
   {d:"2026.11.07", v:"v0.94", t:"서버 저장 확인", L:[
     "⚙ 설정 → '계정 · 서버 저장' 아래에 마지막 서버 저장 시각과, 실패했다면 그 이유가 보입니다. 휴대폰과 PC의 '계정 ID' 앞 6글자가 같아야 같은 진행이 이어집니다.",
