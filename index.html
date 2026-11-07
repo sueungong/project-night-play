@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794012940147"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794015562484"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -5015,17 +5015,27 @@ function setCloud(st){ const was=cloud.status; cloud.status=st; renderHud();   /
   if(st==="error"&&!cloud.errSaid){ cloud.errSaid=true; toast("☁ 서버 연결이 끊겼어요 — 지금 진행은 이 기기에만 저장됩니다. 다시 연결되면 자동으로 서버에 올라가요.","warn",7000); }
   else if(st==="synced"&&cloud.errSaid){ cloud.errSaid=false; toast("☁ 서버에 다시 연결돼 진행을 저장했어요.","good",4000); } }
 // v0.94 서버 저장 상태를 기록(설정 화면에 보임) · 실패하면 운영 도구 '오류'에 한 번 남기고 30초마다 다시 올려 봄
-function cloudOk(){ cloud.lastOk=Date.now(); cloud.lastErr=null; setCloud("synced"); }
+function cloudOk(){ cloud.lastOk=Date.now(); cloud.lastErr=null; cloud.remote={savedAt:progress.savedAt||0, dev:devLabel(), sum:(()=>{ try{ return progressSummary(progress); }catch(e){ return ""; } })(), mine:true}; setCloud("synced"); }
 function cloudFail(e){ const code=(e&&(e.code||e.message))||String(e); cloud.lastErr={code:String(code).slice(0,120), at:Date.now()}; setCloud("error");
+  if(/PERMISSION|permission/.test(code)&&!cloud.permSaid){ cloud.permSaid=true; try{ const id=(window.PNNet&&window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||""; toast(`☁ 이 계정은 서버 저장이 허용되지 않았어요(초대 확인 안 됨) — 진행은 이 기기에만 남아 있어요. 관리자에게 계정 ID <b>${esc(id.slice(0,10))}</b>를 알려 주세요.`,"warn",12000); }catch(x){} }
   if(!cloud.errLogged){ cloud.errLogged=true; try{ window.PNNet&&window.PNNet.ops&&window.PNNet.ops.error({kind:"cloud-save", code:cloud.lastErr.code, ver:gameVersion(), ua:navigator.userAgent.slice(0,160), uid:(window.PNNet.ops.uid&&window.PNNet.ops.uid())||""}); }catch(x){} } }
 if(typeof document!=="undefined") setInterval(()=>{ try{ if(cloud.status==="error"&&cloud.doc&&cloud.ready&&!cloud.writing) cloudFlush(); }catch(e){} },30000);
 function cloudStatusHTML(){
   if(!window.PNNet) return `<div class="sblock"><div class="slabel">저장 위치</div><p class="msub">지금 이 화면(Claude 안에서 연 게임)의 진행은 <b>이 Claude 페이지에만</b> 저장됩니다. 휴대폰 테스트 주소(GitHub Pages)의 진행과는 서로 따로예요.</p></div>`;
-  const ok=cloud.lastOk?fmtDate(cloud.lastOk):"아직 없음", er=cloud.lastErr;
-  return `<div class="sblock"><div class="slabel">서버 저장 상태</div><p class="msub">마지막 서버 저장: <b>${esc(ok)}</b>${er?` · <span style="color:var(--bad,#e57373)">실패 (${esc(er.code)}, ${esc(fmtDate(er.at))})</span>`:""}<br>휴대폰과 PC의 '계정 ID' 앞 6글자가 같아야 같은 진행이 이어집니다.</p></div>`; }
+  const ok=cloud.lastOk?fmtDate(cloud.lastOk):"아직 없음", er=cloud.lastErr, R=cloud.remote;
+  const mine=(()=>{ try{ return progressSummary(progress); }catch(e){ return ""; } })();
+  const other=R&&!R.mine&&R.doc&&(R.savedAt||0)>(progress.savedAt||0);
+  return `<div class="sblock"><div class="slabel">서버 저장 상태</div><p class="msub">이 기기에서 마지막 서버 저장: <b>${esc(ok)}</b>${er?` · <span style="color:var(--bad,#e57373)">${er.read?"서버 진행 읽기":"저장"} 실패 (${esc(er.code)}, ${esc(fmtDate(er.at))})</span>`:""}</p>
+    <p class="msub">서버에 있는 진행: ${R?`<b>${esc(R.sum||"(요약 없음)")}</b> · ${esc(fmtDate(R.savedAt))}${R.dev?` · ${esc(R.dev)}에서 저장`:""}`:"(아직 못 읽음)"}<br>이 기기 진행: <b>${esc(mine)}</b> · ${esc(fmtDate(progress.savedAt||0))}</p>
+    ${other?`<div class="srow"><button class="btn" onclick="cloudTakeRemote()">서버 진행으로 바꾸기</button></div>`:""}
+    <p class="msub">계정 ID(전체): <code style="user-select:all;word-break:break-all">${esc((window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||"")}</code><br>휴대폰과 PC의 계정 ID가 같아야 같은 진행이 이어집니다. 진행이 안 보이면 이 ID를 관리자에게 알려 주세요.</p></div>`; }
+function cloudTakeRemote(){ const R=cloud.remote; if(!R||!R.doc) return; if(runState||playing){ toast("던전이 끝난 뒤에 바꿀 수 있어요.","warn"); return; }
+  const before=JSON.parse(JSON.stringify(progress)), br=JSON.parse(JSON.stringify(partyRules));
+  if(applyCloud(R.doc)){ safeSet("pn_local_backup", JSON.stringify({progress:before, rules:br, at:Date.now()})); writeLocal(); closeModal(); toast(`☁ 서버 진행으로 바꿨어요 — ${esc(progressSummary(progress))}`,"good",5000); logLine(`<span class="win">☁ 서버 진행으로 바꿨습니다(이 기기 진행은 백업). ${esc(progressSummary(progress))}</span>`); } }
+function devLabel(){ try{ const u=navigator.userAgent; return /Android/i.test(u)?"안드로이드":/iPhone|iPad/i.test(u)?"아이폰·아이패드":/Windows/i.test(u)?"윈도우 PC":/Mac/i.test(u)?"맥":/Linux/i.test(u)?"리눅스":"기기"; }catch(e){ return "기기"; } }
 function cloudPayload(){
   progress._equipped=equippedStore; progress.run=curRunSave();
-  return { save: JSON.stringify({progress, rules:partyRules}), savedAt: progress.savedAt||0, ver: "0.7.5" };
+  return { save: JSON.stringify({progress, rules:partyRules}), savedAt: progress.savedAt||0, ver: "0.7.5", dev: devLabel(), sum: (()=>{ try{ return progressSummary(progress).slice(0,160); }catch(e){ return ""; } })() };
 }
 function cloudSchedule(){
   if(!cloud.doc||!cloud.ready) return;
@@ -5122,13 +5132,16 @@ async function cloudInit(){
   if(!db||!uid){ setCloud("off"); return; }
   cloud.doc=db.doc("data/users/"+uid+"/save");
   let snap=null;
-  try{ snap=await cloud.doc.get(); }
-  catch(e){
-    try{ await new Promise(r=>setTimeout(r,1000)); snap=await cloud.doc.get(); }
-    catch(e2){ setCloud("error"); cloud.ready=true; return; }
+  for(let i=0;;i++){
+    try{ snap=await cloud.doc.get(); break; }
+    catch(e){ cloud.lastErr={code:String((e&&(e.code||e.message))||e).slice(0,120), at:Date.now(), read:true}; setCloud("error");
+      // v0.94 서버 진행을 읽기 전에는 절대 올리지 않음(예전엔 읽기에 실패해도 올리기를 켜서, 새로 시작한 이 기기 진행이 다른 기기 진행을 덮어쓸 수 있었음)
+      if(i===1){ try{ window.PNNet&&window.PNNet.ops&&window.PNNet.ops.error({kind:"cloud-read", code:cloud.lastErr.code, ver:gameVersion(), ua:navigator.userAgent.slice(0,160)}); }catch(x){} }
+      await new Promise(r=>setTimeout(r,i<2?1500:10000)); }
   }
   cloud.ready=true;
   const d=snap&&snap.exists?snap.data():null;
+  if(d) cloud.remote={savedAt:d.savedAt||0, dev:d.dev||"", sum:d.sum||(()=>{ try{ return progressSummary(JSON.parse(d.save).progress); }catch(e){ return ""; } })(), doc:d};
   let cloudProg=null;
   if(d&&typeof d.save==="string"){ try{ cloudProg=JSON.parse(d.save).progress; }catch(e){} }
   const localReal=hasMeaningfulProgress(progress);
@@ -5161,6 +5174,7 @@ async function cloudInit(){
   cloud.unsub=cloud.doc.onSnapshot(sn=>{
     if(!sn.exists||sn.metadata.hasPendingWrites) return;
     const x=sn.data();
+    try{ if(x&&typeof x.save==="string"&&(x.savedAt||0)>=((cloud.remote&&cloud.remote.savedAt)||0)) cloud.remote={savedAt:x.savedAt||0, dev:x.dev||"", sum:x.sum||"", doc:x, mine:(x.savedAt||0)===(progress.savedAt||0)}; }catch(e){}
     if(!x||typeof x.save!=="string"||(x.savedAt||0)<=(progress.savedAt||0)) return;
     try{ if(!hasMeaningfulProgress(JSON.parse(x.save).progress)&&hasMeaningfulProgress(progress)) return; }catch(e){ return; }
     cloud.pending=x; cloudApplyPending();
@@ -14973,10 +14987,19 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.07", v:"v0.94", t:"계정 · 서버 저장 바로잡기", L:[
+    "게스트로 하다가 초대 코드 화면에서 '다른 계정으로 로그인'을 누르면 이 기기 진행이 백업 없이 지워지던 문제를 고쳤습니다. 이제 로그아웃 · 계정 바꾸기 전에는 늘 이 기기 진행을 백업하고, ⚙ 설정 '이 기기의 이전 진행'에서 되살릴 수 있습니다.",
+    "첫 화면과 초대 코드 화면에 '이 게스트 진행 그대로 Google 계정 연결' 단추를 넣었습니다(같은 계정 ID를 유지해 진행이 그대로 Google 계정에 붙음).",
+    "초대 코드를 켜기 전부터 하던 플레이어는 게스트든 Google이든 서버에 저장이나 플레이어 기록이 있으면 코드 없이 들어옵니다(예전엔 Google 계정만).",
+    "서버 저장이 '권한 없음'으로 막히면 그 이유와 계정 ID를 크게 알려 줍니다. ⚙ 설정에 계정 ID 전체가 보입니다.",
+    "운영 도구에 '저장' 탭: 서버에 있는 모든 저장(계정 ID · 요약 · 시각 · 기기)을 보고, 한 계정의 진행을 다른 계정으로 옮길 수 있습니다(받는 쪽 원래 저장은 서버에 보관). '초대' 탭에서 계정 ID로 바로 허용할 수 있습니다."]},
   {d:"2026.11.07", v:"v0.94", t:"서버 저장 확인", L:[
     "⚙ 설정 → '계정 · 서버 저장' 아래에 마지막 서버 저장 시각과, 실패했다면 그 이유가 보입니다. 휴대폰과 PC의 '계정 ID' 앞 6글자가 같아야 같은 진행이 이어집니다.",
     "서버 저장이 실패하면 30초마다 다시 올려 봅니다(예전엔 다음 저장 때까지 기다림). 실패 이유는 운영 도구 '오류'에도 남습니다.",
-    "Claude 안에서 연 게임은 그 페이지에만 저장되고 휴대폰 테스트 주소와는 진행이 따로라는 안내를 설정에 넣었습니다."]},
+    "Claude 안에서 연 게임은 그 페이지에만 저장되고 휴대폰 테스트 주소와는 진행이 따로라는 안내를 설정에 넣었습니다.",
+    "설정에 '서버에 있는 진행'(요약 · 저장 시각 · 저장한 기기)과 '이 기기 진행'을 나란히 보여 주고, 서버 진행이 더 최근이면 '서버 진행으로 바꾸기' 단추가 생깁니다.",
+    "서버 진행을 읽지 못한 기기는 이제 서버에 올리지 않습니다(예전엔 읽기에 실패해도 올리기를 켜서, 새로 시작한 휴대폰 진행이 PC 진행을 덮어쓸 수 있었음). 10초마다 다시 읽습니다.",
+    "휴대폰 첫 접속에서 서버 진행을 받기 전에 새 주인공 만들기가 먼저 뜨지 않게, 최대 15초(예전 4초)까지 기다립니다."]},
   {d:"2026.11.06", v:"v0.94", t:"알트탭해도 계속 진행", L:[
     "PC에서 알트탭·최소화로 게임 창이 가려지면 전투가 멈추거나 아주 느려지던 문제를 고쳤습니다. 브라우저가 가려진 페이지의 대기 시간을 최소 1초(5분 뒤엔 1분)로 늘리던 것입니다.",
     "이제 가려져 있는 동안의 대기는 브라우저가 늦추지 않는 별도 타이머로 돌려, 보일 때와 같은 속도로 전투·구역 자동 진행·반복 전투가 이어집니다(측정: 15초 동안 예전 9줄 → 46줄, 보일 때 38~47줄)."]},
@@ -15116,7 +15139,8 @@ function titleScreen(){
     let outArm=false;
     const msg=t=>{ const m=el.querySelector("#tMsg"); if(m) m.innerHTML=t||""; };
     const finish=()=>{ const st=N.auth.state();
-      try{ const last=safeGet("pn_last_uid"); if(st&&last&&last!==st.uid){ for(const k of ["pn_progress_v02","pn_rules_v01"]) localStorage.removeItem(k); } if(st) safeSet("pn_last_uid",st.uid); }catch(e){}   // 다른 계정으로 바꿔 들어오면 이 기기의 예전 진행을 섞지 않음
+      try{ const last=safeGet("pn_last_uid"); if(st&&last&&last!==st.uid){ try{ const pg=safeGet("pn_progress_v02"), rl=safeGet("pn_rules_v01"); if(pg){ const P=JSON.parse(pg); if(P&&P.heroes&&hasMeaningfulProgress(P)) safeSet("pn_local_backup",JSON.stringify({progress:P, rules:rl?JSON.parse(rl):null, at:Date.now(), why:"switch", uid:last})); } }catch(x){}   // v0.94 지우기 전에 백업
+          for(const k of ["pn_progress_v02","pn_rules_v01"]) localStorage.removeItem(k); } if(st) safeSet("pn_last_uid",st.uid); }catch(e){}   // 다른 계정으로 바꿔 들어오면 이 기기의 예전 진행을 섞지 않음
       el.classList.add("out"); setTimeout(()=>el.remove(),260); done(); };
     const render=()=>{ const st=N.auth.state(); outArm=false;
       if(!st){
@@ -15127,9 +15151,10 @@ function titleScreen(){
         el.querySelector("#tGoogle").onclick=async()=>{ msg("Google 창을 여는 중…"); try{ const r=await N.auth.google(); if(r) render(); }catch(e){ if(e&&/popup-closed|cancelled-popup/.test(e.code||"")){ msg(""); return; } fail(e); } };
         return; }
       el.innerHTML=frame(`<p class="ttl-who">${st.anon?"👤 게스트로 로그인됨":"🔑 "+esc(st.email||st.name||"Google 계정")}</p>
-        <div class="ttl-btns"><button class="btn ttl-start" id="tStart">게임 시작</button></div>
+        <div class="ttl-btns"><button class="btn ttl-start" id="tStart">게임 시작</button>${st.anon&&N.auth.linkGoogle?`<button class="btn ghost" id="tLink0">Google 계정 연결(진행 유지)</button>`:""}</div>
         <button class="ttl-out" id="tOut">로그아웃</button><p class="ttl-msg" id="tMsg"></p>`);
       el.querySelector("#tStart").onclick=gate;
+      { const lk=el.querySelector("#tLink0"); if(lk) lk.onclick=async()=>{ msg("Google 창을 여는 중…"); try{ const r=await N.auth.linkGoogle(); msg(r&&r.switched?"이미 쓰던 Google 계정으로 들어갑니다(이 기기 진행은 백업해 둠)":"✔ 연결했어요 — 이제 휴대폰·PC 어디서나 같은 진행"); setTimeout(render,600); }catch(e){ if(e&&/popup-closed|cancelled-popup/.test(e.code||"")){ msg(""); return; } msg("연결하지 못했어요: "+esc((e&&(e.code||e.message))||e)); } }; }
       el.querySelector("#tOut").onclick=async()=>{
         if(!outArm){ outArm=true; el.querySelector("#tOut").textContent="한 번 더 누르면 로그아웃"; msg(st.anon?"⚠ 게스트는 로그아웃하면 다시 들어올 수 없어 <b>지금 진행이 사라집니다</b>. 지키려면 게임 안 ⚙ 설정에서 Google 계정을 먼저 연결하세요.":"로그아웃해도 진행은 Google 계정에 남아 있어요."); return; }
         msg("로그아웃하는 중…"); try{ await N.auth.logout(); }catch(e){} render(); };
@@ -15145,7 +15170,9 @@ function titleScreen(){
         <p class="ttl-note">지금은 <b>초대받은 분만</b> 하는 비공개 테스트입니다. 받은 초대 코드를 넣어 주세요.</p>
         <div class="ttl-btns ttl-code"><input id="tCode" maxlength="16" placeholder="NIGHT-XXXXXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn" id="tRedeem">확인</button></div>
         <p class="ttl-note">한 코드는 한 계정에서만 쓸 수 있어요. 코드를 쓴 계정은 다음부터 묻지 않습니다.${st&&st.anon?" 게스트는 이 기기에서만 이어지니, 들어간 뒤 ⚙ 설정에서 Google 계정을 연결해 두세요.":""}</p>
+        ${st&&st.anon&&N.auth.linkGoogle?`<div class="ttl-btns"><button class="btn ghost" id="tLink">이 게스트 진행 그대로 Google 계정 연결</button></div>`:""}
         <button class="ttl-out" id="tOut2">다른 계정으로 로그인</button><p class="ttl-msg" id="tMsg"></p>`);
+      { const lk=el.querySelector("#tLink"); if(lk) lk.onclick=async()=>{ msg("Google 창을 여는 중…"); try{ await N.auth.linkGoogle(); msg("✔ 연결했어요 — 다시 확인합니다"); setTimeout(gate,300); }catch(e){ if(e&&/popup-closed|cancelled-popup/.test(e.code||"")){ msg(""); return; } msg("연결하지 못했어요: "+esc((e&&(e.code||e.message))||e)); } }; }
       const go=async()=>{ const v=el.querySelector("#tCode").value; const rb=el.querySelector("#tRedeem"); rb.disabled=true; msg("확인 중…");
         try{ await N.invite.redeem(v); msg("✔ 확인됐어요"); setTimeout(finish,400); }catch(e){ rb.disabled=false; msg(esc((e&&e.message)||String(e))); } };
       el.querySelector("#tRedeem").onclick=go; el.querySelector("#tCode").onkeydown=e=>{ if(e.key==="Enter") go(); };
@@ -15265,7 +15292,7 @@ try{ document.addEventListener("visibilitychange",()=>{ if(document.visibilitySt
 // ---- 운영 도구(관리자 코드로 연 뒤): 공지 · 우편 · 플레이어 · 의견 · 오류 ----
 async function openOps(tab){
   const N=NET(); tab=tab||"notice";
-  const m=openModal(`<h2>🛠 운영 도구</h2><div class="ntabs">${[["notice","공지"],["mail","우편"],["players","플레이어"],["invite","초대"],["fb","의견"],["err","오류"]].map(([k,l])=>`<button data-t="${k}" class="${k===tab?"on":""}">${l}</button>`).join("")}</div>
+  const m=openModal(`<h2>🛠 운영 도구</h2><div class="ntabs">${[["notice","공지"],["mail","우편"],["players","플레이어"],["saves","저장"],["invite","초대"],["fb","의견"],["err","오류"]].map(([k,l])=>`<button data-t="${k}" class="${k===tab?"on":""}">${l}</button>`).join("")}</div>
     <div id="opWarn"></div><div id="opBody" class="nbody"><p class="msub">불러오는 중…</p></div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"notices ops");
   m.querySelector("#mclose").onclick=closeModal;
   for(const b of m.querySelectorAll(".ntabs button")) b.onclick=()=>{ closeModal(); openOps(b.dataset.t); };
@@ -15286,15 +15313,33 @@ async function openOps(tab){
           <button class="btn ${on?"ghost":""}" id="ivOn">${on?"끄기":"켜기"}</button></div>
         <div class="ncard"><b>코드 만들기</b> <span class="msub">지금 ${L.length}개 · 쓴 것 ${used.length} · 남은 것 ${free.length}</span>
           <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><input id="ivN" type="number" min="1" max="100" value="10" style="width:80px"> 개 <button class="btn" id="ivMake">만들기</button> <button class="btn ghost" id="ivCopy" ${free.length?"":"disabled"}>남은 코드 복사</button></div>
-          <p class="msub" id="ivSt" role="status"></p></div></div>`
+          <p class="msub" id="ivSt" role="status"></p></div>
+        <div class="ncard"><b>계정 ID로 바로 허용</b> <span class="msub">코드 없이 그 계정을 통과시킵니다(설정에 보이는 계정 ID 전체)</span>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><input id="ivUid" placeholder="계정 ID" autocomplete="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn" id="ivAllow">허용</button></div></div></div>`
         +L.map(x=>`<div class="ncard"><div class="nh"><b style="font-family:monospace;letter-spacing:.04em">${esc(x.code)}</b><span>${x.used?`✔ ${esc(nm(x.used))}`:"아직 안 씀"} <button class="mini" data-rv="${esc(x.code)}">${x.used?"회수":"지우기"}</button></span></div></div>`).join("");
       const st=body.querySelector("#ivSt"), say=(h,bad)=>{ st.innerHTML=h; st.style.color=bad?"#ff8a8a":"var(--accent)"; };
+      { const ab=body.querySelector("#ivAllow"); if(ab) ab.onclick=async()=>{ const u=body.querySelector("#ivUid").value.trim(); if(!u) return say("계정 ID를 넣어 주세요",true); try{ await N.invite.allowUid(u); say(`✔ ${esc(u.slice(0,10))}… 를 허용했어요`); }catch(e){ say("허용하지 못했어요: "+esc(e.code||e.message),true); } }; }
       body.querySelector("#ivOn").onclick=async()=>{ try{ await N.invite.setOn(!on); closeModal(); openOps("invite"); }catch(e){ say("바꾸지 못했어요: "+esc(e.code||e.message),true); } };
       body.querySelector("#ivMake").onclick=async()=>{ const n=Math.max(1,Math.min(100,+body.querySelector("#ivN").value||0)); say("만드는 중…");
         try{ const c=await N.invite.make(n); say(`✔ ${c.length}개를 만들었어요`); setTimeout(()=>{ if(body.isConnected){ closeModal(); openOps("invite"); } },900); }catch(e){ say("만들지 못했어요: "+esc(e.code||e.message),true); } };
       body.querySelector("#ivCopy").onclick=()=>fbCopy(free.map(x=>x.code).join("\n")).then(ok=>say(ok?`남은 코드 ${free.length}개를 복사했어요(한 줄에 하나)`:"복사하지 못했어요",!ok));
       for(const b of body.querySelectorAll("[data-rv]")) b.onclick=async()=>{ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더"; return; }
         try{ await N.invite.revoke(b.dataset.rv); closeModal(); openOps("invite"); }catch(e){ say("지우지 못했어요: "+esc(e.code||e.message),true); } };
+    }
+    if(tab==="saves"){   // v0.94 계정 진행 찾기 · 옮기기(게스트로 하다 다른 계정으로 들어가 진행을 잃은 경우 등)
+      if(!N.ops.saves){ body.innerHTML=`<p class="msub">새로 고침해 주세요(새 기능).</p>`; return; }
+      const [S,P]=await Promise.all([N.ops.saves(), N.ops.players().catch(()=>[])]); if(!m.isConnected) return;
+      const pn=uid=>{ const p=P.find(x=>x.id===uid); return p?`${p.name||"?"}${p.gname?` (${p.gname})`:p.anon?" (게스트)":""}`:""; };
+      body.innerHTML=`<div class="opform"><div class="ncard"><b>진행 옮기기</b><p class="msub">보낼 계정의 서버 저장을 받을 계정에 그대로 복사합니다. 받는 계정의 원래 저장은 서버(saveBackups)에 보관됩니다. 받는 사람은 게임을 새로 고침하면 옮긴 진행으로 바뀝니다.</p>
+        <div style="display:grid;gap:6px;margin-top:6px"><input id="svFrom" placeholder="보낼 계정 ID(아래 목록에서 '보내기로')" autocomplete="off" spellcheck="false"><input id="svTo" placeholder="받을 계정 ID(설정의 계정 ID 전체)" autocomplete="off" spellcheck="false"><button class="btn" id="svGo">옮기기</button><p class="msub" id="svSt" role="status"></p></div></div></div>`
+        +S.map(x=>`<div class="ncard"><div class="nh"><b>${esc(x.sum||"(요약 없음)")}</b><span>${esc(fmtDate(x.savedAt))}${x.dev?` · ${esc(x.dev)}`:""}</span></div><p class="msub" style="font-family:monospace;word-break:break-all">${esc(x.uid)} ${esc(pn(x.uid))} · ${Math.round(x.size/1024)}KB <button class="mini" data-from="${esc(x.uid)}">보내기로</button> <button class="mini" data-to="${esc(x.uid)}">받기로</button></p></div>`).join("");
+      const st=body.querySelector("#svSt"), say=(h,bad)=>{ st.innerHTML=h; st.style.color=bad?"#ff8a8a":"var(--accent)"; };
+      for(const b of body.querySelectorAll("[data-from]")) b.onclick=()=>{ body.querySelector("#svFrom").value=b.dataset.from; };
+      for(const b of body.querySelectorAll("[data-to]")) b.onclick=()=>{ body.querySelector("#svTo").value=b.dataset.to; };
+      const go=body.querySelector("#svGo"); go.onclick=async()=>{ const f=body.querySelector("#svFrom").value.trim(), t=body.querySelector("#svTo").value.trim();
+        if(!f||!t||f===t) return say("두 계정 ID를 서로 다르게 넣어 주세요",true);
+        if(go.dataset.arm!=="1"){ go.dataset.arm="1"; go.textContent="한 번 더 누르면 옮깁니다"; return say(`${esc(f.slice(0,10))}… 의 진행을 ${esc(t.slice(0,10))}… 로 복사합니다`); }
+        go.disabled=true; say("옮기는 중…"); try{ await N.ops.saveCopy(f,t); say("✔ 옮겼어요. 받는 사람에게 게임을 새로 고침하라고 알려 주세요."); }catch(e){ go.disabled=false; go.dataset.arm=""; go.textContent="옮기기"; say("옮기지 못했어요: "+esc((e&&(e.code||e.message))||e)+" — 서버 규칙을 새로 붙여 넣었는지 확인해 주세요",true); } };
     }
     if(tab==="notice"){
       const L=(await N.ops.notices()).sort((a,b)=>(b.at||0)-(a.at||0));
@@ -15381,7 +15426,7 @@ function start(snap){
   const ci=Promise.resolve().then(cloudInit).catch(()=>{});
   setTimeout(()=>{ lendBoot().catch(()=>{}); },3000);   // v0.67 빌려 쓰기: 내 영웅 올리기 · 빌려 간 만큼 우정 점수
   (async()=>{
-    await Promise.race([ci, new Promise(r=>setTimeout(r,4000))]);
+    await Promise.race([ci, new Promise(r=>setTimeout(r,(needOnboard&&NET())?15000:4000))]);   // v0.94 휴대폰 첫 접속: 서버 진행이 크면 4초로는 모자라 새 주인공 만들기가 먼저 떴음
     bootDone=true;
     autoRulePass();
     // v0.19: 던전 도중에 이어 받은 저장이면 goCamp가 안 불려 동료가 남은 특성 포인트를 던전 끝까지 안 썼다 → 시작할 때 바로 판단

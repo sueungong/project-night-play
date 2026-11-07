@@ -95,6 +95,9 @@
       try { localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (e) {}
       await auth.signOut(); location.reload(); };
   }
+  // v0.94 이 기기 진행을 지우는 모든 길(로그아웃 · 계정 바꾸기)에서 먼저 백업 — 설정 '이 기기의 이전 진행'에서 되살림
+  function backupLocal(why) { try { const pg = localStorage.getItem("pn_progress_v02"), rl = localStorage.getItem("pn_rules_v01"); if (!pg) return;
+    const P = JSON.parse(pg); if (!P || !P.heroes) return; localStorage.setItem("pn_local_backup", JSON.stringify({ progress: P, rules: rl ? JSON.parse(rl) : null, at: Date.now(), why, uid: (auth.currentUser && auth.currentUser.uid) || "" })); } catch (e) {} }
   function confirmBox(t) { try { return window.confirm(t); } catch (e) { return true; } }
   async function google() {
     const prov = new fb.auth.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
@@ -103,9 +106,7 @@
       if (e && e.code === "auth/credential-already-in-use" && e.credential) {
         // 이 Google 계정은 이미 다른 기기에서 쓰던 계정 → 그 계정으로 들어가고, 그쪽 진행을 불러온다(이 기기 진행은 게임이 백업해 둠)
         if (!confirmBox("이 Google 계정에는 이미 다른 기기에서 저장한 진행이 있습니다. 그 진행으로 바꿀까요? (이 기기의 지금 진행 대신 그 계정의 진행으로 바뀝니다)")) return;
-        try { const pg = localStorage.getItem("pn_progress_v02"), rl = localStorage.getItem("pn_rules_v01");
-          if (pg) localStorage.setItem("pn_local_backup", JSON.stringify({ progress: JSON.parse(pg), rules: rl ? JSON.parse(rl) : null, at: Date.now() }));
-          localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (x) {}
+        try { backupLocal("switch"); localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (x) {}
         await auth.signInWithCredential(e.credential); location.reload(); return; }
       if (e && (e.code === "auth/popup-closed-by-user" || e.code === "auth/cancelled-popup-request")) return;
       note("Google 연결에 실패했습니다: " + ((e && (e.code || e.message)) || e));
@@ -134,7 +135,12 @@
     google: async () => { const prov = new fb.auth.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
       try { await auth.signInWithPopup(prov); return authApi.state(); }
       catch (e) { if (e && (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment")) { await auth.signInWithRedirect(prov); return null; } throw e; } },
-    logout: async () => { try { for (const k of ["pn_progress_v02", "pn_rules_v01", "pn_last_uid"]) localStorage.removeItem(k); } catch (e) {} await auth.signOut(); },
+    logout: async () => { backupLocal("logout"); try { for (const k of ["pn_progress_v02", "pn_rules_v01", "pn_last_uid"]) localStorage.removeItem(k); } catch (e) {} await auth.signOut(); },
+    // v0.94 게스트 → Google 계정 연결(같은 계정 ID 유지 · 지금 진행 그대로). 이미 쓰던 Google 계정이면 그 계정으로 들어가고 이 기기 진행은 백업
+    linkGoogle: async () => { const u = auth.currentUser; const prov = new fb.auth.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
+      if (!u) { await auth.signInWithPopup(prov); return { switched: true }; }
+      try { await u.linkWithPopup(prov); await auth.currentUser.reload(); user = auth.currentUser; render(); return { linked: true }; }
+      catch (e) { if (e && e.code === "auth/credential-already-in-use" && e.credential) { backupLocal("switch"); try { localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (x) {} await auth.signInWithCredential(e.credential); return { switched: true }; } throw e; } },
     offline: () => readyRes(null)
   };
   // ---------- v0.93 테스트 운영(공지 · 우편 · 의견 · 오류 · 플레이어 기록) ----------
@@ -162,7 +168,12 @@
     del: async path => { if (!/^(feedback|errors)\/[\w-]+$/.test(path)) return; await rtdb.ref(path).remove(); },
     playerPut: async o => { const u = await ready; if (!u) return; await rtdb.ref("players/" + u.uid).set({ j: JSON.stringify(o), at: TS, anon: !!u.isAnonymous, gname: u.displayName || "" }); },
     players: async () => list(await val("players")).sort((a, b) => (b.at || 0) - (a.at || 0)),
-    uid: () => user && user.uid
+    uid: () => user && user.uid,
+    // v0.94 관리자: 서버 저장 목록(계정 ID · 저장 시각 · 요약 · 저장한 기기) · 한 계정의 진행을 다른 계정으로 복사(받는 쪽 원래 저장은 saveBackups에 보관)
+    saves: async () => { const s = await rtdb.ref("saves").once("value"); const out = []; s.forEach(c => { const v = c.val() || {}; let sum = v.sum || ""; if (!sum) { try { const p = JSON.parse(v.save).progress; sum = (p.protag && p.protag.name ? "★" + p.protag.name + " · " : "") + "골드 " + (p.gold || 0); } catch (e) {} } out.push({ uid: c.key, savedAt: v.savedAt || 0, dev: v.dev || "", sum, size: (v.save || "").length }); }); return out.sort((a, b) => b.savedAt - a.savedAt); },
+    saveCopy: async (from, to) => { const v = await val("saves/" + safeKey(from)); if (!v || typeof v.save !== "string") throw new Error("옮길 저장이 없습니다: " + from);
+      const cur = await val("saves/" + safeKey(to)); if (cur && typeof cur.save === "string") await rtdb.ref("saveBackups/" + safeKey(to) + "/" + Date.now()).set(cur);
+      await rtdb.ref("saves/" + safeKey(to)).set(Object.assign({}, v, { savedAt: Date.now(), movedFrom: from })); await rtdb.ref("invited/" + safeKey(to)).set({ by: "admin", at: TS }).catch(() => {}); return true; }
   };
   // ---------- v0.94 비공개 테스트 초대 코드 ----------
   // config/inviteOnly=true 일 때만 막음 · invites/<코드>={at, used:uid} · invited/<uid>={code|g, at}
@@ -175,7 +186,8 @@
       if (!(await invite.on())) return { ok: true, why: "off" };
       try { if ((await val("admins/" + u.uid)) === true) return { ok: true, why: "admin" }; } catch (e) {}
       try { if (await val("invited/" + u.uid)) return { ok: true, why: "invited" }; } catch (e) { return { ok: false, why: "err", err: (e && (e.code || e.message)) || String(e) }; }
-      if (!u.isAnonymous && u.email) { try { await rtdb.ref("invited/" + u.uid).set({ g: true, at: TS }); return { ok: true, why: "google" }; } catch (e) {} }
+      // v0.94 기존 플레이어(서버에 저장이나 플레이어 기록이 있는 계정)는 게스트든 Google이든 그대로 통과 — 서버 규칙이 확인
+      try { await rtdb.ref("invited/" + u.uid).set({ g: true, at: TS }); return { ok: true, why: u.isAnonymous ? "old-guest" : "google" }; } catch (e) {}
       return { ok: false, why: "need", anon: !!u.isAnonymous }; },
     redeem: async raw => { const u = await ready; if (!u) throw new Error("서버에 연결되어 있지 않습니다"); const c = normCode(raw); if (c.length !== 8) throw new Error("코드는 NIGHT- 뒤 8자리입니다");
       const code = "NIGHT-" + c;
@@ -188,7 +200,8 @@
     list: async () => Object.entries((await val("invites")) || {}).map(([code, v]) => Object.assign({ code }, v)).sort((a, b) => (a.at || 0) - (b.at || 0)),
     invited: async () => (await val("invited")) || {},
     revoke: async code => { const v = await val("invites/" + code); const up = { ["invites/" + code]: null }; if (v && v.used) up["invited/" + v.used] = null; await rtdb.ref().update(up); },
-    unInvite: async uid => { await rtdb.ref("invited/" + safeKey(uid)).remove(); }
+    unInvite: async uid => { await rtdb.ref("invited/" + safeKey(uid)).remove(); },
+    allowUid: async uid => { await rtdb.ref("invited/" + safeKey(uid)).set({ by: "admin", at: TS }); }
   };
   window.PNNet = { lend, auth: authApi, ops, invite,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
