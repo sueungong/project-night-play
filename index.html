@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794126949783"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794129552771"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2513,7 +2513,7 @@ const RULESET={
            surv:[["ln_wall",R_A,0,0,0],["ln_distance",R_AL50,0,0,5],["ln_pierce",R_A,0,0,0]],
            supp:[["ln_distance",R_ADEB,2,R_AL50,5],["ln_throw",R_BACK,0,0,0],["ln_pierce",R_A,0,0,0]] },
     dragoon:{   // 용기병: 일렬 천공 · 도약 · 띄운 적 연속 찌르기
-      atk:[["ln_flurry",R_AIR,0,0,10],["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,1],["ln_charge",R_A,0,0,1]],
+      atk:[["ln_flurry",R_AIR,0,0,10],["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,3],["ln_charge",R_A,0,0,1]],
       surv:[["ln_wall",R_A,0,0,0],["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_pierce",R_A,0,0,0]],
       supp:[["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,14],["ln_pierce",R_A,0,0,0]] },
     phalanx:{   // 방진 수호자: 방진 · 불굴의 창으로 줄을 지키고 반격
@@ -13578,6 +13578,7 @@ function autoRulePass(){
         const sg=r=>`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`, chg=r=>OLD_RULE_SIG_095.has(sg(r));
         if(en.some(chg)&&en.every(r=>chg(r)||inRuleset(c,r)||(r.skill===CLASSES[c].skills[0]&&isAlw(r.c1)&&!r.logic))){ partyRules[c]=tableRules(c); ensureRuleSlots(c); } } saveRules(); progress.rulesFixV=4; }
     if(progress&&progress.protag&&(progress.rulesFixV|0)<5){ for(const c of rosterIds()){ for(const r of (partyRules[c]||[])) if(r.enabled&&OLD_RULE_SIG_095B.has(`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`)) r.c2=R_MOM4; } saveRules(); progress.rulesFixV=5; }   // v0.95 천룡파 조건만 기세 4로
+    if(progress&&progress.protag&&(progress.rulesFixV|0)<6){ for(const c of rosterIds()){ for(const r of (partyRules[c]||[])) if(r.enabled&&r.skill==="ln_leap"&&(r.target|0)===1&&cKey(r.c1)===R_MP30&&!(r.logic|0)) r.target=3; } saveRules(); progress.rulesFixV=6; }   // v0.95 용의 도약 기본 대상: 체력 가장 낮은 적 → 가장 많은 적(내리꽂기에 죽어 띄움이 날아가지 않게)
     if(progress&&progress.protag&&(progress.rulesFixV|0)<2) progress.rulesFixV=2;
   }catch(e){}
   if(!progress||progress.autoRules>=1) return;
@@ -15141,6 +15142,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.08", v:"v0.94", t:"용의 도약 대상", L:["용기병 기본 규칙: 용의 도약 대상을 '체력이 가장 낮은 적' → '체력이 가장 많은 적'으로. 내리꽂기에 적이 죽어 띄움이 날아가던 것을 줄여 연속 찌르기로 이어지게 했습니다(보스는 원칙대로 휘청 — 연계 없음)."]},
   {d:"2026.11.08", v:"v0.94", t:"저장 거절 바로잡기", L:[
     "서버가 저장을 거절하면 서버의 숫자를 다시 읽어 스스로 맞춰 봅니다(두 기기에서 번갈아 한 경우 등). 그래도 안 되면 이유를 화면에 보여 주고 관리자에게 자동으로 알립니다.",
     "관리자 운영 도구 '저장' 탭: 거절된 계정이 맨 위에 이유와 함께 보이고, '확인 풀기'를 누르면 그 계정이 5초 안에 자동으로 이어집니다(진행은 그대로).",
