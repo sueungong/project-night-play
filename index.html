@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794120664736"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794126949783"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -5049,11 +5049,31 @@ function setCloud(st){ const was=cloud.status; cloud.status=st; if(st==="error"&
 // v0.94 서버 저장 상태를 기록(설정 화면에 보임) · 실패하면 운영 도구 '오류'에 한 번 남기고 30초마다 다시 올려 봄
 function cloudOk(){ cloud.lastOk=Date.now(); cloud.lastErr=null; cloud.remote={savedAt:progress.savedAt||0, dev:devLabel(), sum:(()=>{ try{ return progressSummary(progress); }catch(e){ return ""; } })(), mine:true}; setCloud("synced"); }
 function cloudFail(e){ const code=(e&&(e.code||e.message))||String(e); cloud.lastErr={code:String(code).slice(0,120), at:Date.now()}; setCloud("error");
+  if(/PERMISSION|permission/.test(code)) chkRecover();
   if(/PERMISSION|permission/.test(code)&&!cloud.permSaid){ cloud.permSaid=true; try{ const id=(window.PNNet&&window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||""; toast(`☁ 이 계정은 서버 저장이 허용되지 않았어요(초대 확인 안 됨) — 진행은 이 기기에만 남아 있어요. 관리자에게 계정 ID <b>${esc(id.slice(0,10))}</b>를 알려 주세요.`,"warn",12000); }catch(x){} }
   if(!cloud.errLogged){ cloud.errLogged=true; try{ window.PNNet&&window.PNNet.ops&&window.PNNet.ops.error({kind:"cloud-save", code:cloud.lastErr.code, ver:gameVersion(), ua:navigator.userAgent.slice(0,160), uid:(window.PNNet.ops.uid&&window.PNNet.ops.uid())||""}); }catch(x){} } }
 if(typeof document!=="undefined") setInterval(()=>{ try{ if(cloud.status==="error"&&cloud.doc&&cloud.ready&&!cloud.writing) cloudFlush(); }catch(e){} },30000);
 /* v0.95 서버 연결 필수(출시판 = PNNet이 있는 화면만): 서버 진행을 읽기 전 · 연결이 끊긴 동안에는 플레이를 막는다
    (오프라인에서 고친 저장을 나중에 올리는 길을 막음). 막힌 동안 10초마다 다시 연결해 봄. Claude 안에서 연 개발판은 그대로 */
+/* v0.95 저장이 거절됐을 때: 서버의 검사 숫자·지급 장부를 새로 읽어 다시 계산(두 기기 · 오래된 숫자 때문이면 이걸로 풀림) →
+   그래도 거절되면 어느 칸이 왜 막혔는지 계산해 saveRej/<uid>에 남김(관리자 → 운영 도구 '저장' 탭에서 보고 '확인 풀기') */
+const CHK_CAP={gold:20000000, ess:100000, gem:500, enh:600}, CHK_NM={gold:"골드",ess:"밤의 정수",gem:"💎 새벽 결정",enh:"강화 합계"};
+function chkWhy(P,N,G){ G=G||{}; if(!P||typeof P.d!=="number") return "검사 숫자 문제는 아님 — 초대 제한이나 서버 규칙 버전을 확인";
+  if(N.lv>50) return "레벨이 50을 넘음";
+  if(N.lv>50) return "레벨이 50을 넘음"; if(N.aw>10) return "각성이 10을 넘음";
+  const now=serverNow(); if(N.d*864e5>now||now>=(N.d+2)*864e5||N.d<P.d) return "저장 날짜가 서버 날짜와 맞지 않음";
+  for(const [k,b,l] of CHK_K){ const gain=N[k]-(P[k]||0), used=l?((N[l]||0)-(P[l]||0)):0, free=gain-used;
+    if(N[b]>CHK_CAP[k]) return `오늘 ${CHK_NM[k]}가 ${Math.round(N[b]).toLocaleString()} 늘어 하루 한도 ${CHK_CAP[k].toLocaleString()}를 넘음(지급 장부로 처리되지 않은 몫 — 이 버전 전에 보낸 우편 등)`;
+    if(l&&(N[l]||0)>((+G[k]||0))) return `${CHK_NM[k]} 지급 장부(${(+G[k]||0).toLocaleString()})보다 많이 씀`;
+    const want=N.d===P.d?(P[b]||0)+Math.max(0,free):Math.max(0,free); if(N[b]!==want) return `${CHK_NM[k]} 계산이 서버와 다름`; }
+  return "숫자는 맞음 — 초대 제한이나 서버 규칙 버전을 확인"; }
+async function chkRecover(){ if(cloud.recovering||!cloud.doc) return; if(cloud.recAt&&Date.now()-cloud.recAt<4000) return; cloud.recovering=true; cloud.recAt=Date.now();
+  try{ const sn=await cloud.doc.get(); const d=sn&&sn.exists?sn.data():null; cloud.chk=d&&d.chk?d.chk:null; await chkRefreshGrants();
+    const N=cloudPayload().chk; cloud.rejWhy=chkWhy(cloud.chk,N,cloud.grants);
+    let inv=null; try{ if(window.PNNet&&PNNet.invite&&PNNet.invite.status) inv=await PNNet.invite.status(); }catch(e){}
+    if(inv&&inv.ok===false) cloud.rejWhy="초대 제한: 이 계정은 아직 초대되지 않음";
+    if(!cloud.repAt||Date.now()-cloud.repAt>60000||cloud.repWhy!==cloud.rejWhy){ cloud.repAt=Date.now(); cloud.repWhy=cloud.rejWhy; try{ window.PNNet&&PNNet.ops&&PNNet.ops.saveRej&&PNNet.ops.saveRej({why:cloud.rejWhy, chk:N, srv:cloud.chk, g:cloud.grants||null, inv:inv&&inv.why||"", ver:gameVersion(), dev:devLabel()}); }catch(e){} }
+  }catch(e){} finally{ cloud.recovering=false; try{ netWall(); }catch(e){} } }
 function netRequired(){ return typeof window!=="undefined"&&!!window.PNNet; }
 function netBlocked(){ if(!netRequired()) return false; if(!cloud.ready) return true;
   if(cloud.status==="synced"||cloud.status==="saving") return false;
@@ -5070,10 +5090,10 @@ function netWall(){ if(typeof document==="undefined") return; let w=document.get
     document.body.appendChild(w); w.querySelector("#nwB").onclick=()=>{ netRetry(); }; }
   const conn=!cloud.ready||cloud.status==="connecting", perm=!conn&&cloud.lastErr&&/PERMISSION|permission/.test(cloud.lastErr.code||"");
   w.querySelector("#nwT").textContent=conn?"서버에 연결하는 중":perm?"서버가 이 저장을 받지 않았어요":"서버 연결이 끊겼어요";
-  if(perm){ w.querySelector("#nwP").textContent="저장이 서버 확인(하루에 늘 수 있는 양 등)을 통과하지 못했어요. 계속되면 설정의 계정 ID를 관리자에게 알려 주세요. 10초마다 다시 올려 봅니다."; return; }
+  if(perm){ const id=(()=>{ try{ return PNNet.ops.uid()||""; }catch(e){ return ""; } })(); w.querySelector("#nwP").textContent=`저장이 서버 확인을 통과하지 못했어요${cloud.rejWhy?` — ${cloud.rejWhy}`:""}. 관리자에게 알려졌고, 관리자가 풀면 자동으로 이어집니다(5초마다 다시 올려 봄).${id?` 계정 ID: ${id}`:""}`; return; }
   w.querySelector("#nwP").textContent=conn?"진행을 서버에서 불러오는 중입니다. 잠시만 기다려 주세요.":"이 게임은 서버에 연결된 상태에서만 플레이할 수 있어요. 인터넷 연결을 확인해 주세요 — 10초마다 자동으로 다시 연결합니다."; }
 function netRetry(){ try{ if(cloud.doc&&cloud.ready&&!cloud.writing&&cloud.status==="error") cloudFlush(); }catch(e){} }
-if(typeof document!=="undefined"){ setInterval(()=>{ try{ if(cloud.status==="error") chkRefreshGrants().then(netRetry); }catch(e){} },5000); setInterval(()=>{ try{ if(netRequired()&&cloud.ready) chkRefreshGrants(); }catch(e){} },60000); setInterval(()=>{ try{ netWall(); }catch(e){} },1000); }
+if(typeof document!=="undefined"){ setInterval(()=>{ try{ if(cloud.status==="error"){ const perm=cloud.lastErr&&/PERMISSION|permission/.test(cloud.lastErr.code||""); (perm?chkRecover():chkRefreshGrants()).then(netRetry); } }catch(e){} },5000); setInterval(()=>{ try{ if(netRequired()&&cloud.ready) chkRefreshGrants(); }catch(e){} },60000); setInterval(()=>{ try{ netWall(); }catch(e){} },1000); }
 function cloudStatusHTML(){
   if(!window.PNNet) return `<div class="sblock"><div class="slabel">저장 위치</div><p class="msub">지금 이 화면(Claude 안에서 연 게임)의 진행은 <b>이 Claude 페이지에만</b> 저장됩니다. 휴대폰 테스트 주소(GitHub Pages)의 진행과는 서로 따로예요.</p></div>`;
   const ok=cloud.lastOk?fmtDate(cloud.lastOk):"아직 없음", er=cloud.lastErr, R=cloud.remote;
@@ -5120,7 +5140,7 @@ async function cloudFlush(){
   if(!cloud.doc||!cloud.ready) return;
   if(cloud.writing){ cloud.dirty=true; return; }
   cloud.writing=true; setCloud("saving");
-  try{ const pl=cloudPayload(); await cloud.doc.set(pl); cloud.chk=pl.chk; cloudOk(); }
+  try{ const pl=cloudPayload(); await cloud.doc.set(pl); cloud.chk=pl.chk; cloudOk(); if(cloud.rejWhy){ cloud.rejWhy=""; try{ PNNet.ops.saveRejClear(); }catch(e){} } }
   catch(e){
     if(e&&e.code==="unavailable"){
       try{ await new Promise(r=>setTimeout(r,800+Math.random()*800)); const pl=cloudPayload(); await cloud.doc.set(pl); cloud.chk=pl.chk; cloudOk(); }
@@ -15121,6 +15141,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.08", v:"v0.94", t:"저장 거절 바로잡기", L:[
+    "서버가 저장을 거절하면 서버의 숫자를 다시 읽어 스스로 맞춰 봅니다(두 기기에서 번갈아 한 경우 등). 그래도 안 되면 이유를 화면에 보여 주고 관리자에게 자동으로 알립니다.",
+    "관리자 운영 도구 '저장' 탭: 거절된 계정이 맨 위에 이유와 함께 보이고, '확인 풀기'를 누르면 그 계정이 5초 안에 자동으로 이어집니다(진행은 그대로).",
+    "하루 한도를 넘은 날에도 쓰는 것(감소)·그대로인 저장은 막히지 않도록 서버 규칙을 고쳤습니다."]},
   {d:"2026.11.08", v:"v0.94", t:"지급 장부 · 서버 시각", L:[
     "💎 새벽 결정·골드·정수 지급 장부: 관리자 우편(앞으로 결제도)으로 받은 몫은 서버 저장 확인의 '하루 한도'와 따로 늘 수 있습니다 — 유료로 산 💎는 한도 없이 들어옵니다. 하루 한도(💎 500 등)는 게임 안에서 버는 몫에만 적용됩니다.",
     "저장 확인의 날짜는 이제 서버 시각을 씁니다(기기 시계가 틀려도 저장이 막히지 않음)."]},
@@ -15491,10 +15515,13 @@ async function openOps(tab){
       const pn=uid=>{ const p=P.find(x=>x.id===uid); return p?`${p.name||"?"}${p.gname?` (${p.gname})`:p.anon?" (게스트)":""}`:""; };
       body.innerHTML=`<div class="opform"><div class="ncard"><b>진행 옮기기</b><p class="msub">보낼 계정의 서버 저장을 받을 계정에 그대로 복사합니다. 받는 계정의 원래 저장은 서버(saveBackups)에 보관됩니다. 받는 사람은 게임을 새로 고침하면 옮긴 진행으로 바뀝니다.</p>
         <div style="display:grid;gap:6px;margin-top:6px"><input id="svFrom" placeholder="보낼 계정 ID(아래 목록에서 '보내기로')" autocomplete="off" spellcheck="false"><input id="svTo" placeholder="받을 계정 ID(설정의 계정 ID 전체)" autocomplete="off" spellcheck="false"><button class="btn" id="svGo">옮기기</button><p class="msub" id="svSt" role="status"></p></div></div></div>`
-        +S.map(x=>`<div class="ncard"><div class="nh"><b>${esc(x.sum||"(요약 없음)")}</b><span>${esc(fmtDate(x.savedAt))}${x.dev?` · ${esc(x.dev)}`:""}</span></div><p class="msub" style="font-family:monospace;word-break:break-all">${esc(x.uid)} ${esc(pn(x.uid))} · ${Math.round(x.size/1024)}KB <button class="mini" data-from="${esc(x.uid)}">보내기로</button> <button class="mini" data-to="${esc(x.uid)}">받기로</button></p></div>`).join("");
+        +S.map(x=>`<div class="ncard"><div class="nh"><b>${esc(x.sum||"(요약 없음)")}</b><span>${esc(fmtDate(x.savedAt))}${x.dev?` · ${esc(x.dev)}`:""}</span></div>${x.rej?`<p class="msub" style="color:#ff8a8a">⚠ 저장 거절 ${esc(fmtDate(x.rej.at||0))} — ${esc(x.rej.why||"")}${x.rej.ver?` · ${esc(x.rej.ver)}`:""}${x.rej.dev?` · ${esc(x.rej.dev)}`:""} <button class="mini" data-unchk="${esc(x.uid)}">확인 풀기</button></p>`:""}<p class="msub" style="font-family:monospace;word-break:break-all">${esc(x.uid)} ${esc(pn(x.uid))} · ${Math.round(x.size/1024)}KB <button class="mini" data-from="${esc(x.uid)}">보내기로</button>${!x.rej&&x.chk?` <button class="mini" data-unchk="${esc(x.uid)}">확인 풀기</button>`:""} <button class="mini" data-to="${esc(x.uid)}">받기로</button></p></div>`).join("");
       const st=body.querySelector("#svSt"), say=(h,bad)=>{ st.innerHTML=h; st.style.color=bad?"#ff8a8a":"var(--accent)"; };
       for(const b of body.querySelectorAll("[data-from]")) b.onclick=()=>{ body.querySelector("#svFrom").value=b.dataset.from; };
       for(const b of body.querySelectorAll("[data-to]")) b.onclick=()=>{ body.querySelector("#svTo").value=b.dataset.to; };
+      // v0.95 확인 풀기: 그 계정의 검사 숫자를 지워 다음 저장을 처음처럼 받음(진행은 그대로) — 거절된 사람은 5초 안에 자동으로 이어짐
+      for(const b of body.querySelectorAll("[data-unchk]")) b.onclick=async()=>{ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 풉니다"; return; }
+        b.disabled=true; try{ await N.ops.chkReset(b.dataset.unchk); b.textContent="✔ 풀었어요"; }catch(e){ b.disabled=false; b.textContent="실패: "+((e&&(e.code||e.message))||e); } };
       const go=body.querySelector("#svGo"); go.onclick=async()=>{ const f=body.querySelector("#svFrom").value.trim(), t=body.querySelector("#svTo").value.trim();
         if(!f||!t||f===t) return say("두 계정 ID를 서로 다르게 넣어 주세요",true);
         if(go.dataset.arm!=="1"){ go.dataset.arm="1"; go.textContent="한 번 더 누르면 옮깁니다"; return say(`${esc(f.slice(0,10))}… 의 진행을 ${esc(t.slice(0,10))}… 로 복사합니다`); }

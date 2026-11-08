@@ -176,7 +176,14 @@
     players: async () => list(await val("players")).sort((a, b) => (b.at || 0) - (a.at || 0)),
     uid: () => user && user.uid,
     // v0.94 관리자: 서버 저장 목록(계정 ID · 저장 시각 · 요약 · 저장한 기기) · 한 계정의 진행을 다른 계정으로 복사(받는 쪽 원래 저장은 saveBackups에 보관)
-    saves: async () => { const s = await rtdb.ref("saves").once("value"); const out = []; s.forEach(c => { const v = c.val() || {}; let sum = v.sum || ""; if (!sum) { try { const p = JSON.parse(v.save).progress; sum = (p.protag && p.protag.name ? "★" + p.protag.name + " · " : "") + "골드 " + (p.gold || 0); } catch (e) {} } out.push({ uid: c.key, savedAt: v.savedAt || 0, dev: v.dev || "", sum, size: (v.save || "").length }); }); return out.sort((a, b) => b.savedAt - a.savedAt); },
+    saves: async () => { const s = await rtdb.ref("saves").once("value"); const out = []; s.forEach(c => { const v = c.val() || {}; let sum = v.sum || ""; if (!sum) { try { const p = JSON.parse(v.save).progress; sum = (p.protag && p.protag.name ? "★" + p.protag.name + " · " : "") + "골드 " + (p.gold || 0); } catch (e) {} } out.push({ uid: c.key, savedAt: v.savedAt || 0, dev: v.dev || "", sum, size: (v.save || "").length, chk: !!v.chk }); });
+      const rej = await val("saveRej").catch(() => null) || {}; for (const o of out) if (rej[o.uid]) o.rej = rej[o.uid];
+      for (const [k, r] of Object.entries(rej)) if (!out.some(o => o.uid === k)) out.push({ uid: k, savedAt: 0, dev: "", sum: "(서버 저장 없음)", size: 0, rej: r });
+      return out.sort((a, b) => (b.rej ? 1 : 0) - (a.rej ? 1 : 0) || b.savedAt - a.savedAt); },
+    // v0.95 저장 확인 풀기: 그 계정의 검사 숫자(chk)를 지움 → 다음 저장을 처음처럼 받아들이고 거기서부터 다시 셈 · 거절 기록도 지움
+    chkReset: async uid => { await rtdb.ref("saves/" + safeKey(uid) + "/chk").remove(); await rtdb.ref("saveRej/" + safeKey(uid)).remove().catch(() => {}); },
+    saveRej: async o => { const u = await ready; if (!u) return; await rtdb.ref("saveRej/" + safeKey(u.uid)).set(Object.assign({}, JSON.parse(JSON.stringify(o)), { at: TS })); },
+    saveRejClear: async () => { const u = await ready; if (!u) return; await rtdb.ref("saveRej/" + safeKey(u.uid)).remove().catch(() => {}); },
     saveCopy: async (from, to) => { const v = await val("saves/" + safeKey(from)); if (!v || typeof v.save !== "string") throw new Error("옮길 저장이 없습니다: " + from);
       const cur = await val("saves/" + safeKey(to)); if (cur && typeof cur.save === "string") await rtdb.ref("saveBackups/" + safeKey(to) + "/" + Date.now()).set(cur);
       await rtdb.ref("saves/" + safeKey(to)).set(Object.assign({}, v, { savedAt: Date.now(), movedFrom: from })); await rtdb.ref("invited/" + safeKey(to)).set({ by: "admin", at: TS }).catch(() => {}); return true; }
