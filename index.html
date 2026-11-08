@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794129552771"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794151920023"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3241,9 +3241,13 @@ const GOLD_FIX=(()=>{ const out=[REGION_KEYS.map(()=>1)]; let prev=poolGold(REGI
   for(let d=1;d<3;d++){ const row=REGION_KEYS.map((rk,c)=>prev*Math.sqrt(enemyTarget(d,c).hp/prevHp)/(poolGold(rk)*DIFFS[d].gold)); out.push(row.map(x=>+x.toFixed(4)));
     prev=poolGold(REGION_KEYS[9])*DIFFS[d].gold*row[9]; prevHp=enemyTarget(d,9).hp; } return out; })();
 function goldMul(d,rk){ const D=DIFFS[d]; let c=REGION_KEYS.indexOf(rk); if(c<0) c=9; return D.gold*((GOLD_FIX[d]&&GOLD_FIX[d][c])||1); }
-const DIFF_SCALE=[0,1,2].map(d=>REGION_KEYS.map((rk,c)=>{ const t=enemyTarget(d,c), a=poolAvg(rk); return {hp:+(t.hp/(a.hp*DIFF_K[d].hp)).toFixed(4), atk:+(t.atk/(a.atk*DIFF_K[d].atk)).toFixed(4)}; }));
+/* v0.95 난이도 완화(자정 C · 영원한 밤 B): 일반 몹·중간 보스의 체력·공격 배율(장 보스는 뺌 — buildMobUnit) [1장, 10장] — 1장→10장 매끄럽게. 1 = 그대로.
+   자정 1장 −15% → 10장 −8% · 영원한 밤 1장 −30% → 10장 그대로. 골드(GOLD_FIX)·최종 콘텐츠(EG_NORM)는 enemyTarget 기준이라 바뀌지 않음 */
+const DIFF_EASE=[{hp:[1,1],atk:[1,1]},{hp:[0.85,0.92],atk:[0.85,0.92]},{hp:[0.7,1],atk:[0.7,1]}];
+const DIFF_SCALE=[0,1,2].map(d=>REGION_KEYS.map((rk,c)=>{ const t=enemyTarget(d,c), a=poolAvg(rk), eh=curveAt(DIFF_EASE[d].hp,c), ea=curveAt(DIFF_EASE[d].atk,c); return {hp:+(eh*t.hp/(a.hp*DIFF_K[d].hp)).toFixed(4), atk:+(ea*t.atk/(a.atk*DIFF_K[d].atk)).toFixed(4)}; }));
 /* v0.93 A안: 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%(1장) → 70%(10장) · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 깎음(올리지는 않음 — 자정 1장 보스 공격이 황혼 10장 보스보다 낮아지지 않게 자정부터 70%).
    한 방 ≈ BOSS_HIT_K[d] × 보스 공격 ÷ 기준 영웅 체력 — BOSS_HIT_K는 봇 측정(큰 기술 위력 · 방어 · 대상)에서 잰 값 */
+let MOB_SHAPE_CAP=0;   // 일반 몹 모양 기술 한 방 상한(대상 최대 체력 비율) — 0 = 끔
 const BOSS_HIT_CAP=[[0.6,0.7],[0.7,0.7],[0.7,0.7]], BOSS_HIT_K=[0.88,0.91,0.54];
 const BOSS_ATK_FLOOR=1.2;   // v0.93 보스 공격은 그 장 일반 몹 평균 공격의 1.2배 아래로 내려가지 않음(보스가 일반 몹보다 약해지지 않게)
 function bossAtkCap(d,c){ const base=curveAt(BOSS_RATIO.atk,c)*BOSS_K[d].atk, hit=BOSS_HIT_K[d]*curveAt(ENEMY_PRESS.atk[d],c)*base; return Math.max(BOSS_ATK_FLOOR/base, Math.min(1, curveAt(BOSS_HIT_CAP[d],c)/hit)); }
@@ -3363,6 +3367,7 @@ function buildMobUnit(spec,idx,d,rk){
   if(m.boss&&!spec.eg&&ch>=0&&BOSS_FIX[d]&&BOSS_FIX[d][rk]){ hp*=BOSS_FIX[d][rk].hp; atk*=BOSS_FIX[d][rk].atk; }   // v0.93 보스형은 그 장 일반 몹 평균에 맞춘 비율
   { const K=DIFF_K[d]||DIFF_K[0]; hp*=K.hp; atk*=K.atk; }
   if(m.boss||spec.finalBoss||spec.named){ const K=BOSS_K[d]||BOSS_K[0]; hp*=K.hp; atk*=K.atk; }
+  if(spec.finalBoss&&!spec.eg&&ch>=0){ const E=DIFF_EASE[d]; hp*=curveAt([1,E.hp[1]],ch)/curveAt(E.hp,ch); atk*=curveAt([1,E.atk[1]],ch)/curveAt(E.atk,ch); }   // v0.95 장 보스 완화는 1장 0% → 10장은 일반 몹과 같게 — '장 보스는 늘 오름 · 난이도 1장 보스 ≥ 앞 난이도 10장 보스 ×1.25' 원칙 유지
   if(spec.chief){ hp*=3.2; atk*=1.3; }
   if(spec.elite){ hp*=2.0; atk*=1.25; }
   if(spec.scale){ hp*=spec.scale.hp||1; atk*=spec.scale.atk||1; }      // 최종 콘텐츠(탑 층·레이드 단계·원정 걸음) 배율
@@ -6611,6 +6616,7 @@ class Sim {
       fx.push({target:def.id,kind:"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:"침묵 — 마법 면역"}); return; }
     const rxSt=!!(skill.rxStun&&this.isWeak(def)&&this.rxOther(att,def,["chill"]));   // v0.94 방패 치기 연계(맞기 전 상태로 판정)
     const r=this.calcDamage(att,def,skill); if(parryCut) r.dmg=Math.max(1,Math.floor(r.dmg*(1-parryCut)));
+    if(MOB_SHAPE_CAP&&att.side!==def.side&&def.side==="party"&&skill&&skill.shape&&!att.boss&&!att.isBossKind) r.dmg=Math.min(r.dmg,Math.max(1,Math.floor(def.hp_max*MOB_SHAPE_CAP)));   // 모양 기술(도발 무시 · 뒷줄 노림) 한 방 상한 — 시험용(0 = 끔)
     if(r.crit){ att._critsTotal=(att._critsTotal||0)+1; att._critNow=true; }
     const pzBefore=def.dots.poison?Object.assign({},def.dots.poison):null;
     const wasChilled=!!(def.buffs.atk&&def.buffs.atk.value<0);
@@ -15142,6 +15148,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.09", v:"v0.94", t:"자정 · 영원한 밤 일반 몹 완화", L:[
+    "자정: 일반 몹·중간 보스 체력·공격 1장 −15% → 10장 −8%(장마다 매끄럽게). 장 보스는 1장 그대로 → 10장 −8%('장 보스는 늘 강해짐' 원칙 유지).",
+    "영원한 밤: 일반 몹·중간 보스 체력·공격 1장 −30% → 10장 그대로. 장 보스는 그대로.",
+    "골드 보상과 최종 콘텐츠(낙성·심연)의 강함은 그대로입니다."]},
   {d:"2026.11.08", v:"v0.94", t:"용의 도약 대상", L:["용기병 기본 규칙: 용의 도약 대상을 '체력이 가장 낮은 적' → '체력이 가장 많은 적'으로. 내리꽂기에 적이 죽어 띄움이 날아가던 것을 줄여 연속 찌르기로 이어지게 했습니다(보스는 원칙대로 휘청 — 연계 없음)."]},
   {d:"2026.11.08", v:"v0.94", t:"저장 거절 바로잡기", L:[
     "서버가 저장을 거절하면 서버의 숫자를 다시 읽어 스스로 맞춰 봅니다(두 기기에서 번갈아 한 경우 등). 그래도 안 되면 이유를 화면에 보여 주고 관리자에게 자동으로 알립니다.",
