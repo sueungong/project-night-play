@@ -51,6 +51,7 @@
   }
   let conn = false; const connSubs = [];
   rtdb.ref(".info/connected").on("value", s => { conn = !!s.val(); for (const f of connSubs) try { f(conn); } catch (e) {} });
+  let tOff = 0; rtdb.ref(".info/serverTimeOffset").on("value", s => { tOff = +s.val() || 0; });   // v0.95 서버 시각(기기 시계가 틀려도 저장 확인용 날짜가 맞게)
   async function roomApi() {
     const u = await ready; if (!u) return null;
     const me = safeKey(u.uid + "_" + TAB);
@@ -156,7 +157,13 @@
       return list(a).concat(list(m).map(x => Object.assign(x, { mine: true }))).sort((x, y) => (y.at || 0) - (x.at || 0)); },
     mailWatch: async f => { const u = await ready; if (!u) return; const h = () => f();
       rtdb.ref("mail/all").on("value", h, () => {}); rtdb.ref("mail/u/" + u.uid).on("value", h, () => {}); },
-    mailSend: async (to, o) => { const u = await ready; if (!u) throw new Error("로그인되어 있지 않음(서버 연결 없음)"); const ref = to === "all" ? rtdb.ref("mail/all") : rtdb.ref("mail/u/" + safeKey(to)); await ref.push(Object.assign({}, o, { by: u.uid, at: TS })); },
+    mailSend: async (to, o) => { const u = await ready; if (!u) throw new Error("로그인되어 있지 않음(서버 연결 없음)"); const ref = to === "all" ? rtdb.ref("mail/all") : rtdb.ref("mail/u/" + safeKey(to));
+      // v0.95 지급 장부: 우편으로 준 골드·정수·💎는 서버 저장 확인의 '하루 한도'와 따로 늘 수 있게 grants에 더해 둠(받는 사람 또는 all)
+      for (const k of ["gold", "ess", "gem"]) { const n = Math.floor(+o[k] || 0); if (n > 0) await rtdb.ref("grants/" + (to === "all" ? "all" : safeKey(to)) + "/" + k).transaction(v => (+v || 0) + n); }
+      await ref.push(Object.assign({}, o, { by: u.uid, at: TS })); },
+    grants: async () => { const u = await ready; if (!u) return null; const [a, m] = await Promise.all([val("grants/all").catch(() => null), val("grants/" + safeKey(u.uid)).catch(() => null)]);
+      const o = {}; for (const k of ["gold", "ess", "gem"]) o[k] = (+((a || {})[k]) || 0) + (+((m || {})[k]) || 0); return o; },
+    grantAdd: async (uid, k, n) => { await rtdb.ref("grants/" + safeKey(uid) + "/" + k).transaction(v => (+v || 0) + Math.floor(n)); },   // 결제 확인 서버·관리자용
     mailList: async () => { const [a, u] = await Promise.all([val("mail/all"), val("mail/u")]); const out = list(a).map(x => Object.assign(x, { to: "all" }));
       for (const [uid, box] of Object.entries(u || {})) for (const x of list(box)) out.push(Object.assign(x, { to: uid })); return out.sort((x, y) => (y.at || 0) - (x.at || 0)); },
     mailDel: async (to, id) => { await rtdb.ref((to === "all" ? "mail/all/" : "mail/u/" + safeKey(to) + "/") + safeKey(id)).remove(); },
@@ -202,7 +209,7 @@
     unInvite: async uid => { await rtdb.ref("invited/" + safeKey(uid)).remove(); },
     allowUid: async uid => { await rtdb.ref("invited/" + safeKey(uid)).set({ by: "admin", at: TS }); }
   };
-  window.PNNet = { lend, auth: authApi, ops, invite,
+  window.PNNet = { lend, auth: authApi, ops, invite, serverNow: () => Date.now() + tOff,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
     bindSettings: () => bind(document.getElementById("pnAcct")),
     ready, get user() { return user; }

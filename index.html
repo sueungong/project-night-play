@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794072380749"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794120664736"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -5073,7 +5073,7 @@ function netWall(){ if(typeof document==="undefined") return; let w=document.get
   if(perm){ w.querySelector("#nwP").textContent="저장이 서버 확인(하루에 늘 수 있는 양 등)을 통과하지 못했어요. 계속되면 설정의 계정 ID를 관리자에게 알려 주세요. 10초마다 다시 올려 봅니다."; return; }
   w.querySelector("#nwP").textContent=conn?"진행을 서버에서 불러오는 중입니다. 잠시만 기다려 주세요.":"이 게임은 서버에 연결된 상태에서만 플레이할 수 있어요. 인터넷 연결을 확인해 주세요 — 10초마다 자동으로 다시 연결합니다."; }
 function netRetry(){ try{ if(cloud.doc&&cloud.ready&&!cloud.writing&&cloud.status==="error") cloudFlush(); }catch(e){} }
-if(typeof document!=="undefined"){ setInterval(()=>{ try{ if(cloud.status==="error") netRetry(); }catch(e){} },5000); setInterval(()=>{ try{ netWall(); }catch(e){} },1000); }
+if(typeof document!=="undefined"){ setInterval(()=>{ try{ if(cloud.status==="error") chkRefreshGrants().then(netRetry); }catch(e){} },5000); setInterval(()=>{ try{ if(netRequired()&&cloud.ready) chkRefreshGrants(); }catch(e){} },60000); setInterval(()=>{ try{ netWall(); }catch(e){} },1000); }
 function cloudStatusHTML(){
   if(!window.PNNet) return `<div class="sblock"><div class="slabel">저장 위치</div><p class="msub">지금 이 화면(Claude 안에서 연 게임)의 진행은 <b>이 Claude 페이지에만</b> 저장됩니다. 휴대폰 테스트 주소(GitHub Pages)의 진행과는 서로 따로예요.</p></div>`;
   const ok=cloud.lastOk?fmtDate(cloud.lastOk):"아직 없음", er=cloud.lastErr, R=cloud.remote;
@@ -5090,14 +5090,20 @@ function devLabel(){ try{ const u=navigator.userAgent; return /Android/i.test(u)
 /* v0.95 서버 검사용 숫자(B1안): 골드·정수·💎·강화 합계·최고 레벨·최고 각성을 저장 글과 따로 올림.
    서버 규칙이 '하루(서버 시각 기준)에 늘 수 있는 양'(골드 2천만 · 정수 10만 · 💎 500 · 강화 합계 600)과 레벨 50 · 각성 10 이하를 확인하고, 넘으면 저장을 받지 않음.
    b* = 오늘 늘어난 양(서버가 마지막으로 받은 값 cloud.chk 기준으로 계산 — 규칙과 같은 식) */
-const CHK_K=[["gold","bg"],["ess","be"],["gem","bm"],["enh","bn"]];
+const CHK_K=[["gold","bg","lg"],["ess","be","le"],["gem","bm","lm"],["enh","bn",null]];
+/* v0.95 지급 장부(grants): 관리자 우편·(출시 뒤) 결제 확인 서버가 준 골드·정수·💎 누계 — 이만큼은 하루 한도와 따로 늘 수 있음(l* = 이미 쓴 장부 몫).
+   💎 결제는 하루 한도 없이 → 결제 확인 서버가 grants/<uid>/gem 에 더해 주는 방식으로 연결할 것 */
+function chkRefreshGrants(){ try{ if(window.PNNet&&PNNet.ops&&PNNet.ops.grants) return PNNet.ops.grants().then(g=>{ if(g) cloud.grants=g; }).catch(()=>{}); }catch(e){} return Promise.resolve(); }
+function serverNow(){ try{ if(typeof window!=="undefined"&&window.PNNet&&PNNet.serverNow) return PNNet.serverNow(); }catch(e){} return Date.now(); }
 function chkNow(){ const ids=Object.keys(progress.heroes||{}); let enh=0, lv=1, aw=0;
   for(const c of ids){ const H=progress.heroes[c]||{}; for(const k of Object.keys(H.senh||{})) enh+=H.senh[k]|0; lv=Math.max(lv,H.level|0); aw=Math.max(aw,H.awaken|0); }
   return {gold:Math.max(0,Math.floor(progress.gold||0)), ess:Math.max(0,Math.floor(progress.ess||0)), gem:Math.max(0,Math.floor(progress.gem||0)), enh, lv:Math.min(lv,LEVEL_CAP), aw:Math.min(aw,AWAKEN_MAX)}; }
-function chkPayload(){ const v=chkNow(), P=cloud.chk; let d=Math.floor(Date.now()/864e5);
-  if(!P||typeof P.d!=="number"){ return Object.assign(v,{d,bg:0,be:0,bm:0,bn:0}); }
+function chkPayload(){ const v=chkNow(), P=cloud.chk, G=cloud.grants||{}; let d=Math.floor(serverNow()/864e5);
+  if(!P||typeof P.d!=="number"){ return Object.assign(v,{d,bg:0,be:0,bm:0,bn:0,lg:+G.gold||0,le:+G.ess||0,lm:+G.gem||0}); }   // 처음: 장부는 이미 받은 것으로
   if(d<P.d) d=P.d;
-  for(const [k,b] of CHK_K){ const g=v[k]-(P[k]||0); v[b]=d===P.d?(P[b]||0)+Math.max(0,g):Math.max(0,g); }
+  for(const [k,b,l] of CHK_K){ const g=v[k]-(P[k]||0); let use=0;
+    if(l){ const had=P[l]||0, room=Math.max(0,(+G[{lg:"gold",le:"ess",lm:"gem"}[l]]||0)-had); use=Math.min(Math.max(0,g),room); v[l]=had+use; }
+    const free=g-use; v[b]=d===P.d?(P[b]||0)+Math.max(0,free):Math.max(0,free); }
   v.d=d; return v; }
 function cloudPayload(){
   progress._equipped=equippedStore; progress.run=curRunSave();
@@ -5236,6 +5242,7 @@ async function cloudInit(){
   cloud.ready=true;
   const d=snap&&snap.exists?snap.data():null;
   if(d&&d.chk) cloud.chk=d.chk;   // v0.95 서버가 마지막으로 받은 검사 숫자
+  await chkRefreshGrants();
   if(d) cloud.remote={savedAt:d.savedAt||0, dev:d.dev||"", sum:d.sum||(()=>{ try{ return progressSummary(JSON.parse(d.save).progress); }catch(e){ return ""; } })(), doc:d};
   let cloudProg=null;
   if(d&&typeof d.save==="string"){ try{ cloudProg=JSON.parse(d.save).progress; }catch(e){} }
@@ -15114,6 +15121,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.08", v:"v0.94", t:"지급 장부 · 서버 시각", L:[
+    "💎 새벽 결정·골드·정수 지급 장부: 관리자 우편(앞으로 결제도)으로 받은 몫은 서버 저장 확인의 '하루 한도'와 따로 늘 수 있습니다 — 유료로 산 💎는 한도 없이 들어옵니다. 하루 한도(💎 500 등)는 게임 안에서 버는 몫에만 적용됩니다.",
+    "저장 확인의 날짜는 이제 서버 시각을 씁니다(기기 시계가 틀려도 저장이 막히지 않음)."]},
   {d:"2026.11.08", v:"v0.94", t:"서버 저장 확인 · 천룡파 · 용의 도약", L:[
     "서버 저장 확인: 저장할 때 골드·정수·💎·강화 합계·최고 레벨·최고 각성을 따로 올리고, 서버가 '하루(서버 시각)에 늘 수 있는 양'(골드 2천만 · 정수 10만 · 💎 500 · 강화 합계 600)과 레벨 50 · 각성 10 이하를 확인합니다. 넘으면 저장을 받지 않습니다. 다른 기기에서 불러올 때도 서버가 확인한 숫자를 넘지 않습니다.",
     "연결이 잠깐(15초 안) 끊기는 건 막지 않고 5초마다 다시 올려 봅니다. 15초 넘게 끊기면 화면이 잠깁니다.",
@@ -15364,7 +15374,7 @@ function mailGiftText(x){ const L=[]; if(x.gold) L.push(`골드 ${(+x.gold).toLo
   for(const it of x.items||[]) if(it&&it.n>0) L.push(`${(RARITIES[RAR_IDX[it.r]]||{label:"장비"}).label} ${it.s?SLOT_LABEL[it.s]:"장비"} ×${it.n}`); return L.join(" · "); }
 function mailClaim(x){
   if(!progress||(progress.mailGot||[]).includes(x.id)) return;
-  progress.mailGot=(progress.mailGot||[]).concat(x.id).slice(-300);
+  progress.mailGot=(progress.mailGot||[]).concat(x.id).slice(-300); chkRefreshGrants();   // v0.95 우편 몫은 지급 장부로(하루 한도와 따로)
   if(x.gold) progress.gold+=+x.gold|0; if(x.ess) progress.ess=(progress.ess||0)+(+x.ess|0); if(x.gem) progress.gem=(progress.gem||0)+(+x.gem|0);
   if(x.torch) try{ torchAdd(+x.torch|0); }catch(e){}
   if(x.sub) try{ subStart(Math.min(365,Math.max(0,+x.sub|0)),`우편 선물 ${x.sub|0}일`); }catch(e){}
