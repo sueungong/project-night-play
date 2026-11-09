@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794151920023"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794198587405"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1573,6 +1573,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 @media (max-width:1150px){ .crumb .pname,.crumb .star{display:none} .chip .lbl,.chip.torch small{display:none} .topbar{gap:8px} .topbar .gear{padding:0 8px} .chips{gap:5px} .crumbx .glbl{display:none} }
 @media (max-width:900px){ .topbar{gap:6px; padding-left:8px; padding-right:8px} .topbar .gear{padding:0 8px; min-width:34px} .chips{gap:4px} .chip{padding:4px 8px!important} .crumbx{padding:0 7px} }
 @media (max-width:760px){ .crumbx{display:none} .chip .tmax{display:none} .topbar .gear .glbl{display:none} }
+.presetbar{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin:2px 0 6px}.presetbar .ghostbtn{padding:3px 8px;font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
@@ -1655,7 +1656,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
       </section>
 
       <section class="view" id="body-rules" hidden>
-        <div class="viewhead"><div class="charpick" id="charpick"></div><span class="spacer"></span><button class="ghostbtn danger" id="resetBtn" onclick="resetRulesArm()">모든 규칙 기본값으로…</button></div>
+        <div class="viewhead"><div class="charpick" id="charpick"></div><span class="spacer"></span><button class="ghostbtn danger" id="resetBtn" onclick="resetRulesArm()">이 영웅 규칙 기본값으로…</button></div>
+        <div class="presetbar" id="presetBar"></div>
         <div class="passive" id="passive"></div>
         <div id="rules"></div>
       </section>
@@ -4138,7 +4140,7 @@ function freeRuleSlots(cid){ const basic=CLASSES[cid].skills[0], rules=partyRule
 function addAdvRules(cid,a){ try{ ensureRuleSlots(cid); }catch(e){}
   { const want=advSkills(a,progress.heroes[cid].level).filter(sid=>!(partyRules[cid]||[]).some(r=>r.enabled&&r.skill===sid)); if(!want.length) return [];
     // v0.91 동료이거나, 주인공이 규칙을 직접 고치지 않았으면 → 규칙 표대로 칸 전체를 새로 짬(표에서 이번 칸에 안 들어가는 기술은 skip)
-    if(isCompanion(cid)||(partyRules[cid]||[]).filter(r=>r.enabled).every(r=>isDefaultRule(cid,r))){ partyRules[cid]=isCompanion(cid)?companionRules(cid):tableRules(cid); ensureRuleSlots(cid);
+    if(!rulesEdited(cid)&&(isCompanion(cid)||(partyRules[cid]||[]).filter(r=>r.enabled).every(r=>isDefaultRule(cid,r)))){ partyRules[cid]=isCompanion(cid)?companionRules(cid):tableRules(cid); ensureRuleSlots(cid);   // v0.95 직접 고친 영웅(동료 포함)은 통째로 바꾸지 않음
       return want.map(sid=>{ const i=partyRules[cid].findIndex(r=>r.enabled&&r.skill===sid); return [sid,i>=0?{pos:i+1}:{skip:true}]; }); } }
   const want=advSkills(a,progress.heroes[cid].level).filter(sid=>autoRuleOf(cid,sid)&&!(partyRules[cid]||[]).some(r=>r.enabled&&r.skill===sid)); const n=Math.min(want.length,freeRuleSlots(cid));   // v0.30: 칸이 모자라면 대표 스킬부터(예전엔 덜 중요한 스킬이 먼저 칸을 차지)
   const out=want.slice(0,n).reverse().map(sid=>[sid,autoAddRule(cid,sid)]).reverse().concat(want.slice(n).map(sid=>[sid,{failed:true}]));
@@ -4963,14 +4965,19 @@ function ruleMig094(x){ if(!x||typeof x!=="object"||(x.target|0)!==0||(x.logic|0
 // v0.94 '이 기술의 효과가 없음' 조건(55)을 없앰 — 같은 효과가 남아 있으면 어떤 조건이든 그 기술을 다시 쓰지 않으므로. 그 조건을 쓰던 규칙은 '항상'으로
 function ruleMig094b(x){ if(!x||typeof x!=="object") return x; if((x.c2|0)===55){ x.c2=0; x.logic=0; } if((x.c1|0)===55){ if((x.logic|0)&&x.c2){ x.c1=x.c2; x.c2=0; x.logic=0; } else x.c1=0; } return x; }
 function rulesFrom(src){ if(!src) return; const cv=src._cv|0; for(const c of CLASS_IDS) if(Array.isArray(src[c])){ let r=cv<2?src[c].map(ruleMig093):src[c]; if(cv<3&&c==="bard") r=r.map(ruleMig094); if(cv<4) r=r.map(ruleMig094b); partyRules[c]=r; } partyRules._cv=4; }
-function normRules(){ for(const c of CLASS_IDS){ for(const x of partyRules[c]||[]){
+/* v0.95 버그: 클라우드·백업을 불러올 때 진행(progress)을 바꾸기 전에 이 정리가 돌아, 그 기기의 옛 진행 기준으로 '아직 없는 기술'(전직·스킬북)을 끄고 기본공격으로 바꿔 버림 → 규칙이 비거나 바뀜.
+   own=false면 '쓸 수 없는 기술 끄기'는 건너뜀 — 진행을 읽은 뒤 normRules()를 다시 부름 */
+function normRules(own=true){ for(const c of CLASS_IDS){ for(const x of partyRules[c]||[]){
     if(SKILL_MAP_092[x.skill]&&!(CLASSES[c].skills.includes(x.skill))){ x._o092=OLD_RULE_SIG_092.has(`${x.skill}:${x.c1|0}:${x.logic|0}:${(x.logic|0)?(x.c2|0):0}`)?1:2; x._o092e=x.enabled!==false; x.skill=x._o092s=SKILL_MAP_092[x.skill]; }   // v0.92 예전 기술 → 새 기술(표에서 다시 짜는 것은 migrateProgress)
     if(!cValid(x.c1)) x.c1=0; if(!cValid(x.c2)) x.c2=0; if(!(x.target<TARGET.length)) x.target=0;
     if((x.target|0)===12) x.target=0;
     if(x.skill==="defend"){ x.enabled=false; x.skill=CLASSES[c].skills[0]; } }
     // v0.89 그 영웅이 쓸 수 없는 기술(예전 스킬북 등)·같은 기술 두 번은 끔
-    try{ const own=new Set(classSkills(c)), seen=new Set(), b=CLASSES[c].skills[0]; for(const x of partyRules[c]||[]){ if(!own.has(x.skill)){ x.enabled=false; x.skill=b; } if(x.enabled&&x.skill!==b){ if(seen.has(x.skill)) x.enabled=false; else seen.add(x.skill); } } }catch(e){} } }
+    if(own) try{ const own=new Set(classSkills(c)), seen=new Set(), b=CLASSES[c].skills[0]; for(const x of partyRules[c]||[]){ if(!own.has(x.skill)){ x.enabled=false; x.skill=b; } if(x.enabled&&x.skill!==b){ if(seen.has(x.skill)) x.enabled=false; else seen.add(x.skill); } } }catch(e){} } }
 function saveRules(){ safeSet("pn_rules_v01", JSON.stringify(partyRules)); touchSave(); }
+// v0.95 사용자가 직접 고친 영웅 표시 — 자동으로 규칙 전체를 다시 짜는 곳(전직·새 전직 기술·규칙표 바뀜)은 이 영웅을 건드리지 않고 빈 칸에만 넣음
+function rulesEdited(cid){ const h=progress&&progress.heroes&&progress.heroes[cid]; return !!(h&&h.rulesEdited); }
+function saveRulesU(cid){ try{ if(progress.heroes[cid]) progress.heroes[cid].rulesEdited=true; }catch(e){} saveRules(); }
 function saveProgress(){ progress._equipped=equippedStore; touchSave(); renderHud(); renderPtsDot(); }
 // 진행 중인 던전(구역·파티 체력·얻은 것)을 저장에 함께 담는다 — 새로 고침·새 버전·기기 전환 후에도 이어서
 // 이 창(탭·미리보기)마다 다른 취약 — 같은 게임이 두 곳에 열려 있을 때 '남의 창이 진행 중인 던전'을 가려낸다
@@ -5183,8 +5190,8 @@ function applyCloud(d, live){
   const data=JSON.parse(d.save);
   if(!data||!data.progress||!data.progress.heroes) return false;
   partyRules=defaultRules();
-  if(data.rules) rulesFrom(data.rules); normRules();
-  progress=migrateProgress(data.progress);
+  if(data.rules) rulesFrom(data.rules); normRules(false);
+  progress=migrateProgress(data.progress); normRules();   // v0.95 진행을 바꾼 뒤에 '쓸 수 없는 기술' 정리
   progress.savedAt=d.savedAt||progress.savedAt||0;
   if(d.chk&&typeof d.chk==="object"){ cloud.chk=d.chk; for(const k of ["gold","ess","gem"]) if(typeof d.chk[k]==="number"&&(progress[k]||0)>d.chk[k]) progress[k]=d.chk[k]; }   // v0.95 서버가 확인한 숫자보다 많으면 그 숫자로
   equippedStore=Array.isArray(progress._equipped)?progress._equipped:[];
@@ -5220,8 +5227,8 @@ function restoreLocalBackup(){
   try{
     const data=JSON.parse(b);
     partyRules=defaultRules();
-    if(data.rules) rulesFrom(data.rules); normRules();
-    progress=migrateProgress(data.progress);
+    if(data.rules) rulesFrom(data.rules); normRules(false);
+    progress=migrateProgress(data.progress); normRules();
     equippedStore=Array.isArray(progress._equipped)?progress._equipped:[];
     saveProgress();        // 지금 시각으로 저장 → 클라우드에도 이 진행이 올라감
     rerenderAll();
@@ -5318,7 +5325,7 @@ function loadAll(){
   partyRules=defaultRules();
   const r=safeGet("pn_rules_v01");
   if(r){ try{ rulesFrom(JSON.parse(r)); }catch(e){} }
-  normRules();   // 없어진 조건·대상은 기본으로
+  normRules(false);   // 없어진 조건·대상은 기본으로(쓸 수 없는 기술 정리는 진행을 읽은 뒤)
   progress=defaultProgress();
   const g=safeGet("pn_progress_v02");
   if(g){ try{
@@ -11797,7 +11804,7 @@ function sel(options,value,onchange){
 let ruleHits={}, ruleHitsSeen=false, resetRulesArmed=false;
 const LOGIC_UI=["+ 조건","그리고","또는"];
 const RULE_OPEN={};   // v0.94 영웅마다 펼친 규칙 번호(한 번에 하나)
-function renderRules(){
+function renderRules(){ try{ renderPresetBar(); }catch(e){}
   const box=$("rules"); box.innerHTML=""; const SXr=heroSkillsEx(selected);   // v0.93 규칙 기술 칸도 강화·무기를 반영한 마나
   const rules=partyRules[selected];
   const skills=classSkills(selected);
@@ -11850,7 +11857,7 @@ function renderRules(){
   if(ro){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML="🔒 던전 진행 중에는 규칙을 볼 수만 있어요. 바꾸려면 마을로 돌아온 뒤에."; col.appendChild(n); }
   else if(isCompanion(selected)){ const n=document.createElement("div"); n.className="compnote";   // v0.57: 동료 규칙도 직접 — 성향대로 한 번에 채우는 단추만
     n.innerHTML=`🧭 동료의 규칙도 직접 정합니다. 처음이라면 <button class="ghostbtn" id="compFill">작전 성향 '${esc(STANCES[heroStance(selected)].name)}'대로 채우기</button>로 시작해 고쳐 보세요.`;
-    col.appendChild(n); n.querySelector("#compFill").onclick=()=>{ partyRules[selected]=companionRules(selected); ensureRuleSlots(selected); saveRules(); renderRules(); logLine(`<span class="r">📜 ${esc(heroDisplayName(selected))}의 규칙을 작전 성향대로 채웠습니다.</span>`); }; }
+    col.appendChild(n); n.querySelector("#compFill").onclick=()=>{ partyRules[selected]=companionRules(selected); ensureRuleSlots(selected); progress.heroes[selected].rulesEdited=false; saveRules(); renderRules(); logLine(`<span class="r">📜 ${esc(heroDisplayName(selected))}의 규칙을 작전 성향대로 채웠습니다.</span>`); }; }
   const list=document.createElement("div"); list.className="rules rl2"; col.appendChild(list);
   // v0.94 규칙 = 기술이 제목인 한 줄 · 누르면 그 자리에서 조건(종류 + 조절 칸)과 대상이 펼쳐짐
   const myResOpts=cResOpts(selected), unl=DV.unlocks||[];
@@ -11900,8 +11907,8 @@ function renderRules(){
     const hd=document.createElement("div"); hd.className="rlh";
     const no=document.createElement("span"); no.className="no"; no.textContent=i+1;
     const chk=document.createElement("input"); chk.type="checkbox"; chk.className="chk"; chk.checked=r.enabled; chk.title="이 규칙 사용"; chk.disabled=ro;
-    chk.onchange=()=>{ r.enabled=chk.checked; if(r.enabled&&r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); saveRules(); renderRules(); };
-    const sk=mkSel(skills.map(sid=>({v:sid,l:skLabel(sid)+(sid!==skills[0]&&sid!==r.skill&&rules.some((o,j)=>j!==i&&o.enabled&&o.skill===sid)?" (다른 칸)":"")})),r.skill,v=>{ r.skill=v; if(r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)) r.target=T.opts[0].v; saveRules(); renderRules(); },"sk");
+    chk.onchange=()=>{ r.enabled=chk.checked; if(r.enabled&&r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); saveRulesU(selected); renderRules(); };
+    const sk=mkSel(skills.map(sid=>({v:sid,l:skLabel(sid)+(sid!==skills[0]&&sid!==r.skill&&rules.some((o,j)=>j!==i&&o.enabled&&o.skill===sid)?" (다른 칸)":"")})),r.skill,v=>{ r.skill=v; if(r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)) r.target=T.opts[0].v; saveRulesU(selected); renderRules(); },"sk");
     sk.onclick=e=>e.stopPropagation();
     const sum=document.createElement("span"); sum.className="rsum"; sum.innerHTML=cLabel(r.c1,true)+((r.logic|0)?` <b class="lgw">${r.logic===1?"그리고":"또는"}</b> `+cLabel(r.c2,true):"");
     const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)){ r.target=T.opts[0].v; saveRules(); }
@@ -11912,13 +11919,13 @@ function renderRules(){
     row.appendChild(hd);
     if(open){ const bd=document.createElement("div"); bd.className="rlb";
       const l1=document.createElement("div"); l1.className="rln"; l1.appendChild(W("조건"));
-      l1.appendChild(condCtl(r.c1,v=>{ r.c1=v; saveRules(); redraw(i); }));
-      if(r.logic|0){ l1.appendChild(mkSel([{v:"1",l:"그리고"},{v:"2",l:"또는"}],String(r.logic),v=>{ r.logic=+v; saveRules(); redraw(i); },"rlg"));
-        l1.appendChild(condCtl(r.c2,v=>{ r.c2=v; saveRules(); redraw(i); }));
-        const del=document.createElement("button"); del.className="radd"; del.textContent="－"; del.title="두 번째 조건 빼기"; del.disabled=ro; del.onclick=()=>{ r.logic=0; r.c2="al"; saveRules(); redraw(i); }; l1.appendChild(del); }
-      else if(!isAlw(r.c1)){ const add=document.createElement("button"); add.className="radd"; add.textContent="＋"; add.title="조건 하나 더(그리고·또는)"; add.disabled=ro; add.onclick=()=>{ r.logic=1; r.c2="foes:foe:2:ge"; saveRules(); redraw(i); }; l1.appendChild(add); }
+      l1.appendChild(condCtl(r.c1,v=>{ r.c1=v; saveRulesU(selected); redraw(i); }));
+      if(r.logic|0){ l1.appendChild(mkSel([{v:"1",l:"그리고"},{v:"2",l:"또는"}],String(r.logic),v=>{ r.logic=+v; saveRulesU(selected); redraw(i); },"rlg"));
+        l1.appendChild(condCtl(r.c2,v=>{ r.c2=v; saveRulesU(selected); redraw(i); }));
+        const del=document.createElement("button"); del.className="radd"; del.textContent="－"; del.title="두 번째 조건 빼기"; del.disabled=ro; del.onclick=()=>{ r.logic=0; r.c2="al"; saveRulesU(selected); redraw(i); }; l1.appendChild(del); }
+      else if(!isAlw(r.c1)){ const add=document.createElement("button"); add.className="radd"; add.textContent="＋"; add.title="조건 하나 더(그리고·또는)"; add.disabled=ro; add.onclick=()=>{ r.logic=1; r.c2="foes:foe:2:ge"; saveRulesU(selected); redraw(i); }; l1.appendChild(add); }
       const l2=document.createElement("div"); l2.className="rln"; l2.appendChild(W("대상"));
-      const tg=mkSel(T.opts.map(o=>({v:String(o.v),l:o.label})),String(r.target),v=>{ r.target=+v; saveRules(); redraw(i); },"tg"); tg.disabled=ro||T.opts.length<2; tg.title=T.hint; l2.appendChild(tg);
+      const tg=mkSel(T.opts.map(o=>({v:String(o.v),l:o.label})),String(r.target),v=>{ r.target=+v; saveRulesU(selected); redraw(i); },"tg"); tg.disabled=ro||T.opts.length<2; tg.title=T.hint; l2.appendChild(tg);
       const mv=document.createElement("span"); mv.className="rmv"; for(const [t,d,lb] of [["↑",-1,"위로"],["↓",1,"아래로"]]){ const b=document.createElement("button"); b.textContent=t; b.title="우선순위 "+lb; b.setAttribute("aria-label",`${i+1}번 규칙 ${lb}`); b.disabled=ro||(d<0?i===0:i===rules.length-1); b.onclick=()=>{ RULE_OPEN[selected]=i+d; moveRule(i,d); }; mv.appendChild(b); }
       l2.appendChild(mv);
       const pv=document.createElement("div"); pv.className="rpv"; const nm=SKILLS[r.skill].name;
@@ -11934,11 +11941,30 @@ function renderRules(){
       row.innerHTML=`<div class="rnum"><span class="no">${i+1}</span></div><div class="rbody"><span class="w">🔒 아직 잠긴 칸 — 전투에서 이기면 '규칙 교실'에서 한 칸씩 열려요</span></div>`; list.appendChild(row); }
   }
 }
+/* v0.95 규칙 저장 칸: 영웅마다 3칸. 지금 규칙을 저장하고 언제든 불러옴(진행·클라우드에 함께 저장) */
+const RULE_PRESET_N=3;
+function rulePresets(cid){ const h=progress.heroes[cid]; if(!Array.isArray(h.rulePresets)) h.rulePresets=[]; while(h.rulePresets.length<RULE_PRESET_N) h.rulePresets.push(null); return h.rulePresets; }
+function renderPresetBar(){ const el=$("presetBar"); if(!el||!progress||!progress.heroes[selected]) return; const P=rulePresets(selected);
+  el.innerHTML=`<span class="msub">저장 칸</span>`+P.map((x,i)=>`<button class="ghostbtn" data-ps="${i}" title="${x?`${esc(x.name)} — 눌러서 불러오기·덮어쓰기`:"비어 있음 — 눌러서 지금 규칙 저장"}">${i+1}${x?` ${esc(x.name)}`:" (비어 있음)"}</button>`).join("");
+  el.querySelectorAll("[data-ps]").forEach(b=>b.onclick=()=>openPreset(selected,+b.dataset.ps)); }
+function presetSave(cid,i,name){ const P=rulePresets(cid); P[i]={name:(name||"").trim().slice(0,12)||`설정 ${i+1}`, rules:JSON.parse(JSON.stringify((partyRules[cid]||[]).filter(r=>r))), at:Date.now(), stance:heroStance(cid)}; saveProgress(); }
+function presetLoad(cid,i){ const x=rulePresets(cid)[i]; if(!x) return false; partyRules[cid]=JSON.parse(JSON.stringify(x.rules)); normRules(); ensureRuleSlots(cid); saveRulesU(cid); return true; }
+function openPreset(cid,i){ if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>규칙은 마을에서 바꿀 수 있어요.`,"",2400); return; }
+  const P=rulePresets(cid), x=P[i], who=heroDisplayName(cid);
+  const m=openModal(`<h3>📜 ${esc(who)} — 저장 칸 ${i+1}</h3>
+    ${x?`<p class="msub">'${esc(x.name)}' · ${esc(fmtDate(x.at||0))} 저장 · 켜진 규칙 ${x.rules.filter(r=>r.enabled).length}칸</p>`:`<p class="msub">비어 있어요. 지금 규칙을 이 칸에 저장할 수 있어요.</p>`}
+    <label class="msub">이름 <input id="psName" maxlength="12" value="${esc(x?x.name:`설정 ${i+1}`)}" style="width:140px"></label>
+    <div class="mbtns" style="margin-top:10px">${x?`<button class="btn" id="psLoad">불러오기</button>`:""}<button class="btn ${x?"ghost":""}" id="psSave">${x?"지금 규칙으로 덮어쓰기":"지금 규칙 저장"}</button>${x?`<button class="btn ghost" id="psDel">비우기</button>`:""}<button class="btn ghost" id="psClose">닫기</button></div>`);
+  const nm=()=>m.querySelector("#psName").value;
+  m.querySelector("#psClose").onclick=closeModal;
+  m.querySelector("#psSave").onclick=()=>{ presetSave(cid,i,nm()); closeModal(); renderRules(); logLine(`<span class="r">📜 ${esc(who)}의 지금 규칙을 저장 칸 ${i+1} '${esc(rulePresets(cid)[i].name)}'에 저장했습니다.</span>`); };
+  const ld=m.querySelector("#psLoad"); if(ld) ld.onclick=()=>{ if(nm().trim()&&nm().trim()!==x.name){ x.name=nm().trim().slice(0,12); saveProgress(); } presetLoad(cid,i); closeModal(); renderRules(); logLine(`<span class="r">📜 ${esc(who)} — 저장 칸 ${i+1} '${esc(x.name)}' 규칙을 불러왔습니다.</span>`); };
+  const dl=m.querySelector("#psDel"); if(dl) dl.onclick=()=>{ if(dl.dataset.arm!=="1"){ dl.dataset.arm="1"; dl.textContent="한 번 더 누르면 비움"; return; } P[i]=null; saveProgress(); closeModal(); renderRules(); }; }
 function resetRulesArm(){
   const b=$("resetBtn");
-  if(!resetRulesArmed){ resetRulesArmed=true; b.classList.add("arm"); b.textContent="한 번 더 누르면 모든 영웅 규칙 초기화";
-    setTimeout(()=>{ if(resetRulesArmed){ resetRulesArmed=false; b.classList.remove("arm"); b.textContent="모든 규칙 기본값으로…"; } },4000); return; }
-  resetRulesArmed=false; b.classList.remove("arm"); b.textContent="모든 규칙 기본값으로…"; resetRules();
+  if(!resetRulesArmed){ resetRulesArmed=true; b.classList.add("arm"); b.textContent=`한 번 더 누르면 ${heroDisplayName(selected)} 규칙 초기화`;
+    setTimeout(()=>{ if(resetRulesArmed){ resetRulesArmed=false; b.classList.remove("arm"); b.textContent="이 영웅 규칙 기본값으로…"; } },4000); return; }
+  resetRulesArmed=false; b.classList.remove("arm"); b.textContent="이 영웅 규칙 기본값으로…"; resetRules(selected);
 }
 function masteryRow(cid,sid){
   const h=progress.heroes[cid]; const ms=(h.mastery||{})[sid]||{xp:0,pick:{}}; const s=SKILLS[sid]; const kind=masteryKind(s);
@@ -11965,12 +11991,14 @@ function moveRule(i,d){
   const rules=partyRules[selected]; const j=i+d;
   if(j<0||j>=rules.length) return;
   [rules[i],rules[j]]=[rules[j],rules[i]];
-  saveRules(); renderRules();
+  saveRulesU(selected); renderRules();
 }
-function resetRules(){
+// v0.95 초기화는 지금 고른 영웅만(예전: 모든 영웅)
+function resetRules(cid){ cid=cid||selected;
   if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>규칙은 마을에서 바꿀 수 있어요.`,"",2400); return; }
-  partyRules=defaultRules(); for(const c of CLASS_IDS) ensureRuleSlots(c); for(const c of rosterIds()){ partyRules[c]=tableRules(c); ensureRuleSlots(c); } if(TUT.learning()) TUT.applyRules(); saveRules(); renderRules();
-  logLine(`<span class="r">모든 영웅의 규칙을 기본값으로 되돌렸습니다.</span>`);
+  partyRules[cid]=isCompanion(cid)?companionRules(cid):tableRules(cid); ensureRuleSlots(cid); if(progress.heroes[cid]) progress.heroes[cid].rulesEdited=false;
+  if(TUT.learning()&&TUT.cid()===cid) TUT.applyRules(); saveRules(); renderRules();
+  logLine(`<span class="r">📜 ${esc(heroDisplayName(cid))}의 규칙을 기본값으로 되돌렸습니다.</span>`);
 }
 
 /* ---- 파티·장비 ---- */
@@ -13580,7 +13608,7 @@ function autoRulePass(){
         const old=r=>OLD_RULE_SIG_094.has(`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`)||(r.skill===CLASSES[c].skills[0]&&isAlw(r.c1)&&!r.logic);
         if(en.length&&en.every(old)){ partyRules[c]=tableRules(c); ensureRuleSlots(c); } } saveRules(); progress.rulesFixV=3; }
     // v0.95 전직 규칙표 조정 → 바뀐 줄이 하나라도 있고 나머지도 모두 표에 있던 줄인(직접 고치지 않은) 영웅은 새 표로
-    if(progress&&progress.protag&&(progress.rulesFixV|0)<4){ for(const c of rosterIds()){ if(c===progress.protag.cid&&TUT.learning()) continue; const en=(partyRules[c]||[]).filter(r=>r.enabled);
+    if(progress&&progress.protag&&(progress.rulesFixV|0)<4){ for(const c of rosterIds()){ if((c===progress.protag.cid&&TUT.learning())||rulesEdited(c)) continue; const en=(partyRules[c]||[]).filter(r=>r.enabled);
         const sg=r=>`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`, chg=r=>OLD_RULE_SIG_095.has(sg(r));
         if(en.some(chg)&&en.every(r=>chg(r)||inRuleset(c,r)||(r.skill===CLASSES[c].skills[0]&&isAlw(r.c1)&&!r.logic))){ partyRules[c]=tableRules(c); ensureRuleSlots(c); } } saveRules(); progress.rulesFixV=4; }
     if(progress&&progress.protag&&(progress.rulesFixV|0)<5){ for(const c of rosterIds()){ for(const r of (partyRules[c]||[])) if(r.enabled&&OLD_RULE_SIG_095B.has(`${r.skill}|${cKey(r.c1)}|${r.logic|0}|${(r.logic|0)?cKey(r.c2):"al"}`)) r.c2=R_MOM4; } saveRules(); progress.rulesFixV=5; }   // v0.95 천룡파 조건만 기세 4로
@@ -15148,6 +15176,11 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.09", v:"v0.94", t:"규칙 초기화 · 규칙이 비던 버그 · 저장 칸", L:[
+    "규칙 화면의 초기화 버튼은 이제 고른 영웅 한 명만 기본값으로 되돌립니다(예전: 모든 영웅).",
+    "버그 수정: 다른 기기 저장을 불러오거나(두 기기 · 새로 고침) 백업에서 되살릴 때, 이 기기의 옛 진행을 기준으로 '아직 없는 기술'로 보고 전직·스킬북 기술 규칙을 꺼 버려 규칙이 비거나 바뀌던 문제.",
+    "버그 수정: 직접 고친 동료 영웅의 규칙을, 새 전직 기술이 열릴 때(Lv16 등) 규칙 표로 통째로 바꾸던 문제 — 이제 직접 고친 영웅은 빈 칸에만 새 기술을 넣습니다.",
+    "📜 규칙 저장 칸: 영웅마다 3칸. 규칙 화면 위 '저장 칸' 1·2·3을 눌러 지금 규칙을 이름 붙여 저장하고, 언제든 불러올 수 있습니다."]},
   {d:"2026.11.09", v:"v0.94", t:"자정 · 영원한 밤 일반 몹 완화", L:[
     "자정: 일반 몹·중간 보스 체력·공격 1장 −15% → 10장 −8%(장마다 매끄럽게). 장 보스는 1장 그대로 → 10장 −8%('장 보스는 늘 강해짐' 원칙 유지).",
     "영원한 밤: 일반 몹·중간 보스 체력·공격 1장 −30% → 10장 그대로. 장 보스는 그대로.",
@@ -15601,8 +15634,8 @@ function start(snap){
     try{
       // 핫 업데이트 스냅샷은 저장소보다 최신일 때만 쓴다(오래된 스냅샷이 더 최근 진행을 덮어 이전 방으로 되돌아가던 경로)
       const fresh=snap.progress&&snap.progress.heroes&&(snap.progress.savedAt||0)>=(progress.savedAt||0);
-      if(fresh&&snap.rules){ rulesFrom(snap.rules); normRules(); }
-      if(fresh){ progress=migrateProgress(snap.progress);
+      if(fresh&&snap.rules){ rulesFrom(snap.rules); normRules(false); }
+      if(fresh){ progress=migrateProgress(snap.progress); normRules();
         equippedStore=Array.isArray(progress._equipped)?progress._equipped:[]; }
       if(snap.sel&&CLASS_IDS.includes(snap.sel)) selected=snap.sel;
     }catch(e){}
