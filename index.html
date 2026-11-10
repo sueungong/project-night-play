@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794308198747"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794310312505"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2003,14 +2003,14 @@ const SKILLS = {
   bd_laugh:      { name:"웃음 폭탄",       type:"laugh",     power:0,   mp:12, aoe:true,  range:"ranged" },
   /* 궁수 — ① 연사 ② 표적 ③ 상태 화살 (연사: 같은 적 연속 한 발마다 +2%) */
   ar_shot:       { name:"활쏘기",          type:"damage",    power:1.0, mp:0,  aoe:false, range:"ranged" },
-  ar_rapid:      { name:"연속 사격",       type:"damage",    power:0.36, mp:10, aoe:false, range:"ranged", multi:4, multiFall:0.15 },
+  ar_rapid:      { name:"연속 사격",       type:"damage",    power:0.30, mp:10, aoe:false, range:"ranged", multi:4, multiFall:0.2 },
   ar_rain:       { name:"화살비",          type:"damage",    power:0.4, mp:22, aoe:false, range:"ranged", hits:6 },
   ar_pierce:     { name:"꿰뚫는 화살",     type:"damage",    power:1.5, mp:14, aoe:false, range:"ranged", lance:0.7, rxCrit:true },   // v0.94 연계: 다른 아군이 건 기절·빙결 → 확정 치명
   ar_prey:       { name:"사냥감 지정",     type:"foebuff",   power:0,   mp:8,  aoe:false, range:"ranged", buff:"prey", duration:3, value:0.03, cap:0.3 },
   ar_venom:      { name:"독 화살",         type:"damage",    power:0.4, mp:12, aoe:false, range:"ranged", multi:3, poisonN:1, poisonCh:0.4 },
   ar_bind:       { name:"묶는 화살",       type:"damage",    power:1.0, mp:12, aoe:false, range:"ranged", stun:{chance:0.25,boss:0.1}, airExt:1 },
   ar_thousand:   { name:"천 개의 화살",    type:"damage",    power:0.25, mp:32, aoe:true, range:"ranged", multi:5, multiFall:0.15 },
-  ar_storm:      { name:"폭풍 연사",       type:"damage",    power:0.32, mp:20, aoe:false, range:"ranged", multi:7, multiFall:0.15 },
+  ar_storm:      { name:"폭풍 연사",       type:"damage",    power:0.26, mp:20, aoe:false, range:"ranged", multi:7, multiFall:0.2 },
   ar_windread:   { name:"바람 읽기",       type:"selfbuff",  power:0,   mp:10, aoe:false, range:"self",  buff:"windread", duration:2, value:2 },
   ar_galepierce: { name:"꿰뚫는 바람",     type:"damage",    power:0.9, mp:18, aoe:false, range:"ranged", multi:3, lane:true },
   ar_hound:      { name:"사냥개 풀기",     type:"selfbuff",  power:0.8, mp:24, aoe:false, range:"self",  buff:"hound", duration:3, n:3 },
@@ -5836,7 +5836,7 @@ class Sim {
     this._actor=prevA; this._kegBoom=false;
   }
   skillOf(u,sid){ return (u.skillsEx&&u.skillsEx[sid])||SKILLS[sid]; }
-  capT(arr,skill){ const n=skill.maxT|0; if(!n||arr.length<=n) return arr; return arr.slice().sort((a,b)=>(a.row==="front"?0:1)-(b.row==="front"?0:1)).slice(0,n); }   // v0.95 광역 최대 대상 수(앞줄부터)
+  capT(arr,skill){ const n=skill.maxT|0; if(!n||arr.length<=n) return arr; const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(this.rand()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a.slice(0,n); }   // v0.95 광역 최대 대상 수 — 무작위로 고름
   blockedBy(u,c){ return !!(c.lock&&!(u.unlocks&&u.unlocks.includes(COND.indexOf(c)))); }
   rr(a,b){ return a+this.rand()*(b-a); }
   ri(a,b){ return a+Math.floor(this.rand()*(b-a+1)); }
@@ -8836,7 +8836,7 @@ function partyScaleEnemies(enemies,n,base,egMode){
 /* v0.95 쿨타임 · 마나 · 광역 대상 수 · 몹 범위 기술 — 한 곳에서 규칙대로 매김
    영웅 기술 쿨타임(쓰고 나서 내 행동 N번 쉼): 0 = 기본기·채우는 기술·지속으로 이미 묶인 버프 / 1 = 센 단일기·앞줄 광역·큰 다단 / 2 = 전체 광역·파티 전체 지원 / 3 = 궁극기·부활·빙결
    마나(마법사·성직자·음유시인만 — 측정상 마나가 남는 직업): 쿨타임 없음 ×1.15 · 1 → ×1.4 · 2 → ×1.7 · 3 → ×2.0(센 기술일수록 마나를 더 씀)
-   대마법사 잿불 폭발 · 바람의 명궁 천 개의 화살: 적 전체 → 최대 4명(앞줄부터) */
+   대마법사 잿불 폭발 · 바람의 명궁 천 개의 화살: 적 전체 → 최대 4명(무작위) */
 const SKILL_CD={
   3:["pr_revive","mg_eternal","mg_iceprison","ft_heavendragon","gn_blast","pr_judgefire","ar_thousand","pr_salvation","kn_rampart","pr_spring","pr_barrier"],
   2:["mg_ashburst","mg_phoenix","mg_froststorm","mg_beam","mg_frostcoat","rg_miasma","gn_headshot","gn_firerain","ar_rain","ar_storm","ar_hound","ln_skypierce","ln_leap","ln_unbroken","pr_rain","pr_chant","kn_oath","kn_bloodprice","ft_diamond","bd_volley"],
@@ -15207,10 +15207,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 const UPDATES=[
   {d:"2026.11.10", v:"v0.94", t:"영웅 밸런스 · 쿨타임 · 방진 수호자 · 몹 범위 기술", L:[
     "쿨타임: 센 기술은 쓰고 나서 내 행동 1~3번 동안 쉽니다(기술 설명의 '쿨타임 N턴'). 쉬는 동안 자동전투는 다음 순번 규칙으로 넘어갑니다. 몹·보스의 범위 기술에도 쿨타임이 생겼습니다(범위 2턴 · 전체 3턴).",
-    "대마법사 '잿불 폭발' · 바람의 명궁 '천 개의 화살': 적 전체 → 최대 4명(앞줄부터).",
-    "한 적에게 몰리는 연타는 더 크게 줄어듭니다 — 불새·화살비처럼 흩뿌리는 기술은 같은 적에게 한 발마다 -20%(예전 -10% · 최소 30%), 연속 사격·폭풍 연사·천 개의 화살은 한 발마다 -15%(최소 40%). 치명타 추가타(화살 소나기·연격 치명 등)는 그 타격의 위력을 따릅니다(위력 36%짜리 연타의 추가타가 기본공격 50%로 나가던 문제).",
+    "대마법사 '잿불 폭발' · 바람의 명궁 '천 개의 화살': 적 전체 → 최대 4명(무작위).",
+    "한 적에게 몰리는 연타는 더 크게 줄어듭니다 — 불새·화살비처럼 흩뿌리는 기술은 같은 적에게 한 발마다 -20%(예전 -10% · 최소 30%), 연속 사격·폭풍 연사는 한 발마다 -20% · 천 개의 화살은 -15%(최소 40%). 치명타 추가타(화살 소나기·연격 치명 등)는 그 타격의 위력을 따릅니다(위력 36%짜리 연타의 추가타가 기본공격 50%로 나가던 문제).",
     "단일 대상 전문: 저격수 '머리 겨누기' 300 → 380% · 기본 규칙에 '정밀 사격' 추가(취약이 안 걸리는 보스에게 표적탄만 쏘던 문제) / 암살자 '그림자 칼날' 270 → 340% · 마나 24 → 18 · 그림자 걸음 마나 10 → 6 / 용기병 돌격·천공·용의 도약 마나 14·26·22 → 10·20·18.",
-    "대마법사 '불새' 한 발 80 → 60% · 화상 확률 30 → 20% · 화상 피해 35 → 25%. 연속 사격 45 → 36% · 폭풍 연사 40 → 32%.",
+    "대마법사 '불새' 한 발 80 → 60% · 화상 확률 30 → 20% · 화상 피해 35 → 25%. 연속 사격 45 → 30% · 폭풍 연사 40 → 26%.",
     "방진 수호자(탱커): '방진'을 펴면 적의 공격을 나에게 끌어옵니다(도발 2턴 · 원거리 공격도 80%) + 나는 받는 피해 -45% · 보호막 20%. '불굴의 창'은 3턴간 다른 아군도 받는 피해 -20%. 패시브로 본인은 받는 피해 -15% 추가. 마나 방진 18 → 10 · 불굴의 창 22 → 14 · 창끝 반격 12 → 8.",
     "마나: 측정해 보니 마나가 남는 직업(마법사·성직자·음유시인)만 올렸습니다 — 쿨타임 없음 ×1.15 · 1턴 ×1.4 · 2턴 ×1.7 · 3턴 ×2.0. 나머지 직업은 이미 마나가 모자라 그대로입니다.",
     "몹·보스: 도발을 무시하고 뒷줄까지 닿는 범위·전체 기술의 위력을 낮췄습니다(일반 몹 ×0.65 · 보스 ×0.8). 난이도가 바뀔 때 1장 보스가 앞 난이도 10장 보스보다 강해지는 폭 1.25배 → 1.10배. 뒤 장 완화: 자정 10장 ×0.92 → ×0.88 · 영원한 밤 1장 ×0.7 → ×0.65 · 10장 ×1.0 → ×0.62(최종 콘텐츠 시작도 같이) · 영원한 밤 장 보스 ×0.88(1장)부터 · 보스 체력은 10장에서 추가 ×0.75.",
