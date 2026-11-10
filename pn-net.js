@@ -126,6 +126,12 @@
       const s = await r.once("value"); const n = s.exists() ? Object.keys(s.val() || {}).length : 0; if (n) await r.remove(); return n; }
   };
   // ---------- v0.93 첫 화면 로그인 ----------
+  // v0.95 영웅 이름 등록부: names/<이름 열쇠> = 계정 ID — 다른 플레이어가 먼저 쓴 이름은 못 씀(내 이름은 다시 등록해도 됨)
+  const nameKey = n => safeKey(String(n || "").trim().toLowerCase().replace(/\s+/g, ""));
+  const namesApi = {
+    claim: async n => { const u = await ready; const k = nameKey(n); if (!u || !k) return null; const r = await rtdb.ref("names/" + k).transaction(cur => (cur === null || cur === u.uid) ? u.uid : undefined); return !!(r && r.committed); },
+    release: async n => { const u = await ready; const k = nameKey(n); if (!u || !k) return; const ref = rtdb.ref("names/" + k); const s2 = await ref.once("value"); if (s2.val() === u.uid) await ref.remove(); }
+  };
   const authApi = {
     init: () => authInit,
     state: () => user ? { uid: user.uid, anon: !!user.isAnonymous, name: user.displayName || "", email: user.email || "" } : null,
@@ -140,7 +146,21 @@
     linkGoogle: async () => { const u = auth.currentUser; const prov = new fb.auth.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
       if (!u) { await auth.signInWithPopup(prov); return { switched: true }; }
       try { await u.linkWithPopup(prov); await auth.currentUser.reload(); user = auth.currentUser; render(); try { if (typeof window.cloudFlush === "function") window.cloudFlush(); } catch (x) {} return { linked: true }; }
-      catch (e) { if (e && e.code === "auth/credential-already-in-use" && e.credential) { backupLocal("switch"); try { localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (x) {} await auth.signInWithCredential(e.credential); return { switched: true }; } throw e; } },
+      catch (e) { if (e && e.code === "auth/credential-already-in-use" && e.credential) {
+          // v0.95 이미 쓰던 Google 계정으로 들어가는 경우: 이 게스트 계정은 더 쓰이지 않으므로 서버에 남은 게스트 기록(저장 · 플레이어 기록 · 이름)을 지운 뒤 넘어감.
+          //   이 기기의 진행은 백업해 두고, 들어간 Google 계정에 저장이 하나도 없으면 그 진행을 그대로 Google 계정에 올림(진행을 잃지 않게). 로그인에 실패하면 게스트 진행을 되돌림.
+          backupLocal("switch"); let pg = null, rl = null; try { pg = localStorage.getItem("pn_progress_v02"); rl = localStorage.getItem("pn_rules_v01"); } catch (x) {}
+          const gid = u.uid, wasAnon = !!u.isAnonymous; let wiped = false;
+          if (wasAnon) { try { await rtdb.ref("saves/" + safeKey(gid)).remove(); wiped = true; } catch (x) {}
+            try { await rtdb.ref("players/" + safeKey(gid)).remove(); } catch (x) {} try { await rtdb.ref("saveRej/" + safeKey(gid)).remove(); } catch (x) {}
+            try { const P = pg ? JSON.parse(pg) : null; const ns = P ? [P.protag && P.protag.name].concat(Object.values(P.heroNames || {})) : []; for (const n of ns) if (n) await namesApi.release(n).catch(() => {}); } catch (x) {} }
+          try { localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (x) {}
+          try { await auth.signInWithCredential(e.credential); }
+          catch (e2) { try { if (pg) localStorage.setItem("pn_progress_v02", pg); if (rl) localStorage.setItem("pn_rules_v01", rl); } catch (x) {} try { if (typeof window.cloudFlush === "function") window.cloudFlush(); } catch (x) {} throw e2; }
+          let carried = false;
+          try { const nu = auth.currentUser; const has = nu && (await rtdb.ref("saves/" + safeKey(nu.uid) + "/savedAt").once("value")).exists();
+            if (nu && !has && pg) { localStorage.setItem("pn_progress_v02", pg); if (rl) localStorage.setItem("pn_rules_v01", rl); localStorage.setItem("pn_last_uid", nu.uid); carried = true; } } catch (x) {}
+          return { switched: true, carried, wiped }; } throw e; } },
     offline: () => readyRes(null)
   };
   // ---------- v0.93 테스트 운영(공지 · 우편 · 의견 · 오류 · 플레이어 기록) ----------
@@ -216,7 +236,7 @@
     unInvite: async uid => { await rtdb.ref("invited/" + safeKey(uid)).remove(); },
     allowUid: async uid => { await rtdb.ref("invited/" + safeKey(uid)).set({ by: "admin", at: TS }); }
   };
-  window.PNNet = { lend, auth: authApi, ops, invite, serverNow: () => Date.now() + tOff,
+  window.PNNet = { lend, auth: authApi, ops, invite, names: namesApi, serverNow: () => Date.now() + tOff,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
     bindSettings: () => bind(document.getElementById("pnAcct")),
     ready, get user() { return user; }
