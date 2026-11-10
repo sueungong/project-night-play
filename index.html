@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794328515112"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794328807607"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -8991,7 +8991,7 @@ function erText(d,rk){ const a=erLine(mobEr(d,rk,"mob")), b=erLine(mobEr(d,rk,"b
 function hitFallOf(s){ return !s||!(s.hits>1)?0:s.hitFall!=null?s.hitFall:0.2; }   // v0.95 0.1 → 0.2(한 적에 몰릴수록 더 크게 줄어듦 — 단일 대상 전문 기술과 차이)   // v0.93 엔진 쪽으로(봇이 UI 앞까지만 읽음)
 const PARRY_BOSS_CUT=0.5;   // v0.93 되받아치기: 보스·우두머리 근접 공격은 막지 못하고 피해 -50%
 // v0.93 엔진 쪽(joinersDue·swapProtag)이 부르므로 UI 표식 앞에 둠 · 합류 순서: 시작 때 고른 둘 → 나머지(JOIN_ORDER 순서)
-function cleanName(v){ return String(v||"").replace(/[\u0000-\u001f<>&"'`\\]/g,"").replace(/\s+/g," ").trim().slice(0,8); }
+function cleanName(v){ return String(v||"").replace(/[\u0000-\u001f<>&"'`\\]/g,"").replace(/\s+/g,"").slice(0,8); }   // v0.95 이름에는 띄어쓰기를 넣을 수 없음(입력해도 붙여 씀) · 대소문자만 다른 이름은 같은 이름으로 봄
 function joinOrderFor(pr){ const pc=pr.protag&&pr.protag.cid, base=JOIN_ORDER.filter(c=>c!==pc), sp=(pr.startPick||[]).filter(c=>base.includes(c)); return [...sp,...base.filter(c=>!sp.includes(c))]; }
 const GRADE_UP={rare:{to:"epic",frag:"rare",n:8,ess:60}, epic:{to:"legend",frag:"epic",n:20,ess:300}};   // v0.94 C안: 3·15 → 8·60 / 5·40 → 20·300
 function gradeUpInfo(it){ if(!it||it.mythic||it.relic||it.slot==="rune"||it.set) return null; return GRADE_UP[it.rarity]||null; }
@@ -15500,7 +15500,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
 const UPDATES=[
   {d:"2026.11.11", v:"v0.94", t:"편성 저장 · 이름 겹침 방지 · 게스트 기록 정리", L:[
     "파티 화면 진영 위에 '편성 저장' 칸 3개 — 출전 영웅과 자리(앞줄 · 뒷줄 · 가로줄)를 이름 붙여 저장하고 한 번에 불러옵니다. 던전 안에서는 불러올 수 없습니다.",
-    "주인공 이름은 내 다른 영웅은 물론 다른 플레이어의 영웅과도 겹칠 수 없습니다(처음 만들 때 · 이름 바꿀 때 · 주인공을 바꾸며 새 이름을 지을 때 확인 — 먼저 쓴 사람이 임자). 이미 쓰고 있던 이름은 그대로입니다.",
+    "주인공 이름은 내 다른 영웅은 물론 다른 플레이어의 영웅과도 겹칠 수 없습니다(처음 만들 때 · 이름 바꿀 때 · 주인공을 바꾸며 새 이름을 지을 때 확인 — 먼저 쓴 사람이 임자). 이름에는 띄어쓰기를 넣을 수 없고, 대소문자만 다른 이름은 같은 이름으로 봅니다. 이미 쓰고 있던 이름은 그대로입니다.",
     "게스트로 하다가 '이미 쓰던 Google 계정'으로 들어가면, 더 쓰이지 않는 게스트 기록(서버 저장 · 플레이어 기록 · 이름)을 자동으로 지웁니다. 그 Google 계정에 저장이 하나도 없으면 이 기기의 진행을 그대로 옮깁니다. (게스트 계정에 Google을 '연결'하는 보통의 경우는 계정이 그대로라 남는 기록이 없습니다.)"]},
   {d:"2026.11.11", v:"v0.94", t:"정리 단추 통합 · 룬 자동 정리 · 특성 초기화", L:[
     "가방의 '여러 개 골라 정리'와 맨 아래 '자동 정리'를 🧹 정리 단추 하나로 합쳤습니다. 누르면 ① 골라서 정리(고르기 시작 · 한 번에 고르기) ② 자동 정리(등급별 보관 · 판매 · 분해, 지금 가진 것에 적용)가 한 상자에 나옵니다.",
