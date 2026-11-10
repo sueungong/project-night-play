@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794328807607"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794329753259"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1620,6 +1620,23 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .plcell.pick{outline:2px solid var(--accent); outline-offset:-2px} .plfilt button#plTidyBtn.on{background:var(--accent); color:#1a1306}
 .psetbar{display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin:0 0 6px; font-size:13px; color:var(--muted)}
 .psetbar button{padding:3px 10px; border-radius:999px; border:1px dashed var(--line2); background:transparent; color:var(--muted); cursor:pointer; font-size:12.5px} .psetbar button.has{border-style:solid; border-color:var(--accent); color:var(--accent); background:var(--raised)}
+/* v0.95 전투설정 머리: 영웅 한 줄(옆으로 밀기) · 도구 한 줄(검색 · 저장 칸 · 초기화) */
+.charpick.oneline{flex-wrap:nowrap; overflow-x:auto; scrollbar-width:thin; padding-bottom:4px; margin-bottom:6px} .charpick.oneline button{flex:none}
+.ruletools{display:flex; gap:6px; align-items:center; margin:0 0 6px; flex-wrap:nowrap}
+.ruleq{flex:1 1 160px; min-width:90px; height:34px; border-radius:10px; border:1px solid var(--line2); background:var(--panel2); color:var(--ink); padding:0 10px; font:inherit; font-size:13.5px}
+.ruletools .presetbar{margin:0; flex:none; flex-wrap:nowrap} .ruletools .presetbar .pset{padding:0 9px; height:34px; font-size:12.5px; max-width:110px; border-style:dashed; color:var(--muted)} .ruletools .presetbar .pset.has{border-style:solid; border-color:var(--accent); color:var(--accent)}
+.ruletools #resetBtn{flex:none; height:34px; padding:0 10px; white-space:nowrap; font-size:12.5px}
+.skel{font-style:normal; font-size:11.5px; font-weight:700; padding:0 7px; border-radius:20px; border:1px solid currentColor; line-height:1.6; display:inline-block}
+.el-fire{color:#ff9a5c} .el-cold{color:#7fc8ff} .el-poison{color:#8fe07a} .el-holy{color:#ffe98a} .el-dark{color:#c79bff} .el-none{color:#9aa3c0}
+.skt.t-el{border-color:currentColor; font-weight:700}
+.skrow.sk-el-fire,.rq-sk.sk-el-fire{border-left:3px solid #ff9a5c} .skrow.sk-el-cold,.rq-sk.sk-el-cold{border-left:3px solid #7fc8ff} .skrow.sk-el-poison,.rq-sk.sk-el-poison{border-left:3px solid #8fe07a} .skrow.sk-el-holy,.rq-sk.sk-el-holy{border-left:3px solid #ffe98a} .skrow.sk-el-dark,.rq-sk.sk-el-dark{border-left:3px solid #c79bff} .skrow.sk-el-none,.rq-sk.sk-el-none{border-left:3px solid #4a5270}
+.rq-top{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:2px 0 6px} .rq-top span{color:var(--muted); font-size:13px; flex:1}
+.rq-chips{display:flex; gap:5px; flex-wrap:wrap; margin-bottom:8px} .rq-chips button{padding:2px 10px; border-radius:999px; border:1px solid var(--line2); background:var(--raised); color:var(--sub); font-size:12.5px; cursor:pointer}
+.rq-hero{border:1px solid var(--line); border-radius:12px; padding:8px 10px; margin-bottom:8px; background:#0e1428}
+.rq-h{display:flex; align-items:center; gap:8px; background:none; border:0; color:var(--ink); cursor:pointer; padding:0 0 6px; text-align:left; width:100%} .rq-h img{width:30px; height:30px; image-rendering:pixelated} .rq-h small{color:var(--muted); font-size:12px}
+.rq-sk{padding:5px 8px; margin:3px 0; border-radius:8px; background:#121a33; font-size:13.5px; display:flex; flex-wrap:wrap; gap:4px 8px; align-items:baseline} .rq-main{color:var(--sub)} .rq-row{flex:1 1 100%; color:var(--muted); font-size:12.5px}
+@media (max-width:900px),(max-height:560px){ .ruleq{height:30px; font-size:12.5px} .ruletools .presetbar .pset,.ruletools #resetBtn{height:30px; padding:0 7px; font-size:11.5px} }
+.viewhead>.charpick.oneline{flex:1 1 auto; min-width:0; margin-bottom:0}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
@@ -1702,8 +1719,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
       </section>
 
       <section class="view" id="body-rules" hidden>
-        <div class="viewhead"><div class="charpick" id="charpick"></div><span class="spacer"></span><button class="ghostbtn danger" id="resetBtn" onclick="resetRulesArm()">이 영웅 규칙 기본값으로…</button></div>
-        <div class="presetbar" id="presetBar"></div>
+        <div class="viewhead" style="margin-bottom:4px"><div class="charpick oneline" id="charpick"></div></div>
+        <div class="ruletools"><input id="ruleQ" class="ruleq" type="search" placeholder="🔎 스킬 검색 — 화상 · 냉기 · 기절 · 신성 · 도발 …" oninput="rulesQ=this.value;renderRules()" aria-label="스킬 검색"><div class="presetbar" id="presetBar"></div><button class="ghostbtn danger" id="resetBtn" onclick="resetRulesArm()" title="고른 영웅의 규칙만 기본값으로 되돌립니다">↺ 규칙 초기화</button></div>
         <div class="passive" id="passive"></div>
         <div id="rules"></div>
       </section>
@@ -4212,16 +4229,19 @@ function protagSwapBlock(cid){ if(!progress||!progress.protag) return "주인공
   if((progress.ess||0)<PROTAG_SWAP_ESS) return `밤의 정수가 부족합니다 (${progress.ess||0} / ${PROTAG_SWAP_ESS})`; return null; }
 // v0.41: 이름 — 주인공을 바꾸면 이전 주인공은 지금 이름 그대로 동료가 되고, 이름이 없는(한 번도 주인공이 아니었던) 영웅은 새 이름을 받음
 /* v0.95 이름 겹침 막기: 내 영웅들끼리 + 다른 플레이어의 영웅과도(서버 이름 등록부 PNNet.names — 먼저 쓴 사람이 임자). 서버에 물을 수 없으면(오프라인·규칙 미게시) 내 영웅끼리만 확인 */
+const NAME_MIN=2, NAME_MAX=8;   // v0.95 이름: 한글·영문·숫자만 · 띄어쓰기 없음 · 2~8자
+function nameProblem(raw){ const v=String(raw==null?"":raw); if(!v.trim()) return "이름을 입력해 주세요"; if(/\s/.test(v)) return "이름에는 띄어쓰기를 쓸 수 없어요";
+  if(!/^[가-힣A-Za-z0-9]+$/.test(v)) return "이름은 한글 · 영문 · 숫자만 쓸 수 있어요"; if(v.length<NAME_MIN) return `이름은 ${NAME_MIN}자 이상이어야 해요`; if(v.length>NAME_MAX) return `이름은 ${NAME_MAX}자까지예요`; return null; }
 function nameKeyOf(n){ return String(n||"").trim().toLowerCase().replace(/\s+/g,""); }
 function nameMine(n,exceptCid){ const k=nameKeyOf(n); if(!k||!progress) return false; if(progress.protag&&progress.protag.cid!==exceptCid&&nameKeyOf(progress.protag.name)===k) return true;
   for(const [c,v] of Object.entries(progress.heroNames||{})) if(c!==exceptCid&&nameKeyOf(v)===k) return true; return false; }
-async function nameCheck(n,exceptCid){ if(nameMine(n,exceptCid)) return "이미 내 영웅이 쓰고 있는 이름이에요";
+async function nameCheck(n,exceptCid,raw){ const pb=nameProblem(raw!=null?raw:n); if(pb) return pb; if(nameMine(n,exceptCid)) return "이미 내 영웅이 쓰고 있는 이름이에요";
   try{ const N=window.PNNet; if(N&&N.names&&N.names.claim){ const ok=await Promise.race([N.names.claim(n),new Promise(r=>setTimeout(()=>r(null),4000))]); if(ok===false) return "이미 다른 플레이어가 쓰고 있는 이름이에요"; } }catch(e){}
   return null; }
 function nameRelease(n){ try{ const N=window.PNNet; if(n&&!nameMine(n)&&N&&N.names&&N.names.release) N.names.release(n).catch(()=>{}); }catch(e){} }
 function heroOwnName(cid){ return (progress&&progress.heroNames&&progress.heroNames[cid])||""; }
 function swapProtag(cid,newName){ const why=protagSwapBlock(cid); if(why) return why;
-  const nm=heroOwnName(cid)||cleanName(newName||""); if(!nm) return "새 주인공의 이름을 지어 주세요";
+  const nm=heroOwnName(cid)||cleanName(newName||""); if(!nm) return "새 주인공의 이름을 지어 주세요"; if(!heroOwnName(cid)&&nameProblem(newName)) return "이름: "+nameProblem(newName);
   const old=progress.protag.cid; progress.ess-=PROTAG_SWAP_ESS;
   progress.heroNames=progress.heroNames||{}; progress.heroNames[old]=progress.protag.name; delete progress.heroNames[cid]; progress.protag.name=nm;
   progress.heroes[old].keepBuild=true; delete progress.heroes[cid].keepBuild;
@@ -5559,7 +5579,7 @@ const SYN_USE={kn_slam:["stun","air"],rg_finisher:["vuln","stun","chill","burn"]
 function skillSpec(sid,sx){
   const s=sx||SKILLS[sid]; if(!s) return null;   // v0.36: sx = 영웅의 실제 스킬(무기·숙련 반영)
   const P=x=>Math.round(x*100), tags=[], rows=[];
-  if(s.el&&EL_NAME[s.el]) tags.push({c:"tgt",t:`${EL_NAME[s.el]} 속성`}); else if(s.type==="damage"||s.type==="leap") tags.push({c:"tgt",t:"무속성"}); if(s.cd) tags.push({c:"mp",t:`쿨타임 ${s.cd}턴`}); if(s.maxT) tags.push({c:"tgt",t:`최대 ${s.maxT}명`});
+  if(s.el&&EL_NAME[s.el]) tags.push({c:"el",el:s.el,t:`${EL_NAME[s.el]} 속성`}); else if(s.type==="damage"||s.type==="leap") tags.push({c:"el",el:"none",t:"무속성"}); if(s.cd) tags.push({c:"mp",t:`쿨타임 ${s.cd}턴`}); if(s.maxT) tags.push({c:"tgt",t:`최대 ${s.maxT}명`});
   if(s.mp>0) tags.push({c:"mp",t:`마나 ${s.mp}`+(s.enh&&SKILLS[sid]&&SKILLS[sid].mp!==s.mp?` (기본 ${SKILLS[sid].mp} · 강화 ${s.enh}번)`:"")});
   if(s.ammo) tags.push({c:"res",t:`탄 ${s.ammo}`});
   if(s.momCost) tags.push({c:"res",t:`기세 ${s.momCost}`});
@@ -5753,7 +5773,7 @@ function skHi(t){ return esc(t).replace(/(\d+(?:\.\d+)?%p?|× ?\d+번?|\d+턴|\d
 function skillCardHTML(sid,opt){
   opt=opt||{}; const S=skillSpec(sid,opt.sk); if(!S) return "";
   const order=["st","if","ln","etc"];
-  return `<div class="skc">${opt.noName?"":`<div class="skc-n">${esc(opt.title||S.name)}</div>`}<div class="skc-tags">${S.tags.map(t=>`<span class="skt t-${t.c}">${esc(t.t)}</span>`).join("")}</div>`
+  return `<div class="skc">${opt.noName?"":`<div class="skc-n">${esc(opt.title||S.name)}</div>`}<div class="skc-tags">${S.tags.map(t=>`<span class="skt t-${t.c}${t.el?" el-"+t.el:""}">${esc(t.t)}</span>`).join("")}</div>`
     +`<div class="skc-main">${esc(S.main)}</div>`
     +(S.rows.length?`<div class="skc-rows">${order.flatMap(k=>S.rows.filter(r=>r.k===k)).map(r=>`<div class="skr k-${r.k}"><span class="skl">${SK_ROWK[r.k][0]}</span><span>${esc(r.t)}</span></div>`).join("")}</div>`:"")+`</div>`;
 }
@@ -11969,7 +11989,23 @@ function sel(options,value,onchange){
 let ruleHits={}, ruleHitsSeen=false, resetRulesArmed=false;
 const LOGIC_UI=["+ 조건","그리고","또는"];
 const RULE_OPEN={};   // v0.94 영웅마다 펼친 규칙 번호(한 번에 하나)
+/* v0.95 전투설정 검색: 상태이상 · 속성 · 효과 낱말로 내 영웅들의 스킬을 한눈에 — 띄어 쓴 낱말은 모두 들어 있어야 함 */
+let rulesQ="";
+const RULE_Q_CHIPS=["화상","독","냉기","기절","약화","취약","실명","띄움","화염","신성","암흑","무속성","도발","회복","보호막","쿨타임","전체"];
+function ruleSearchHTML(q){ const words=nameKeyOf(q)?String(q).trim().toLowerCase().split(/\s+/).filter(Boolean):[]; const out=[]; let n=0;
+  const rids=rosterIds(), B=battleIds().filter(c=>rids.includes(c)), order=[...B,...rids.filter(c=>!B.includes(c))];
+  for(const cid of order){ let SX={}; try{ SX=heroSkillsEx(cid); }catch(e){} const hits=[];
+    for(const sid of classSkills(cid)){ const S=skillSpec(sid,SX[sid]); if(!S) continue; const elT=S.tags.find(t=>t.c==="el"); const blob=[S.name,S.main,...S.tags.map(t=>t.t),...S.rows.map(r=>r.t)].join(" ").toLowerCase();
+      if(!words.every(w=>blob.includes(w))) continue; const rows=S.rows.filter(r=>words.some(w=>r.t.toLowerCase().includes(w))).slice(0,2);
+      hits.push(`<div class="rq-sk${elT?" sk-el-"+elT.el:""}"><b>${esc(S.name)}</b>${elT?` <i class="skel el-${elT.el}">${esc(elT.t)}</i>`:""}<span class="rq-main">${skHi(S.main)}</span>${rows.map(r=>`<span class="rq-row">${skHi(r.t)}</span>`).join("")}</div>`); n++; }
+    if(hits.length) out.push(`<div class="rq-hero"><button class="rq-h" data-rq="${cid}"><img src="${heroIcon(cid)}" alt=""><b>${heroNameHTML(cid)}</b><small>${esc(jobName(cid))} · 스킬 ${hits.length}개 — 눌러서 이 영웅 규칙 보기</small></button>${hits.join("")}</div>`); }
+  return `<div class="rq-top"><b>'${esc(q.trim())}' 검색 결과</b> <span>영웅 ${out.length}명 · 스킬 ${n}개</span><button class="ghostbtn" id="rqClear">검색 닫기</button></div><div class="rq-chips">${RULE_Q_CHIPS.map(k=>`<button data-rqk="${k}">${k}</button>`).join("")}</div>`+(out.join("")||`<p class="msub" style="padding:10px">해당하는 스킬이 없어요. 다른 낱말로 찾아보세요.</p>`); }
+
 function renderRules(){ try{ renderPresetBar(); }catch(e){}
+  { const qi=$("ruleQ"); if(qi&&qi.value!==rulesQ&&document.activeElement!==qi) qi.value=rulesQ;
+    if(nameKeyOf(rulesQ)){ const box0=$("rules"); box0.innerHTML=ruleSearchHTML(rulesQ); const setQ=v=>{ rulesQ=v; const q2=$("ruleQ"); if(q2) q2.value=v; renderRules(); };
+      box0.querySelector("#rqClear").onclick=()=>setQ(""); box0.querySelectorAll("[data-rqk]").forEach(b=>b.onclick=()=>setQ(b.dataset.rqk));
+      box0.querySelectorAll("[data-rq]").forEach(b=>b.onclick=()=>{ selected=b.dataset.rq; rulesQ=""; const q2=$("ruleQ"); if(q2) q2.value=""; renderCharPick(); renderRules(); }); return; } }
   const box=$("rules"); box.innerHTML=""; const SXr=heroSkillsEx(selected);   // v0.93 규칙 기술 칸도 강화·무기를 반영한 마나
   const rules=partyRules[selected];
   const skills=classSkills(selected);
@@ -11997,13 +12033,13 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
     const adv=!CLASSES[selected].skills.includes(sid);
     const inRule=rules.some(r=>r.enabled&&r.skill===sid)||sid===CLASSES[selected].skills[0];
     const ms=((progress.heroes[selected].mastery||{})[sid])||{xp:0,pick:{}}; const msPick=MASTERY_STEPS.slice(0,3).some((th,i)=>(ms.xp||0)>=th&&!(ms.pick&&ms.pick[i]))&&!isCompanion(selected)&&!runBusy();
-    const cost=S.tags.find(t=>["mp","res","hp","free"].includes(t.c)), tgt=S.tags.find(t=>t.c==="tgt"), rng=S.tags.find(t=>t.c==="rng");
+    const cost=S.tags.find(t=>["mp","res","hp","free"].includes(t.c)), tgt=S.tags.find(t=>t.c==="tgt"), rng=S.tags.find(t=>t.c==="rng"), elT=S.tags.find(t=>t.c==="el"), cdT=S.tags.find(t=>/^쿨타임/.test(t.t));
     const kinds=SK_ORD.filter(k=>S.rows.some(r=>r.k===k));
-    const row=document.createElement("details"); row.className="skrow"; row.open=SK_OPEN.has(selected+":"+sid);
+    const row=document.createElement("details"); row.className="skrow"+(elT?" sk-el-"+elT.el:""); row.open=SK_OPEN.has(selected+":"+sid);
     row.addEventListener("toggle",()=>{ if(row.open) SK_OPEN.add(selected+":"+sid); else SK_OPEN.delete(selected+":"+sid); });
     row.innerHTML=`<summary><span class="skr-n">${esc(S.name)}${adv?`<i class="skb adv">전직</i>`:""}${inRule?"":`<i class="skb warn">규칙에 없음</i>`}${msPick?`<i class="skb mp">숙련 선택</i>`:""}</span>`
       +(cost?`<span class="skcost c-${cost.c}">${esc(cost.t.replace(/ \(기본.*\)$/,""))}</span>`:"")
-      +`<span class="skr-m">${[tgt?"🎯 "+esc(tgt.t):"",rng?esc(rng.t):""].filter(Boolean).join(" · ")}</span>`
+      +`<span class="skr-m">${elT?`<i class="skel el-${elT.el}">${esc(elT.t)}</i> `:""}${[tgt?"🎯 "+esc(tgt.t):"",rng?esc(rng.t):"",cdT?esc(cdT.t):""].filter(Boolean).join(" · ")}</span>`
       +`<span class="skr-e">${skHi(S.main)}</span><span class="skr-d">${kinds.map(k=>`<i class="d-${k}" title="${SK_ROWK[k][0]}"></i>`).join("")}<b class="skr-ar" aria-hidden="true"></b></span></summary>`
       +`<div class="skr-b">${cost&&/기본 /.test(cost.t)?`<div class="skblk k-cost"><b>비용</b>${skHi(cost.t)}</div>`:""}${SK_ORD.flatMap(k=>S.rows.filter(r=>r.k===k)).map(r=>`<div class="skblk k-${r.k}"><b>${SK_ROWK[r.k][0]}</b>${skHi(r.t)}</div>`).join("")||`<p class="skr-none">추가 효과 없음</p>`}</div>`;
     row.querySelector(".skr-b").appendChild(masteryRow(selected,sid));
@@ -12014,7 +12050,7 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
   ensureRuleSlots(selected);
   const ro=runBusy();   // v0.57: 동료 규칙도 직접 짬(던전 중에만 읽기 전용)
   const head=document.createElement("div"); head.className="viewhead";
-  head.innerHTML=`<h2 class="ph">${esc(heroDisplayName(selected))}의 규칙</h2><span style="font-size:13.5px;color:var(--muted)">사용 ${rules.filter(r=>r.enabled).length} / ${rules.length}칸</span>`;
+  head.innerHTML=`<h2 class="ph">${esc(heroDisplayName(selected))}의 규칙</h2>`;
   col.appendChild(head);
   const how=document.createElement("div"); how.className="howto";
   how.innerHTML=`<b>읽는 법</b><span>매 턴 <b>1번부터 차례로</b> 확인해서, <b>처음 맞는 규칙 하나</b>만 씁니다. 아무것도 안 맞으면 기본공격.</span>`;
@@ -12110,7 +12146,7 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
 const RULE_PRESET_N=3;
 function rulePresets(cid){ const h=progress.heroes[cid]; if(!Array.isArray(h.rulePresets)) h.rulePresets=[]; while(h.rulePresets.length<RULE_PRESET_N) h.rulePresets.push(null); return h.rulePresets; }
 function renderPresetBar(){ const el=$("presetBar"); if(!el||!progress||!progress.heroes[selected]) return; const P=rulePresets(selected);
-  el.innerHTML=`<span class="msub">저장 칸</span>`+P.map((x,i)=>`<button class="ghostbtn" data-ps="${i}" title="${x?`${esc(x.name)} — 눌러서 불러오기·덮어쓰기`:"비어 있음 — 눌러서 지금 규칙 저장"}">${i+1}${x?` ${esc(x.name)}`:" (비어 있음)"}</button>`).join("");
+  el.innerHTML=P.map((x,i)=>`<button class="ghostbtn pset${x?" has":""}" data-ps="${i}" title="${x?`${esc(x.name)} — 눌러서 불러오기·덮어쓰기`:"빈 저장 칸 — 눌러서 지금 규칙 저장"}">💾${i+1}${x?` ${esc(x.name)}`:""}</button>`).join("");
   el.querySelectorAll("[data-ps]").forEach(b=>b.onclick=()=>openPreset(selected,+b.dataset.ps)); }
 function presetSave(cid,i,name){ const P=rulePresets(cid); P[i]={name:(name||"").trim().slice(0,12)||`설정 ${i+1}`, rules:JSON.parse(JSON.stringify((partyRules[cid]||[]).filter(r=>r))), at:Date.now(), stance:heroStance(cid)}; saveProgress(); }
 function presetLoad(cid,i){ const x=rulePresets(cid)[i]; if(!x) return false; partyRules[cid]=JSON.parse(JSON.stringify(x.rules)); normRules(); ensureRuleSlots(cid); saveRulesU(cid); return true; }
@@ -12224,8 +12260,8 @@ function openPlate(cid,pos,burst){ const P=plateStore(), busy=runBusy(), W=plate
 function resetRulesArm(){
   const b=$("resetBtn");
   if(!resetRulesArmed){ resetRulesArmed=true; b.classList.add("arm"); b.textContent=`한 번 더 누르면 ${heroDisplayName(selected)} 규칙 초기화`;
-    setTimeout(()=>{ if(resetRulesArmed){ resetRulesArmed=false; b.classList.remove("arm"); b.textContent="이 영웅 규칙 기본값으로…"; } },4000); return; }
-  resetRulesArmed=false; b.classList.remove("arm"); b.textContent="이 영웅 규칙 기본값으로…"; resetRules(selected);
+    setTimeout(()=>{ if(resetRulesArmed){ resetRulesArmed=false; b.classList.remove("arm"); b.textContent="↺ 규칙 초기화"; } },4000); return; }
+  resetRulesArmed=false; b.classList.remove("arm"); b.textContent="↺ 규칙 초기화"; resetRules(selected);
 }
 function masteryRow(cid,sid){
   const h=progress.heroes[cid]; const ms=(h.mastery||{})[sid]||{xp:0,pick:{}}; const s=SKILLS[sid]; const kind=masteryKind(s);
@@ -13669,7 +13705,7 @@ function openProtagSwap(cid){
   if(inp){ const upd=()=>{ yes.disabled=!cleanName(inp.value); }; inp.oninput=upd; inp.onkeydown=e=>{ if(e.key==="Enter"&&!yes.disabled) yes.click(); };
     $("psDice").onclick=()=>{ let n; do{ n=NAME_POOL[ri(0,NAME_POOL.length-1)]; }while(n===inp.value||n===nm); inp.value=n; upd(); }; setTimeout(()=>inp.focus(),30); }
   $("psNo").onclick=closeModal;
-  yes.onclick=async()=>{ if(inp){ const n=cleanName(inp.value); const w=n?await nameCheck(n,cid):null; if(w){ toast(`<span class="tc">이름</span>${esc(w)} — 다른 이름을 지어 주세요.`,"",3200); inp.focus(); return; } }
+  yes.onclick=async()=>{ if(inp){ const n=cleanName(inp.value); const w=await nameCheck(n,cid,inp.value); if(w){ toast(`<span class="tc">이름</span>${esc(w)} — 다른 이름을 지어 주세요.`,"",3200); inp.focus(); return; } }
     const why=swapProtag(cid,inp?inp.value:""); if(why){ if(/이름/.test(why)&&inp){ inp.focus(); return; } closeModal(); logLine(`<span class="lose">${esc(why)}</span>`); return; }
     saveProgress(); saveRules(); closeModal(); rerenderAll(); logLine(`<span class="win">★ 주인공 교체 — 이제 주인공은 ${esc(progress.protag.name)}(${esc(jobName(cid))})입니다. ${esc(nm)}은(는) 키운 그대로 동료로 남습니다.</span>`); };
 }
@@ -15273,7 +15309,7 @@ function showCreation(mode,trio){
     inp.oninput=upd;
     inp.onkeydown=e=>{ if(e.key==="Enter"&&!go.disabled) go.click(); };
     m.querySelector("#cdice").onclick=()=>{ let n; do{ n=NAME_POOL[ri(0,NAME_POOL.length-1)]; }while(n===inp.value); inp.value=n; upd(); };
-    go.onclick=async()=>{ const n=cleanName(inp.value); if(!pick||!n||go.dataset.busy) return; go.dataset.busy="1"; const why=await nameCheck(n,pick); delete go.dataset.busy;
+    go.onclick=async()=>{ const n=cleanName(inp.value); if(!pick||go.dataset.busy) return; if(nameProblem(inp.value)){ toast(`<span class="tc">이름</span>${esc(nameProblem(inp.value))}`,"",3000); inp.focus(); return; } go.dataset.busy="1"; const why=await nameCheck(n,pick,inp.value); delete go.dataset.busy;
       if(why){ toast(`<span class="tc">이름</span>${esc(why)} — 다른 이름을 지어 주세요.`,"",3200); inp.focus(); inp.select&&inp.select(); return; } closeModal(); res({cid:pick,name:n}); };
   });
 }
@@ -15464,8 +15500,8 @@ function openSettings(){
   m.querySelector("#sndB").oninput=e=>SND.set({bgm:e.target.value/100}); m.querySelector("#sndS").oninput=e=>{ SND.set({sfx:e.target.value/100}); SND.fx("ui_click"); };
   if(pg){
     const inp=m.querySelector("#renIn");
-    const doRen=async()=>{ const n=cleanName(inp.value); if(!n||n===progress.protag.name) return;
-      const why=await nameCheck(n,progress.protag.cid); if(why){ toast(`<span class="tc">이름</span>${esc(why)} — 다른 이름을 지어 주세요.`,"",3200); inp.focus(); return; }
+    const doRen=async()=>{ const n=cleanName(inp.value); if(n===progress.protag.name&&!nameProblem(inp.value)) return;
+      const why=await nameCheck(n,progress.protag.cid,inp.value); if(why){ toast(`<span class="tc">이름</span>${esc(why)} — 다른 이름을 지어 주세요.`,"",3200); inp.focus(); return; }
       const old=progress.protag.name; progress.protag.name=n; nameRelease(old); saveProgress(); rerenderAll();
       logLine(`<span class="win">★ 주인공 이름 변경: ${esc(old)} → ${esc(n)}</span>`); closeModal(); };
     m.querySelector("#renGo").onclick=doRen;
@@ -15498,9 +15534,14 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.11", v:"v0.94", t:"전투설정 정리 · 스킬 검색 · 속성 색", L:[
+    "전투설정 맨 위 영웅 고르기가 한 줄이 됐습니다(옆으로 밀어서 확인). 그 아래 한 줄에 🔎 스킬 검색 · 규칙 저장 칸 💾1~3 · ↺ 규칙 초기화가 모여 있습니다. '○○의 규칙 사용 4/4칸' 표기는 없앴습니다.",
+    "스킬 검색: 상태이상(화상 · 냉기 · 기절 · 실명 …) · 속성(화염 · 신성 · 암흑 · 무속성 …) · 효과(도발 · 회복 · 보호막 …) 낱말을 넣으면, 그에 해당하는 스킬을 가진 내 영웅과 스킬이 한눈에 나옵니다. 영웅을 누르면 그 영웅의 규칙으로 갑니다.",
+    "스킬 목록에서 속성마다 색이 다릅니다 — 화염 주황 · 냉기 하늘 · 독 초록 · 신성 노랑 · 암흑 보라 · 무속성 회색(왼쪽 띠와 속성 표시).",
+    "이름: 한글 · 영문 · 숫자 2~8자. 띄어쓰기나 다른 글자가 들어가면 만들 수 없다고 알려 줍니다."]},
   {d:"2026.11.11", v:"v0.94", t:"편성 저장 · 이름 겹침 방지 · 게스트 기록 정리", L:[
     "파티 화면 진영 위에 '편성 저장' 칸 3개 — 출전 영웅과 자리(앞줄 · 뒷줄 · 가로줄)를 이름 붙여 저장하고 한 번에 불러옵니다. 던전 안에서는 불러올 수 없습니다.",
-    "주인공 이름은 내 다른 영웅은 물론 다른 플레이어의 영웅과도 겹칠 수 없습니다(처음 만들 때 · 이름 바꿀 때 · 주인공을 바꾸며 새 이름을 지을 때 확인 — 먼저 쓴 사람이 임자). 이름에는 띄어쓰기를 넣을 수 없고, 대소문자만 다른 이름은 같은 이름으로 봅니다. 이미 쓰고 있던 이름은 그대로입니다.",
+    "주인공 이름은 내 다른 영웅은 물론 다른 플레이어의 영웅과도 겹칠 수 없습니다(처음 만들 때 · 이름 바꿀 때 · 주인공을 바꾸며 새 이름을 지을 때 확인 — 먼저 쓴 사람이 임자). 이름은 한글 · 영문 · 숫자 2~8자이고 띄어쓰기를 넣으면 만들 수 없다고 알려 줍니다. 대소문자만 다른 이름은 같은 이름으로 봅니다. 이미 쓰고 있던 이름은 그대로입니다.",
     "게스트로 하다가 '이미 쓰던 Google 계정'으로 들어가면, 더 쓰이지 않는 게스트 기록(서버 저장 · 플레이어 기록 · 이름)을 자동으로 지웁니다. 그 Google 계정에 저장이 하나도 없으면 이 기기의 진행을 그대로 옮깁니다. (게스트 계정에 Google을 '연결'하는 보통의 경우는 계정이 그대로라 남는 기록이 없습니다.)"]},
   {d:"2026.11.11", v:"v0.94", t:"정리 단추 통합 · 룬 자동 정리 · 특성 초기화", L:[
     "가방의 '여러 개 골라 정리'와 맨 아래 '자동 정리'를 🧹 정리 단추 하나로 합쳤습니다. 누르면 ① 골라서 정리(고르기 시작 · 한 번에 고르기) ② 자동 정리(등급별 보관 · 판매 · 분해, 지금 가진 것에 적용)가 한 상자에 나옵니다.",
