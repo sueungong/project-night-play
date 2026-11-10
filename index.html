@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794329753259"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794332384802"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1637,6 +1637,18 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .rq-sk{padding:5px 8px; margin:3px 0; border-radius:8px; background:#121a33; font-size:13.5px; display:flex; flex-wrap:wrap; gap:4px 8px; align-items:baseline} .rq-main{color:var(--sub)} .rq-row{flex:1 1 100%; color:var(--muted); font-size:12.5px}
 @media (max-width:900px),(max-height:560px){ .ruleq{height:30px; font-size:12.5px} .ruletools .presetbar .pset,.ruletools #resetBtn{height:30px; padding:0 7px; font-size:11.5px} }
 .viewhead>.charpick.oneline{flex:1 1 auto; min-width:0; margin-bottom:0}
+.cosslots{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px}
+.cosslots button{display:flex; flex-direction:column; gap:1px; align-items:flex-start; padding:5px 8px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--ink); cursor:pointer; min-width:0}
+.cosslots button.on{border-color:var(--accent)} .cosslots i{font-style:normal; font-size:11.5px; color:var(--muted)} .cosslots b{font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%}
+.cosgrid2{display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:6px; max-height:300px; overflow:auto; padding:2px}
+.coscell{display:flex; flex-direction:column; align-items:center; gap:1px; padding:5px 4px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--ink); cursor:pointer; min-width:0}
+.coscell.on{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset} .coscell.mine{background:#1b2440}
+.coscell b{font-size:12.5px; max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis} .coscell small{font-size:11px; color:var(--muted); max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.coscell .cospv{width:72px; height:60px; display:block} .coscell .cospv canvas{width:100%; height:100%; image-rendering:pixelated}
+.cossel{font-size:13px; border-top:1px solid var(--line); padding-top:6px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; justify-content:space-between} .cossel small{color:var(--muted)}
+@media (max-width:900px),(max-height:560px){ .cosslots{grid-template-columns:repeat(2,minmax(0,1fr))} .bagtabs button{font-size:12px; padding:0 4px} }
+.costop{display:flex; gap:10px; align-items:stretch} .costop .cosslots{flex:1; grid-template-columns:repeat(2,minmax(0,1fr))}
+.cosnow{flex:0 0 132px; height:110px; border:1px solid var(--line); border-radius:12px; background:#0b1020; display:block} .cosnow canvas{width:100%; height:100%; image-rendering:pixelated}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
@@ -3269,8 +3281,8 @@ const BOSS_Q_IMG="data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http
 // 난이도: 10장(3막)을 깨면 다음 난이도가 열리고 1장부터 다시. 적은 챕터별로 다시 '레벨업'된다.
 const DIFFS=[
   {key:"dusk",     name:"황혼",     icon:"🌆", resPen:0,    elite:0.10, maxElite:1, affixes:1, extra:0, loot:0, exp:1,   gold:1,   chest:0.22, bossAffix:0, adds:[0,1], cnt:[3,4], enrage:false, tag:""},
-  {key:"midnight", name:"자정",     icon:"🌑", resPen:0.20, elite:0.22, maxElite:2, affixes:2, extra:1, loot:10, exp:2.0, gold:2.2, chest:0.26, bossAffix:1, adds:[1,1], cnt:[3,5], enrage:false, tag:"자정의 "},
-  {key:"eternal",  name:"영원한 밤", icon:"🌌", resPen:0.40, elite:0.32, maxElite:3, affixes:3, extra:1, loot:20, exp:3.3, gold:3.6, chest:0.30, bossAffix:2, adds:[2,2], cnt:[4,5], enrage:true,  tag:"영원한 밤의 "},
+  {key:"midnight", name:"자정",     icon:"🌑", resPen:0.10, elite:0.22, maxElite:2, affixes:2, extra:1, loot:10, exp:2.0, gold:2.2, chest:0.26, bossAffix:1, adds:[1,1], cnt:[3,5], enrage:false, tag:"자정의 "},
+  {key:"eternal",  name:"영원한 밤", icon:"🌌", resPen:0.20, elite:0.32, maxElite:3, affixes:3, extra:1, loot:20, exp:3.3, gold:3.6, chest:0.30, bossAffix:2, adds:[2,2], cnt:[4,5], enrage:true,  tag:"영원한 밤의 "},
 ];
 // v0.46: 더 어렵게 — 난이도별 적 전체 배율, 그리고 모든 보스(장 보스·막 우두머리·최종 콘텐츠 보스)는 체력·공격력을 따로 더 올림
 // v0.91 몹 상태이상: 몹 종류마다 특기 상태이상 · 보스·우두머리·정예(자정부터)는 그 장의 특기 전부 · 난이도별 확률·전투당 거는 몹 수
@@ -3453,7 +3465,7 @@ function buildMobUnit(spec,idx,d,rk){
   u.tint=m.tint||""; u.elite=!!(spec.elite||spec.chief); u.affixes=spec.affixes||[]; if(spec.twin) u.twin=true;
   for(const a of u.affixes) applyAffix(u,a);
   u.immune={}; u.wards=wardsFor(d,rk,u.isBossKind); for(const w of u.wards) WARDS[w].f(u);
-  u.er=(typeof mobEr==="function"&&mobEr(d,rk,spec.finalBoss?"boss":(u.isBossKind||spec.elite||spec.chief||spec.named)?"mid":"mob"))||null;   // v0.95 속성 저항
+  u.er=(typeof mobEr==="function"&&mobEr(spec.eg?2:d,rk,(spec.finalBoss||(spec.eg&&u.isBossKind))?"boss":(u.isBossKind||spec.elite||spec.chief||spec.named)?"mid":"mob"))||null;   // v0.95 속성 저항
   { const ks=(u.isBossKind||spec.chief)&&REGION_ST[rk]&&!spec.eg?REGION_ST[rk]:spec.st; if(ks&&ks.length&&ch>=0&&!spec.eg){ u.stAtk={k:ks.slice(),ch:ST_CHANCE[d]||0.1}; u.stLink=ST_LINK[d]||0; } }   // v0.91 몹 특기 상태이상
   if(!u.isBossKind&&!spec.eg) u._noSkillSt=true;   // v0.91 일반 몹 기술에 붙어 있던 상태이상은 특기 상태이상으로 대신함
   if(d>=2&&u.wards.length) u.res=Math.min(0.75,u.res+0.1);
@@ -3536,6 +3548,7 @@ const SEC_LABEL={atk:"공격력",matk:"마력",hp:"체력",def:"방어력",spd:"
 const BOSS_RAGE={atk:1.2};   // v0.32: 보스 광폭(체력 50% 아래) — 공격력 배율, 2턴마다 추가 행동
 const ENEMY_HEAL_K=0.07;
 const PCT_KEYS=new Set(["crit","critdmg","acc","eva","pen","ls","res","heal","er_all","er_fire","er_cold","er_poison","er_holy","er_dark"]);
+const ENH_FIXED=new Set(["res","er_all","er_fire","er_cold","er_poison","er_holy","er_dark"]);   // v0.95 상태이상 회피 · 속성 저항 옵션은 강화해도 커지지 않음(적힌 값 그대로)
 // 2차 스탯 상한 — "운이 나빠 전멸"이 아니라 "설정이 부족해 전멸"로 느껴지게
 const CAP={eva:0.6,crit:0.75,res:0.5,pen:0.75,acc:1.2,ls:0.3};   // v0.36: 명중은 120%까지 — 100%를 넘는 만큼 적의 회피를 깎음
 
@@ -3992,7 +4005,7 @@ function effStats(it,E){
   for(const [k,v] of Object.entries(it.base||it.stats||{})) add(k,v);
   for(const a of (it.affixes||[])) add(a.k,a.v);
   if(it.fate&&it.fate.done) for(const [k,v] of Object.entries(FATES[it.fate.key].bonus)) if(!k.endsWith("_pct")) add(k,v);
-  for(const k of Object.keys(o)) o[k]=Math.max(1,Math.round(o[k]*((PCT_KEYS.has(k)||k==="spd"||k==="regen")?mp:m)*(k==="mp"?GEAR_MP_K:1)));   // v0.90 장비 마나는 30%만(기술 비용이 고정 숫자가 되면서 장비 마나가 마나를 몇 배로 불리던 것)
+  for(const k of Object.keys(o)) o[k]=Math.max(1,Math.round(o[k]*(ENH_FIXED.has(k)?1:(PCT_KEYS.has(k)||k==="spd"||k==="regen")?mp:m)*(k==="mp"?GEAR_MP_K:1)));   // v0.90 장비 마나는 30%만(기술 비용이 고정 숫자가 되면서 장비 마나가 마나를 몇 배로 불리던 것)
   return o;
 }
 function itemCondAffixes(it){ return (it.affixes||[]).filter(a=>a.k.startsWith("c_")); }
@@ -4175,7 +4188,7 @@ const ADV={
   archer:[
     { key:"gale_archer", name:"바람의 명궁", bonus:{atk:8,crit:5}, skill:"ar_thousand", extra:["ar_storm","ar_windread","ar_galepierce"],
       passive:"gale", passive_name:"바람결: 다단 히트 피해 +10%",
-      desc:"화살을 비처럼 쏟는 명궁. 대표 기술 '천 개의 화살'(적 전체 25% × 5발) · '폭풍 연사'(적 1명 40% × 7발) · '바람 읽기'로 여러 번 때리는 기술 +2발" },
+      desc:"화살을 비처럼 쏟는 명궁. 대표 기술 '천 개의 화살'(적 최대 4명에게 25% × 5발) · '폭풍 연사'(적 1명 26% × 7발) · '바람 읽기'로 여러 번 때리는 기술 +2발" },
     { key:"forest_hunter", name:"숲의 사냥꾼", bonus:{atk:5,hp:30}, skill:"ar_hound", extra:["ar_trap","ar_weakhunt","ar_vine"],
       passive:"hunt_instinct", passive_name:"사냥 본능: 전투에서 내가 처음 공격한 적에게 주는 피해 +15% (그 적이 쓰러지면 다음에 처음 공격한 적)",
       desc:"덫과 사냥개로 몰아 잡는 사냥꾼. 대표 기술 '사냥개 풀기'(3턴간 사냥개가 매 턴 사냥감을 공격, 공격력 80%) · '덫 놓기'(적 앞줄에 덫 — 그 줄 적이 행동하면 기절 1턴 + 100%, 1번 · 보스는 기절 10%)" } ],
@@ -4594,7 +4607,7 @@ const TRAITS2={
      [BG("두 개의 과녁","취약 2명","취약을 2명까지",{flag:"mark_two"}), SM("센 표적탄",{sk:"gn_mark",pow:0.1}), UL("사냥꾼의 지휘","취약 적 아군 치명 +10%p","취약한 적에게 아군 전체 치명타 +10%p",{flag:"hunters_call10"})],
      [BG("긴 과녁","취약 +1턴","취약 지속 +1턴",{flag:"mark_long"}), SM("취약 집중",{sk:"gn_mark",add:{critPlus:0.05}}), UL("취약 전이","취약 적 처치 시 옮겨감","취약한 적이 쓰러지면 취약이 다른 적에게",{flag:"mark_transfer"})]]],
    [BG("사냥 신호","아군이 취약 치면 탄 25%","취약한 적을 다른 아군이 칠 때 25% 확률로 탄 +1",{flag:"hunt_signal"}), SM("예리한 취약",{sk:"gn_mark",add:{critPlus:0.05}}), [
-     [BG("섬광 수류탄 숙련","기절 30%","섬광 수류탄 기절 20→30%",{skmod:{sk:"gn_flash",add:{"stunAll.chance":0.1}}}), SM("싼 섬광 수류탄",{sk:"gn_flash",mp:-3}), UL("섬광 사격","공격 20% 약화","공격이 20% 확률로 약화(2턴)",{flag:"blind_touch"})],
+     [BG("섬광 수류탄 숙련","기절 30%","섬광 수류탄 기절 20→30%",{skmod:{sk:"gn_flash",add:{"stunAll.chance":0.1}}}), SM("싼 섬광 수류탄",{sk:"gn_flash",mp:-3}), UL("섬광 사격","공격 20% 실명","공격이 20% 확률로 실명(2턴 · 명중 -40%)",{flag:"blind_touch"})],
      [BG("취약 피해","취약 적 +8%","취약한 적에게 주는 피해 +8%",{flag:"mark_plus"}), SM("취약 호흡",{sk:"gn_mark",castmp:3}), UL("취약 치명","취약 적 치명 +10%p","취약한 적에게 치명타 +10%p",{flag:"mark_crit"})]]]]),
   BR("gs","🔭 한 발","a","sniper","crit cd pen atk",SM("가벼운 겨누기",{sk:"gn_headshot",add:{ammo:-1}}),[
    [BG("저격","취약 적 겨누기 +20%","취약한 적에게 머리 겨누기 피해 +20%",{skmod:{sk:"gn_headshot",add:{vulnAmp:0.2}}}), SM("무거운 겨누기",{sk:"gn_headshot",pow:0.1}), [
@@ -4621,7 +4634,7 @@ const TRAITS2={
    [BG("일식탄","화상 적 확정 치명","화상 적에게 확정 치명타",{flag:"sun_crit"}), SM("뜨거운 파편",{sk:"gn_frag",pow:0.1}), [
      [BG("화약 장인","화상 피해 +30%","화상 피해 +30%",{flag:"burn_amp30"}), SM("예리한 파편",{sk:"gn_frag",add:{critPlus:0.08}}), UL("불꽃놀이","화상 처치 시 폭발 80%","화상으로 쓰러진 적 자리에 폭발 80%",{flag:"fireworks80"})],
      [BG("번지는 불길","처치 시 화상 번짐","화상 적을 쓰러뜨리면 다른 적에게 화상",{flag:"spread_burn"}), SM("소각 집중",{sk:"shoot",add:{"burn.chance":0.1}}), UL("화상 사냥","화상 적 +20%","화상에 걸린 적에게 피해 +20%",{flag:"burn_hunter"})]]],
-   [BG("섬광 폭발","폭발 20% 약화","화약 상자 폭발이 20% 확률로 약화",{flag:"blast_blind"}), SM("센 상자",{sk:"gn_keg",pow:0.1}), [
+   [BG("섬광 폭발","폭발 20% 실명","화약 상자 폭발이 20% 확률로 실명(2턴 · 명중 -40%)",{flag:"blast_blind"}), SM("센 상자",{sk:"gn_keg",pow:0.1}), [
      [BG("화염 지대","폭발한 줄 2턴 화상","폭발한 줄에 2턴 화상 지대",{flag:"fire_zone"}), SM("예리한 상자",{sk:"gn_keg",add:{critPlus:0.08}}), UL("화약 연쇄 강화","탄 공격 화상 +10%p","탄을 쓰는 공격의 화상 확률 +10%p",{flag:"incendiary10"})],
      [BG("폭발 취약","폭발 맞은 적 취약","화약 상자 폭발을 맞은 적은 취약 2턴",{flag:"blast_vuln"}), SM("상자 호흡",{sk:"gn_keg",castmp:3}), UL("폭탄마의 눈","폭발·화상 피해 +15%","폭발·화상 피해 +15%",{flag:"blast_amp15"})]]]]),
  ],
@@ -5593,7 +5606,7 @@ function skillSpec(sid,sx){
   let main="";
   switch(s.type){
     case "damage":{
-      const who=s.airOnly?"띄운 적 모두":s.burnOnly?"화상 걸린 적 모두":s.coldMin?`냉기 ${s.coldMin}중첩 이상인 적 모두`:s.aoe?"적 전체":s.aoeFront?"적 앞줄(세로 한 줄) 전체":s.lane?"적 일렬(고른 적이 선 가로줄의 앞줄·뒷줄)":s.backOnly?"뒷줄 적 1명":s.preyOnly?"내 사냥감":"적 1명";
+      const who=s.airOnly?"띄운 적 모두":s.burnOnly?(s.maxT?`화상 걸린 적 최대 ${s.maxT}명(무작위)`:"화상 걸린 적 모두"):s.coldMin?`냉기 ${s.coldMin}중첩 이상인 적 모두`:s.aoe?(s.maxT?`적 최대 ${s.maxT}명(무작위)`:"적 전체"):s.aoeFront?"적 앞줄(세로 한 줄) 전체":s.lane?"적 일렬(고른 적이 선 가로줄의 앞줄·뒷줄)":s.backOnly?"뒷줄 적 1명":s.preyOnly?"내 사냥감":"적 1명";
       main=s.steam?`적 1명의 냉기를 모두 터뜨려 냉기 1중첩당 공격력 ${P(s.power)}%`:s.hits?`무작위 적에게 공격력 ${P(s.power)}% × ${s.hits}번`:s.multi?`${who}에게 공격력 ${P(s.power)}% × ${s.multi}번`:`${who}에게 공격력 ${P(s.power)}% 피해`;
       tags.push({c:"tgt",t:s.airOnly?"띄운 적":s.burnOnly?"화상 적":s.coldMin?"냉기 적":s.aoe?"적 전체":s.aoeFront?"적 앞줄":s.hits?"무작위":s.lane?"적 일렬":s.backOnly?"뒷줄 적":s.preyOnly?"사냥감":"적 1명"});
       // 거는 상태
@@ -5679,7 +5692,7 @@ function skillSpec(sid,sx){
     case "ctrup": main=`${s.duration}턴간 ${s.def?`받는 피해 -${P(s.def)}% · `:""}근접 피격 시 반격 확률 +${P(s.value)}%p${s.ctrDmg?` · 반격 피해 +${P(s.ctrDmg)}%`:""}`; tags.push({c:"tgt",t:"자신"}); if(s.def) R("etc","받는 피해 감소는 겹치지 않음(가장 큰 것 하나)"); break;
     case "surge": main=`${s.duration}턴간 내 기술 피해 +${P(s.value)}%`; tags.push({c:"tgt",t:"자신"}); break;
     case "purify": tags.push({c:"tgt",t:s.range==="self"?"자신":s.aoe?"아군 전체":"아군 1명"});
-      if(s.only){ const nm=s.only.map(k=>ST_NAME[k]||k).join("·"); main=`아군 1명 ${nm} 해제`; if(s.resKinds) R("etc",`${s.duration||3}턴간 ${nm} 저항 +${P(s.resKinds)}%p`); R("etc",`${nm}에 걸린 아군을 먼저 고름`); }
+      if(s.only){ const nm=s.only.map(k=>ST_NAME[k]||k).join("·"); main=`아군 1명 ${nm} 해제`; if(s.resKinds) R("etc",`${s.duration||3}턴간 ${nm}에 걸릴 확률 -${P(s.resKinds)}%p(상태이상 회피)`); R("etc",`${nm}에 걸린 아군을 먼저 고름`); }
       else if(s.range==="self") main=`내 상태이상 모두 해제`;
       else if(s.aoe) main=`아군 전체 상태이상 ${s.one?"1개씩":"모두"} 해제`;
       else if(s.healAny){ main=`아군 1명 회복 + 상태이상 ${s.one?"1개":"모두"} 해제`; R("etc","체력 50% 이하 아군 → 상태이상 걸린 아군 → 가장 다친 아군 순으로 고름 · 상태이상이 없어도 씀"); }
@@ -7070,7 +7083,7 @@ class Sim {
           else { if(debuffed(t)) gone.push("상태이상"); for(const d of ["burn","poison","frost","bleed"]) delete t.dots[d]; for(const k of ["stun","vuln","brand","mark","silence","blind","fear"]) delete t.buffs[k]; if(t.buffs.atk&&t.buffs.atk.value<0) delete t.buffs.atk; t._cold=0; }
           if(gone.length) fx.push(this.fxBuff(t,`${gone.join("·")} 풀림`));
           if(skill.resUp&&!(t.buffs.resup&&t.buffs.resup.value>=skill.resUp)){ t.buffs.resup={turns:skill.duration||2,value:skill.resUp}; fx.push(this.fxBuff(t,`상태이상 회피 +${Math.round(skill.resUp*100)}%p`)); }
-          if(skill.resKinds){ t.buffs.antidote={turns:skill.duration||3,value:skill.resKinds}; fx.push(this.fxBuff(t,`독·화상·냉기 저항 +${Math.round(skill.resKinds*100)}%p`)); }
+          if(skill.resKinds){ t.buffs.antidote={turns:skill.duration||3,value:skill.resKinds}; fx.push(this.fxBuff(t,`독·화상·냉기 회피 +${Math.round(skill.resKinds*100)}%p`)); }
           if(skill.power>0) this.healOn(u,t,Math.floor(this.healPow(u,t)*skill.power*this.rr(0.95,1.05)),fx,skill.name);
           if(skill.id==="ft_cycle"&&u.traits){ if(u.traits.ki_share){ const o=this.allies(u).filter(a=>a!==u&&a.hp<a.hp_max); if(o.length){ const t2=this.lowest(o), h2=Math.max(1,Math.floor(t2.hp_max*0.1)); t2.hp=Math.min(t2.hp_max,t2.hp+h2); fx.push({target:t2.id,kind:"heal",amount:h2,crit:false,killed:false,hp:t2.hp,mp:t2.mp,label:"청정"}); } }
             if(u.traits.ki_ward&&(!u.buffs.ward||u.buffs.ward.value<0.2)){ u.buffs.ward={turns:2,value:0.2}; fx.push(this.fxBuff(u,"순환의 보호막")); } }   /* v0.86 · v0.92 내공 순환 */
@@ -7573,7 +7586,9 @@ function heroAvgEnh(cid){ let s=0; for(const sl of AURA_SLOTS) s+=slotEnh(cid,sl
 function heroLook(cid){ const h=progress.heroes[cid]; if(!h) return null; const spr=(h.adv&&HERO_DOTS[h.adv])?h.adv:cid; const ar=findEquipped(cid,"armor"), hm=findEquipped(cid,"helm"), oh=findEquipped(cid,"offhand");
   const lk={spr, w:heroWeaponType(cid), ar:ar?ar.rarity:null, hm:hm?hm.rarity:null, aura:Math.min(4,enhTierIdx(Math.floor(heroAvgEnh(cid))))};
   if(HERO_DOTS[spr]&&HERO_DOTS[spr].shield){ if(oh) lk.sh=oh.rarity; else lk.ns=true; }
-  if(isProtag(cid)){ lk.pc=true; const E=typeof cosEq==="function"?cosEq():null; if(E){ if(E.cape!=="cape_crimson") lk.cp=E.cape; if(E.wskin!=="ws_steel") lk.ws=E.wskin; if(E.aura!=="aura_base"&&lk.aura) lk.ac=E.aura; /* v0.79 오라 색은 강화 오라가 나온 뒤(평균 +4)에만 */ if(E.saura&&E.saura!=="sa_none") lk.sa=E.saura; } }   // v0.75 산 오라는 강화와 상관없이 늘 보임(강화 단계가 오르면 커짐) · 주인공: 진홍 망토 · v0.58 외형   // 방패를 드는 그림: 보조장비를 끼면 방패, 안 끼면 빈손
+  if(isProtag(cid)) lk.pc=true;   // 주인공: 기본 진홍 망토
+  { const E=typeof cosHeroEq==="function"?cosHeroEq(cid):null;   // v0.95 외형은 영웅마다 따로(망토 · 무기 외형 · 오라 색 · 특수 오라)
+    if(E){ if(E.cape){ lk.pc=true; lk.cp=E.cape; } if(E.wskin) lk.ws=E.wskin; if(E.aura&&lk.aura) lk.ac=E.aura; /* 오라 색은 강화 오라가 나온 뒤(평균 +4)에만 */ if(E.saura) lk.sa=E.saura; } }
   return lk; }
 function equippedItems(cid){ return heroSlots().map(s=>findEquipped(cid,s)).filter(Boolean); }
 function heroEquipTotals(cid){
@@ -7647,7 +7662,7 @@ function heroDerived(cid){
     eva: Math.min(CAP.eva, Math.max(0,(base.eva||0) + (wm.eva_add||0) + 0.004*(P.agi-10) + g("eva")/100 + (tr.eva||0)/100)),
     pen: Math.min(CAP.pen, g("pen")/100 + (tr.pen||0)/100),
     resRaw: 0.1 + Math.min(RES_GEAR_MAX, g("res")/100),   // v0.95 장비 몫은 20%p까지(기본 10% + 장비 20% = 30% · 기술로 +α · 상한 50%)   // v0.94 상한·난이도 깎기 전(전투에서는 이 값 - 난이도 깎임, 상한 75%)
-    res: Math.min(CAP.res, Math.max(0, 0.1 + g("res")/100 - heroResPen())),
+    res: Math.min(CAP.res, Math.max(0, 0.1 + Math.min(RES_GEAR_MAX, g("res")/100) - heroResPen())),   // v0.95 화면 값도 전투와 같게(장비 몫 20%p까지)
     ls: Math.min(CAP.ls, g("ls")/100 + (tr.lifesteal||0)),
     heal: g("heal")/100 + tr.heal_pct + (tr.heal||0)/100,
     shieldp: 0,
@@ -7891,27 +7906,31 @@ let cosCat="cape", cosArm=null, cosPvRaf=0;
 function cosShopBlock(){
   const box=document.createElement("div"); box.className="cosshop"; const gem=progress.gem||0, E=cosEq();
   const cat=COS_CATS.find(c=>c.k===cosCat)||COS_CATS[0]; const items=COS.filter(c=>c.cat===cat.k);
+  const heroCat=COS_HERO_CATS.includes(cat.k);
   const card=c=>{ const own=cosOwned(c.id), on=Array.isArray(E[cat.k])?E[cat.k].includes(c.id):E[cat.k]===c.id; let act;
-    if(own) act=cat.max?`<button class="btn${on?" ghost":""}" data-eq="${c.id}">${on?"빼기":"달기"}</button>`:on?`<span class="cosst on">착용 중</span>`:`<button class="btn" data-eq="${c.id}">착용</button>`;
+    if(heroCat&&own&&c.src!=="free"&&c.id!==COS_DEFAULT[c.cat]){ const n=cosCount(c.id), w=cosWearers(c.id); act=`<span class="cosst on" title="${esc(w.map(x=>heroDisplayName(x)).join(" · ")||"아무도 안 입음")}">보유 ${n} · 착용 ${w.length}</span>`+(c.src==="pass"||c.src==="sub"?"":`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"하나 더 💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`); }
+    else if(own) act=cat.max?`<button class="btn${on?" ghost":""}" data-eq="${c.id}">${on?"빼기":"달기"}</button>`:on?`<span class="cosst on">착용 중</span>`:`<button class="btn" data-eq="${c.id}">착용</button>`;
     else if(c.src==="pass") act=`<span class="cosst">🎟 아트 패스 시즌 1</span>`;
     else if(c.src==="sub") act=`<span class="cosst">🌙 정액 중에만</span>`;
     else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`;
     return `<div class="coscard${on?" on":""}"><div class="cospv${/^(cape|wskin|aura|saura)$/.test(c.cat)?" big":""}"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
   const n=cat.max?(E[cat.k]||[]).length:0;
-  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>${esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span>${cat.k==="sticker"||cat.k==="frame"?`<button class="ghostbtn" id="cosEditCard">🪪 명함 꾸미기</button>`:""}</div>
+  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>${heroCat?"영웅마다 따로 입혀요 — 장비 화면의 🎨 외형 탭 · 1개는 영웅 1명":esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span>${cat.k==="sticker"||cat.k==="frame"?`<button class="ghostbtn" id="cosEditCard">🪪 명함 꾸미기</button>`:""}</div>
     <div class="coscats">${COS_CATS.map(c=>`<button data-k="${c.k}" class="${c.k===cat.k?"on":""}">${c.n}</button>`).join("")}</div>
     <div class="cosgrid">${items.map(card).join("")}</div>`;
   box.querySelectorAll(".coscats button").forEach(b=>b.onclick=()=>{ cosCat=b.dataset.k; cosArm=null; renderShop(); });
   const ec=box.querySelector("#cosEditCard"); if(ec) ec.onclick=()=>{ const pid=progress.protag&&progress.protag.cid; if(!pid) return; if(!(cosOn("sticker")||[]).length){ toast("🪪 명함 스티커를 먼저 달아 주세요"); return; } makeNameCard(pid,true); };
 
   box.querySelectorAll("[data-buy]").forEach(b=>b.onclick=()=>{ const c=COS_BY[b.dataset.buy]; if(!c) return; if(cosArm!==c.id){ cosArm=c.id; renderShop(); return; }
-    cosArm=null; const pr=cosPrice(c); if((progress.gem||0)<pr) return; progress.gem-=pr; (progress.cosmetics=progress.cosmetics||{})[c.id]=true; cosWear(c.id,true);
+    cosArm=null; const pr=cosPrice(c); if((progress.gem||0)<pr) return; progress.gem-=pr; { const C=progress.cosmetics=progress.cosmetics||{}; C[c.id]=COS_HERO_CATS.includes(c.cat)&&cosOwned(c.id)?cosCount(c.id)+1:(C[c.id]||true); } cosWear(c.id,true);
     logLine(`<span class="win">🎨 '${esc(c.name)}'을(를) 샀습니다 (💎 ${pr})</span>`); saveProgress(); renderShop(); });
   box.querySelectorAll("[data-eq]").forEach(b=>b.onclick=()=>{ cosWear(b.dataset.eq); saveProgress(); renderShop(); });
   cosPreviewRun(box); return box;
 }
 // 착용: 하나만 고르는 종류는 바꿔 끼우고, 스티커·장식은 3개까지 붙였다 뗐다
-function cosWear(id,buy){ const c=COS_BY[id]; if(!c||!cosOwned(id)) return; const E=cosEq(), K=COS_CATS.find(x=>x.k===c.cat);
+function cosWear(id,buy){ const c=COS_BY[id]; if(!c||!cosOwned(id)) return;
+  if(COS_HERO_CATS.includes(c.cat)){ const pid=progress.protag&&progress.protag.cid; if(pid&&(!buy||!cosHeroEq(pid)[c.cat])) cosHeroWear(pid,id); cosRefreshHeroes(); return; }   // v0.95 영웅별 외형: 상점에서는 주인공에게(살 때는 주인공이 그 종류를 안 입고 있을 때만)
+  const E=cosEq(), K=COS_CATS.find(x=>x.k===c.cat);
   if(K.max){ const L=E[c.cat]; const i=L.indexOf(id); if(i>=0){ if(!buy) L.splice(i,1); } else if(L.length<K.max) L.push(id); else if(!buy) logLine(`<span class="r">${K.n}은(는) ${K.max}개까지 붙일 수 있어요. 하나를 먼저 빼 주세요.</span>`); }
   else E[c.cat]=id;
   progress.cosEq=E; cosRefreshHeroes(); }
@@ -7919,7 +7938,8 @@ function cosRefreshHeroes(){ try{ if(!runState&&document.querySelector(".field.c
       for(const k of ["aura","shine","shld","helm","cape","ws","ac","sa","sl"]) if(d[k]) im.dataset[k]=d[k]; else delete im.dataset[k]; im.dataset.look=lookKey(lk); const s=lookSprite(lk); if(s) im.setAttribute("src",s.url); }); } }catch(e){} }
 // 움직이는 미리보기(상점 화면이 보일 때만 그림)
 const COS_IMG={}; function cosImg(url){ let i=COS_IMG[url]; if(!i){ i=COS_IMG[url]=new Image(); i.src=url; } return i; }
-function cosPvLook(c){ const pid=progress.protag&&progress.protag.cid; let lk=pid&&heroLook(pid); if(!lk) lk={spr:"knight",w:"sword",pc:true}; lk=Object.assign({},lk); delete lk.cp; delete lk.ws; delete lk.ac;
+let cosPvHero=null;
+function cosPvLook(c){ const pid=(cosPvHero&&progress.heroes[cosPvHero]?cosPvHero:null)||(progress.protag&&progress.protag.cid); let lk=pid&&heroLook(pid); if(!lk) lk={spr:"knight",w:"sword",pc:true}; lk=Object.assign({},lk); delete lk.cp; delete lk.ws; delete lk.ac; const HE=pid?cosHeroEq(pid):{}; const cosOn=k=>HE[k]||null; if(c.cat==="cape") lk.pc=true;
   if(c.cat==="cape"&&c.id!=="cape_crimson") lk.cp=c.id; else if(cosOn("cape")) lk.cp=cosOn("cape");
   if(c.cat==="wskin"){ if(c.id!=="ws_steel") lk.ws=c.id; } else if(cosOn("wskin")) lk.ws=cosOn("wskin");
   if(c.cat==="aura"&&c.id!=="aura_base") lk.ac=c.id;
@@ -8554,7 +8574,7 @@ function itemParts(it,E){
   if(E===undefined) E=itemEnh(it);
   const im=(it.relic?1+0.5*(relicStar(it)-1):1)*(it.mythic?1.2:1);
   const m=enhMul(E)*im, mh=enhMulHalf(E)*im;   // v0.36: 실제 계산(effStats)과 같게 — 퍼센트·신속·턴당 마나는 강화 배율 절반
-  const r=(k,v)=>Math.max(1,Math.round(v*((PCT_KEYS.has(k)||k==="spd"||k==="regen")?mh:m)));
+  const r=(k,v)=>Math.max(1,Math.round(v*(ENH_FIXED.has(k)?1:(PCT_KEYS.has(k)||k==="spd"||k==="regen")?mh:m)));
   const base=Object.entries(it.base||it.stats||{}).filter(([k])=>!k.startsWith("c_")).map(([k,v])=>statText(k,r(k,v)));
   const aff=(it.affixes||[]).filter(a=>!a.k.startsWith("c_")).map(a=>({t:statText(a.k,r(a.k,a.v)),q:a.q}));   // v0.44: 줄마다 품질(●○)
   if(it.fate&&it.fate.done) for(const [k,v] of Object.entries(FATES[it.fate.key].bonus)) if(!k.endsWith("_pct")) aff.push({t:statText(k,r(k,v))+"(운명)"});
@@ -8989,6 +9009,7 @@ function plateAutoEquip(cid){ const RV={rare:1,epic:2,legend:3}; for(let pos=0;p
    속성 저항 1 = 그 속성 피해 -1%(상한 70 · 약점은 음수). 상태이상에 걸릴 확률은 건드리지 않음(그건 '상태이상 회피').
    화상·독·동상의 턴 피해도 각각 화염·독·냉기 저항으로 줄어듦. 몹의 기존 면역(밤의 가호)은 그대로. */
 const RES_GEAR_MAX=0.20;
+const ER_W={all:1.2, one:0.25};   // v0.95 장비 점수: 전체 속성 저항 1 = 1.2점 · 한 속성 저항 1 = 0.25점(전체는 5속성을 한꺼번에 막으므로 한 속성의 약 5배 — 전체 +6 ≈ 치명타 확률 +6~7% 무게)
 const COLD_SLOW=0.15, COLD_SLOW_BOSS=0.08, BLIND_ACC=0.4, BLIND_ACC_BOSS=0.2;   // v0.95 냉기 둔화(중첩당) · 실명 명중 감소
 const EL_NAME={fire:"화염",cold:"냉기",poison:"독",holy:"신성",dark:"암흑"}, EL_KEYS=Object.keys(EL_NAME), ER_CAP=70, ER_FLOOR=-40;
 const EL_FIX={ basic_smite:"holy", mg_steam:"fire", rg_shadowblade:"dark", rg_venomblade:"poison", rg_rupture:"poison", rg_dart:"poison", mg_beam:null, basic_shot:null, mg_siphon:null, ar_shot:null, discord:null, bd_unease:null,
@@ -9002,6 +9023,7 @@ function skillElGuess(k,S){ if(k in EL_FIX) return EL_FIX[k]; if(S.type!=="damag
 for(const [k,S] of Object.entries(SKILLS)){ const e=skillElGuess(k,S); if(e) S.el=e; }
 // 장마다 몹 속성 저항(컨셉) — 일반 몹 기준. 황혼은 절반. 정예·중간 보스는 약점 -15까지, 장 보스는 전 속성 +10(상한 50) · 약점 -10까지, 영원한 밤 장 보스는 약점 없이 최소 +10
 const REGION_ER={ swamp:{poison:50,fire:-20}, volcano:{fire:60,cold:-30}, sunken:{cold:50,fire:20,poison:-20}, forest:{poison:40,fire:-30}, gold:{fire:20,cold:20,poison:20,holy:20,dark:20},
+  starfall:{holy:40,fire:20,cold:20,poison:20,dark:20},   // 낙성 강림(사도): 모든 속성에 강함 · 약점 없음
   desert:{fire:50,cold:-30}, temple:{holy:50,fire:30,dark:-30}, citadel:{dark:50,holy:-30}, throne:{dark:40,cold:20,holy:-20}, altar:{holy:60,fire:40,dark:-30} };
 function mobEr(d,rk,kind){ const B=REGION_ER[rk]; if(!B) return null; const o={}; for(const e of EL_KEYS){ let v=(B[e]||0)*(d===0?0.5:1);
     if(kind==="boss"){ v=Math.min(50,v+10); v=Math.max(d>=2?10:-10,v); } else if(kind==="mid") v=Math.max(-15,Math.min(60,v)); else v=Math.max(ER_FLOOR,Math.min(60,v<0?v*4/3:v));   /* 일반 몹 약점은 더 크게(-30 → -40): 속성을 맞춰 오면 보상 */
@@ -11074,7 +11096,22 @@ function cosOwned(id){ const c=COS_BY[id]; if(!c) return false; if(c.src==="free
   const C=(progress&&progress.cosmetics)||{}; if(C[id]) return true;
   if(c.src==="pass") for(const [k,v] of Object.entries(PASS_COS_ITEM)) if(v===id&&Object.keys(C).some(x=>/^s\d+_/.test(x)&&x.endsWith("_"+k))) return true;
   return false; }
-function cosEq(){ if(!progress) return Object.assign({},COS_DEFAULT,{sticker:[],deco:[]}); const E=progress.cosEq=Object.assign({},COS_DEFAULT,progress.cosEq||{}); E.sticker=(E.sticker||[]).filter(cosOwned).slice(0,3); E.deco=(E.deco||[]).filter(cosOwned).slice(0,3);
+/* v0.95 영웅별 외형: 망토 · 무기 외형 · 오라 색 · 특수 오라는 영웅마다 따로 입힘. 산 외형 1개 = 영웅 1명(같은 것을 둘에게 입히려면 하나 더 삼) · 기본 외형은 수량 제한 없음 */
+const COS_HERO_CATS=["cape","wskin","aura","saura"];
+function cosCount(id){ const c=COS_BY[id]; if(!c) return 0; if(c.src==="free"||id===COS_DEFAULT[c.cat]) return Infinity; if(!cosOwned(id)) return 0; const v=((progress&&progress.cosmetics)||{})[id]; return typeof v==="number"?Math.max(1,v):1; }
+function cosHeroAll(){ const M=progress.cosHero=(progress.cosHero&&typeof progress.cosHero==="object")?progress.cosHero:{};
+  if(!progress.cosHeroV){ const E=progress.cosEq||{}, pid=progress.protag&&progress.protag.cid; if(pid){ const e=M[pid]=M[pid]||{}; for(const k of COS_HERO_CATS) if(E[k]&&E[k]!==COS_DEFAULT[k]&&!e[k]) e[k]=E[k]; progress.cosHeroV=1; } }   // 예전에 주인공에게 입힌 것은 그대로 주인공에게
+  return M; }
+function cosHeroEq(cid){ if(!progress) return {}; const M=cosHeroAll(); const e=M[cid]=M[cid]||{}; for(const k of COS_HERO_CATS) if(e[k]&&(!COS_BY[e[k]]||!cosOwned(e[k])||e[k]===COS_DEFAULT[k])) delete e[k]; return e; }
+function cosWearers(id){ const M=cosHeroAll(); return Object.keys(M).filter(c=>progress.heroes[c]&&Object.values(M[c]||{}).includes(id)); }
+function cosFreeN(id){ return cosCount(id)-cosWearers(id).length; }
+function cosHeroWear(cid,id){ const c=COS_BY[id]; if(!c||!COS_HERO_CATS.includes(c.cat)||!progress.heroes[cid]) return false; const e=cosHeroEq(cid);
+  if(id===COS_DEFAULT[c.cat]||c.src==="free"&&id===COS_DEFAULT[c.cat]){ delete e[c.cat]; return true; } if(!cosOwned(id)) return false; if(e[c.cat]===id) return true;
+  if(cosFreeN(id)<=0){ const o=cosWearers(id).find(x=>x!==cid); if(!o) return false; delete cosHeroEq(o)[c.cat]; }   // 남는 것이 없으면 입고 있던 영웅에게서 옮겨 입힘
+  e[c.cat]=id; return true; }
+function cosHeroOff(cid,cat){ delete cosHeroEq(cid)[cat]; }
+function cosEq(){ if(!progress) return Object.assign({},COS_DEFAULT,{sticker:[],deco:[]}); const E=progress.cosEq=Object.assign({},COS_DEFAULT,progress.cosEq||{});
+  { const pid=progress.protag&&progress.protag.cid; if(pid){ const he=cosHeroEq(pid); for(const k of COS_HERO_CATS) E[k]=he[k]||COS_DEFAULT[k]; } }   // 영웅별 종류는 주인공이 입은 것을 보여 줌(상점 미리보기 등) E.sticker=(E.sticker||[]).filter(cosOwned).slice(0,3); E.deco=(E.deco||[]).filter(cosOwned).slice(0,3);
   for(const k of ["cape","wskin","aura","saura","fx","font","crit","frame"]) if(!cosOwned(E[k])) E[k]=COS_DEFAULT[k]; return E; }
 function cosOn(cat){ const v=cosEq()[cat]; return Array.isArray(v)?v:(v===COS_DEFAULT[cat]?null:v); }
 function cosFrameNow(){ const f=cosEq().frame; return f==="fr_base"&&typeof subActive==="function"&&subActive()?"fr_sub":f; }
@@ -12194,6 +12231,33 @@ function plateIconHTML(p,sz){ return `<canvas class="plic" data-pi="${p.id}" wid
 function plateIconsDraw(root){ const tmp=document.createElement("canvas"); root.querySelectorAll("canvas.plic").forEach(cv=>{ const p=plateById(+cv.dataset.pi); if(!p) return; const W=[null,null,null,null,null,null]; W[p.pos]=p; plateDraw(tmp,W,true);
     const d=tmp.getContext("2d").getImageData(0,0,64,64).data; let x0=64,y0=64,x1=0,y1=0; for(let y=0;y<64;y++) for(let x=0;x<64;x++) if(d[(y*64+x)*4+3]){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
     const w=x1-x0+1, h=y1-y0+1, m=Math.max(w,h); cv.width=m; cv.height=m; const g=cv.getContext("2d"); g.imageSmoothingEnabled=false; g.clearRect(0,0,m,m); g.drawImage(tmp,x0,y0,w,h,Math.floor((m-w)/2),Math.floor((m-h)/2),w,h); }); }   // 조각만 잘라 크게
+/* v0.95 외형 탭(장비 화면): 가진 외형을 가방처럼 늘어놓고 영웅마다 따로 입힘 — 위: 고른 영웅의 외형 칸 4개 · 가운데: 가진 외형(미리보기 · 남은 수 · 누가 입었는지) · 아래: 고른 외형 입히기/벗기기 */
+let cosTabCat=null, cosTabSel=null, cosNowTimer=0;
+function renderCosPane(B,cid){ const E=cosHeroEq(cid), busy=runBusy(); const CN=Object.fromEntries(COS_CATS.map(c=>[c.k,c.n]));
+  const owned=COS.filter(c=>COS_HERO_CATS.includes(c.cat)&&c.id!==COS_DEFAULT[c.cat]&&cosOwned(c.id)&&(!cosTabCat||c.cat===cosTabCat));
+  if(cosTabSel&&!owned.some(c=>c.id===cosTabSel)) cosTabSel=null; const sel=cosTabSel?COS_BY[cosTabSel]:null;
+  const slot=k=>{ const id=E[k], c=id&&COS_BY[id]; return `<button data-cc="${k}" class="${cosTabCat===k?"on":""}"><i>${esc(CN[k])}</i><b>${c?esc(c.name):(k==="cape"&&isProtag(cid)?"진홍 망토(기본)":"기본")}</b></button>`; };
+  const cell=c=>{ const w=cosWearers(c.id), n=cosCount(c.id), fr=n-w.length, mine=w.includes(cid); return `<button class="coscell${cosTabSel===c.id?" on":""}${mine?" mine":""}" data-ci="${c.id}" title="${esc(c.name)}${c.note?" — "+esc(c.note):""}"><span class="cospv big"><canvas data-pv="${c.id}"></canvas></span><b>${esc(c.name)}</b><small>${esc(CN[c.cat])} · ${mine?"이 영웅 착용":fr>0?`남음 ${fr}`:`${esc(heroDisplayName(w[0]))} 착용`}${n>1?` · 보유 ${n}`:""}</small></button>`; };
+  let act=`<div class="cossel" style="color:var(--muted)">외형을 누르면 ${esc(heroDisplayName(cid))}에게 입히거나 벗길 수 있어요.</div>`;
+  if(sel){ const w=cosWearers(sel.id), fr=cosCount(sel.id)-w.length, mine=w.includes(cid), other=w.find(x=>x!==cid);
+    act=`<div class="cossel"><span><b>${esc(sel.name)}</b> · ${esc(CN[sel.cat])}${sel.note?` — ${esc(sel.note)}`:""}<br><small>보유 ${cosCount(sel.id)}개 · 착용: ${w.length?esc(w.map(x=>heroDisplayName(x)).join(" · ")):"없음"}</small></span>
+      <span class="plact">${mine?`<button class="btn ghost" id="cosOffB" ${busy?"disabled":""}>벗기기</button>`:`<button class="btn" id="cosOnB" ${busy?"disabled":""}>${fr>0?`${esc(heroDisplayName(cid))}에게 입히기`:`${esc(heroDisplayName(other))}에게서 옮겨 입히기`}</button>`}</span></div>`; }
+  B.insertAdjacentHTML("beforeend",`<div class="plpane cospane">
+    <div class="plhd"><b>${esc(heroDisplayName(cid))}의 외형</b> <span>영웅마다 따로 입혀요 · 산 외형 1개는 영웅 1명만</span></div>
+    <div class="costop"><span class="cospv big cosnow" title="지금 모습"><canvas id="cosNowCv" data-src="${E.cape||E.saura||E.wskin||E.aura||"ws_steel"}"></canvas></span><div class="cosslots">${COS_HERO_CATS.map(slot).join("")}</div></div>
+    <div class="plbar"><span>가진 외형 <b>${owned.length}</b>종${cosTabCat?` · ${esc(CN[cosTabCat])}만`:""}</span><span class="plfilt"><button data-cf="all" class="${!cosTabCat?"on":""}" style="min-width:auto;padding:0 10px">전체</button><button id="cosShopGo" style="min-width:auto;padding:0 10px;margin-left:6px">🛒 상점에서 더 보기</button></span></div>
+    <div class="cosgrid2">${owned.map(cell).join("")||`<p class="msub" style="padding:10px">아직 가진 외형이 없어요. 상점 🎨 외형에서 살 수 있습니다.</p>`}</div>${act}</div>`);
+  const R=B.querySelector(".cospane"); const done=()=>{ saveProgress(); try{ cosRefreshHeroes(); }catch(e){} renderParty(); };
+  R.querySelectorAll("[data-cc]").forEach(b=>b.onclick=()=>{ const k=b.dataset.cc; cosTabCat=cosTabCat===k?null:k; const id=E[k]; if(id) cosTabSel=id; renderParty(); });
+  R.querySelector('[data-cf="all"]').onclick=()=>{ cosTabCat=null; renderParty(); };
+  R.querySelector("#cosShopGo").onclick=()=>{ try{ shopTab="cos"; }catch(e){} showTab("shop"); };
+  R.querySelectorAll("[data-ci]").forEach(b=>b.onclick=()=>{ cosTabSel=b.dataset.ci; renderParty(); });
+  const on=R.querySelector("#cosOnB"); if(on) on.onclick=()=>{ if(cosHeroWear(cid,sel.id)){ logLine(`<span class="r">🎨 ${esc(heroDisplayName(cid))} — '${esc(sel.name)}' 착용</span>`); done(); } };
+  const off=R.querySelector("#cosOffB"); if(off) off.onclick=()=>{ cosHeroOff(cid,sel.cat); done(); };
+  { const now=R.querySelector("#cosNowCv"), id=now.dataset.src; let src=R.querySelector(`.coscell canvas[data-pv="${id}"]`);   // '지금 모습'은 같은 외형의 미리보기 그림을 그대로 비춤(없으면 화면 밖에 하나 둠)
+    if(!src){ const hid=document.createElement("span"); hid.className="cospv big"; hid.style.cssText="position:absolute;left:-9999px;top:0;width:132px;height:110px"; hid.innerHTML=`<canvas data-pv="${id}"></canvas>`; R.appendChild(hid); src=hid.querySelector("canvas"); }
+    clearInterval(cosNowTimer); cosNowTimer=setInterval(()=>{ if(!now.isConnected){ clearInterval(cosNowTimer); return; } if(!src.width) return; if(now.width!==src.width||now.height!==src.height){ now.width=src.width; now.height=src.height; } const g=now.getContext("2d"); g.imageSmoothingEnabled=false; g.clearRect(0,0,now.width,now.height); g.drawImage(src,0,0); },90); }
+  cosPvHero=cid; try{ cosPreviewRun(R); }catch(e){} }
 function renderPlatePane(B,cid){ const P=plateStore(), busy=runBusy(), W=plateWorn(cid), cnt=plateCount(cid), done=plateComplete(cid); const col=PLATE_RIM;
   if(plateSel!=null&&!plateById(plateSel)) plateSel=null;
   const sets=Object.entries(cnt).map(([k,n])=>`<div class="plset"><b>${esc(PLATE_SETS[k].name)} ${n}/6</b> ${[2,4,6].map(q=>`<span class="${n>=q?"on":""}">(${q}) ${esc(PLATE_SETS[k].fx[q][0])}</span>`).join(" ")}</div>`).join("")||`<div class="plset" style="color:var(--muted)">성편은 영원한 밤의 장 보스가 ${Math.round(PLATE_DROP*100)}% 확률로 떨어뜨립니다. 같은 성반을 2 · 4 · 6조각 끼우면 세트 효과가 열립니다.</div>`;
@@ -12313,7 +12377,8 @@ const POWER_W={knight:{atk:2,hp:0.12,def:1.5,spd:1,crit:0.5,mp:0.05,critdmg:0.2,
 const CMP_KEYS=["atk","hp","def","spd","mp","crit","critdmg","acc","eva","pen","ls","res","heal","regen"];
 const CMP_PCT=new Set(["crit","critdmg","acc","eva","pen","ls","res","heal"]);
 const CMP_LABEL={atk:"공격력",hp:"체력",def:"방어력",spd:"신속",mp:"마나",crit:"치명타 확률",critdmg:"치명타 피해",acc:"명중",eva:"회피",pen:"관통",ls:"흡혈",res:"상태이상 회피",heal:"치유량",regen:"턴당 마나",er_all:"전체 속성 저항",er_fire:"화염 저항",er_cold:"냉기 저항",er_poison:"독 저항",er_holy:"신성 저항",er_dark:"암흑 저항"};
-function powerScore(cid,st){ const W=POWER_W[cid]||POWER_W.knight; let s=0; for(const k of CMP_KEYS) s+=(W[k]||0)*(CMP_PCT.has(k)?(st[k]||0)*100:(st[k]||0)); return s; }
+function powerScore(cid,st){ const W=POWER_W[cid]||POWER_W.knight; let s=0; for(const k of CMP_KEYS) s+=(W[k]||0)*(CMP_PCT.has(k)?(st[k]||0)*100:(st[k]||0));
+  if(st.er){ const v=Object.values(st.er); const mn=Math.min(...v); s+=ER_W.all*mn+ER_W.one*v.reduce((a,x)=>a+(x-mn),0); } return s; }
 function itemSpecial(it){ if(!it) return 0; return itemCondAffixes(it).filter(a=>!/^c_(atk|hp|def)_pct$|^c_res_plus$/.test(a.k)).length*4+(cUniq(it)?8:0)+(it.unique?8:0)+(it.engrave?6:0)+(it.relic?6:0)+((it.sockets||[]).filter(Boolean).length*3); }
 // 장비를 '실제로 끼워 본' 결과(세트·% 보너스까지 반영). 아무것도 바꾸지 않고 되돌린다.
 function previewEquip(cid,it,slot){
@@ -13117,10 +13182,11 @@ function renderEquip(){
   // ── 오른쪽: 가방 ──
   const B=document.createElement("div"); B.className="panel eqbag";
   { const nR=progress.inv.filter(x=>x.slot==="rune").length; const tb=document.createElement("div"); tb.className="bagtabs";   // v0.94 가방 · 룬주머니
-    tb.innerHTML=`<button data-bt="gear" class="${bagTab==="gear"?"on":""}">🎒 가방 <small>${bagUsed()}/${bagCap()}</small></button><button data-bt="rune" class="${bagTab==="rune"?"on":""}">💠 룬주머니 <small>${nR}</small></button><button data-bt="plate" class="${bagTab==="plate"?"on":""}">🌟 성반 <small>${plateStore().inv.length}</small></button>`;
+    tb.innerHTML=`<button data-bt="gear" class="${bagTab==="gear"?"on":""}">🎒 가방 <small>${bagUsed()}/${bagCap()}</small></button><button data-bt="rune" class="${bagTab==="rune"?"on":""}">💠 룬주머니 <small>${nR}</small></button><button data-bt="plate" class="${bagTab==="plate"?"on":""}">🌟 성반 <small>${plateStore().inv.length}</small></button><button data-bt="cos" class="${bagTab==="cos"?"on":""}">🎨 외형</button>`;
     for(const b of tb.querySelectorAll("button")) b.onclick=()=>{ bagTab=b.dataset.bt; bagPick=false; bagSel.clear(); rpRune=null; rpSock=null; renderParty(); };
     B.appendChild(tb); }
   if(bagTab==="rune"){ renderRunePouch(B,cid); pane.appendChild(B); renderCodex(); view.scrollTop=scrollTop; innerKeep(); return; }
+  if(bagTab==="cos"){ renderCosPane(B,cid); pane.appendChild(B); renderCodex(); view.scrollTop=scrollTop; innerKeep(); return; }   // v0.95 외형 탭
   if(bagTab==="plate"){ renderPlatePane(B,cid); pane.appendChild(B); renderCodex(); view.scrollTop=scrollTop; innerKeep(); return; }   // v0.95 성반 탭
   const FILT={all:it=>it.slot!=="rune", weapon:it=>it.slot==="weapon", offhand:it=>it.slot==="offhand", armor:it=>["armor","helm","cape"].includes(it.slot),
     acc:it=>["gloves","boots"].includes(it.slot), jewel:it=>it.slot==="ring"||it.slot==="amulet", rune:it=>it.slot==="relic"};
@@ -15223,7 +15289,7 @@ function grantExp(exp,ids){
 
 /* ---- 주인공 만들기 · 동료 합류 · 설정 ---- */
 let bootDone=false, onboardBusy=false;
-const NAME_POOL=["아린","카엘","세라","로웬","이든","하루","리안","엘라","단","유나","테오","미르"];
+const NAME_POOL=["아린","카엘","세라","로웬","이든","하루","리안","엘라","다온","유나","테오","미르"];
 function openModal(html,cls){
   closeModal();
   const m=document.createElement("div"); m.id="modal"; m.className="modal "+(cls||"");
@@ -15534,6 +15600,17 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.11", v:"v0.94", t:"영웅별 외형 · 점검 반영", L:[
+    "외형을 영웅마다 따로 입힙니다. 장비 화면 오른쪽에 '🎨 외형' 탭이 생겼습니다(가방 · 룬주머니 · 성반 옆) — 고른 영웅의 외형 칸 4개(망토 · 무기 외형 · 오라 색 · 특수 오라)와 가진 외형이 가방처럼 늘어서고, 누르면 입히거나 벗깁니다.",
+    "산 외형 1개는 영웅 1명만 입을 수 있습니다. 같은 외형을 둘에게 입히려면 상점에서 하나 더 사면 됩니다(상점 🎨 외형에 '보유 n · 착용 n'과 '하나 더' 단추). 남는 것이 없을 때 다른 영웅에게 입히면 입고 있던 영웅에게서 옮겨 입힙니다. 지금까지 입혀 둔 외형은 그대로 주인공이 입고 있습니다.",
+    "전투 숫자 · 치명타 연출 · 이펙트 테마 · 명함 · 모닥불 장식은 영웅이 아니라 계정에 붙는 것이라 예전처럼 상점에서 고릅니다.",
+    "상태이상 회피: 난이도 차감을 자정 -20%p → -10%p · 영원한 밤 -40%p → -20%p로 줄였습니다(영원한 밤에서 장비의 회피 옵션이 0이 되던 문제). 상태이상 회피 · 속성 저항 옵션은 강화해도 커지지 않습니다(적힌 값 그대로).",
+    "장비 추천 점수(▲ 더 좋음 · 일괄 장착 · 자동 정리의 '더 좋은 장비는 남기기')에 속성 저항이 들어갑니다 — 전체 속성 저항 1 = 1.2점 · 한 속성 저항 1 = 0.25점.",
+    "낙성 강림의 사도에게 속성 저항(신성 +40 · 그 밖 +20 · 약점 없음)이 붙었습니다."]},
+  {d:"2026.11.11", v:"v0.94", t:"점검에서 나온 것 바로잡기", L:[
+    "상태이상 회피: 능력치 화면의 값이 전투 값과 달랐습니다(장비 몫 20%p 상한이 화면에는 빠져 있었음) — 같게 맞췄습니다.",
+    "설명 바로잡기: 총사 특성 '섬광 사격' · '섬광 폭발'은 약화가 아니라 실명(명중 -40%)을 겁니다. 잿불 폭발 · 천 개의 화살 설명에 '최대 4명(무작위)' 표시. 바람의 명궁 전직 설명의 수치(천 개의 화살 최대 4명 · 폭풍 연사 26%). 해독술의 '저항 +40%p'는 '걸릴 확률 -40%p(상태이상 회피)'.",
+    "무작위 이름 주사위에서 한 글자 이름('단')이 나오던 것을 뺐습니다(이름은 2자 이상)."]},
   {d:"2026.11.11", v:"v0.94", t:"전투설정 정리 · 스킬 검색 · 속성 색", L:[
     "전투설정 맨 위 영웅 고르기가 한 줄이 됐습니다(옆으로 밀어서 확인). 그 아래 한 줄에 🔎 스킬 검색 · 규칙 저장 칸 💾1~3 · ↺ 규칙 초기화가 모여 있습니다. '○○의 규칙 사용 4/4칸' 표기는 없앴습니다.",
     "스킬 검색: 상태이상(화상 · 냉기 · 기절 · 실명 …) · 속성(화염 · 신성 · 암흑 · 무속성 …) · 효과(도발 · 회복 · 보호막 …) 낱말을 넣으면, 그에 해당하는 스킬을 가진 내 영웅과 스킬이 한눈에 나옵니다. 영웅을 누르면 그 영웅의 규칙으로 갑니다.",
