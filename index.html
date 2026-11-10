@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794325149688"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794327881021"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1587,6 +1587,37 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 @keyframes plBurst{0%{transform:scale(.7) rotate(-40deg); filter:brightness(3) drop-shadow(0 0 30px #fff)}60%{transform:scale(1.12) rotate(6deg); filter:brightness(1.6) drop-shadow(0 0 22px #f4c95d)}100%{transform:scale(1) rotate(0); filter:brightness(1)}}
 @keyframes plText{0%,100%{opacity:.75}50%{opacity:1}}
 @media (prefers-reduced-motion:reduce){ .plwrap.done canvas,.plwrap.burst canvas,.plwrap.done::before,.pldone{animation:none} }
+.plpane{display:flex; flex-direction:column; gap:8px}
+.pltop{display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap}
+.pltop .plwrap{width:160px; margin:0} .pltop .plwrap canvas{width:160px; height:160px} .pltop .plwrap.done::before{width:160px; height:160px}
+.plside{flex:1 1 220px; min-width:0; font-size:13px} .plhd{margin-bottom:4px} .plhd span{color:var(--muted)}
+.plslots{display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:6px}
+.plslots button{text-align:left; padding:4px 6px; border-radius:8px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-size:12.5px; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.plslots button.on{border-color:var(--accent)} .plslots i{font-style:normal; color:var(--muted)} .plslots em{font-style:normal; color:var(--dim)}
+.plset{font-size:12.5px; margin:2px 0; color:var(--muted)} .plset b{color:var(--text)} .plset span.on{color:var(--accent)}
+.plbar{display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; color:var(--sub)}
+.plfilt button{min-width:30px; height:28px; border-radius:8px; border:1px solid var(--line); background:var(--raised); color:var(--sub); cursor:pointer; margin-left:3px} .plfilt button.on{background:var(--accent); color:#1a1306; border-color:var(--accent)}
+.plgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(58px,1fr)); gap:6px; max-height:230px; overflow:auto; padding:2px}
+.plcell{position:relative; display:flex; flex-direction:column; align-items:center; gap:0; padding:4px 2px 3px; border-radius:10px; border:1px solid var(--line); background:var(--raised); cursor:pointer}
+.plcell.on{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset} .plcell.worn{background:#1b2440} .plcell canvas{image-rendering:pixelated} .plcell small{font-size:11.5px; font-weight:700}
+.plown{position:absolute; right:3px; top:2px; font-style:normal; font-size:10px; color:var(--accent); font-weight:800}
+.plsel{font-size:13px; border-top:1px solid var(--line); padding-top:6px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; justify-content:space-between} .plsel i{font-style:normal; color:var(--muted)} .plact{display:flex; gap:6px} .plact .btn{padding:4px 10px} .plfx{flex:1 1 100%; color:var(--muted); font-size:12.5px}
+.plcraft{border-top:1px solid var(--line); padding-top:6px; font-size:13px} .plcraft select{max-width:46%; margin:4px 4px 0 0}
+.titlechip{align-self:flex-start; margin:0 0 6px; padding:3px 10px; border-radius:999px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-size:12.5px; cursor:pointer} .titlechip b{color:var(--accent)}
+.tplist{display:flex; flex-direction:column; gap:6px; max-height:50vh; overflow:auto} .tpitem{text-align:left; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--text); cursor:pointer; display:flex; flex-direction:column; gap:2px} .tpitem.on{border-color:var(--accent)} .tpitem span{color:var(--muted); font-size:13px}
+.advpass{margin:2px 0 8px}
+.ergrid{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:6px}
+.ergrid div{background:#10162a; padding:6px 8px; display:flex; flex-direction:column; align-items:center; gap:1px} .ergrid span{font-size:12px; color:var(--muted)} .ergrid b{font-size:16px}
+.ergrid .er-fire b{color:#ff9a5c} .ergrid .er-cold b{color:#7fc8ff} .ergrid .er-poison b{color:#8fe07a} .ergrid .er-holy b{color:#ffe98a} .ergrid .er-dark b{color:#c79bff}
+.finfo .prim .pbtn,.prim .pbtn{min-height:50px; padding:4px 2px} .prim .pbtn .pv{font-size:19px} .prim{gap:6px}
+.finfo .prim{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media (max-width:700px){ .finfo .prim,.prim{grid-template-columns:repeat(6,minmax(0,1fr)); gap:4px} .prim .pbtn .pk{font-size:11.5px} .prim .pbtn .pv{font-size:16px} .ergrid span{font-size:11px} }
+@media (max-height:560px),(max-width:900px){ .pltop{flex-wrap:nowrap; gap:8px} .pltop .plwrap{width:112px; flex:0 0 112px} .pltop .plwrap canvas,.pltop .plwrap.done::before{width:112px; height:112px} .plslots button{font-size:11.5px; padding:3px 5px} .plset{font-size:11.5px} .pldone{font-size:11px} .titlechip{margin-bottom:2px; font-size:11.5px} }
+.tidybox{border:1px solid var(--line); border-radius:12px; padding:8px 10px; margin:0 0 8px; background:#0e1428}
+.tidyrow{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:2px 0 6px} .tidyrow b{color:var(--ink); margin-right:4px} .tidyhint{color:var(--muted); font-size:12.5px}
+.tidybox .tidyrow button.on{background:var(--accent); color:#1a1306}
+.rp-h{display:flex; align-items:center; gap:6px} .rp-cell.pick{outline:2px solid var(--accent); outline-offset:-2px}
+.plcell.pick{outline:2px solid var(--accent); outline-offset:-2px} .plfilt button#plTidyBtn.on{background:var(--accent); color:#1a1306}
 </style>
 
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
@@ -4173,7 +4204,7 @@ function advInfo(cid){
 function isProtag(cid){ return !!(progress&&progress.protag&&progress.protag.cid===cid); }
 // 주인공 교체(v0.28): 마을(던전 밖)에서만, 밤의 정수를 많이 씀. 이전 주인공은 키운 그대로 동료가 됨 —
 //   지금까지의 능력치·특성·숙련·자동전투 규칙은 그대로 두고(keepBuild), 앞으로 생기는 포인트만 스스로 씀
-const PROTAG_SWAP_ESS=300;
+const PROTAG_SWAP_ESS=3000;   // v0.95 300 → 3,000(너무 저렴했음)
 function protagSwapBlock(cid){ if(!progress||!progress.protag) return "주인공이 없습니다"; if(isProtag(cid)) return "이미 주인공입니다";
   if(!(progress.roster||[]).includes(cid)) return "합류하지 않은 영웅입니다"; if(typeof runState!=="undefined"&&runState) return "던전 안에서는 바꿀 수 없습니다 — 마을로 돌아와 주세요";
   if((progress.ess||0)<PROTAG_SWAP_ESS) return `밤의 정수가 부족합니다 (${progress.ess||0} / ${PROTAG_SWAP_ESS})`; return null; }
@@ -4842,7 +4873,8 @@ function traitPath(cid,target){
   if(!prev.has(target.key)) return null;
   const path=[]; for(let k=target.key;k;k=prev.get(k)) path.unshift(traitNode(cid,k)); return path;
 }
-function respecCost(cid){ return 20*traitsTaken(cid).length; }
+const RESPEC_GEM=10;   // v0.95 특성 전체 초기화 = 새벽결정 10개(예전: 골드 20 × 찍은 특성 수)
+function respecCost(cid){ return RESPEC_GEM; }
 
 
 /* 상위 난이도 이야기 — 자정(1)·영원한 밤(2) 첫 입장/첫 클리어 때 */
@@ -8128,7 +8160,7 @@ const COACH={
     {sel:".herotabs", t:"영웅 목록", x:"장비를 볼 영웅을 골라요. ▲ 숫자는 '가방에 이 영웅이 끼면 더 강해지는 장비 수'예요."},
     {sel:".eqgrid", t:"착용 장비", x:"11부위. '▲ n개 더 좋음'을 누르면 가방이 그 부위만 보여 줘요."},
     {sel:".bag", t:"가방", x:"아무도 안 낀 장비예요. 누르면 지금 착용한 것과 비교해서 장착·판매·분해·강화·재련을 할 수 있어요."},
-    {sel:".autoloot", t:"자동 정리", x:"등급마다 '보관·자동 판매·자동 분해'를 정해 두면 가방이 넘치지 않아요."},
+    {sel:"#bagTidyBtn", t:"정리", x:"🧹 정리를 누르면 여러 개를 골라 팔거나 분해하고, 등급마다 '보관·자동 판매·자동 분해'를 정해 둘 수 있어요."},
   ]},
   shop:{ name:"상점", steps:[
     {sel:".shophead", t:"등불 도시 상점", x:"골드로 장비를 사요."},
@@ -8908,7 +8940,7 @@ function plateStore(){ const P=progress.plate=(progress.plate&&typeof progress.p
 function plateSlots(cid){ const h=progress.heroes[cid]; if(!h) return []; if(!Array.isArray(h.plate)||h.plate.length!==6) h.plate=[null,null,null,null,null,null]; return h.plate; }
 function plateById(id){ return plateStore().inv.find(x=>x.id===id)||null; }
 function plateRoll(set,pos){ const P=plateStore(); let r=Math.random(), rar="rare"; for(const [k,w] of PLATE_RAR){ if(r<w){ rar=k; break; } r-=w; } const R=PLATE_POS[pos].v[rar]; return {id:++P.seq,set,pos,rar,v:ri(R[0],R[1])}; }
-function plateAdd(p){ const P=plateStore(); if(P.inv.length>=PLATE_INV_MAX){ P.dust+=PLATE_DUST[p.rar]||1; return false; } P.inv.push(p); return true; }   // 가득 차면 바로 가루로
+function plateAdd(p){ const P=plateStore(); if(P.inv.length>=PLATE_INV_MAX||(progress.autoPlate||{})[p.rar]==="dis"){ P.dust+=PLATE_DUST[p.rar]||1; p.auto=true; return false; } P.inv.push(p); return true; }   // 가득 차거나 자동 분해 등급이면 바로 가루로   // 가득 차면 바로 가루로
 function plateOwner(id){ for(const c of Object.keys(progress.heroes)){ const h=progress.heroes[c]; if(Array.isArray(h.plate)&&h.plate.includes(id)) return c; } return null; }
 function plateWorn(cid){ return plateSlots(cid).map(id=>id!=null?plateById(id):null); }
 function plateEquip(cid,id){ const p=plateById(id); if(!p) return false; const o=plateOwner(id); if(o) plateSlots(o)[p.pos]=null; plateSlots(cid)[p.pos]=id; return true; }
@@ -9089,7 +9121,7 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
   if(t==="log") t="dungeon";
   if(t==="equip"&&curView!=="equip"){ bagTab="gear"; rpRune=null; rpSock=null; rpTap=null; }   // v0.94 장비 탭을 열면 늘 가방부터
   if(!VIEWS.includes(t)) t="dungeon";
-  try{ if(t!=="equip"&&(bagPick||bagSel.size)){ bagPick=false; bagSel.clear(); bagArm=null; } }catch(e){}   // v0.80 '여러 개 골라 정리'는 장비 탭을 떠나면 꺼짐
+  try{ if(t!=="equip"&&(bagPick||bagSel.size||bagTidy||rpTidy||rpPick||plTidy||plPick)){ bagPick=false; bagSel.clear(); bagArm=null; bagTidy=false; rpTidy=false; rpPick=false; rpSel.clear(); rpArm=null; plTidy=false; plPick=false; plPickSel.clear(); plArm=null; } }catch(e){}   // v0.80 '여러 개 골라 정리'는 장비 탭을 떠나면 꺼짐
   curView=t; document.body.dataset.view=t;   // v0.32: 던전 밖 탭에서는 아래 조작대를 숨김(가로 화면 공간 확보)
   for(const k of VIEWS){
     $("tab-"+k).classList.toggle("on",t===k);
@@ -9297,16 +9329,16 @@ function renderTraits(){
     const cost=respecCost(cid);
     const rb=document.createElement("button");
     rb.className=respecArm===cid?"arm":"";
-    rb.textContent=respecArm===cid?`한 번 더 → 초기화`:`전체 초기화 ${cost}G`;
-    rb.disabled=progress.gold<cost;
-    rb.title=progress.gold<cost?"골드 부족":`골드 ${cost}로 이 영웅의 특성을 모두 되돌립니다`;
+    rb.textContent=respecArm===cid?`한 번 더 → 초기화`:`전체 초기화 💎${cost}`;
+    const gemNow=progress.gem||0; rb.disabled=gemNow<cost||!traitsTaken(cid).length;
+    rb.title=gemNow<cost?`새벽결정 부족 (${gemNow}/${cost})`:`새벽결정 ${cost}개로 이 영웅의 특성을 모두 되돌립니다`;
     rb.onclick=()=>{
       if(respecArm!==cid){ respecArm=cid; renderTraits(); setTimeout(()=>{ if(respecArm===cid){ respecArm=null; if(!$("body-traits").hidden) renderTraits(); } },4000); return; }
       respecArm=null;
-      if(progress.gold<cost) return;
-      progress.gold-=cost; progress.heroes[cid].traits=[]; traitUndo[cid]=[];
-      saveProgress(); renderTraits();
-      logLine(`<span class="r">🔄 ${esc(heroDisplayName(cid))} 특성 초기화 (골드 -${cost})</span>`);
+      if((progress.gem||0)<cost) return;
+      progress.gem-=cost; progress.heroes[cid].traits=[]; traitUndo[cid]=[];
+      saveProgress(); renderTraits(); try{ renderTop&&renderTop(); }catch(e){}
+      logLine(`<span class="r">🔄 ${esc(heroDisplayName(cid))} 특성 초기화 (새벽결정 -${cost})</span>`);
     };
     bar.appendChild(rb);
   }
@@ -12084,7 +12116,7 @@ function openPreset(cid,i){ if(runBusy()){ toast(`<span class="tc">🔒 던전 �
   const ld=m.querySelector("#psLoad"); if(ld) ld.onclick=()=>{ if(nm().trim()&&nm().trim()!==x.name){ x.name=nm().trim().slice(0,12); saveProgress(); } presetLoad(cid,i); closeModal(); renderRules(); logLine(`<span class="r">📜 ${esc(who)} — 저장 칸 ${i+1} '${esc(x.name)}' 규칙을 불러왔습니다.</span>`); };
   const dl=m.querySelector("#psDel"); if(dl) dl.onclick=()=>{ if(dl.dataset.arm!=="1"){ dl.dataset.arm="1"; dl.textContent="한 번 더 누르면 비움"; return; } P[i]=null; saveProgress(); closeModal(); renderRules(); }; }
 /* v0.95 성반 화면 — 여섯 자리 · 자리를 누르면 그 자리 성편 목록(장착 · 분해) · 제작 */
-function plateDropNote(p){ const S=PLATE_SETS[p.set]; logLine(`<span class="gain">🌟 성편 획득! ${esc(S.name)} ${p.pos+1}번 자리 · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}</span>`); try{ toast(`<span class="tc">🌟 성편 획득</span>${esc(S.name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]}`,"",3200); }catch(e){} }
+function plateDropNote(p){ const S=PLATE_SETS[p.set]; if(p.auto){ logLine(`<span class="r">🧹 성편 자동 분해 — ${esc(S.name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]} → 성반가루 +${PLATE_DUST[p.rar]}</span>`); return; } logLine(`<span class="gain">🌟 성편 획득! ${esc(S.name)} ${p.pos+1}번 자리 · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}</span>`); try{ toast(`<span class="tc">🌟 성편 획득</span>${esc(S.name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]}`,"",3200); }catch(e){} }
 /* v0.95 성반 그림 — 세트마다 도트 문양(64×64). 여섯 조각(60°씩, 12시부터 시계 방향)이 다 모이면 한 장의 그림이 됨 · 테두리 색 = 그 조각의 등급 */
 const PLATE_ART={
   swamp:{pal:["#0f2416","#1c4a2a","#7ddc6a","#e6ffc9","#3f8f4a"],bm:["......#......",".....###.....",".....###.....","....#####....","....#####....","...###+###...","...##+####...","..###+#####..","..##+######..","..#########..","..#########..","...#######...","....#####...."]},
@@ -12104,12 +12136,57 @@ function plateArtPx(set,x,y){ const A=PLATE_ART[set]; if(!A) return null; const 
   if(r>=23){ const seg=Math.floor(((Math.atan2(dy,dx)+Math.PI)/(Math.PI*2))*24); return r>=27||r<24?A.pal[4]:(seg%2?A.pal[1]:A.pal[4]); }   // 눈금 띠
   const h=((x*73856093)^(y*19349663))>>>0; if(h%29===0) return A.pal[3]; return r<10?A.pal[1]:(r<16?((x+y)%2?A.pal[1]:A.pal[0]):A.pal[0]); }
 function plateWedgeOf(x,y){ const dx=x-31.5, dy=y-31.5; let a=Math.atan2(dx,-dy); if(a<0) a+=Math.PI*2; return Math.min(5,Math.floor(a/(Math.PI/3))); }   // 12시부터 시계 방향 0~5
-function plateDraw(cv,W){ const g=cv.getContext("2d"); cv.width=64; cv.height=64; g.clearRect(0,0,64,64); const whole=W.every(Boolean)&&W.every(p=>p.set===W[0].set);   // 완성되면 조각 틈이 사라져 한 장의 그림
-  for(let y=0;y<64;y++) for(let x=0;x<64;x++){ const dx=x-31.5, dy=y-31.5, r=Math.sqrt(dx*dx+dy*dy); if(r>=31.5) continue; const w=plateWedgeOf(x,y), p=W[w];
+function plateDraw(cv,W,icon){ const g=cv.getContext("2d"); cv.width=64; cv.height=64; g.clearRect(0,0,64,64); const whole=W.every(Boolean)&&W.every(p=>p.set===W[0].set);   // 완성되면 조각 틈이 사라져 한 장의 그림
+  for(let y=0;y<64;y++) for(let x=0;x<64;x++){ const dx=x-31.5, dy=y-31.5, r=Math.sqrt(dx*dx+dy*dy); if(r>=31.5) continue; const w=plateWedgeOf(x,y), p=W[w]; if(icon&&!p) continue;
     let a=Math.atan2(dx,-dy); if(a<0) a+=Math.PI*2; const off=a-w*(Math.PI/3), edge=Math.min(off,Math.PI/3-off)*r<0.8&&r>3&&(!whole||r>=28);   // 조각 사이 틈
     let c; if(edge) c="#05070d"; else if(!p) c=r>=28?"#2a3352":(((x+y)%4===0&&r>4)?"#1a2138":"#0e1322"); else if(r>=28) c=r>=30.5?"#05070d":PLATE_RIM[p.rar]; else c=plateArtPx(p.set,x,y)||"#0e1322";
     g.fillStyle=c; g.fillRect(x,y,1,1); } }
 function plateComplete(cid){ const W=plateWorn(cid); return W.every(Boolean)&&W.every(p=>p.set===W[0].set)?W[0].set:null; }
+/* v0.95 성반 탭(가방 · 룬주머니 옆) — 위: 이 영웅의 성반(원형 그림 · 세트 효과) · 가운데: 가진 성편(조각 모양 아이콘, 자리로 걸러 보기) · 아래: 제작 */
+let platePos=null, plateSel=null, plateBurst=false, plTidy=false, plPick=false, plPickSel=new Set(), plArm=null;
+function plateIconHTML(p,sz){ return `<canvas class="plic" data-pi="${p.id}" width="64" height="64" style="width:${sz||46}px;height:${sz||46}px"></canvas>`; }
+function plateIconsDraw(root){ const tmp=document.createElement("canvas"); root.querySelectorAll("canvas.plic").forEach(cv=>{ const p=plateById(+cv.dataset.pi); if(!p) return; const W=[null,null,null,null,null,null]; W[p.pos]=p; plateDraw(tmp,W,true);
+    const d=tmp.getContext("2d").getImageData(0,0,64,64).data; let x0=64,y0=64,x1=0,y1=0; for(let y=0;y<64;y++) for(let x=0;x<64;x++) if(d[(y*64+x)*4+3]){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
+    const w=x1-x0+1, h=y1-y0+1, m=Math.max(w,h); cv.width=m; cv.height=m; const g=cv.getContext("2d"); g.imageSmoothingEnabled=false; g.clearRect(0,0,m,m); g.drawImage(tmp,x0,y0,w,h,Math.floor((m-w)/2),Math.floor((m-h)/2),w,h); }); }   // 조각만 잘라 크게
+function renderPlatePane(B,cid){ const P=plateStore(), busy=runBusy(), W=plateWorn(cid), cnt=plateCount(cid), done=plateComplete(cid); const col=PLATE_RIM;
+  if(plateSel!=null&&!plateById(plateSel)) plateSel=null;
+  const sets=Object.entries(cnt).map(([k,n])=>`<div class="plset"><b>${esc(PLATE_SETS[k].name)} ${n}/6</b> ${[2,4,6].map(q=>`<span class="${n>=q?"on":""}">(${q}) ${esc(PLATE_SETS[k].fx[q][0])}</span>`).join(" ")}</div>`).join("")||`<div class="plset" style="color:var(--muted)">성편은 영원한 밤의 장 보스가 ${Math.round(PLATE_DROP*100)}% 확률로 떨어뜨립니다. 같은 성반을 2 · 4 · 6조각 끼우면 세트 효과가 열립니다.</div>`;
+  const L=P.inv.filter(p=>platePos==null||p.pos===platePos).sort((a,b)=>a.pos-b.pos||({legend:0,epic:1,rare:2})[a.rar]-({legend:0,epic:1,rare:2})[b.rar]||b.v-a.v);
+  const sel=plateSel!=null?plateById(plateSel):null, so=sel?plateOwner(sel.id):null;
+  B.insertAdjacentHTML("beforeend",`<div class="plpane">
+    <div class="pltop"><div class="plwrap${done?" done":""}${plateBurst?" burst":""}"><canvas id="plCv" width="64" height="64" title="조각을 누르면 그 자리 성편만 보기"></canvas>${done?`<div class="pldone">✦ ${esc(PLATE_SETS[done].name)} 완성 ✦</div>`:""}</div>
+      <div class="plside"><div class="plhd"><b>${esc(heroDisplayName(cid))}의 성반</b> <span>${W.filter(Boolean).length}/6</span></div>
+        <div class="plslots">${W.map((p,i)=>`<button data-pp="${i}" class="${platePos===i?"on":""}"><i>${i+1}</i> ${PLATE_POS[i].n}${p?` <b style="color:${col[p.rar]}">+${Math.min(p.v,PLATE_POS[i].v.legend[1])}${PLATE_POS[i].u}</b>`:` <em>—</em>`}</button>`).join("")}</div>${sets}</div></div>
+    <div class="plbar"><span>성편 <b>${P.inv.length}</b>/${PLATE_INV_MAX} · 성반가루 <b>${P.dust}</b></span><span class="plfilt"><button id="plTidyBtn" class="${plTidy||plPick?"on":""}" style="min-width:auto;padding:0 10px;margin-right:6px">${plPick?"🧹 정리 — 고르는 중 ▴":plTidy?"🧹 정리 ▴":"🧹 정리 ▾"}</button><button data-pf="all" class="${platePos==null?"on":""}">전체</button>${PLATE_POS.map((D,i)=>`<button data-pf="${i}" class="${platePos===i?"on":""}">${i+1}</button>`).join("")}</span></div>
+    ${plTidy||plPick?(()=>{ const AP=progress.autoPlate||{}; const tg=P.inv.filter(p=>AP[p.rar]==="dis"&&!plateOwner(p.id)); return `<div class="tidybox autoloot"><div class="tidyrow"><b>① 골라서 분해</b><button id="plPk" class="${plPick?"on":""}">${plPick?"✓ 고르는 중":"고르기 시작"}</button>${plPick?`<button data-plq="rare">희귀</button><button data-plq="epic">영웅 이하</button><button id="plClr">선택 풀기</button>`:`<span class="tidyhint">성편을 눌러 여러 개 고른 뒤 한 번에 분해(끼고 있는 성편은 빼고 고름)</span>`}</div>
+      <div class="tidyrow"><b>② 자동 분해</b><span class="tidyhint">새로 얻는 성편을 등급에 따라</span></div><div class="grid">${Object.keys(PLATE_DUST).map(r=>`<label><span style="color:${col[r]}">${PLATE_RAR_NAME[r]}</span><select data-plauto="${r}"><option value="keep"${AP[r]!=="dis"?" selected":""}>보관</option><option value="dis"${AP[r]==="dis"?" selected":""}>자동 분해</option></select></label>`).join("")}</div>
+      <div class="row2"><button id="plAutoNow" class="${plArm==="auto"?"arm":""}" ${tg.length&&!busy?"":"disabled"}>${tg.length?(plArm==="auto"?`한 번 더 → ${tg.length}개 분해`:`지금 가진 것에 적용 (${tg.length}개 · 성반가루 +${tg.reduce((a,p)=>a+PLATE_DUST[p.rar],0)})`):"지금 정리할 것 없음"}</button></div></div>`; })():""}
+    <div class="plgrid">${L.map(p=>{ const o=plateOwner(p.id); return `<button class="plcell${plateSel===p.id?" on":""}${o?" worn":""}${plPick&&plPickSel.has(p.id)?" pick":""}" data-ps="${p.id}" title="${esc(PLATE_SETS[p.set].name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}${o?` · ${esc(heroDisplayName(o))} 착용`:""}">${plateIconHTML(p)}<small style="color:${col[p.rar]}">+${Math.min(p.v,PLATE_POS[p.pos].v.legend[1])}${PLATE_POS[p.pos].u}</small>${o?`<i class="plown">${o===cid?"E":"·"}</i>`:""}</button>`; }).join("")||`<p class="msub" style="padding:8px">${P.inv.length?"이 자리 성편이 없어요.":"아직 성편이 없어요."}</p>`}</div>
+    ${plPick?(()=>{ const T=P.inv.filter(p=>plPickSel.has(p.id)); return `<div class="bgbar"><span>고른 성편 <b>${T.length}</b>개</span><button class="dis${plArm==="dis"?" arm":""}" id="plPkDis" ${T.length&&!busy?"":"disabled"}>${plArm==="dis"?"한 번 더 → ":""}분해 · 성반가루 +${T.reduce((a,p)=>a+PLATE_DUST[p.rar],0)}</button></div>`; })():sel?`<div class="plsel"><span style="color:${col[sel.rar]}"><b>${esc(PLATE_SETS[sel.set].name)}</b> ${sel.pos+1}번 자리 · ${PLATE_RAR_NAME[sel.rar]} · ${esc(plateText(sel))}${so?` <i>(${so===cid?"착용 중":esc(heroDisplayName(so))+" 착용"})</i>`:""}</span>
+      <span class="plact">${so===cid?`<button class="btn ghost" id="plOff" ${busy?"disabled":""}>빼기</button>`:`<button class="btn" id="plOn" ${busy?"disabled":""}>${esc(heroDisplayName(cid))}에게 장착</button>`}<button class="btn ghost" id="plDis" ${busy?"disabled":""}>분해 +${PLATE_DUST[sel.rar]}</button></span>
+      <div class="plfx">${[2,4,6].map(q=>`(${q}) ${esc(PLATE_SETS[sel.set].fx[q][0])}`).join(" · ")}</div></div>`:`<div class="plsel" style="color:var(--muted)">성편을 누르면 장착 · 분해할 수 있어요.</div>`}
+    <div class="plcraft"><b>성편 제작</b> <span class="msub">성반가루 ${PLATE_CRAFT.dust} · 정수 ${PLATE_CRAFT.ess} — 등급 · 수치는 무작위</span><div><select id="pcSet">${PLATE_KEYS.map(k=>`<option value="${k}">${esc(PLATE_SETS[k].name)} (${REGIONS[k].chapter} 보스)</option>`).join("")}</select><select id="pcPos">${PLATE_POS.map((D,i)=>`<option value="${i}" ${platePos===i?"selected":""}>${i+1}번 · ${D.n}</option>`).join("")}</select><button class="btn" id="pcGo" ${busy||!plateCanCraft()?"disabled":""}>제작</button></div><div class="msub" id="pcFx"></div></div></div>`);
+  const was=done; plateBurst=false; const R=B.querySelector(".plpane");
+  const after=()=>{ saveProgress(); const now=plateComplete(cid); if(now&&now!==was){ plateBurst=true; try{ SND.fx("loot_legend"); }catch(e){} toast(`<span class="tc">🌟 성반 완성</span>${esc(PLATE_SETS[now].name)} — 여섯 조각이 하나의 그림이 되었습니다.`,"",3600); } renderParty(); };
+  { const cv=R.querySelector("#plCv"); plateDraw(cv,W); cv.onclick=e=>{ const r=cv.getBoundingClientRect(); const i=plateWedgeOf((e.clientX-r.left)/r.width*64,(e.clientY-r.top)/r.height*64); platePos=platePos===i?null:i; renderParty(); }; }
+  plateIconsDraw(R);
+  R.querySelectorAll("[data-pp]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.pp; platePos=platePos===i?null:i; const w=W[i]; if(w) plateSel=w.id; renderParty(); });
+  R.querySelectorAll("[data-pf]").forEach(b=>b.onclick=()=>{ platePos=b.dataset.pf==="all"?null:+b.dataset.pf; renderParty(); });
+  R.querySelectorAll("[data-ps]").forEach(b=>b.onclick=()=>{ const id=+b.dataset.ps; if(plPick){ if(plateOwner(id)){ toast("끼고 있는 성편은 먼저 빼 주세요"); return; } plPickSel.has(id)?plPickSel.delete(id):plPickSel.add(id); plArm=null; renderParty(); return; } plateSel=id; renderParty(); });
+  { const arm=(k,fn)=>{ if(plArm!==k){ plArm=k; renderParty(); setTimeout(()=>{ if(plArm===k){ plArm=null; try{ renderParty(); }catch(e){} } },3500); return; } plArm=null; fn(); };
+    const tb=R.querySelector("#plTidyBtn"); tb.onclick=()=>{ if(plTidy||plPick){ plTidy=false; plPick=false; plPickSel.clear(); plArm=null; } else plTidy=true; renderParty(); };
+    const pk=R.querySelector("#plPk"); if(pk) pk.onclick=()=>{ plPick=!plPick; plPickSel.clear(); plArm=null; renderParty(); };
+    R.querySelectorAll("[data-plq]").forEach(b=>b.onclick=()=>{ const mx=b.dataset.plq==="rare"?["rare"]:["rare","epic"]; plPickSel.clear(); for(const p of P.inv) if(mx.includes(p.rar)&&!plateOwner(p.id)) plPickSel.add(p.id); renderParty(); });
+    const cl=R.querySelector("#plClr"); if(cl) cl.onclick=()=>{ plPickSel.clear(); renderParty(); };
+    R.querySelectorAll("[data-plauto]").forEach(x=>x.onchange=()=>{ progress.autoPlate=Object.assign({},progress.autoPlate||{},{[x.dataset.plauto]:x.value}); saveProgress(); renderParty(); });
+    const dn=n=>{ logLine(`<span class="r">🧹 성편 ${n.n}개 분해 — 성반가루 +${n.d}</span>`); saveProgress(); renderParty(); };
+    const pd=R.querySelector("#plPkDis"); if(pd) pd.onclick=()=>arm("dis",()=>{ const o={n:0,d:0}; for(const id of [...plPickSel]){ if(plateOwner(id)) continue; const g=plateDismantle(id); if(g){ o.n++; o.d+=g; } } plPickSel.clear(); dn(o); });
+    const an=R.querySelector("#plAutoNow"); if(an) an.onclick=()=>arm("auto",()=>{ const AP=progress.autoPlate||{}; const o={n:0,d:0}; for(const p of P.inv.slice()){ if(AP[p.rar]!=="dis"||plateOwner(p.id)) continue; const g=plateDismantle(p.id); if(g){ o.n++; o.d+=g; } } dn(o); }); }
+  const on=R.querySelector("#plOn"); if(on) on.onclick=()=>{ plateEquip(cid,sel.id); after(); };
+  const off=R.querySelector("#plOff"); if(off) off.onclick=()=>{ plateUnequip(cid,sel.pos); after(); };
+  const dis=R.querySelector("#plDis"); if(dis) dis.onclick=()=>{ if(dis.dataset.arm!=="1"){ dis.dataset.arm="1"; dis.textContent="한 번 더 누르면 분해"; return; } plateDismantle(sel.id); plateSel=null; after(); };
+  const ss=R.querySelector("#pcSet"), fxEl=R.querySelector("#pcFx"); const showFx=()=>{ const S=PLATE_SETS[ss.value]; fxEl.textContent=[2,4,6].map(q=>`(${q}) ${S.fx[q][0]}`).join(" · "); }; ss.onchange=showFx; showFx();
+  R.querySelector("#pcGo").onclick=()=>{ const p=plateCraft(ss.value,+R.querySelector("#pcPos").value); if(p){ logLine(`<span class="r">🌟 성편 제작: ${esc(PLATE_SETS[p.set].name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}</span>`); plateSel=p.id; platePos=p.pos; after(); } }; }
 function openPlate(cid,pos,burst){ const P=plateStore(), busy=runBusy(), W=plateWorn(cid), cnt=plateCount(cid), who=heroDisplayName(cid); const col={rare:"#6aa8ff",epic:"#c58cff",legend:"#f4c95d"};
   const slot=(p,i)=>`<button class="btn ghost" data-pp="${i}" style="flex:1 1 30%;min-width:96px;text-align:left;padding:6px 8px;${pos===i?"box-shadow:inset 0 0 0 1px var(--accent);":""}"><b>${i+1}번 · ${PLATE_POS[i].n}</b><br>${p?`<span style="color:${col[p.rar]}">${esc(PLATE_SETS[p.set].name.replace("의 성반",""))} +${Math.min(p.v,PLATE_POS[i].v.legend[1])}${PLATE_POS[i].u}</span>`:`<span style="color:var(--muted)">비어 있음</span>`}</button>`;
   const sets=Object.entries(cnt).map(([k,n])=>`<div class="msub" style="margin:2px 0"><b>${esc(PLATE_SETS[k].name)} ${n}/6</b> — ${[2,4,6].map(q=>`<span style="color:${n>=q?"var(--accent)":"var(--muted)"}">(${q}) ${esc(PLATE_SETS[k].fx[q][0])}</span>`).join(" · ")}</div>`).join("")||`<p class="msub">성편은 영원한 밤의 장 보스가 낮은 확률(${Math.round(PLATE_DROP*100)}%)로 떨어뜨립니다. 같은 성반을 2·4·6조각 끼우면 세트 효과가 열립니다.</p>`;
@@ -12225,7 +12302,8 @@ function isUpgradeForAnyone(it){ return rosterIds().some(c=>{ const p=upgradeFor
 // 자동 정리: 등급별로 새로 얻은 장비를 보관/판매/분해
 const AUTO_RARS=[["common","일반"],["fine","고급"],["rare","희귀"],["epic","영웅"],["legend","전설"],["set","세트"]];
 function autoLootMode(it){
-  if(it.slot==="rune"||it.slot==="relic") return "keep";
+  if(it.slot==="relic") return "keep";
+  if(it.slot==="rune") return (progress.autoRune||{})[it.rarity]||"keep";   // v0.95 룬 자동 정리(등급별)
   const m=(progress.autoLoot||{})[it.rarity]||"keep"; if(m==="keep") return "keep";
   if(progress.autoKeepUp!==false&&isUpgradeForAnyone(it)) return "keep";
   return m;
@@ -12245,6 +12323,43 @@ function takeLoot(items){
 function autoLootLog(r){
   for(const k of r.cd||[]) logLine(`<span class="win">📚 세트 도감 완성 — ${esc(SETS[k].name)}! ${esc(codexRewardText(codexReward(k)))}</span>`);
   if(!r.sold&&!r.dis) return; logLine(`<span class="r">🧹 자동 정리 — ${r.sold?`판매 ${r.sold}개 +${r.gold}G`:""}${r.sold&&r.dis?" · ":""}${r.dis?`분해 ${r.dis}개 +${r.ess}정수${fragText(r.frag)?" · "+fragText(r.frag):""}`:""} (${esc(r.names.slice(0,4).join(", "))}${r.names.length>4?" 외":""})</span>`); }
+/* v0.95 정리 상자(가방 · 룬주머니 공통): ① 골라서 정리(한 번에 고르기 → 판매·분해) ② 자동 정리(등급별 보관·판매·분해 + 지금 가진 것에 적용) */
+const RUNE_RARS=[["common","일반"],["fine","고급"],["rare","희귀"],["epic","영웅"],["legend","전설"]];
+function tidyBox(kind){ const rune=kind==="rune"; const box=document.createElement("div"); box.className="tidybox autoloot";
+  const r1=document.createElement("div"); r1.className="tidyrow"; const on=rune?rpPick:bagPick;
+  r1.innerHTML=`<b>① 골라서 정리</b>`;
+  const tg=document.createElement("button"); tg.className=on?"on":""; tg.textContent=on?"✓ 고르는 중":"고르기 시작"; tg.onclick=()=>{ if(rune){ rpPick=!rpPick; rpSel.clear(); rpArm=null; } else { bagPick=!bagPick; bagSel.clear(); bagArm=null; } renderParty(); }; r1.appendChild(tg);
+  if(on){ for(const [t,lab] of [[0,"일반"],[1,"고급 이하"],[2,"희귀 이하"],[3,"영웅 이하"]]){ const b=document.createElement("button"); b.textContent=lab; b.title=rune?"그 등급 이하 룬을 모두 고릅니다":"잠근 것·누군가에게 더 좋은 장비는 빼고 고릅니다";
+      b.onclick=()=>{ if(rune){ rpSel.clear(); for(const it of progress.inv) if(it.slot==="rune"&&rarityTier(it)<=t) rpSel.add(it.id); renderParty(); } else bagQuick(t,true); }; r1.appendChild(b); }
+    const cb=document.createElement("button"); cb.textContent="선택 풀기"; cb.onclick=()=>{ (rune?rpSel:bagSel).clear(); renderParty(); }; r1.appendChild(cb); }
+  else { const h=document.createElement("span"); h.className="tidyhint"; h.textContent=rune?"룬을 눌러 여러 개 고른 뒤 한 번에 판매 · 분해":"장비를 눌러 여러 개 고른 뒤 한 번에 판매 · 분해"; r1.appendChild(h); }
+  box.appendChild(r1);
+  const r2=document.createElement("div"); r2.className="tidyrow"; r2.innerHTML=`<b>② 자동 정리</b><span class="tidyhint">${rune?"새로 얻는 룬":"새로 얻는 장비"}을 등급에 따라</span>`; box.appendChild(r2);
+  const AL=(rune?progress.autoRune:progress.autoLoot)||{}; const grid=document.createElement("div"); grid.className="grid";
+  for(const [k,l] of (rune?RUNE_RARS:AUTO_RARS)){ const lab=document.createElement("label"); lab.innerHTML=`<span class="rar-${k}">${l}</span>`;
+    const sl=document.createElement("select"); for(const [v,t] of [["keep","보관"],["sell","자동 판매"],["dis","자동 분해"]]){ const o=document.createElement("option"); o.value=v; o.textContent=t; sl.appendChild(o); }
+    sl.value=AL[k]||"keep"; sl.onchange=()=>{ const key=rune?"autoRune":"autoLoot"; progress[key]=Object.assign({},progress[key]||{},{[k]:sl.value}); autoArm=false; saveProgress(); renderParty(); };
+    lab.appendChild(sl); grid.appendChild(lab); }
+  box.appendChild(grid);
+  const row=document.createElement("div"); row.className="row2";
+  if(!rune){ const kl=document.createElement("label"); const kc=document.createElement("input"); kc.type="checkbox"; kc.checked=progress.autoKeepUp!==false; kc.onchange=()=>{ progress.autoKeepUp=kc.checked; saveProgress(); renderParty(); };
+    kl.append(kc,document.createTextNode(" 누군가에게 더 좋은 장비는 남기기")); row.appendChild(kl); }
+  const targets=progress.inv.filter(it=>(it.slot==="rune")===rune&&autoLootMode(it)!=="keep");
+  const g=targets.filter(it=>autoLootMode(it)==="sell").reduce((a,x)=>a+sellPrice(x),0), e=targets.filter(it=>autoLootMode(it)==="dis").reduce((a,x)=>a+dismantleValue(x),0);
+  const ab=document.createElement("button"); const armK=rune?"rune":"gear"; ab.className=autoArm===armK?"arm":"";
+  ab.textContent=targets.length?(autoArm===armK?`한 번 더 → ${targets.length}개 정리`:`지금 가진 것에 적용 (${targets.length}개 · +${g}G · +${e}정수)`):"지금 정리할 것 없음"; ab.disabled=!targets.length;
+  ab.onclick=()=>{ if(autoArm!==armK){ autoArm=armK; renderParty(); setTimeout(()=>{ if(autoArm===armK){ autoArm=false; try{ renderParty(); }catch(e){} } },4000); return; }
+    autoArm=false; const ids=new Set(targets.map(x=>x.id)); const modes=new Map(targets.map(x=>[x.id,autoLootMode(x)])); progress.inv=progress.inv.filter(x=>!ids.has(x.id));
+    const r={sold:0,gold:0,dis:0,ess:0,names:[]};
+    for(const it of targets){ if(modes.get(it.id)==="sell"){ r.sold++; r.gold+=sellPrice(it); progress.gold+=sellPrice(it); } else { r.dis++; r.ess+=dismantleGive(it,r.frag=r.frag||{}); } r.names.push(it.name); }
+    autoLootLog(r); saveProgress(); renderParty(); };
+  row.appendChild(ab); box.appendChild(row);
+  return box; }
+function rpSelTotals(){ let n=0,g=0,e=0; for(const it of progress.inv) if(it.slot==="rune"&&rpSel.has(it.id)){ n++; g+=sellPrice(it); e+=dismantleValue(it); } return {n,g,e}; }
+function rpApply(kind){ if(rpArm!==kind){ rpArm=kind; renderParty(); setTimeout(()=>{ if(rpArm===kind){ rpArm=null; try{ renderParty(); }catch(e){} } },3500); return; }
+  rpArm=null; const T=progress.inv.filter(it=>it.slot==="rune"&&rpSel.has(it.id)); if(!T.length) return; const ids=new Set(T.map(x=>x.id)); progress.inv=progress.inv.filter(x=>!ids.has(x.id));
+  let gold=0, ess=0; const fr={}; for(const it of T){ if(kind==="sell"){ gold+=sellPrice(it); progress.gold+=sellPrice(it); } else ess+=dismantleGive(it,fr); }
+  rpSel.clear(); saveProgress(); logLine(`<span class="gain">◈ 룬 ${T.length}개 ${kind==="sell"?`판매 — 골드 +${gold}`:`분해 — 밤의 정수 +${ess}`}</span>`); renderParty(); }
 function autoLootBlock(){
   const det=document.createElement("details"); det.className="statline autoloot";
   const AL=progress.autoLoot||{};
@@ -12273,7 +12388,7 @@ function autoLootBlock(){
     autoLootLog(r); saveProgress(); renderParty(); };
   row.appendChild(ab); det.appendChild(row);
   const note=document.createElement("div"); note.style.color="var(--muted)"; note.style.marginTop="4px";
-  note.textContent="전투·보물상자에서 얻는 장비에 바로 적용됩니다. 룬·유물은 정리하지 않습니다. 정리 내역은 전투 로그에 남습니다.";
+  note.textContent="전투·보물상자에서 얻는 장비에 바로 적용됩니다. 유물은 정리하지 않습니다. 정리 내역은 전투 로그에 남습니다.";
   det.appendChild(note);
   return det;
 }
@@ -12779,7 +12894,7 @@ const ITEM_ICON=(()=>{
 })();
 
 // ===== v0.38 장비 화면: 가운데 캐릭터(지금 모습·오라 그대로) + 둘레 부위 칸 / 가방은 정사각형 칸 격자 + 여러 개 골라 판매·분해 =====
-let bagPick=false, bagSel=new Set(), bagArm=null, eqFigTimer=0, bagTab="gear", rpRune=null, rpSock=null, rpSk=null, rpTap=null;   // v0.94 룬주머니: 고른 룬(묶음 키) · 고른 빈 소켓 번호 · 고른 장비 칸
+let bagTidy=false, rpTidy=false, rpPick=false, rpSel=new Set(), rpArm=null; let bagPick=false, bagSel=new Set(), bagArm=null, eqFigTimer=0, bagTab="gear", rpRune=null, rpSock=null, rpSk=null, rpTap=null;   // v0.94 룬주머니: 고른 룬(묶음 키) · 고른 빈 소켓 번호 · 고른 장비 칸
 const DOLL_L=["helm","armor","cape","gloves","boots"], DOLL_R=["weapon","offhand","amulet","ring1","ring2"], DOLL_TOP=["relic"];   // v0.55.6: 유물은 가운데 위(투구·무기 사이) — 좌우 5칸씩 높이 맞춤
 const SLOT_GHOST={weapon:"sword",offhand:"off_knight",helm:"helm",armor:"armor",gloves:"gloves",boots:"boots",cape:"cape",ring1:"ring",ring2:"ring",amulet:"amulet",relic:"relic"};
 function itemIconURL(it){ try{ return ITEM_ICON.url(it); }catch(e){ return ""; } }
@@ -12890,18 +13005,23 @@ function renderRunePouch(B,cid){
         return `<button class="rp-sock empty${rpSock===i?" on":""}" data-i="${i}"><span class="rp-plus">＋</span><span class="rp-st"><b>빈 소켓</b><small>${selIt?`눌러서 ${esc(RUNES[selIt.rune].name)} 끼우기`:"아래에서 룬을 고르세요"}</small></span></button>`; }).join("")}</div>
 `; }
   html+=`<p class="rp-tip">왼쪽 장비 칸을 누르면 그 장비의 소켓 · 끼운 룬을 누르면 빼기 · 아래 룬을 <b>두 번 빠르게 누르면</b> 바로 끼우기</p>`;
-  html+=`<div class="rp-h"><b>룬주머니</b> <small>${progress.inv.filter(x=>x.slot==="rune").length}개 · 가방 칸을 차지하지 않음</small></div>`;
-  html+=G.length?`<div class="rp-grid">${G.map(g=>{ const it=g.items[0]; return `<button class="rp-cell${g.key===rpRune?" sel":""}" data-g="${esc(g.key)}" title="${esc(itemLabel(it))}${g.items.length>1?` ×${g.items.length}`:""}\n${esc(rpFxLine(it))}">${iconCell(it,{n:g.items.length})}</button>`; }).join("")}</div>`:`<p class="msub">아직 룬이 없어요. 보물상자·보스에서 얻습니다.</p>`;
+  html+=`<div class="rp-h"><b>룬주머니</b> <small>${progress.inv.filter(x=>x.slot==="rune").length}개 · 가방 칸을 차지하지 않음</small><button class="ghostbtn${rpTidy||rpPick?" on":""}" id="rpTidyBtn" style="margin-left:auto">${rpPick?"🧹 정리 — 고르는 중 ▴":rpTidy?"🧹 정리 ▴":"🧹 정리 ▾"}</button></div><div id="rpTidyAt"></div>`;
+  html+=G.length?`<div class="rp-grid">${G.map(g=>{ const it=g.items[0]; return `<button class="rp-cell${g.key===rpRune?" sel":""}${rpPick&&g.items.some(x=>rpSel.has(x.id))?" pick":""}" data-g="${esc(g.key)}" title="${esc(itemLabel(it))}${g.items.length>1?` ×${g.items.length}`:""}\n${esc(rpFxLine(it))}">${iconCell(it,{n:g.items.length})}</button>`; }).join("")}</div>`:`<p class="msub">아직 룬이 없어요. 보물상자·보스에서 얻습니다.</p>`;
   if(selIt){ const em=cur?cur.it.sockets.findIndex(r=>!r):-1;
     html+=`<div class="rp-det"><b class="${rarityCls(selIt)}">${esc(itemLabel(selIt))}</b> <small>×${selG.items.length}</small><div>${esc(rpFxLine(selIt))}</div>
     <div class="rp-acts"><button class="btn" id="rpPut" ${busy||em<0?"disabled":""}>${cur?(em<0?"빈 소켓 없음":`${esc((SLOTS.find(x=>x.key===cur.sk)||{label:""}).label)}에 끼우기`):"끼울 장비 없음"}</button><button class="btn ghost" id="rpSell">판매 +${sellPrice(selIt)}G</button><button class="btn ghost" id="rpDis">분해 +${dismantleValue(selIt)}정수</button></div></div>`; }
+  if(rpPick){ const T=rpSelTotals(); html+=`<div class="bgbar"><span>고른 룬 <b>${T.n}</b>개</span><button class="sell${rpArm==="sell"?" arm":""}" id="rpSelSell" ${T.n?"":"disabled"}>${rpArm==="sell"?`한 번 더 → 판매 +${T.g}G`:`판매 +${T.g}G`}</button><button class="dis${rpArm==="dis"?" arm":""}" id="rpSelDis" ${T.n?"":"disabled"}>${rpArm==="dis"?`한 번 더 → 분해 +${T.e}정수`:`분해 +${T.e}정수`}</button></div>`; }
   box.innerHTML=html; B.appendChild(box);
+  { const tb=box.querySelector("#rpTidyBtn"); if(tb) tb.onclick=()=>{ if(rpTidy||rpPick){ rpTidy=false; rpPick=false; rpSel.clear(); rpArm=null; } else rpTidy=true; renderParty(); };
+    const at=box.querySelector("#rpTidyAt"); if(at&&(rpTidy||rpPick)) at.appendChild(tidyBox("rune"));
+    const s1=box.querySelector("#rpSelSell"); if(s1) s1.onclick=()=>rpApply("sell"); const s2=box.querySelector("#rpSelDis"); if(s2) s2.onclick=()=>rpApply("dis"); }
   const after=()=>{ renderParty(); renderRules(); };
   for(const b of box.querySelectorAll(".rp-sock")) b.onclick=()=>{ if(busy||!cur) return; const i=+b.dataset.i;
     if(b.classList.contains("full")){ rpRemove(cur.it,i); rpSock=null; after(); return; }
     if(selIt){ rpInsert(cur.it,i,selIt); rpSock=null; if(selG.items.length<=1) rpRune=null; after(); return; }
     rpSock=rpSock===i?null:i; renderParty(); };
   for(const b of box.querySelectorAll("[data-g]")) b.onclick=()=>{ const g=G.find(x=>x.key===b.dataset.g); if(!g) return;
+    if(rpPick){ const all=g.items.every(x=>rpSel.has(x.id)); for(const x of g.items){ if(all) rpSel.delete(x.id); else rpSel.add(x.id); } rpArm=null; renderParty(); return; }   // v0.95 고르는 중: 묶음째 고르기
     const now=performance.now(), dbl=rpTap&&rpTap.k===g.key&&now-rpTap.t<400; rpTap={k:g.key,t:now};   // v0.94 두 번 빠르게 누르면 바로 끼우기(마우스 더블클릭 · 터치 두 번)
     if(dbl&&!busy&&cur){ const i=rpSock!=null?rpSock:cur.it.sockets.findIndex(r=>!r); if(i>=0&&rpInsert(cur.it,i,g.items[0])){ rpTap=null; rpSock=null; rpRune=null; after(); return; }
       toast("이 장비에 빈 소켓이 없어요 — 끼운 룬을 먼저 빼 주세요"); }
@@ -12928,8 +13048,7 @@ function renderEquip(){
   mid.appendChild(eqFigure(cid));
   const nm=document.createElement("div"); nm.className="eqname"; nm.innerHTML=`<b>${heroNameHTML(cid)}</b><span>Lv.${h.level}${h.awaken?` ✦${h.awaken}`:""} · ${esc(WEAPONS[D.wtype].name)}</span>`; mid.appendChild(nm);
   { const qb=document.createElement("div"); qb.className="eqquick"; const busy=runBusy(), up=upgradeCount(cid), worn=Object.values(h.equip).filter(x=>x!=null).length;   // v0.94 인물 아래로 옮김
-    qb.innerHTML=`<button class="btn" id="eqBest" ${busy||!up?"disabled":""}>장비 일괄 장착${up?` (${up})`:""}</button><button class="btn ghost" id="eqOff" ${busy||!worn?"disabled":""}>장비 일괄 해제</button><button class="btn ghost" id="eqPlate">🌟 성반 ${plateWorn(cid).filter(Boolean).length}/6</button>`;
-    qb.querySelector("#eqPlate").onclick=()=>openPlate(cid);
+    qb.innerHTML=`<button class="btn" id="eqBest" ${busy||!up?"disabled":""}>장비 일괄 장착${up?` (${up})`:""}</button><button class="btn ghost" id="eqOff" ${busy||!worn?"disabled":""}>장비 일괄 해제</button>`;
     qb.querySelector("#eqBest").onclick=()=>equipBest(cid);
     qb.querySelector("#eqOff").onclick=e=>{ const b=e.currentTarget; if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 해제"; return; } unequipAll(cid); };
     mid.appendChild(qb); }
@@ -12949,27 +13068,25 @@ function renderEquip(){
   // ── 오른쪽: 가방 ──
   const B=document.createElement("div"); B.className="panel eqbag";
   { const nR=progress.inv.filter(x=>x.slot==="rune").length; const tb=document.createElement("div"); tb.className="bagtabs";   // v0.94 가방 · 룬주머니
-    tb.innerHTML=`<button data-bt="gear" class="${bagTab==="gear"?"on":""}">🎒 가방 <small>${bagUsed()}/${bagCap()}</small></button><button data-bt="rune" class="${bagTab==="rune"?"on":""}">💠 룬주머니 <small>${nR}</small></button>`;
+    tb.innerHTML=`<button data-bt="gear" class="${bagTab==="gear"?"on":""}">🎒 가방 <small>${bagUsed()}/${bagCap()}</small></button><button data-bt="rune" class="${bagTab==="rune"?"on":""}">💠 룬주머니 <small>${nR}</small></button><button data-bt="plate" class="${bagTab==="plate"?"on":""}">🌟 성반 <small>${plateStore().inv.length}</small></button>`;
     for(const b of tb.querySelectorAll("button")) b.onclick=()=>{ bagTab=b.dataset.bt; bagPick=false; bagSel.clear(); rpRune=null; rpSock=null; renderParty(); };
     B.appendChild(tb); }
   if(bagTab==="rune"){ renderRunePouch(B,cid); pane.appendChild(B); renderCodex(); view.scrollTop=scrollTop; innerKeep(); return; }
+  if(bagTab==="plate"){ renderPlatePane(B,cid); pane.appendChild(B); renderCodex(); view.scrollTop=scrollTop; innerKeep(); return; }   // v0.95 성반 탭
   const FILT={all:it=>it.slot!=="rune", weapon:it=>it.slot==="weapon", offhand:it=>it.slot==="offhand", armor:it=>["armor","helm","cape"].includes(it.slot),
     acc:it=>["gloves","boots"].includes(it.slot), jewel:it=>it.slot==="ring"||it.slot==="amulet", rune:it=>it.slot==="relic"};
   const head=document.createElement("div"); head.className="bghead"; head.id="invHead";
   head.innerHTML=`<h2 class="ph">가방 <small${bagOver()?' style="color:var(--bad)"':""}>${bagUsed()}/${bagCap()}칸</small></h2>`;
-  const pk=document.createElement("button"); pk.className="ghostbtn"+(bagPick?" on":""); pk.textContent=bagPick?"✓ 고르는 중":"여러 개 골라 정리"; pk.onclick=()=>{ bagPick=!bagPick; bagSel.clear(); bagArm=null; renderParty(); }; head.appendChild(pk);
+  const pk=document.createElement("button"); pk.id="bagTidyBtn"; pk.className="ghostbtn"+(bagTidy||bagPick?" on":""); pk.textContent=bagPick?"🧹 정리 — 고르는 중 ▴":bagTidy?"🧹 정리 ▴":"🧹 정리 ▾"; pk.title="골라서 정리 · 자동 정리"; pk.onclick=()=>{ if(bagTidy||bagPick){ bagTidy=false; bagPick=false; bagSel.clear(); bagArm=null; } else bagTidy=true; renderParty(); }; head.appendChild(pk);
   B.appendChild(head);
+  if(bagTidy||bagPick) B.appendChild(tidyBox("gear"));   // v0.95 '여러 개 골라 정리'와 '자동 정리'를 한 상자로
   const fb=document.createElement("div"); fb.className="filters";
   for(const [k,label] of [["all","전체"],["weapon","무기"],["offhand","보조"],["armor","방어구"],["acc","장갑·신발"],["jewel","장신구"],["rune","유물"]]){ const b=document.createElement("button"); b.textContent=label; b.className=invFilter===k&&!invSlot?"on":""; b.onclick=()=>{ invFilter=k; invSlot=null; renderParty(); }; fb.appendChild(b); }
   if(invSlot){ const c=document.createElement("span"); c.className="slotchip"; c.textContent=`${(SLOTS.find(x=>x.key===invSlot)||{label:invSlot}).label}만 ✕`; c.onclick=()=>{ invSlot=null; renderParty(); }; fb.appendChild(c); }
   const ss=document.createElement("select"); for(const [v,t] of [["rarity","등급순"],["best",`${heroDisplayName(cid)}에게 좋은 순`],["new","최근 순"],["slot","부위순"]]){ const o=document.createElement("option"); o.value=v; o.textContent=t; ss.appendChild(o); }
   ss.value=invSort; ss.onchange=()=>{ invSort=ss.value; renderParty(); }; ss.setAttribute("aria-label","정렬"); fb.appendChild(ss);
   B.appendChild(fb);
-  if(bagPick){ const q=document.createElement("div"); q.className="bgquick";
-    q.innerHTML=`<span>한 번에 고르기:</span>`;
-    for(const [t,lab] of [[0,"일반"],[1,"고급 이하"],[2,"희귀 이하"],[3,"영웅 이하"]]){ const b=document.createElement("button"); b.textContent=lab; b.title="잠근 것·누군가에게 더 좋은 장비는 빼고 고릅니다"; b.onclick=()=>bagQuick(t,true); q.appendChild(b); }
-    const cb=document.createElement("button"); cb.textContent="선택 풀기"; cb.onclick=()=>{ bagSel.clear(); renderParty(); }; q.appendChild(cb);
-    B.appendChild(q); }
+
   const slotOk=it=>!invSlot||it.slot===invSlot||(invSlot.startsWith("ring")&&it.slot==="ring");
   const pv=new Map(); const upOf=it=>{ if(!pv.has(it.id)) pv.set(it.id,upgradeFor(cid,it)); return pv.get(it.id); };
   const slotOrder=SLOTS.map(x=>x.key==="ring1"?"ring":x.key).concat(["rune"]);
@@ -12992,7 +13109,7 @@ function renderEquip(){
     const sb=document.createElement("button"); sb.className="sell"+(bagArm==="sell"?" arm":""); sb.disabled=!T.n; sb.textContent=bagArm==="sell"?`한 번 더 → 판매 +${T.g}G`:`판매 +${T.g}G`; sb.onclick=()=>bagApply("sell");
     const db=document.createElement("button"); db.className="dis"+(bagArm==="dis"?" arm":""); db.disabled=!T.n; db.textContent=bagArm==="dis"?`한 번 더 → 분해 +${T.e}정수`:`분해 +${T.e}정수`; db.onclick=()=>bagApply("dis");
     bar.append(sb,db); B.appendChild(bar); }
-  B.appendChild(autoLootBlock());
+
   pane.appendChild(B);
   renderCodex();
   view.scrollTop=scrollTop; innerKeep();   // v0.53: 안쪽 칸(영웅 정보 등)의 스크롤도 그대로 — 능력치를 찍을 때 맨 위로 튀지 않게
@@ -13011,10 +13128,11 @@ function secGrid(d){
   const P=[["공격력"+(d.caster?"(마력)":""),d.atk],["체력",d.hp],["방어력",d.def],["마나",d.mp],["턴당 체력 회복",d.hpRegen||0],["턴당 마나 회복",(d.mpRegen||0)+(d.regen||0)],["신속 (행동 순서)",d.spd],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],
     ["명중",pct(d.acc)+"%"],["회피",pct(d.eva)+"%"],["관통",pct(d.pen)+"%"],["흡혈",pct(d.ls)+"%"],["상태이상 회피",pct(d.res)+"%"+(d.resRaw!=null&&heroResPen()>0?` <small class="rpen" title="장비·기본 합계 ${pct(d.resRaw)}% − ${DIFFS[curDiffIdx()].name} ${pct(heroResPen())}%p">(${DIFFS[curDiffIdx()].name} −${pct(heroResPen())})</small>`:"")]];
   if(d.heal) P.push(["치유량",(d.heal>=0?"+":"")+pct(d.heal)+"%"]);
+  const ER=d.er?`<div class="ergrid" title="속성 저항 1 = 그 속성 피해 -1% · 상한 70">${EL_KEYS.map(e=>`<div class="er-${e}${d.er[e]>=70?" capped":""}"><span>${EL_NAME[e]} 저항</span><b>${d.er[e]||0}</b></div>`).join("")}</div>`:"";   // v0.95 속성별 저항
   // v0.19: 상한이 있는 능력치는 마우스를 올리면 상한을 보여 주고, 상한에 닿으면 '최대'로 표시(더 올려도 소용없음)
   const capOf={"치명타 확률":"crit","명중":"acc","회피":"eva","관통":"pen","상태이상 회피":"res"};
   return `<div class="secgrid">${P.map(([k,v])=>{ const ck=capOf[k]; if(!ck) return `<div><span>${k}</span><b>${v}</b></div>`;
-    const at=d[ck]>=CAP[ck]-0.005; return `<div title="${k} 상한 ${pct(CAP[ck])}%${at?" — 이미 최대라 더 올려도 효과가 없습니다":""}"><span>${k}</span><b>${v}${at?' <i class="capmax">최대</i>':""}</b></div>`; }).join("")}</div>`;
+    const at=d[ck]>=CAP[ck]-0.005; return `<div title="${k} 상한 ${pct(CAP[ck])}%${at?" — 이미 최대라 더 올려도 효과가 없습니다":""}"><span>${k}</span><b>${v}${at?' <i class="capmax">최대</i>':""}</b></div>`; }).join("")}</div>${ER}`;
 }
 let codexTab="tokens";
 // ---- v0.93 퀘스트(진행·보상·탭) ----
@@ -13193,6 +13311,9 @@ function renderCodex(){
 }
 function pct(x){ return Math.round(x*100); }
 // 동료에게 줄 수 있는 유일한 지시: 작전 성향
+function openTitlePick(cid){ const h=progress.heroes[cid]; const earned=TITLES.filter(t=>(h.stats[t.stat]||0)>=t.need);   // v0.95 칭호 고르기(자세히)
+  const m=openModal(`<h3>🏷 ${esc(heroDisplayName(cid))}의 칭호</h3><p class="msub">얻은 칭호 중 하나를 달 수 있어요.</p><div class="tplist"><button class="tpitem${!h.title?" on":""}" data-tk=""><b>(없음)</b></button>${earned.map(t=>`<button class="tpitem${h.title===t.key?" on":""}" data-tk="${t.key}"><b>${esc(t.name)}</b><span>${esc(t.desc)}</span></button>`).join("")}</div><div class="mbtns" style="margin-top:10px"><button class="btn ghost" id="tpClose">닫기</button></div>`);
+  m.querySelector("#tpClose").onclick=closeModal; m.querySelectorAll("[data-tk]").forEach(b=>b.onclick=()=>{ h.title=b.dataset.tk||null; saveProgress(); closeModal(); renderParty(); }); }
 function stanceRow(cid){
   const st=heroStance(cid); const row=document.createElement("div"); row.className="stance";
   row.innerHTML=`<span class="cap">작전 성향</span>`;
@@ -13200,11 +13321,12 @@ function stanceRow(cid){
     b.disabled=!!runState||playing;
     b.onclick=()=>{ if(k===heroStance(cid)) return; progress.heroes[cid].stance=k;
       logLine(`<span class="win">🧭 ${esc(heroDisplayName(cid))}에게 '${STANCES[k].name}' 지시 — ${esc(STANCES[k].desc)}. 이미 찍은 능력치·특성과 지금 규칙은 그대로, 앞으로의 능력치·특성·숙련 선택이 바뀝니다.</span>`);
+      toast(`<span class="tc">🧭 ${esc(STANCES[k].name)}</span>${esc(STANCES[k].desc)} — 능력치·특성·숙련은 이 성향에 맞춰 스스로 정합니다. 전직·장비·전투 규칙은 직접 정해 주세요.`,"",4200);
       runCompanions(); saveProgress(); renderParty(); renderRules(); if(!runState&&!playing&&!telling) goCamp(); };
     row.appendChild(b); }
   const note=document.createElement("div"); note.className="compnote";
   note.textContent=`능력치·특성·숙련은 ${heroDisplayName(cid)}${jo(heroDisplayName(cid),"이","가")} '${STANCES[st].name}'에 맞춰 스스로 정합니다. 전직(Lv${ADV_LEVEL})·장비·전투 규칙은 직접 정해 주세요.`;
-  const wrap=document.createElement("div"); wrap.append(row,note); return wrap;
+  const wrap=document.createElement("div"); wrap.append(row); return wrap;   // v0.95 설명은 성향을 바꿀 때 알림으로
 }
 function runCompanions(){
   const msgs=companionsThink();
@@ -13220,18 +13342,23 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   const tt=heroTitleObj(cid);
   const W=WEAPONS[D.wtype];
   const comp=isCompanion(cid);
-  top.innerHTML=`<img src="${heroIcon(cid)}" alt=""${heroAuraStyle(cid)}><div class="tinfo"><div><span class="hname">${heroNameHTML(cid)}</span> <span class="lv">Lv.${h.level}${h.awaken?` <span class="awk" title="각성 ${h.awaken} — 특성 +${TRAIT_AWAKEN*h.awaken}">✦${h.awaken}</span>`:""}</span>${tt?` <span class="title" title="${esc(tt.desc)}">[${esc(tt.name)}]</span>`:""}</div>`
+  top.innerHTML=`<img src="${heroIcon(cid)}" alt=""${heroAuraStyle(cid)}><div class="tinfo"><div><span class="hname">${heroNameHTML(cid)}</span> <span class="lv">Lv.${h.level}${h.awaken?` <span class="awk" title="각성 ${h.awaken} — 특성 +${TRAIT_AWAKEN*h.awaken}">✦${h.awaken}</span>`:""}</span></div>`
     +`<div class="statline">무기: <b>${esc(W.name)}</b> — ${esc(W.desc)}</div>`
     +`<div style="display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;min-width:0"><div class="expbar" style="flex:1 1 80px"><i style="width:${Math.min(100,h.exp/need*100)}%"></i></div><span class="statline" style="white-space:normal">경험치 ${h.exp.toLocaleString("ko-KR")} / ${need.toLocaleString("ko-KR")}${h.level>=LEVEL_CAP?((h.awaken||0)>=AWAKEN_MAX?` · 각성 최대(${AWAKEN_MAX}/${AWAKEN_MAX})`:` · 상한(가득 차면 각성 ${(h.awaken||0)+1}/${AWAKEN_MAX})`):""}</span></div></div>`;
   const pts=document.createElement("span"); pts.className="pts"+(comp?" comp":"");
   pts.textContent=comp?"동료 — 스스로 성장":h.pts>0?`보너스 포인트 ${h.pts}`:"";
   top.appendChild(pts);
-  if(comp&&(progress.roster||[]).includes(cid)){ const sb=document.createElement("button"); sb.className="enhb"; sb.style.marginLeft="8px";
-    sb.textContent=`★ 주인공으로 삼기 (정수 ${PROTAG_SWAP_ESS})`; const why=protagSwapBlock(cid); sb.disabled=!!why; sb.title=why||"이 영웅을 직접 키웁니다";
-    sb.onclick=()=>openProtagSwap(cid); top.appendChild(sb); }
+  if(comp&&(progress.roster||[]).includes(cid)){ const sb=document.createElement("button"); sb.className="enhb"; sb.style.marginLeft="6px";   // v0.95 '동료' 표기 바로 옆 · 정수 값은 누르면 확인 창에서
+    sb.textContent="★ 주인공 삼기"; sb.title="이 영웅을 직접 키웁니다 — 누르면 필요한 정수를 알려 드려요";
+    sb.onclick=()=>{ const why=protagSwapBlock(cid); if(why){ toast(`<span class="tc">★ 주인공 삼기</span>${esc(why)} — 밤의 정수 ${PROTAG_SWAP_ESS.toLocaleString("ko-KR")}이 듭니다.`,"",3200); return; } openProtagSwap(cid); }; pts.after(sb); }
   if(starOpen(cid)){ const st=heroStars(cid), b=document.createElement("button"); b.className="enhb"; b.style.marginLeft="8px";
     b.textContent=`✦ 별자리 ${starSmallLit(cid)+st.big}/${PRIM.length*STAR_SMALL+STAR_BIG}`; b.title=`Lv${STAR_LV} — 최종 콘텐츠에서 모은 별의 정수로 능력치·특성 포인트를 더합니다`; b.onclick=()=>openStarBoard(cid); top.appendChild(b); }
+  if(mode!=="equip"){ const earned0=TITLES.filter(t=>(h.stats[t.stat]||0)>=t.need);   // v0.95 칭호: 맨 위에 짧게 — 누르면 자세히 보고 고름
+    if(earned0.length){ const tb=document.createElement("button"); tb.className="titlechip"; tb.innerHTML=tt?`🏷 <b>${esc(tt.name)}</b>`:`🏷 칭호 없음`; tb.title=tt?tt.desc:"얻은 칭호 중 하나를 고를 수 있어요"; tb.onclick=()=>openTitlePick(cid); card.appendChild(tb); } }
   card.appendChild(top);
+  if(mode!=="equip"){ const a00=advInfo(cid);   // v0.95 전직 패시브는 맨 위
+    if(a00&&a00.passive_name){ const pl=document.createElement("div"); pl.className="learned advpass";
+      pl.textContent="전직 패시브: "+a00.passive_name+((h0lv=>h0lv<ADV_PASSIVE_LV?` — Lv${ADV_PASSIVE_LV}부터`:"")(h.level)); card.appendChild(pl); } }
   if(mode!=="equip"){   // v0.94 전직·각성은 카드 맨 위(눈에 잘 띄게)
   if(!h.adv&&h.level>=ADV_LEVEL){
     const advBox=document.createElement("div"); advBox.className="alloc actbox";
@@ -13278,7 +13405,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   }
   card.appendChild(pr);
   { const pi=document.createElement("div"); pi.className="pinfo"; const I=primInfo&&primInfo.cid===cid?primInfo:null;
-    if(!I) pi.innerHTML=canAlloc?`능력치를 누르면 효과가 나오고, ▲▼로 넣을 점수를 정한 뒤 [확인]을 누르면 확정돼요 · ★는 이 직업·전직의 핵심 장치를 키우는 능력치`:`능력치를 누르면 1포인트당 효과가 여기 나와요 · ★는 이 직업·전직의 핵심 장치를 키우는 능력치`;
+    if(!I) pi.style.display="none";   // v0.95 상시 안내 문구 없앰 — 능력치를 누르면 그때 효과를 보여 줌
     else { const k=I.k, now=D.prim[k], add=dr[k]||0;
       let html=`<b>${PRIM_LABEL[k]}</b> 1포인트당 — ${esc(primEffect(cid,k))}<br><span style="color:var(--accent)">★ 18이면 ${esc(STAT18[k])}</span>`;
       if(canAlloc){ const upOk=left>0&&now+add<STAT_CAP, dnOk=add>0;
@@ -13297,25 +13424,11 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
     card.appendChild(pi); }
   const sh=document.createElement("div"); sh.innerHTML=`<h3 class="sech" style="margin-bottom:8px">전투 능력치</h3>${secGrid(d)}`; card.appendChild(sh);
   if(comp) card.appendChild(stanceRow(cid));
-  const a0=advInfo(cid);
-  if(a0&&a0.passive_name){
-    const pl=document.createElement("div"); pl.className="learned";
-    pl.textContent="전직 패시브: "+a0.passive_name+((h0lv=>h0lv<ADV_PASSIVE_LV?` — Lv${ADV_PASSIVE_LV}부터${(a0.extra||[]).length&&h0lv<ADV_EXTRA_LV?` · 추가 스킬 Lv${ADV_EXTRA_LV}부터`:""}`:((a0.extra||[]).length&&h0lv<ADV_EXTRA_LV?` · 추가 스킬 Lv${ADV_EXTRA_LV}부터`:""))(progress.heroes[cid].level||0));
-    card.appendChild(pl);
-  }
   const learned=(h.learned||[]).filter(s=>SKILLS[s]).map(s=>SKILLS[s].name).join(", ");
   if(learned){
     const ln=document.createElement("div"); ln.className="learned";
     ln.textContent="습득 스킬: "+learned;
     card.appendChild(ln);
-  }
-  // 칭호
-  const earned=TITLES.filter(t=>(h.stats[t.stat]||0)>=t.need);
-  if(earned.length){
-    const tl=document.createElement("div"); tl.className="titlerow";
-    tl.innerHTML=`<span>칭호</span>`;
-    const s=sel([{label:"(없음)"}].concat(earned.map(t=>({label:`${t.name} — ${t.desc}`}))), Math.max(0,earned.findIndex(t=>t.key===h.title)+1), v=>{ h.title=v>0?earned[v-1].key:null; saveProgress(); renderParty(); });
-    s.style.maxWidth="100%"; tl.appendChild(s); card.appendChild(tl);
   }
   const mk2=card.children.length;
   const eh=document.createElement("div"); eh.className="viewhead";
@@ -15353,6 +15466,16 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.11", v:"v0.94", t:"정리 단추 통합 · 룬 자동 정리 · 특성 초기화", L:[
+    "가방의 '여러 개 골라 정리'와 맨 아래 '자동 정리'를 🧹 정리 단추 하나로 합쳤습니다. 누르면 ① 골라서 정리(고르기 시작 · 한 번에 고르기) ② 자동 정리(등급별 보관 · 판매 · 분해, 지금 가진 것에 적용)가 한 상자에 나옵니다.",
+    "룬주머니에도 같은 🧹 정리 단추가 생겼습니다 — 룬을 여러 묶음 골라 한 번에 판매 · 분해하고, 등급별로 새로 얻는 룬을 자동 판매 · 분해할 수 있습니다(기본은 모두 보관).",
+    "성반 탭에도 🧹 정리 — 성편을 여러 개 골라 한 번에 분해하고, 등급별로 새로 얻는 성편을 자동 분해할 수 있습니다(끼고 있는 성편은 건드리지 않음 · 기본은 모두 보관).",
+    "특성 전체 초기화: 골드(찍은 특성 수 × 20) → 새벽결정 10개."]},
+  {d:"2026.11.11", v:"v0.94", t:"성반 탭 · 파티 화면 정리", L:[
+    "장비 화면 오른쪽에 '🌟 성반' 탭이 생겼습니다(가방 · 룬주머니 옆). 위에는 고른 영웅의 원형 성반과 세트 효과, 아래에는 가진 성편이 조각 모양으로 늘어서고(자리 1~6으로 걸러 보기) 누르면 장착 · 빼기 · 분해, 맨 아래에서 제작합니다. 인물 아래 있던 성반 단추는 없앴습니다.",
+    "파티 화면 영웅 정보: 칭호는 맨 위에 짧게(누르면 자세히 보고 고름) · 전직 패시브를 맨 위로 · 기본 능력치 칸을 작게 한 줄로 · 능력치 아래 상시 안내 문구 삭제 · 작전 성향 설명은 성향을 바꿀 때 알림으로 — 전투 능력치가 훨씬 위에 보입니다.",
+    "전투 능력치 아래에 속성 저항 5칸(화염 · 냉기 · 독 · 신성 · 암흑)을 따로 보여 줍니다.",
+    "'★ 주인공 삼기' 단추가 '동료' 표시 바로 옆으로 왔습니다. 필요한 정수는 누르면 확인 창에서 알려 줍니다. 값은 정수 300 → 3,000."]},
   {d:"2026.11.11", v:"v0.94", t:"실명 수치 조정", L:[
     "실명: 명중 -50% → -40%(보스는 -25% → -20%). 영웅이 걸든 적이 걸든 같은 수치입니다.",
     "제단의 적은 실명이 아니라 예전처럼 약화를 겁니다(사막의 적만 실명)."]},
