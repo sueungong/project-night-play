@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794198587405"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794308198747"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1918,7 +1918,7 @@ const SKILLS = {
   mg_frostward:  { name:"냉기 결계",       type:"debuff",    power:0,   mp:18, aoe:true,  range:"ranged", coldAll:1, allyDef:{value:0.1,turns:1} },
   mg_beam:       { name:"비전 광선",       type:"damage",    power:2.3, mp:20, aoe:false, range:"ranged", mpHighAmp:0.3, vulnAmp:0.2 },
   mg_siphon:     { name:"마나 흡수",       type:"damage",    power:0.7, mp:0,  aoe:false, range:"ranged", mpShare:0.2 },   // v0.93 마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 20% 회복
-  mg_phoenix:    { name:"불새",            type:"damage",    power:0.8, mp:30, aoe:false, range:"ranged", hits:4, burn:{chance:0.3,ratio:0.35,turns:2} },   // v0.93 같은 적을 거듭 맞힐수록 100·90·80…%(최소 40%)
+  mg_phoenix:    { name:"불새",            type:"damage",    power:0.6, mp:30, aoe:false, range:"ranged", hits:4, burn:{chance:0.2,ratio:0.25,turns:2} },   // v0.93 같은 적을 거듭 맞힐수록 100·90·80…%(최소 40%)
   mg_ashburst:   { name:"잿불 폭발",       type:"damage",    power:2.0, mp:22, aoe:true,  range:"ranged", burnOnly:true, burnPop:4.0 },   // v0.93 60%·터뜨림 1배 → 200%·4배(불새만 쓰는 것보다 약하던 문제)
   mg_steam:      { name:"증기 폭발",       type:"damage",    power:1.8, mp:18, aoe:false, range:"ranged", steam:4.5 },   // v0.93 냉기 1중첩당 130% → 180% · 빙결 350% → 450%
   mg_overload:   { name:"비전 과부하",     type:"surge",     power:0,   mp:16, aoe:false, range:"self",  duration:2, value:0.4 },
@@ -1942,13 +1942,13 @@ const SKILLS = {
   pr_atone:      { name:"속죄",            type:"selfbuff",  power:0,   mp:14, aoe:false, range:"self",  buff:"atone", duration:2, value:0.5 },
   pr_brand:      { name:"낙인",            type:"foebuff",   power:0,   mp:15, aoe:false, range:"ranged", buff:"sigil", duration:3, value:0.04 },
   /* 도적 — ① 은신·폭딜 ② 독 ③ 교란 */
-  rg_shadowstep: { name:"그림자 걸음",     type:"stealth",   power:0,   mp:10, aoe:false, range:"self",  duration:2 },
+  rg_shadowstep: { name:"그림자 걸음",     type:"stealth",   power:0,   mp:6, aoe:false, range:"self",  duration:2 },
   rg_finisher:   { name:"마무리 일격",     type:"damage",    power:1.0, mp:18, aoe:false, range:"melee", finisher:0.55, stAmp:0.3 },
   rg_venomblade: { name:"독날",            type:"damage",    power:1.0, mp:10, aoe:false, range:"melee", coatAfter:3 },
   rg_dart:       { name:"독침 투척",       type:"damage",    power:0.7, mp:12, aoe:false, range:"ranged", poisonN:2 },
   rg_smoke:      { name:"연기 구슬",       type:"smoke",     power:0,   mp:10, aoe:false, range:"self",  value:0.2, duration:1, resUp:0.2 },
   rg_hamstring:  { name:"오금 베기",       type:"damage",    power:0.9, mp:10, aoe:false, range:"melee", stun:{chance:0.3,boss:0.1}, combo:1 },
-  rg_shadowblade:{ name:"그림자 칼날",     type:"damage",    power:2.7, mp:24, aoe:false, range:"melee", stealthAmp:0.5, combo:1 },
+  rg_shadowblade:{ name:"그림자 칼날",     type:"damage",    power:3.4, mp:18, aoe:false, range:"melee", stealthAmp:0.5, combo:1 },
   rg_throat:     { name:"숨통 끊기",       type:"damage",    power:1.5, mp:15, aoe:false, range:"melee", slit:35, slitMul:2.3 },
   rg_mark:       { name:"표적 각인",       type:"deathmark", power:0,   mp:14, aoe:false, range:"ranged", value:0.2, duration:3, combo:2 },
   rg_clone:      { name:"그림자 분신",     type:"selfbuff",  power:0,   mp:20, aoe:false, range:"self",  buff:"clone", duration:2, value:0.5 },
@@ -1978,7 +1978,7 @@ const SKILLS = {
   gn_cover:      { name:"엄호 사격",       type:"selfbuff",  power:0.7, mp:10, aoe:false, range:"self",  buff:"cover", duration:2, n:2 },
   gn_scatter:    { name:"산탄 사격",       type:"damage",    power:0.9, mp:0,  aoe:false, range:"ranged", ammo:2, aoeFront:true },
   gn_flash:      { name:"섬광 수류탄",     type:"debuff",    power:0,   mp:8,  aoe:true,  range:"ranged", stunAll:{chance:0.2,boss:0.05} },
-  gn_headshot:   { name:"머리 겨누기",     type:"damage",    power:3.0, mp:0,  aoe:false, range:"ranged", ammo:4, vulnCrit:true },
+  gn_headshot:   { name:"머리 겨누기",     type:"damage",    power:3.8, mp:0,  aoe:false, range:"ranged", ammo:4, vulnCrit:true },
   gn_hold:       { name:"호흡 정지",       type:"aim",       power:0,   mp:6,  aoe:false, range:"self" },
   gn_expose:     { name:"약점 간파",       type:"deathmark", power:0,   mp:12, aoe:false, range:"ranged", value:0.25, duration:2, combo:0, allyCrit:{value:0.15,turns:2} },
   gn_through:    { name:"일격 관통",       type:"damage",    power:2.0, mp:0,  aoe:false, range:"ranged", ammo:3, lance:1.0 },
@@ -2003,14 +2003,14 @@ const SKILLS = {
   bd_laugh:      { name:"웃음 폭탄",       type:"laugh",     power:0,   mp:12, aoe:true,  range:"ranged" },
   /* 궁수 — ① 연사 ② 표적 ③ 상태 화살 (연사: 같은 적 연속 한 발마다 +2%) */
   ar_shot:       { name:"활쏘기",          type:"damage",    power:1.0, mp:0,  aoe:false, range:"ranged" },
-  ar_rapid:      { name:"연속 사격",       type:"damage",    power:0.45, mp:10, aoe:false, range:"ranged", multi:4 },
+  ar_rapid:      { name:"연속 사격",       type:"damage",    power:0.36, mp:10, aoe:false, range:"ranged", multi:4, multiFall:0.15 },
   ar_rain:       { name:"화살비",          type:"damage",    power:0.4, mp:22, aoe:false, range:"ranged", hits:6 },
   ar_pierce:     { name:"꿰뚫는 화살",     type:"damage",    power:1.5, mp:14, aoe:false, range:"ranged", lance:0.7, rxCrit:true },   // v0.94 연계: 다른 아군이 건 기절·빙결 → 확정 치명
   ar_prey:       { name:"사냥감 지정",     type:"foebuff",   power:0,   mp:8,  aoe:false, range:"ranged", buff:"prey", duration:3, value:0.03, cap:0.3 },
   ar_venom:      { name:"독 화살",         type:"damage",    power:0.4, mp:12, aoe:false, range:"ranged", multi:3, poisonN:1, poisonCh:0.4 },
   ar_bind:       { name:"묶는 화살",       type:"damage",    power:1.0, mp:12, aoe:false, range:"ranged", stun:{chance:0.25,boss:0.1}, airExt:1 },
-  ar_thousand:   { name:"천 개의 화살",    type:"damage",    power:0.25, mp:32, aoe:true, range:"ranged", multi:5 },
-  ar_storm:      { name:"폭풍 연사",       type:"damage",    power:0.4, mp:20, aoe:false, range:"ranged", multi:7 },
+  ar_thousand:   { name:"천 개의 화살",    type:"damage",    power:0.25, mp:32, aoe:true, range:"ranged", multi:5, multiFall:0.15 },
+  ar_storm:      { name:"폭풍 연사",       type:"damage",    power:0.32, mp:20, aoe:false, range:"ranged", multi:7, multiFall:0.15 },
   ar_windread:   { name:"바람 읽기",       type:"selfbuff",  power:0,   mp:10, aoe:false, range:"self",  buff:"windread", duration:2, value:2 },
   ar_galepierce: { name:"꿰뚫는 바람",     type:"damage",    power:0.9, mp:18, aoe:false, range:"ranged", multi:3, lane:true },
   ar_hound:      { name:"사냥개 풀기",     type:"selfbuff",  power:0.8, mp:24, aoe:false, range:"self",  buff:"hound", duration:3, n:3 },
@@ -2023,15 +2023,15 @@ const SKILLS = {
   ln_sweep:      { name:"휩쓸기",          type:"damage",    power:1.0, mp:18, aoe:false, range:"melee", aoeFront:true, chill:{value:-0.25,turns:2}, chillChance:0.2 },
   ln_wall:       { name:"창벽",            type:"ctrup",     power:0,   mp:12, aoe:false, range:"self",  duration:2, value:0.4, def:0.2 },
   ln_distance:   { name:"거리 두기",       type:"guard",     power:0,   mp:10, aoe:false, range:"ranged", duration:2, value:0.8, resUp:0.2 },
-  ln_charge:     { name:"돌격",            type:"damage",    power:1.7, mp:14, aoe:false, range:"melee", launchCh:0.25, selfGauge:0.2, rxWeak:0.3 },   // v0.94 연계: 다른 아군이 건 약화·둔화 → 피해 +30%
+  ln_charge:     { name:"돌격",            type:"damage",    power:1.7, mp:10, aoe:false, range:"melee", launchCh:0.25, selfGauge:0.2, rxWeak:0.3 },   // v0.94 연계: 다른 아군이 건 약화·둔화 → 피해 +30%
   ln_throw:      { name:"창 던지기",       type:"damage",    power:1.6, mp:12, aoe:false, range:"ranged", backOnly:true },
-  ln_skypierce:  { name:"천공",            type:"damage",    power:2.3, mp:26, aoe:false, range:"melee", lane:true },
-  ln_leap:       { name:"용의 도약",       type:"leap",      power:3.2, mp:22, aoe:false, range:"melee", reach:true },
+  ln_skypierce:  { name:"천공",            type:"damage",    power:2.3, mp:20, aoe:false, range:"melee", lane:true },
+  ln_leap:       { name:"용의 도약",       type:"leap",      power:3.2, mp:18, aoe:false, range:"melee", reach:true },
   ln_flurry:     { name:"연속 찌르기",     type:"damage",    power:0.6, mp:14, aoe:false, range:"melee", multi:4, airMulti:6 },
   ln_hunt:       { name:"사냥창",          type:"damage",    power:1.4, mp:10, aoe:false, range:"melee", tauntOne:1 },
-  ln_unbroken:   { name:"불굴의 창",       type:"unbroken",  power:0,   mp:22, aoe:true,  range:"ranged", duration:2, value:0.3, resUp:0.25 },
-  ln_phalanx:    { name:"방진",            type:"buff_def",  power:0,   mp:18, aoe:true,  range:"ranged", duration:2, value:0.3, laneAllies:true, allyRegen:{v:0.03,turns:2,lane:true} },   // v0.94 + 같은 가로줄 매 턴 체력 3%
-  ln_tipcounter: { name:"창끝 반격",       type:"selfbuff",  power:0,   mp:12, aoe:false, range:"self",  buff:"ctrdmg", duration:2, value:0.6 },
+  ln_unbroken:   { name:"불굴의 창",       type:"unbroken",  power:0,   mp:14, aoe:true,  range:"ranged", duration:3, value:0.3, resUp:0.25, allyCut:0.2 },
+  ln_phalanx:    { name:"방진",            type:"buff_def",  power:0,   mp:10, aoe:true,  range:"ranged", duration:2, value:0.3, laneAllies:true, allyRegen:{v:0.03,turns:2,lane:true}, selfTaunt:true, tauntPull:0.8, selfShield:0.20, selfDef:0.45 },   // v0.95 방진을 펴면 적의 공격을 나에게 끌어옴(도발 2턴) · 보호막 10% — 방진 수호자도 탱커 자리에   // v0.94 + 같은 가로줄 매 턴 체력 3%
+  ln_tipcounter: { name:"창끝 반격",       type:"selfbuff",  power:0,   mp:8, aoe:false, range:"self",  buff:"ctrdmg", duration:2, value:0.6 },
   ln_check:      { name:"견제 찌르기",     type:"damage",    power:1.2, mp:12, aoe:false, range:"melee", vulnS:0.15, vulnT:2, gaugeDown:0.2 },
   /* --- 적 스킬 --- */
   /* v0.43 몬스터 범위 기술 — 마나를 모아 가끔 씀(평소엔 기본기) */
@@ -2479,7 +2479,7 @@ const RULESET={
            surv:[["gn_flash",R_F2,0,0,0],["gn_cover",R_A,0,0,0],["gn_precise",R_A,0,0,9]],
            supp:[["gn_mark",R_NOVULN,0,0,3],["gn_cover",R_A,0,0,0],["gn_scatter",R_FR2,0,0,0],["gn_precise",R_A,0,0,9]] },
     sniper:{   // 저격수: 조준 → 취약한 적 머리 겨누기
-      atk:[["gn_hold",R_AMMO1,0,0,6],["gn_headshot",R_VULN,0,0,9],["gn_through",R_LANE,0,0,4],["gn_mark",R_A,0,0,14]],
+      atk:[["gn_headshot",R_VULN,0,0,9],["gn_through",R_LANE,0,0,6],["gn_precise",R_NOVULN,0,0,4],["gn_mark",R_A,0,0,14]],   // v0.95 취약이 안 걸리는 적(보스)에게도 정밀 사격으로 한 방
       surv:[["gn_hold",R_AMMO1,0,0,6],["gn_cover",R_A,0,0,0],["gn_through",R_LANE,0,0,4],["gn_precise",R_A,0,0,9]],
       supp:[["gn_expose",R_NOVULN,0,0,14],["gn_hold",R_AMMO1,0,0,6],["gn_headshot",R_VULN,0,0,9],["gn_through",R_A,0,0,4]] },
     bomber:{   // 폭탄마: 화상을 깔고 대폭발
@@ -2519,9 +2519,9 @@ const RULESET={
       surv:[["ln_wall",R_A,0,0,0],["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_pierce",R_A,0,0,0]],
       supp:[["ln_hunt",R_AL50,0,0,0],["ln_skypierce",R_LANE,0,0,0],["ln_leap",R_MP30,0,0,14],["ln_pierce",R_A,0,0,0]] },
     phalanx:{   // 방진 수호자: 방진 · 불굴의 창으로 줄을 지키고 반격
-      atk:[["ln_tipcounter",R_A,0,0,0],["ln_unbroken",R_ADEB,2,R_ME50,0],["ln_phalanx",R_A,0,0,0],["ln_check",R_A,0,0,0]],
-      surv:[["ln_unbroken",R_ADEB,2,R_ME50,0],["ln_phalanx",R_A,0,0,0],["ln_wall",R_A,0,0,0],["ln_pierce",R_A,0,0,0]],
-      supp:[["ln_phalanx",R_A,0,0,0],["ln_unbroken",R_ADEB,2,R_A2_60,0],["ln_distance",R_AL50,0,0,5],["ln_check",R_A,0,0,0]] } },
+      atk:[["ln_phalanx",R_A,0,0,0],["ln_unbroken",R_A,0,0,0],["ln_tipcounter",R_A,0,0,0],["ln_check",R_A,0,0,0]],   // v0.95 방진(도발)을 맨 먼저
+      surv:[["ln_phalanx",R_A,0,0,0],["ln_unbroken",R_A,0,0,0],["ln_wall",R_A,0,0,0],["ln_pierce",R_A,0,0,0]],
+      supp:[["ln_phalanx",R_A,0,0,0],["ln_unbroken",R_A,0,0,0],["ln_distance",R_AL50,0,0,5],["ln_check",R_A,0,0,0]] } },
 };
 const OLD_RULE_SIG_094=new Set(["kn_challenge|foes:foe:2:ge|0|al", "kn_slam|fst:cc:0:1:ge|0|al", "kn_bash|al|0|al", "kn_stand|hp:me:1:hp:le:50|0|al", "kn_riposte|al|0|al", "kn_bond|ast:ally:debuff|2|hp:ally:2:hp:le:60", "kn_rampart|hp:ally:1:hp:le:50|0|al", "kn_retal|foes:foe:2:ge|0|al", "kn_unyield|ast:me:debuff|2|hp:me:1:hp:le:50", "kn_rampart|foes:foe:2:ge|0|al", "kn_oath|hp:ally:1:hp:le:50|0|al", "kn_bond|ast:ally:debuff|0|al", "kn_final|hp:foe:1:hp:le:40|0|al", "kn_frenzy|foes:foe:2:ge|0|al", "kn_challenge|foes:foe:3:ge|0|al", "kn_bloodprice|al|0|al", "kn_drink|hp:me:1:hp:le:50|0|al", "kn_stand|hp:me:1:hp:le:30|0|al", "mg_wave|foes:foe:3:ge|0|al", "mg_beam|hp:me:1:mp:ge:70|0|al", "mg_siphon|al|0|al", "mg_frostward|foes:foe:2:ge|1|hp:me:1:mp:ge:30", "mg_icicle|hp:me:1:mp:ge:30|0|al", "mg_frostward|foes:foe:3:ge|0|al", "mg_beam|fst:vuln:0:1:ge|0|al", "mg_ember|al|0|al", "mg_overload|hp:me:1:mp:ge:70|0|al", "mg_ashburst|foes:foe:2:ge|0|al", "mg_phoenix|hp:me:1:mp:ge:30|0|al", "mg_steam|fst:chill:2:1:ge|2|fst:stun:0:1:ge", "mg_phoenix|foes:foe:2:ge|0|al", "mg_steam|fst:chill:2:1:ge|0|al", "mg_eternal|fst:chill:2:1:ge|0|al", "mg_froststorm|foes:foe:3:ge|0|al", "mg_iceprison|foes:foe:2:ge|0|al", "mg_icicle|al|0|al", "mg_frostcoat|hp:ally:2:hp:le:60|0|al", "mg_froststorm|foes:foe:2:ge|0|al", "pr_rain|hp:ally:2:hp:le:60|0|al", "pr_mend|hp:ally:1:hp:le:30|0|al", "pr_lance|al|0|al", "pr_revive|ast:ally:dead|0|al", "pr_cleanse|ast:ally:debuff|0|al", "pr_mend|al|0|al", "pr_grace|foes:foe:2:ge|0|al", "pr_mend|hp:ally:1:hp:le:50|0|al", "pr_spring|hp:ally:2:hp:le:60|0|al", "pr_salvation|hp:ally:1:hp:le:30|0|al", "pr_barrier|foes:foe:2:ge|0|al", "pr_chant|ast:ally:debuff|0|al", "pr_barrier|hp:ally:1:hp:le:50|0|al", "pr_brand|foes:foe:2:ge|0|al", "pr_hammer|hp:me:1:mp:ge:30|0|al", "pr_judgefire|al|0|al", "pr_atone|al|0|al", "pr_hammer|al|0|al", "rg_finisher|res:combo:ge:3|0|al", "rg_shadowstep|turn:3|0|al", "rg_hamstring|al|0|al", "rg_smoke|hp:me:1:hp:le:50|0|al", "rg_venomblade|al|0|al", "rg_smoke|ast:ally:debuff|2|hp:ally:2:hp:le:60", "rg_clone|res:combo:ge:3|0|al", "rg_shadowblade|ast:me:stealth|0|al", "rg_throat|hp:foe:1:hp:le:40|0|al", "rg_shadowstep|al|0|al", "rg_mark|fst:vuln:0:0:le|0|al", "rg_smoke|ast:ally:debuff|0|al", "rg_decay|fst:poison:3:1:ge|0|al", "rg_rupture|fst:poison:3:1:ge|0|al", "rg_miasma|foes:foe:2:ge|1|hp:me:1:mp:ge:30", "rg_antidote|ast:ally:debuff|0|al", "rg_dart|al|0|al", "rg_miasma|foes:foe:3:ge|0|al", "rg_smoke|hp:ally:2:hp:le:60|0|al", "ft_burst|res:mom:ge:5|0|al", "ft_launch|res:mom:ge:3|0|al", "ft_triple|al|0|al", "ft_breath|hp:me:1:hp:le:50|2|ast:me:debuff", "ft_parry|foes:foe:2:ge|0|al", "ft_shoulder|res:mom:ge:3|0|al", "ft_breath|ast:me:debuff|0|al", "ft_diamond|hp:me:1:hp:le:50|2|ast:me:debuff", "ft_palm|res:mom:ge:3|0|al", "ft_stance|foes:foe:3:ge|0|al", "ft_cycle|ast:me:debuff|0|al", "ft_diamond|hp:me:1:hp:le:50|0|al", "ft_stance|foes:foe:2:ge|0|al", "ft_breath|hp:me:1:hp:le:30|0|al", "ft_parry|al|0|al", "ft_diamond|ast:me:debuff|2|hp:me:1:hp:le:50", "ft_heavendragon|fst:air:0:1:ge|0|al", "ft_aircombo|fst:air:0:1:ge|0|al", "ft_whirl|foes:foe:3:ge|0|al", "ft_ascend|fst:air:0:1:ge|0|al", "gn_mark|fst:vuln:0:0:le|0|al", "gn_precise|fst:vuln:0:1:ge|0|al", "gn_pierce|al|0|al", "gn_flash|foes:foe:3:ge|0|al", "gn_cover|foes:foe:2:ge|0|al", "gn_precise|al|0|al", "gn_scatter|al|0|al", "gn_headshot|fst:vuln:0:1:ge|0|al", "gn_through|foes:foe:2:ge|0|al", "gn_hold|res:ammo:le:2|0|al", "gn_expose|fst:vuln:0:0:le|0|al", "gn_headshot|al|0|al", "gn_blast|foes:foe:2:ge|0|al", "gn_firerain|foes:foe:3:ge|0|al", "gn_keg|res:keg:le:0|1|foes:foe:2:ge", "gn_firerain|foes:foe:2:ge|0|al", "gn_flash|hp:ally:1:hp:le:30|0|al", "gn_frag|fst:vuln:0:0:le|0|al", "bd_valor|al|0|al", "bd_echo|res:res:ge:5|0|al", "bd_uplift|al|0|al", "bd_rest|al|0|al", "bd_soothe|hp:ally:1:hp:le:50|2|ast:ally:debuff", "bd_echo|al|0|al", "bd_soothe|hp:ally:1:hp:le:50|0|al", "bd_rest|hp:ally:1:hp:le:50|0|al", "bd_march|al|0|al", "bd_volley|res:res:ge:8|0|al", "bd_order|res:res:ge:5|1|hp:foe:1:hp:le:40", "bd_drum|res:res:ge:5|0|al", "bd_order|res:res:ge:5|0|al", "bd_mock|al|0|al", "bd_dance|foes:foe:3:ge|0|al", "bd_lullaby|res:res:ge:5|0|al", "bd_unease|al|0|al", "bd_laugh|ast:ally:debuff|0|al", "bd_dance|foes:foe:3:ge|1|res:res:ge:5", "ar_prey|hp:me:1:mp:ge:30|0|al", "ar_rain|foes:foe:3:ge|0|al", "ar_rapid|al|0|al", "ar_bind|foes:foe:2:ge|0|al", "ar_venom|hp:me:1:mp:ge:30|0|al", "ar_venom|foes:foe:2:ge|0|al", "ar_pierce|al|0|al", "ar_windread|hp:me:1:mp:ge:30|0|al", "ar_thousand|foes:foe:3:ge|0|al", "ar_storm|hp:me:1:mp:ge:30|0|al", "ar_rain|foes:foe:2:ge|0|al", "ar_galepierce|foes:foe:2:ge|0|al", "ar_bind|hp:me:1:mp:ge:30|0|al", "ar_storm|al|0|al", "ar_weakhunt|hp:foe:1:hp:le:40|0|al", "ar_hound|hp:me:1:mp:ge:30|0|al", "ar_trap|foes:foe:2:ge|0|al", "ar_vine|hp:me:1:hp:le:50|0|al", "ar_venom|al|0|al", "ar_vine|foes:foe:2:ge|0|al", "ar_trap|foes:foe:3:ge|0|al", "ln_sweep|foes:foe:3:ge|0|al", "ln_charge|hp:me:1:mp:ge:30|0|al", "ln_pierce|al|0|al", "ln_wall|hp:me:1:hp:le:50|2|foes:foe:2:ge", "ln_distance|hp:ally:1:hp:le:50|0|al", "ln_distance|ast:ally:debuff|2|hp:ally:1:hp:le:50", "ln_throw|hp:me:1:mp:ge:30|0|al", "ln_skypierce|foes:foe:2:ge|0|al", "ln_leap|hp:me:1:mp:ge:30|0|al", "ln_flurry|hp:me:1:mp:ge:30|0|al", "ln_wall|hp:me:1:hp:le:50|0|al", "ln_hunt|hp:ally:1:hp:le:50|0|al", "ln_leap|hp:me:1:hp:le:30|0|al", "ln_flurry|fst:air:0:1:ge|0|al", "ln_check|hp:me:1:mp:ge:30|0|al", "ln_unbroken|ast:ally:debuff|2|hp:ally:1:hp:le:50", "ln_tipcounter|foes:foe:2:ge|0|al", "ln_phalanx|hp:ally:1:hp:le:50|0|al", "ln_unbroken|ast:ally:debuff|2|hp:me:1:hp:le:50", "ln_wall|foes:foe:2:ge|0|al", "ln_phalanx|hp:me:1:hp:le:50|0|al", "ln_unbroken|ast:ally:debuff|2|hp:ally:2:hp:le:60", "ln_sweep|al|0|al"]);   // v0.93 기본 규칙표의 줄(기술|조건1|논리|조건2) — 직접 고치지 않은 규칙을 가려 새 표로 옮길 때
 // v0.95 전직 규칙표 조정(스킬 순환 진단) 전에만 있던 줄 — 예전 표 그대로인 영웅을 새 표로 바꿀 때 알아봄
@@ -3228,7 +3228,7 @@ const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.6,atk:1.2},{hp:2.4,atk:1.25}];   // v0.93 
    장마다 일반 몹(풀 가중 평균)이 목표값이 되도록 배율을 계산 → 몹 종류끼리의 차이는 그대로. 장 보스는 일반 몹 평균 × 체력 5.6(1장) → 18(10장) · 공격 1.75배(+ BOSS_K) — 뒤 장 보스일수록 더 단단함(예전 보스들의 흐름을 매끄럽게), 같은 장의 보스형 중간보스도 같은 비로 맞춤 */
 const ENEMY_REF={hp:[[189,933],[989,1892],[2300,4750]], atk:[[28,172],[190,393],[520,1150]]};
 const ENEMY_PRESS={atk:[[0.12,0.40],[0.55,0.95],[1.4,2.4]], hp:[[5.8,11],[15,22],[35,55]]};   // 황혼 1장 = 예전 실제 값(처음 시작이 막히지 않게)
-const BOSS_RATIO={hp:[5.6,18], atk:[1.75,1.75]}, BOSS_STEP=1.25;   // v0.93 난이도가 오르면 1장 보스도 앞 난이도 10장 보스의 1.25배 이상(체력·공격)
+const BOSS_RATIO={hp:[5.6,18], atk:[1.75,1.75]}, BOSS_STEP=1.10;   // v0.93 난이도가 오르면 1장 보스도 앞 난이도 10장 보스의 1.25배 이상(체력·공격)
 /* v0.93 B안: 장 보스 체력 배율이 10장으로 갈수록 늘어나는 끝값을 난이도마다 따로(최대 성장 시뮬레이션 — 황혼 9·10장 · 영원한 밤 7~10장 보스가 최대 성장으로도 거의 못 깨던 문제).
    1장 시작값과 '앞 난이도 10장 보스의 1.25배' 규칙은 그대로(앞 난이도 10장은 예전 끝값 18 기준으로 셈 — 자정·영원한 밤 1장은 그대로) */
 const BOSS_HP_END=[7.5,18,10];   // v0.93 영원한 밤 13 → 10(봇 측정: 10장 171번 — 목표 30번의 약 6배)
@@ -3245,11 +3245,10 @@ const GOLD_FIX=(()=>{ const out=[REGION_KEYS.map(()=>1)]; let prev=poolGold(REGI
 function goldMul(d,rk){ const D=DIFFS[d]; let c=REGION_KEYS.indexOf(rk); if(c<0) c=9; return D.gold*((GOLD_FIX[d]&&GOLD_FIX[d][c])||1); }
 /* v0.95 난이도 완화(자정 C · 영원한 밤 B): 일반 몹·중간 보스의 체력·공격 배율(장 보스는 뺌 — buildMobUnit) [1장, 10장] — 1장→10장 매끄럽게. 1 = 그대로.
    자정 1장 −15% → 10장 −8% · 영원한 밤 1장 −30% → 10장 그대로. 골드(GOLD_FIX)·최종 콘텐츠(EG_NORM)는 enemyTarget 기준이라 바뀌지 않음 */
-const DIFF_EASE=[{hp:[1,1],atk:[1,1]},{hp:[0.85,0.92],atk:[0.85,0.92]},{hp:[0.7,1],atk:[0.7,1]}];
+const DIFF_EASE=[{hp:[1,1],atk:[1,1]},{hp:[0.85,0.88],atk:[0.85,0.88]},{hp:[0.65,0.62],atk:[0.65,0.62]}];   // v0.95 뒤 장 완화를 더(영웅 광역 하향·쿨타임과 맞춤): 자정 10장 0.92 → 0.88 · 영원한 밤 1장 0.7 → 0.65 · 10장 1.0 → 0.62
 const DIFF_SCALE=[0,1,2].map(d=>REGION_KEYS.map((rk,c)=>{ const t=enemyTarget(d,c), a=poolAvg(rk), eh=curveAt(DIFF_EASE[d].hp,c), ea=curveAt(DIFF_EASE[d].atk,c); return {hp:+(eh*t.hp/(a.hp*DIFF_K[d].hp)).toFixed(4), atk:+(ea*t.atk/(a.atk*DIFF_K[d].atk)).toFixed(4)}; }));
 /* v0.93 A안: 보스 큰 기술 한 방이 그 장 기준 영웅 체력의 황혼 60%(1장) → 70%(10장) · 자정·영원한 밤 70%를 넘지 않게 보스 공격을 깎음(올리지는 않음 — 자정 1장 보스 공격이 황혼 10장 보스보다 낮아지지 않게 자정부터 70%).
    한 방 ≈ BOSS_HIT_K[d] × 보스 공격 ÷ 기준 영웅 체력 — BOSS_HIT_K는 봇 측정(큰 기술 위력 · 방어 · 대상)에서 잰 값 */
-let MOB_SHAPE_CAP=0;   // 일반 몹 모양 기술 한 방 상한(대상 최대 체력 비율) — 0 = 끔
 const BOSS_HIT_CAP=[[0.6,0.7],[0.7,0.7],[0.7,0.7]], BOSS_HIT_K=[0.88,0.91,0.54];
 const BOSS_ATK_FLOOR=1.2;   // v0.93 보스 공격은 그 장 일반 몹 평균 공격의 1.2배 아래로 내려가지 않음(보스가 일반 몹보다 약해지지 않게)
 function bossAtkCap(d,c){ const base=curveAt(BOSS_RATIO.atk,c)*BOSS_K[d].atk, hit=BOSS_HIT_K[d]*curveAt(ENEMY_PRESS.atk[d],c)*base; return Math.max(BOSS_ATK_FLOOR/base, Math.min(1, curveAt(BOSS_HIT_CAP[d],c)/hit)); }
@@ -3369,7 +3368,7 @@ function buildMobUnit(spec,idx,d,rk){
   if(m.boss&&!spec.eg&&ch>=0&&BOSS_FIX[d]&&BOSS_FIX[d][rk]){ hp*=BOSS_FIX[d][rk].hp; atk*=BOSS_FIX[d][rk].atk; }   // v0.93 보스형은 그 장 일반 몹 평균에 맞춘 비율
   { const K=DIFF_K[d]||DIFF_K[0]; hp*=K.hp; atk*=K.atk; }
   if(m.boss||spec.finalBoss||spec.named){ const K=BOSS_K[d]||BOSS_K[0]; hp*=K.hp; atk*=K.atk; }
-  if(spec.finalBoss&&!spec.eg&&ch>=0){ const E=DIFF_EASE[d]; hp*=curveAt([1,E.hp[1]],ch)/curveAt(E.hp,ch); atk*=curveAt([1,E.atk[1]],ch)/curveAt(E.atk,ch); }   // v0.95 장 보스 완화는 1장 0% → 10장은 일반 몹과 같게 — '장 보스는 늘 오름 · 난이도 1장 보스 ≥ 앞 난이도 10장 보스 ×1.25' 원칙 유지
+  if(spec.finalBoss&&!spec.eg&&ch>=0){ const E=DIFF_EASE[d]; const b0=d===2?0.88:1; hp*=curveAt([b0,E.hp[1]],ch)/curveAt(E.hp,ch); atk*=curveAt([b0,E.atk[1]],ch)/curveAt(E.atk,ch); if(d===2) hp*=curveAt([1,0.75],ch); }   /* v0.95 영원한 밤 1장 보스는 0.88부터 · 보스 체력은 10장으로 갈수록 추가로 줄어 ×0.75(단일 대상 화력이 줄어 싸움이 길어진 만큼) */   // v0.95 장 보스 완화는 1장 0% → 10장은 일반 몹과 같게 — '장 보스는 늘 오름 · 난이도 1장 보스 ≥ 앞 난이도 10장 보스 ×1.25' 원칙 유지
   if(spec.chief){ hp*=3.2; atk*=1.3; }
   if(spec.elite){ hp*=2.0; atk*=1.25; }
   if(spec.scale){ hp*=spec.scale.hp||1; atk*=spec.scale.atk||1; }      // 최종 콘텐츠(탑 층·레이드 단계·원정 걸음) 배율
@@ -4119,8 +4118,8 @@ const ADV={
       passive:"dragoon_rush", passive_name:"돌진: 공격할 때마다 행동 게이지 +10%",
       desc:"하늘에서 내리꽂는 돌격 창잡이. 대표 기술 '천공'(적 일렬 앞뒷줄 230%) · '용의 도약'(1턴 동안 사라져 맞지 않다가 다음 행동에 적 1명 320%)" },
     { key:"phalanx", name:"방진 수호자", bonus:{hp:60,def:5}, skill:"ln_unbroken", extra:["ln_phalanx","ln_tipcounter","ln_check"],
-      passive:"phalanx_line", passive_name:"방진: 나와 같은 가로줄 아군(나 포함) 받는 피해 -8%",
-      desc:"창을 세워 줄을 지키는 수호자. 대표 기술 '불굴의 창'(2턴간 아군 전체 상태이상 저항 +25%p · 나는 받는 피해 -30%) · '방진'(2턴간 나와 같은 가로줄 아군 받는 피해 -30%)" } ],
+      passive:"phalanx_line", passive_name:"방진: 나와 같은 가로줄 아군(나 포함) 받는 피해 -8% · 나는 추가로 -15%",
+      desc:"창을 세워 줄을 지키는 수호자. 대표 기술 '불굴의 창'(3턴간 아군 전체 상태이상 저항 +25%p · 받는 피해 -20% · 나는 -30%) · '방진'(2턴간 나와 같은 가로줄 아군 받는 피해 -30%)" } ],
 };
 // v0.89 영웅 기술 표시(기본공격 제외) — isSk()
 for(const c of Object.keys(CLASSES)){ for(const id of CLASSES[c].skills.slice(1)) if(SKILLS[id]) SKILLS[id].sk=true; for(const a of ADV[c]||[]) for(const id of [a.skill,...(a.extra||[])]) if(SKILLS[id]) SKILLS[id].sk=true; }
@@ -4604,7 +4603,7 @@ const TRAITS2={
   BR("aa","🏹 연사","a",null,"atk crit cd spd",SM("가벼운 연속 사격",{sk:"ar_rapid",mp:-2}),[
    [BG("빠른 시위","연속 사격 +1발","연속 사격 +1발",{skmod:{sk:"ar_rapid",add:{multi:1}}}), SM("센 연속 사격",{sk:"ar_rapid",pow:0.1}), [
      [BG("연사 치명","연속 사격 치명 +10%p","연속 사격 치명타 확률 +10%p",{skmod:{sk:"ar_rapid",add:{critPlus:0.1}}}), SM("예리한 활쏘기",{sk:"ar_shot",add:{critPlus:0.05}}), UL("연사 숙달","연속 사격 +25%","연속 사격 위력 +25%",{skmod:{sk:"ar_rapid",pow:0.25}})],
-     [BG("명사수","치명타 +8%","치명타 확률 +8%",{crit:8}), SM("연사 호흡",{sk:"ar_rapid",castmp:2}), UL("화살 소나기","치명타 시 50% 추가타","치명타를 맞히면 기본공격 50%로 한 번 더",{flag:"crit_followup"})]]],
+     [BG("명사수","치명타 +8%","치명타 확률 +8%",{crit:8}), SM("연사 호흡",{sk:"ar_rapid",castmp:2}), UL("화살 소나기","치명타 시 50% 추가타","치명타를 맞히면 그 타격의 50%로 한 번 더(타격 위력이 100%를 넘으면 기본공격의 50%)",{flag:"crit_followup"})]]],
    [BG("센 활쏘기","활쏘기 +20%","활쏘기(기본공격) 위력 +20%",{skmod:{sk:"ar_shot",pow:0.2}}), SM("활쏘기 호흡",{sk:"ar_shot",castmp:2}), [
      [NB.ramp_up("시위 감각"), SM("연사 집중",{sk:"ar_rapid",add:{critPlus:0.05}}), UL("마지막 한 발","1:1 +25%","적이 1마리만 남았을 때 주는 피해 +25%",{flag:"duelist"})],
      [BG("정조준","치명타 피해 +20%","치명타 피해 +20%",{critdmg:20}), SM("센 활쏘기",{sk:"ar_shot",pow:0.1}), UL("관통 화살","관통 +10%","관통 +10%(방어력을 더 무시)",{pen:10})]]]]),
@@ -4683,7 +4682,7 @@ const TRAITS2={
   BR("lf","⚔ 연격","a","dragoon","atk spd crit hp",SM("가벼운 연속 찌르기",{sk:"ln_flurry",mp:-3}),[
    [BG("빠른 찌르기","연속 찌르기 +1번","연속 찌르기 횟수 +1 (4 → 5번)",{skmod:{sk:"ln_flurry",add:{multi:1}}}), SM("센 연속 찌르기",{sk:"ln_flurry",pow:0.1}), [
      [BG("공중 연격","띄운 적 +1번","연속 찌르기 띄운 적 횟수 6 → 7번",{skmod:{sk:"ln_flurry",add:{airMulti:1}}}), SM("연속 찌르기 호흡",{sk:"ln_flurry",castmp:3}), UL("연속 찌르기 숙달","연속 찌르기 +25%","연속 찌르기 위력 +25%",{skmod:{sk:"ln_flurry",pow:0.25}})],
-     [BG("연격 치명","치명타 시 40% 추가타","치명타를 맞히면 기본공격 40%로 한 번 더",{flag:"crit_followup40"}), SM("싼 연속 찌르기",{sk:"ln_flurry",mp:-2}), UL("제압 찌르기","기절·띄운 적 +15%","기절·띄운 적에게 주는 피해 +15%",{flag:"cc_hunter"})]]],
+     [BG("연격 치명","치명타 시 40% 추가타","치명타를 맞히면 그 타격의 40%로 한 번 더(타격 위력이 100%를 넘으면 기본공격의 40%)",{flag:"crit_followup40"}), SM("싼 연속 찌르기",{sk:"ln_flurry",mp:-2}), UL("제압 찌르기","기절·띄운 적 +15%","기절·띄운 적에게 주는 피해 +15%",{flag:"cc_hunter"})]]],
    [BG("끈질긴 사냥창","사냥창 노림 +1턴","사냥창으로 나를 노리게 하는 시간 1→2턴",{skmod:{sk:"ln_hunt",add:{tauntOne:1}}}), SM("센 사냥창",{sk:"ln_hunt",pow:0.1}), [
      [NB.hit_shield("용비늘"), SM("사냥창 호흡",{sk:"ln_hunt",castmp:3}), UL("용의 비늘","방어력 +10%·체력 +6%","방어력 +10%, 체력 +6%",{def_pct:0.1,hp_pct:0.06})],
      [NB.self_regen("용의 피"), SM("가벼운 사냥창",{sk:"ln_hunt",mp:-2}), UL("사냥창 숙달","사냥창 +30%","사냥창 위력 +30%",{skmod:{sk:"ln_hunt",pow:0.3}})]]]]),
@@ -5501,6 +5500,7 @@ const SYN_USE={kn_slam:["stun","air"],rg_finisher:["vuln","stun","chill","burn"]
 function skillSpec(sid,sx){
   const s=sx||SKILLS[sid]; if(!s) return null;   // v0.36: sx = 영웅의 실제 스킬(무기·숙련 반영)
   const P=x=>Math.round(x*100), tags=[], rows=[];
+  if(s.cd) tags.push({c:"mp",t:`쿨타임 ${s.cd}턴`}); if(s.maxT) tags.push({c:"tgt",t:`최대 ${s.maxT}명`});
   if(s.mp>0) tags.push({c:"mp",t:`마나 ${s.mp}`+(s.enh&&SKILLS[sid]&&SKILLS[sid].mp!==s.mp?` (기본 ${SKILLS[sid].mp} · 강화 ${s.enh}번)`:"")});
   if(s.ammo) tags.push({c:"res",t:`탄 ${s.ammo}`});
   if(s.momCost) tags.push({c:"res",t:`기세 ${s.momCost}`});
@@ -5587,7 +5587,7 @@ function skillSpec(sid,sx){
       if(s.selfGauge) R("etc",`다음 턴 내 행동 게이지 +${P(s.selfGauge)}% (100%가 넘으면 그 턴에 한 번 더 행동)`);
       if(s.coatAfter) R("etc",`다음 ${s.coatAfter}번 공격에 독 1중첩씩`);
       if(s.mpGain) R("etc",`내 마나 +${s.mpGain}`);
-      { const hf=hitFallOf(s); if(hf) R("etc",`같은 적을 거듭 맞히면 그 적에게는 한 발 피해가 100%·${100-Math.round(hf*100)}%·${100-Math.round(hf*200)}%…로 줄어듦(최소 40%) — 적이 많을수록 유리`); }
+      { const hf=hitFallOf(s); if(hf) R("etc",`같은 적을 거듭 맞히면 그 적에게는 한 발 피해가 100%·${100-Math.round(hf*100)}%·${100-Math.round(hf*200)}%…로 줄어듦(최소 30%) — 적이 많을수록 유리`); }
       if(s.limit) R("etc",`전투당 ${s.limit}번까지`);
       if(s.mpShare) R("etc",`마나 비율이 가장 낮은 아군(나 포함)이 자기 최대 마나의 ${Math.round((s.mpShare+(s.mpSharePct||0)/100)*100)}% 회복`);
       if(s.hpCost) R("etc",`마나 대신 최대 체력의 ${P(s.hpCost)}% 소모 (체력 20% 이하면 못 씀)`);
@@ -5654,7 +5654,7 @@ function skillSpec(sid,sx){
     case "trap": main=`적 앞줄(없으면 뒷줄)에 덫 설치`; tags.push({c:"tgt",t:"적 한 줄"}); R("if",`그 줄 적이 행동하려 하면 → 공격력 ${P(s.power)}% + 기절 1턴 (한 번 · 보스는 기절 10%)`); R("etc","덫은 터질 때까지 남음 · 한 줄에 하나 · 기절이 풀리면 3턴간 다시 기절하지 않음"); break;
     case "leap": main=`1턴간 도약 — 적이 노리지도 맞히지도 못함`; tags.push({c:"tgt",t:"적 1명"}); R("if",`다음 행동에 → 적 1명에게 공격력 ${P(s.power)}% (뒷줄까지) · 맞은 적을 띄움(연속 찌르기 6연타로 이어짐)`); break;
     case "guard": main=`아군 1명 ${s.duration}턴간: 그 아군을 근접 공격한 적에게 내가 반격 ${P(s.value)}% · 그 아군 상태이상 저항 +${P(s.resUp||0)}%p`; tags.push({c:"tgt",t:"아군 1명"}); R("etc","나 말고 다른 아군에게 · 저항 증가는 겹치지 않음(가장 큰 것 하나)"); break;
-    case "unbroken": main=`${s.duration}턴간 아군 전체 상태이상 저항 +${P(s.resUp||0)}%p · 나는 받는 피해 -${P(s.value)}%`; tags.push({c:"tgt",t:"아군 전체"}); R("etc","받는 피해 감소·저항 증가는 겹치지 않음(가장 큰 것 하나)"); break;
+    case "unbroken": main=`${s.duration}턴간 아군 전체 상태이상 저항 +${P(s.resUp||0)}%p${s.allyCut?` · 받는 피해 -${P(s.allyCut)}%`:""} · 나는 받는 피해 -${P(s.value)}%`; tags.push({c:"tgt",t:"아군 전체"}); R("etc","받는 피해 감소·저항 증가는 겹치지 않음(가장 큰 것 하나)"); break;
     case "keg": main=`적 앞줄(없으면 뒷줄)에 ${s.name} 설치`; tags.push({c:"tgt",t:"적 한 줄"}); R("if",`2턴 안에 그 줄의 적이 맞으면 → 줄 전체에 ${P(s.power)}% 폭발 + 화상`); break;
     case "charge": main=`아군 1명이 곧바로 한 번 더 행동`; tags.push({c:"tgt",t:"아군 1명"}); break;
     case "allout": main=`다른 아군 전원이 곧바로 기본공격`; tags.push({c:"tgt",t:"아군 전체"}); R("if","취약한 적이 있으면 → 그 적에게"); break;
@@ -5836,6 +5836,7 @@ class Sim {
     this._actor=prevA; this._kegBoom=false;
   }
   skillOf(u,sid){ return (u.skillsEx&&u.skillsEx[sid])||SKILLS[sid]; }
+  capT(arr,skill){ const n=skill.maxT|0; if(!n||arr.length<=n) return arr; return arr.slice().sort((a,b)=>(a.row==="front"?0:1)-(b.row==="front"?0:1)).slice(0,n); }   // v0.95 광역 최대 대상 수(앞줄부터)
   blockedBy(u,c){ return !!(c.lock&&!(u.unlocks&&u.unlocks.includes(COND.indexOf(c)))); }
   rr(a,b){ return a+this.rand()*(b-a); }
   ri(a,b){ return a+Math.floor(this.rand()*(b-a+1)); }
@@ -5940,7 +5941,7 @@ class Sim {
     const crowd=()=>lanes.reduce((b,L)=>at(L).length>at(b).length?L:b,lanes[0]);
     const back=pool.filter(x=>x.row==="back"), front=pool.filter(x=>x.row==="front"), any=p=>p[this.ri(0,p.length-1)];
     // v0.70 도발: 범위 모양 기술도 도발한 영웅을 겨냥(한 명 겨냥은 그 영웅에게, 줄·십자는 그 영웅을 중심으로) — 원거리는 절반만 끌려옴(보통 공격과 같음)
-    if(u.taunted_by){ const t=this.byId(u.taunted_by); if(t&&t.alive&&pool.includes(t)&&(skill.range!=="ranged"||this.ri(0,1)===0)){
+    if(u.taunted_by){ const t=this.byId(u.taunted_by); if(t&&t.alive&&pool.includes(t)&&(skill.range!=="ranged"||this.rand()<this.tauntPull(t))){
       switch(skill.shape){
         case "line": case "lane_rand": return at(t.lane);
         case "cross": return pool.filter(x=>x.lane===t.lane||(x.row===t.row&&Math.abs(x.lane-t.lane)===1));
@@ -6013,13 +6014,13 @@ class Sim {
     if(skill.backOnly) pool=pool.filter(x=>x.row==="back");   // v0.92 창 던지기: 뒷줄 적만
     if(!pool.length) return [];
     if(skill.airOnly){ const f=this.foes(u).filter(x=>x.buffs.air); return f; }   // v0.92 천룡파: 띄운 적 모두
-    if(skill.burnOnly){ const f=pool.filter(x=>x.dots.burn); return f; }   // v0.92 잿불 폭발 · 대폭발: 화상 걸린 적 모두
+    if(skill.burnOnly){ const f=pool.filter(x=>x.dots.burn); return this.capT(f,skill); }   // v0.92 잿불 폭발 · 대폭발: 화상 걸린 적 모두
     if(skill.coldMin){ const f=pool.filter(x=>this.coldOf(x)>=skill.coldMin); return f; }   // v0.92 영겁의 겨울: 냉기 2중첩 이상인 적 모두
     if(skill.steam){ const f=pool.filter(x=>this.coldOf(x)>0||(x.buffs.stun&&x.buffs.stun.frozen)); if(!f.length) return []; return [f.reduce((b,x)=>((x.buffs.stun&&x.buffs.stun.frozen)?9:this.coldOf(x))>((b.buffs.stun&&b.buffs.stun.frozen)?9:this.coldOf(b))?x:b,f[0])]; }   // v0.92 증기 폭발: 빙결·냉기가 가장 많은 적
-    if(skill.aoe) return pool;
+    if(skill.aoe) return this.capT(pool,skill);
     if(skill.aoeFront){ const f=pool.filter(x=>x.row==="front"); return f.length?f:pool; }
     // 도발: 근접 공격은 항상 끌려가고, 원거리 공격은 절반만 끌려간다(나머지는 원래 노리던 대상)
-    if(u.taunted_by){ const t=this.byId(u.taunted_by); if(t&&t.alive&&pool.includes(t)&&(skill.range!=="ranged"||(t.traits&&t.traits.taunt_all)||this.ri(0,1)===0)) return [t]; }
+    if(u.taunted_by){ const t=this.byId(u.taunted_by); if(t&&t.alive&&pool.includes(t)&&(skill.range!=="ranged"||this.rand()<this.tauntPull(t))) return [t]; }
     switch(tIdx){
       case 1: return [this.lowest(pool)];
       case 2: return [pool[this.ri(0,pool.length-1)]];
@@ -6058,6 +6059,7 @@ class Sim {
     const st=skill.type;
     if(st==="damage"&&!this.resolveTargets(u,skill,0).length) return false;
     if(skill.limit&&((u._uses||{})[skill.id||skill.name]||0)>=skill.limit) return false;   // v0.93 전투당 횟수 제한
+    if(skill.cd&&u._cd&&u._cd[skill.id||skill.name]>0) return false;   // v0.95 쿨타임 중 → 못 씀(규칙은 다음 칸으로 넘어감)
     if(st==="heal") return skill.needHp?this.allies(u).some(a=>this.hpPct(a)<=skill.needHp):this.allies(u).some(a=>a.hp<a.hp_max);
     if(st==="revive") return this.deadAllies(u).length>0;
     if(st==="restore_mp") return u.mp<u.mp_max;
@@ -6093,7 +6095,7 @@ class Sim {
     if(st==="purify"){ if(skill.range==="self"){ if(!debuffed(u)&&!(skill.selfShield&&(u.shield||0)<Math.floor(u.hp_max*skill.selfShield))) return false; } else if(!this.allies(u).some(a=>this.purifyNeed(a,skill)||(skill.healAny&&a.hp<a.hp_max))) return false; }
     if(st==="deathmark"&&!this.foes(u).some(f=>!f.buffs.stealth&&this.vulnOf(f)<skill.value)) return false;
     if(st==="stunone"&&!this.foes(u).some(f=>!f.buffs.stun&&!this.ccImmuneT(f)&&!this.ccImmune(f))) return false;
-    if(st==="buff_def"&&skill.aoe&&this.buffRedundant(u,skill,skill.laneAllies?this.resolveTargets(u,skill,0):this.allies(u))) return false;
+    if(st==="buff_def"&&skill.aoe&&!(skill.selfTaunt&&!u.buffs.taunt)&&this.buffRedundant(u,skill,skill.laneAllies?this.resolveTargets(u,skill,0):this.allies(u))) return false;
     // v0.92 궁수·창술사
     if(st==="trap"){ const fs=this.foes(u); const row=fs.some(f=>f.row==="front")?"front":fs.length?"back":null; if(!row||this.traps[this.opp(u.side)][row]) return false; }
     if(st==="leap"&&(u.buffs.leap||!this.reachableFoes(u,skill).length)) return false;
@@ -6169,7 +6171,7 @@ class Sim {
     if(T.execute&&this.hpPct(def)<=40) base*=T.execute_v||1.35;
     if(T.aoe_amp&&isAoe(skill)) base*=T.aoe_amp_v||1.2;
     if(T.ice_spike&&def.buffs.atk&&def.buffs.atk.value<0) base*=1.5;
-    if(T.single_amp&&!isAoe(skill)&&isSkill) base*=1.2;
+    if(T.single_amp&&!isAoe(skill)&&!(skill.hits>1)&&isSkill) base*=1.2;   // v0.95 여러 발을 흩뿌리는 기술(불새 등)은 단일 대상 증폭 제외
     if(T.first_strike&&this.turn<=3) base*=1.5;
     // v0.19 특성(공통): 상황별 피해 증가
     if(T.low_fury&&this.hpPct(att)<=50) base*=T.low_fury_v||1.3;
@@ -6204,7 +6206,7 @@ class Sim {
     if(T.meteor_focus&&skill.hits&&(this._hitCount||{})[def.id]>=3) base*=1.3;
     if(skill.mods&&skill.mods.exec&&this.hpPct(def)<=40) base*=1+skill.mods.exec;   // v0.93 숙련: 체력 40% 이하 적
     if(skill.mods&&skill.mods.open&&this.turn<=3) base*=1+skill.mods.open;   // v0.93 숙련: 첫 3턴
-    { const hf=hitFallOf(skill); if(hf&&this._hitCount&&(this._hitCount[def.id]||0)>1) base*=Math.max(0.4,1-hf*(this._hitCount[def.id]-1)); }   // v0.93 무작위 다단 기술: 한 적에 몰릴수록 그 기술 한 발 피해의 100·90·80…%
+    { const hf=hitFallOf(skill); if(hf&&this._hitCount&&(this._hitCount[def.id]||0)>1) base*=Math.max(0.3,1-hf*(this._hitCount[def.id]-1)); }   // v0.93 무작위 다단 기술: 한 적에 몰릴수록 그 기술 한 발 피해의 100·90·80…%
     if(T.annihilate){ if(this.hpPct(def)<=30) base*=T.annihilate_v||1.35; else if(this.hpPct(def)>=70&&!T.annihilate_v) base*=0.85; }
     if(T.cc_hunter30&&(def.buffs.stun||def.dots.frost)) base*=1.3;
     if(T.absolute_zero&&def.buffs.atk&&def.buffs.atk.value<0) base*=1.5;
@@ -6289,7 +6291,8 @@ class Sim {
     if(Number.isInteger(def.lane)){ let lv=0; for(const x of this.units) if(x.alive&&x.side===def.side&&x.lane===def.lane&&x.gx&&x.gx.lane_cut) lv=Math.max(lv,x.gx.lane_cut); if(lv) cut*=1-lv/100; }   // v0.44 진영 옵션: 같은 가로줄
     if(this.hasPassive(def,"fortress10")) cut*=0.9;   // 몬스터 철벽
     if(this.hasPassive(def,"iron12")) cut*=D.iron_wall_plus?0.84:0.88;   // v0.92 수호기사 철벽 -12% (철벽 강화 -16%)
-    if(this.units.some(x=>x.alive&&x.side===def.side&&x.lane===def.lane&&this.hasPassive(x,"phalanx_line"))) cut*=0.92;   // v0.92 방진(패시브): 방진 수호자와 같은 가로줄 아군(자신 포함) -8%
+    if(this.units.some(x=>x.alive&&x.side===def.side&&x.lane===def.lane&&this.hasPassive(x,"phalanx_line"))) cut*=0.92; if(this.hasPassive(def,"phalanx_line")) cut*=0.85;   // v0.95 방진 수호자 본인은 추가로 -15%(탱커 자리)
+      // v0.92 방진(패시브): 방진 수호자와 같은 가로줄 아군(자신 포함) -8%
     if(def.buffs.prey) cut*=1+Math.min(def.buffs.prey.cap||0.3,(def.buffs.prey.value||0.03)*(def.buffs.prey.stk||0));   // v0.92 사냥감: 다단 히트 1발당 받는 피해 +3%(최대 +30%)
     if(D.counter_guard&&def._ctrGuardT===this.turn) cut*=0.8;
     if(D.stance_guard&&def.buffs.stance) cut*=0.8;
@@ -6517,6 +6520,7 @@ class Sim {
     fx.push(this.fxBuff(t,label)); this.onDebuff(src,t,"chill");
     if(src.traits&&src.traits.frostbite) this.applyCold(src,t,1,fx);   // v0.89 동상 → 냉기
   }
+  tauntPull(t){ return (t.traits&&t.traits.taunt_all)?1:Math.max(0.5,(t.buffs.taunt&&t.buffs.taunt.value)||0); }   // v0.95 도발이 원거리 공격을 끌어오는 확률: 기본 50% · 방진 80% · '끌어들이는 방패' 100%
   dotAmp(att,kind){ const T=att.traits||{}; let m=T.dot_amp?1.4:1; if(kind==="burn"){ if(T.burn_amp50) m*=1.5; if(T.burn_amp30) m*=1.3; if(T.blast_amp15) m*=1.15; if(T.burn_bonus) m*=1+T.burn_bonus; if(T.blast_bonus) m*=1+T.blast_bonus; } return m; }   // v0.85 지속 피해 배율
   setBurn(att,t,ratio,label,fx,turns=2){
     if(!(ratio>0)) ratio=0.35; if(!(turns>0)) turns=2;   // v0.94 비율이 비면 피해가 NaN → 적 체력이 NaN이 되어 죽지 않던 문제 방지
@@ -6623,7 +6627,6 @@ class Sim {
       fx.push({target:def.id,kind:"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:"침묵 — 마법 면역"}); return; }
     const rxSt=!!(skill.rxStun&&this.isWeak(def)&&this.rxOther(att,def,["chill"]));   // v0.94 방패 치기 연계(맞기 전 상태로 판정)
     const r=this.calcDamage(att,def,skill); if(parryCut) r.dmg=Math.max(1,Math.floor(r.dmg*(1-parryCut)));
-    if(MOB_SHAPE_CAP&&att.side!==def.side&&def.side==="party"&&skill&&skill.shape&&!att.boss&&!att.isBossKind) r.dmg=Math.min(r.dmg,Math.max(1,Math.floor(def.hp_max*MOB_SHAPE_CAP)));   // 모양 기술(도발 무시 · 뒷줄 노림) 한 방 상한 — 시험용(0 = 끔)
     if(r.crit){ att._critsTotal=(att._critsTotal||0)+1; att._critNow=true; }
     const pzBefore=def.dots.poison?Object.assign({},def.dots.poison):null;
     const wasChilled=!!(def.buffs.atk&&def.buffs.atk.value<0);
@@ -6752,7 +6755,7 @@ class Sim {
         fx.push({target:o.id,kind:"heal",amount:hv,crit:false,killed:false,hp:o.hp,mp:o.mp,label:"속죄의 일격"}); }
     }
     if(r.crit&&(T.double_strike||T.crit_followup||T.crit_followup40)&&def.alive&&att.alive&&!this._following&&!this._countering){
-      const pw=T.double_strike?1:T.crit_followup?0.5:0.4; const r2=this.calcDamage(att,def,Object.assign({},SKILLS.basic_attack,{power:pw}));
+      const pw=(T.double_strike?1:T.crit_followup?0.5:0.4)*Math.min(1,(skill&&skill.power>0)?skill.power:1);   /* v0.95 추가타는 그 타격의 위력을 따름(위력 100% 미만인 연타는 그만큼 작게) — 여러 발 기술이 추가타로 몇 배가 되던 문제 */ const r2=this.calcDamage(att,def,Object.assign({},SKILLS.basic_attack,{power:pw}));
       this._following=true; this.hit(def,r2.dmg,fx,{crit:r2.crit,label:T.double_strike?"연격":T.crit_followup?"연발":"주먹 소나기"}); this._following=false;
       const ls=T.double_strike?Math.floor(r2.dmg*0.5):0;
       if(ls>0&&att.hp<att.hp_max){ att.hp=Math.min(att.hp_max,att.hp+ls);
@@ -6835,7 +6838,9 @@ class Sim {
     return {a:a.id, s:main?(this._curSkill.name||null):(this._acting&&this._acting!==a?"반격·추가 효과":null)}; }
   mtRec(u,d,kind){ const c=this.mtCtx(), i=this.events.length;
     if(d<0){ const v=kind==="hp"?Math.min(-d,Math.max(0,u.hp-d)):-d; if(!v) return;
-      if(c&&c.a!=null){ const A=this.byId(c.a); if(A&&A.side!==u.side){ this.meter.push({i,k:"dmg",a:A.id,t:u.id,s:c.s,v}); this.meter.push({i,k:"taken",a:u.id,t:A.id,s:c.s,v}); return; } }
+      if(c&&c.a!=null){ const A=this.byId(c.a); if(A&&A.side!==u.side){ this.meter.push({i,k:"dmg",a:A.id,t:u.id,s:c.s,v});
+        { const va=A.buffs.sg_valor, ra=A.buffs.rally; const b1=va&&va.src!=null&&va.src!==A.id?va.value:0, b2=ra&&ra.src!=null&&ra.src!==A.id?ra.value:0;   // v0.95 지원 피해: 남이 걸어 준 공격력 버프로 늘어난 몫을 건 사람 앞으로
+          if(b1>0) this.meter.push({i,k:"sup",a:va.src,t:u.id,s:"투지의 노래",v:Math.round(v*b1/(1+b1+b2))}); if(b2>0) this.meter.push({i,k:"sup",a:ra.src,t:u.id,s:"북돋는 선율",v:Math.round(v*b2/(1+b1+b2))}); } this.meter.push({i,k:"taken",a:u.id,t:A.id,s:c.s,v}); return; } }
       if(kind==="hp"&&!(c&&c.a!=null)) this.meter.push({i,k:"taken",a:u.id,t:null,s:null,v}); return; }   // 내 편이 깎은 것(피의 대가 등)은 받은 피해로 세지 않음
     if(!c||c.a==null) return; const A=this.byId(c.a); if(!A||A.side!==u.side) return;
     this.meter.push({i,k:kind==="hp"?"heal":"shield",a:A.id,t:u.id,s:c.s,v:d}); }
@@ -6922,6 +6927,7 @@ class Sim {
     for(const e of (u.engraves||[])) if(e.cd>0) e.cd--;
     this.runEngraves(u);
     if(u.buffs.fear&&this.rand()<u.buffs.fear.value){ this.events.push({type:"log",text:`${u.name}은(는) 공포에 질려 움직이지 못한다!`}); u._lastCrit=false; return; }
+    if(u._cd) for(const k in u._cd) if(u._cd[k]>0) u._cd[k]--;   // v0.95 쿨타임은 내 행동 차례마다 1씩 줄어듦
     const act=this.pickAction(u);
     const {skill,targets}=act;
     if(!targets.length){ this.events.push({type:"log",text:`${u.name}: 행동할 대상이 없다.`}); return; }
@@ -6936,12 +6942,14 @@ class Sim {
     if(skill.mods&&skill.mods.partymp) for(const a of this.allies(u)) if(a.mp_max>0&&a.mp<a.mp_max) a.mp=Math.min(a.mp_max,a.mp+skill.mods.partymp);   // v0.93 숙련: 아군 전체 마나
     if(skill.mods&&skill.mods.partyhp) for(const a of this.allies(u)) if(a.hp<a.hp_max){ const hv=Math.max(1,Math.floor(a.hp_max*skill.mods.partyhp)); a.hp=Math.min(a.hp_max,a.hp+hv); fx.push({target:a.id,kind:"heal",amount:hv,crit:false,killed:false,hp:a.hp,mp:a.mp,label:"숙련"}); }   // v0.93 숙련: 아군 전체 체력
     if(skill.mods&&skill.mods.selfhp&&u.hp<u.hp_max){ const hv=Math.max(1,Math.floor(u.hp_max*skill.mods.selfhp)); u.hp=Math.min(u.hp_max,u.hp+hv); fx.push({target:u.id,kind:"heal",amount:hv,crit:false,killed:false,hp:u.hp,mp:u.mp,label:"숙련"}); }
+    if(skill.selfTaunt){ for(const f of this.foes(u)) f.taunted_by=u.id; u.buffs.taunt={turns:skill.duration||2,value:skill.tauntPull||0}; if(skill.selfDef&&!(u.buffs.def&&u.buffs.def.value>=skill.selfDef)) u.buffs.def={turns:skill.duration||2,value:skill.selfDef}; fx.push({target:u.id,kind:"buff",label:`${skill.name} — 도발`,amount:0,crit:false,killed:false,hp:u.hp,mp:u.mp}); }   // v0.95
     if(skill.selfShield){ const cap=Math.floor(u.hp_max*0.4), add=Math.floor(u.hp_max*skill.selfShield); const bf=u.shield||0; u.shield=Math.min(cap,bf+add); if(u.shield>bf) fx.push(this.fxBuff(u,`보호막 ${u.shield}`)); }   // v0.89 방패 강타
     if(skill.mods&&skill.mods.selfshield){ const cap=Math.floor(u.hp_max*0.4), add=Math.floor(u.hp_max*skill.mods.selfshield); const bf=u.shield||0; u.shield=Math.min(cap,bf+add); if(u.shield>bf) fx.push(this.fxBuff(u,`보호막 ${u.shield}`)); }
     if(u.traits.free_cast&&skill.mp>0&&this.rand()<0.3)
       fx.push({target:u.id,kind:"buff",label:"마력 환류(마나 소모 없음)",amount:0,crit:false,killed:false,hp:u.hp,mp:u.mp});
     else u.mp=Math.max(0,u.mp-this.mpCost(u,skill));
     if(skill.limit){ u._uses=u._uses||{}; const k=skill.id||skill.name; u._uses[k]=(u._uses[k]||0)+1; }
+    if(skill.cd&&!skill.leapLand){ (u._cd=u._cd||{})[skill.id||skill.name]=skill.cd+1; }   // v0.95 쿨타임: 쓰고 나서 내 행동 cd번 동안 못 씀
     // v0.26 직업 자원 소모(탄·기세·공명)
     const momB=u._mom, resB=u._res, ammoB=u._ammo, aimB=u._aim;
     let spent=0;
@@ -6999,7 +7007,7 @@ class Sim {
           fx.push(this.fxBuff(u,`${skill.name} — 아군 받는 피해 -${Math.round(v*100)}%${skill.resUp?` · 저항 +${Math.round(skill.resUp*100)}%p`:""}`)); break; }   // v0.92 연기 구슬(은신은 아래에서 1턴)
         case "damage":
           if(skill.multi||skill.airMulti){ const air=this.isAir(t)||!!(skill.ccMulti&&t.buffs.stun); const n=((air&&skill.airMulti)?skill.airMulti:(skill.multi||1)+((u.traits&&u.traits.chain4&&skill.id==="ft_triple")?1:0))+(this.multiHit(skill)?wr:0);
-            for(let i=0;i<n&&t.alive&&u.alive;i++){ this._lastMultiHit=(i===n-1); this.applyDamage(u,t,(u.traits&&u.traits.chain_last&&i===n-1&&skill.id==="ft_triple")?Object.assign({},skill,{power:skill.power*2}):skill,fx); } this._lastMultiHit=false;
+            for(let i=0;i<n&&t.alive&&u.alive;i++){ this._lastMultiHit=(i===n-1); this.applyDamage(u,t,(u.traits&&u.traits.chain_last&&i===n-1&&skill.id==="ft_triple")?Object.assign({},skill,{power:skill.power*2}):(skill.multiFall&&i>0)?Object.assign({},skill,{power:skill.power*Math.max(0.4,1-skill.multiFall*i)}):skill,fx); }   /* v0.95 multiFall: 같은 적을 거듭 맞히는 화살은 한 발마다 약해짐(최소 40%) */ this._lastMultiHit=false;
             if(u.traits&&u.traits.chain_mom&&skill.id==="ft_triple"&&(u.momMax||0)>0&&u.alive) u._mom=Math.min(u.momMax,(u._mom||0)+1);   /* v0.86 연타 기세 */
             if(skill.airFinish&&air&&t.alive&&u.alive){ this.applyDamage(u,t,Object.assign({},skill,{power:skill.airFinish,multi:0,airMulti:0,airFinish:0}),fx); if(t.buffs.air){ delete t.buffs.air; fx.push(this.fxBuff(t,"내리꽂기")); }
               if(u.traits&&u.traits.dragon_shock) for(const o of this.foes(u)) if(o!==t&&o.alive&&o.row===t.row){ const r2=this.calcDamage(u,o,Object.assign({},skill,{power:skill.airFinish*0.5,multi:0,airMulti:0,airFinish:0})); this.hit(o,r2.dmg,fx,{crit:r2.crit,label:"충격파"}); } }   // v0.85
@@ -7024,7 +7032,9 @@ class Sim {
         case "guard": t.buffs.guardctr={turns:skill.duration,value:skill.value,src:u.id}; if(skill.resUp&&!(t.buffs.resup&&t.buffs.resup.value>=skill.resUp)) t.buffs.resup={turns:skill.duration,value:skill.resUp};   // 거리 두기
           fx.push(this.fxBuff(t,`${skill.name} — 저항 +${Math.round((skill.resUp||0)*100)}%p`)); break;
         case "unbroken": if(skill.resUp&&!(t.buffs.resup&&t.buffs.resup.value>=skill.resUp)) t.buffs.resup={turns:skill.duration,value:skill.resUp};   // 불굴의 창: 아군 전체 저항 · 나는 받는 피해 감소
-          if(t===u&&!(u.buffs.def&&u.buffs.def.value>=skill.value)) u.buffs.def={turns:skill.duration,value:skill.value}; fx.push(this.fxBuff(t,t===u?`${skill.name} — 받는 피해 -${Math.round(skill.value*100)}%`:`${skill.name} — 저항 +${Math.round((skill.resUp||0)*100)}%p`)); break;
+          if(t===u&&!(u.buffs.def&&u.buffs.def.value>=skill.value)) u.buffs.def={turns:skill.duration,value:skill.value};
+          if(t!==u&&skill.allyCut&&!(t.buffs.def&&t.buffs.def.value>=skill.allyCut)) t.buffs.def={turns:skill.duration,value:skill.allyCut};   /* v0.95 다른 아군도 받는 피해 -20% */
+          fx.push(this.fxBuff(t,t===u?`${skill.name} — 받는 피해 -${Math.round(skill.value*100)}%`:`${skill.name} — 저항 +${Math.round((skill.resUp||0)*100)}%p`)); break;
         case "foebuff": if(skill.buff==="prey") for(const x of this.units) if(x!==t&&x.buffs.prey&&x.buffs.prey.src===u.id) delete x.buffs.prey;   // v0.92 사냥감은 한 명
           t.buffs[skill.buff]={turns:skill.duration,value:skill.value,src:u.id}; if(skill.buff==="prey"){ t.buffs.prey.cap=skill.cap||0.3; t.buffs.prey.stk=0; } fx.push(this.fxBuff(t,skill.name)); break;   // v0.92 낙인 · 부패 · 사냥감
         case "freeze": this.applyCold(u,t,(t.boss||t.isBossKind)?(skill.boss||1):(skill.value||3),fx); break;   // v0.92 얼음 감옥: 냉기 3(= 빙결) · 보스는 냉기 1
@@ -7060,7 +7070,7 @@ class Sim {
           this._allOutNow=false; this._allOutBy=null; break; }
         case "inspire": { const tg=[t]; if(u.traits&&u.traits.inspire_plus){ if((t.momMax||0)>0) t._mom=Math.min(t.momMax,(t._mom||0)+1); if((t.ammoMax||0)>0) t._ammo=Math.min(t.ammoMax,(t._ammo||0)+1); if(t.mp_max>0&&!(t.momMax||t.ammoMax)) t.mp=Math.min(t.mp_max,t.mp+8); }   // v0.85
           if(u.traits&&u.traits.inspire_two){ const o=this.allies(u).filter(a=>a!==u&&a!==t); if(o.length) tg.push(o.reduce((b,x)=>x.atk>b.atk?x:b,o[0])); }
-          for(const x of tg){ if(!x.buffs.rally||x.buffs.rally.value<skill.value) x.buffs.rally={turns:skill.duration,value:skill.value};
+          for(const x of tg){ if(!x.buffs.rally||x.buffs.rally.value<skill.value) x.buffs.rally={turns:skill.duration,value:skill.value,src:u.id};
             if((x.momMax||0)>0) x._mom=Math.min(x.momMax,(x._mom||0)+2); if((x.ammoMax||0)>0) x._ammo=Math.min(x.ammoMax,(x._ammo||0)+2);
             if(x.mp_max>0&&!(x.momMax||x.ammoMax)) x.mp=Math.min(x.mp_max,x.mp+15);
             if(u.traits&&u.traits.inspire_crit) x.buffs.focus={turns:2,value:0.1};
@@ -8722,7 +8732,7 @@ function towerScale(f){ const k=Math.floor((f-1)/10), i=(f-1)%10; return {hp:+(M
 /* v0.93 최종 콘텐츠 = 영원한 밤 10장 다음 단계: 심연 1층 · 낙성 1단계의 일반 몹 평균이 영원한 밤 10장 일반 몹의 EG_START배가 되도록 맞춤(층·단계가 오를 때의 성장 규칙은 그대로) */
 const EG_START=1.05;
 const EG_NORM=(()=>{ const t=enemyTarget(2,9), K=DIFF_K[2], o={};
-  const put=(rk,mul)=>{ const a=poolAvg(rk); o[rk]={hp:+(EG_START*t.hp/(a.hp*K.hp*mul.hp)).toFixed(4), atk:+(EG_START*t.atk/(a.atk*K.atk*mul.atk)).toFixed(4)}; };
+  const put=(rk,mul)=>{ const a=poolAvg(rk); o[rk]={hp:+(EG_START*DIFF_EASE[2].hp[1]*t.hp/(a.hp*K.hp*mul.hp)).toFixed(4), atk:+(EG_START*DIFF_EASE[2].atk[1]*t.atk/(a.atk*K.atk*mul.atk)).toFixed(4)}; };   // v0.95 영원한 밤 10장 완화(×0.8)를 그대로 따름
   for(const rk of REGION_KEYS) put(rk,{hp:1,atk:1});
   put("abyss",ABYSS_BASE); put("starfall",{hp:1.4,atk:1.1});   // 심연 1층 배율 · 낙성 1단계 일반 몹 배율
   return o; })();
@@ -8823,7 +8833,26 @@ function partyScaleEnemies(enemies,n,base,egMode){
 }
 
 /* v0.93 무작위 다단 기술(hits — 불새·화살비 등, 앞으로 생기는 것도)은 같은 적을 거듭 맞힐 때 줄어듦. 기술마다 hitFall로 따로 정할 수 있고(0이면 안 줄어듦), 없으면 10%씩 */
-function hitFallOf(s){ return !s||!(s.hits>1)?0:s.hitFall!=null?s.hitFall:0.1; }   // v0.93 엔진 쪽으로(봇이 UI 앞까지만 읽음)
+/* v0.95 쿨타임 · 마나 · 광역 대상 수 · 몹 범위 기술 — 한 곳에서 규칙대로 매김
+   영웅 기술 쿨타임(쓰고 나서 내 행동 N번 쉼): 0 = 기본기·채우는 기술·지속으로 이미 묶인 버프 / 1 = 센 단일기·앞줄 광역·큰 다단 / 2 = 전체 광역·파티 전체 지원 / 3 = 궁극기·부활·빙결
+   마나(마법사·성직자·음유시인만 — 측정상 마나가 남는 직업): 쿨타임 없음 ×1.15 · 1 → ×1.4 · 2 → ×1.7 · 3 → ×2.0(센 기술일수록 마나를 더 씀)
+   대마법사 잿불 폭발 · 바람의 명궁 천 개의 화살: 적 전체 → 최대 4명(앞줄부터) */
+const SKILL_CD={
+  3:["pr_revive","mg_eternal","mg_iceprison","ft_heavendragon","gn_blast","pr_judgefire","ar_thousand","pr_salvation","kn_rampart","pr_spring","pr_barrier"],
+  2:["mg_ashburst","mg_phoenix","mg_froststorm","mg_beam","mg_frostcoat","rg_miasma","gn_headshot","gn_firerain","ar_rain","ar_storm","ar_hound","ln_skypierce","ln_leap","ln_unbroken","pr_rain","pr_chant","kn_oath","kn_bloodprice","ft_diamond","bd_volley"],
+  1:["mg_wave","mg_steam","kn_frenzy","kn_slam","kn_final","ft_whirl","ft_burst","ft_aircombo","gn_scatter","gn_frag","gn_precise","gn_through","gn_keg","ln_sweep","ln_flurry","pr_hammer","rg_shadowblade","rg_throat","rg_finisher","rg_rupture","ar_weakhunt","ar_galepierce","bd_drum","bd_lullaby","bd_order","ar_rapid"] };
+const CD_MP=[1.15,1.4,1.7,2.0];   // 마나 배율: 쿨타임 없음 ×1.15 · 1턴 ×1.4 · 2턴 ×1.7 · 3턴 ×2.0
+for(const [cd,L] of Object.entries(SKILL_CD)) for(const k of L){ const S=SKILLS[k]; if(!S) continue; S.cd=+cd; if(S.mp>0&&/^(mg|pr|bd)_/.test(k)) S.mp=Math.round(S.mp*CD_MP[+cd]); }   // 마나가 넉넉한 직업(마법사·성직자·음유시인)만 — 나머지는 이미 마나가 모자람(측정: 평균 마나 19~58%)
+for(const k of Object.keys(SKILLS)){ const S=SKILLS[k]; if(!S.cd&&S.mp>0&&/^(mg|pr|bd)_/.test(k)) S.mp=Math.round(S.mp*CD_MP[0]); }
+SKILLS.mg_ashburst.maxT=4; SKILLS.ar_thousand.maxT=4;
+/* 몹·보스 범위 기술(도발을 무시하고 뒷줄까지 닿는 모양 기술 · 전체 공격): 배율을 낮추고 쿨타임을 둠 — 뒷줄이 한 방에 쓰러지지 않게.
+   일반 몹 ×MOB_SHAPE_POW · 장 보스·중간 보스 ×BOSS_SHAPE_POW, 쿨타임 2(전체 공격은 3). 앞줄만 치는 모양(front_*)은 그대로 */
+const MOB_SHAPE_POW=0.65, BOSS_SHAPE_POW=0.8;
+(()=>{ const hero=new Set(); for(const c of CLASS_IDS) for(const k of CLASSES[c].skills) hero.add(k); for(const c of CLASS_IDS) for(const A of ADV[c]){ hero.add(A.skill); for(const k of (A.extra||[])) hero.add(k); }
+  const bossOnly={}; for(const m of Object.values(MOBS)) for(const r of (m.rules||[])){ const b=!!m.boss; bossOnly[r.skill]=bossOnly[r.skill]===undefined?b:(bossOnly[r.skill]&&b); }
+  for(const [k,S] of Object.entries(SKILLS)){ if(hero.has(k)||S.type!=="damage"||bossOnly[k]===undefined) continue; const back=S.aoe||(S.shape&&!/^front/.test(S.shape)); if(!back) continue;
+    S.power=+((S.power||0)*(bossOnly[k]?BOSS_SHAPE_POW:MOB_SHAPE_POW)).toFixed(3); S.cd=S.aoe?3:2; } })();
+function hitFallOf(s){ return !s||!(s.hits>1)?0:s.hitFall!=null?s.hitFall:0.2; }   // v0.95 0.1 → 0.2(한 적에 몰릴수록 더 크게 줄어듦 — 단일 대상 전문 기술과 차이)   // v0.93 엔진 쪽으로(봇이 UI 앞까지만 읽음)
 const PARRY_BOSS_CUT=0.5;   // v0.93 되받아치기: 보스·우두머리 근접 공격은 막지 못하고 피해 -50%
 // v0.93 엔진 쪽(joinersDue·swapProtag)이 부르므로 UI 표식 앞에 둠 · 합류 순서: 시작 때 고른 둘 → 나머지(JOIN_ORDER 순서)
 function cleanName(v){ return String(v||"").replace(/[\u0000-\u001f<>&"'`\\]/g,"").replace(/\s+/g," ").trim().slice(0,8); }
@@ -14189,12 +14218,12 @@ let hitPend=0;
 
 /* ===== v0.93 딜미터기 — 이번 전투에서 누가 무엇으로 얼마나 때리고·치유하고·막아 주고·맞았는지. 전투 중엔 화면에 보인 사건까지 실시간, 끝나면 그대로 남음 ===== */
 const MT={ cur:null, open:false, tab:"dmg", exp:{}, raf:0,
-  TABS:[["dmg","주는 피해"],["heal","치유"],["shield","보호막"],["taken","받은 피해"]],
+  TABS:[["dmg","주는 피해"],["sup","지원 피해"],["heal","치유"],["shield","보호막"],["taken","받은 피해"]],
   // v0.94 막 누적: 같은 던전(한 막 · 최종 콘텐츠 한 번 도전) 안의 전투를 모두 더해 보여 줌 — 새 막에 들어가면 새로 셈
   run:null,
   begin(sim,events,label,R0){ const key=u=>u.cls||u.id, R=R0||runState;
     if(!this.run||this.run.ref!==R||!R){ const rg=R&&REGIONS[R.regionKey];
-      this.run={ref:R, label:!R?"":R.mode?`${(EG_MODES[R.mode]||{name:"최종 콘텐츠"}).name}`:`${rg?rg.chapter+" ":""}${R.act||""}막`, units:{}, agg:{dmg:{},heal:{},shield:{},taken:{}}, battles:0, turns:0}; this.exp={}; }
+      this.run={ref:R, label:!R?"":R.mode?`${(EG_MODES[R.mode]||{name:"최종 콘텐츠"}).name}`:`${rg?rg.chapter+" ":""}${R.act||""}막`, units:{}, agg:{dmg:{},sup:{},heal:{},shield:{},taken:{}}, battles:0, turns:0}; this.exp={}; }
     const RN=this.run; RN.battles++; if(this.cur) RN.turns+=this.cur.turn||0;
     for(const u of sim.units) if(u.side==="party"){ const k=key(u); RN.units[k]={name:u.name}; }
     this.cur={units:sim.units.map(u=>({id:u.id,name:u.name,side:u.side,k:key(u)})), log:sim.meter||[], ev:events, n:0, turn:0, done:false, label:label||"", result:null};
@@ -15176,6 +15205,17 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.10", v:"v0.94", t:"영웅 밸런스 · 쿨타임 · 방진 수호자 · 몹 범위 기술", L:[
+    "쿨타임: 센 기술은 쓰고 나서 내 행동 1~3번 동안 쉽니다(기술 설명의 '쿨타임 N턴'). 쉬는 동안 자동전투는 다음 순번 규칙으로 넘어갑니다. 몹·보스의 범위 기술에도 쿨타임이 생겼습니다(범위 2턴 · 전체 3턴).",
+    "대마법사 '잿불 폭발' · 바람의 명궁 '천 개의 화살': 적 전체 → 최대 4명(앞줄부터).",
+    "한 적에게 몰리는 연타는 더 크게 줄어듭니다 — 불새·화살비처럼 흩뿌리는 기술은 같은 적에게 한 발마다 -20%(예전 -10% · 최소 30%), 연속 사격·폭풍 연사·천 개의 화살은 한 발마다 -15%(최소 40%). 치명타 추가타(화살 소나기·연격 치명 등)는 그 타격의 위력을 따릅니다(위력 36%짜리 연타의 추가타가 기본공격 50%로 나가던 문제).",
+    "단일 대상 전문: 저격수 '머리 겨누기' 300 → 380% · 기본 규칙에 '정밀 사격' 추가(취약이 안 걸리는 보스에게 표적탄만 쏘던 문제) / 암살자 '그림자 칼날' 270 → 340% · 마나 24 → 18 · 그림자 걸음 마나 10 → 6 / 용기병 돌격·천공·용의 도약 마나 14·26·22 → 10·20·18.",
+    "대마법사 '불새' 한 발 80 → 60% · 화상 확률 30 → 20% · 화상 피해 35 → 25%. 연속 사격 45 → 36% · 폭풍 연사 40 → 32%.",
+    "방진 수호자(탱커): '방진'을 펴면 적의 공격을 나에게 끌어옵니다(도발 2턴 · 원거리 공격도 80%) + 나는 받는 피해 -45% · 보호막 20%. '불굴의 창'은 3턴간 다른 아군도 받는 피해 -20%. 패시브로 본인은 받는 피해 -15% 추가. 마나 방진 18 → 10 · 불굴의 창 22 → 14 · 창끝 반격 12 → 8.",
+    "마나: 측정해 보니 마나가 남는 직업(마법사·성직자·음유시인)만 올렸습니다 — 쿨타임 없음 ×1.15 · 1턴 ×1.4 · 2턴 ×1.7 · 3턴 ×2.0. 나머지 직업은 이미 마나가 모자라 그대로입니다.",
+    "몹·보스: 도발을 무시하고 뒷줄까지 닿는 범위·전체 기술의 위력을 낮췄습니다(일반 몹 ×0.65 · 보스 ×0.8). 난이도가 바뀔 때 1장 보스가 앞 난이도 10장 보스보다 강해지는 폭 1.25배 → 1.10배. 뒤 장 완화: 자정 10장 ×0.92 → ×0.88 · 영원한 밤 1장 ×0.7 → ×0.65 · 10장 ×1.0 → ×0.62(최종 콘텐츠 시작도 같이) · 영원한 밤 장 보스 ×0.88(1장)부터 · 보스 체력은 10장에서 추가 ×0.75.",
+    "전투 기록에 '지원 피해' 탭: 투지의 노래·북돋는 선율로 늘어난 아군 피해가 노래를 건 영웅(음유시인) 앞으로 기록됩니다.",
+    "이미 쓰던 규칙은 건드리지 않았습니다. 방진 수호자·저격수의 새 기본 규칙은 규칙 화면의 '초기화'(고른 영웅만)로 받을 수 있습니다."]},
   {d:"2026.11.09", v:"v0.94", t:"규칙 초기화 · 규칙이 비던 버그 · 저장 칸", L:[
     "규칙 화면의 초기화 버튼은 이제 고른 영웅 한 명만 기본값으로 되돌립니다(예전: 모든 영웅).",
     "버그 수정: 다른 기기 저장을 불러오거나(두 기기 · 새로 고침) 백업에서 되살릴 때, 이 기기의 옛 진행을 기준으로 '아직 없는 기술'로 보고 전직·스킬북 기술 규칙을 꺼 버려 규칙이 비거나 바뀌던 문제.",
