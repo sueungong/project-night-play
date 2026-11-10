@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794324483730"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794325149688"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3699,7 +3699,7 @@ const UNIQUES={
   u_haste:     {label:"전투 시작 시 2턴간 신속 +4",          apply:u=>u.traits.start_haste=true},
   u_fear:      {label:"공격 시 5% 확률로 기절(1턴)", apply:u=>u.traits.fear_touch=true},
   u_silence:   {label:"스킬 피해 시 10% 확률로 기절(1턴)", apply:u=>u.traits.silence_touch=true},
-  u_blind:     {label:"공격 시 20% 확률로 실명(2턴, 명중 -50%)", apply:u=>u.traits.blind_touch=true},
+  u_blind:     {label:"공격 시 20% 확률로 실명(2턴, 명중 -40%)", apply:u=>u.traits.blind_touch=true},
   u_shieldburst:{label:"보호막이 깨지면 주위 적 전체에 공격력 80% 피해", apply:u=>u.traits.shield_burst=true},
 };
 const UNIQUE_KEYS=Object.keys(UNIQUES);
@@ -8927,7 +8927,7 @@ function plateAutoEquip(cid){ const RV={rare:1,epic:2,legend:3}; for(let pos=0;p
    속성 저항 1 = 그 속성 피해 -1%(상한 70 · 약점은 음수). 상태이상에 걸릴 확률은 건드리지 않음(그건 '상태이상 회피').
    화상·독·동상의 턴 피해도 각각 화염·독·냉기 저항으로 줄어듦. 몹의 기존 면역(밤의 가호)은 그대로. */
 const RES_GEAR_MAX=0.20;
-const COLD_SLOW=0.15, COLD_SLOW_BOSS=0.08, BLIND_ACC=0.5, BLIND_ACC_BOSS=0.25;   // v0.95 냉기 둔화(중첩당) · 실명 명중 감소
+const COLD_SLOW=0.15, COLD_SLOW_BOSS=0.08, BLIND_ACC=0.4, BLIND_ACC_BOSS=0.2;   // v0.95 냉기 둔화(중첩당) · 실명 명중 감소
 const EL_NAME={fire:"화염",cold:"냉기",poison:"독",holy:"신성",dark:"암흑"}, EL_KEYS=Object.keys(EL_NAME), ER_CAP=70, ER_FLOOR=-40;
 const EL_FIX={ basic_smite:"holy", mg_steam:"fire", rg_shadowblade:"dark", rg_venomblade:"poison", rg_rupture:"poison", rg_dart:"poison", mg_beam:null, basic_shot:null, mg_siphon:null, ar_shot:null, discord:null, bd_unease:null,
   kn_bloodprice:"dark", kn_final:"dark", mg_eternal:"cold", rg_throat:"dark", ft_palm:"holy", ft_heavendragon:"fire", ft_ascend:"fire", gn_frag:"fire",
@@ -15353,6 +15353,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.11", v:"v0.94", t:"실명 수치 조정", L:[
+    "실명: 명중 -50% → -40%(보스는 -25% → -20%). 영웅이 걸든 적이 걸든 같은 수치입니다.",
+    "제단의 적은 실명이 아니라 예전처럼 약화를 겁니다(사막의 적만 실명)."]},
   {d:"2026.11.11", v:"v0.94", t:"냉기 = 둔화 · 실명 · 전직별 주속성", L:[
     "냉기: 중첩마다 느려집니다 — 1중첩당 행동 게이지가 15% 덜 차고(2중첩이면 3턴에 한 번쯤 행동을 놓침) 행동 순서도 뒤로 밀립니다. 3중첩이면 1턴 빙결 후 초기화. 얼지 않는 보스는 2중첩에 머물며 중첩당 8% 느려집니다.",
     "실명이 돌아왔습니다: 2턴간 명중 -50%(보스는 -25%) — 공격이 자주 빗나갑니다. 예전에는 약화(공격력 -20%)로 처리됐습니다. 섬광 수류탄 · '공격 시 실명' 옵션 등이 진짜 실명을 겁니다. 사막의 적은 약화 대신 실명을 겁니다.",
