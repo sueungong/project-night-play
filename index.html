@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794310312505"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794312312098"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3428,7 +3428,7 @@ function battleRewards(zone,d,rk){
   if(zone.boss&&RELICS[rk]&&!relicOwned(rk)){ const n=(progress.cl[d]||{})[rk]||0; if(n>=3||Math.random()<0.2+0.1*d) items.push(makeRelic(rk)); }
   let ess=els+zone.mobs.filter(m=>m.chief).length*3+(zone.named?4:0)+(zone.boss?5:0);
   ess=Math.round(ess*(1+d));
-  return {exp,gold,items,ess};
+  return {exp,gold,items,ess,plate:plateDropRoll(zone,d,rk)};   // v0.95 성반: 영원한 밤 장 보스 3% — 성편은 바로 보관함에
 }
 function chestRewards(d,rk){
   const D=DIFFS[d], R=REGIONS[rk];
@@ -5726,7 +5726,7 @@ class Sim {
     this.units=[...party,...enemies]; this.events=[]; this.turn=0;
     this.seed=seed>>>0; this.rand=mulberry32(this.seed);
     for(const u of this.units){ u.buffs={}; u.dots={}; u.taunted_by=""; u._half=false; u._saidDefeat=false;
-      u._lampUsed=false; u._undyingUsed=false; u._iceUsed=false; u._acted=false; if(!u.traits) u.traits={};
+      u._lampUsed=false; u._undyingUsed=false; u._iceUsed=false; u._acted=false; u._cd=null; u._ffUsed=false; if(!u.traits) u.traits={};
       u.shield=(u.startShield?Math.floor(u.hp_max*u.startShield):0)+(u.traits&&u.traits.reso_shield?Math.floor(u.hp_max*0.03*u.traits.reso_shield):0); u._rampage=0; u._angelUsed=false; u._kills=0; u._countering=false; u._fell=false; u._ledger=0; u._starUsed=false;
       u._combo=0; u._coat=0; u._vanishUsed=false; u._comboKill=0; u._restealth=false; u._critCombo=0; u._oathHit=false; u._oathDone=false; u._kingStk=0;
       u._killsTotal=0; u._bossKills=0; u._critsTotal=0; u._healDone=0; u._dmgTaken=0; u._counters=0; u._lastCrit=false; u._critNow=false;
@@ -5836,7 +5836,7 @@ class Sim {
     this._actor=prevA; this._kegBoom=false;
   }
   skillOf(u,sid){ return (u.skillsEx&&u.skillsEx[sid])||SKILLS[sid]; }
-  capT(arr,skill){ const n=skill.maxT|0; if(!n||arr.length<=n) return arr; const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(this.rand()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a.slice(0,n); }   // v0.95 광역 최대 대상 수 — 무작위로 고름
+  capT(arr,skill,u){ const n=(skill.maxT|0)+((skill.maxT&&u&&u.traits&&u.traits.maxt_plus)?1:0); if(!n||arr.length<=n) return arr; const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(this.rand()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a.slice(0,n); }   // v0.95 광역 최대 대상 수 — 무작위로 고름
   blockedBy(u,c){ return !!(c.lock&&!(u.unlocks&&u.unlocks.includes(COND.indexOf(c)))); }
   rr(a,b){ return a+this.rand()*(b-a); }
   ri(a,b){ return a+Math.floor(this.rand()*(b-a+1)); }
@@ -6014,10 +6014,10 @@ class Sim {
     if(skill.backOnly) pool=pool.filter(x=>x.row==="back");   // v0.92 창 던지기: 뒷줄 적만
     if(!pool.length) return [];
     if(skill.airOnly){ const f=this.foes(u).filter(x=>x.buffs.air); return f; }   // v0.92 천룡파: 띄운 적 모두
-    if(skill.burnOnly){ const f=pool.filter(x=>x.dots.burn); return this.capT(f,skill); }   // v0.92 잿불 폭발 · 대폭발: 화상 걸린 적 모두
+    if(skill.burnOnly){ const f=pool.filter(x=>x.dots.burn); return this.capT(f,skill,u); }   // v0.92 잿불 폭발 · 대폭발: 화상 걸린 적 모두
     if(skill.coldMin){ const f=pool.filter(x=>this.coldOf(x)>=skill.coldMin); return f; }   // v0.92 영겁의 겨울: 냉기 2중첩 이상인 적 모두
     if(skill.steam){ const f=pool.filter(x=>this.coldOf(x)>0||(x.buffs.stun&&x.buffs.stun.frozen)); if(!f.length) return []; return [f.reduce((b,x)=>((x.buffs.stun&&x.buffs.stun.frozen)?9:this.coldOf(x))>((b.buffs.stun&&b.buffs.stun.frozen)?9:this.coldOf(b))?x:b,f[0])]; }   // v0.92 증기 폭발: 빙결·냉기가 가장 많은 적
-    if(skill.aoe) return this.capT(pool,skill);
+    if(skill.aoe) return this.capT(pool,skill,u);
     if(skill.aoeFront){ const f=pool.filter(x=>x.row==="front"); return f.length?f:pool; }
     // 도발: 근접 공격은 항상 끌려가고, 원거리 공격은 절반만 끌려간다(나머지는 원래 노리던 대상)
     if(u.taunted_by){ const t=this.byId(u.taunted_by); if(t&&t.alive&&pool.includes(t)&&(skill.range!=="ranged"||this.rand()<this.tauntPull(t))) return [t]; }
@@ -6049,7 +6049,7 @@ class Sim {
     if(skill.allyShield&&tg.some(t=>t.alive&&(t.shield||0)<Math.floor(t.hp_max*skill.allyShield.v))) return false; const extra=skill.resUp||skill.leech||skill.selfAtkCut||skill.frostCoat||skill.holyWard||skill.stImm;
     if(extra) return tg.every(t=>(t.buffs[key]&&t.buffs[key].value>=skill.value)&&(!skill.resUp||(t.buffs.resup&&t.buffs.resup.value>=skill.resUp))&&(!skill.leech||t.buffs.leech)&&(!skill.frostCoat||t.buffs.frostcoat)&&(!skill.holyWard||t.buffs.holyward)&&(!skill.stImm||t.buffs.stimm));
     return !tg.some(t=>!(t.buffs[key]&&t.buffs[key].value>=skill.value)); }
-  mpCost(u,skill){ let c=skill.mp||0;   /* v0.90 기술 비용은 고정 숫자(최대 마나의 %가 아님) */ if(skill.type==="stealth"&&u.traits.stealth_long) return 0; if(u.traits.blood_pact) return 0; if(u.traits.mana_cycle) c*=u.traits.mana_cycle_v?1-u.traits.mana_cycle_v:0.75; if(u.traits.overload_v) c*=1.15;
+  mpCost(u,skill){ let c=skill.mp||0; if(c>0&&u.traits&&u.traits.first_free&&!u._ffUsed) return 0;   /* v0.90 기술 비용은 고정 숫자(최대 마나의 %가 아님) */ if(skill.type==="stealth"&&u.traits.stealth_long) return 0; if(u.traits.blood_pact) return 0; if(u.traits.mana_cycle) c*=u.traits.mana_cycle_v?1-u.traits.mana_cycle_v:0.75; if(u.traits.overload_v) c*=1.15;
     if(u._int18) c*=0.9;   // 지능 18 통찰
     if(u.traits.mp_cost) c*=1+u.traits.mp_cost; if(u.traits.mp_cost_heal&&skill.type==="heal") c*=1+u.traits.mp_cost_heal; if(u.traits.overload_ult) c*=1.3; /* v0.85 */ if(u.traits.reso_mp) c*=1-0.05*u.traits.reso_mp; if(u.traits.swift_heal&&skill.type==="heal") c*=0.85; return Math.max(0,Math.ceil(c)); }
   usable(u,skill){
@@ -6176,7 +6176,7 @@ class Sim {
     // v0.19 특성(공통): 상황별 피해 증가
     if(T.low_fury&&this.hpPct(att)<=50) base*=T.low_fury_v||1.3;
     if(T.high_focus&&this.hpPct(att)>=80) base*=1.15;
-    if(T.boss_slayer&&(def.boss||def.isBossKind)) base*=T.boss_slayer_v||1.2;
+    if(T.boss_slayer&&(def.boss||def.isBossKind)) base*=T.boss_slayer_v||1.2; if(T.boss_plus&&(def.boss||def.isBossKind)) base*=1+T.boss_plus;
     if(T.elite_hunter&&(def.elite||def.boss||def.isBossKind)) base*=1.15;
     if(T.burn_hunter&&def.dots&&def.dots.burn) base*=1.2;
     if((T.weak_hunter||T.weak_hunter35)&&def.buffs.atk&&def.buffs.atk.value<0) base*=1+(T.weak_hunter?0.2:0)+(T.weak_hunter35?0.35:0);
@@ -6520,8 +6520,8 @@ class Sim {
     fx.push(this.fxBuff(t,label)); this.onDebuff(src,t,"chill");
     if(src.traits&&src.traits.frostbite) this.applyCold(src,t,1,fx);   // v0.89 동상 → 냉기
   }
-  tauntPull(t){ return (t.traits&&t.traits.taunt_all)?1:Math.max(0.5,(t.buffs.taunt&&t.buffs.taunt.value)||0); }   // v0.95 도발이 원거리 공격을 끌어오는 확률: 기본 50% · 방진 80% · '끌어들이는 방패' 100%
-  dotAmp(att,kind){ const T=att.traits||{}; let m=T.dot_amp?1.4:1; if(kind==="burn"){ if(T.burn_amp50) m*=1.5; if(T.burn_amp30) m*=1.3; if(T.blast_amp15) m*=1.15; if(T.burn_bonus) m*=1+T.burn_bonus; if(T.blast_bonus) m*=1+T.blast_bonus; } return m; }   // v0.85 지속 피해 배율
+  tauntPull(t){ if(t.traits&&t.traits.taunt_all) return 1; const b=Math.max(0.5,(t.buffs.taunt&&t.buffs.taunt.value)||0), pl=(t.traits&&t.traits.taunt_pull)||0; return pl?Math.min(0.95,b+pl):b; }   // v0.95 도발이 원거리 공격을 끌어오는 확률: 기본 50% · 방진 80% · '끌어들이는 방패' 100%
+  dotAmp(att,kind){ const T=att.traits||{}; let m=T.dot_amp?1.4:1; if(kind==="poison"&&T.poison_bonus) m*=1+T.poison_bonus; if(kind==="burn"){ if(T.burn_amp50) m*=1.5; if(T.burn_amp30) m*=1.3; if(T.blast_amp15) m*=1.15; if(T.burn_bonus) m*=1+T.burn_bonus; if(T.blast_bonus) m*=1+T.blast_bonus; } return m; }   // v0.85 지속 피해 배율
   setBurn(att,t,ratio,label,fx,turns=2){
     if(!(ratio>0)) ratio=0.35; if(!(turns>0)) turns=2;   // v0.94 비율이 비면 피해가 NaN → 적 체력이 NaN이 되어 죽지 않던 문제 방지
     if(!t.alive) return;
@@ -6949,7 +6949,8 @@ class Sim {
       fx.push({target:u.id,kind:"buff",label:"마력 환류(마나 소모 없음)",amount:0,crit:false,killed:false,hp:u.hp,mp:u.mp});
     else u.mp=Math.max(0,u.mp-this.mpCost(u,skill));
     if(skill.limit){ u._uses=u._uses||{}; const k=skill.id||skill.name; u._uses[k]=(u._uses[k]||0)+1; }
-    if(skill.cd&&!skill.leapLand){ (u._cd=u._cd||{})[skill.id||skill.name]=skill.cd+1; }   // v0.95 쿨타임: 쓰고 나서 내 행동 cd번 동안 못 씀
+    if(skill.mp>0) u._ffUsed=true;   /* v0.95 성반(황금): 전투마다 처음 쓰는 기술만 마나 0 */
+    if(skill.cd&&!skill.leapLand){ (u._cd=u._cd||{})[skill.id||skill.name]=skill.cd+1-((skill.cd>=3&&u.traits&&u.traits.cd_cut3)?1:0); }   // v0.95 쿨타임: 쓰고 나서 내 행동 cd번 동안 못 씀
     // v0.26 직업 자원 소모(탄·기세·공명)
     const momB=u._mom, resB=u._res, ammoB=u._ammo, aimB=u._aim;
     let spent=0;
@@ -7543,6 +7544,8 @@ function heroDerived(cid){
   for(const e of setEffects(E.sets)) for(const k of Object.keys(e)){
     if(k==="flag") for(const f of [].concat(e.flag)) tr.flags[f]=true; else if(k==="skmod") continue; else tr[k]=(tr[k]||0)+e[k];   // 기술 보정(skmod)은 heroSkillsEx에서
   }
+  const ptv={}; for(const e of plateEffects(cid)) for(const k of Object.keys(e)){   // v0.95 성반
+    if(k==="flag") for(const f of [].concat(e.flag)) tr.flags[f]=true; else if(k==="tv") for(const [a,b] of Object.entries(e.tv)) ptv[a]=(ptv[a]||0)+b; else tr[k]=(tr[k]||0)+e[k]; }
   const tt=heroTitleObj(cid); if(tt) for(const [k,v] of Object.entries(tt.eff)) tr[k]=(tr[k]||0)+v;
   const W=WEAPONS[heroWeaponType(cid)]; const wm=W.mods||{};
   const off=E.offhand&&!W.two?OFFHANDS[cid]:null;
@@ -7580,6 +7583,7 @@ function heroDerived(cid){
   if(tr.res_regen) traits.res_regen=tr.res_regen; if(tr.march_minus) traits.march_minus=tr.march_minus; if(tr.noSkill&&tr.noSkill.length) traits.noSkill=tr.noSkill.slice();
   if(E.relic&&RELICS[E.relic]&&RELICS[E.relic].flag) traits[RELICS[E.relic].flag]=true;
   for(const [k,v] of Object.entries(E.rfx||{})) traits[k]=(traits[k]||0)+v;   // v0.94 룬 고유 효과
+  for(const [k,v] of Object.entries(ptv)) traits[k]=(traits[k]||0)+v;   // v0.95 성반 세트 효과(전투 수치)
   if(E.relic&&E.relicSt>=3&&RELIC_AWAKE[E.relic]) traits[RELIC_AWAKE[E.relic].flag]=true;
   if(traits.relic_bark) traits.dmg_cut=(traits.dmg_cut||0)+0.08;
   resoApply(traits);   // v0.61 심연 공명
@@ -8852,6 +8856,49 @@ const MOB_SHAPE_POW=0.65, BOSS_SHAPE_POW=0.8;
   const bossOnly={}; for(const m of Object.values(MOBS)) for(const r of (m.rules||[])){ const b=!!m.boss; bossOnly[r.skill]=bossOnly[r.skill]===undefined?b:(bossOnly[r.skill]&&b); }
   for(const [k,S] of Object.entries(SKILLS)){ if(hero.has(k)||S.type!=="damage"||bossOnly[k]===undefined) continue; const back=S.aoe||(S.shape&&!/^front/.test(S.shape)); if(!back) continue;
     S.power=+((S.power||0)*(bossOnly[k]?BOSS_SHAPE_POW:MOB_SHAPE_POW)).toFixed(3); S.cd=S.aoe?3:2; } })();
+/* ===== v0.95 성반(星盤) — 영원한 밤 장 보스 전용. 원을 여섯으로 나눈 조각(성편)을 영웅마다 6자리에 끼움 · 같은 성반 2·4·6조각이면 세트 효과
+   드롭: 영원한 밤 장 보스 처치 시 PLATE_DROP 확률로 그 장 성반의 무작위 자리 성편 1개(등급·수치 무작위)
+   분해 → 성반가루 · 가루 + 정수로 원하는 성반·자리의 성편 제작(등급·수치는 드롭과 같은 확률) */
+const PLATE_DROP=0.03, PLATE_DUST={rare:1,epic:3,legend:8}, PLATE_CRAFT={dust:20,ess:500}, PLATE_RAR=[["rare",0.6],["epic",0.3],["legend",0.1]], PLATE_INV_MAX=300;
+const PLATE_RAR_NAME={rare:"희귀",epic:"영웅",legend:"전설"};
+const PLATE_POS=[   // 자리마다 능력치는 고정 · 값만 등급 따라
+  {k:"atk_pct",n:"공격력",u:"%",f:0.01,v:{rare:[2,3],epic:[3,5],legend:[5,7]}},
+  {k:"hp_pct", n:"체력",  u:"%",f:0.01,v:{rare:[3,4],epic:[4,6],legend:[6,9]}},
+  {k:"crit",   n:"치명타 확률",u:"%",f:1,v:{rare:[1,2],epic:[2,3],legend:[3,4]}},
+  {k:"def",    n:"방어력",u:"",f:1,v:{rare:[2,3],epic:[3,5],legend:[5,7]}},
+  {k:"critdmg",n:"치명타 피해",u:"%",f:1,v:{rare:[3,5],epic:[5,8],legend:[8,12]}},
+  {k:"mp_pct", n:"마나",  u:"%",f:0.01,v:{rare:[3,4],epic:[4,6],legend:[6,9]}} ];
+// 세트 효과: [설명, 효과] — 효과는 능력치 · flag · tv(전투 수치). 6조각 효과는 '규칙을 조금 비트는 것'과 '속성 특화'를 섞되 과하지 않게
+const PLATE_SETS={
+  swamp:  {name:"독늪의 성반",   fx:{2:["체력 +4%",{hp_pct:0.04}],      4:["공격력 +4%",{atk_pct:0.04}],     6:["내가 건 독 피해 +20%",{tv:{poison_bonus:0.2}}]}},
+  volcano:{name:"화산의 성반",   fx:{2:["공격력 +3%",{atk_pct:0.03}],   4:["치명타 확률 +3%",{crit:3}],       6:["내가 건 화상 피해 +20%",{tv:{burn_bonus:0.2}}]}},
+  sunken: {name:"수몰의 성반",   fx:{2:["마나 +5%",{mp_pct:0.05}],      4:["방어력 +4",{def:4}],              6:["내가 거는 냉기 약화 +5%p",{tv:{chill_bonus:0.05}}]}},
+  forest: {name:"숲그늘의 성반", fx:{2:["체력 +4%",{hp_pct:0.04}],      4:["마나 +5%",{mp_pct:0.05}],         6:["치유량 +10%",{heal_pct:0.10}]}},
+  gold:   {name:"황금의 성반",   fx:{2:["치명타 확률 +2%",{crit:2}],    4:["치명타 피해 +8%",{critdmg:8}],    6:["전투마다 처음 쓰는 기술 마나 0",{flag:"first_free"}]}},
+  desert: {name:"모래의 성반",   fx:{2:["공격력 +3%",{atk_pct:0.03}],   4:["체력 +5%",{hp_pct:0.05}],         6:["대상 수가 정해진 광역 기술의 최대 대상 +1",{flag:"maxt_plus"}]}},
+  temple: {name:"신전의 성반",   fx:{2:["방어력 +3",{def:3}],           4:["체력 +5%",{hp_pct:0.05}],         6:["도발이 원거리 공격을 끌어오는 확률 +15%p(최대 95%)",{tv:{taunt_pull:0.15}}]}},
+  citadel:{name:"성채의 성반",   fx:{2:["체력 +4%",{hp_pct:0.04}],      4:["방어력 +4",{def:4}],              6:["받는 피해 -5%",{tv:{dmg_cut:0.05}}]}},
+  throne: {name:"왕좌의 성반",   fx:{2:["공격력 +3%",{atk_pct:0.03}],   4:["치명타 피해 +8%",{critdmg:8}],    6:["쿨타임 3턴 기술의 쿨타임 -1턴",{flag:"cd_cut3"}]}},
+  altar:  {name:"제단의 성반",   fx:{2:["치명타 확률 +2%",{crit:2}],    4:["공격력 +4%",{atk_pct:0.04}],      6:["보스·우두머리에게 주는 피해 +8%",{tv:{boss_plus:0.08}}]}} };
+const PLATE_KEYS=Object.keys(PLATE_SETS);
+function plateStore(){ const P=progress.plate=(progress.plate&&typeof progress.plate==="object")?progress.plate:{}; if(!Array.isArray(P.inv)) P.inv=[]; P.dust=P.dust|0; P.seq=P.seq|0; return P; }
+function plateSlots(cid){ const h=progress.heroes[cid]; if(!h) return []; if(!Array.isArray(h.plate)||h.plate.length!==6) h.plate=[null,null,null,null,null,null]; return h.plate; }
+function plateById(id){ return plateStore().inv.find(x=>x.id===id)||null; }
+function plateRoll(set,pos){ const P=plateStore(); let r=Math.random(), rar="rare"; for(const [k,w] of PLATE_RAR){ if(r<w){ rar=k; break; } r-=w; } const R=PLATE_POS[pos].v[rar]; return {id:++P.seq,set,pos,rar,v:ri(R[0],R[1])}; }
+function plateAdd(p){ const P=plateStore(); if(P.inv.length>=PLATE_INV_MAX){ P.dust+=PLATE_DUST[p.rar]||1; return false; } P.inv.push(p); return true; }   // 가득 차면 바로 가루로
+function plateOwner(id){ for(const c of Object.keys(progress.heroes)){ const h=progress.heroes[c]; if(Array.isArray(h.plate)&&h.plate.includes(id)) return c; } return null; }
+function plateWorn(cid){ return plateSlots(cid).map(id=>id!=null?plateById(id):null); }
+function plateEquip(cid,id){ const p=plateById(id); if(!p) return false; const o=plateOwner(id); if(o) plateSlots(o)[p.pos]=null; plateSlots(cid)[p.pos]=id; return true; }
+function plateUnequip(cid,pos){ plateSlots(cid)[pos]=null; }
+function plateDismantle(id){ const P=plateStore(), i=P.inv.findIndex(x=>x.id===id); if(i<0) return 0; const p=P.inv[i]; const o=plateOwner(id); if(o) plateSlots(o)[p.pos]=null; P.inv.splice(i,1); const g=PLATE_DUST[p.rar]||1; P.dust+=g; return g; }
+function plateCanCraft(){ const P=plateStore(); return P.dust>=PLATE_CRAFT.dust&&progress.ess>=PLATE_CRAFT.ess&&P.inv.length<PLATE_INV_MAX; }
+function plateCraft(set,pos){ if(!PLATE_SETS[set]||!(pos>=0&&pos<6)||!plateCanCraft()) return null; const P=plateStore(); P.dust-=PLATE_CRAFT.dust; progress.ess-=PLATE_CRAFT.ess; const p=plateRoll(set,pos); P.inv.push(p); return p; }
+function plateText(p){ const D=PLATE_POS[p.pos]; return `${D.n} +${p.v}${D.u}`; }
+function plateCount(cid){ const n={}; for(const p of plateWorn(cid)) if(p) n[p.set]=(n[p.set]||0)+1; return n; }
+function plateEffects(cid){ const out=[]; for(const p of plateWorn(cid)) if(p){ const D=PLATE_POS[p.pos]; out.push({[D.k]:p.v*D.f}); }
+  for(const [k,n] of Object.entries(plateCount(cid))) for(const need of [2,4,6]) if(n>=need) out.push(PLATE_SETS[k].fx[need][1]); return out; }
+function plateDropRoll(zone,d,rk){ if(d!==2||!PLATE_SETS[rk]||!zone||!zone.mobs||!zone.mobs.some(m=>m.finalBoss)) return null; if(Math.random()>=PLATE_DROP) return null; const p=plateRoll(rk,ri(0,5)); plateAdd(p); return p; }
+function plateAutoEquip(cid){ const RV={rare:1,epic:2,legend:3}; for(let pos=0;pos<6;pos++){ const cur=plateWorn(cid)[pos]; const free=plateStore().inv.filter(p=>p.pos===pos&&!plateOwner(p.id)).sort((a,b)=>RV[b.rar]-RV[a.rar]||b.v-a.v)[0]; if(free&&(!cur||RV[free.rar]>RV[cur.rar]||(RV[free.rar]===RV[cur.rar]&&free.v>cur.v))) plateEquip(cid,free.id); } }   // 봇·일괄 장착: 자리마다 가장 좋은 성편
 function hitFallOf(s){ return !s||!(s.hits>1)?0:s.hitFall!=null?s.hitFall:0.2; }   // v0.95 0.1 → 0.2(한 적에 몰릴수록 더 크게 줄어듦 — 단일 대상 전문 기술과 차이)   // v0.93 엔진 쪽으로(봇이 UI 앞까지만 읽음)
 const PARRY_BOSS_CUT=0.5;   // v0.93 되받아치기: 보스·우두머리 근접 공격은 막지 못하고 피해 -50%
 // v0.93 엔진 쪽(joinersDue·swapProtag)이 부르므로 UI 표식 앞에 둠 · 합류 순서: 시작 때 고른 둘 → 나머지(JOIN_ORDER 순서)
@@ -11989,6 +12036,30 @@ function openPreset(cid,i){ if(runBusy()){ toast(`<span class="tc">🔒 던전 �
   m.querySelector("#psSave").onclick=()=>{ presetSave(cid,i,nm()); closeModal(); renderRules(); logLine(`<span class="r">📜 ${esc(who)}의 지금 규칙을 저장 칸 ${i+1} '${esc(rulePresets(cid)[i].name)}'에 저장했습니다.</span>`); };
   const ld=m.querySelector("#psLoad"); if(ld) ld.onclick=()=>{ if(nm().trim()&&nm().trim()!==x.name){ x.name=nm().trim().slice(0,12); saveProgress(); } presetLoad(cid,i); closeModal(); renderRules(); logLine(`<span class="r">📜 ${esc(who)} — 저장 칸 ${i+1} '${esc(x.name)}' 규칙을 불러왔습니다.</span>`); };
   const dl=m.querySelector("#psDel"); if(dl) dl.onclick=()=>{ if(dl.dataset.arm!=="1"){ dl.dataset.arm="1"; dl.textContent="한 번 더 누르면 비움"; return; } P[i]=null; saveProgress(); closeModal(); renderRules(); }; }
+/* v0.95 성반 화면 — 여섯 자리 · 자리를 누르면 그 자리 성편 목록(장착 · 분해) · 제작 */
+function plateDropNote(p){ const S=PLATE_SETS[p.set]; logLine(`<span class="gain">🌟 성편 획득! ${esc(S.name)} ${p.pos+1}번 자리 · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}</span>`); try{ toast(`<span class="tc">🌟 성편 획득</span>${esc(S.name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]}`,"",3200); }catch(e){} }
+function openPlate(cid,pos){ const P=plateStore(), busy=runBusy(), W=plateWorn(cid), cnt=plateCount(cid), who=heroDisplayName(cid); const col={rare:"#6aa8ff",epic:"#c58cff",legend:"#f4c95d"};
+  const slot=(p,i)=>`<button class="btn ghost" data-pp="${i}" style="flex:1 1 30%;min-width:96px;text-align:left;padding:6px 8px;${pos===i?"box-shadow:inset 0 0 0 1px var(--accent);":""}"><b>${i+1}번 · ${PLATE_POS[i].n}</b><br>${p?`<span style="color:${col[p.rar]}">${esc(PLATE_SETS[p.set].name.replace("의 성반",""))} +${p.v}${PLATE_POS[i].u}</span>`:`<span style="color:var(--muted)">비어 있음</span>`}</button>`;
+  const sets=Object.entries(cnt).map(([k,n])=>`<div class="msub" style="margin:2px 0"><b>${esc(PLATE_SETS[k].name)} ${n}/6</b> — ${[2,4,6].map(q=>`<span style="color:${n>=q?"var(--accent)":"var(--muted)"}">(${q}) ${esc(PLATE_SETS[k].fx[q][0])}</span>`).join(" · ")}</div>`).join("")||`<p class="msub">성편은 영원한 밤의 장 보스가 낮은 확률(${Math.round(PLATE_DROP*100)}%)로 떨어뜨립니다. 같은 성반을 2·4·6조각 끼우면 세트 효과가 열립니다.</p>`;
+  let list="";
+  if(pos!=null){ const L=P.inv.filter(p=>p.pos===pos).sort((a,b)=>({legend:0,epic:1,rare:2})[a.rar]-({legend:0,epic:1,rare:2})[b.rar]||b.v-a.v);
+    list=`<div style="margin-top:8px;border-top:1px solid var(--line);padding-top:6px"><b>${pos+1}번 자리 성편 ${L.length}개</b>${W[pos]?` <button class="btn ghost" id="ppOff" ${busy?"disabled":""} style="padding:2px 8px">빼기</button>`:""}
+      <div style="max-height:190px;overflow:auto;margin-top:4px">${L.map(p=>{ const o=plateOwner(p.id); return `<div style="display:flex;gap:6px;align-items:center;padding:3px 0;font-size:13px"><span style="flex:1;color:${col[p.rar]}">${esc(PLATE_SETS[p.set].name)} · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}${o?` <i style="color:var(--muted);font-style:normal">(${o===cid?"착용 중":esc(heroDisplayName(o))+" 착용"})</i>`:""}</span>${o===cid?"":`<button class="btn" data-pe="${p.id}" ${busy?"disabled":""} style="padding:2px 8px">장착</button>`}<button class="btn ghost" data-pd="${p.id}" ${busy?"disabled":""} style="padding:2px 8px">분해 +${PLATE_DUST[p.rar]}</button></div>`; }).join("")||`<p class="msub">이 자리 성편이 없어요.</p>`}</div></div>`; }
+  const m=openModal(`<h3>🌟 ${esc(who)}의 성반</h3><p class="msub">성반가루 <b>${P.dust}</b> · 밤의 정수 <b>${progress.ess}</b> · 보관 ${P.inv.length}/${PLATE_INV_MAX}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">${W.map(slot).join("")}</div><div style="margin-top:6px">${sets}</div>${list}
+    <div style="margin-top:8px;border-top:1px solid var(--line);padding-top:6px"><b>성편 제작</b> <span class="msub">성반가루 ${PLATE_CRAFT.dust} · 정수 ${PLATE_CRAFT.ess} — 등급·수치는 무작위</span><br>
+      <select id="pcSet">${PLATE_KEYS.map(k=>`<option value="${k}">${esc(PLATE_SETS[k].name)} (${REGIONS[k].chapter} 보스)</option>`).join("")}</select>
+      <select id="pcPos">${PLATE_POS.map((D,i)=>`<option value="${i}" ${pos===i?"selected":""}>${i+1}번 · ${D.n}</option>`).join("")}</select>
+      <button class="btn" id="pcGo" ${busy||!plateCanCraft()?"disabled":""}>제작</button><div class="msub" id="pcFx" style="margin-top:4px"></div></div>
+    <div class="mbtns" style="margin-top:10px"><button class="btn ghost" id="ppClose">닫기</button></div>`);
+  const re=q=>{ saveProgress(); closeModal(); try{ renderEquip(); }catch(e){} openPlate(cid,q); };
+  m.querySelector("#ppClose").onclick=()=>{ closeModal(); try{ renderEquip(); }catch(e){} };
+  m.querySelectorAll("[data-pp]").forEach(b=>b.onclick=()=>{ closeModal(); openPlate(cid,+b.dataset.pp); });
+  m.querySelectorAll("[data-pe]").forEach(b=>b.onclick=()=>{ plateEquip(cid,+b.dataset.pe); re(pos); });
+  m.querySelectorAll("[data-pd]").forEach(b=>b.onclick=()=>{ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더"; return; } plateDismantle(+b.dataset.pd); re(pos); });
+  const off=m.querySelector("#ppOff"); if(off) off.onclick=()=>{ plateUnequip(cid,pos); re(pos); };
+  const ss=m.querySelector("#pcSet"), fxEl=m.querySelector("#pcFx"); const showFx=()=>{ const S=PLATE_SETS[ss.value]; fxEl.textContent=[2,4,6].map(q=>`(${q}) ${S.fx[q][0]}`).join(" · "); }; ss.onchange=showFx; showFx();
+  m.querySelector("#pcGo").onclick=()=>{ const p=plateCraft(ss.value,+m.querySelector("#pcPos").value); if(p){ logLine(`<span class="r">🌟 성편 제작: ${esc(PLATE_SETS[p.set].name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}</span>`); re(p.pos); } }; }
 function resetRulesArm(){
   const b=$("resetBtn");
   if(!resetRulesArmed){ resetRulesArmed=true; b.classList.add("arm"); b.textContent=`한 번 더 누르면 ${heroDisplayName(selected)} 규칙 초기화`;
@@ -12783,7 +12854,8 @@ function renderEquip(){
   mid.appendChild(eqFigure(cid));
   const nm=document.createElement("div"); nm.className="eqname"; nm.innerHTML=`<b>${heroNameHTML(cid)}</b><span>Lv.${h.level}${h.awaken?` ✦${h.awaken}`:""} · ${esc(WEAPONS[D.wtype].name)}</span>`; mid.appendChild(nm);
   { const qb=document.createElement("div"); qb.className="eqquick"; const busy=runBusy(), up=upgradeCount(cid), worn=Object.values(h.equip).filter(x=>x!=null).length;   // v0.94 인물 아래로 옮김
-    qb.innerHTML=`<button class="btn" id="eqBest" ${busy||!up?"disabled":""}>장비 일괄 장착${up?` (${up})`:""}</button><button class="btn ghost" id="eqOff" ${busy||!worn?"disabled":""}>장비 일괄 해제</button>`;
+    qb.innerHTML=`<button class="btn" id="eqBest" ${busy||!up?"disabled":""}>장비 일괄 장착${up?` (${up})`:""}</button><button class="btn ghost" id="eqOff" ${busy||!worn?"disabled":""}>장비 일괄 해제</button><button class="btn ghost" id="eqPlate">🌟 성반 ${plateWorn(cid).filter(Boolean).length}/6</button>`;
+    qb.querySelector("#eqPlate").onclick=()=>openPlate(cid);
     qb.querySelector("#eqBest").onclick=()=>equipBest(cid);
     qb.querySelector("#eqOff").onclick=e=>{ const b=e.currentTarget; if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 해제"; return; } unequipAll(cid); };
     mid.appendChild(qb); }
@@ -14429,6 +14501,7 @@ function endZoneBattle(ev,zone){
     if(zone.boss||zone.mid||zone.named) passXpAdd(40,zone.boss?"보스 처치":"우두머리 처치");   // v0.56
     progress.gold+=rw.gold; runState.gains.gold+=rw.gold; runState.gains.exp+=rw.exp;
     progress.ess+=rw.ess||0;
+    if(rw.plate) plateDropNote(rw.plate);
     { const al=runState.party.filter(u=>u.alive).map(u=>u.id), dn=runState.party.length-al.length;   // v0.93 쓰러진 영웅은 경험치를 받지 못함
       logLine(`<span class="gain">구역 돌파! 경험치 +${rw.exp} (${dn?`살아 있는 ${al.length}명 · 쓰러진 ${dn}명은 받지 못함`:"전원"}) · 골드 +${rw.gold}${rw.ess?` · 밤의 정수 +${rw.ess}`:""}</span>`);
       runState.expBy=runState.expBy||{}; for(const id of al) runState.expBy[id]=(runState.expBy[id]||0)+rw.exp;
@@ -15205,6 +15278,13 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.10", v:"v0.94", t:"성반 · 성편 — 영원한 밤 보스 전용", L:[
+    "성반(星盤): 영웅마다 여섯 자리에 성편(조각)을 끼웁니다. 장비 화면 인물 아래의 '🌟 성반' 단추로 엽니다. 기존 장비 칸과는 별개입니다.",
+    "얻는 곳: 영원한 밤의 장 보스(각 장 마지막 막)를 잡으면 3% 확률로 그 장 성반의 성편 1개. 자리(1~6번) · 등급(희귀 60% · 영웅 30% · 전설 10%) · 수치는 무작위입니다.",
+    "자리별 능력치: 1번 공격력 · 2번 체력 · 3번 치명타 확률 · 4번 방어력 · 5번 치명타 피해 · 6번 마나.",
+    "같은 성반을 2 · 4 · 6조각 끼우면 세트 효과. 6조각 효과 — 독늪: 독 피해 +20% / 화산: 화상 피해 +20% / 수몰: 냉기 약화 +5%p / 숲그늘: 치유량 +10% / 황금: 전투마다 첫 기술 마나 0 / 모래: 광역 최대 대상 +1 / 신전: 도발 원거리 끌어옴 +15%p / 성채: 받는 피해 -5% / 왕좌: 쿨타임 3턴 기술 -1턴 / 제단: 보스에게 주는 피해 +8%.",
+    "필요 없는 성편은 분해해 성반가루(희귀 1 · 영웅 3 · 전설 8)로, 성반가루 20 + 밤의 정수 500으로 원하는 성반 · 원하는 자리의 성편을 만들 수 있습니다(등급 · 수치는 무작위).",
+    "광역 기술의 최대 4명은 앞줄부터가 아니라 무작위로 고릅니다. 바람의 명궁 단일 대상 화력 하향: 연속 사격 36 → 30% · 폭풍 연사 32 → 26% · 같은 적 한 발마다 -20%."]},
   {d:"2026.11.10", v:"v0.94", t:"영웅 밸런스 · 쿨타임 · 방진 수호자 · 몹 범위 기술", L:[
     "쿨타임: 센 기술은 쓰고 나서 내 행동 1~3번 동안 쉽니다(기술 설명의 '쿨타임 N턴'). 쉬는 동안 자동전투는 다음 순번 규칙으로 넘어갑니다. 몹·보스의 범위 기술에도 쿨타임이 생겼습니다(범위 2턴 · 전체 3턴).",
     "대마법사 '잿불 폭발' · 바람의 명궁 '천 개의 화살': 적 전체 → 최대 4명(무작위).",
@@ -16005,7 +16085,7 @@ async function coopBattle(run,z){
   if(window.__coopTrace) window.__coopTrace.push(run.z+":"+res+":"+run.party.map(u=>u.hp+"/"+u.mp).join(","));
   if(res==="win"){
     const rw=battleRewards(z,run.d,run.rk);
-    progress.gold+=rw.gold; progress.ess+=rw.ess||0; run.gains.gold+=rw.gold; run.gains.exp+=rw.exp;
+    progress.gold+=rw.gold; progress.ess+=rw.ess||0; run.gains.gold+=rw.gold; run.gains.exp+=rw.exp; if(rw.plate) plateDropNote(rw.plate);
     dailyAdd("kill",z.mobs.length); if(z.boss||z.mid||z.named) dailyAdd("boss",1);   // v0.95 일일 의뢰
     logLine(`<span class="gain">구역 돌파! 내 몫 — 경험치 +${rw.exp} (${esc(heroDisplayName(run.myCid))}) · 골드 +${rw.gold}${rw.ess?` · 밤의 정수 +${rw.ess}`:""}</span>`);
     grantExp(rw.exp,[...new Set([run.myCid].concat((run.myCids||[]).length&&run.mode?coopHeroList(+(COOP.hostRun||{}).k||coopHeroCount()):[]))]);
