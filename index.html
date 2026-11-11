@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794384410466"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794384590389"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -10307,7 +10307,7 @@ function renderTraits(){
   const pane=$("traitsPane"); pane.innerHTML="";
   if(progress._traitRefund){
     const n=document.createElement("div"); n.className="hintline"; n.style.marginBottom="8px";
-    n.innerHTML=`<span style="color:var(--accent)">🔄 특성이 새로 짜였습니다(갈래마다 두 길로, 길마다 다시 두 가지로 갈라지는 나무 · 잔가지·작은 특성·큰 특성·궁극의 4단계 · 궁극은 대가 없이 여러 개) — 특성 포인트를 모두 무료로 돌려드렸습니다. 다시 찍어 주세요.</span>`;
+    n.innerHTML=`<span style="color:var(--accent)">🔄 특성 개편 — 포인트를 모두 돌려드렸습니다.</span>`;
     pane.appendChild(n);
   }
   if(!traitSel[cid]||!traitNode(cid,traitSel[cid])){
@@ -16590,6 +16590,7 @@ const UPDATES=[
     "유물은 팔 수 없고, 분해하면 <b>유물의 파편</b> 1개가 나옵니다(정수는 안 나옴). 강화한 유물을 분해하면 강화에 쓴 파편의 절반을 더 돌려받습니다.",
     "유물 강화(유물을 눌러 연 창의 '유물 강화' 단추): 최대 3번 — 1회 파편 2 + 정수 200, 2회 파편 4 + 정수 400, 3회 파편 8 + 정수 800(합계 파편 14 · 정수 1,400). 강화할 때마다 그 유물의 후보 옵션 4개 중 하나가 무작위 수치로 <b>한 줄 더</b> 붙습니다. 이미 있는 옵션이 또 나오면 수치가 합쳐집니다. 다시 굴리기는 없습니다. 황혼·자정에서 얻은 유물은 강화로 붙는 줄도 그 난이도 상한을 따릅니다.",
     "지금 가진 유물은 새 규칙으로 바뀝니다: 옵션 한 줄을 새로 굴리고, ★2는 강화 1회 · ★3은 강화 2회를 한 것으로 쳐서 그만큼 줄이 더 붙습니다(수치 상한은 지금까지 연 가장 높은 난이도 기준). 각성에 쓴 사도의 혼과 새벽 파편은 돌려주지 않습니다.",
+    "<b>v0.96.4</b> 특성 화면 위의 긴 안내문(특성 개편 설명 3줄)을 한 줄로 줄였습니다: '특성 개편 — 포인트를 모두 돌려드렸습니다.'",
     "<b>v0.96.3</b> 유물은 이제 확률로만 나옵니다(황혼 6% · 자정 10% · 영원한 밤 15%). '가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시 나온다'는 보장을 없앴습니다.",
     "<b>v0.96.2</b> 부위 강화 단추: 골드나 정수가 모자라면 단추가 말없이 안 눌리던 것을 고쳤습니다 — 이제 눌리고, '골드 부족 (필요 1,344 · 보유 915)'처럼 무엇이 얼마나 모자란지 알려 줍니다(모자란 칸의 단추는 점선 테두리).",
     "<b>v0.96.1</b> 유물이 나올 확률을 낮췄습니다: 황혼 25% → 6% · 자정 35% → 10% · 영원한 밤 50% → 15%(가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시 — 그대로).",
