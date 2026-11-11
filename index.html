@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794384971798"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794386189803"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -10310,9 +10310,6 @@ function renderTraits(){
     traitSel[cid]=(open||allTraitNodes(cid)[0]).key;
   }
   renderTraitMap(cid,pane);
-  const leg=document.createElement("div"); leg.className="hintline tleg2";
-  leg.innerHTML=`특성 포인트: 전직(Lv${ADV_LEVEL})부터 레벨마다 1 (Lv${TRAIT_LV_MAX}에 ${traitBase(TRAIT_LV_MAX)} — 그 위 레벨은 없음) · 각성마다 +${TRAIT_AWAKEN}(최대 ${AWAKEN_MAX}번) · 큰 별마다 +1 — 가운데에서 이어진 칸만 배울 수 있어요. 갈래 5개(직업 공통 3 + 전직 2) · 갈래마다 줄기에서 두 길로, 길마다 다시 두 가지로 갈라져요(갈래당 35칸 · 큰 특성 6 · ★궁극 4). 잔가지 → <span style="color:#8fd9cc">✦ 작은 특성</span>(기술 하나 다듬기) → 큰 특성(기술의 동작을 바꿈) → <span style="color:#f2c14e">★ 궁극</span>(가지 끝의 마무리 — 대가 없음, 영웅마다 ${ksMax(cid)}개까지). 큰 특성·궁극 사이는 늘 3칸 · 이음길로 옆 갈래·옆 가지로 건너갈 수 있어요.`;
-  pane.appendChild(leg);
   renderTraitDetail(cid);
 }
 
@@ -13483,7 +13480,7 @@ function renderFormation(){
   const board=document.createElement("div"); board.className="panel formboard";
   normalizeFormation(); const cap=partyCap();
   const open=partyOpenSlots();
-  board.innerHTML=`<div class="fbh"><h2 class="ph">진영</h2>${open?`<b class="fopen">빈 자리 ${open} — 대기 영웅을 진영 칸에 끌어다 놓아야 출전해요</b>`:""}<span>출전 ${P.length}/${cap} · 끌어서 칸 옮기기 · 같은 가로줄 앞칸에 영웅이 있으면 뒷칸은 근접 공격을 안 받아요${lock?" — 🔒 던전 진행 중":""}</span></div>`;
+  board.innerHTML=`<div class="fbh"><h2 class="ph">진영</h2>${open?`<b class="fopen">빈 자리 ${open}</b>`:""}<span>출전 ${P.length}/${cap}${lock?" · 🔒 던전 진행 중":""}</span></div>`;
   { const PS=partySets(); const bar=document.createElement("div"); bar.className="psetbar"; bar.id="psetBar";   // v0.95 파티 편성 저장 칸 3개
     bar.innerHTML=`<span>편성 저장</span>`+PS.map((x,k)=>`<button data-pk="${k}" class="${x?"has":""}" title="${x?esc(x.party.map(c=>heroDisplayName(c)).join(" · ")):"빈 칸 — 지금 편성을 저장할 수 있어요"}">${x?esc(x.name||`편성 ${k+1}`):`빈 칸 ${k+1}`}</button>`).join("");
     board.appendChild(bar); bar.querySelectorAll("[data-pk]").forEach(b=>b.onclick=()=>openPartySet(+b.dataset.pk)); }
@@ -13510,7 +13507,7 @@ function renderFormation(){
     ghosts.forEach((im,i)=>{ const p=L.pos["e"+i]; im.style.left=p.x+"px"; im.style.top=p.y+"px"; im.style.setProperty("--fs",p.sc.toFixed(3)); }); };
   requestAnimationFrame(lay); try{ new ResizeObserver(lay).observe(st); }catch(e){}
   board.appendChild(st);
-  { const od=document.createElement("div"); od.className="fordline"; od.innerHTML=`<b>행동 순서</b> `+ORD.map((x,i)=>`<span>${i+1} ${esc(heroBtnLabel(x.c))} <small>신속 ${x.spd}</small></span>`).join(" → ")+` <small class="dim">· 매 턴 신속이 높은 순(같으면 진영 순서) · 적과 섞여서 움직여요</small>`; board.appendChild(od); }   // v0.94
+  { const od=document.createElement("div"); od.className="fordline"; od.innerHTML=`<b>행동 순서</b> `+ORD.map((x,i)=>`<span>${i+1} ${esc(heroBtnLabel(x.c))} <small>신속 ${x.spd}</small></span>`).join(" → "); board.appendChild(od); }   // v0.94
   const bench=document.createElement("div"); bench.className="fzone z-bench"; bench.dataset.zone="bench";
   const bl=rids.filter(c=>!P.includes(c));
   bench.innerHTML=`<span class="fbl">대기</span>`+(bl.length?bl.map(c=>`<div class="fchip fb${c===partySel?" sel":""}" data-hero="${c}"><img src="${heroIcon(c)}" alt=""${heroAuraStyle(c)}><span class="fn">${esc(heroBtnLabel(c))}</span><span class="fs">Lv.${progress.heroes[c].level}</span></div>`).join(""):`<span class="fempty">대기 중인 영웅이 없어요 — 출전 영웅을 여기로 끌어 놓으면 쉬어요</span>`);
@@ -13976,7 +13973,7 @@ function enhPoorText(c){ const a=[]; if(progress.gold<c.gold) a.push(`골드 부
 // 부위 창: 끼운 장비 정보 + 부위 강화(빈 칸도 강화할 수 있음)
 function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find(x=>x.key===sk); const E=slotEnh(cid,sk), canE=ENH_SLOTS.includes(sk);
   const opened=canE&&slotMax(cid,sk)>ENH_MAX, canOpen=canE&&!opened&&E.l>=ENH_MAX;
-  const enhLine=canE?`<div class="statline">🔨 부위 강화 <b class="enh ${enhTier(E.l).cls}">+${E.l}</b> (${enhTier(E.l).name}) — 이 칸에 끼는 장비의 능력치 +${E.l*6}% (치명·회피 같은 확률형은 +${E.l*3}%) · 장비를 바꿔 껴도 그대로${opened?` · 🌑 한계 열림(+${ENH_ABYSS}까지)`:""}</div>`
+  const enhLine=canE?`<div class="statline">🔨 부위 강화 <b class="enh ${enhTier(E.l).cls}">+${E.l}</b> (${enhTier(E.l).name}) · 능력치 +${E.l*6}%${opened?` · 🌑 한계 열림(+${ENH_ABYSS}까지)`:""}</div>`
     +(canOpen?`<div class="statline">🌑 심연 핵 ${progress.abyssCore|0}개 <button class="mini" id="abOpen" ${(progress.abyssCore|0)<1||runBusy()?"disabled":""}>심연 핵 1개로 이 부위 한계 열기 (+${ENH_ABYSS}까지)</button></div>`:""):"";
   const head=it?`<div class="imhead">${iconCell(it,{enh:it.noEnh?null:E})}<div><h2 class="${rarityCls(it)}">${it.noEnh?"":enhTag(E)}${esc(itemDisplayName(it))}</h2><div class="statline">${esc(rarityLabel(it))} · ${esc(s.label)}${itemClassText(it)?" · "+esc(itemClassText(it)):""} · <span class="wornchip">${esc(heroDisplayName(cid))} 착용 중</span></div></div></div>`
     :`<div class="imhead"><span class="icell r-none ghost"><img src="${slotGhostURL(sk,cid)}" alt=""></span><div><h2>${esc(s.label)} <small style="color:var(--muted)">비어 있음</small></h2><div class="statline">${esc(heroDisplayName(cid))}의 ${esc(s.label)} 칸</div></div></div>`;
@@ -14089,15 +14086,15 @@ function renderEquip(){
   { const wb=document.createElement("div"); wb.innerHTML=wardRowHTML(null); wardBind(wb,()=>renderParty()); L.appendChild(wb.firstElementChild); }   // v0.96 보호 주문서 줄(장비 화면에 늘 보임)
   const ps=document.createElement("div"); ps.className="eqpow"; ps.innerHTML=[["공격",d.atk],["체력",d.hp],["방어",d.def],["신속",d.spd],["치명",pct(d.crit)+"%"],["명중",pct(d.acc)+"%"]].map(([k,v])=>`<span><i>${k}</i><b>${v}</b></span>`).join(""); L.appendChild(ps);   // v0.55.6: 인형 아래 한 줄(가운데 칸이 좁은 화면에서 글자가 세로로 꺾이던 문제)
   { const S=enhSummary(cid); const es=document.createElement("div"); es.className="eqenh"; const t=enhSummaryText(cid);   // v0.55.6: 한 줄로, 인형 아래 전체 너비
-    es.innerHTML=`<b>🔨 부위 강화 +${S.sum}</b>${S.sum?`<span>${esc(t||"끼운 장비가 없어 아직 효과 없음")}</span>`:`<span>칸 옆 단추로 강화 · +1~+9 단계당 +5% · +10부터 +9% · 심연 +15%</span>`}`; L.appendChild(es); }
-  { const E=d.er||{}; const t=EL_KEYS.filter(e=>E[e]).map(e=>`${EL_NAME[e]} ${E[e]}`).join(" · "); const el=document.createElement("div"); el.className="eqenh"; el.innerHTML=`<b>🔰 속성 저항</b><span>${t||"없음"} <i style="font-style:normal;color:var(--muted)">(그 속성 피해 -1%씩 · 상한 70) · 상태이상 회피 ${pct(d.res)}% (상한 50%)</i></span>`; L.appendChild(el); }   // v0.95
+    es.innerHTML=`<b>🔨 부위 강화 +${S.sum}</b>${S.sum?`<span>${esc(t||"끼운 장비가 없어 아직 효과 없음")}</span>`:""}`; L.appendChild(es); }
+  { const E=d.er||{}; const t=EL_KEYS.filter(e=>E[e]).map(e=>`${EL_NAME[e]} ${E[e]}`).join(" · "); const el=document.createElement("div"); el.className="eqenh"; el.innerHTML=`<b>🔰 속성 저항</b><span>${t||"없음"} · 상태이상 회피 ${pct(d.res)}%</span>`; L.appendChild(el); }   // v0.95
   const {sets}=heroEquipTotals(cid);
   for(const [k,n] of Object.entries(sets)){ const S=SETS[k]; const sl=document.createElement("div"); sl.className="setline"+(n>=2?"":" off");
     const seg=(q,txt)=>`<span style="${n>=q?"":"color:var(--muted)"}">${q}: ${esc(txt)}</span>`; sl.innerHTML=`◆ ${esc(S.name)} ${Math.min(n,S.size)}/${S.size} — ${setBonuses(S).map(([q,B])=>seg(q,B.desc)).join(" · ")}`; L.appendChild(sl); }
   if(progress._senhNote){ const n=document.createElement("div"); n.className="hintline"; n.style.color="var(--accent)";
     n.innerHTML=`🔨 강화가 <b>부위 강화</b>로 바뀌었습니다 — 끼고 있던 장비의 강화는 그 부위로 옮겼고, 이제 장비를 바꿔 껴도 강화가 그대로 붙습니다.${progress._senhNote.ref?` 가방 장비에 있던 강화는 밤의 정수 ${progress._senhNote.ref}로 돌려드렸습니다.`:""} <button class="mini" id="senhOk">확인</button>`;
     L.appendChild(n); setTimeout(()=>{ const b=$("senhOk"); if(b) b.onclick=()=>{ delete progress._senhNote; saveProgress(); renderParty(); }; },0); }
-  const tip=document.createElement("div"); tip.className="hintline"; tip.textContent=runBusy()?"🔒 던전 진행 중 — 장비는 마을에서 바꿀 수 있어요":"칸을 누르면 정보 · 옆 단추로 부위 강화 · ▲ = 가방에 더 좋은 장비"; L.appendChild(tip);
+  const tip=document.createElement("div"); tip.className="hintline"; tip.textContent=runBusy()?"🔒 던전 진행 중":""; if(tip.textContent) L.appendChild(tip);
   pane.appendChild(L);
   // ── 오른쪽: 가방 ──
   const B=document.createElement("div"); B.className="panel eqbag";
@@ -14137,7 +14134,7 @@ function renderEquip(){
     c.onclick=()=>{ if(bagPick){ if(it.lock) return; if(sel) g.items.forEach(x=>bagSel.delete(x.id)); else g.items.forEach(x=>bagSel.add(x.id)); bagArm=null; renderParty(); return; } openBagItem(it); };
     grid.appendChild(c); }
   const slots=Math.max(0,(Math.ceil(Math.max(list.length,1)/8)*8)-grid.children.length); for(let i=0;i<Math.min(slots,16);i++){ const e=document.createElement("span"); e.className="bcell blank"; grid.appendChild(e); }
-  if(!list.length){ const p=document.createElement("div"); p.className="statline"; p.style.padding="8px"; p.textContent=progress.inv.length?"이 종류의 장비가 없습니다.":"아직 비어 있습니다. 보물상자·보스·상점에서 장비를 얻습니다."; B.appendChild(p); }
+  if(!list.length){ const p=document.createElement("div"); p.className="statline"; p.style.padding="8px"; p.textContent="없음"; B.appendChild(p); }
   B.appendChild(grid);
   if(bagPick){ const T=bagSelTotals(); const bar=document.createElement("div"); bar.className="bgbar";
     bar.innerHTML=`<span><b>${T.n}</b>개 골랐어요</span>`;
@@ -14298,7 +14295,6 @@ function renderQuest(){
     return `<li class="qstep ${st}"><div class="qsh"><span class="qmk">${st==="done"?"✓":a}</span><b>${st==="lock"?`${a}막 '${esc(actName(rk,a))}'`:`${a}막 · ${esc(S.t)}`}</b>${tag?`<span class="qtg ${st}">${tag}</span>`:""}${btn}</div>`
       +(st==="lock"?"":`<div class="qwho">${esc(S.who)} · ${esc(S.goal)}</div>`)+`</li>`; }).join("");
   const mainHTML=`<div class="panel qmain"><div class="qhd"><span class="qtag">메인</span><b>${esc(R.chapter)} — ${esc(M.title)}</b><span class="qfrom">황혼 ${esc(R.name)} ${Math.min(done,ACT_N)}/${ACT_N}막 돌파</span></div>
-    <p class="qintro">이 장의 꼭 필요한 이야기(1·3·5막)입니다. 의뢰를 받아야 황혼에서 그 막에 처음 들어갈 수 있고, 돌파한 뒤 보고하면 보상과 함께 다음 메인 의뢰가 열립니다.</p>
     <ol class="qsteps">${steps}</ol></div>`;
   const subHTML=QS[rk].map(q=>{ const st=questSubSt(q), n=questSubN(q), r=questSubReward(q);
     const body=st==="lock"?`<p class="qask qlockt">황혼에서 ${q.act}막이 열리면 받을 수 있어요.</p>`
@@ -14307,7 +14303,7 @@ function renderQuest(){
     const btn=st==="ready"?`<button class="btn qsa" data-id="${q.id}">수락</button>`:st==="rep"?`<button class="btn qsr" data-id="${q.id}">보고하기</button>`:st==="done"?`<span class="qok">완료</span>`:"";
     return `<div class="panel qsub ${st}"><div class="qhd"><span class="qtag sub">서브 ${q.act}막${q.boss?" · 우두머리":""}</span><b>${st==="lock"?esc(actName(rk,q.act)):esc(q.t)}</b><span class="qfrom">${st==="lock"?"":esc(q.who)}</span></div>${body}
       ${st==="lock"?"":`<div class="qrw"><span>보상: ${questRewardText(r)}${st==="ready"?` · 목표 ${esc(questSubGoal(q))}`:""}</span>${btn}</div>`}</div>`; }).join("");
-  pane.innerHTML=`<div class="qwrap"><nav class="qlist" aria-label="장 목록">${list}</nav><div class="qbody">${dailyHTML()}${mainHTML}<div class="qsubhd">서브 의뢰 — 막마다 1~2개 · 받은 뒤부터 그 막에서 셉니다(반복 사냥용)</div>${subHTML}</div></div>`;
+  pane.innerHTML=`<div class="qwrap"><nav class="qlist" aria-label="장 목록">${list}</nav><div class="qbody">${dailyHTML()}${mainHTML}<div class="qsubhd">서브 의뢰</div>${subHTML}</div></div>`;
   dailyBind(pane);
   pane.querySelectorAll(".qch").forEach(b=>b.onclick=()=>{ Q.open=b.dataset.rk; renderQuest(); });
   pane.querySelectorAll("[data-b]").forEach(b=>b.onclick=()=>questBrief(rk,+b.dataset.b));
@@ -14326,13 +14322,13 @@ function renderCodex(){
   const body=document.createElement("div"); pane.appendChild(body);
   if(codexTab==="tokens"){
     const ends=progress.endings||{};
-    body.innerHTML=`<div class="cxsub">보스를 특별한 방법으로 이기면 얻어요. 일곱 개를 모으면 다른 결말이 열립니다.</div><div class="cxgrid tk">`
+    body.innerHTML=`<div class="cxgrid tk">`
       +Object.keys(TOKENS).map(k=>{ const has=!!(progress.tokens&&progress.tokens[k]), R=REGIONS[k], M=MOBS[R.boss];
         return `<div class="cxcard${has?" got":""}"><div class="cxpic"><img src="${M&&bossKnown(k,0)?SPRITES[M.sprite]:BOSS_Q_IMG}" alt=""><span class="cxbadge">${has?TOKENS[k].icon:"🔒"}</span></div>
           <div class="cxname">${esc(bossKnown(k,0)||has?TOKENS[k].name:"??? — 아직 만나지 못한 보스")}</div><div class="cxmeta">${esc(R.chapter)} · ${esc(R.name)}</div><div class="cxcond">${esc(TOKEN_COND[k].text)}</div></div>`; }).join("")
       +`</div><div class="cxends">${Object.keys(ENDINGS).map(k=>`<span class="cxend${ends[k]?" got":""}">${ends[k]?"🌅":"🔒"} ${esc(ENDINGS[k].title)}</span>`).join("")}</div>`;
   } else if(codexTab==="sets"){
-    body.innerHTML=`<div class="cxsub">세트의 부위를 한 번씩 모두 얻으면 완성 — 보상: 전직 세트 골드 2,000 · 정수 100 · 횃불 2 · 💎 10 / 지역 세트 골드 3,000 · 정수 150 · 횃불 3 · 💎 30 / 연계 세트 골드 5,000 · 정수 250 · 횃불 5 · 💎 50</div><div class="cxgrid st">`
+    body.innerHTML=`<div class="cxsub">완성 보상: 전직 세트 골드 2,000 · 정수 100 · 횃불 2 · 💎 10 / 지역 세트 골드 3,000 · 정수 150 · 횃불 3 · 💎 30 / 연계 세트 골드 5,000 · 정수 250 · 횃불 5 · 💎 50</div><div class="cxgrid st">`
       +Object.keys(SETS).map(k=>{ const S=SETS[k], c=(progress.codex.sets||{})[k]||{}, n=codexCount(k), N=setSlotsU(S).length, fin=!!(progress.codex.done||{})[k], A=S.adv&&(ADV[S.cls]||[]).find(a=>a.key===S.adv);
         return `<div class="cxcard cxset${fin?" got":""}${cxOpen.has(k)?" open":""}" data-set="${k}" role="button" tabindex="0" aria-expanded="${cxOpen.has(k)}"><div class="cxhead"><span class="cxname">${esc(S.name)}</span><span class="cxn">${n}/${N} <i class="cxcaret">${cxOpen.has(k)?"▴":"▾ 효과"}</i></span></div>
           <div class="cxbar"><i style="width:${n/N*100}%"></i></div>
@@ -15092,7 +15088,7 @@ function renderShop(){
   if(shopTab==="gear"){
     const bar=document.createElement("div"); bar.className="shbar";
     const left=shopRrLeft(), cost=shopRrCost();
-    bar.innerHTML=`<span class="shopnote"><b id="shopNext">${shopNextText()}</b> · 장비·룬·밤의 정수가 무작위로 · 카드를 누르면 자세히</span>`;
+    bar.innerHTML=`<span class="shopnote"><b id="shopNext">${shopNextText()}</b></span>`;
     const rb=document.createElement("button"); rb.className="ghostbtn"; rb.textContent=left?`지금 새로고침 · ${cost} 골드 (오늘 ${left}/${SHOP_RR.length}회 남음)`:`오늘 새로고침 다 씀 (${SHOP_RR.length}/${SHOP_RR.length})`; rb.disabled=!left||progress.gold<cost;
     rb.onclick=()=>{ const L=shopRrLeft(), C=shopRrCost(); if(!L) return; if(progress.gold<C){ logLine(`<span class="r">골드가 부족합니다 (${C}G 필요).</span>`); return; }
       progress.gold-=C; const r=progress.shopRr&&progress.shopRr.day===shopDay()?progress.shopRr:{day:shopDay(),n:0}; r.n=(r.n|0)+1; progress.shopRr=r; genStock(); saveProgress(); renderShop(); renderHud(); };
@@ -15112,9 +15108,9 @@ function renderShop(){
 }
 function marketBlock(){
   const box=document.createElement("div"); box.className="market";
-  if(progress.diffMax<2){ box.innerHTML=`<h3>🌌 밤의 시장</h3><div class="shopnote">영원한 밤을 연 뒤에 나타나는 상인입니다. 밤의 정수로 룬·영웅 장비를 거래합니다.</div>`; return box; }
+  if(progress.diffMax<2){ box.innerHTML=`<h3>🌌 밤의 시장</h3><div class="shopnote">영원한 밤을 열면 열림</div>`; return box; }
   if(!progress.market||!Array.isArray(progress.market.goods)) genMarket();
-  box.innerHTML=`<h3>🌌 밤의 시장 <span class="shopnote">밤의 정수 <b style="color:#9fd9ff">${progress.ess}</b> · 던전을 깰 때마다 진열이 바뀝니다</span></h3>`;
+  box.innerHTML=`<h3>🌌 밤의 시장 <span class="shopnote">밤의 정수 <b style="color:#9fd9ff">${progress.ess}</b></span></h3>`;
   const g=document.createElement("div"); g.className="sggrid"; box.appendChild(g);
   for(const gd of progress.market.goods){
     if(gd.sold){ g.appendChild(shopSoldCard("거래 완료")); continue; }
@@ -16142,7 +16138,7 @@ function egGrowthHtml(){
     ${mythicItem(egxWho)?`<label>무기 종류 <select id="egxMythW">${CLASS_WEAPONS[egxWho].map(w=>`<option value="${w}" ${w===mythicItem(egxWho).wtype?"selected":""}>${esc(WEAPONS[w].name)}</option>`).join("")}</select></label>
       <button class="buy" id="egxMythRe" ${reforgeMythicCan(egxWho)?"":"disabled"} title="옵션을 새로 뽑고 고른 무기 종류로 바꿉니다. 강화 단계는 그대로입니다.">다시 벼리기 · 파편 ${MYTHIC_REFORGE.shards} + 사도의 혼 ${MYTHIC_REFORGE.apo}</button>`
     :`<button class="buy" id="egxMyth" ${mythicCan(egxWho)?"":"disabled"}>제작(직업당 1자루) · 파편 ${MYTHIC_COST.shards} + 사도의 혼 ${MYTHIC_COST.apo}</button>`}</div>`:"";
-  return `<h3 class="secth" style="margin-top:12px">✦ 최종 성장 <span class="shopnote">사도의 혼(낙성 강림) ${souls} · 별의 정수(밤의 심연·낙성 강림) <b style="color:#9fd0ff">${m.star}</b> — 별의 정수는 파티 탭 영웅 카드의 '별자리'에서 씁니다</span></h3>${myth}`;
+  return `<h3 class="secth" style="margin-top:12px">✦ 최종 성장 <span class="shopnote">사도의 혼(낙성 강림) ${souls} · 별의 정수(밤의 심연·낙성 강림) <b style="color:#9fd0ff">${m.star}</b></span></h3>${myth}`;
 }
 // v0.29 별자리 판
 function lightStar(cid,k){ if(!starOpen(cid)) return false; const st=heroStars(cid), m=egMat();
@@ -16167,7 +16163,7 @@ function egExchangeBlock(){
   const E=egState(); const box=document.createElement("div"); box.className="panel egx";
   const SL=[["weapon","무기"],["offhand","보조"],["armor","갑옷"],["helm","투구"],["gloves","장갑"],["boots","신발"],["cape","망토"],["ring","반지"],["amulet","목걸이"]];
   egxWho=egxWho&&rosterIds().includes(egxWho)?egxWho:(partySel||rosterIds()[0]); const sets=Object.keys(SETS).filter(k=>!SETS[k].cls||SETS[k].cls===egxWho); egxSet=egxSet&&sets.includes(egxSet)?egxSet:sets[0];   // v0.93 전직 세트는 그 직업 것만
-  box.innerHTML=`<h3 class="secth">🌅 새벽 교환소 <span class="shopnote">최종 콘텐츠에서 모은 새벽 파편 <b style="color:#ffcf7a">${E.shards}</b>개 — 원하는 부위를 골라 받습니다</span></h3>
+  box.innerHTML=`<h3 class="secth">🌅 새벽 교환소 <span class="shopnote">새벽 파편 <b style="color:#ffcf7a">${E.shards}</b></span></h3>
     <div class="egx-row"><label>누구 것 <select id="egxWho">${rosterIds().map(c=>`<option value="${c}" ${c===egxWho?"selected":""}>${esc(heroDisplayName(c))}</option>`).join("")}</select></label>
     <label>부위 <select id="egxSlot">${SL.map(([k,l])=>`<option value="${k}" ${k===egxSlot?"selected":""}>${l}</option>`).join("")}</select></label>
     <button class="buy" id="egxLeg" ${E.shards<40?"disabled":""}>전설 장비 · 파편 40</button></div>
@@ -16583,6 +16579,7 @@ const UPDATES=[
     "유물은 팔 수 없고, 분해하면 <b>유물의 파편</b> 1개가 나옵니다(정수는 안 나옴). 강화한 유물을 분해하면 강화에 쓴 파편의 절반을 더 돌려받습니다.",
     "유물 강화(유물을 눌러 연 창의 '유물 강화' 단추): 최대 3번 — 1회 파편 2 + 정수 200, 2회 파편 4 + 정수 400, 3회 파편 8 + 정수 800(합계 파편 14 · 정수 1,400). 강화할 때마다 그 유물의 후보 옵션 4개 중 하나가 무작위 수치로 <b>한 줄 더</b> 붙습니다. 이미 있는 옵션이 또 나오면 수치가 합쳐집니다. 다시 굴리기는 없습니다. 황혼·자정에서 얻은 유물은 강화로 붙는 줄도 그 난이도 상한을 따릅니다.",
     "지금 가진 유물은 새 규칙으로 바뀝니다: 옵션 한 줄을 새로 굴리고, ★2는 강화 1회 · ★3은 강화 2회를 한 것으로 쳐서 그만큼 줄이 더 붙습니다(수치 상한은 지금까지 연 가장 높은 난이도 기준). 각성에 쓴 사도의 혼과 새벽 파편은 돌려주지 않습니다.",
+    "<b>v0.96.6</b> 예전부터 있던 화면 설명 줄도 뺐습니다 — 퀘스트(메인 의뢰 안내문 · 서브 의뢰 설명), 파티(빈 자리 · 진영 · 행동 순서 설명), 장비(칸 사용법 · 부위 강화 설명 · 속성 저항 괄호 · 빈 가방 안내), 상점(진열 설명 · 밤의 시장 · 새벽 교환소 · 최종 성장 설명), 특성(특성 포인트 · 나무 구조 설명 문단), 도감(증표 · 세트 설명), 함께하기(머리말). 수치 · 이름 · 상태 표시는 그대로입니다.",
     "<b>v0.96.5</b> 화면 안 설명문을 뺐습니다: 특성 화면 위 안내문, 도감 유물·성반 탭 위 설명, 보호 주문서 줄의 작은 글씨, 유물 창의 괄호 설명. 유물 옵션 이름 '물리 피해'는 게임에 없는 말이라 <b>'무속성 피해'</b>로 바로잡았습니다(효과는 같음 — 속성 없는 공격의 피해).",
     "<b>v0.96.3</b> 유물은 이제 확률로만 나옵니다(황혼 6% · 자정 10% · 영원한 밤 15%). '가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시 나온다'는 보장을 없앴습니다.",
     "<b>v0.96.2</b> 부위 강화 단추: 골드나 정수가 모자라면 단추가 말없이 안 눌리던 것을 고쳤습니다 — 이제 눌리고, '골드 부족 (필요 1,344 · 보유 915)'처럼 무엇이 얼마나 모자란지 알려 줍니다(모자란 칸의 단추는 점선 테두리).",
@@ -17605,7 +17602,7 @@ function coopSteps(){
 function renderCoop(){
   const pane=$("coopPane"); if(!pane) return;
   const st=COOP.st;
-  const head=`<h2 class="ph">함께하기 <span class="ph-sub">같은 게임 링크를 연 사람끼리 모여 협동 던전에 갑니다(최대 6명)</span></h2>`;
+  const head=`<h2 class="ph">함께하기</h2>`;
   if(st==="off"||st==="connecting"){ pane.innerHTML=head+`<div class="panel coop-note">로비에 연결하는 중…</div>`; if(st==="off") coopInit(); return; }
   if(st==="na"){ pane.innerHTML=head+`<div class="panel coop-note"><b>지금은 함께하기에 연결할 수 없습니다.</b><br>
     함께하기는 Claude 앱에서 이 게임 링크를 열었을 때, 로그인한 사람끼리만 연결됩니다. 친구와 하려면 게임 화면의 <b>공유</b>에서 친구를 초대한 뒤 같은 링크를 열면 됩니다(보기 권한이어도 참여 가능).${COOP.notice?`<br><span class="coop-warn">${esc(COOP.notice)}</span>`:""}</div>`; return; }
