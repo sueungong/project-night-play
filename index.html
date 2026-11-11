@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794364392956"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794380857841"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2303,13 +2303,13 @@ const COND = [
   {label:"내 연계 0",type:"self_combo_zero",value:0,lock:"rune",cls:"rogue"},
   {label:"아군 전원 체력 70% 이상",type:"allies_healthy",value:70},
   /* 군단장 유물로 열리는 조건  */
-  {label:"내가 은신 중이 아님",type:"self_not_stealth",value:0,lock:"relic",cls:"rogue"},
+  {label:"내가 은신 중이 아님",type:"self_not_stealth",value:0,cls:"rogue"},
   {label:"화상 중인 적 존재",type:"enemy_status",value:"burn"},   // v0.93 화상 연계 기술(잿불 폭발·대폭발·단죄의 망치)을 위해 누구나 — 독 3중첩 조건처럼
-  {label:"8턴 이후",type:"turn_gte",value:8,lock:"relic"},
-  {label:"내가 전열에 혼자 서 있음",type:"self_alone_front",value:0,lock:"relic"},
-  {label:"이번 전투에서 적을 처치했음",type:"self_killed",value:0,lock:"relic"},
-  {label:"내 체력 80% 이상 + 적 2마리 이상",type:"healthy_many",value:80,lock:"relic"},
-  {label:"모든 적이 상태이상 중",type:"all_enemy_debuffed",value:0,lock:"relic"},
+  {label:"8턴 이후",type:"turn_gte",value:8},
+  {label:"내가 전열에 혼자 서 있음",type:"self_alone_front",value:0},
+  {label:"이번 전투에서 적을 처치했음",type:"self_killed",value:0},
+  {label:"내 체력 80% 이상 + 적 2마리 이상",type:"healthy_many",value:80},
+  {label:"모든 적이 상태이상 중",type:"all_enemy_debuffed",value:0},
   /* v0.26 새 직업·연계 조건  */
   {label:"내 기세 3 이상",type:"self_mom_gte",value:3,res:"mom"},
   {label:"내 기세 5 (최대)",type:"self_mom_gte",value:5,res:"mom"},
@@ -2323,7 +2323,7 @@ const COND = [
   {label:"놓아 둔 화약 상자 없음",type:"no_keg",value:0,res:"ammo"},
   {label:"보스 체력 50% 이하",type:"boss_hp_below",value:50},
   {label:"냉기 2중첩 이상인 적 존재",type:"enemy_cold_gte",value:2},   // v0.89
-  {label:"화상 중인 적 2마리 이상",type:"enemy_burn_gte",value:2,lock:"relic"},   // v0.93 브란도의 국자(화상 중인 적 존재는 누구나)
+  {label:"화상 중인 적 2마리 이상",type:"enemy_burn_gte",value:2},   // v0.93 브란도의 국자(화상 중인 적 존재는 누구나)
   /* v0.93 새 조건 — 버프·약화를 다시 걸 때 */
   {label:"내 보호막이 없음",type:"self_no_shield",value:0},
   {label:"약화된 적 없음",type:"enemy_unweak",value:0},
@@ -3483,7 +3483,7 @@ function battleRewards(zone,d,rk){
     exp+=MOBS[m.key].exp*k; gold+=MOBS[m.key].gold*k;
   }
   const luck=partyLuck();
-  exp=Math.round(exp*D.exp*(zone.rewardMul||1)); gold=Math.round(gold*goldMul(d,rk)*(zone.rewardMul||1)*(1+luck*0.01)*((partyIds().some(c=>heroDerived(c).traits.relic_gold2)?1.3:partyIds().some(c=>heroDerived(c).traits.relic_gold)?1.15:1)));
+  exp=Math.round(exp*D.exp*(zone.rewardMul||1)*(1+partyIds().reduce((a,c)=>a+(heroDerived(c).traits.relic_exp||0),0))); gold=Math.round(gold*goldMul(d,rk)*(zone.rewardMul||1)*(1+luck*0.01)*(1+partyIds().reduce((a,c)=>a+(heroDerived(c).traits.relic_gold||0),0)));
   const tier=lootTierFor(d,rk)+(zone.lootBonus||0);
   const items=[];
   const els=zone.mobs.filter(m=>m.elite&&!m.chief).length;
@@ -3504,7 +3504,8 @@ function battleRewards(zone,d,rk){
   // 룬: 정예·우두머리·보스에게서
   if((els>0||zone.mid||zone.boss)&&Math.random()<(zone.boss?0.22:0.07)+0.05*d) items.push(makeRune(null,null,d));   // v0.38: 룬이 너무 많이 나와 가방이 복잡 → 절반가량으로, 대신 등급이 다양
   // 군단장 유물: 지역 보스에게서 드물게(없을 때만). 3회 이상 깬 지역은 확정
-  if(zone.boss&&RELICS[rk]&&!relicOwned(rk)){ const n=(progress.cl[d]||{})[rk]||0; if(n>=3||Math.random()<0.2+0.1*d) items.push(makeRelic(rk)); }
+  if(zone.boss&&RELICS[rk]){ const got=progress.relicGot=progress.relicGot||{}, n=(progress.cl[d]||{})[rk]||0;   // v0.97 가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시, 아니면 난이도별 확률(같은 유물도 계속 나옴)
+    if((!got[rk]&&n>=3)||Math.random()<RELIC_DROP[Math.min(2,d)]){ got[rk]=1; items.push(makeRelic(rk,d)); } }
   let ess=els+zone.mobs.filter(m=>m.chief).length*3+(zone.named?4:0)+(zone.boss?5:0);
   ess=Math.round(ess*(1+d));
   return {exp,gold,items,ess,plate:plateDropRoll(zone,d,rk)};   // v0.95 성반: 영원한 밤 장 보스 3% — 성편은 바로 보관함에
@@ -3516,7 +3517,6 @@ function chestRewards(d,rk){
   if(Math.random()<0.8) items.push(makeItem(false,lootTierFor(d,rk),{luck:partyLuck(),src:"chest",d,from:`${D.name} ${R.chapter} 보물상자에서`}));
   return {gold,items,ess:ri(1,2)*(1+d)};
 }
-function relicOwned(rk){ return progress.inv.some(x=>x.relic===rk)||equippedStore.some(x=>x.relic===rk)||(progress.shopStock||[]).some(e=>e.item&&e.item.relic===rk); }
 /* ================= 능력치 체계 (v0.15) =================
    1차 스탯 6종(힘·민첩·지능·체질·의지·행운)을 플레이어가 배분하고, 2차 스탯 12종은 거기서 계산된다.
    같은 직업이라도 어디에 몰았느냐로 관통형·반격형·파밍형이 갈린다. */
@@ -3893,33 +3893,55 @@ function runeAb(s){ const a=String(s||"").split("#")[1]; return a?a.split("+").f
 function runeStat(k,rar,ab){ const R=RUNES[k]; if(!R) return {}; const m=ab?5:(RUNE_RAR[rar]||RUNE_RAR.rare).m, o={}; for(const [a,v] of Object.entries(R.stat)) o[a]=Math.max(1,Math.round(v*m)); return o; }
 function rollRuneRar(d){ const W=Object.entries(RUNE_RAR).map(([k,x],i)=>({key:k,w:x.w*(i>=2?1+0.6*(d||0):1)})); return weightedPick(W); }
 /* 군단장 유물 — 7군단장 각각의 유물. 그 군단장의 특기를 조건으로 연다 + 작은 패시브. 지역 보스에게서 드물게 */
+/* v0.97 유물 개편 — 등급 하나(전설 틀) · 고유 효과·조건 해금·★각성 없음.
+   보스마다 옵션 후보 4개 중 '한 줄'이 붙어 나오고(수치는 범위 안에서 무작위), 난이도가 낮으면 상한이 낮다(RELIC_QCAP — 최대치는 영원한 밤에서만).
+   같은 종류의 유물은 한 번에 한 영웅만 낄 수 있다(relicClash). 분해하면 유물의 파편, 파편 + 정수로 3번까지 강화 — 강화마다 후보 중 하나가 무작위로 한 줄 더(겹치면 합산, 다시 굴리기 없음). */
 const RELICS={
-  swamp:  {name:"뤼네의 달그림자 가면", cond:33, stat:{eva:4}, text:"회피 +4%"},
-  volcano:{name:"브란도의 그을린 국자", cond:52, stat:{atk:2}, text:"공격력 +2 · 화상 적에게 주는 피해 +20% · 내가 건 화상 +1턴", flag:"relic_burn"},
-  sunken: {name:"운디르의 젖은 악보",   cond:35, stat:{regen:2}, text:"턴당 마나 +2 · 8턴부터 주는 피해 +12%", flag:"relic_sheet"},
-  forest: {name:"가라드의 나무 심장",   cond:36, stat:{def:3}, text:"방어력 +3"},
-  gold:   {name:"펜로의 계산자",        cond:37, stat:{},      text:"골드 +15%", flag:"relic_gold"},
-  desert: {name:"카룸의 모래시계",      cond:38, stat:{spd:1}, text:"신속 +1 · 내 체력 80% 이상이면 주는 피해 +10%", flag:"relic_hourglass"},
-  temple: {name:"솔바르의 검은 거울",    cond:39, stat:{res:6}, text:"상태이상 회피 +6%"},
+  swamp:  {name:"뤼네의 달그림자 가면",  opts:["el_poison","eva","crit","dot"]},
+  volcano:{name:"브란도의 그을린 국자",  opts:["el_fire","hp_pct","heal","atk_pct"]},
+  sunken: {name:"운디르의 젖은 악보",    opts:["el_cold","regen","skill","res"]},
+  forest: {name:"가라드의 나무 심장",    opts:["el_phys","hp_pct","def_pct","cut"]},
+  gold:   {name:"펜로의 계산자",         opts:["gold","exp","critdmg","pen"]},
+  desert: {name:"카룸의 모래시계",       opts:["el_fire","spd","aoe","eva"]},
+  temple: {name:"솔바르의 검은 거울",     opts:["el_holy","el_dark","er_all","res"]},
+  citadel:{name:"비에라의 부러진 부채",   opts:["el_phys","el_poison","crit","critdmg"]},
+  throne: {name:"녹타의 빈 투구",         opts:["el_dark","el_cold","def_pct","ls"]},
+  altar:  {name:"루멘의 낡은 그림책",     opts:["el_holy","atk_pct","skill","cut"]},
 };
+/* 옵션: lo~hi(영원한 밤 기준) · kind — stat(장비 능력치에 더함) · pct(공격력·체력·방어력 %) · trait(전투 수치) */
+const RELIC_OPT={
+  el_fire:{lo:4,hi:10,kind:"trait",t:v=>`화염 피해 +${v}%`}, el_cold:{lo:4,hi:10,kind:"trait",t:v=>`냉기 피해 +${v}%`}, el_poison:{lo:4,hi:10,kind:"trait",t:v=>`독 피해 +${v}%`},
+  el_holy:{lo:4,hi:10,kind:"trait",t:v=>`신성 피해 +${v}%`}, el_dark:{lo:4,hi:10,kind:"trait",t:v=>`암흑 피해 +${v}%`}, el_phys:{lo:4,hi:10,kind:"trait",t:v=>`물리 피해(속성 없는 공격) +${v}%`},
+  atk_pct:{lo:3,hi:7,kind:"pct",t:v=>`공격력 +${v}%`}, hp_pct:{lo:6,hi:15,kind:"pct",t:v=>`체력 +${v}%`}, def_pct:{lo:6,hi:15,kind:"pct",t:v=>`방어력 +${v}%`},
+  skill:{lo:3,hi:8,kind:"trait",t:v=>`기술 피해 +${v}%`}, aoe:{lo:4,hi:10,kind:"trait",t:v=>`광역 피해 +${v}%`}, dot:{lo:6,hi:15,kind:"trait",t:v=>`지속 피해(화상·독·출혈) +${v}%`},
+  cut:{lo:3,hi:7,kind:"trait",t:v=>`받는 피해 -${v}%`}, gold:{lo:8,hi:20,kind:"trait",t:v=>`골드 +${v}%`}, exp:{lo:5,hi:12,kind:"trait",t:v=>`경험치 +${v}%`},
+  crit:{lo:3,hi:7,kind:"stat",t:v=>`치명타 확률 +${v}%`}, critdmg:{lo:8,hi:20,kind:"stat",t:v=>`치명타 피해 +${v}%`}, pen:{lo:3,hi:8,kind:"stat",t:v=>`관통 +${v}%`}, eva:{lo:3,hi:7,kind:"stat",t:v=>`회피 +${v}%`},
+  res:{lo:6,hi:14,kind:"stat",t:v=>`상태이상 회피 +${v}%`}, er_all:{lo:5,hi:12,kind:"stat",t:v=>`전체 속성 저항 +${v}%`}, heal:{lo:6,hi:15,kind:"stat",t:v=>`치유량 +${v}%`},
+  regen:{lo:1,hi:3,kind:"stat",t:v=>`턴당 마나 +${v}`}, spd:{lo:1,hi:2,kind:"stat",t:v=>`신속 +${v}`}, ls:{lo:2,hi:5,kind:"stat",t:v=>`흡혈 +${v}%`},
+};
+const RELIC_QCAP=[0.5,0.67,1], RELIC_DROP=[0.25,0.35,0.5];   // 난이도별(황혼·자정·영원한 밤): 수치 상한(범위의 몇 %까지) · 장 보스 처치 시 나올 확률
+const RELIC_UP_MAX=3, RELIC_UP_COST=[null,{shard:2,ess:200},{shard:4,ess:400},{shard:8,ess:800}], RELIC_UP_SPENT=[0,2,6,14];
+function relicOptMax(k,d){ const O=RELIC_OPT[k]; return O.lo+Math.round(RELIC_QCAP[Math.max(0,Math.min(2,d|0))]*(O.hi-O.lo)); }
+function relicRoll(rk,d){ const R=RELICS[rk], k=R.opts[Math.floor(Math.random()*R.opts.length)], O=RELIC_OPT[k]; d=Math.max(0,Math.min(2,d|0));
+  return {k, v:O.lo+Math.round(Math.random()*RELIC_QCAP[d]*(O.hi-O.lo))}; }
+function relicSum(it){ const o={}; for(const x of (it&&it.ropts)||[]) if(RELIC_OPT[x.k]) o[x.k]=(o[x.k]||0)+x.v; return o; }
+function relicLines(it){ return Object.entries(relicSum(it)).map(([k,v])=>RELIC_OPT[k].t(v)); }
+function relicUp(it){ return Math.max(0,Math.min(RELIC_UP_MAX,(it&&it.up)|0)); }
+function relicShardOf(it){ return 1+Math.floor(RELIC_UP_SPENT[relicUp(it)]/2); }   // 분해: 파편 1 + 강화에 쓴 파편의 절반
+function relicUpCan(it){ const c=RELIC_UP_COST[relicUp(it)+1]; return !!c&&it.slot==="relic"&&fragStore().relic>=c.shard&&(progress.ess|0)>=c.ess; }
+function relicUpgrade(it){ if(!it||!RELICS[it.relic]||!relicUpCan(it)) return null; const c=RELIC_UP_COST[relicUp(it)+1]; fragStore().relic-=c.shard; progress.ess-=c.ess;
+  const o=relicRoll(it.relic,it.rd==null?2:it.rd); (it.ropts=it.ropts||[]).push(o); it.up=relicUp(it)+1; return o; }
+/* 같은 종류의 유물을 이미 낀 다른 영웅(없으면 null) */
+function relicClash(cid,it){ if(!it||it.slot!=="relic"||!progress||!progress.heroes) return null;
+  for(const c of Object.keys(progress.heroes)){ if(c===cid) continue; const w=findEquipped(c,"relic"); if(w&&w.id!==it.id&&w.relic===it.relic) return c; } return null; }
+/* 예전(v0.96까지) 유물 → 새 규칙: 옵션 한 줄을 새로 굴리고, ★2·★3은 강화 1·2회로 인정 */
+function relicConvert(it,d){ it.base={}; it.affixes=[]; it.rd=d; it.ropts=[relicRoll(it.relic,d)]; const n=Math.max(0,Math.min(2,((it.star|0)||1)-1)); for(let i=0;i<n;i++) it.ropts.push(relicRoll(it.relic,d)); it.up=n; delete it.star; return it; }
 /* v0.29 최종 콘텐츠 전용 성장 — 재료 2종(군단장의 혼 · 별의 정수)과 성장 3종(유물 각성 · 신화 무기 · 별자리 판)
    혼: 군단장 레이드(그 주의 군단장 것, 주간 첫 처치 3 · 이후 1) / 별의 정수: 밤의 탑 10층마다 2 · 원정 완주 첫 8 · 이후 4 · 레이드 처치 2 */
 function egMat(){ const m=progress.egMat=progress.egMat||{}; if(!m.soul||typeof m.soul!=="object") m.soul={}; m.star=m.star||0; return m; }
 function egMatLog(t){ logLine(`<span class="gain">${t}</span>`); }
 function egSoul(rk,n){ if(!n) return; const m=egMat(); m.soul[rk]=(m.soul[rk]||0)+n; egMatLog(`👻 군단장의 혼(${esc(MOBS[REGIONS[rk].boss].name)}) +${n} (보유 ${m.soul[rk]})`); }
 function egStar(n,why){ if(!n) return; const m=egMat(); m.star+=n; egMatLog(`✦ 별의 정수 +${n}${why?` — ${esc(why)}`:""} (보유 ${m.star})`); }
-// 유물 각성: ★2·★3은 그 군단장의 혼 + 새벽 파편. 능력치 ×1.5 / ×2, ★3이면 군단장의 특기가 생김
-const RELIC_AWAKE={
-  swamp:  {t3:"체력 35% 이하가 되면 전투당 1회 저절로 은신", flag:"vanish"},
-  volcano:{t3:"전투가 끝나면 파티 전원 체력 10% 회복 (주먹밥)", flag:"relic_meal"},
-  sunken: {t3:"매 턴 아군 1명의 화상·동상·약화를 씻어 내고 체력 8% 회복", flag:"cleanse"},
-  forest: {t3:"받는 피해 -8%", flag:"relic_bark"},
-  gold:   {t3:"골드 +30% · 강화 비용 -10%", flag:"relic_gold2"},
-  desert: {t3:"전투 첫 3턴 동안 주는 피해 +50%", flag:"first_strike"},
-  temple: {t3:"화상에 걸리지 않음", flag:"relic_noburn"},
-};
-const RELIC_AWAKE_COST=[null,null,{apo:3,shards:20},{apo:5,shards:40}];   // v0.64: 군단장의 혼 → 사도의 혼
-function relicStar(it){ return Math.max(1,Math.min(3,it&&it.star||1)); }
 // 신화 무기: 직업마다 1자루. 전설보다 조금 강하고, 6세트 급의 '규칙을 바꾸는' 효과를 단다. 제작 = 새벽 파편 120 + 일곱 군단장의 혼 1개씩
 const MYTHIC={
   knight: {name:"루멘의 장막검", flags:["taunt_guard","bulwark"], desc:"도발 중 받는 피해 -20% · 내가 살아 있는 동안 아군 전체 받는 피해 -10%"},
@@ -3967,7 +3989,7 @@ function setSlotEnh(cid,sk,o){ const H=progress.heroes[cid]; H.senh=H.senh||{}; 
 function slotOfItem(cid,id){ const eq=progress.heroes[cid].equip; return Object.keys(eq).find(k=>eq[k]===id)||null; }
 // 장비가 끼워진 자리의 강화(가방에 있으면 강화 없음)
 function itemEnh(it){ if(!it||it.noEnh) return null; try{ for(const c of CLASS_IDS){ const sk=slotOfItem(c,it.id); if(sk&&ENH_SLOTS.includes(sk)) return slotEnh(c,sk); } }catch(e){} return null; }
-function enhCost(cid,sk){ const l=slotEnh(cid,sk).l; const dc=(typeof equippedStore!=="undefined"&&equippedStore.some(x=>x&&x.relic==="gold"&&relicStar(x)>=3))?0.9:1;
+function enhCost(cid,sk){ const l=slotEnh(cid,sk).l; const dc=1;
   const t=(typeof bestLootTier==="function"&&progress)?bestLootTier():0;   // 비용은 지금까지 연 콘텐츠 수준을 따름(낀 장비와 무관)
   return {gold:Math.round(20*(1+0.35*t)*Math.pow(l+1,1.3)*dc), ess:Math.ceil((2+Math.floor(l*l/2))*dc)}; }
 /* v0.95 보호 주문서: 강화를 시도할 때마다 1개 소모 — 실패해도 단계가 내려가지 않음(하락이 있는 +6부터만 씀). 부위 상관없이 하루 10번까지.
@@ -4002,7 +4024,7 @@ function reforgeCost(it){ return {ess:3+2*Math.min(it.rarity==="set"?3:4,RAR_IDX
 // 아이템 능력치 합산: 기본 + 접사 + 운명 보너스. E = 끼운 부위의 강화(enhSum: +9까지 5% · +15까지 9% · 심연 15%, 금 간 부위 -10%, 금으로 메운 부위 +3%)
 const GEAR_MP_K=0.3;
 function effStats(it,E){
-  const im=(it.relic?1+0.5*(relicStar(it)-1):1)*(it.mythic?1.2:1);
+  const im=(it.mythic?1.2:1);
   const m=enhMul(E)*im, mp=enhMulHalf(E)*im;   // v0.30: 퍼센트 능력치(치명·회피·저항 등)는 강화 배율을 절반만 — 상한에 너무 쉽게 닿던 것
   const o={};
   const add=(k,v)=>{ if(k.startsWith("c_")) return; o[k]=(o[k]||0)+v; };
@@ -4016,11 +4038,11 @@ function itemCondAffixes(it){ return (it.affixes||[]).filter(a=>a.k.startsWith("
 function itemPctBonus(it){ const o={}; if(it.fate&&it.fate.done) for(const [k,v] of Object.entries(FATES[it.fate.key].bonus)) if(k.endsWith("_pct")) o[k]=(o[k]||0)+v; return o; }
 function itemLabel(it){ return itemDisplayName(it); }
 function enhTag(E){ return E&&E.l?`+${E.l} `:""; }
-function dismantleValue(it){ return ({common:1,fine:2,rare:4,epic:8,legend:14,set:6}[it.rarity]||1)*(1+Math.floor((it.tier||0)/10)); }
+function dismantleValue(it){ if(it&&it.slot==="relic") return 0; return ({common:1,fine:2,rare:4,epic:8,legend:14,set:6}[it.rarity]||1)*(1+Math.floor((it.tier||0)/10)); }
 /* v0.44 분해 재료 — 희귀·세트 → 희귀 조각, 영웅 → 영웅 조각, 전설 → 영웅 조각 1(v0.94) (등급 올리기에 씀) */
-const FRAG_LABEL={rare:"희귀 조각",epic:"영웅 조각"};
-function fragOf(it){ if(!it||it.slot==="rune"||it.slot==="relic"||it.mythic) return {}; return it.rarity==="rare"||it.rarity==="set"?{rare:1}:it.rarity==="epic"?{epic:1}:it.rarity==="legend"?{epic:1}:{}; }   // v0.94 전설 분해 영웅 조각 2 → 1
-function fragStore(){ const f=progress.frag=progress.frag&&typeof progress.frag==="object"?progress.frag:{}; f.rare=f.rare|0; f.epic=f.epic|0; return f; }
+const FRAG_LABEL={rare:"희귀 조각",epic:"영웅 조각",relic:"유물의 파편"};
+function fragOf(it){ if(it&&it.slot==="relic") return {relic:relicShardOf(it)}; if(!it||it.slot==="rune"||it.mythic) return {}; return it.rarity==="rare"||it.rarity==="set"?{rare:1}:it.rarity==="epic"?{epic:1}:it.rarity==="legend"?{epic:1}:{}; }   // v0.94 전설 분해 영웅 조각 2 → 1
+function fragStore(){ const f=progress.frag=progress.frag&&typeof progress.frag==="object"?progress.frag:{}; f.rare=f.rare|0; f.epic=f.epic|0; f.relic=f.relic|0; return f; }
 function fragAdd(f,acc){ const S=fragStore(); for(const [k,v] of Object.entries(f||{})){ S[k]+=v; if(acc) acc[k]=(acc[k]||0)+v; } }
 function fragText(f){ return Object.entries(f||{}).filter(([,v])=>v).map(([k,v])=>`${FRAG_LABEL[k]} +${v}`).join(" · "); }
 // v0.94 장비를 팔거나 분해하면 끼워 둔 룬은 룬주머니로 돌아옴
@@ -6182,6 +6204,9 @@ function migrateProgress(p){
   const out=Object.assign(d, p);
   out.regions=Object.assign(defaultProgress().regions, p.regions||{});
   if(!(out.resFixV>=1)){ for(const L of [out.inv,out._equipped]) if(Array.isArray(L)) for(const it of L) if(it&&Array.isArray(it.affixes)) for(const a of it.affixes) if(a&&a.k==="res"&&a.v>5) a.v=5; out.resFixV=1; }   // v0.95 상태이상 회피 옵션: 한 줄 최대 5%로
+  if(!(out.relicV>=1)){ const dm=Math.max(0,Math.min(2,out.diffMax|0)); out.relicGot=out.relicGot||{};   // v0.97 유물 개편: 가진 유물을 새 규칙으로(★2·★3 → 강화 1·2회) · 상점에 걸린 유물은 치움
+    for(const L of [out.inv,out._equipped]) if(Array.isArray(L)) for(const it of L) if(it&&it.slot==="relic"&&RELICS[it.relic]){ out.relicGot[it.relic]=1; if(!Array.isArray(it.ropts)) relicConvert(it,dm); }
+    if(Array.isArray(out.shopStock)) out.shopStock=out.shopStock.filter(e=>!(e&&e.item&&e.item.slot==="relic")); out.relicV=1; }
   for(const k of REGION_KEYS) out.regions[k]=Object.assign({run:1,clears:0}, out.regions[k]||{});
   for(const c of CLASS_IDS){
     out.heroes[c]=Object.assign(defaultProgress().heroes[c], (p.heroes||{})[c]||{});
@@ -7080,10 +7105,7 @@ class Sim {
     const sneak=skill.type==="damage"&&!!(att.buffs&&att.buffs.stealth);
     if(isAoe(skill)&&T0.aoe_mult) base*=T0.aoe_mult;
     if(isSk(skill)&&T0.skill_amp) base*=1+T0.skill_amp;
-    if(T0.relic_burn&&def.dots&&def.dots.burn) base*=1.2;
-    if(T0.relic_sheet&&this.turn>=8) base*=1.12;
     if(skill.rxWeak&&(this.isWeak(def)||(def.buffs.slow&&this.turn<=def.buffs.slow.until))&&this.rxOther(att,def,["chill","slow"])) base*=1+skill.rxWeak;   // v0.94 돌격 연계
-    if(T0.relic_hourglass&&att.hp>=att.hp_max*0.8) base*=1.1;
     if(T0.rune_full&&att.hp>=att.hp_max) base*=1+T0.rune_full;
     if(T0.rune_lone&&this.units.filter(x=>x.alive&&x.side!==att.side).length===1) base*=1+T0.rune_lone;
     if(T0.rune_boss&&(def.boss||def.isBossKind)) base*=1+T0.rune_boss;
@@ -7254,7 +7276,8 @@ class Sim {
     if(D.ranged_guard&&skill.range==="ranged") cut*=0.8;
     if(D.aoe_guard&&isAoe(skill)) cut*=0.75;
     if(def.aoeRes&&isAoe(skill)) cut*=1-def.aoeRes;
-    if(skill.el){ const er=this.erOf(def,skill.el); if(er) cut*=1-er/100; const am=att.traits&&att.traits["el_"+skill.el]; if(am) cut*=1+am; }   // v0.95 속성 저항(피해 %) · 성반의 속성 피해
+    if(skill.el){ const er=this.erOf(def,skill.el); if(er) cut*=1-er/100; const am=att.traits&&att.traits["el_"+skill.el]; if(am) cut*=1+am; } else if(att.traits&&att.traits.el_phys) cut*=1+att.traits.el_phys;   // v0.97 유물: 속성 없는 공격 = 물리
+      // v0.95 속성 저항(피해 %) · 성반의 속성 피해
     if(D.boss_guard&&(att.boss||att.isBossKind)) cut*=0.85;
     if(D.steady&&this.hpPct(def)>=70) cut*=D.steady_v||0.85;
     if(def.row==="back"&&this.units.some(x=>x.alive&&x.side===def.side&&x.row==="front"&&x.traits&&x.traits.rear_guard)) cut*=0.88;
@@ -7464,12 +7487,12 @@ class Sim {
   }
   erOf(u,el){ const E=u&&u.er; if(!E) return 0; return Math.max(-50,Math.min(ER_CAP,(E[el]||0)+(E.all||0))); }
   tauntPull(t){ if(t.traits&&t.traits.taunt_all) return 1; const b=Math.max(0.5,(t.buffs.taunt&&t.buffs.taunt.value)||0), pl=(t.traits&&t.traits.taunt_pull)||0; return pl?Math.max(b,Math.min(0.9,b+pl)):b; }   // v0.95 도발이 원거리 공격을 끌어오는 확률: 기본 50% · 방진 80% · '끌어들이는 방패' 100%
-  dotAmp(att,kind){ const T=att.traits||{}; let m=T.dot_amp?1.4:1; if(kind==="poison"&&T.poison_bonus) m*=1+T.poison_bonus; if(kind==="burn"){ if(T.burn_amp50) m*=1.5; if(T.burn_amp30) m*=1.3; if(T.blast_amp15) m*=1.15; if(T.burn_bonus) m*=1+T.burn_bonus; if(T.blast_bonus) m*=1+T.blast_bonus; } return m; }   // v0.85 지속 피해 배율
+  dotAmp(att,kind){ const T=att.traits||{}; let m=(T.dot_amp?1.4:1)*(1+(T.relic_dot||0)); if(kind==="poison"&&T.poison_bonus) m*=1+T.poison_bonus; if(kind==="burn"){ if(T.burn_amp50) m*=1.5; if(T.burn_amp30) m*=1.3; if(T.blast_amp15) m*=1.15; if(T.burn_bonus) m*=1+T.burn_bonus; if(T.blast_bonus) m*=1+T.blast_bonus; } return m; }   // v0.85 지속 피해 배율
   setBurn(att,t,ratio,label,fx,turns=2){
     if(!(ratio>0)) ratio=0.35; if(!(turns>0)) turns=2;   // v0.94 비율이 비면 피해가 NaN → 적 체력이 NaN이 되어 죽지 않던 문제 방지
     if(!t.alive) return;
     if(this.resisted(t,fx,"화상")) return;
-    t.dots.burn={dmg:Math.max(1,Math.floor(att.atk*ratio*this.dotAmp(att,"burn"))),turns:turns+((att.gx&&att.gx.burn_turn)||0)+(att.traits&&att.traits.relic_burn?1:0),label:"화상",src:att.id};
+    t.dots.burn={dmg:Math.max(1,Math.floor(att.atk*ratio*this.dotAmp(att,"burn"))),turns:turns+((att.gx&&att.gx.burn_turn)||0),label:"화상",src:att.id};
     fx.push(this.fxBuff(t,label)); this.onDebuff(att,t,"burn");
   }
   poisonMax(att){ return 5+(this.hasPassive(att,"venom_master")?3:0)+((att.traits&&att.traits.venom_feast)?3:0); }
@@ -8458,7 +8481,7 @@ function heroLook(cid){ const h=progress.heroes[cid]; if(!h) return null; const 
 function equippedItems(cid){ return heroSlots().map(s=>findEquipped(cid,s)).filter(Boolean); }
 function heroEquipTotals(cid){
   const abyss=new Set();   // v0.59 심연 룬 각인
-  const t={}; const procs=[]; const sets={}; const pct={}; const conds=[]; const uniques=[]; const cuniqs=[]; const runes=[]; const rfx={}; let wtype=null, offhand=null, relic=null, relicSt=1, mythic=null; const engraves=[];
+  const t={}; const procs=[]; const sets={}; const pct={}; const conds=[]; const uniques=[]; const cuniqs=[]; const runes=[]; const rfx={}; let wtype=null, offhand=null, relic=null, mythic=null; const rel={}; const engraves=[];
   for(const sk of heroSlots()){ const it=findEquipped(cid,sk); if(!it) continue;
     const st=effStats(it,it.noEnh?null:slotEnh(cid,sk));   // v0.45: 부위 강화
     for(const k of Object.keys(st)) t[k]=(t[k]||0)+st[k];
@@ -8476,10 +8499,11 @@ function heroEquipTotals(cid){
     for(const r of (it.sockets||[])) if(r){ runes.push(runeK(r)); const ab=runeAb(r); for(const x of ab) abyss.add(x); for(const [k,v] of Object.entries(runeStat(runeK(r),runeR(r),ab.length>0))) t[k]=(t[k]||0)+v; const fx=runeFx(runeK(r),runeR(r),ab.length>0); if(fx) rfx[fx.k]=(rfx[fx.k]||0)+fx.v; }   // v0.36: 끼운 룬의 능력치도 더함(카드 표시대로)
     if(it.slot==="weapon") wtype=it.wtype||null;
     if(it.slot==="offhand") offhand=it;
-    if(it.slot==="relic"){ relic=it.relic; relicSt=relicStar(it); }
+    if(it.slot==="relic"){ relic=it.relic; for(const [k,v] of Object.entries(relicSum(it))) rel[k]=(rel[k]||0)+v; }
     if(it.mythic) mythic=it.mythic;
   }
-  return {t,procs,sets,pct,conds,uniques,cuniqs,runes,wtype,offhand,relic,relicSt,mythic,engraves,abyss:[...abyss],rfx};
+  for(const [k,v] of Object.entries(rel)){ const O=RELIC_OPT[k]; if(O.kind==="stat") t[k]=(t[k]||0)+v; else if(O.kind==="pct") pct[k]=(pct[k]||0)+v/100; }   // v0.97 유물 옵션(강화 배율 없음)
+  return {t,procs,sets,pct,conds,uniques,cuniqs,runes,wtype,offhand,relic,rel,mythic,engraves,abyss:[...abyss],rfx};
 }
 function setEffects(sets){
   const out=[];
@@ -8493,7 +8517,6 @@ function heroTitleObj(cid){ const h=progress.heroes[cid]; return h.title?TITLES.
 // v0.36: 장비(세트·유물·신화·무기)에서 오는 특수 효과 — 특성과 겹치면 하나는 효과가 없으므로 미리 알려 줌
 function gearFlags(cid){ const E=heroEquipTotals(cid), out={};
   for(const [k,n] of Object.entries(E.sets||{})){ const S=SETS[k]; if(!S) continue; for(const [need,B] of setBonuses(S)) if(n>=need&&B&&B.eff) for(const f of [].concat(B.eff.flag||[])) out[f]=`${S.name} 세트 ${need}`; }
-  if(E.relic&&RELICS[E.relic]){ if(RELICS[E.relic].flag) out[RELICS[E.relic].flag]=RELICS[E.relic].name; if(E.relicSt>=3&&RELIC_AWAKE[E.relic]) out[RELIC_AWAKE[E.relic].flag]=RELICS[E.relic].name+" ★3"; }
   if(E.mythic&&MYTHIC[E.mythic]) for(const f of MYTHIC[E.mythic].flags) out[f]=MYTHIC[E.mythic].name;
   const W=WEAPONS[heroWeaponType(cid)]; for(const f of ((W&&W.mods&&W.mods.flags)||[])) out[f]=W.name;
   return out; }
@@ -8546,16 +8569,15 @@ function heroDerived(cid){
   for(const f of (wm.flags||[])) traits[f]=true;
   for(const [k,v] of Object.entries(tr.mult||{})) traits[k]=v; if(tr.mp_cost) traits.mp_cost=tr.mp_cost; if(tr.mp_cost_heal) traits.mp_cost_heal=tr.mp_cost_heal; if(tr.heal_taken) traits.heal_taken=tr.heal_taken;   // v0.85 특성 배율
   if(tr.res_regen) traits.res_regen=tr.res_regen; if(tr.march_minus) traits.march_minus=tr.march_minus; if(tr.noSkill&&tr.noSkill.length) traits.noSkill=tr.noSkill.slice();
-  if(E.relic&&RELICS[E.relic]&&RELICS[E.relic].flag) traits[RELICS[E.relic].flag]=true;
+  for(const [k,v] of Object.entries(E.rel||{})){ const f=v/100;   // v0.97 유물 옵션(전투 수치)
+    if(k.startsWith("el_")) traits[k]=(traits[k]||0)+f; else if(k==="skill") traits.skill_amp=(traits.skill_amp||0)+f; else if(k==="aoe") traits.aoe_mult=(traits.aoe_mult||1)*(1+f);
+    else if(k==="dot") traits.relic_dot=f; else if(k==="cut") traits.dmg_cut=(traits.dmg_cut||0)+f; else if(k==="gold") traits.relic_gold=f; else if(k==="exp") traits.relic_exp=f; }
   for(const [k,v] of Object.entries(E.rfx||{})) traits[k]=(traits[k]||0)+v;   // v0.94 룬 고유 효과
   for(const [k,v] of Object.entries(ptv)) traits[k]=(traits[k]||0)+v;   // v0.95 성반 세트 효과(전투 수치)
-  if(E.relic&&E.relicSt>=3&&RELIC_AWAKE[E.relic]) traits[RELIC_AWAKE[E.relic].flag]=true;
-  if(traits.relic_bark) traits.dmg_cut=(traits.dmg_cut||0)+0.08;
   resoApply(traits);   // v0.61 심연 공명
   if(E.mythic&&MYTHIC[E.mythic]){ const My=MYTHIC[E.mythic]; for(const f of My.flags) traits[f]=true; if(My.amp) traits.skill_amp=(traits.skill_amp||0)+My.amp; }
-  if(E.relic&&RELICS[E.relic]) for(const [k,v] of Object.entries(RELICS[E.relic].stat)){ /* 유물 능력치는 이미 effStats에 포함(아이템 base) */ }
   for(const x of (E.abyss||[])) traits["ab_"+x]=true; if(traits.ab_twins) traits.aoe_mult=(traits.aoe_mult||1)*1.1;   // v0.59 심연 룬
-  const unlocks=new Set(); for(const r of E.runes) if(RUNES[r]) unlocks.add(RUNES[r].cond); if(E.relic&&RELICS[E.relic]) unlocks.add(RELICS[E.relic].cond);
+  const unlocks=new Set(); for(const r of E.runes) if(RUNES[r]) unlocks.add(RUNES[r].cond);
   // v0.26 직업 자원(최대치·시작값)
   const rk=c.res, of=(off&&off.flags)||{};
   if(of.special_plus) traits.special_plus=of.special_plus;
@@ -9290,7 +9312,6 @@ function buildHeroUnit(cid){
     unitTvs(u);   // v0.96 '그 상태인 적에게 아군 피해·치명타' 특성
     u.unlocks=d.unlocks; u.engraves=d.engraves.map(e=>({key:e,cd:0}));   // v0.44 장비 옵션 합계(u.gx)
     u.cls=cid; Object.assign(u,d.res); u.res=d.stats.resRaw; u.er=d.stats.er; u.resPart=true; u.look=heroLook(cid); u.lane=heroLane(cid); u.adv=(progress.heroes[cid]&&progress.heroes[cid].adv)||null;   // v0.94 전직별 기술 효과(수도승 내공 순환)
-    if(d.traits.relic_noburn) u.immune={burn:true};
     if(d.traits.venom_immune){ u.immune=Object.assign(u.immune||{},{poison:true}); u.res=(u.res||0)+0.2; }   // v0.85 항독 체질 (v0.94 상한은 전투 계산에서)
     if(d.traits.eva_mult) u.eva=(u.eva||0)*d.traits.eva_mult;   // 반격의 춤 대가
     u.skillsEx=heroSkillsEx(cid,d.wtype);
@@ -9376,7 +9397,7 @@ function finishItem(it){
   return it;
 }
 // v0.44: 이름 — 옵션이 범위 위쪽까지 붙으면 ★, 모든 옵션이 품질 90% 이상이면 「완벽한」
-function itemDisplayName(it){ return (itemPerfect(it)?"완벽한 ":"")+(it.plus?"★":"")+it.name; }
+function itemDisplayName(it){ return (itemPerfect(it)?"완벽한 ":"")+(it.plus?"★":"")+it.name+(it.slot==="relic"&&it.up?` +${it.up}`:""); }
 function dropDiff(lootTier){ return lootTier>=20?2:lootTier>=10?1:0; }
 function makeItem(bossBonus=false, lootTier=0, opt={}){
   const luck=opt.luck||0;
@@ -9417,7 +9438,7 @@ function makeRune(key,rar,d,ab){ const k=runeK(key)||RUNE_KEYS[ri(0,RUNE_KEYS.le
   const it={id:newItemId(), slot:"rune", rune:k, rarity:ab.length?"legend":ra, tier:0, name:R.name, base:runeStat(k,ra,ab.length>0), affixes:[], enh:0};
   if(ab.length){ it.abyss=ab; it.name="심연의 "+R.name; } return it; }
 function runeSock(it){ return it.rune+"@"+(RUNE_RAR[it.rarity]?it.rarity:"rare")+(it.abyss&&it.abyss.length?"#"+it.abyss.join("+"):""); }
-function makeRelic(rk){ const R=RELICS[rk]; return {id:newItemId(), slot:"relic", relic:rk, rarity:"legend", tier:0, name:R.name, base:Object.assign({},R.stat), affixes:[], enh:0, noEnh:true}; }
+function makeRelic(rk,d){ const R=RELICS[rk]; d=Math.max(0,Math.min(2,d|0)); return {id:newItemId(), slot:"relic", relic:rk, rarity:"legend", tier:0, name:R.name, base:{}, affixes:[], enh:0, noEnh:true, rd:d, up:0, ropts:[relicRoll(rk,d)]}; }
 function itemSummary(it){
   const parts=Object.entries(effStats(it,itemEnh(it))).map(([k,v])=>statText(k,v));
   for(const a of itemCondAffixes(it)) parts.push(affixLabel(a,it));
@@ -9429,7 +9450,9 @@ function itemExtraText(it){
   { const cu=cUniq(it); if(cu) parts.push(`👑 ${CLASSES[it.cuniqCls].name} 전용: ${cu.label}`); }
   if(it.proc) parts.push("✨ "+it.proc.label);
   if(it.engrave&&ENGRAVES[it.engrave]) parts.push("📜 각인: "+ENGRAVES[it.engrave].text);
-  if(it.relic&&RELICS[it.relic]){ parts.push("🔮 "+RELICS[it.relic].text+(COND[RELICS[it.relic].cond].lock?" · 조건 해금: "+cLabel(RELICS[it.relic].cond):"")); const st=relicStar(it); parts.push("각성 "+"★".repeat(st)+"☆".repeat(3-st)+(st>=3?" · "+RELIC_AWAKE[it.relic].t3:" · ★3: "+RELIC_AWAKE[it.relic].t3)); }
+  if(it.relic&&RELICS[it.relic]){ const d=it.rd==null?2:it.rd; for(const l of relicLines(it)) parts.push("🔮 "+l);
+    parts.push(`유물 강화 ${relicUp(it)}/${RELIC_UP_MAX} · ${DIFFS[d].name}에서 얻음`+(d<2?` (한 줄 수치가 영원한 밤 것보다 낮게 나옴)`:""));
+    parts.push("후보 옵션: "+RELICS[it.relic].opts.map(k=>RELIC_OPT[k].t(`${RELIC_OPT[k].lo}~${relicOptMax(k,d)}`)).join(" / ")); }
   if(it.mythic&&MYTHIC[it.mythic]) parts.push("🌠 신화 — "+MYTHIC[it.mythic].desc);
   if(it.rune&&RUNES[it.rune]&&RUNES[it.rune].fx) parts.push("◈ "+runeFxText(it.rune,it.rarity,!!(it.abyss&&it.abyss.length)));
   if(it.rune&&RUNES[it.rune]&&COND[RUNES[it.rune].cond].lock) parts.push("◈ 조건 해금: "+COND[RUNES[it.rune].cond].label);
@@ -9440,7 +9463,7 @@ function itemExtraText(it){
 // v0.23: 장비 능력치를 '기본 / 추가 옵션 / 특수 옵션' 세 줄로 나눠 보여 줌(강화·금 간 배율 반영)
 function itemParts(it,E){
   if(E===undefined) E=itemEnh(it);
-  const im=(it.relic?1+0.5*(relicStar(it)-1):1)*(it.mythic?1.2:1);
+  const im=(it.mythic?1.2:1);
   const m=enhMul(E)*im, mh=enhMulHalf(E)*im;   // v0.36: 실제 계산(effStats)과 같게 — 퍼센트·신속·턴당 마나는 강화 배율 절반
   const r=(k,v)=>Math.max(1,Math.round(v*(ENH_FIXED.has(k)?1:(PCT_KEYS.has(k)||k==="spd"||k==="regen")?mh:m)));
   const base=Object.entries(it.base||it.stats||{}).filter(([k])=>!k.startsWith("c_")).map(([k,v])=>statText(k,r(k,v)));
@@ -9465,6 +9488,7 @@ function canEquip(cid,it){
   if(it.slot==="rune") return false;
   if(it.cls&&it.cls!==cid) return false;
   if(it.slot==="offhand"){ const W=WEAPONS[heroWeaponType(cid)]; if(W.two) return false; }
+  if(it.slot==="relic"&&relicClash(cid,it)) return false;   // v0.97 같은 종류의 유물은 한 영웅만
   return true;
 }
 function equipSlotFor(cid,it){
@@ -13843,6 +13867,17 @@ const ITEM_ICON=(()=>{
     temple:[ P("trim",rect(28.5,44,35.5,61)), P("trim",circ(32,61,3.2)),
       P("trim",ellp(32,25,19,22)), P("iron",ellp(32,25,15,18)),
       P("purple","M22 18 Q26 10 34 9 Q27 14 25 22 Z",{flat:3,alpha:.8}), P("gem",circ(32,3.5,3),{spec:1}), P("gem",circ(32,47,2.6),{spec:1}) ],
+    /* v0.97 8~10장 유물 — 부러진 부채 · 빈 투구 · 낡은 그림책 */
+    citadel:[ P("red","M32 57 L5 27 Q17 9 32 8 Q40 8 47 11 L42 23 L51 19 L45 33 L55 31 L32 57 Z"),
+      ...[[7,27],[15,15],[25,9.5],[36,9],[45,13]].map(([x,y])=>P("wood",`M31 56 L${x-1} ${y+1} L${x+1} ${y-0.6} L33 56 Z`,{flat:1,thin:1})),
+      P("purple","M12 30 Q22 18 34 17 Q23 22 16 33 Z",{flat:3,alpha:.7}), P("gold",circ(32,56.5,3.4)), P("gem",circ(32,56.5,1.4),{spec:1}) ],
+    throne:[ P("bone","M13 24 Q2 18 3 5 Q9 14 17 16 Z"), P("bone","M51 24 Q62 18 61 5 Q55 14 47 16 Z"),
+      P("iron","M11 36 Q11 8 32 8 Q53 8 53 36 L53 54 L41 54 L41 41 L23 41 L23 54 L11 54 Z"),
+      P("navy","M17 28 L47 28 L47 35 L35 35 L32 41 L29 35 L17 35 Z",{flat:1}), P("trim","M30.5 8 L33.5 8 L33.5 28 L30.5 28 Z",{thin:1}),
+      P("purple","M28 9 Q32 -1 36 9 Z"), P("trim",rect(11,50,23,54)), P("trim",rect(41,50,53,54)) ],
+    altar:[ P("leather",rect(10,7,54,58)), P("paper",rect(15,10,54,55)), P("leather",rect(13,7,50,58)), P("wood",rect(10,7,15,58)),
+      P("gold",circ(32,30,7.5)), ...[0,45,90,135,180,225,270,315].map(d=>{ const r=d*Math.PI/180, x=32+Math.cos(r)*12.5, y=30+Math.sin(r)*12.5; return P("gold",circ(x,y,1.5),{flat:2}); }),
+      P("trim",rect(18,46,45,48.5),{flat:2,thin:1}), P("trim",rect(47,27,54,33)), P("gem",circ(32,30,2.6),{glow:1,spec:1}) ],
   };
 
   function pathOf(p){ const base=new Path2D(p.d); if(!p.tf) return base; const [cx,cy,deg,s,o,flip]=p.tf;
@@ -13913,7 +13948,8 @@ function eqFigure(cid){
     const c=cv.getContext("2d"); c.imageSmoothingEnabled=false; c.clearRect(0,0,cv.width,cv.height);
     if(img.dataset.aura){ const A=auraFor(img,performance.now()); if(A) c.drawImage(A.cv,0,0,cv.width,cv.height); } },90);
   return wrap; }
-function slotBetterCount(cid,sk){ return progress.inv.filter(x=>(x.slot===sk||(sk.startsWith("ring")&&x.slot==="ring"))&&canEquip(cid,x)&&previewEquip(cid,x,sk).pct>0.5).length; }
+function slotBetterCount(cid,sk){ if(sk==="relic") return 0;   // v0.97 유물은 옵션 종류가 달라 "더 좋다"를 가릴 수 없음
+  return progress.inv.filter(x=>(x.slot===sk||(sk.startsWith("ring")&&x.slot==="ring"))&&canEquip(cid,x)&&previewEquip(cid,x,sk).pct>0.5).length; }
 function eqSlotBtn(cid,sk){ const it=findEquipped(cid,sk), s=SLOTS.find(x=>x.key===sk), W=WEAPONS[heroWeaponType(cid)], E=slotEnh(cid,sk);
   const up=runBusy()?0:slotBetterCount(cid,sk); const b=document.createElement("button"); b.className="eqslot"+(it?"":" empty")+(up?" hasup":"");
   b.innerHTML=it?iconCell(it,{enh:it.noEnh?null:E}):`<span class="icell r-none ghost${E.gilt?" gilt":""}"><img src="${slotGhostURL(sk,cid)}" alt="">${E.l?`<b class="ic-enh ${enhTier(E.l).cls}">+${E.l}</b>`:""}</span>`;
@@ -13953,7 +13989,7 @@ function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find
   const acts=m.querySelector(".imacts");
   if(canE&&!(it&&it.noEnh)){ acts.appendChild(enhButton(cid,sk)); if(E.gilt) acts.appendChild(repairButton(cid,sk)); }
   if(it&&(it.affixes||[]).length){ const rb=document.createElement("button"); rb.textContent=`재련 (정수 ${reforgeCost(it).ess}~)`; rb.onclick=()=>openReforge(it); acts.appendChild(rb); }
-  if(it){ const gb=gradeUpButton(it,()=>{ closeModal(); openWornItem(cid,sk); }); if(gb) acts.appendChild(gb); }
+  if(it){ const gb=gradeUpButton(it,()=>{ closeModal(); openWornItem(cid,sk); }); if(gb) acts.appendChild(gb); const ub2=relicUpButton(it); if(ub2) acts.appendChild(ub2); }
   const up=slotBetterCount(cid,sk); const fb=document.createElement("button"); fb.textContent=up?`▲ 가방에 더 좋은 것 ${up}개 보기`:"가방에서 이 부위 보기"; if(up) fb.className="good";
   fb.onclick=()=>{ closeModal(); invSlot=sk; invFilter="all"; invSort="best"; renderParty(); }; acts.appendChild(fb);
   if(it){ const ub=document.createElement("button"); ub.textContent="해제"; ub.onclick=()=>{ closeModal(); unequip(cid,sk); }; acts.appendChild(ub); }
@@ -13971,7 +14007,8 @@ function openBagItem(it){ const cid=partySel; invOpen=it.id; const row=itemRow(i
   row.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||b.disabled) return; setTimeout(()=>{ if($("modal")===m){ if(!progress.inv.includes(it)) closeModal(); else if(b.classList.contains("enhb")) openBagItem(it); else closeModal(); } },0); }); }
 function bagGroups(list){ const out=[], idx={}; for(const it of list){ if(it.slot==="rune"){ const k="rune|"+it.rune+"|"+it.rarity; if(idx[k]!=null){ out[idx[k]].items.push(it); continue; } idx[k]=out.length; out.push({key:k,items:[it]}); } else out.push({key:"i"+it.id,items:[it]}); } return out; }
 function bagSelTotals(){ const its=progress.inv.filter(x=>bagSel.has(x.id)); return {n:its.length, g:its.reduce((a,x)=>a+sellPrice(x),0), e:its.reduce((a,x)=>a+dismantleValue(x),0), its}; }
-function bagApply(kind){ const T=bagSelTotals(); if(!T.n) return;
+function bagApply(kind){ const T=bagSelTotals(); if(kind==="sell"){ T.its=T.its.filter(x=>x.slot!=="relic"); T.n=T.its.length; T.g=T.its.reduce((a,x)=>a+sellPrice(x),0); }   // v0.97 유물은 팔지 않음(고른 것 중 유물은 남김)
+  if(!T.n) return;
   if(bagArm!==kind){ bagArm=kind; renderParty(); setTimeout(()=>{ if(bagArm===kind){ bagArm=null; if(!$("body-equip").hidden) renderParty(); } },3500); return; }
   bagArm=null; const ids=new Set(T.its.map(x=>x.id)); progress.inv=progress.inv.filter(x=>!ids.has(x.id)); for(const x of T.its) popRunes(x);
   if(kind==="sell"){ progress.gold+=T.g; logLine(`<span class="gain">🪙 ${T.n}개 판매 — 골드 +${T.g}</span>`); try{ SND.fx("coin"); }catch(e){} }
@@ -14306,12 +14343,14 @@ function renderCodex(){
           <div class="cxmeta">${S.size}부위 · ${A?`${esc(CLASSES[S.cls].name)} [${esc(A.name)}] — 자정·영원한 밤 보스·중간보스 · 새벽 교환소`:S.regions&&S.regions.length?esc(S.regions.map(r=>REGIONS[r].chapter).join(" · ")):"자정·영원한 밤 보스 · 새벽 교환소"}</div>
           ${cxOpen.has(k)?`<div class="cxfx">${setBonuses(S).map(([q,B])=>`<div><b>${q}부위</b> ${esc(B.desc)}</div>`).join("")}</div>`:""}</div>`; }).join("")+`</div>`;   // v0.94 세트를 누르면 효과를 펼쳐 보여 줌
     body.querySelectorAll(".cxset").forEach(c=>{ const tg=()=>{ const k=c.dataset.set; cxOpen.has(k)?cxOpen.delete(k):cxOpen.add(k); renderCodex(); }; c.onclick=tg; c.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); tg(); } }; });
-  } else if(codexTab==="relics"){   // v0.96 유물 도감: 전부 보여 줌 — 효과 · ★3 각성 효과 · 나오는 곳 · 지금 누가 가졌는지
-    body.innerHTML=`<div class="cxsub">유물은 장마다 1종, 계정에 종류별로 1개만 가질 수 있어요(가진 동안은 다시 나오지 않음). 그 장의 장 보스를 쓰러뜨리면 20%(자정 30% · 영원한 밤 40%) 확률로, 그 난이도에서 그 장을 3번 이상 깼다면 반드시 나옵니다. 영웅마다 유물 칸은 1개입니다.</div><div class="cxgrid st">`
-      +Object.keys(RELICS).map(k=>{ const R=RELICS[k], G=REGIONS[k], it=allRelics().find(x=>x.relic===k), ow=it&&itemOwner(it.id), AW=(typeof RELIC_AWAKE!=="undefined"&&RELIC_AWAKE[k])||null;
-        return `<div class="cxcard cxplate${it?" got":""}"><div class="cxhead"><span class="cxname">${esc(R.name)}</span><span class="cxn">${it?"★".repeat(relicStar(it)):"미보유"}</span></div>
-          <div class="cxprow"><img class="cxpcv" style="width:56px;height:56px;flex:0 0 56px" src="${itemIconURL({slot:"relic",relic:k,rarity:"legend"})}" alt=""><div class="cxfx"><div><b>효과</b> ${esc(R.text)}</div>${AW?`<div><b>★3</b> ${esc(AW.t3)}</div>`:""}<div><b>★2 · ★3</b> 능력치 ×1.5 · ×2 (최종 콘텐츠 재료로 각성)</div></div></div>
-          <div class="cxmeta">${esc(G?`${G.chapter} · ${G.name}`:"")} 장 보스${it?` — ${ow?esc(heroDisplayName(ow))+" 착용 중":"가방에 있음"}`:""}</div></div>`; }).join("")+`</div>`;
+  } else if(codexTab==="relics"){   // v0.97 유물 도감: 10종 전부 — 나오는 곳 · 후보 옵션과 수치 범위 · 지금 가진 것
+    const own=k=>allRelics().filter(x=>x.relic===k);
+    body.innerHTML=`<div class="cxsub">장 보스가 ${RELIC_DROP.map((v,i)=>`${DIFFS[i].name} ${Math.round(v*100)}%`).join(" · ")}로 떨어뜨립니다. 후보 4개 중 <b>한 줄</b>이 무작위 수치로 붙고, 최대치는 영원한 밤에서만 나옵니다. 같은 유물은 한 영웅만 낍니다.<br>
+      분해하면 <b>유물의 파편</b>(보유 ${fragStore().relic}) · 강화 3번까지(${RELIC_UP_COST.slice(1).map(c=>`파편 ${c.shard}+정수 ${c.ess}`).join(" → ")}): 후보 중 하나가 무작위로 한 줄 더, 겹치면 합산.</div><div class="cxgrid st">`
+      +Object.keys(RELICS).map(k=>{ const R=RELICS[k], G=REGIONS[k], L=own(k);
+        return `<div class="cxcard cxplate${L.length?" got":""}"><div class="cxhead"><span class="cxname">${esc(R.name)}</span><span class="cxn">${L.length?`보유 ${L.length}`:"미보유"}</span></div>
+          <div class="cxprow"><img class="cxpcv" style="width:56px;height:56px;flex:0 0 56px" src="${itemIconURL({slot:"relic",relic:k,rarity:"legend"})}" alt=""><div class="cxfx">${R.opts.map(o=>`<div>${esc(RELIC_OPT[o].t(`${RELIC_OPT[o].lo}~${RELIC_OPT[o].hi}`))} <span class="shopnote">황혼 ${relicOptMax(o,0)} · 자정 ${relicOptMax(o,1)}까지</span></div>`).join("")}</div></div>
+          <div class="cxmeta">${esc(G?`${G.chapter} · ${G.name}`:"")} 보스${L.map(it=>{ const ow=itemOwner(it.id); return `<br>· ${esc(relicLines(it).join(" · "))}${relicUp(it)?` (강화 ${relicUp(it)})`:""} — ${ow?esc(heroDisplayName(ow))+" 착용":"가방"}`; }).join("")}</div></div>`; }).join("")+`</div>`;
   } else if(codexTab==="plates"){   // v0.96 성반 도감: 세트마다 완성 그림 · 얻어 본 자리(6칸) · 2·4·6조각 효과 · 나오는 곳
     const seen=plateSeen();
     body.innerHTML=`<div class="cxsub">성편은 영원한 밤의 장 보스(5막)가 ${Math.round(PLATE_DROP*100)}% 확률로 떨어뜨리고, 성반 가루 ${PLATE_CRAFT.dust} + 밤의 정수 ${PLATE_CRAFT.ess}로 원하는 세트·자리를 만들 수 있어요. 한 번이라도 얻은 자리는 그림이 밝혀집니다.</div><div class="cxgrid st">`
@@ -14630,17 +14669,19 @@ function itemRow(it,cid,pv){
     if(pv){ const eb=document.createElement("button"); eb.className="equipb"; eb.textContent=`장착 → ${heroDisplayName(cid)}`; eb.onclick=()=>equip(cid,it.id,pv.slot); acts.appendChild(eb); }
     if((it.affixes||[]).length){ const rb=document.createElement("button"); rb.textContent=`재련 (정수 ${reforgeCost(it).ess}~)`; rb.title="옵션 종류 바꾸기 · 수치만 다시 굴리기 · 한 줄 잠그고 전부 다시 굴리기"; rb.onclick=()=>openReforge(it); acts.appendChild(rb); }
     { const gb=gradeUpButton(it); if(gb) acts.appendChild(gb); }
+    { const ub2=relicUpButton(it); if(ub2) acts.appendChild(ub2); }
+    { const o=relicClash(cid,it); if(o){ const nt=document.createElement("span"); nt.className="shopnote"; nt.textContent=`${heroDisplayName(o)}이(가) 같은 유물을 끼고 있어 ${heroDisplayName(cid)}은(는) 낄 수 없음`; acts.appendChild(nt); } }
   }
   const sb=document.createElement("button"); sb.className="sell"; sb.textContent=`판매 +${sellPrice(it)}G`;
   sb.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0) return;
     progress.inv.splice(i,1); popRunes(it); progress.gold+=sellPrice(it); saveProgress(); renderParty();
     logLine(`<span class="gain">${esc(itemDisplayName(it))} 판매 — 골드 +${sellPrice(it)}</span>`); };
-  acts.appendChild(sb);
-  const db=document.createElement("button"); db.className="dis"; db.textContent=`분해 +${dismantleValue(it)}정수${fragText(fragOf(it))?" · "+fragText(fragOf(it)).replace(/ \+/," +"):""}`;
+  if(it.slot!=="relic") acts.appendChild(sb);   // v0.97 유물은 팔 수 없음(분해해서 파편으로)
+  const db=document.createElement("button"); db.className="dis"; db.textContent=it.slot==="relic"?`분해 +유물의 파편 ${relicShardOf(it)}`:`분해 +${dismantleValue(it)}정수${fragText(fragOf(it))?" · "+fragText(fragOf(it)).replace(/ \+/," +"):""}`;
   db.title="아이템을 부숴 강화 재료 '밤의 정수'를 얻습니다";
   db.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0) return;
     progress.inv.splice(i,1); popRunes(it); const fr={}; const e=dismantleGive(it,fr); saveProgress(); renderParty();
-    logLine(`<span class="gain">${esc(itemLabel(it))} 분해 — 밤의 정수 +${e}${fragText(fr)?" · "+fragText(fr):""}</span>`); };
+    logLine(`<span class="gain">${esc(itemLabel(it))} 분해 — ${it.slot==="relic"?fragText(fr):`밤의 정수 +${e}${fragText(fr)?" · "+fragText(fr):""}`}</span>`); };
   acts.appendChild(db);
   more.appendChild(acts);
   // 다른 영웅들에게는? — 착용 가능한 영웅마다 변화율 칩(누르면 그 영웅에게 장착)
@@ -14726,6 +14767,11 @@ function gradeUp(it){
   logLine(`<span class="win">⬆ 등급 올리기 — <span class="${rarityCls(it)}">${esc(itemLabel(it))}</span> (${RARITIES[RAR_IDX[old]].label} → ${R.label}) · ${FRAG_LABEL[G.frag]} -${G.n} · 정수 -${G.ess}</span>`);
   return true;
 }
+function relicUpButton(it,after){ if(!it||it.slot!=="relic"||!RELICS[it.relic]) return null; const u=relicUp(it), c=RELIC_UP_COST[u+1], b=document.createElement("button"); b.className="enhb";
+  if(!c){ b.textContent=`유물 강화 ${u}/${RELIC_UP_MAX} (끝)`; b.disabled=true; return b; }
+  b.textContent=`유물 강화 ${u+1}/${RELIC_UP_MAX} (유물의 파편 ${fragStore().relic}/${c.shard} · 정수 ${c.ess})`; b.title="후보 옵션 중 하나가 무작위로 한 줄 더 붙습니다(같은 옵션이면 합쳐짐). 다시 굴릴 수 없습니다."; b.disabled=!relicUpCan(it)||runBusy();
+  b.onclick=()=>{ const o=relicUpgrade(it); if(!o) return; try{ SND.fx("loot_rare"); }catch(e){} logLine(`<span class="win">🔮 유물 강화 ${relicUp(it)}/${RELIC_UP_MAX} — ${esc(itemDisplayName(it))}: <b>${esc(RELIC_OPT[o.k].t(o.v))}</b> (유물의 파편 -${c.shard} · 정수 -${c.ess})</span>`); saveProgress(); renderParty(); if(after) after(); };
+  return b; }
 function gradeUpButton(it,after){ const G=gradeUpInfo(it); if(!G) return null; const S=fragStore();
   const b=document.createElement("button"); b.className="enhb"; b.textContent=`등급 올리기 → ${RARITIES[RAR_IDX[G.to]].label} (${FRAG_LABEL[G.frag]} ${S[G.frag]}/${G.n} · 정수 ${G.ess})`;
   b.title=`기본 능력치가 ${RARITIES[RAR_IDX[G.to]].label} 범위로 바뀌고 옵션이 1개 늘어납니다${G.to==="epic"?" · 고유 효과·소켓 1칸":" · 운명 옵션·직업 전용 효과·소켓 2칸"}. 조각은 ${G.frag==="rare"?"희귀·세트":"영웅·전설"} 장비를 분해하면 나옵니다.`;
@@ -14733,6 +14779,7 @@ function gradeUpButton(it,after){ const G=gradeUpInfo(it); if(!G) return null; c
 function equip(cid,itemId,slotPick,quiet){
   const idx=progress.inv.findIndex(x=>x.id===itemId); if(idx<0) return;
   const it=progress.inv[idx];
+  { const o=relicClash(cid,it); if(o){ logLine(`<span class="r">${esc(RELICS[it.relic].name)}은(는) ${esc(heroDisplayName(o))}이(가) 이미 끼고 있습니다 — 같은 유물은 한 영웅만 낄 수 있습니다.</span>`); return; } }
   if(!canEquip(cid,it)){ logLine(`<span class="r">${esc(heroDisplayName(cid))}은(는) 이 장비를 착용할 수 없습니다 (${esc(itemClassText(it)||"양손 무기")}).</span>`); return; }
   progress.inv.splice(idx,1);
   const slot=(slotPick&&(slotPick===it.slot||(it.slot==="ring"&&(slotPick==="ring1"||slotPick==="ring2"))))?slotPick:bestSlotFor(cid,it);
@@ -14876,7 +14923,7 @@ function cardBase(cid){
   for(const s of SLOTS){ const it=findEquipped(cid,s.key); g.font="11px sans-serif"; g.fillStyle="#7f8db5"; g.fillText(s.label,32,y);
     if(it){ const E=ENH_SLOTS.includes(s.key)&&!it.noEnh?slotEnh(cid,s.key).l:0; const socks=(it.sockets||[]); const dotsW=socks.length*8; let x=72;
       if(E){ g.font="bold 11px sans-serif"; g.fillStyle="#ffd978"; g.fillText("+"+E,x,y); x+=g.measureText("+"+E).width+4; }
-      g.font="11px sans-serif"; g.fillStyle=CARD_RAR[it.mythic?"mythic":it.rarity]||"#aab3cf"; g.fillText(fit(itemDisplayName(it)+(it.relic&&relicStar(it)>1?" "+"★".repeat(relicStar(it)):""),250-dotsW-4-x),x,y);
+      g.font="11px sans-serif"; g.fillStyle=CARD_RAR[it.mythic?"mythic":it.rarity]||"#aab3cf"; g.fillText(fit(itemDisplayName(it),250-dotsW-4-x),x,y);
       socks.forEach((r,k)=>{ const bx=250-dotsW+k*8, by=y-8; if(r){ g.fillStyle=runeAb(r).length?CARD_RAR.mythic:(CARD_RAR[runeR(r)]||CARD_RAR.rare); g.fillRect(bx,by,6,6); g.strokeStyle="#05070d"; g.strokeRect(bx-.5,by-.5,7,7); } else { g.strokeStyle="#4a5676"; g.strokeRect(bx+.5,by+.5,5,5); } }); }
     else { g.fillStyle="#4a5676"; g.fillText("—",72,y); }
     y+=13.4; }
@@ -14994,8 +15041,6 @@ function genMarket(){
     {kind:"item", item:makeItem(true,tier,{luck,rarity:"epic"}), price:120},
     {kind:"item", item:makeItem(true,tier,{luck,rarity:Math.random()<0.3?"legend":"epic"}), price:0} ];
   goods[2].price=goods[2].item.rarity==="legend"?300:120;
-  const missing=Object.keys(RELICS).filter(rk=>!relicOwned(rk)&&(progress.cl[0][rk]||0)>0);
-  if(missing.length&&Math.random()<0.5) goods.push({kind:"relic", item:makeRelic(missing[Math.floor(Math.random()*missing.length)]), price:220});
   progress.market={goods, at:Date.now()};
 }
 /* v0.40 상점: 탭(오늘의 장비 · 스킬북 · 밤의 시장 · 새벽 교환소)으로 나눠 한 화면에 한 가지만 — 좁은 가로 화면에서도 진열이 한눈에.
@@ -15072,7 +15117,7 @@ function renderShop(){
 }
 function marketBlock(){
   const box=document.createElement("div"); box.className="market";
-  if(progress.diffMax<2){ box.innerHTML=`<h3>🌌 밤의 시장</h3><div class="shopnote">영원한 밤을 연 뒤에 나타나는 상인입니다. 밤의 정수로 룬·영웅 장비·유물을 거래합니다.</div>`; return box; }
+  if(progress.diffMax<2){ box.innerHTML=`<h3>🌌 밤의 시장</h3><div class="shopnote">영원한 밤을 연 뒤에 나타나는 상인입니다. 밤의 정수로 룬·영웅 장비를 거래합니다.</div>`; return box; }
   if(!progress.market||!Array.isArray(progress.market.goods)) genMarket();
   box.innerHTML=`<h3>🌌 밤의 시장 <span class="shopnote">밤의 정수 <b style="color:#9fd9ff">${progress.ess}</b> · 던전을 깰 때마다 진열이 바뀝니다</span></h3>`;
   const g=document.createElement("div"); g.className="sggrid"; box.appendChild(g);
@@ -15766,7 +15811,6 @@ function endZoneBattle(ev,zone){
       logLine(`<span class="gain">구역 돌파! 경험치 +${rw.exp} (${dn?`살아 있는 ${al.length}명 · 쓰러진 ${dn}명은 받지 못함`:"전원"}) · 골드 +${rw.gold}${rw.ess?` · 밤의 정수 +${rw.ess}`:""}</span>`);
       runState.expBy=runState.expBy||{}; for(const id of al) runState.expBy[id]=(runState.expBy[id]||0)+rw.exp;
       grantExp(rw.exp,al); }
-    if(!zone.boss&&!zone.actEnd&&runState.party.some(u=>u.alive&&u.traits&&u.traits.relic_meal)){ for(const u of runState.party) if(u.alive) u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.1)); logLine(`<span class="heal">🍙 브란도의 국자 — 주먹밥으로 파티 체력 10% 회복</span>`); }
     const lootR=takeLoot(rw.items);
     lootFx(lootR.kept);
     (runState.loot=runState.loot||[]).push(...lootR.kept.map(lootNote));
@@ -16096,10 +16140,6 @@ function craftMythic(cid){ if(!mythicCan(cid)) return null; const m=egMat(), E=e
   progress.inv.push(it); codexRecord(it); saveProgress(); lootToast(it,"신화 무기 제작");
   logLine(`<span class="win">🌠 신화 무기 제작 — ${esc(My.name)}: ${esc(My.desc)}</span>`); return it; }
 function allRelics(){ return [...progress.inv,...equippedStore].filter(x=>x&&x.slot==="relic"&&RELICS[x.relic]); }
-function awakenRelic(id){ const it=allRelics().find(x=>x.id===id); if(!it) return false; const st=relicStar(it); if(st>=3) return false;
-  const c=RELIC_AWAKE_COST[st+1], E=egState(); if((progress.apo|0)<c.apo||E.shards<c.shards) return false;
-  progress.apo-=c.apo; E.shards-=c.shards; it.star=st+1; saveProgress();
-  logLine(`<span class="win">🔮 유물 각성 — ${esc(itemDisplayName(it))} ${"★".repeat(it.star)}${it.star>=3?` · ${esc(RELIC_AWAKE[it.relic].t3)}`:" (능력치 ×1.5)"}</span>`); return true; }
 function egGrowthHtml(){
   const m=egMat(), E=egState(), My=MYTHIC[egxWho];
   const souls=`<b style="color:#d6b3ff">${progress.apo|0}</b>`;
@@ -16107,9 +16147,7 @@ function egGrowthHtml(){
     ${mythicItem(egxWho)?`<label>무기 종류 <select id="egxMythW">${CLASS_WEAPONS[egxWho].map(w=>`<option value="${w}" ${w===mythicItem(egxWho).wtype?"selected":""}>${esc(WEAPONS[w].name)}</option>`).join("")}</select></label>
       <button class="buy" id="egxMythRe" ${reforgeMythicCan(egxWho)?"":"disabled"} title="옵션을 새로 뽑고 고른 무기 종류로 바꿉니다. 강화 단계는 그대로입니다.">다시 벼리기 · 파편 ${MYTHIC_REFORGE.shards} + 사도의 혼 ${MYTHIC_REFORGE.apo}</button>`
     :`<button class="buy" id="egxMyth" ${mythicCan(egxWho)?"":"disabled"}>제작(직업당 1자루) · 파편 ${MYTHIC_COST.shards} + 사도의 혼 ${MYTHIC_COST.apo}</button>`}</div>`:"";
-  const rel=allRelics().map(it=>{ const st=relicStar(it), c=RELIC_AWAKE_COST[st+1];
-    return `<div class="egx-row"><span>🔮 ${esc(itemDisplayName(it))} <b style="color:#ffcf7a">${"★".repeat(st)}${"☆".repeat(3-st)}</b> <span class="shopnote">★3: ${esc(RELIC_AWAKE[it.relic].t3)}</span></span>${st<3?`<button class="buy" data-awk="${it.id}" ${(progress.apo|0)>=c.apo&&E.shards>=c.shards?"":"disabled"}>★${st+1} 각성 · 사도의 혼 ${c.apo} + 파편 ${c.shards}</button>`:`<span class="shopnote">완전 각성</span>`}</div>`; }).join("");
-  return `<h3 class="secth" style="margin-top:12px">✦ 최종 성장 <span class="shopnote">사도의 혼(낙성 강림) ${souls} · 별의 정수(밤의 심연·낙성 강림) <b style="color:#9fd0ff">${m.star}</b> — 별의 정수는 파티 탭 영웅 카드의 '별자리'에서 씁니다</span></h3>${myth}${rel||`<div class="egx-row"><span class="shopnote">군단장 유물이 없습니다 — 장 보스에게서 얻습니다</span></div>`}`;
+  return `<h3 class="secth" style="margin-top:12px">✦ 최종 성장 <span class="shopnote">사도의 혼(낙성 강림) ${souls} · 별의 정수(밤의 심연·낙성 강림) <b style="color:#9fd0ff">${m.star}</b> — 별의 정수는 파티 탭 영웅 카드의 '별자리'에서 씁니다</span></h3>${myth}`;
 }
 // v0.29 별자리 판
 function lightStar(cid,k){ if(!starOpen(cid)) return false; const st=heroStars(cid), m=egMat();
@@ -16150,7 +16188,7 @@ function egExchangeBlock(){
     on("egxRune","click",()=>{ if(E.shards<15) return; give(makeRune(),15); });
     on("egxMyth","click",()=>{ if(!mythicCan(egxWho)) return; craftMythic(egxWho); renderShop(); });
     on("egxMythRe","click",()=>{ const w=$("egxMythW"); if(reforgeMythic(egxWho,w?w.value:null)){ renderShop(); renderParty(); } });
-    for(const b of document.querySelectorAll("[data-awk]")) b.addEventListener("click",()=>{ awakenRelic(+b.dataset.awk); renderShop(); }); },0);
+    },0);
   return box;
 }
 
@@ -16540,6 +16578,18 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.11", v:"v0.96", t:"유물 개편 — 옵션 한 줄 · 유물의 파편 · 강화 3번", L:[
+    "🔮 유물을 새로 만들었습니다. 고정 효과('화상인 적에게 +20%', '8턴부터 +12%' 같은 조건부 효과 포함), ★2·★3 각성, 유물이 열어 주던 전투 규칙 조건은 모두 없앴습니다. 그 조건 7개(8턴 이후, 화상 중인 적 2마리 이상 등)는 이제 유물 없이 처음부터 쓸 수 있습니다.",
+    "유물은 10종(1~10장 보스마다 1종 — 8장 '비에라의 부러진 부채', 9장 '녹타의 빈 투구', 10장 '루멘의 낡은 그림책' 추가)이고 등급은 하나입니다. 유물마다 후보 옵션이 4개 있고, 그중 <b>한 줄</b>이 무작위 수치로 붙어 나옵니다.",
+    "후보 옵션 — 가면: 독 피해 · 회피 · 치명타 확률 · 지속 피해 / 국자: 화염 피해 · 체력 · 치유량 · 공격력 / 악보: 냉기 피해 · 턴당 마나 · 기술 피해 · 상태이상 회피 / 나무 심장: 물리 피해 · 체력 · 방어력 · 받는 피해 감소 / 계산자: 골드 · 경험치 · 치명타 피해 · 관통 / 모래시계: 화염 피해 · 신속 · 광역 피해 · 회피 / 검은 거울: 신성 피해 · 암흑 피해 · 전체 속성 저항 · 상태이상 회피 / 부채: 물리 피해 · 독 피해 · 치명타 확률 · 치명타 피해 / 빈 투구: 암흑 피해 · 냉기 피해 · 방어력 · 흡혈 / 그림책: 신성 피해 · 공격력 · 기술 피해 · 받는 피해 감소. (물리 피해 = 속성이 없는 공격)",
+    "수치 범위(한 줄, 영원한 밤 기준): 속성·물리·광역 피해 4~10% · 공격력 3~7% · 기술 피해 3~8% · 지속 피해 6~15% · 체력·방어력 6~15% · 받는 피해 -3~7% · 치명타 확률 3~7% · 치명타 피해 8~20% · 관통 3~8% · 회피 3~7% · 상태이상 회피 6~14% · 전체 속성 저항 5~12% · 치유량 6~15% · 턴당 마나 1~3 · 신속 1~2 · 흡혈 2~5% · 골드 8~20% · 경험치 5~12%. 황혼에서는 범위의 절반까지(속성 피해 4~7%), 자정에서는 3분의 2까지(4~8%)만 나오고 <b>최대치는 영원한 밤에서만</b> 나옵니다.",
+    "나올 확률: 장 보스를 쓰러뜨릴 때 황혼 25% · 자정 35% · 영원한 밤 50%. 가져 본 적 없는 유물은 그 난이도에서 그 장을 3번 깼으면 반드시 나옵니다. 같은 유물이 계속 나오고 여러 개 가질 수 있습니다. 던전 상인은 이제 유물을 팔지 않습니다.",
+    "같은 종류의 유물은 한 번에 한 영웅만 낄 수 있습니다(국자를 낀 영웅이 있으면 다른 영웅은 국자를 못 낌 — 다른 유물은 낄 수 있음). 영웅마다 유물 칸은 그대로 1개입니다.",
+    "유물은 팔 수 없고, 분해하면 <b>유물의 파편</b> 1개가 나옵니다(정수는 안 나옴). 강화한 유물을 분해하면 강화에 쓴 파편의 절반을 더 돌려받습니다.",
+    "유물 강화(유물을 눌러 연 창의 '유물 강화' 단추): 최대 3번 — 1회 파편 2 + 정수 200, 2회 파편 4 + 정수 400, 3회 파편 8 + 정수 800(합계 파편 14 · 정수 1,400). 강화할 때마다 그 유물의 후보 옵션 4개 중 하나가 무작위 수치로 <b>한 줄 더</b> 붙습니다. 이미 있는 옵션이 또 나오면 수치가 합쳐집니다. 다시 굴리기는 없습니다. 황혼·자정에서 얻은 유물은 강화로 붙는 줄도 그 난이도 상한을 따릅니다.",
+    "지금 가진 유물은 새 규칙으로 바뀝니다: 옵션 한 줄을 새로 굴리고, ★2는 강화 1회 · ★3은 강화 2회를 한 것으로 쳐서 그만큼 줄이 더 붙습니다(수치 상한은 지금까지 연 가장 높은 난이도 기준). 각성에 쓴 사도의 혼과 새벽 파편은 돌려주지 않습니다.",
+    "📖 도감의 유물 탭이 10종으로 바뀌었습니다 — 유물마다 나오는 장, 후보 옵션 4개와 수치 범위(황혼·자정 상한 포함), 지금 가진 유물의 옵션과 낀 영웅.",
+  ]},
   {d:"2026.11.11", v:"v0.95", t:"특성 나무 개편 · 명함 · 도감(유물 · 성반)", L:[
     "🌿 특성 나무를 다시 짰습니다. 갈래마다 '시전 시 마나 +3' 같은 채움 칸을 빼고, 그 자리에 기술을 바꾸는 칸을 넣었습니다(갈래마다 효과 칸 17 → 22). 특성이 하나도 없던 기술 41개(되받아치기 · 방패 치기 · 성벽 · 불굴 · 응징의 방패 · 광폭 휘두르기 · 피 마시기 · 잿불 폭발 · 증기 폭발 · 얼음 감옥 · 서리 외투 · 독침 투척 · 오금 베기 · 그림자 분신 · 표적 각인 · 부패 · 독무 · 금강불괴 · 천룡파 · 회오리 발차기 · 승천권 · 산탄 사격 · 일격 관통 · 약점 간파 · 대폭발 · 소이탄 비 · 진정의 노래 · 불안의 화음 · 전쟁의 북 · 웃음 폭탄 등)에도 칸이 생겼습니다.",
     "⚖ 둘 중 하나: 갈래의 두 갈림길 첫 큰 칸은 둘 중 하나만 찍을 수 있습니다(갈래마다 2쌍). 반대쪽 길의 나머지 칸은 이음길로 돌아가면 찍을 수 있습니다.",
