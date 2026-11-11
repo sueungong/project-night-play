@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794332384802"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794364392956"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -928,6 +928,8 @@ button.dis{background:var(--raised); color:#9fd9ff; border:1px solid #2c4a6b; bo
 .cxgrid.tk{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
 .cxgrid.st{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .cxgrid.lm{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.wardbar{display:flex; gap:8px; align-items:center; margin:6px 0 2px; padding:5px 8px; border:1px solid var(--line); border-radius:10px; font-size:12.5px; color:var(--muted)} .wardbar .wi{flex:1 1 auto; min-width:0; line-height:1.35} .wardbar .wi b{color:var(--text,#e9ecf8)} .wardbar .wi small{display:block; font-size:11px} .wardbar .seg{flex:none; padding:2px} .wardbar .seg button{height:30px; padding:0 10px; font-size:12.5px} .wardbar .mini{flex:none} .enhside .wardmk{display:block; font-size:10px; line-height:1}
+.cxprow{display:flex; gap:10px; align-items:center; margin:6px 0} .cxpcv{width:84px; height:84px; flex:0 0 84px; image-rendering:pixelated} .cxprow .cxfx{flex:1; min-width:0; font-size:12.5px; border-top:0; margin-top:0; padding-top:0; display:flex; flex-direction:column; gap:3px} .cxprow .cxfx b{color:var(--gold,#f4c95d); margin-right:4px}
 .cxcard{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px; display:flex; flex-direction:column; gap:6px}
 .cxcard.got{border-color:var(--accent); background:linear-gradient(180deg,#2a2410,var(--panel) 60%)}
 .cxpic{position:relative; height:86px; display:flex; align-items:center; justify-content:center; background:#0c1122; border-radius:10px}
@@ -3331,7 +3333,7 @@ const BOSS_FIX=[0,1,2].map(d=>Object.fromEntries(REGION_KEYS.map(rk=>{ const a=p
 const ZONE_REGEN=0;   // v0.55.3: 구역 사이 체력·마나 회복 비율 · v0.70: 10% → 15% · v0.88: 15% → 10% · v0.90: 없앰(체질 18 강인함의 +5%만 남음)
 const REST_CHANCE=0.5, REST_HEAL=0.3;   // v0.90 쉼터는 막마다 50% 확률로만 나오고 체력·마나 30% 회복(쓰러진 동료는 30%로 일어남)
 function applyRest(party){ for(const u of party){ if(!u.alive){ u.alive=true; u.hp=Math.max(1,Math.floor(u.hp_max*REST_HEAL)); } else u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*REST_HEAL)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*REST_HEAL)); } }
-function zoneRecover(u){ const h=ZONE_REGEN+(u._con18?0.05:0); if(h>0) u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*h)); if(ZONE_REGEN>0) u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*ZONE_REGEN)); }
+function zoneRecover(u){ const h=ZONE_REGEN;   /* v0.96 체질 18 특혜는 '받는 피해 -5%'로 바뀜(heroDerived) */ if(h>0) u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*h)); if(ZONE_REGEN>0) u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*ZONE_REGEN)); }
 /* v0.93 매 턴 마나 회복은 정수 능력치 — 비율·나눗셈 없음(소수가 생기지 않음). 회복 = 2 + 직업마다 N레벨마다 +1 + 의지가 직업 시작값보다 3 높을 때마다 +1 + 장비·특성 '턴당 마나 +N'.
    N은 예전 비율 회복(직업 비율 × 최대 마나)의 Lv10·25·40 평균값에 맞춤 — 마법사 4 · 궁수 9 · 성직자 7 · 도적 13 · 검사·창술사 15 · 총사·음유시인 19 · 권사 20 */
 const MP_REGEN_BASE=2, MP_REGEN_STEP={knight:15, lancer:15, mage:4, priest:7, rogue:13, fighter:20, gunner:19, bard:19, archer:9}, WIL_REGEN_STEP=3;
@@ -3525,13 +3527,14 @@ let primInfo=null, primDraft=null;   // v0.93 찍기 전 미리 정한 점수 {c
 // v0.89 스탯 고정식: 처음 기본 스탯(합계 60) + 보너스 8포인트(한 스탯 18까지) → 그 뒤 고정. 레벨업 때는 체력·마나·공격력이 스탯에 따라 정해진 범위(±20%)에서 무작위로 오름
 const MAIN_STAT={knight:"str",rogue:"str",fighter:"str",gunner:"agi",mage:"int",priest:"int",bard:"int",archer:"agi",lancer:"str"};   // 주 스탯(공격): 근접 힘 · 원거리 민첩 · 마법 지능
 const STAT_CAP=18, CREATE_PTS=8;
+const CON18_CUT=0.05, TANK_CON=["knight","lancer","fighter"];   // v0.96 체질 18 특혜 · 생존 성향이면 체질을 18까지 먼저 찍는 직업
 const GROW={knight:{hp:15,mp:3,atk:0.75}, mage:{hp:4.6,mp:7,atk:1.6}, priest:{hp:7.4,mp:3.5,atk:0.6}, rogue:{hp:4,mp:4,atk:1.2},
   fighter:{hp:6,mp:2,atk:1.2}, gunner:{hp:4,mp:2,atk:1.35}, bard:{hp:7.3,mp:1.5,atk:0.75}, archer:{hp:4,mp:4,atk:1.3}, lancer:{hp:10,mp:3,atk:1}};   // v0.90 마나 성장 기준값: 직업별 마나 사용량(행동당, 봇 측정)에 비례 — 마법사 27 · 도적 15 · 성직자 14 · 검사 12 · 권사·총사 8 · 음유시인 6   // 레벨당 기대 상승(스탯 10 기준)
 function growExpect(cid,k,P){ const g=(GROW[cid]||GROW.knight)[k], st=k==="hp"?P.con:k==="mp"?P.wil:P[MAIN_STAT[cid]||"str"]; return g*(1+0.02*((st||10)-10)); }   // 스탯 1당 성장 +2%
 function rollGrowth(cid){ const h=progress.heroes[cid], P=heroPrim(cid); h.grow=h.grow||{hp:0,mp:0,atk:0}; const got={};
   for(const k of ["hp","mp","atk"]){ const v=growExpect(cid,k,P)*(0.8+Math.random()*0.4); h.grow[k]=Math.round((h.grow[k]+v)*100)/100; got[k]=v; } return got; }
 
-const STAT18={str:"괴력 — 공격할 때 10% 확률로 그 공격 피해 +30%", int:"통찰 — 기술 마나 소모 -10%", con:"강인함 — 전투 사이 체력 5% 회복",
+const STAT18={str:"괴력 — 공격할 때 10% 확률로 그 공격 피해 +30%", int:"통찰 — 기술 마나 소모 -10%", con:"강인함 — 받는 피해 -5%",
   wil:"굳은 의지 — 마나 30% 미만이면 매 턴 마나 회복 2배", agi:"관통 — 원거리 공격이 15% 확률로 뒤의 적에게도 50% 피해", luk:"회심 — 치명타의 20%는 피해 +50%"};
 function primEffect(cid,k){ const M=MAIN_STAT[cid];
   switch(k){
@@ -3971,7 +3974,8 @@ function enhCost(cid,sk){ const l=slotEnh(cid,sk).l; const dc=(typeof equippedSt
    일일 의뢰를 모두 마치면 3개 · 더 필요하면 💎 20개에 1개. 하루는 한국 시간 새벽 5시에 바뀜 */
 const WARD_DAY_MAX=10, WARD_GEM=20, WARD_DAILY_GIVE=3;
 function dayKey(t){ return new Date((t||Date.now())+4*3600e3).toISOString().slice(0,10); }   // UTC+9 − 5시간
-function wardState(){ const W=progress.ward=progress.ward||{n:0,day:"",used:0,on:false}; if(W.day!==dayKey()){ W.day=dayKey(); W.used=0; } return W; }
+function wardState(){ const W=progress.ward=progress.ward||{n:0,day:"",used:0,on:true}; if(W.day!==dayKey()){ W.day=dayKey(); W.used=0; } if(!W.set){ W.on=true; } return W; }   // v0.96 직접 끈 적이 없으면 켜져 있음(예전에는 꺼진 채로 시작해 창을 열어 켜야만 쓰였음)
+function wardActive(l){ const W=wardState(); return !!W.on&&wardUsable(l); }
 function wardUsable(l){ const W=wardState(); return enhFailRule(l).drop>0&&W.n>0&&W.used<WARD_DAY_MAX; }
 function wardSpend(){ const W=wardState(); W.n--; W.used++; }
 /* v0.95 일일 의뢰 6개 — 의뢰마다 밤의 정수 25(골드 표시는 지금 연 가장 높은 장 몹 10마리분) · 마친 수 2 / 4 / 6개마다 단계 보상 */
@@ -4305,6 +4309,11 @@ function smText(mod){ const S=SKILLS[mod.sk]; const n=S?S.name:mod.sk; const p=[
 const SM=(name,mod,tip)=>({name,short:"",desc:"",eff:{skmod:mod},sm:true,tip,_t:true});   // 글은 SKILLS가 다 정의된 뒤 채움(buildTraitGraph2)
 const BG=(name,short,desc,eff,tip)=>({name,short,desc,eff,tip,big:1});
 const UL=(name,short,desc,eff,tip)=>({name,short,desc,eff,tip,ks:true,big:3});
+/* v0.96 특성 개편 칸: 이름 · 설명 · 효과. K(기술, 고칠 것) = 그 기술만 바꾸는 효과 */
+const TN=(name,desc,eff,tip)=>({name,short:desc,desc,eff,tip,nw:1,sm:true});
+const TK=(sk,m)=>({skmod:Object.assign({sk},m)});
+const TU=(name,desc,eff,tip)=>({name,short:desc,desc,eff,tip,ks:true,big:3,nw:1});
+const TX=(sk,o,more)=>{ const set={}; for(const [k,v] of Object.entries(o)) set["tx."+k]=v; const m=Object.assign({},more||{}); if(m.set){ Object.assign(set,m.set); delete m.set; } return {skmod:Object.assign({sk,set},m)}; };
 // 갈래: {id, name, st(동료 성향 a/s/p), adv(전직 키 · 공통은 null), ent:["잔 잔", 작은], L:[[ "잔×8", 큰①, 작은, 큰②, 작은 ],[...]], ult}
 function BR(id,name,st,adv,pool,entS,L){ return {id,name,st,adv,pool,entS,L}; }
 // 여러 직업에서 같이 쓰는 큰 특성(엔진 공통 효과)
@@ -4802,6 +4811,735 @@ const MIN_OF={atk_pct:M.atk,hp_pct:M.hp,def:M.def,crit:M.crit,spd:M.spd,counter:
 const MIN_KEY={atk:"atk_pct",hp:"hp_pct",def:"def",crit:"crit",spd:"spd",ctr:"counter",mp:"mp_pct",rg:"mp_regen",heal:"heal_pct",cd:"critdmg",pen:"pen",dp:"def_pct",ls:"lifesteal",eva:"eva"};
 // 영웅이 보는 판: 공통 3 + 전직 2. 전직 전에는 공통 3만(어차피 포인트 0). 좌표·이웃은 여기서 붙인다.
 const TRAIT_IDX={};
+/*TP_BEGIN*/
+/* v0.96 특성 개편: 갈래 × 자리 → 새 칸(문자열 = 그 갈래의 원래 칸을 그 자리로 옮김). 자리: e2 e3 / a1 a2 a3 a4 / aa2 aa4 aa6 / ab2 ab4 ab6 / b… */
+const TP={};
+/* ---- 검사 ---- */
+TP.kg={ e2:TN("호위 함성","도전의 함성을 쓰면 뒷줄 아군 받는 피해 -10% (2턴)",TX("kn_challenge",{"c.def":{who:"back",v:0.1,t:2}})),
+  e3:TN("위협","도전의 함성을 쓰면 적 전체 공격력 -10% (2턴)",TX("kn_challenge",{"c.foeWeak":{v:0.1,t:2}})),
+  a1:TN("버팀의 대가","도발 중 맞을 때마다 마나 +3",{tv:{taunt_mp:3}}), a3:"끌어들이는 방패",
+  aa2:TN("굳센 함성","도전의 함성 보호막 8→16%",TK("kn_challenge",{add:{selfShield:0.08}})), aa4:"방패 타격",
+  ab2:TN("분노의 함성","도전의 함성을 쓰면 2턴간 내가 주는 피해 +15%",TX("kn_challenge",{"c.selfAtk":{v:0.15,t:2}})),
+  ab4:TN("약점 유인","도전의 함성을 쓰면 적 전체가 받는 피해 +8% (2턴)",TX("kn_challenge",{"c.foeExp":{dmg:0.08,t:2}})),
+  b1:TN("자세 보호막","굳건한 자세를 쓰면 보호막 8%",TX("kn_stand",{"c.selfShield":0.08})), b3:"흔들리지 않는 벽",
+  ba2:TN("철옹성","굳건한 자세 받는 피해 감소 30→45%, 그동안 내가 주는 피해 -30%",TX("kn_stand",{"c.selfAtk":{v:-0.3,t:2}},{add:{def:0.15}})), ba4:"방패 반사",
+  bb2:TN("응전 자세","굳건한 자세 반격 확률 +30→+50%p",TK("kn_stand",{add:{value:0.2}})),
+  bb4:TN("자세의 가르침","굳건한 자세를 쓰면 같은 가로줄 아군 받는 피해 -10% (2턴)",TX("kn_stand",{"c.def":{who:"laneBack",v:0.1,t:2}})) };
+TP.kc={ e2:TN("받아치기 연마","되받아치기로 막는 횟수 2→3번",TK("kn_riposte",{add:{n:1}})),
+  e3:TN("무거운 받아치기","되받아치기 반격 위력 130→170%",TK("kn_riposte",{add:{power:0.4}})),
+  a1:TN("받아치기 기절","되받아친 적 25% 기절 (보스 10%)",{tv:{parry_stun:0.25}}), a3:TN("빈틈 찌르기","내 반격에 맞은 적은 받는 피해 +10% (2턴)",{tv:{ctr_expose:0.1}}),
+  a4:TN("결투가","되받아치기를 쓰면 2턴간 받는 피해 -25%",TX("kn_riposte",{"c.selfDef":{v:0.25,t:2}})),
+  aa4:TN("반격의 흐름","반격하면 다음 내 공격 +20% (2번까지 쌓임)",{tv:{ctr_next:0.2}}), ab4:TN("반격 회복","반격할 때마다 마나 +4",{tv:{ctr_mp:4}}),
+  b1:TN("받아치기 보호막","되받아치기를 쓰면 보호막 10%",TX("kn_riposte",{"c.selfShield":0.1})),
+  b2:TN("자세의 칼날","굳건한 자세 중 반격 피해 +30%",TK("kn_stand",{set:{ctrDmg:0.3}})),
+  b3:TN("받아친 뒤","되받아치기를 쓰면 다음 공격이 확정 치명타",TX("kn_riposte",{"c.nextCrit":1})),
+  b4:TN("반격 치명","반격 치명타 +15%p",{tv:{ctr_crit:0.15}}),
+  ba4:TN("반격 보호막","반격할 때마다 보호막 4%",{tv:{ctr_shield:0.04}}), bb4:TN("반격의 숨","반격할 때마다 체력 2% 회복",{tv:{ctr_heal:0.02}}) };
+TP.ks={ e2:TN("방패 강타","방패 치기 위력 110→150%",TK("kn_bash",{pow:0.36})),
+  e3:TN("약점 내려찍기","약화된 적에게 내려찍기 +30%",TX("kn_slam",{"amp":{weak:0.3}})),
+  a1:TN("틈 만들기","기절한 적에게 아군 치명타 +10%p",{tv:{tvc_stun:0.1}}), a2:"뼈 부수기", a3:"독 베기", a4:"내려찍기 관통",
+  aa2:"쪼개기", aa4:"예리한 내려찍기", ab2:TN("일점 집중","내려찍기 위력 +35%",TK("kn_slam",{pow:0.35})),
+  ab4:TN("내려찍고 버티기","내려찍기를 쓰면 보호막 6%",TX("kn_slam",{"c.selfShield":0.06})),
+  b1:TN("얼얼한 방패","방패 치기 기절 30→45% (보스 10→15%)",TK("kn_bash",{add:{"rxStun.chance":0.15,"rxStun.boss":0.05}})),
+  b2:TN("무력화","방패 치기 약화 -25→-35%, 지속 +1턴",TK("kn_bash",{add:{"chill.value":-0.1,"chill.turns":1}})),
+  b3:"전열 돌파", b4:TN("방패 밀어내기","방패 치기에 맞은 적 행동 게이지 -20%",TK("kn_bash",{set:{gaugeDown:0.2}})),
+  ba2:TN("방패 돌진","방패 치기가 뒷줄 적도 노릴 수 있음",TK("kn_bash",{set:{reach:true}})),
+  ba4:TN("방패 올려치기","방패 치기가 20% 확률로 적을 띄움",TK("kn_bash",{set:{launchCh:0.2}})),
+  ba6:TU("강타의 달인","기절했거나 띄운 적에게 내가 주는 피해 +25%",{tv:{tvs_cc:0.25}}),
+  bb2:TN("방패 연타","방패 치기 뒤 30% 확률로 기본공격 1번",TX("kn_bash",{"c.follow":{c:0.3}})),
+  bb4:TN("연계 강타","방패 치기를 쓰면 다음 공격 +25%",TX("kn_bash",{"c.next":0.25})) };
+TP.kt={ e2:TN("불굴의 의지","불굴 보호막 18→28%",TK("kn_unyield",{add:{selfShield:0.1}})),
+  e3:TN("응징 강화","응징의 방패 반사 50→70%",TK("kn_retal",{add:{value:0.2}})),
+  a1:TN("서약의 회복","보호 서약을 쓰면 체력 6% 회복",TX("kn_oath",{"c.selfHeal":0.06})),
+  a3:TN("서약의 결속","보호 서약을 쓰면 다른 아군 상태이상 회피 +15%p (2턴)",TX("kn_oath",{"c.res":{who:"others",v:0.15,t:2}})),
+  aa4:TN("서약의 분노","보호 서약을 쓰면 2턴간 내가 주는 피해 +15%",TX("kn_oath",{"c.selfAtk":{v:0.15,t:2}})),
+  b1:TN("긴 응징","응징의 방패 지속 +1턴",TK("kn_retal",{dur:1})),
+  b3:TN("털고 일어남","불굴을 쓰면 2턴간 상태이상 회피 +30%p",TX("kn_unyield",{"c.selfRes":{v:0.3,t:2}})),
+  b4:TN("불굴의 반격","불굴을 쓰면 다음 공격 +30%",TX("kn_unyield",{"c.next":0.3})),
+  ba2:TN("되갚는 방패","응징의 방패를 쓰면 체력 8% 회복",TX("kn_retal",{"c.selfHeal":0.08})), ba4:"굳건함",
+  bb2:TN("가시 방패","응징의 방패를 쓰면 2턴간 반격 확률 +25%p",TX("kn_retal",{"c.selfCtr":{v:0.25,t:2}})), bb4:"방벽" };
+TP.ko={ e2:TN("높은 성벽","성벽 받는 피해 감소 25→32%",TK("kn_rampart",{add:{value:0.07}})),
+  e3:TN("성벽의 보호막","성벽 보호막 6→12%",TK("kn_rampart",{add:{"allyShield.v":0.06}})),
+  a1:TN("버팀의 연대","결속의 외침을 쓰면 아군 전체 상태이상 1개씩 해제",TX("kn_bond",{"c.purify":{n:1}})),
+  a3:TN("외침의 회복","결속의 외침을 쓰면 아군 전체 체력 4% 회복",TX("kn_bond",{"c.heal":{v:0.04}})),
+  ab4:TN("빠른 외침","결속의 외침을 쓰면 아군 전체 신속 +2 (2턴)",TX("kn_bond",{"c.spd":{v:2,t:2}})),
+  b1:TN("빠른 축성","성벽 쿨타임 3→2턴",TK("kn_rampart",{set:{cd:2}})),
+  b3:TN("성벽 뒤의 사수","성벽을 쓰면 뒷줄 아군이 주는 피해 +10% (3턴)",TX("kn_rampart",{"c.dealt":{who:"back",v:0.1,t:3}})),
+  b4:TN("공격하는 성벽","성벽 중 내 공격 피해 감소 50→20%",TK("kn_rampart",{add:{selfAtkCut:-0.3}})),
+  ba4:TN("굳게 닫힌 성문","성벽 지속 +1턴",TK("kn_rampart",{dur:1})),
+  bb4:TN("성벽의 위압","성벽을 쓰면 적 전체 공격력 -8% (2턴)",TX("kn_rampart",{"c.foeWeak":{v:0.08,t:2}})) };
+TP.kb={ e2:TN("깊이 마시기","피 마시기 흡혈 30→45%",TK("kn_drink",{add:{leech:0.15}})),
+  e3:TN("절제된 피","피의 대가 체력 소모 15→8%",TK("kn_bloodprice",{add:{hpCost:-0.07}})),
+  a1:TN("피 냄새","체력 50% 이하인 적에게 피의 대가 +20%",TX("kn_bloodprice",{"amp":{half:0.2}})),
+  a3:TN("긴 갈증","피 마시기 지속 +1턴",TK("kn_drink",{dur:1})),
+  a4:TN("목숨을 건 일격","피의 대가 위력 +33%, 체력 소모 +10%p",TK("kn_bloodprice",{pow:0.33,add:{hpCost:0.1}})),
+  aa4:TN("피의 축제","피 마시기를 쓰면 3턴간 내가 주는 피해 +12%",TX("kn_drink",{"c.selfAtk":{v:0.12,t:3}})),
+  ab4:TN("피의 방벽","피 마시기 받는 피해 감소 10→25%",TK("kn_drink",{add:{value:0.15}})),
+  b1:TN("피의 보호막","피 마시기를 쓰면 보호막 10%",TX("kn_drink",{"c.selfShield":0.1})),
+  b3:TN("피의 기세","피의 대가로 쓰러뜨리면 피의 대가 쿨타임 -2턴",TX("kn_bloodprice",{"hit.killCd":2})),
+  b4:"내려찍기 흡혈", ba4:TN("피의 표식","피의 대가에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("kn_bloodprice",{"hit.exp":{crit:0.1,t:2}})),
+  bb4:TN("빈사의 일격","내 체력 50% 이하일 때 피의 대가 +25%",TX("kn_bloodprice",{"self":{low:0.25}})) };
+TP.kr={ e2:TN("광폭 강화","광폭 휘두르기 체력 비례 증폭 최대 +40→+70%",TK("kn_frenzy",{add:{lowAmp:0.3}})),
+  e3:TN("넓은 휘두르기","광폭 휘두르기가 맞힌 적 바로 뒤의 적에게도 50%",TX("kn_frenzy",{"hit.splash":{v:0.5,to:"lane"}})),
+  a1:TN("피바람","광폭 휘두르기로 맞힌 적 1명당 체력 3% 회복",TX("kn_frenzy",{"hit.heal":0.03})),
+  a3:TN("마무리 감각","최후의 일격 기준 체력 35→45%",TK("kn_final",{set:{slit:45}})),
+  a4:TN("날카로운 마무리","최후의 일격 위력 +15%",TK("kn_final",{pow:0.15})),
+  aa4:TN("광란의 연타","광폭 휘두르기 쿨타임 없음, 위력 110→90%",TK("kn_frenzy",{pow:-0.18,set:{cd:0}})),
+  ab4:TN("처형 선고","최후의 일격이 쓰러뜨리지 못하면 취약 +15% (2턴)",TX("kn_final",{"hit.failVuln":{v:0.15,t:2}})),
+  b1:TN("참수","최후의 일격으로 쓰러뜨리면 마나 +10, 전투당 2회 한 번 더 행동",{flag:"execute_again"}),
+  b2:TN("처형인","최후의 일격 배율 2.5→3.0",TK("kn_final",{set:{slitMul:3.0}})),
+  b3:TN("피의 표적","최후의 일격에 맞고도 체력 35% 이하로 남은 적에게 아군 치명타 +10%p (2턴)",TX("kn_final",{"hit.exp":{if:"low",crit:0.1,t:2}})),
+  b4:TN("처형의 기세","최후의 일격으로 쓰러뜨리면 쿨타임 초기화",TX("kn_final",{"hit.killCd":9})),
+  ba4:TN("광폭의 기세","광폭 휘두르기를 쓰면 다음 공격 +20%",TX("kn_frenzy",{"c.next":0.2})),
+  bb4:TN("투지의 함성","광폭 휘두르기에 맞은 적 공격력 -10% (2턴)",TK("kn_frenzy",{set:{chill:{value:-0.1,turns:2}}})) };
+/* ---- 마법사 ---- */
+const BURN1={chance:1,ratio:0.35,turns:2};
+TP.mf={ e2:TN("달궈진 갑옷","화상에 걸린 적에게 아군이 주는 피해 +6%",{tv:{tvd_burn:0.06}}),
+  e3:TN("타오르는 화살","이미 화상에 걸린 적에게 불씨 화살 +25%",TX("mg_ember",{"amp":{burn:0.25}})),
+  a1:TN("집중 화력","불씨 화살 위력 +20%",TK("mg_ember",{pow:0.2})),
+  a3:TN("불씨 표식","불씨 화살에 맞은 적에게 아군 치명타 +8%p (2턴)",TX("mg_ember",{"hit.exp":{crit:0.08,t:2}})),
+  aa4:TN("꺼지지 않는 불씨","불씨 화살 화상 피해 턴마다 35→50%",TK("mg_ember",{add:{"burn.ratio":0.15}})),
+  ab4:TN("불씨 연사","불씨 화살 뒤 30% 확률로 마력탄 1번",TX("mg_ember",{"c.follow":{c:0.3}})),
+  b1:TN("밀려오는 파도","불길 파도가 맞힌 적 바로 뒤의 적에게도 50%",TX("mg_wave",{"hit.splash":{v:0.5,to:"lane"}})),
+  b3:TN("뜨거운 파도","불길 파도 위력 +20%",TK("mg_wave",{pow:0.2})),
+  b4:TN("파도의 여열","불길 파도에 맞은 적 공격력 -10% (2턴)",TK("mg_wave",{set:{chill:{value:-0.1,turns:2}}})),
+  ba4:TN("잦은 파도","불길 파도 쿨타임 없음",TK("mg_wave",{set:{cd:0}})),
+  bb4:TN("파도 뒤 집중","불길 파도를 쓰면 다음 공격 +20%",TX("mg_wave",{"c.next":0.2})) };
+TP.mm={ e2:TN("넉넉한 나눔","마나 흡수 마나 나눔 +10%p",TK("mg_siphon",{add:{mpSharePct:10}})),
+  e3:TN("흡수 강타","마나 흡수 위력 70→100%",TK("mg_siphon",{pow:0.43})),
+  a1:TN("흡수 보호막","마나 흡수를 쓰면 보호막 6%",TX("mg_siphon",{"c.selfShield":0.06})),
+  a3:TN("나눔의 힘","마나 흡수를 쓰면 아군 전체 마나 +3",TX("mg_siphon",{"c.mp":{v:3}})),
+  a4:TN("흡수의 여유","마나 흡수를 쓰면 다음 공격 +20%",TX("mg_siphon",{"c.next":0.2})),
+  aa4:TN("광선 단련","비전 광선 위력 +20%",TK("mg_beam",{pow:0.2})),
+  ab4:TN("약점 관통","비전 광선의 취약 증폭 +20→+35%",TK("mg_beam",{add:{vulnAmp:0.15}})),
+  b1:TN("충전 광선","비전 광선의 마나 70% 이상 증폭 +30→+50%",TK("mg_beam",{add:{mpHighAmp:0.2}})),
+  b3:TN("연발 광선","비전 광선 쿨타임 2→1턴, 위력 230→190%",TK("mg_beam",{pow:-0.17,set:{cd:1}})),
+  b4:TN("광선 집중","비전 광선 치명타 +10%p",TK("mg_beam",{add:{critPlus:0.1}})),
+  ba4:TN("광선의 틈","비전 광선에 맞은 적이 받는 피해 +8% (2턴)",TX("mg_beam",{"hit.exp":{dmg:0.08,t:2}})),
+  bb4:TN("관통 광선","비전 광선이 맞힌 적 바로 뒤의 적에게도 60%",TX("mg_beam",{"hit.splash":{v:0.6,to:"lane"}})) };
+TP.mw={ e2:TN("두꺼운 냉기 결계","냉기 결계 아군 받는 피해 감소 10→18%",TK("mg_frostward",{add:{"allyDef.value":0.08}})),
+  e3:TN("살을 에는 결계","냉기 결계 냉기 1→2중첩",TK("mg_frostward",{add:{coldAll:1}})),
+  a1:TN("긴 결계","냉기 결계의 아군 보호 지속 1→2턴",TK("mg_frostward",{add:{"allyDef.turns":1}})),
+  a3:TN("결계의 품","냉기 결계를 쓰면 아군 전체 보호막 6%",TX("mg_frostward",{"c.shield":{v:0.06}})),
+  a4:TN("결계의 가시","냉기 결계가 적 전체에 40% 피해",TX("mg_frostward",{"c.foeDmg":{v:0.4}})),
+  aa4:TN("얼어붙은 표적","냉기 2중첩 이상인 적에게 아군 치명타 +8%p",{tv:{tvc_cold2:0.08}}),
+  ab4:TN("서릿발 송곳","얼음 송곳 냉기 1→2중첩",TK("mg_icicle",{add:{cold:1}})),
+  b1:TN("송곳 강화","얼음 송곳 위력 +20%",TK("mg_icicle",{pow:0.2})),
+  b3:TN("깨지는 얼음","빙결된 적에게 얼음 송곳 +50→+100%",TK("mg_icicle",{add:{frozenAmp:0.5}})),
+  b4:TN("결계의 숨","냉기 결계를 쓰면 체력 6% 회복",TX("mg_frostward",{"c.selfHeal":0.06})),
+  ba4:TN("차가운 손","얼음 송곳에 맞은 적 신속 -3 (2턴)",TX("mg_icicle",{"hit.spd":{v:3,t:2}})),
+  bb4:TN("결계의 축복","냉기 결계를 쓰면 아군 전체 상태이상 회피 +15%p (2턴)",TX("mg_frostward",{"c.res":{v:0.15,t:2}})) };
+TP.mt={ e2:TN("큰 폭발","잿불 폭발 위력 200→250%",TK("mg_ashburst",{pow:0.25})),
+  e3:TN("불꽃 표식","불새에 맞은 적이 받는 피해 +8% (2턴)",TX("mg_phoenix",{"hit.exp":{dmg:0.08,t:2}})),
+  a1:TN("잦은 불새","불새 쿨타임 2→1턴, 발당 위력 -15%",TK("mg_phoenix",{pow:-0.15,set:{cd:1}})),
+  a3:TN("불새의 귀환","불새로 적을 쓰러뜨리면 불새 쿨타임 -1턴",TX("mg_phoenix",{"hit.killCd":1})),
+  ab4:TN("불씨 흩날림","불새를 쓰면 다음 공격 +15%",TX("mg_phoenix",{"c.next":0.15})),
+  b1:TN("들불","잿불 폭발이 화상에 걸리지 않은 적도 맞힘",TK("mg_ashburst",{set:{burnOnly:false}})),
+  b3:TN("잿불 연쇄","잿불 폭발로 적을 쓰러뜨리면 쿨타임 초기화",TX("mg_ashburst",{"hit.killCd":9})),
+  b4:TN("응축","잿불 폭발 대상 최대 4→2명, 위력 +40%",TK("mg_ashburst",{pow:0.4,set:{maxT:2}})),
+  ba4:TN("남는 잿불","잿불 폭발에 맞은 적은 다시 화상",TK("mg_ashburst",{set:{burn:BURN1}})),
+  ba6:TU("잿불의 군주","잿불 폭발 위력 +30%, 쿨타임 2→1턴",TK("mg_ashburst",{pow:0.3,add:{cd:-1}})),
+  bb4:TN("잿불의 기세","잿불 폭발을 쓰면 아군 전체 마나 +3",TX("mg_ashburst",{"c.mp":{v:3}})) };
+TP.mz={ e2:TN("깊은 과부하","비전 과부하 기술 피해 +40→+55%",TK("mg_overload",{add:{value:0.15}})),
+  e3:TN("끓는 증기","증기 폭발 위력 180→220%",TK("mg_steam",{pow:0.22})),
+  a1:TN("긴 과부하","비전 과부하 지속 +1턴",TK("mg_overload",{dur:1})),
+  a3:TN("폭주","비전 과부하를 쓰면 2턴간 치명타 +20%p",TX("mg_overload",{"c.critUp":{who:"self",v:0.2,t:2}})),
+  a4:TN("제어","비전 과부하를 쓰면 마나 +10",TX("mg_overload",{"c.selfMp":10})),
+  aa4:TN("과부하 보호막","비전 과부하를 쓰면 보호막 10%",TX("mg_overload",{"c.selfShield":0.1})),
+  ab4:TN("과부하의 여파","비전 과부하를 쓰면 아군 전체가 주는 피해 +6% (2턴)",TX("mg_overload",{"c.dealt":{v:0.06,t:2}})),
+  b1:TN("증기 압력","증기 폭발 쿨타임 없음",TK("mg_steam",{set:{cd:0}})),
+  b3:TN("번지는 증기","증기 폭발이 대상 옆의 적에게도 40%",TX("mg_steam",{"hit.splash":{v:0.4,to:"adj"}})),
+  b4:TN("증기 화상","증기 폭발에 맞은 적은 화상",TK("mg_steam",{set:{burn:BURN1}})),
+  ba4:TN("얼음과 불","냉기에 걸린 적에게 증기 폭발 +25%",TX("mg_steam",{"amp":{cold:0.25}})),
+  bb4:TN("증기의 틈","증기 폭발에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("mg_steam",{"hit.exp":{crit:0.1,t:2}})) };
+TP.mi={ e2:TN("깊은 겨울","영겁의 겨울 위력 120→150%",TK("mg_eternal",{pow:0.25})),
+  e3:TN("눈보라","서리 폭풍 냉기 1→2중첩",TK("mg_froststorm",{add:{cold:1}})),
+  a1:TN("이른 겨울","영겁의 겨울 빙결 조건 냉기 2→1중첩",TK("mg_eternal",{set:{coldMin:1}})),
+  a3:TN("겨울의 끝","영겁의 겨울 쿨타임 3→2턴",TK("mg_eternal",{set:{cd:2}})),
+  a4:TN("혹한","영겁의 겨울에 맞은 적이 받는 피해 +10% (2턴)",TX("mg_eternal",{"hit.exp":{dmg:0.1,t:2}})),
+  aa4:TN("우박","서리 폭풍 위력 55→80%",TK("mg_froststorm",{pow:0.45})),
+  ab4:TN("잦은 폭풍","서리 폭풍 쿨타임 2→1턴",TK("mg_froststorm",{set:{cd:1}})),
+  b1:TN("폭풍의 눈","서리 폭풍을 쓰면 보호막 8%",TX("mg_froststorm",{"c.selfShield":0.08})),
+  b3:TN("얼어붙는 땅","서리 폭풍에 맞은 적 신속 -3 (2턴)",TX("mg_froststorm",{"hit.spd":{v:3,t:2}})),
+  b4:TN("겨울 바람","서리 폭풍을 쓰면 아군 전체 받는 피해 -8% (2턴)",TX("mg_froststorm",{"c.def":{v:0.08,t:2}})),
+  ba4:TN("겨울의 숨","영겁의 겨울을 쓰면 아군 전체 체력 5% 회복",TX("mg_eternal",{"c.heal":{v:0.05}})),
+  bb4:TN("빙결 추격","빙결된 적에게 아군 치명타 +10%p",{tv:{tvc_frozen:0.1}}) };
+TP.mb={ e2:TN("두꺼운 외투","서리 외투 받는 피해 감소 15→22%",TK("mg_frostcoat",{add:{value:0.07}})),
+  e3:TN("단단한 감옥","얼음 감옥이 보스에게 거는 냉기 1→2중첩",TK("mg_iceprison",{add:{boss:1}})),
+  a1:TN("감옥의 틈","얼음 감옥에 갇힌 적이 받는 피해 +15% (2턴)",TX("mg_iceprison",{"c.tFoe":{exp:{dmg:0.15,t:2}}})),
+  a3:TN("이른 감옥","얼음 감옥 쿨타임 3→2턴",TK("mg_iceprison",{set:{cd:2}})),
+  a4:TN("감옥의 냉기","얼음 감옥을 쓰면 적 전체 냉기 1중첩",TX("mg_iceprison",{"c.foeCold":1})),
+  aa4:TN("송곳 연사","얼음 송곳 뒤 30% 확률로 마력탄 1번",TX("mg_icicle",{"c.follow":{c:0.3}})),
+  ab4:TN("송곳의 한기","얼음 송곳에 맞은 적 공격력 -10% (2턴)",TK("mg_icicle",{set:{chill:{value:-0.1,turns:2}}})),
+  b1:TN("긴 외투","서리 외투 지속 +1턴",TK("mg_frostcoat",{dur:1})),
+  b3:TN("가시 외투","서리 외투 중 공격자에게 거는 냉기 1→2중첩",TK("mg_frostcoat",{add:{frostCoat:1}})),
+  b4:TN("따뜻한 외투","서리 외투를 쓰면 아군 전체 상태이상 회피 +20%p (2턴)",TX("mg_frostcoat",{"c.res":{v:0.2,t:2}})),
+  ba4:TN("외투의 온기","서리 외투를 쓰면 아군 전체 체력 4% 회복",TX("mg_frostcoat",{"c.heal":{v:0.04}})),
+  bb4:TN("빠른 외투","서리 외투 쿨타임 2→1턴",TK("mg_frostcoat",{set:{cd:1}})) };
+/* ---- 성직자 ---- */
+TP.ph={ e2:TN("기운 북돋기","회복의 손길을 받은 아군 공격력 +8% (2턴)",TX("pr_mend",{"c.t.atk":{v:0.08,t:2}})),
+  e3:TN("재생의 손길","회복의 손길을 받은 아군은 2턴간 매 턴 체력 4% 더 회복",TX("pr_mend",{"c.t.regen":{v:0.04,t:2}})),
+  a1:TN("집중 치유","회복의 손길 치유 +20%",TK("pr_mend",{pow:0.2})),
+  a3:TN("손길의 가호","회복의 손길을 받은 아군 받는 피해 -10% (2턴)",TX("pr_mend",{"c.t.def":{v:0.1,t:2}})),
+  a4:TN("손길의 마나","회복의 손길을 받은 아군 마나 +4",TX("pr_mend",{"c.t.mp":4})),
+  aa4:TN("손길 보호막","회복의 손길을 받은 아군 보호막 6%",TX("pr_mend",{"c.t.shield":0.06})),
+  ab4:TN("치유의 기도","회복의 손길을 쓰면 내 체력 4% 회복",TX("pr_mend",{"c.selfHeal":0.04})),
+  b1:TN("빠른 비","은총의 비 쿨타임 2→1턴",TK("pr_rain",{set:{cd:1}})),
+  b3:TN("소나기","은총의 비 치유 +25%",TK("pr_rain",{pow:0.25})),
+  b4:TN("가랑비","은총의 비를 쓰면 아군 전체가 2턴간 매 턴 체력 3% 더 회복",TX("pr_rain",{"c.regen":{v:0.03,t:2}})),
+  ba4:TN("비의 축복","은총의 비를 쓰면 아군 전체 상태이상 회피 +15%p (2턴)",TX("pr_rain",{"c.res":{v:0.15,t:2}})),
+  bb4:TN("비 온 뒤","은총의 비를 쓰면 아군 전체 마나 +3",TX("pr_rain",{"c.mp":{v:3}})) };
+TP.pb={ e2:TN("깊은 정결","정결 회복량 120→170%",TK("pr_cleanse",{pow:0.42})),
+  e3:TN("가호: 방패","신의 가호 받는 피해 감소 15→22%",TK("pr_grace",{add:{value:0.07}})),
+  a1:TN("가호: 칼","신의 가호를 받은 아군이 주는 피해 +10% (3턴)",TX("pr_grace",{"c.t.dealt":{v:0.1,t:3}})),
+  a3:TN("가호의 숨","신의 가호를 받은 아군 체력 6% 회복",TX("pr_grace",{"c.t.heal":0.06})),
+  aa4:TN("가호의 마나","신의 가호를 받은 아군 마나 +5",TX("pr_grace",{"c.t.mp":5})),
+  ab4:TN("가호의 결의","신의 가호를 받은 아군 상태이상 회피 +20%p (3턴)",TX("pr_grace",{"c.t.res":{v:0.2,t:3}})),
+  b1:TN("정결의 여운","정결을 받은 아군 상태이상 회피 +25%p (2턴)",TX("pr_cleanse",{"c.t.res":{v:0.25,t:2}})),
+  b3:TN("예방","정결을 받은 아군 보호막 8%",TX("pr_cleanse",{"c.t.shield":0.08})),
+  b4:TN("맑은 정신","정결을 받은 아군 마나 +5",TX("pr_cleanse",{"c.t.mp":5})),
+  ba4:TN("정결의 힘","정결을 받은 아군 공격력 +10% (2턴)",TX("pr_cleanse",{"c.t.atk":{v:0.1,t:2}})),
+  bb4:TN("정결의 가호","정결을 받은 아군 받는 피해 -10% (2턴)",TX("pr_cleanse",{"c.t.def":{v:0.1,t:2}})) };
+TP.pf={ e2:TN("재빠른 기도","부활의 기도 쿨타임 3→2턴",TK("pr_revive",{set:{cd:2}})),
+  e3:TN("굳센 부활","부활의 기도로 되살아나는 체력 +20%p",TK("pr_revive",{add:{ratio:0.2}})),
+  a1:TN("기도의 방패","내가 살아 있는 동안 후열 아군이 받는 피해 -12%",{flag:"rear_guard"}),
+  a3:TN("타격 단련","성스러운 타격 위력 80→110%",TK("basic_smite",{pow:0.37})),
+  a4:TN("기도의 숨","성스러운 타격을 쓰면 마나 +3",TX("basic_smite",{"c.selfMp":3})),
+  aa4:TN("빛의 타격","성스러운 타격이 30% 확률로 화상",TK("basic_smite",{set:{burn:{chance:0.3,ratio:0.35,turns:2}}})),
+  ab4:TN("타격의 틈","성스러운 타격에 맞은 적이 받는 피해 +6% (2턴)",TX("basic_smite",{"hit.exp":{dmg:0.06,t:2}})),
+  b1:TN("부활의 격려","부활한 아군 공격력 +20% (3턴)",TX("pr_revive",{"c.t.atk":{v:0.2,t:3}})),
+  b3:TN("부활의 보호","부활한 아군 보호막 15%",TX("pr_revive",{"c.t.shield":0.15})),
+  b4:TN("부활의 숨","부활의 기도를 쓰면 아군 전체 체력 5% 회복",TX("pr_revive",{"c.heal":{v:0.05}})),
+  ba4:TN("제 몸 지키기","부활의 기도를 쓰면 보호막 15%",TX("pr_revive",{"c.selfShield":0.15})),
+  bb4:TN("기도의 결속","부활의 기도를 쓰면 아군 전체 받는 피해 -10% (2턴)",TX("pr_revive",{"c.def":{v:0.1,t:2}})) };
+TP.pl={ e2:TN("빠른 방벽","빛의 방벽 쿨타임 3→2턴",TK("pr_barrier",{set:{cd:2}})),
+  e3:TN("굳센 성가","정화의 성가 상태이상 회피 +20→35%p",TK("pr_chant",{add:{resUp:0.15}})),
+  a1:TN("빛 아래의 칼","빛의 방벽을 쓰면 아군 전체 치명타 +8%p (2턴)",TX("pr_barrier",{"c.critUp":{v:0.08,t:2}})),
+  a3:TN("빛의 숨","빛의 방벽을 쓰면 아군 전체 체력 4% 회복",TX("pr_barrier",{"c.heal":{v:0.04}})),
+  aa4:TN("빛의 결속","빛의 방벽을 쓰면 아군 전체 상태이상 회피 +15%p (2턴)",TX("pr_barrier",{"c.res":{v:0.15,t:2}})),
+  ab4:TN("빛의 마나","빛의 방벽을 쓰면 아군 전체 마나 +3",TX("pr_barrier",{"c.mp":{v:3}})),
+  b1:TN("맑은 성가","정화의 성가가 상태이상을 1개씩이 아니라 모두 해제",TK("pr_chant",{set:{one:false}})),
+  b3:TN("성가의 치유","정화의 성가를 쓰면 아군 전체 체력 6% 회복",TX("pr_chant",{"c.heal":{v:0.06}})),
+  b4:TN("빠른 성가","정화의 성가 쿨타임 2→1턴",TK("pr_chant",{set:{cd:1}})),
+  ba2:TN("성가의 힘","정화의 성가를 쓰면 아군 전체 공격력 +8% (2턴)",TX("pr_chant",{"c.atk":{v:0.08,t:2}})),
+  ba4:TN("긴 성가","정화의 성가 지속 +1턴",TK("pr_chant",{dur:1})),
+  bb2:TN("성가의 방패","정화의 성가를 쓰면 아군 전체 받는 피해 -8% (2턴)",TX("pr_chant",{"c.def":{v:0.08,t:2}})),
+  bb4:TN("성가의 마나","정화의 성가를 쓰면 아군 전체 마나 +4",TX("pr_chant",{"c.mp":{v:4}})) };
+TP.pr={ e2:TN("깊은 샘","생명의 샘 턴당 회복 50→70%",TK("pr_spring",{pow:0.4})),
+  e3:TN("넓은 구원","구원의 손을 쓸 수 있는 대상 체력 30→50% 이하",TK("pr_salvation",{set:{needHp:50}})),
+  a1:TN("마르지 않는 샘","생명의 샘 지속 3→4턴",TK("pr_spring",{dur:1})),
+  a2:TN("가호의 날개","구원의 손 위력 300→360%",TK("pr_salvation",{pow:0.2})),
+  a3:TN("샘의 축복","생명의 샘을 쓰면 아군 전체 받는 피해 -8% (3턴)",TX("pr_spring",{"c.def":{v:0.08,t:3}})),
+  a4:TN("구원의 보호막","구원의 손을 받은 아군 보호막 12%",TX("pr_salvation",{"c.t.shield":0.12})),
+  aa4:TN("잦은 구원","구원의 손 쿨타임 3→2턴",TK("pr_salvation",{set:{cd:2}})),
+  ab4:TN("기적","구원의 손을 받은 아군 상태이상 1개 해제 · 2턴간 받는 피해 -20%",TX("pr_salvation",{"c.t.purify":1,"c.t.def":{v:0.2,t:2}})),
+  b1:TN("샘의 힘","생명의 샘을 쓰면 아군 전체 공격력 +8% (3턴)",TX("pr_spring",{"c.atk":{v:0.08,t:3}})),
+  b3:TN("샘의 마나","생명의 샘을 쓰면 아군 전체 마나 +4",TX("pr_spring",{"c.mp":{v:4}})),
+  b4:TN("이른 샘","생명의 샘 쿨타임 3→2턴",TK("pr_spring",{set:{cd:2}})),
+  ba4:TN("샘의 결속","생명의 샘을 쓰면 아군 전체 상태이상 회피 +15%p (3턴)",TX("pr_spring",{"c.res":{v:0.15,t:3}})),
+  bb4:TN("샘의 방울","생명의 샘을 쓰면 아군 전체 보호막 5%",TX("pr_spring",{"c.shield":{v:0.05}})) };
+TP.pj={ e2:TN("이른 심판","심판의 불 쿨타임 3→2턴",TK("pr_judgefire",{set:{cd:2}})),
+  e3:TN("센 불","심판의 불 위력 100→130%",TK("pr_judgefire",{pow:0.3})),
+  a1:TN("불의 표식","화상에 걸린 적에게 아군이 주는 피해 +6%",{tv:{tvd_burn:0.06}}),
+  a3:TN("정화의 불","심판의 불을 쓰면 아군 전체 상태이상 1개씩 해제",TX("pr_judgefire",{"c.purify":{n:1}})),
+  a4:TN("심판의 위압","심판의 불에 맞은 적 공격력 -10% (2턴)",TK("pr_judgefire",{set:{chill:{value:-0.1,turns:2}}})),
+  aa4:TN("심판의 빛","심판의 불을 쓰면 아군 전체 체력 4% 회복",TX("pr_judgefire",{"c.heal":{v:0.04}})),
+  ab4:TN("심판의 틈","심판의 불에 맞은 적에게 아군 치명타 +8%p (2턴)",TX("pr_judgefire",{"hit.exp":{crit:0.08,t:2}})),
+  b1:TN("꿰뚫는 빛","빛의 창이 맞힌 적 바로 뒤의 적에게도 60%",TX("pr_lance",{"hit.splash":{v:0.6,to:"lane"}})),
+  b3:TN("약점 조명","빛의 창의 취약 증폭 +20→+35%",TK("pr_lance",{add:{vulnAmp:0.15}})),
+  ba4:TN("타오르는 창","빛의 창 화상 확률 50→100%",TK("pr_lance",{add:{"burn.chance":0.5}})),
+  bb4:TN("빛의 연창","빛의 창 뒤 30% 확률로 성스러운 타격 1번",TX("pr_lance",{"c.follow":{c:0.3}})) };
+TP.pt={ e2:TN("깊은 낙인","낙인 찍힌 적을 친 아군의 회복 4→6%",TK("pr_brand",{add:{value:0.02}})),
+  e3:TN("무거운 망치","단죄의 망치 위력 170→210%",TK("pr_hammer",{pow:0.24})),
+  a1:TN("긴 낙인","낙인 지속 +1턴",TK("pr_brand",{dur:1})),
+  a3:TN("낙인: 약점","낙인 찍힌 적이 받는 피해 +10% (3턴)",TX("pr_brand",{"c.tFoe":{exp:{dmg:0.1,t:3}}})),
+  a4:TN("낙인: 샘","낙인을 쓰면 아군 전체 마나 +3",TX("pr_brand",{"c.mp":{v:3}})),
+  aa4:TN("낙인의 눈","낙인 찍힌 적에게 아군 치명타 +8%p",{tv:{tvc_sigil:0.08}}),
+  ab4:TN("단죄: 기절","화상에 걸린 적에게 단죄의 망치 30% 기절 (보스 10%)",TX("pr_hammer",{"hit.stunIf":{if:"burn",c:0.3,b:0.1}})),
+  b1:TN("단죄: 취약","단죄의 망치 취약 20→30%",TK("pr_hammer",{add:{vulnIfBurn:0.1}})),
+  b3:TN("깊은 속죄","속죄 지속 +1턴",TK("pr_atone",{dur:1})),
+  b4:TN("속죄: 치유","속죄 회복 전환 50→75%",TK("pr_atone",{add:{value:0.25}})),
+  ba4:TN("속죄: 응징","속죄를 쓰면 2턴간 내가 주는 피해 +20%",TX("pr_atone",{"c.selfAtk":{v:0.2,t:2}})),
+  bb4:TN("속죄의 보호","속죄를 쓰면 보호막 10%",TX("pr_atone",{"c.selfShield":0.1})) };
+/* ---- 도적 ---- */
+TP.rc={ e2:TN("깊은 오금","오금 베기 기절 30→45% (보스 10→15%)",TK("rg_hamstring",{add:{"stun.chance":0.15,"stun.boss":0.05}})),
+  e3:TN("오금 연계","오금 베기 연계 +1→+2",TK("rg_hamstring",{add:{combo:1}})),
+  a1:TN("절름발이","오금 베기에 맞은 적 신속 -4 (2턴)",TX("rg_hamstring",{"hit.spd":{v:4,t:2}})),
+  a3:TN("틈새","기절한 적에게 아군이 주는 피해 +10%",{tv:{tvd_stun:0.1}}),
+  a4:TN("찌르기 연마","단검 찌르기 위력 +20%",TK("stab",{pow:0.2})),
+  aa4:TN("연계 환원","마무리 일격을 맞히면 마나 +8",TX("rg_finisher",{"hit.mp":8})),
+  ab4:TN("찌르기 마나","단검 찌르기 마나 회복 6→9",TK("stab",{add:{mpGain:3}})),
+  b1:TN("일점 마무리","연계 5 이상으로 쓴 마무리 일격 +40%",TX("rg_finisher",{"self":{combo5:0.4}})),
+  b3:TN("오금 약화","오금 베기에 맞은 적 공격력 -15% (2턴)",TK("rg_hamstring",{set:{chill:{value:-0.15,turns:2}}})),
+  b4:TN("마무리의 틈","마무리 일격에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("rg_finisher",{"hit.exp":{crit:0.1,t:2}})),
+  ba4:TN("무거운 오금","오금 베기 위력 90→130%",TK("rg_hamstring",{pow:0.44})),
+  bb4:TN("마무리 흡혈","마무리 일격 흡혈 +15%",TK("rg_finisher",{add:{"mods.ls":0.15}})) };
+TP.rs={ e2:TN("짙은 연기","연기 구슬 아군 받는 피해 -20→-30%",TK("rg_smoke",{add:{value:0.1}})),
+  e3:TN("긴 연기","연기 구슬 지속 +1턴",TK("rg_smoke",{dur:1})),
+  a1:TN("연막 속 숨","연기 구슬을 쓰면 체력 6% 회복",TX("rg_smoke",{"c.selfHeal":0.06})),
+  a3:TN("그림자 걸음 뒤","그림자 걸음을 쓰면 다음 공격 +25%",TX("rg_shadowstep",{"c.next":0.25})),
+  a4:TN("연기 속 칼날","연기 구슬 뒤 다음 공격 확정 치명타",{flag:"smoke_crit"}),
+  aa4:TN("걸음의 숨","그림자 걸음을 쓰면 체력 5% 회복",TX("rg_shadowstep",{"c.selfHeal":0.05})),
+  ab4:TN("걸음의 날","그림자 걸음을 쓰면 연계 +1",TX("rg_shadowstep",{"c.selfCombo":1})),
+  b1:TN("매운 연기","연기 구슬을 쓰면 적 전체 30% 확률로 실명 (2턴)",TX("rg_smoke",{"c.foeBlind":{c:0.3,t:2}})),
+  b3:TN("연막 보호막","연기 구슬을 쓰면 아군 전체 보호막 5%",TX("rg_smoke",{"c.shield":{v:0.05}})),
+  b4:TN("연막의 결속","연기 구슬 상태이상 회피 +20→35%p",TK("rg_smoke",{add:{resUp:0.15}})),
+  ba4:TN("연막의 틈","연기 구슬을 쓰면 적 전체가 받는 피해 +6% (2턴)",TX("rg_smoke",{"c.foeExp":{dmg:0.06,t:2}})),
+  bb4:TN("연막 속 마나","연기 구슬을 쓰면 아군 전체 마나 +3",TX("rg_smoke",{"c.mp":{v:3}})) };
+TP.rk={ e2:TN("독침 숙련","독침 투척 독 2→3중첩",TK("rg_dart",{add:{poisonN:1}})),
+  e3:TN("꿰뚫는 독침","독침 투척 위력 70→100%",TK("rg_dart",{pow:0.43})),
+  a1:TN("벼린 독날","독날 위력 100→130%",TK("rg_venomblade",{pow:0.3})),
+  a3:TN("오래가는 독날","독날 뒤 독이 붙는 공격 3→4번",TK("rg_venomblade",{add:{coatAfter:1}})),
+  a4:TN("독침 연발","독침 투척 뒤 30% 확률로 단검 찌르기 1번",TX("rg_dart",{"c.follow":{c:0.3}})),
+  aa4:TN("급소 가르기","치명타 피해 +15%",{critdmg:15}),
+  ab4:TN("후열 독침","뒷줄 적에게 독침 투척 +30%",TX("rg_dart",{"amp":{back:0.3}})),
+  b1:TN("확산 독침","독침 투척이 대상 옆의 적에게도 독 1중첩",TX("rg_dart",{"hit.poisonSide":1})),
+  b3:TN("독침 약화","독침 투척에 맞은 적 공격력 -10% (2턴)",TK("rg_dart",{set:{chill:{value:-0.1,turns:2}}})),
+  b4:TN("독 표식","독 3중첩 이상인 적에게 아군 치명타 +6%p",{tv:{tvc_poison3:0.06}}),
+  ba2:TN("빈사 추격","체력 35% 이하인 적에게 내가 주는 피해 +15%",{tv:{tvs_low:0.15}}),
+  ba4:TN("독날 흡혈","독날 흡혈 +15%",TK("rg_venomblade",{add:{"mods.ls":0.15}})),
+  bb4:TN("독날의 틈","독날에 맞은 적이 받는 피해 +6% (2턴)",TX("rg_venomblade",{"hit.exp":{dmg:0.06,t:2}})) };
+TP.ra={ e2:TN("짙은 분신","그림자 분신 추가타 50→70%",TK("rg_clone",{add:{value:0.2}})),
+  e3:TN("긴 분신","그림자 분신 지속 +1턴",TK("rg_clone",{dur:1})),
+  a1:TN("분신 은신","그림자 분신을 쓰면 은신 1턴",TX("rg_clone",{"c.selfStealth":1})),
+  a3:TN("연속 칼날","그림자 칼날 쿨타임 없음, 위력 340→270%",TK("rg_shadowblade",{pow:-0.2,set:{cd:0}})),
+  aa4:TN("칼날의 틈","그림자 칼날에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("rg_shadowblade",{"hit.exp":{crit:0.1,t:2}})),
+  ab4:TN("분신의 기세","그림자 분신을 쓰면 다음 공격 +25%",TX("rg_clone",{"c.next":0.25})),
+  b1:TN("분신 보호막","그림자 분신을 쓰면 보호막 10%",TX("rg_clone",{"c.selfShield":0.1})),
+  b3:TN("칼날 흡혈","그림자 칼날 흡혈 +15%",TK("rg_shadowblade",{add:{"mods.ls":0.15}})),
+  b4:TN("칼날 처치","그림자 칼날로 쓰러뜨리면 연계 +2",TX("rg_shadowblade",{"hit.killCombo":2})),
+  ba4:TN("은신 칼날","은신 중 그림자 칼날 추가 피해 +50→+80%",TK("rg_shadowblade",{add:{stealthAmp:0.3}})),
+  bb4:TN("분신의 눈","그림자 분신을 쓰면 2턴간 치명타 +15%p",TX("rg_clone",{"c.critUp":{who:"self",v:0.15,t:2}})) };
+TP.rv={ e2:TN("깊은 각인","표적 각인 취약 20→28%",TK("rg_mark",{add:{value:0.08}})),
+  e3:TN("긴 각인","표적 각인 지속 +1턴",TK("rg_mark",{dur:1})),
+  a1:TN("사냥 신호","취약한 적에게 아군 치명타 +8%p",{tv:{tvc_vuln:0.08}}),
+  a2:TN("숨통 끊기 숙련","숨통 끊기 기준 체력 35→45%",TK("rg_throat",{set:{slit:45}})),
+  a3:TN("날카로운 숨통","숨통 끊기 위력 +20%",TK("rg_throat",{pow:0.2})),
+  a4:TN("참수","숨통 끊기로 쓰러뜨리면 쿨타임 초기화 · 연계 +2",TX("rg_throat",{"hit.killCd":9,"hit.killCombo":2})),
+  aa2:TN("서서히","숨통 끊기가 쓰러뜨리지 못하면 2턴간 매 턴 최대 체력 3% 피해 (보스 1%)",TX("rg_throat",{"hit.rot":{v:0.03,t:2,b:0.01}})),
+  aa4:"덤불 엄폐", aa6:TU("처형인의 눈","체력 35% 이하인 적에게 내가 주는 피해 +25%",{tv:{tvs_low:0.25}}),
+  ab2:TN("각인: 연계","표적 각인 연계 +2→+3",TK("rg_mark",{add:{combo:1}})),
+  ab4:TN("각인의 눈짓","표적 각인을 쓰면 아군 전체 치명타 +6%p (3턴)",TX("rg_mark",{"c.critUp":{v:0.06,t:3}})),
+  b1:TN("숨통의 여운","숨통 끊기로 쓰러뜨리면 체력 10% 회복",TK("rg_throat",{set:{killHeal:0.1}})),
+  b3:TN("각인 추격","취약한 적에게 숨통 끊기 +25%",TX("rg_throat",{"amp":{vuln:0.25}})),
+  b4:TN("각인의 독","표적 각인을 쓰면 그 적에게 독 2중첩",TX("rg_mark",{"c.tFoe.poison":2})),
+  ba4:TN("각인의 약화","표적 각인을 쓰면 그 적 공격력 -10% (3턴)",TX("rg_mark",{"c.tFoe.weak":{v:0.1,t:3}})),
+  bb4:TN("각인의 눈","표적 각인을 쓰면 다음 공격이 확정 치명타",TX("rg_mark",{"c.nextCrit":1})) };
+TP.rp={ e2:TN("농축","독 5중첩 이상인 적에게 내가 주는 피해 +15%",{tv:{tvs_poison5:0.15}}),
+  e3:TN("독 번짐","독날에 맞은 적 옆의 적에게도 독 1중첩",TX("rg_venomblade",{"hit.poisonSide":1})),
+  a1:TN("독날의 숨","독날을 쓰면 체력 5% 회복",TX("rg_venomblade",{"c.selfHeal":0.05})),
+  a3:TN("독날 연격","독날 뒤 30% 확률로 단검 찌르기 1번",TX("rg_venomblade",{"c.follow":{c:0.3}})),
+  aa4:TN("부식의 날","독날에 맞은 적 공격력 -10% (2턴)",TK("rg_venomblade",{set:{chill:{value:-0.1,turns:2}}})),
+  ab4:TN("독날 연계","독날을 맞히면 연계 +1",TK("rg_venomblade",{add:{combo:1}})),
+  b1:TN("집중 파열","맹독 파열 독 중첩당 +85→+110%",TK("rg_rupture",{add:{detonate:0.25}})),
+  b3:TN("터뜨리기","맹독 파열이 독을 절반만 씀",TK("rg_rupture",{set:{keepHalf:true}})),
+  b4:TN("잦은 파열","맹독 파열 쿨타임 없음",TK("rg_rupture",{set:{cd:0}})),
+  ba4:TN("파열의 틈","맹독 파열에 맞은 적이 받는 피해 +10% (2턴)",TX("rg_rupture",{"hit.exp":{dmg:0.1,t:2}})),
+  bb4:TN("파열 흡혈","맹독 파열 흡혈 +20%",TK("rg_rupture",{add:{"mods.ls":0.2}})) };
+TP.rh={ e2:TN("짙은 독무","독무 독 2→3중첩",TK("rg_miasma",{add:{poisonAll:1}})),
+  e3:TN("깊은 부패","부패 독 중첩당 받는 피해 +4→+6%",TK("rg_decay",{add:{value:0.02}})),
+  a1:TN("잦은 독무","독무 쿨타임 2→1턴",TK("rg_miasma",{set:{cd:1}})),
+  a3:TN("독안개 속 사냥","독 3중첩 이상인 적에게 아군 치명타 +8%p",{tv:{tvc_poison3:0.08}}),
+  a4:TN("긴 부패","부패 지속 +1턴",TK("rg_decay",{dur:1})),
+  aa4:TN("부패: 쇠약","부패를 쓰면 적 전체 공격력 -10% (2턴)",TX("rg_decay",{"c.foeWeak":{v:0.1,t:2}})),
+  ab4:TN("부패: 틈","부패를 쓰면 적 전체가 받는 피해 +6% (3턴)",TX("rg_decay",{"c.foeExp":{dmg:0.06,t:3}})),
+  b1:TN("해독의 보답","해독술을 받은 아군 체력 10% 회복",TX("rg_antidote",{"c.t.heal":0.1})),
+  b3:TN("해독의 가호","해독술을 받은 아군 받는 피해 -15% (2턴)",TX("rg_antidote",{"c.t.def":{v:0.15,t:2}})),
+  b4:TN("독무의 장막","독무를 쓰면 아군 전체 받는 피해 -8% (2턴)",TX("rg_miasma",{"c.def":{v:0.08,t:2}})),
+  ba4:TN("독무의 눈","독무를 쓰면 적 전체 30% 확률로 실명 (2턴)",TX("rg_miasma",{"c.foeBlind":{c:0.3,t:2}})),
+  bb4:TN("해독의 힘","해독술을 받은 아군 공격력 +10% (2턴)",TX("rg_antidote",{"c.t.atk":{v:0.1,t:2}})) };
+/* ---- 권사 ---- */
+TP.fm={ e2:TN("무거운 박치기","어깨 박치기 위력 120→160%",TK("ft_shoulder",{pow:0.33})),
+  e3:TN("밀어붙이기","어깨 박치기에 맞은 적 행동 게이지 -20%",TK("ft_shoulder",{set:{gaugeDown:0.2}})),
+  a1:TN("박치기 약화","어깨 박치기에 맞은 적 공격력 -15% (2턴)",TK("ft_shoulder",{set:{chill:{value:-0.15,turns:2}}})),
+  a3:TN("박치기 기세","어깨 박치기를 맞히면 기세 +1",TX("ft_shoulder",{"hit.mom":1})),
+  a4:"박치기 집중", aa4:TN("쏟아붓기","기세가 최대일 때 쓴 발경 +30%",TX("ft_burst",{"self":{momMax:0.3}})),
+  ab4:TN("박치기의 틈","어깨 박치기에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("ft_shoulder",{"hit.exp":{crit:0.1,t:2}})),
+  b1:TN("기세 폭발","발경이 대상 옆의 적에게도 50%",TX("ft_burst",{"hit.splash":{v:0.5,to:"adj"}})),
+  b3:TN("발경 흡혈","발경 흡혈 +15%",TK("ft_burst",{add:{"mods.ls":0.15}})),
+  b4:TN("잦은 발경","발경 쿨타임 없음",TK("ft_burst",{set:{cd:0}})),
+  ba4:TN("발경 뒤","발경을 쓰면 다음 공격 +20%",TX("ft_burst",{"c.next":0.2})),
+  bb4:TN("발경 기절","발경이 20% 확률로 기절 (보스 8%)",TK("ft_burst",{set:{stun:{chance:0.2,boss:0.08}}})) };
+TP.fp={ e2:TN("높이 차기","올려차기 위력 120→150%",TK("ft_launch",{pow:0.25})),
+  e3:TN("가벼운 발","올려차기 기세 2→1",TK("ft_launch",{add:{momCost:-1}})),
+  a1:TN("띄워 주기","띄운 적에게 아군이 주는 피해 +10%",{tv:{tvd_air:0.1}}),
+  a3:TN("떠 있는 적 사냥","띄운 적에게 삼연타 치명타 +15%p",TX("ft_triple",{"crit":{air:0.15}})),
+  a4:TN("고른 주먹","삼연타 모든 타 +20%",TK("ft_triple",{pow:0.2})),
+  aa4:TN("연타 흡혈","삼연타 흡혈 +15%",TK("ft_triple",{add:{"mods.ls":0.15}})),
+  ab4:TN("삼연타의 틈","삼연타에 맞은 적이 받는 피해 +6% (2턴)",TX("ft_triple",{"hit.exp":{dmg:0.06,t:2}})),
+  b1:TN("차올리기 치명","올려차기 치명타 +15%p",TK("ft_launch",{add:{critPlus:0.15}})),
+  b3:TN("올려차기 약화","올려차기에 맞은 적 공격력 -15% (2턴)",TK("ft_launch",{set:{chill:{value:-0.15,turns:2}}})),
+  b4:TN("정권 연타","정권 지르기 뒤 25% 확률로 한 번 더",TX("fist",{"c.follow":{c:0.25}})),
+  ba4:TN("정권의 기세","정권 지르기를 맞히면 마나 +3",TX("fist",{"hit.mp":3})),
+  bb4:TN("정권의 틈","정권 지르기에 맞은 적 신속 -2 (2턴)",TX("fist",{"hit.spd":{v:2,t:2}})) };
+TP.ff={ e2:TN("깊이 흘리기","흘려내기 회피 +40→+55%",TK("ft_parry",{add:{value:0.15}})),
+  e3:TN("긴 흘려내기","흘려내기 지속 1→2턴",TK("ft_parry",{dur:1})),
+  a1:TN("기세 받아내기","흘려내기로 피할 때 얻는 기세 +2→+3",TK("ft_parry",{add:{momGain:1}})),
+  a3:TN("틈 보기","흘려내기를 쓰면 다음 공격이 확정 치명타",TX("ft_parry",{"c.nextCrit":1})),
+  aa4:TN("흘려내기 보호막","흘려내기를 쓰면 보호막 8%",TX("ft_parry",{"c.selfShield":0.08})),
+  ab4:TN("흘려낸 뒤","흘려내기를 쓰면 다음 공격 +25%",TX("ft_parry",{"c.next":0.25})),
+  b1:TN("깊은 조식","운기조식 회복 기세당 5→8%",TK("ft_breath",{add:{value:0.03}})),
+  b3:TN("조식의 방패","운기조식을 쓰면 보호막 10%",TX("ft_breath",{"c.selfShield":0.1})),
+  b4:TN("조식의 결속","운기조식을 쓰면 같은 가로줄 아군 체력 5% 회복",TX("ft_breath",{"c.heal":{who:"laneBack",v:0.05}})),
+  ba4:TN("조식의 정화","운기조식을 쓰면 내 상태이상 1개 해제",TX("ft_breath",{"c.purify":{who:"self",n:1}})),
+  bb4:TN("조식의 집중","운기조식을 쓰면 다음 공격 +30%",TX("ft_breath",{"c.next":0.3})) };
+TP.fk={ e2:TN("단단한 금강","금강불괴 받는 피해 감소 40→50%",TK("ft_diamond",{add:{value:0.1}})),
+  e3:TN("가벼운 금강","금강불괴 기세 3→2",TK("ft_diamond",{add:{momCost:-1}})),
+  a1:TN("긴 금강","금강불괴 지속 +1턴",TK("ft_diamond",{dur:1})),
+  a3:TN("금강 나눔","금강불괴를 쓰면 같은 가로줄 아군 받는 피해 -15% (2턴)",TX("ft_diamond",{"c.def":{who:"laneBack",v:0.15,t:2}})),
+  aa4:TN("금강의 반격","금강불괴를 쓰면 2턴간 반격 확률 +25%p",TX("ft_diamond",{"c.selfCtr":{v:0.25,t:2}})),
+  ab4:TN("금강의 숨","금강불괴를 쓰면 체력 8% 회복",TX("ft_diamond",{"c.selfHeal":0.08})),
+  b1:TN("넓은 순환","내공 순환을 쓰면 아군 전체 상태이상 1개씩 해제",TX("ft_cycle",{"c.purify":{n:1}})),
+  b3:TN("순환의 힘","내공 순환을 쓰면 다음 공격 +25%",TX("ft_cycle",{"c.next":0.25})),
+  b4:TN("빠른 금강","금강불괴 쿨타임 2→1턴",TK("ft_diamond",{set:{cd:1}})),
+  ba4:TN("순환의 결속","내공 순환을 쓰면 아군 전체 상태이상 회피 +15%p (2턴)",TX("ft_cycle",{"c.res":{v:0.15,t:2}})),
+  bb4:TN("순환의 기세","내공 순환 기세 2→1",TK("ft_cycle",{add:{momCost:-1}})) };
+TP.fc={ e2:TN("장풍 숙달","장풍 위력 +25%",TK("ft_palm",{pow:0.25})),
+  e3:TN("가벼운 장풍","장풍 기세 2→1",TK("ft_palm",{add:{momCost:-1}})),
+  a1:TN("받아넘기기","반격할 때마다 기세 +1",{tv:{ctr_mom:1}}),
+  a3:TN("자세의 위압","부동 자세를 쓰면 적 전체 공격력 -8% (2턴)",TX("ft_stance",{"c.foeWeak":{v:0.08,t:2}})),
+  aa4:TN("자세의 숨","부동 자세를 쓰면 체력 6% 회복",TX("ft_stance",{"c.selfHeal":0.06})),
+  ab4:TN("자세의 가르침","부동 자세를 쓰면 같은 가로줄 아군 받는 피해 -10% (2턴)",TX("ft_stance",{"c.def":{who:"laneBack",v:0.1,t:2}})),
+  b1:TN("용의 숨결","장풍이 같은 줄 뒷줄 적에게 주는 피해 70→100%",TK("ft_palm",{set:{lance:1}})),
+  b3:TN("기공탄","장풍이 가진 기세 1당 +10%",TX("ft_palm",{"self":{mom:0.1}})),
+  b4:TN("장풍: 밀어내기","장풍에 맞은 적 30% 기절 (보스 10%)",TK("ft_palm",{set:{stun:{chance:0.3,boss:0.1}}})),
+  ba4:TN("장풍 견제","장풍에 맞은 적 공격력 -10% (2턴)",TK("ft_palm",{set:{chill:{value:-0.1,turns:2}}})),
+  bb4:TN("장풍의 틈","장풍에 맞은 적이 받는 피해 +8% (2턴)",TX("ft_palm",{"hit.exp":{dmg:0.08,t:2}})) };
+TP.fd={ e2:TN("솟구치는 주먹","승천권 위력 140→180%",TK("ft_ascend",{pow:0.29})),
+  e3:TN("승천 띄움","승천권이 30% 확률로 적을 띄움",TK("ft_ascend",{set:{launchCh:0.3}})),
+  a1:TN("승천의 기세","승천권으로 띄운 적을 맞히면 기세 +1",TX("ft_ascend",{"hit.airMom":1})),
+  a3:TN("승천 추격","띄운 적에게 승천권 +30%",TX("ft_ascend",{"amp":{air:0.3}})),
+  aa4:TN("올려차기의 틈","올려차기에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("ft_launch",{"hit.exp":{crit:0.1,t:2}})),
+  ab4:TN("올려찬 뒤","올려차기를 쓰면 다음 공격 +20%",TX("ft_launch",{"c.next":0.2})),
+  b1:TN("깊이 꽂기","공중 연타 내리꽂기 +60%p",TK("ft_aircombo",{add:{airFinish:0.6}})),
+  b3:TN("내려찍고 기절","공중 연타 한 타마다 12% 기절 (보스 5%)",TK("ft_aircombo",{set:{stun:{chance:0.12,boss:0.05}}})),
+  b4:TN("잦은 공중 연타","공중 연타 쿨타임 없음",TK("ft_aircombo",{set:{cd:0}})),
+  ba4:TN("공중 연타 흡혈","공중 연타 흡혈 +15%",TK("ft_aircombo",{add:{"mods.ls":0.15}})),
+  bb4:TN("공중 연타의 틈","공중 연타에 맞은 적이 받는 피해 +8% (2턴)",TX("ft_aircombo",{"hit.exp":{dmg:0.08,t:2}})) };
+TP.fh={ e2:TN("큰 회오리","회오리 발차기 위력 100→130%",TK("ft_whirl",{pow:0.3})),
+  e3:TN("용의 포효","천룡파 위력 250→300%",TK("ft_heavendragon",{pow:0.2})),
+  a1:TN("휘말림","회오리 발차기가 20% 확률로 적을 띄움",TK("ft_whirl",{set:{launchCh:0.2}})),
+  a3:TN("넓은 회오리","회오리 발차기가 맞힌 적 바로 뒤의 적에게도 50%",TX("ft_whirl",{"hit.splash":{v:0.5,to:"lane"}})),
+  a4:TN("가벼운 천룡","천룡파 기세 4→3",TK("ft_heavendragon",{add:{momCost:-1}})),
+  aa4:TN("회오리 기세","회오리 발차기로 맞힌 적 1명당 기세 +1",TX("ft_whirl",{"hit.mom":1})),
+  ab4:TN("회오리의 틈","회오리 발차기에 맞은 적이 받는 피해 +8% (2턴)",TX("ft_whirl",{"hit.exp":{dmg:0.08,t:2}})),
+  b1:TN("하늘 가르기","천룡파가 띄우지 않은 적도 맞힘, 위력 -20%",TK("ft_heavendragon",{pow:-0.2,set:{airOnly:false}})),
+  b3:TN("연속 천룡","천룡파로 적을 쓰러뜨리면 쿨타임 -2턴",TX("ft_heavendragon",{"hit.killCd":2})),
+  ba2:TN("이른 천룡","천룡파 쿨타임 3→2턴",TK("ft_heavendragon",{set:{cd:2}})),
+  ba4:TN("천룡의 틈","천룡파에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("ft_heavendragon",{"hit.exp":{crit:0.1,t:2}})),
+  ba6:TU("천룡 숙달","천룡파 위력 +30%",TK("ft_heavendragon",{pow:0.3})),
+  bb4:TN("회오리 약화","회오리 발차기에 맞은 적 공격력 -10% (2턴)",TK("ft_whirl",{set:{chill:{value:-0.1,turns:2}}})) };
+/* ---- 총사 ---- */
+TP.ga={ e2:TN("저지 사격","정밀 사격에 맞은 적 공격력 -10% (2턴)",TK("gn_precise",{set:{chill:{value:-0.1,turns:2}}})),
+  e3:TN("빈 탄피","정밀 사격으로 쓰러뜨리면 탄 +2",TX("gn_precise",{"hit.killAmmo":2})),
+  a1:TN("심호흡","정밀 사격 쿨타임 없음, 위력 240→200%",TK("gn_precise",{pow:-0.17,set:{cd:0}})),
+  a3:TN("정밀의 틈","정밀 사격에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("gn_precise",{"hit.exp":{crit:0.1,t:2}})),
+  ab4:TN("한 발의 무게","정밀 사격 위력 +20%, 탄 +1",TK("gn_precise",{pow:0.2,add:{ammo:1}})),
+  b1:TN("묵직한 탄","사격 위력 140→165%",TK("shoot",{pow:0.18})),
+  b3:TN("사격의 틈","사격에 맞은 적 신속 -2 (2턴)",TX("shoot",{"hit.spd":{v:2,t:2}})),
+  b4:TN("탄 줍기","사격으로 쓰러뜨리면 탄 +2",TX("shoot",{"hit.killAmmo":2})),
+  ba4:TN("사격 흡혈","사격 흡혈 +10%",TK("shoot",{add:{"mods.ls":0.1}})),
+  bb4:TN("사격 기절","사격이 8% 확률로 기절 (보스 3%)",TK("shoot",{set:{stun:{chance:0.08,boss:0.03}}})) };
+TP.gm={ e2:TN("굵은 산탄","산탄 사격 위력 90→115%",TK("gn_scatter",{pow:0.28})),
+  e3:TN("촘촘한 엄호","엄호 사격 자동 사격 2→3번",TK("gn_cover",{add:{n:1}})),
+  a1:TN("센 엄호","엄호 사격 위력 70→100%",TK("gn_cover",{add:{power:0.3}})),
+  a3:TN("엄호: 보호","엄호 사격을 쓰면 아군 전체 받는 피해 -8% (2턴)",TX("gn_cover",{"c.def":{v:0.08,t:2}})),
+  a4:TN("긴 엄호","엄호 사격 지속 +1턴",TK("gn_cover",{dur:1})),
+  aa4:TN("엄호의 결속","엄호 사격을 쓰면 아군 전체 상태이상 회피 +15%p (2턴)",TX("gn_cover",{"c.res":{v:0.15,t:2}})),
+  ab4:TN("엄호 보호막","엄호 사격을 쓰면 보호막 8%",TX("gn_cover",{"c.selfShield":0.08})),
+  b1:TN("넓은 산탄","산탄 사격이 맞힌 적 바로 뒤의 적에게도 50%",TX("gn_scatter",{"hit.splash":{v:0.5,to:"lane"}})),
+  b3:TN("근접 산탄","산탄 사격이 20% 확률로 기절 (보스 8%)",TK("gn_scatter",{set:{stun:{chance:0.2,boss:0.08}}})),
+  b4:TN("산탄 연발","산탄 사격 쿨타임 없음",TK("gn_scatter",{set:{cd:0}})),
+  bb4:TN("산탄 화상","산탄 사격에 맞은 적은 화상",TK("gn_scatter",{set:{burn:BURN1}})) };
+TP.gk={ e2:TN("눈부신 섬광","섬광 수류탄에 기절하지 않은 적은 실명 (2턴)",TX("gn_flash",{"c.foeBlind":{t:2,unstunned:true}})),
+  e3:TN("섬광 표적","섬광 수류탄을 쓰면 적 전체 취약 +8% (2턴)",TX("gn_flash",{"c.foeVuln":{v:0.08,t:2}})),
+  a1:TN("표적탄 강화","표적탄 취약 15→20%",TK("gn_mark",{add:{vulnS:0.05}})), a2:"긴 과녁",
+  a3:TN("표적의 약화","표적탄에 맞은 적 공격력 -10% (2턴)",TK("gn_mark",{set:{chill:{value:-0.1,turns:2}}})),
+  aa4:TN("표적 추격","표적탄 뒤 30% 확률로 사격 1번",TX("gn_mark",{"c.follow":{c:0.3}})), ab2:"붉은 과녁",
+  ab4:TN("표적의 눈","표적탄을 쓰면 아군 전체 치명타 +5%p (2턴)",TX("gn_mark",{"c.critUp":{v:0.05,t:2}})),
+  b1:TN("섬광: 약화","섬광 수류탄을 쓰면 적 전체 공격력 -15% (2턴)",TX("gn_flash",{"c.foeWeak":{v:0.15,t:2}})),
+  b3:TN("섬광 뒤","섬광 수류탄을 쓰면 다음 공격 +25%",TX("gn_flash",{"c.next":0.25})),
+  b4:TN("섬광의 장막","섬광 수류탄을 쓰면 아군 전체 받는 피해 -8% (2턴)",TX("gn_flash",{"c.def":{v:0.08,t:2}})),
+  ba4:TN("섬광 둔화","섬광 수류탄을 쓰면 적 전체 신속 -3 (2턴)",TX("gn_flash",{"c.foeSpd":{v:3,t:2}})),
+  bb4:TN("섬광의 틈","섬광 수류탄을 쓰면 적 전체가 받는 피해 +5% (2턴)",TX("gn_flash",{"c.foeExp":{dmg:0.05,t:2}})) };
+TP.gs={ e2:TN("숨죽인 사수","호흡 정지를 쓰면 1턴간 받는 피해 -20%",TX("gn_hold",{"c.selfDef":{v:0.2,t:1}})),
+  e3:TN("숨 고르기","호흡 정지를 쓰면 다음 공격 +25%",TX("gn_hold",{"c.next":0.25})),
+  a1:TN("연발 저격","머리 겨누기 쿨타임 2→1턴, 위력 380→320%",TK("gn_headshot",{pow:-0.16,set:{cd:1}})),
+  a3:TN("일발필중","머리 겨누기 위력 +18%, 탄 +1",TK("gn_headshot",{pow:0.18,add:{ammo:1}})),
+  aa4:TN("겨누기의 틈","머리 겨누기에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("gn_headshot",{"hit.exp":{crit:0.1,t:2}})),
+  ab4:TN("겨누기 귀환","머리 겨누기로 쓰러뜨리면 탄 +3",TX("gn_headshot",{"hit.killAmmo":3})),
+  b1:TN("숨은 호흡","호흡 정지를 쓰면 은신 1턴",TX("gn_hold",{"c.selfStealth":1})),
+  b3:TN("호흡의 눈","호흡 정지를 쓰면 2턴간 치명타 +15%p",TX("gn_hold",{"c.critUp":{who:"self",v:0.15,t:2}})),
+  b4:TN("호흡의 숨","호흡 정지를 쓰면 체력 6% 회복",TX("gn_hold",{"c.selfHeal":0.06})),
+  bb4:TN("호흡의 결의","호흡 정지를 쓰면 상태이상 회피 +30%p (2턴)",TX("gn_hold",{"c.selfRes":{v:0.3,t:2}})) };
+TP.gh={ e2:TN("깊은 간파","약점 간파 취약 25→32%",TK("gn_expose",{add:{value:0.07}})),
+  e3:TN("두꺼운 관통","일격 관통 위력 200→240%",TK("gn_through",{pow:0.2})),
+  a1:TN("긴 간파","약점 간파 지속 2→3턴",TK("gn_expose",{dur:1,add:{"allyCrit.turns":1}})),
+  a3:TN("간파: 지휘","약점 간파의 아군 치명타 +15→+22%p",TK("gn_expose",{add:{"allyCrit.value":0.07}})),
+  a4:TN("간파의 눈","약점 간파를 쓰면 다음 공격이 확정 치명타",TX("gn_expose",{"c.nextCrit":1})),
+  aa4:TN("간파의 약화","약점 간파를 쓰면 그 적 공격력 -10% (2턴)",TX("gn_expose",{"c.tFoe.weak":{v:0.1,t:2}})),
+  ab4:TN("간파의 장막","약점 간파를 쓰면 보호막 8%",TX("gn_expose",{"c.selfShield":0.08})),
+  b1:TN("관통 취약","일격 관통에 맞은 적 취약 +8% (2턴)",TK("gn_through",{set:{vulnS:0.08,vulnT:2}})),
+  b3:TN("한 줄 저격","일격 관통이 1명만 맞으면 +40%",TX("gn_through",{"solo":0.4})),
+  b4:TN("관통 연쇄","일격 관통으로 2명 이상 맞히면 탄 +2",TX("gn_through",{"hit.multiAmmo":2})),
+  ba4:TN("관통의 틈","일격 관통에 맞은 적 신속 -3 (2턴)",TX("gn_through",{"hit.spd":{v:3,t:2}})),
+  bb4:TN("관통 연발","일격 관통 쿨타임 없음",TK("gn_through",{set:{cd:0}})) };
+TP.gb={ e2:TN("날카로운 파편","파편 수류탄 취약 10→16%",TK("gn_frag",{add:{vulnS:0.06}})),
+  e3:TN("빠른 설치","화약 상자 쿨타임 없음",TK("gn_keg",{set:{cd:0}})),
+  a1:TN("집중 폭약","화약 상자 폭발 +25%",TK("gn_keg",{pow:0.25})),
+  a3:TN("상자 기절","화약 상자 폭발이 20% 확률로 기절 (보스 8%)",TK("gn_keg",{set:{stun:{chance:0.2,boss:0.08}}})),
+  ab4:TN("폭발의 틈","화약 상자 폭발에 맞은 적에게 아군 치명타 +8%p (2턴)",TX("gn_keg",{"hit.exp":{crit:0.08,t:2}})),
+  b1:TN("긴 파편","파편 수류탄 취약 지속 +1턴",TK("gn_frag",{add:{vulnT:1}})),
+  b3:TN("파편 기절","파편 수류탄이 15% 확률로 기절 (보스 5%)",TK("gn_frag",{set:{stun:{chance:0.15,boss:0.05}}})),
+  b4:TN("잦은 파편","파편 수류탄 쿨타임 없음",TK("gn_frag",{set:{cd:0}})),
+  ba4:TN("파편 둔화","파편 수류탄에 맞은 적 신속 -3 (2턴)",TX("gn_frag",{"hit.spd":{v:3,t:2}})),
+  bb4:TN("파편 뒤","파편 수류탄을 쓰면 다음 공격 +20%",TX("gn_frag",{"c.next":0.2})) };
+TP.gf={ e2:TN("굵은 소이탄","소이탄 비 위력 60→85%",TK("gn_firerain",{pow:0.42})),
+  e3:TN("더 큰 대폭발","대폭발 위력 150→200%",TK("gn_blast",{pow:0.33})),
+  a1:TN("잦은 소이탄","소이탄 비 쿨타임 2→1턴",TK("gn_firerain",{set:{cd:1}})),
+  a3:TN("끈적한 불","소이탄 비 화상 지속 +1턴",TK("gn_firerain",{add:{"burn.turns":1}})),
+  a4:TN("소이탄: 약화","소이탄 비에 맞은 적 공격력 -10% (2턴)",TK("gn_firerain",{set:{chill:{value:-0.1,turns:2}}})),
+  aa4:TN("소이탄의 틈","소이탄 비에 맞은 적이 받는 피해 +6% (2턴)",TX("gn_firerain",{"hit.exp":{dmg:0.06,t:2}})),
+  ab4:TN("소이탄 뒤","소이탄 비를 쓰면 다음 공격 +20%",TX("gn_firerain",{"c.next":0.2})),
+  b1:TN("이른 대폭발","대폭발 쿨타임 3→2턴",TK("gn_blast",{set:{cd:2}})),
+  b3:TN("남는 불","대폭발에 맞은 적은 다시 화상",TK("gn_blast",{set:{burn:BURN1}})),
+  b4:TN("들불","대폭발이 화상에 걸리지 않은 적도 맞힘",TK("gn_blast",{set:{burnOnly:false}})),
+  ba4:TN("대폭발의 틈","대폭발에 맞은 적에게 아군 치명타 +8%p (2턴)",TX("gn_blast",{"hit.exp":{crit:0.08,t:2}})),
+  bb4:TN("폭발 귀환","대폭발로 적을 쓰러뜨리면 쿨타임 -2턴",TX("gn_blast",{"hit.killCd":2})) };
+/* ---- 음유시인 ---- */
+TP.bm={ e2:TN("전장의 노래","투지의 노래를 쓰면 아군 전체 치명타 +5%p (3턴)",TX("bd_valor",{"c.critUp":{v:0.05,t:3}})),
+  e3:TN("굳센 노래","투지의 노래를 쓰면 아군 전체 받는 피해 -5% (3턴)",TX("bd_valor",{"c.def":{v:0.05,t:3}})),
+  a1:TN("노래의 숨","투지의 노래를 쓰면 아군 전체 체력 3% 회복",TX("bd_valor",{"c.heal":{v:0.03}})),
+  a3:TN("투지의 마나","투지의 노래를 쓰면 아군 전체 마나 +3",TX("bd_valor",{"c.mp":{v:3}})),
+  a4:TN("긴 투지","투지의 노래 지속 +1턴",TK("bd_valor",{dur:1})),
+  aa4:TN("투지의 기세","투지의 노래를 쓰면 아군 전체 다음 공격 +10%",TX("bd_valor",{"c.nextAmp":{v:0.1}})),
+  ab4:TN("투지의 결속","투지의 노래를 쓰면 아군 전체 상태이상 회피 +10%p (3턴)",TX("bd_valor",{"c.res":{v:0.1,t:3}})),
+  b1:TN("깊은 안식","안식의 노래를 쓰면 아군 전체가 3턴간 매 턴 체력 2% 더 회복",TX("bd_rest",{"c.regen":{v:0.02,t:3}})),
+  b3:TN("맑은 안식","안식의 노래를 쓰면 아군 전체 상태이상 1개씩 해제",TX("bd_rest",{"c.purify":{n:1}})),
+  b4:TN("긴 안식","안식의 노래 지속 +1턴",TK("bd_rest",{dur:1})),
+  ba4:TN("안식의 마나","안식의 노래를 쓰면 아군 전체 마나 +3",TX("bd_rest",{"c.mp":{v:3}})),
+  bb4:TN("안식의 방패","안식의 노래를 쓰면 뒷줄 아군 보호막 6%",TX("bd_rest",{"c.shield":{who:"back",v:0.06}})) };
+TP.br={ e2:TN("날 선 불협화음","불협화음 위력 110→140%",TK("discord",{pow:0.27})),
+  e3:TN("시린 음","불협화음 냉기 확률 30→50%",TK("discord",{add:{coldChance:0.2}})),
+  a1:TN("불협 공명","불협화음이 치명타면 공명 +1",TX("discord",{"hit.critRes":1})),
+  a3:TN("불협: 약화","불협화음이 20% 확률로 약화 -15% (2턴)",TK("discord",{set:{chill:{value:-0.15,turns:2},chillChance:0.2}})),
+  a4:TN("불협: 번짐","불협화음이 대상 옆의 적에게도 40%",TX("discord",{"hit.splash":{v:0.4,to:"adj"}})),
+  ab4:TN("불협의 틈","불협화음에 맞은 적이 받는 피해 +6% (2턴)",TX("discord",{"hit.exp":{dmg:0.06,t:2}})),
+  b1:TN("완벽한 재현","되울림 위력 50→70%",TK("bd_echo",{add:{power:0.2}})),
+  b3:TN("되울림의 숨","되울림을 쓰면 아군 전체 체력 3% 회복",TX("bd_echo",{"c.heal":{v:0.03}})),
+  b4:TN("되울림의 기세","되울림을 쓰면 아군 전체 다음 공격 +10%",TX("bd_echo",{"c.nextAmp":{v:0.1}})),
+  ba4:TN("되울림의 마나","되울림을 쓰면 아군 전체 마나 +2",TX("bd_echo",{"c.mp":{v:2}})) };
+TP.bs={ e2:TN("깊은 진정","진정의 노래 회복 140→190%",TK("bd_soothe",{pow:0.36})),
+  e3:TN("깊은 불안","불안의 화음 약화 -25→-35%",TK("bd_unease",{add:{"weak.value":-0.1}})),
+  a1:TN("진정: 방패","진정의 노래를 받은 아군 보호막 10%",TX("bd_soothe",{"c.t.shield":0.1})),
+  a3:TN("진정: 활력","진정의 노래를 받은 아군 마나 +6",TX("bd_soothe",{"c.t.mp":6})),
+  aa2:TN("선율의 방패","북돋는 선율을 받은 아군 받는 피해 -10% (2턴)",TX("bd_uplift",{"c.t.def":{v:0.1,t:2}})),
+  aa4:TN("맑은 진정","진정의 노래가 상태이상을 모두 해제",TK("bd_soothe",{set:{one:false}})),
+  ab4:TN("선율의 숨","북돋는 선율을 받은 아군 체력 6% 회복",TX("bd_uplift",{"c.t.heal":0.06})),
+  b1:TN("번지는 불안","불안의 화음을 쓰면 적 전체 공격력 -10% (2턴)",TX("bd_unease",{"c.foeWeak":{v:0.1,t:2}})),
+  b3:TN("불안: 취약","불안의 화음에 걸린 적 취약 +10% (2턴)",TX("bd_unease",{"c.tFoe.vuln":{v:0.1,t:2}})),
+  b4:TN("불안: 냉기","불안의 화음 냉기 1→2중첩",TK("bd_unease",{add:{coldAll:1}})),
+  ba4:TN("불안의 틈","불안의 화음에 걸린 적에게 아군 치명타 +8%p (2턴)",TX("bd_unease",{"c.tFoe.exp":{crit:0.08,t:2}})),
+  bb4:TN("진정의 여운","진정의 노래를 받은 아군 상태이상 회피 +20%p (2턴)",TX("bd_soothe",{"c.t.res":{v:0.2,t:2}})) };
+TP.bw={ e2:TN("큰 북","전쟁의 북 행동 게이지 +25→+35%",TK("bd_drum",{add:{value:0.1}})),
+  e3:TN("가벼운 북채","전쟁의 북 공명 4→3",TK("bd_drum",{add:{resCost:-1}})),
+  a1:TN("북의 기세","전쟁의 북을 쓰면 아군 전체 다음 공격 +15%",TX("bd_drum",{"c.nextAmp":{v:0.15}})),
+  a3:TN("북: 방어","전쟁의 북을 쓰면 아군 전체 보호막 6%",TX("bd_drum",{"c.shield":{v:0.06}})),
+  a4:TN("북: 속도","전쟁의 북을 쓰면 아군 전체 신속 +2 (2턴)",TX("bd_drum",{"c.spd":{v:2,t:2}})),
+  aa4:TN("긴 행진","행진곡 지속 +1턴",TK("bd_march",{dur:1})),
+  ab4:TN("행진의 숨","행진곡을 쓰면 아군 전체 체력 3% 회복",TX("bd_march",{"c.heal":{v:0.03}})),
+  b1:TN("북의 정화","전쟁의 북을 쓰면 아군 전체 상태이상 1개씩 해제",TX("bd_drum",{"c.purify":{n:1}})),
+  b3:TN("북의 마나","전쟁의 북을 쓰면 아군 전체 마나 +3",TX("bd_drum",{"c.mp":{v:3}})),
+  b4:TN("잦은 북","전쟁의 북 쿨타임 없음",TK("bd_drum",{set:{cd:0}})),
+  ba4:TN("행진의 눈","행진곡을 쓰면 아군 전체 치명타 +5%p (3턴)",TX("bd_march",{"c.critUp":{v:0.05,t:3}})),
+  bb4:TN("행진의 방패","행진곡을 쓰면 앞줄 아군 받는 피해 -8% (3턴)",TX("bd_march",{"c.def":{who:"front",v:0.08,t:3}})) };
+TP.bo={ e2:TN("명령 회복","진격 명령을 받은 아군 체력 8% 회복",TX("bd_order",{"c.t.heal":0.08})),
+  e3:TN("명령 정화","진격 명령을 받은 아군 상태이상 1개 해제",TX("bd_order",{"c.t.purify":1})),
+  a1:TN("명령의 방패","진격 명령을 받은 아군 보호막 8%",TX("bd_order",{"c.t.shield":0.08})),
+  a3:TN("명령의 마나","진격 명령을 받은 아군 마나 +6",TX("bd_order",{"c.t.mp":6})),
+  aa4:TN("잦은 명령","진격 명령 쿨타임 없음",TK("bd_order",{set:{cd:0}})),
+  ab4:TN("명령의 여운","진격 명령을 받은 아군 공격력 +10% (2턴)",TX("bd_order",{"c.t.atk":{v:0.1,t:2}})),
+  b1:TN("잦은 일제","일제 공격 쿨타임 2→1턴",TK("bd_volley",{set:{cd:1}})),
+  b3:TN("일제의 틈","일제 공격을 쓰면 적 전체가 받는 피해 +6% (2턴)",TX("bd_volley",{"c.foeExp":{dmg:0.06,t:2}})),
+  ba4:TN("일제의 방패","일제 공격을 쓰면 아군 전체 보호막 5%",TX("bd_volley",{"c.shield":{v:0.05}})),
+  bb4:TN("일제의 숨","일제 공격을 쓰면 아군 전체 체력 4% 회복",TX("bd_volley",{"c.heal":{v:0.04}})) };
+TP.bj={ e2:TN("긴 조롱","조롱의 노래 지속 +1턴",TK("bd_mock",{dur:1})),
+  e3:TN("조롱의 틈","조롱의 노래를 쓰면 적 전체가 받는 피해 +5% (3턴)",TX("bd_mock",{"c.foeExp":{dmg:0.05,t:3}})),
+  a1:TN("조롱의 장막","조롱의 노래를 쓰면 아군 전체 받는 피해 -6% (3턴)",TX("bd_mock",{"c.def":{v:0.06,t:3}})),
+  a3:TN("비웃음","조롱의 노래를 쓰면 공명 +2",TX("bd_mock",{"c.selfReso":2})),
+  a4:TN("조롱 실명","조롱의 노래를 쓰면 적 전체 20% 확률로 실명 (2턴)",TX("bd_mock",{"c.foeBlind":{c:0.2,t:2}})),
+  aa4:TN("조롱의 숨","조롱의 노래를 쓰면 아군 전체 체력 3% 회복",TX("bd_mock",{"c.heal":{v:0.03}})),
+  ab4:TN("조롱의 마나","조롱의 노래를 쓰면 아군 전체 마나 +3",TX("bd_mock",{"c.mp":{v:3}})),
+  b1:TN("자장가","잠의 노래를 쓰면 다른 적도 20% 확률로 기절 (보스 5%)",TX("bd_lullaby",{"c.foeStun":{c:0.2,b:0.05}})),
+  b3:TN("잠꼬대","잠의 노래에 걸린 적 공격력 -20% (3턴)",TX("bd_lullaby",{"c.tFoe.weak":{v:0.2,t:3}})),
+  ba4:TN("잠의 틈","잠의 노래에 걸린 적이 받는 피해 +12% (2턴)",TX("bd_lullaby",{"c.tFoe.exp":{dmg:0.12,t:2}})),
+  bb4:TN("잠의 숨","잠의 노래를 쓰면 아군 전체 체력 4% 회복",TX("bd_lullaby",{"c.heal":{v:0.04}})) };
+TP.bc={ e2:TN("웃음 치유","웃음 폭탄을 기절한 아군이 없어도 쓸 수 있고(쿨타임 2턴), 쓰면 아군 전체 체력 6% 회복",TX("bd_laugh",{"c.heal":{v:0.06}},{set:{cd:2}})),
+  e3:TN("전염되는 웃음","웃음 폭탄을 기절한 아군이 없어도 쓸 수 있고(쿨타임 2턴), 쓰면 아군 전체 다른 상태이상도 1개씩 해제",TX("bd_laugh",{"c.purify":{n:1}},{set:{cd:2}})),
+  a1:TN("넘어뜨리기","어릿광대 춤을 쓰면 적 전체 15% 확률로 기절 (보스 5%)",TX("bd_dance",{"c.foeStun":{c:0.15,b:0.05}})),
+  a3:TN("춤의 틈","어릿광대 춤을 쓰면 적 전체가 받는 피해 +5% (2턴)",TX("bd_dance",{"c.foeExp":{dmg:0.05,t:2}})),
+  a4:TN("춤 둔화","어릿광대 춤을 쓰면 적 전체 신속 -3 (2턴)",TX("bd_dance",{"c.foeSpd":{v:3,t:2}})),
+  ab4:TN("춤의 장막","어릿광대 춤을 쓰면 아군 전체 받는 피해 -6% (2턴)",TX("bd_dance",{"c.def":{v:0.06,t:2}})),
+  b1:TN("웃음: 사기","웃음 폭탄을 기절한 아군이 없어도 쓸 수 있고(쿨타임 2턴), 쓰면 아군 전체 공격력 +10% (2턴)",TX("bd_laugh",{"c.atk":{v:0.1,t:2}},{set:{cd:2}})),
+  b3:TN("웃음: 조소","웃음 폭탄을 기절한 아군이 없어도 쓸 수 있고(쿨타임 2턴), 쓰면 적 전체 20% 확률로 기절 (보스 5%)",TX("bd_laugh",{"c.foeStun":{c:0.2,b:0.05}},{set:{cd:2}})),
+  b4:TN("웃음의 방패","웃음 폭탄을 기절한 아군이 없어도 쓸 수 있고(쿨타임 2턴), 쓰면 아군 전체 보호막 6%",TX("bd_laugh",{"c.shield":{v:0.06}},{set:{cd:2}})),
+  ba4:TN("웃음의 마나","웃음 폭탄을 기절한 아군이 없어도 쓸 수 있고(쿨타임 2턴), 쓰면 아군 전체 마나 +4",TX("bd_laugh",{"c.mp":{v:4}},{set:{cd:2}})),
+  bb4:TN("웃음의 결속","웃음 폭탄을 기절한 아군이 없어도 쓸 수 있고(쿨타임 2턴), 쓰면 아군 전체 상태이상 회피 +20%p (2턴)",TX("bd_laugh",{"c.res":{v:0.2,t:2}})) };
+/* ---- 궁수 ---- */
+TP.aa={ e2:TN("고른 연사","연속 사격이 한 발마다 줄어드는 폭 20→10%",TK("ar_rapid",{add:{multiFall:-0.1}})),
+  e3:TN("굵은 화살비","화살비 위력 40→55%",TK("ar_rain",{pow:0.38})),
+  a1:TN("연사의 틈","연속 사격에 맞은 적이 받는 피해 +6% (2턴)",TX("ar_rapid",{"hit.exp":{dmg:0.06,t:2}})),
+  a3:TN("잦은 연사","연속 사격 쿨타임 없음",TK("ar_rapid",{set:{cd:0}})),
+  aa4:TN("화살비 숙련","화살비 +2발 (6→8발)",TK("ar_rain",{add:{hits:2}})),
+  ab4:TN("흩뿌리기","화살비에 맞은 적 신속 -3 (2턴)",TX("ar_rain",{"hit.spd":{v:3,t:2}})),
+  b1:TN("잦은 화살비","화살비 쿨타임 2→1턴",TK("ar_rain",{set:{cd:1}})),
+  b3:TN("화살비의 틈","화살비에 맞은 적에게 아군 치명타 +6%p (2턴)",TX("ar_rain",{"hit.exp":{crit:0.06,t:2}})),
+  b4:TN("활쏘기 연사","활쏘기 뒤 25% 확률로 한 번 더",TX("ar_shot",{"c.follow":{c:0.25}})),
+  ba4:TN("활쏘기 약화","활쏘기에 맞은 적 공격력 -8% (2턴)",TK("ar_shot",{set:{chill:{value:-0.08,turns:2}}})) };
+TP.ap={ e2:TN("약점 노출","사냥감에게 아군 치명타 +8%p",{tv:{tvc_prey:0.08}}),
+  e3:TN("사냥감의 틈","사냥감 지정을 쓰면 그 적이 받는 피해 +8% (3턴)",TX("ar_prey",{"c.tFoe.exp":{dmg:0.08,t:3}})),
+  a1:TN("사냥감 약화","사냥감 지정을 쓰면 그 적 공격력 -10% (3턴)",TX("ar_prey",{"c.tFoe.weak":{v:0.1,t:3}})),
+  a3:TN("사냥꾼의 눈","사냥감 지정을 쓰면 다음 공격이 확정 치명타",TX("ar_prey",{"c.nextCrit":1})),
+  aa4:TN("사냥감 독","사냥감 지정을 쓰면 그 적에게 독 2중첩",TX("ar_prey",{"c.tFoe.poison":2})),
+  ab2:TN("사냥감: 독점","사냥감이 다단 공격 1발당 받는 피해 +3→+5%",TK("ar_prey",{add:{value:0.02}})),
+  ab4:TN("사냥감 둔화","사냥감 지정을 쓰면 그 적 신속 -3 (3턴)",TX("ar_prey",{"c.tFoe.spd":{v:3,t:3}})),
+  b1:TN("꿰뚫기: 일점","꿰뚫는 화살이 1명만 맞으면 +35%",TX("ar_pierce",{"solo":0.35})),
+  b3:TN("꿰뚫는 틈","꿰뚫는 화살에 맞은 적이 받는 피해 +8% (2턴)",TX("ar_pierce",{"hit.exp":{dmg:0.08,t:2}})),
+  ba4:TN("꿰뚫는 기절","꿰뚫는 화살이 15% 확률로 기절 (보스 5%)",TK("ar_pierce",{set:{stun:{chance:0.15,boss:0.05}}})),
+  bb4:TN("꿰뚫는 연사","꿰뚫는 화살 뒤 30% 확률로 활쏘기 1번",TX("ar_pierce",{"c.follow":{c:0.3}})) };
+TP.av={ e2:TN("독 표식","독 3중첩 이상인 적에게 아군 치명타 +6%p",{tv:{tvc_poison3:0.06}}),
+  e3:TN("독: 농축","독 화살 한 발의 독 1→2중첩",TK("ar_venom",{add:{poisonN:1}})),
+  a1:TN("독 화살의 틈","독 화살에 맞은 적이 받는 피해 +5% (2턴)",TX("ar_venom",{"hit.exp":{dmg:0.05,t:2}})),
+  a3:TN("독 번짐","독 화살에 맞은 적 옆의 적에게도 독 1중첩",TX("ar_venom",{"hit.poisonSide":1})),
+  aa4:TN("독 화살 약화","독 화살에 맞은 적 공격력 -10% (2턴)",TK("ar_venom",{set:{chill:{value:-0.1,turns:2}}})),
+  ab4:TN("독 화살 흡혈","독 화살 흡혈 +10%",TK("ar_venom",{add:{"mods.ls":0.1}})),
+  b1:TN("묶기: 둔화","묶는 화살에 맞은 적 신속 -5 (2턴)",TX("ar_bind",{"hit.spd":{v:5,t:2}})),
+  b3:TN("묶인 표적","묶는 화살에 맞고 기절한 적에게 아군 치명타 +15%p (2턴)",TX("ar_bind",{"hit.exp":{if:"stun",crit:0.15,t:2}})),
+  ba4:TN("묶는 화살의 틈","묶는 화살에 맞은 적 행동 게이지 -20%",TK("ar_bind",{set:{gaugeDown:0.2}})),
+  bb4:TN("묶고 쏘기","묶는 화살 뒤 30% 확률로 활쏘기 1번",TX("ar_bind",{"c.follow":{c:0.3}})) };
+TP.aw={ e2:TN("이른 폭우","천 개의 화살 쿨타임 3→2턴",TK("ar_thousand",{set:{cd:2}})),
+  e3:TN("얼어붙는 화살","천 개의 화살이 한 발마다 30% 확률로 냉기 1중첩",TK("ar_thousand",{set:{cold:1,coldChance:0.3}})),
+  a1:TN("넓은 폭우","천 개의 화살 대상 최대 4→6명",TK("ar_thousand",{set:{maxT:6}})),
+  a3:TN("바람구멍","천 개의 화살에 맞은 적이 받는 피해 +6% (2턴)",TX("ar_thousand",{"hit.exp":{dmg:0.06,t:2}})),
+  aa4:TN("폭우의 숨","천 개의 화살을 쓰면 다음 공격 +20%",TX("ar_thousand",{"c.next":0.2})),
+  ab4:TN("폭우 둔화","천 개의 화살에 맞은 적 신속 -2 (2턴)",TX("ar_thousand",{"hit.spd":{v:2,t:2}})),
+  b1:TN("폭풍: 한 명","폭풍 연사가 한 발마다 줄어들지 않음",TK("ar_storm",{set:{multiFall:0}})),
+  b3:TN("폭풍의 틈","폭풍 연사에 맞은 적에게 아군 치명타 +8%p (2턴)",TX("ar_storm",{"hit.exp":{crit:0.08,t:2}})),
+  ba4:TN("잦은 폭풍","폭풍 연사 쿨타임 2→1턴",TK("ar_storm",{set:{cd:1}})),
+  bb4:TN("폭풍 흡혈","폭풍 연사 흡혈 +10%",TK("ar_storm",{add:{"mods.ls":0.1}})) };
+TP.ag={ e2:TN("깊이 읽기","바람 읽기 추가 발 +2→+3",TK("ar_windread",{add:{value:1}})),
+  e3:TN("바람의 눈","바람 읽기를 쓰면 2턴간 치명타 +10%p",TX("ar_windread",{"c.critUp":{who:"self",v:0.1,t:2}})),
+  a1:TN("순풍","바람 읽기를 쓰면 2턴간 신속 +3",TX("ar_windread",{"c.spd":{who:"self",v:3,t:2}})),
+  a3:TN("바람의 방패","바람 읽기를 쓰면 보호막 8%",TX("ar_windread",{"c.selfShield":0.08})),
+  a4:TN("바람 읽은 뒤","바람 읽기를 쓰면 다음 공격 +15%",TX("ar_windread",{"c.next":0.15})),
+  aa4:TN("바람의 숨","바람 읽기를 쓰면 체력 5% 회복",TX("ar_windread",{"c.selfHeal":0.05})),
+  ab4:TN("바람: 나눔","바람 읽기를 쓰면 아군 전체 행동 게이지 +10%",TX("ar_windread",{"c.gauge":{v:0.1}})),
+  b1:TN("날 선 바람","꿰뚫는 바람 위력 90→115%",TK("ar_galepierce",{pow:0.28})),
+  b3:TN("얼리는 바람","꿰뚫는 바람이 냉기 1중첩",TK("ar_galepierce",{set:{cold:1}})),
+  b4:TN("돌풍","꿰뚫는 바람 쿨타임 없음",TK("ar_galepierce",{set:{cd:0}})),
+  ba4:TN("칼바람","꿰뚫는 바람이 1명만 맞으면 +40%",TX("ar_galepierce",{"solo":0.4})),
+  bb4:TN("바람의 틈","꿰뚫는 바람에 맞은 적이 받는 피해 +6% (2턴)",TX("ar_galepierce",{"hit.exp":{dmg:0.06,t:2}})) };
+TP.ah={ e2:TN("사냥개 호위","사냥개 풀기를 쓰면 3턴간 받는 피해 -10%",TX("ar_hound",{"c.selfDef":{v:0.1,t:3}})),
+  e3:TN("우두머리 개","사냥개 위력 80→100%",TK("ar_hound",{add:{power:0.2}})),
+  a1:TN("잦은 사냥개","사냥개 풀기 쿨타임 2→1턴",TK("ar_hound",{set:{cd:1}})),
+  a3:TN("몰이사냥","사냥감에게 아군이 주는 피해 +6%",{tv:{tvd_prey:0.06}}),
+  aa4:TN("사냥개의 기세","사냥개 풀기를 쓰면 다음 공격 +20%",TX("ar_hound",{"c.next":0.2})),
+  ab4:TN("사냥개의 숨","사냥개 풀기를 쓰면 체력 6% 회복",TX("ar_hound",{"c.selfHeal":0.06})),
+  b1:TN("연속 사냥","약점 사냥으로 쓰러뜨리면 쿨타임 초기화",TX("ar_weakhunt",{"hit.killCd":9})),
+  b3:TN("약점의 틈","약점 사냥에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("ar_weakhunt",{"hit.exp":{crit:0.1,t:2}})),
+  ba4:TN("약점 사냥 흡혈","약점 사냥 흡혈 +15%",TK("ar_weakhunt",{add:{"mods.ls":0.15}})),
+  bb4:TN("약점 사냥 독","약점 사냥에 맞은 적 독 2중첩",TK("ar_weakhunt",{set:{poisonN:2}})) };
+TP.at={ e2:TN("느린 사냥감","행동 게이지가 묶인 적(덩굴)에게 아군 치명타 +8%p",{tv:{tvc_slow:0.08}}),
+  e3:TN("덩굴: 옭아맴","덩굴 화살에 맞은 적이 받는 피해 +8% (3턴)",TX("ar_vine",{"hit.exp":{dmg:0.08,t:3}})),
+  a1:TN("덫: 독","덫에 걸린 적 독 3중첩",TK("ar_trap",{set:{poisonN:3}})),
+  a3:TN("덫 놓은 뒤","덫 놓기를 쓰면 다음 공격 +20%",TX("ar_trap",{"c.next":0.2})),
+  a4:TN("덫의 방패","덫 놓기를 쓰면 보호막 8%",TX("ar_trap",{"c.selfShield":0.08})),
+  aa4:TN("덫의 숨","덫 놓기를 쓰면 체력 5% 회복",TX("ar_trap",{"c.selfHeal":0.05})),
+  ab4:TN("덫의 장막","덫 놓기를 쓰면 같은 가로줄 아군 받는 피해 -10% (2턴)",TX("ar_trap",{"c.def":{who:"laneBack",v:0.1,t:2}})),
+  b1:TN("덩굴: 번짐","덩굴 화살이 맞힌 적 바로 뒤의 적에게도 50%",TX("ar_vine",{"hit.splash":{v:0.5,to:"lane"}})),
+  b3:TN("덩굴 약화","덩굴 화살에 맞은 적 공격력 -10% (2턴)",TK("ar_vine",{set:{chill:{value:-0.1,turns:2}}})),
+  ba4:TN("덩굴 독","덩굴 화살에 맞은 적 독 1중첩",TK("ar_vine",{set:{poisonN:1}})),
+  bb4:TN("덩굴 연사","덩굴 화살 뒤 30% 확률로 활쏘기 1번",TX("ar_vine",{"c.follow":{c:0.3}})) };
+/* ---- 창술사 ---- */
+TP.lp={ e2:TN("날 선 찌르기","창 찌르기 위력 100→125%",TK("ln_thrust",{pow:0.25})),
+  e3:TN("찌르기 연속","창 찌르기 뒤 20% 확률로 한 번 더",TX("ln_thrust",{"c.follow":{c:0.2}})),
+  a1:TN("찌르기 기세","창 찌르기를 쓰면 다음 공격 +10%",TX("ln_thrust",{"c.next":0.1})),
+  a3:TN("창끝 취약","꿰뚫기에 맞은 적 취약 +8% (2턴)",TK("ln_pierce",{set:{vulnS:0.08,vulnT:2}})),
+  aa4:TN("꿰뚫기: 깊이","꿰뚫기가 1명만 맞으면 +30%",TX("ln_pierce",{"solo":0.3})),
+  ab4:TN("찌르기의 틈","창 찌르기에 맞은 적 신속 -2 (2턴)",TX("ln_thrust",{"hit.spd":{v:2,t:2}})),
+  b1:TN("휩쓸어 넘기기","휩쓸기가 15% 확률로 기절 (보스 5%)",TK("ln_sweep",{set:{stun:{chance:0.15,boss:0.05}}})),
+  b3:TN("넓게 휩쓸기","휩쓸기가 맞힌 적 바로 뒤의 적에게도 50%",TX("ln_sweep",{"hit.splash":{v:0.5,to:"lane"}})),
+  b4:TN("잦은 휩쓸기","휩쓸기 쿨타임 없음",TK("ln_sweep",{set:{cd:0}})),
+  ba4:TN("휩쓸기의 틈","휩쓸기에 맞은 적이 받는 피해 +6% (2턴)",TX("ln_sweep",{"hit.exp":{dmg:0.06,t:2}})),
+  bb4:TN("휩쓴 뒤","휩쓸기를 쓰면 보호막 6%",TX("ln_sweep",{"c.selfShield":0.06})) };
+TP.lw={ e2:TN("긴 거리","거리 두기 지속 +1턴",TK("ln_distance",{dur:1})),
+  e3:TN("거리: 반격","거리 두기 반격 80→100%",TK("ln_distance",{add:{value:0.2}})),
+  a1:TN("거리: 보호","거리 두기를 받은 아군 받는 피해 -15% (2턴)",TX("ln_distance",{"c.t.def":{v:0.15,t:2}})),
+  a3:TN("거리의 숨","거리 두기를 받은 아군 체력 6% 회복",TX("ln_distance",{"c.t.heal":0.06})),
+  aa4:TN("창벽 보호막","창벽을 쓰면 보호막 8%",TX("ln_wall",{"c.selfShield":0.08})),
+  ab4:TN("창벽의 위압","창벽을 쓰면 적 전체 공격력 -8% (2턴)",TX("ln_wall",{"c.foeWeak":{v:0.08,t:2}})),
+  b1:TN("굳건한 거리","거리 두기 상태이상 회피 +20→30%p",TK("ln_distance",{add:{resUp:0.1}})),
+  b3:TN("거리의 방패","거리 두기를 받은 아군 보호막 8%",TX("ln_distance",{"c.t.shield":0.08})),
+  b4:TN("창벽의 가르침","창벽을 쓰면 같은 가로줄 아군 받는 피해 -10% (2턴)",TX("ln_wall",{"c.def":{who:"laneBack",v:0.1,t:2}})),
+  ba4:TN("창벽 뒤","창벽을 쓰면 다음 공격 +20%",TX("ln_wall",{"c.next":0.2})),
+  bb4:TN("거리의 힘","거리 두기를 받은 아군 공격력 +8% (2턴)",TX("ln_distance",{"c.t.atk":{v:0.08,t:2}})) };
+TP.lc={ e2:TN("돌격 방패","돌격을 쓰면 1턴간 받는 피해 -15%",TX("ln_charge",{"c.selfDef":{v:0.15,t:1}})),
+  e3:TN("띄워 주기","띄운 적에게 아군이 주는 피해 +10%",{tv:{tvd_air:0.1}}),
+  a1:TN("돌격: 약화","돌격에 맞은 적 공격력 -20% (2턴)",TK("ln_charge",{set:{chill:{value:-0.2,turns:2}}})),
+  a3:TN("돌격의 틈","돌격에 맞은 적에게 아군 치명타 +10%p (2턴)",TX("ln_charge",{"hit.exp":{crit:0.1,t:2}})),
+  aa4:TN("돌격 흡혈","돌격 흡혈 +15%",TK("ln_charge",{add:{"mods.ls":0.15}})),
+  ab4:TN("돌격 뒤","돌격을 쓰면 다음 공격 +15%",TX("ln_charge",{"c.next":0.15})),
+  b1:TN("뒷줄 교란","창 던지기에 맞은 적 공격력 -10% (2턴)",TK("ln_throw",{set:{chill:{value:-0.1,turns:2}}})),
+  b3:TN("투창: 못박기","창 던지기에 맞은 적 30% 기절 (보스 10%)",TK("ln_throw",{set:{stun:{chance:0.3,boss:0.1}}})),
+  b4:TN("투창의 틈","창 던지기에 맞은 적이 받는 피해 +8% (2턴)",TX("ln_throw",{"hit.exp":{dmg:0.08,t:2}})),
+  ba4:TN("투창 둔화","창 던지기에 맞은 적 신속 -4 (2턴)",TX("ln_throw",{"hit.spd":{v:4,t:2}})) };
+TP.ld={ e2:TN("이른 천공","천공 쿨타임 2→1턴",TK("ln_skypierce",{set:{cd:1}})),
+  e3:TN("천공: 불기둥","천공에 맞은 적은 화상",TK("ln_skypierce",{set:{burn:BURN1}})),
+  a1:TN("천공: 일점","천공이 1명만 맞으면 +40%",TX("ln_skypierce",{"solo":0.4})),
+  a3:TN("천공의 틈","천공에 맞은 적이 받는 피해 +8% (2턴)",TX("ln_skypierce",{"hit.exp":{dmg:0.08,t:2}})),
+  a4:TN("천공 뒤","천공을 쓰면 보호막 8%",TX("ln_skypierce",{"c.selfShield":0.08})),
+  aa4:TN("천공 흡혈","천공 흡혈 +15%",TK("ln_skypierce",{add:{"mods.ls":0.15}})),
+  ab4:TN("천공 약화","천공에 맞은 적 공격력 -10% (2턴)",TK("ln_skypierce",{set:{chill:{value:-0.1,turns:2}}})),
+  b1:TN("착지 기절","용의 도약 내리꽂기 30% 기절 (보스 10%)",TK("ln_leap",{set:{stun:{chance:0.3,boss:0.1}}})),
+  b3:TN("하늘의 표적","용의 도약 내리꽂기에 맞은 적 취약 +12% (2턴)",TK("ln_leap",{set:{vulnS:0.12,vulnT:2}})),
+  b4:TN("도약: 충격","용의 도약 내리꽂기가 대상 옆의 적에게도 50%",TX("ln_leap",{"hit.splash":{v:0.5,to:"adj"}})),
+  ba4:TN("이른 도약","용의 도약 쿨타임 2→1턴",TK("ln_leap",{set:{cd:1}})),
+  bb4:TN("도약 흡혈","용의 도약 흡혈 +15%",TK("ln_leap",{add:{"mods.ls":0.15}})) };
+TP.lf={ e2:TN("찌르기 띄움","연속 찌르기가 한 번마다 8% 확률로 적을 띄움",TK("ln_flurry",{set:{launchCh:0.08}})),
+  e3:TN("사냥창 약화","사냥창에 맞은 적 공격력 -15% (2턴)",TK("ln_hunt",{set:{chill:{value:-0.15,turns:2}}})),
+  a1:TN("연격 흡혈","연속 찌르기 흡혈 +10%",TK("ln_flurry",{add:{"mods.ls":0.1}})),
+  a3:TN("잦은 연격","연속 찌르기 쿨타임 없음",TK("ln_flurry",{set:{cd:0}})),
+  aa4:TN("연격의 틈","연속 찌르기에 맞은 적이 받는 피해 +6% (2턴)",TX("ln_flurry",{"hit.exp":{dmg:0.06,t:2}})),
+  ab4:TN("연격 뒤","연속 찌르기를 쓰면 다음 공격 +15%",TX("ln_flurry",{"c.next":0.15})),
+  b1:TN("사냥창: 결투","사냥창에 맞은 적이 받는 피해 +10% (2턴)",TX("ln_hunt",{"hit.exp":{dmg:0.1,t:2}})),
+  b3:TN("사냥창: 미끼","사냥창을 쓰면 2턴간 받는 피해 -20%",TX("ln_hunt",{"c.selfDef":{v:0.2,t:2}})),
+  ba4:TN("사냥창 기절","사냥창이 20% 확률로 기절 (보스 8%)",TK("ln_hunt",{set:{stun:{chance:0.2,boss:0.08}}})),
+  bb4:TN("사냥창 흡혈","사냥창 흡혈 +15%",TK("ln_hunt",{add:{"mods.ls":0.15}})) };
+TP.lu={ e2:TN("방진 재생","방진의 같은 줄 아군 재생 3→5%",TK("ln_phalanx",{add:{"allyRegen.v":0.02}})),
+  e3:TN("방진: 깊게","방진의 같은 줄 아군 받는 피해 감소 30→40%",TK("ln_phalanx",{add:{value:0.1}})),
+  a1:TN("뒤를 맡김","방진을 쓰면 같은 가로줄 아군이 주는 피해 +10% (2턴)",TX("ln_phalanx",{"c.dealt":{who:"laneBack",v:0.1,t:2}})),
+  a3:TN("방진의 가시","방진을 쓰면 적 전체 공격력 -8% (2턴)",TX("ln_phalanx",{"c.foeWeak":{v:0.08,t:2}})),
+  aa4:TN("방진의 숨","방진을 쓰면 체력 5% 회복",TX("ln_phalanx",{"c.selfHeal":0.05})),
+  ab4:TN("끌어들이는 방진","방진 도발이 원거리 공격을 끌어오는 확률 80→90%",TK("ln_phalanx",{add:{tauntPull:0.1}})),
+  b1:TN("불굴: 버팀","불굴의 창 다른 아군 받는 피해 감소 20→28%",TK("ln_unbroken",{add:{allyCut:0.08}})),
+  b3:TN("불굴: 반격","불굴의 창을 쓰면 3턴간 반격 확률 +25%p",TX("ln_unbroken",{"c.selfCtr":{v:0.25,t:3}})),
+  b4:TN("이른 불굴","불굴의 창 쿨타임 2→1턴",TK("ln_unbroken",{set:{cd:1}})),
+  ba4:TN("불굴의 숨","불굴의 창을 쓰면 아군 전체 체력 4% 회복",TX("ln_unbroken",{"c.heal":{v:0.04}})),
+  bb4:TN("불굴의 방패","불굴의 창을 쓰면 아군 전체 보호막 5%",TX("ln_unbroken",{"c.shield":{v:0.05}})) };
+TP.lx={ e2:TN("반격 표적","내 반격에 맞은 적은 받는 피해 +8% (2턴)",{tv:{ctr_expose:0.08}}),
+  e3:TN("창끝 회복","반격할 때마다 체력 2% 회복",{tv:{ctr_heal:0.02}}),
+  a1:TN("창끝: 기절","반격에 맞은 적 20% 기절 (보스 8%)",{tv:{ctr_stun:0.2}}),
+  a3:TN("창끝 보호막","창끝 반격을 쓰면 보호막 8%",TX("ln_tipcounter",{"c.selfShield":0.08})),
+  aa4:TN("창끝의 눈","반격 치명타 +15%p",{tv:{ctr_crit:0.15}}),
+  ab4:TN("창끝 뒤","창끝 반격을 쓰면 다음 공격 +20%",TX("ln_tipcounter",{"c.next":0.2})),
+  b1:TN("견제 연타","견제 찌르기 위력 120→150%",TK("ln_check",{pow:0.25})),
+  b3:TN("견제 관통","견제 찌르기가 뒷줄 적도 노릴 수 있음",TK("ln_check",{set:{reach:true}})),
+  b4:TN("견제: 봉쇄","견제 찌르기에 맞은 적의 다음 기술 위력 -30%",TX("ln_check",{"hit.nextSkillCut":0.3})),
+  ba4:TN("견제 약화","견제 찌르기에 맞은 적 공격력 -10% (2턴)",TK("ln_check",{set:{chill:{value:-0.1,turns:2}}})),
+  bb2:TN("견제의 틈","견제 찌르기에 맞은 적에게 아군 치명타 +8%p (2턴)",TX("ln_check",{"hit.exp":{crit:0.08,t:2}})),
+  bb4:TN("견제 연속","견제 찌르기 뒤 30% 확률로 창 찌르기 1번",TX("ln_check",{"c.follow":{c:0.3}})),
+  bb6:TU("창끝의 달인","취약한 적에게 내가 주는 피해 +20%",{tv:{tvs_vuln:0.2}}) };
+/*TP_END*/
 function traitBranches(cid,adv){ return (TRAITS2[cid]||[]).filter(b=>!b.adv||b.adv===adv); }
 function buildTraitGraph2(cid,adv){
   const brs=traitBranches(cid,adv); const N=brs.length; const nodes=[]; const nmc={};
@@ -4811,17 +5549,24 @@ function buildTraitGraph2(cid,adv){
   const put=(n,r,a,extra)=>{ const o=Object.assign({},fill(n),{x:Math.round(r*Math.cos(a)),y:Math.round(r*Math.sin(a)),adj:[],row:Math.round((r-R0)/STEP)+1},extra); nodes.push(o); return o; };
   const link=(p,q)=>{ p.adj.push(q.key); q.adj.push(p.key); };
   brs.forEach((B,bi)=>{ const a0=-Math.PI/2+bi*(2*Math.PI/N); const id=cid+"_"+B.id;
-    const pool=B.pool.split(" "); let pi=0; const minor=()=>{ const K=MIN_KEY[pool[pi++%pool.length]]; return MIN_OF[K](mname(K)); };
+    const pool=B.pool.split(" "); let pi=0; const minor0=()=>{ const K=MIN_KEY[pool[pi++%pool.length]]; return MIN_OF[K](mname(K)); };
+    /* v0.96 특성 개편: TP[갈래][자리]가 있으면 그 칸으로 바꿈(없으면 원래 칸). 자리 이름 = 칸 열쇠의 끝(e2 · e3 · a1~a4 · aa2/aa4/aa6 …). 문자열이면 같은 갈래의 원래 칸을 이름으로 가져옴 */
+    const TPB=(typeof TP!=="undefined"&&TP[B.id])||null; const orig={}; { const reg=n=>{ if(n&&n.name) orig[n.name]=n; }; reg(B.entS); for(const Ln of B.L){ reg(Ln[0]); reg(Ln[1]); for(const Sb of Ln[2]){ reg(Sb[0]); reg(Sb[1]); reg(Sb[2]); } } }
+    let slotNow=""; const pick=(slot,def)=>{ const v=TPB&&TPB[slot]; if(v==null) return def; if(typeof v==="string"){ const o=orig[v]; return o?o:def; } return v; };
+    const minor=()=>{ const d=minor0(); const v=slotNow&&TPB&&TPB[slotNow]; if(v==null) return d; if(typeof v==="string") return orig[v]||d; return v; };
     // 줄기 3칸(잔·잔·작)
-    const e1=put(minor(),R0,a0,{key:id+"_e1",root:true,br:B.id}), e2=put(minor(),R0+STEP,a0,{key:id+"_e2",br:B.id}), e3=put(B.entS,R0+STEP*2,a0,{key:id+"_e3",br:B.id});
+    slotNow=""; const e1=put(minor(),R0,a0,{key:id+"_e1",root:true,br:B.id}); slotNow="e2"; const e2=put(minor(),R0+STEP,a0,{key:id+"_e2",br:B.id}); slotNow=""; const e3=put(pick("e3",B.entS),R0+STEP*2,a0,{key:id+"_e3",br:B.id});
     link(e1,e2); link(e2,e3);
     // 두 길 4칸(잔·큰①·잔·작) → 길마다 두 가지 6칸(잔·큰·잔·작·잔·★궁극)
     B.L.forEach((Ln,li)=>{ const sgn=li?1:-1; const lk=li?"b":"a"; const big=n=>Object.assign({big:1},n);
-      const seq=[minor(),big(Ln[0]),minor(),Ln[1]]; let prev=e3, last=null;
+      slotNow=lk+"1"; const m1=minor(); slotNow=lk+"3"; const m3=minor(); slotNow="";
+      const seq=[m1,big(pick(lk+"2",Ln[0])),m3,pick(lk+"4",Ln[1])]; let prev=e3, last=null;
       seq.forEach((n,i)=>{ const r=R0+STEP*(3+i), a=a0+sgn*LANE_A*Math.min(1,(i+2)/4); const o=put(n,r,a,{key:`${id}_${lk}${i+1}`,br:B.id,lane:li,pos:i}); link(prev,o); prev=o; last=o; });
       const la=a0+sgn*LANE_A;
-      Ln[2].forEach((Sb,si)=>{ const s2=si?1:-1; const sk=lk+(si?"b":"a"); const seq2=[minor(),big(Sb[0]),minor(),Sb[1],minor(),Sb[2]]; let p2=last;
-        seq2.forEach((n,i)=>{ const r=R0+STEP*(7+i), a=la+s2*SUB_A*Math.min(1,(i+2)/4); const o=put(n,r,a,{key:`${id}_${sk}${i+1}`,br:B.id,lane:li,sub:si,pos:i}); link(p2,o); p2=o; }); });
+      const pair=[];
+      Ln[2].forEach((Sb,si)=>{ const s2=si?1:-1; const sk=lk+(si?"b":"a"); const seq2=[minor(),big(pick(sk+"2",Sb[0])),minor(),pick(sk+"4",Sb[1]),minor(),pick(sk+"6",Sb[2])]; let p2=last;
+        seq2.forEach((n,i)=>{ const r=R0+STEP*(7+i), a=la+s2*SUB_A*Math.min(1,(i+2)/4); const o=put(n,r,a,{key:`${id}_${sk}${i+1}`,br:B.id,lane:li,sub:si,pos:i}); link(p2,o); p2=o; if(i===1) pair.push(o); }); });
+      if(pair.length===2){ pair[0].alt=pair[1].key; pair[1].alt=pair[0].key; }   /* v0.96 택1: 갈림길 첫 큰 칸 둘 중 하나만 */
     });
   });
   const by=new Map(nodes.map(n=>[n.key,n]));
@@ -4870,7 +5615,8 @@ function traitEffects(cid){
   for(const k of taken){ const n=traitNode(cid,k); if(!n) continue;
     for(const e of Object.keys(n.eff)){
       if(e==="flag") for(const f of [].concat(n.eff.flag)){ out.flags[f]=true; const V=TRAIT_VAR[f]; if(V){ out.flags[V[0]]=true; out.flags[V[0]+"_v"]=V[1]; } }
-      else if(e==="skmod") out.skmods.push(n.eff.skmod);
+      else if(e==="skmod") for(const sm of [].concat(n.eff.skmod)) out.skmods.push(sm);   /* v0.96 한 칸이 기술 여러 개를 고칠 수 있음 */
+      else if(e==="tv") for(const [a,b] of Object.entries(n.eff.tv)) out.flags[a]=(+out.flags[a]||0)+b;   /* v0.96 숫자 깃발(같은 깃발은 더함) */
       else if(e==="noSkill") out.noSkill.push(...[].concat(n.eff.noSkill));
       else if(e==="stealth_max1") out.flags.stealth_max1=true;
       else if(TRAIT_NUM.has(e)) out.mult[e]=(out.mult[e]||1)*n.eff[e];
@@ -4884,12 +5630,14 @@ function ksTaken(cid){ const t=traitsTaken(cid); return t.map(k=>traitNode(cid,k
 function traitLinked(cid,n,set){ const t=set||traitsTaken(cid); return !!n.root||n.adj.some(k=>t.includes(k)); }
 function traitForkDead(cid,n){   // 궁극 2택1에서 반대쪽을 골라 닫힌 칸
   const t=traitsTaken(cid);
+  if(n.alt&&t.includes(n.alt)) return true;   /* v0.96 택1 */
   return !!(n.ks&&n.grp&&traitIdx(cid).grp[n.grp].some(x=>x.key!==n.key&&t.includes(x.key)));
 }
 function traitBlockReason(cid,n){
   const t=traitsTaken(cid);
   if(t.includes(n.key)) return "";
   if(!progress.heroes[cid].adv) return `전직 후 사용 가능 — Lv${ADV_LEVEL}부터 파티 탭에서 전직`;
+  if(n.alt&&t.includes(n.alt)){ const o=traitNode(cid,n.alt); return `둘 중 하나만 — 이미 '${o?o.name:""}'을(를) 골랐습니다 (그 칸을 되돌리면 바꿀 수 있음)`; }
   if(traitForkDead(cid,n)){ const o=traitIdx(cid).grp[n.grp].find(x=>t.includes(x.key)); return `이 갈래 끝 궁극은 둘 중 하나 — 이미 '${o.name}'을(를) 골랐습니다 (그 칸을 되돌리면 바꿀 수 있음)`; }
   if(n.ks&&ksTaken(cid).length>=ksMax(cid)) return `궁극은 ${ksMax(cid)}개까지 — 이미 ${ksTaken(cid).map(x=>"'"+x.name+"'").join("·")} (하나를 되돌리면 바꿀 수 있음)`;
   if(!traitLinked(cid,n)) return "이어진 칸이 없음 — 가운데에서부터 길을 이어 와야 합니다";
@@ -5439,7 +6187,7 @@ function migrateProgress(p){
     out.heroes[c]=Object.assign(defaultProgress().heroes[c], (p.heroes||{})[c]||{});
     if(!Array.isArray(out.heroes[c].learned)) out.heroes[c].learned=[];
     if(!Array.isArray(out.heroes[c].traits)) out.heroes[c].traits=[];
-    if(p.traitsVer!==9){ if(out.heroes[c].traits.length) out._traitRefund=true; out.heroes[c].traits=[]; }   // v0.86 특성 나무 다시 짬 → 모두 돌려줌
+    if(p.traitsVer!==10){ if(out.heroes[c].traits.length) out._traitRefund=true; out.heroes[c].traits=[]; }   // v0.96 특성 개편 → 모두 돌려줌(동료는 새 나무로 스스로 다시 찍음)   // v0.86 특성 나무 다시 짬 → 모두 돌려줌
     { const T=out.heroes[c].traits, isU=k=>/_(aa|ab|ba|bb)6$/.test(k); let n=T.filter(isU).length; for(let i=T.length-1;i>=0&&n>KS_MAX;i--) if(isU(T[i])){ T.splice(i,1); n--; } }   // v0.87 궁극 3개 제한 — 넘친 궁극(나중에 찍은 것부터)은 포인트로 돌려줌(궁극은 가지 끝이라 빼도 길이 끊기지 않음)
     const eq=Object.assign({}, out.heroes[c].equip||{});
     if(eq.trinket!==undefined){ eq.amulet=eq.amulet??eq.trinket; delete eq.trinket; }
@@ -5511,7 +6259,7 @@ function migrateProgress(p){
   let dm=0; for(let i=0;i<2;i++) if(out.cl[i][REGION_KEYS[REGION_KEYS.length-1]]>0) dm=i+1;
   out.diffMax=Math.max(dm, typeof p.diffMax==="number"?p.diffMax:0);
   if(typeof out.diff!=="number"||out.diff>out.diffMax||out.diff<0) out.diff=0;
-  out.traitsVer=9;
+  out.traitsVer=10;
   out.autoRules=typeof p.autoRules==="number"?p.autoRules:0;
   // v0.11: 주인공·로스터·출전 파티 (예전 세이브는 3명 모두 보유·출전, 주인공은 첫 실행 때 지정)
   const pg=p.protag;
@@ -5818,7 +6566,7 @@ class Sim {
     this.units=[...party,...enemies]; this.events=[]; this.turn=0;
     this.seed=seed>>>0; this.rand=mulberry32(this.seed);
     for(const u of this.units){ u.buffs={}; u.dots={}; u.taunted_by=""; u._half=false; u._saidDefeat=false;
-      u._lampUsed=false; u._undyingUsed=false; u._iceUsed=false; u._acted=false; u._cd=null; u._ffUsed=false; if(!u.traits) u.traits={};
+      u._lampUsed=false; u._undyingUsed=false; u._iceUsed=false; u._acted=false; u._cd=null; u._ffUsed=false; if(!u.traits) u.traits={}; u._txNext=0; u._txNextUsed=false; u._rot=null; u._txRegen=null; u._txCut=null; u._txHitN=0;
       u.shield=(u.startShield?Math.floor(u.hp_max*u.startShield):0)+(u.traits&&u.traits.reso_shield?Math.floor(u.hp_max*0.03*u.traits.reso_shield):0); u._rampage=0; u._angelUsed=false; u._kills=0; u._countering=false; u._fell=false; u._ledger=0; u._starUsed=false;
       u._combo=0; u._coat=0; u._vanishUsed=false; u._comboKill=0; u._restealth=false; u._critCombo=0; u._oathHit=false; u._oathDone=false; u._kingStk=0;
       u._killsTotal=0; u._bossKills=0; u._critsTotal=0; u._healDone=0; u._dmgTaken=0; u._counters=0; u._lastCrit=false; u._critNow=false;
@@ -5861,6 +6609,104 @@ class Sim {
   noteDeb(att,def,kind){ if(!att||!def||att.side===def.side) return; const m=def._debBy||(def._debBy={}); (m[kind]||(m[kind]={}))[att.id]=this.turn; }
   rxOther(att,def,kinds){ const m=def&&def._debBy; if(!m) return false; return kinds.some(k=>Object.entries(m[k]||{}).some(([id,t])=>id!==att.id&&this.turn-t<=3)); }
   isWeak(u){ return !!(u.buffs.atk&&u.buffs.atk.value<0); }
+  /* ===== v0.96 특성 공통 효과(tx) — 기술에 붙는 작은 규칙. 특성이 skmod set:{"tx.…"}로 켠다 =====
+     tx.amp{상태:배율}  그 상태인 적에게 이 기술 피해 · tx.crit{상태:확률}  그 상태인 적에게 이 기술 치명타
+     tx.hit{…}          맞힌 적마다(표식 · 신속 감소 · 회복 · 처치 보상 · 번짐) · tx.c{…}  쓸 때 한 번(아군 보호막·회복·버프 · 적 전체 상태이상) */
+  stHas(u,st){ switch(st){ case "stun": return !!u.buffs.stun; case "air": return this.isAir(u); case "cc": return !!u.buffs.stun||this.isAir(u); case "weak": return this.isWeak(u); case "vuln": return this.vulnOf(u)>0;
+      case "burn": return !!u.dots.burn; case "poison": return !!u.dots.poison; case "poison3": return !!(u.dots.poison&&u.dots.poison.stacks>=3); case "poison5": return !!(u.dots.poison&&u.dots.poison.stacks>=5);
+      case "cold": return this.coldOf(u)>0; case "cold2": return this.coldOf(u)>=2; case "slow": return !!(u.buffs.slow&&this.turn<=u.buffs.slow.until); case "prey": return !!u.buffs.prey; case "mark": return !!u.buffs.mark;
+      case "blind": return !!u.buffs.blind; case "low": return this.hpPct(u)<=35; case "half": return this.hpPct(u)<=50; case "boss": return !!(u.boss||u.isBossKind); case "back": return u.row==="back"; case "any": return this.hasStatus(u);
+      case "sigil": return !!u.buffs.sigil; case "decay": return !!u.buffs.decay; case "mock": return !!u.buffs.sg_mock; case "exp": return !!u.buffs.texp; case "frozen": return !!(u.buffs.stun&&u.buffs.stun.frozen); } return false; }
+  txAmp(att,def,skill){ let m=1; const X=skill&&skill.tx; if(att.side===def.side) return 1;
+    if(X){ if(X.amp) for(const k in X.amp) if(this.stHas(def,k)) m*=1+X.amp[k];
+      if(X.self){ const S=X.self; if(S.low&&this.hpPct(att)<=50) m*=1+S.low; if(S.high&&this.hpPct(att)>=80) m*=1+S.high; if(S.momMax&&(att.momMax||0)>0&&(att._momBefore!=null?att._momBefore:att._mom||0)>=att.momMax) m*=1+S.momMax; if(S.mom&&(att.momMax||0)>0) m*=1+S.mom*(att._momBefore!=null?att._momBefore:att._mom||0); if(S.combo5&&(att._comboBefore||att._combo||0)>=5) m*=1+S.combo5; if(S.stealth&&att.buffs.stealth) m*=1+S.stealth; }
+      if(X.solo&&this._txTargets===1) m*=1+X.solo; }
+    const E=def.buffs.texp; if(E&&E.dmg) m*=1+E.dmg;
+    if(att.buffs.tatk) m*=1+att.buffs.tatk.value;
+    if(att._txNext&&skill&&skill.type==="damage"){ m*=1+att._txNext; att._txNextUsed=true; }
+    for(const b of this.units) if(b.alive&&b.side===att.side&&b.tvsD) for(const [st,v] of b.tvsD) if(this.stHas(def,st)) m*=1+v;
+    if(att.tvsS) for(const [st,v] of att.tvsS) if(this.stHas(def,st)) m*=1+v;
+    return m; }
+  txCrit(att,def,skill){ let c=0; const X=skill&&skill.tx; if(att.side===def.side) return 0;
+    if(X&&X.crit) for(const k in X.crit) if(this.stHas(def,k)) c+=X.crit[k];
+    const E=def.buffs.texp; if(E&&E.crit) c+=E.crit;
+    for(const b of this.units) if(b.alive&&b.side===att.side&&b.tvsC) for(const [st,v] of b.tvsC) if(this.stHas(def,st)) c+=v;
+    return c; }
+  txShield(t,v,fx,label){ if(!t.alive||!(v>0)) return; const cap=Math.floor(t.hp_max*0.4), add=Math.floor(t.hp_max*v), bf=t.shield||0; t.shield=Math.min(cap,bf+add); if(t.shield>bf) fx.push(this.fxBuff(t,`${label} — 보호막`)); }
+  txHeal(t,v,fx,label){ if(!t.alive||!(v>0)||t.hp>=t.hp_max) return; const hv=Math.max(1,Math.floor(t.hp_max*v)); t.hp=Math.min(t.hp_max,t.hp+hv); fx.push({target:t.id,kind:"heal",amount:hv,crit:false,killed:false,hp:t.hp,mp:t.mp,label}); }
+  txMp(t,n,fx,label){ if(!t.alive||!(n>0)||!(t.mp_max>0)||t.mp>=t.mp_max) return; t.mp=Math.min(t.mp_max,t.mp+n); fx.push({target:t.id,kind:"mp",amount:n,crit:false,killed:false,hp:t.hp,mp:t.mp,label}); }
+  txBuff(t,key,o,fx,label){ if(!t.alive||!o) return; const b=t.buffs[key]; if(b&&Math.abs(b.value)>=Math.abs(o.v)&&b.turns>=(o.t||2)) return; t.buffs[key]={turns:o.t||2,value:o.v}; if(label) fx.push(this.fxBuff(t,label)); }
+  txExpose(att,def,o,fx,label){ if(!def.alive||!o) return; const b=def.buffs.texp||{}; def.buffs.texp={turns:Math.max(o.t||2,b.turns||0),dmg:Math.max(o.dmg||0,b.dmg||0),crit:Math.max(o.crit||0,b.crit||0)}; if(!b.turns) fx.push(this.fxBuff(def,`${label} — 틈${o.dmg?` · 받는 피해 +${Math.round(o.dmg*100)}%`:""}${o.crit?` · 치명타 +${Math.round(o.crit*100)}%p`:""}`)); this.noteDeb(att,def,"exp"); }
+  txWho(u,who){ const al=this.allies(u); switch(who){ case "back": return al.filter(a=>a.row==="back"); case "front": return al.filter(a=>a.row==="front"); case "lane": return al.filter(a=>a.lane===u.lane); case "others": return al.filter(a=>a!==u); case "laneBack": return al.filter(a=>a.lane===u.lane&&a!==u); case "self": return [u]; } return al; }
+  /* 맞힌 적마다 */
+  txHit(att,def,skill,r,killed,fx,was){ const X=skill&&skill.tx, H=X&&X.hit; if(!H||att.side===def.side) return; const nm=skill.name;
+    if(!killed&&def.alive){
+      if(H.exp&&(!H.exp.if||this.stHas(def,H.exp.if))) this.txExpose(att,def,H.exp,fx,nm);
+      if(H.spd){ def._spdT=this.turn+(H.spd.t||2); def._spdV=-H.spd.v; fx.push(this.fxBuff(def,`${nm} — 신속 -${H.spd.v}`)); this.noteDeb(att,def,"slow"); }
+      if(H.failVuln&&!(this.vulnOf(def)>=H.failVuln.v)) this.applyStatus(att,def,"vuln",H.failVuln.t||2,H.failVuln.v,"취약",fx);
+      if(H.rot){ def._rot={until:this.turn+(H.rot.t||2),v:(def.boss||def.isBossKind)?(H.rot.b||H.rot.v/3):H.rot.v,src:att.id,label:nm}; fx.push(this.fxBuff(def,`${nm} — 서서히 죽음`)); }
+      if(H.stunIf&&this.stHas(def,H.stunIf.if)&&!def.buffs.stun&&this.rand()<((def.boss||def.isBossKind)?(H.stunIf.b||0):H.stunIf.c)) this.applyStatus(att,def,"stun",1,0,"기절",fx);
+      if(H.weakSure) this.applyChill(att,def,-H.weakSure.v,H.weakSure.t||2,"약화",fx);
+      if(H.poisonSide) for(const f of this.foes(att)) if(f!==def&&f.row===def.row&&Math.abs(f.lane-def.lane)===1) this.addPoison(att,f,H.poisonSide,fx);
+      if(H.nextSkillCut){ def._txCut={until:this.turn+2,v:H.nextSkillCut}; fx.push(this.fxBuff(def,`${nm} — 다음 기술 위력 -${Math.round(H.nextSkillCut*100)}%`)); }
+    }
+    if(att.alive){ if(H.heal) this.txHeal(att,H.heal,fx,nm); if(H.mp) this.txMp(att,H.mp,fx,nm); if(H.mom&&(att.momMax||0)>0) att._mom=Math.min(att.momMax,(att._mom||0)+H.mom); if(H.combo&&att.cls==="rogue") att._combo=Math.min(this.comboMax(att),(att._combo||0)+H.combo);
+      if(H.critRes&&r.crit&&(att.resMax||0)>0) att._res=Math.min(att.resMax,(att._res||0)+H.critRes);
+      if(H.airMom&&was&&was.air&&(att.momMax||0)>0) att._mom=Math.min(att.momMax,(att._mom||0)+H.airMom); }
+    if(killed&&att.alive){ const id=skill.id||skill.name;
+      if(H.killCd&&att._cd&&att._cd[id]>1) att._cd[id]=Math.max(1,att._cd[id]-H.killCd);
+      if(H.killAmmo&&(att.ammoMax||0)>0) att._ammo=Math.min(att.ammoMax,(att._ammo||0)+H.killAmmo);
+      if(H.killCombo&&att.cls==="rogue") att._combo=Math.min(this.comboMax(att),(att._combo||0)+H.killCombo);
+      if(H.killExpMove&&def.buffs.texp){ const o=this.foes(att).filter(f=>f!==def)[0]; if(o) this.txExpose(att,o,def.buffs.texp,fx,nm); } }
+    if(H.splash&&!this._txSplash&&r.dmg>0){ this._txSplash=true; const S=H.splash, fs=this.foes(att).filter(f=>f!==def&&!this.untargetable(f)&&(S.to==="lane"?f.lane===def.lane:S.to==="adj"?(f.row===def.row&&Math.abs(f.lane-def.lane)===1):S.to==="back"?f.row==="back":S.to==="row"?f.row===def.row:true));
+      for(const f of fs) this.hit(f,Math.max(1,Math.floor(r.dmg*S.v)),fx,{label:nm}); this._txSplash=false; }
+    if(H.multiAmmo){ att._txHitN=(att._txHitN||0)+1; } }
+  /* 쓸 때 한 번 */
+  txCast(u,skill,targets,fx){ if(u._txNextUsed){ u._txNext=0; u._txNextUsed=false; }
+    const X=skill&&skill.tx, C=X&&X.c; if(X&&X.hit&&X.hit.multiAmmo&&(u._txHitN||0)>=2&&(u.ammoMax||0)>0) u._ammo=Math.min(u.ammoMax,(u._ammo||0)+X.hit.multiAmmo); u._txHitN=0;
+    if(!C||!u.alive) return; const nm=skill.name, al=this.allies(u), fo=this.foes(u), W=who=>this.txWho(u,who);
+    if(C.selfShield) this.txShield(u,C.selfShield,fx,nm); if(C.selfHeal) this.txHeal(u,C.selfHeal,fx,nm); if(C.selfMp) this.txMp(u,C.selfMp,fx,nm);
+    if(C.selfMom&&(u.momMax||0)>0) u._mom=Math.min(u.momMax,(u._mom||0)+C.selfMom);
+    if(C.selfReso&&(u.resMax||0)>0) u._res=Math.min(u.resMax,(u._res||0)+C.selfReso);
+    if(C.selfCombo&&u.cls==="rogue") u._combo=Math.min(this.comboMax(u),(u._combo||0)+C.selfCombo);
+    if(C.selfDef) this.txBuff(u,"def",C.selfDef,fx,`${nm} — 받는 피해 -${Math.round(C.selfDef.v*100)}%`);
+    if(C.selfAtk) this.txBuff(u,"tatk",C.selfAtk,fx,`${nm} — 주는 피해 ${C.selfAtk.v>0?"+":""}${Math.round(C.selfAtk.v*100)}%`);
+    if(C.selfRes) this.txBuff(u,"resup",C.selfRes,fx,`${nm} — 상태이상 회피 +${Math.round(C.selfRes.v*100)}%p`);
+    if(C.selfCtr) this.txBuff(u,"ctrup",C.selfCtr,fx,`${nm} — 반격 확률 +${Math.round(C.selfCtr.v*100)}%p`);
+    if(C.selfStealth&&!u.buffs.stealth) this.goStealth(u,C.selfStealth,nm,fx);
+    if(C.next) u._txNext=Math.min(C.nextMax||C.next,(u._txNext||0)+C.next); if(C.nextCrit) u._critNextP=1;
+    if(C.shield) for(const a of W(C.shield.who)) this.txShield(a,C.shield.v,fx,nm);
+    if(C.heal) for(const a of W(C.heal.who)) this.txHeal(a,C.heal.v,fx,nm);
+    if(C.mp) for(const a of W(C.mp.who)) this.txMp(a,C.mp.v,fx,nm);
+    if(C.def) for(const a of W(C.def.who)) this.txBuff(a,"def",C.def,fx,`${nm} — 받는 피해 -${Math.round(C.def.v*100)}%`);
+    if(C.atk) for(const a of W(C.atk.who)) this.txBuff(a,"rally",C.atk,fx,`${nm} — 공격력 +${Math.round(C.atk.v*100)}%`);
+    if(C.critUp) for(const a of W(C.critUp.who)) this.txBuff(a,"focus",C.critUp,fx,`${nm} — 치명타 +${Math.round(C.critUp.v*100)}%p`);
+    if(C.res) for(const a of W(C.res.who)) this.txBuff(a,"resup",C.res,fx,`${nm} — 상태이상 회피 +${Math.round(C.res.v*100)}%p`);
+    if(C.spd) for(const a of W(C.spd.who)){ a._spdT=this.turn+(C.spd.t||2); a._spdV=C.spd.v; fx.push(this.fxBuff(a,`${nm} — 신속 +${C.spd.v}`)); }
+    if(C.gauge) for(const a of W(C.gauge.who)) a._ag=(a._ag||0)+C.gauge.v;
+    if(C.purify) for(const a of W(C.purify.who)) for(let i=0;i<(C.purify.n||1);i++){ const g=this.cleanseOne(a); if(!g) break; fx.push(this.fxBuff(a,`${nm} — ${g} 해제`)); }
+    if(C.dealt) for(const a of W(C.dealt.who)) this.txBuff(a,"tatk",C.dealt,fx,`${nm} — 주는 피해 +${Math.round(C.dealt.v*100)}%`);
+    if(C.follow&&targets[0]&&targets[0].alive&&targets[0].side!==u.side&&!this._following&&this.rand()<C.follow.c) this.followUp(u,targets[0],fx,nm,C.follow.m);
+    if(C.nextAmp) for(const a of W(C.nextAmp.who)){ a._txNext=Math.max(a._txNext||0,C.nextAmp.v); fx.push(this.fxBuff(a,`${nm} — 다음 공격 +${Math.round(C.nextAmp.v*100)}%`)); }
+    /* 이 기술이 고른 아군에게 */
+    if(C.t) for(const t of targets) if(t&&t.alive&&t.side===u.side){ const Tt=C.t; if(Tt.shield) this.txShield(t,Tt.shield,fx,nm); if(Tt.heal) this.txHeal(t,Tt.heal,fx,nm); if(Tt.mp) this.txMp(t,Tt.mp,fx,nm);
+      if(Tt.def) this.txBuff(t,"def",Tt.def,fx,`${nm} — 받는 피해 -${Math.round(Tt.def.v*100)}%`); if(Tt.res) this.txBuff(t,"resup",Tt.res,fx,`${nm} — 상태이상 회피 +${Math.round(Tt.res.v*100)}%p`); if(Tt.atk) this.txBuff(t,"rally",Tt.atk,fx,`${nm} — 공격력 +${Math.round(Tt.atk.v*100)}%`);
+      if(Tt.critUp) this.txBuff(t,"focus",Tt.critUp,fx,`${nm} — 치명타 +${Math.round(Tt.critUp.v*100)}%p`); if(Tt.dealt) this.txBuff(t,"tatk",Tt.dealt,fx,`${nm} — 주는 피해 +${Math.round(Tt.dealt.v*100)}%`); if(Tt.purify){ const g=this.cleanseOne(t); if(g) fx.push(this.fxBuff(t,`${nm} — ${g} 해제`)); }
+      if(Tt.regen){ t._txRegen={until:this.turn+(Tt.regen.t||2),v:Tt.regen.v,label:nm}; } }
+    if(C.regen) for(const a of W(C.regen.who)) if(a.alive) a._txRegen={until:this.turn+(C.regen.t||2),v:C.regen.v,label:nm};
+    /* 이 기술이 고른 적에게 */
+    if(C.tFoe) for(const f of targets) if(f&&f.alive&&f.side!==u.side){ const Q=C.tFoe; if(Q.exp) this.txExpose(u,f,Q.exp,fx,nm); if(Q.weak) this.applyChill(u,f,-Q.weak.v,Q.weak.t||2,"약화",fx); if(Q.vuln&&!(this.vulnOf(f)>=Q.vuln.v)) this.applyStatus(u,f,"vuln",Q.vuln.t||2,Q.vuln.v,"취약",fx); if(Q.cold) this.applyCold(u,f,Q.cold,fx); if(Q.poison) this.addPoison(u,f,Q.poison,fx); if(Q.spd){ f._spdT=this.turn+(Q.spd.t||2); f._spdV=-Q.spd.v; } if(Q.blind) this.applyStatus(u,f,"blind",Q.blind.t||2,0,"실명",fx); }
+    /* 적 전체(또는 이 기술이 고른 적) */
+    const FO=C.onTargets?targets.filter(t=>t&&t.alive&&t.side!==u.side):fo;
+    if(C.foeWeak) for(const f of FO) if(!C.foeWeak.c||this.rand()<C.foeWeak.c) this.applyChill(u,f,-C.foeWeak.v,C.foeWeak.t||2,"약화",fx);
+    if(C.foeStun) for(const f of FO) if(!f.buffs.stun&&this.rand()<((f.boss||f.isBossKind)?(C.foeStun.b||0):C.foeStun.c)) this.applyStatus(u,f,"stun",1,0,"기절",fx);
+    if(C.foeBlind) for(const f of FO) if(!C.foeBlind.unstunned||!f.buffs.stun) if(!C.foeBlind.c||this.rand()<C.foeBlind.c) this.applyStatus(u,f,"blind",C.foeBlind.t||2,0,"실명",fx);
+    if(C.foeVuln) for(const f of FO) if(!(this.vulnOf(f)>=C.foeVuln.v)) this.applyStatus(u,f,"vuln",C.foeVuln.t||2,C.foeVuln.v,"취약",fx);
+    if(C.foeCold) for(const f of FO) this.applyCold(u,f,C.foeCold,fx);
+    if(C.foePoison) for(const f of FO) this.addPoison(u,f,C.foePoison,fx);
+    if(C.foeExp) for(const f of FO) this.txExpose(u,f,C.foeExp,fx,nm);
+    if(C.foeSpd) for(const f of FO){ f._spdT=this.turn+(C.foeSpd.t||2); f._spdV=-C.foeSpd.v; }
+    if(C.foeDmg&&!this._txFoeDmg){ this._txFoeDmg=true; const S=Object.assign({},this.skillOf(u,u.skills[0]),{power:C.foeDmg.v,name:nm,tx:null}); const L=C.foeDmg.front?fo.filter(f=>f.row==="front").slice(0,1):fo; for(const f of (L.length?L:fo.slice(0,1))) if(f.alive){ const r=this.calcDamage(u,f,S); this.hit(f,r.dmg,fx,{crit:r.crit,label:nm}); } this._txFoeDmg=false; } }
   onDebuff(att,def,kind){
     this.noteDeb(att,def,kind);
     if(!def.alive) return;
@@ -6179,7 +7025,7 @@ class Sim {
     if(st==="freeze"&&!this.resolveTargets(u,skill,0).length) return false;
     if(st==="regen"&&!this.allies(u).some(a=>a.hp<a.hp_max&&!a.dots.regen)) return false;
     if(st==="drum"&&this.allies(u).length<2) return false;
-    if(st==="laugh"&&!this.allies(u).some(a=>a.buffs.stun&&!a.buffs.stun.frozen)) return false;
+    if(st==="laugh"&&!this.allies(u).some(a=>a.buffs.stun&&!a.buffs.stun.frozen)&&!(skill.tx&&skill.tx.c)) return false;   // v0.96 웃음 폭탄 특성을 찍으면 기절한 아군이 없어도 쓸 수 있음(쿨타임 2턴)
     if(st==="debuff"&&skill.one&&skill.weak&&this.foes(u).every(f=>f.buffs.atk&&f.buffs.atk.value<=skill.weak.value)&&!skill.coldAll) return false;
     // v0.89 새 기술: 이미 걸려 있으면 다시 쓰지 않음
     if(st==="ctrup"&&u.buffs.ctrup) return false;
@@ -6330,6 +7176,8 @@ class Sim {
     if(skill.markAirAmp&&(dm||this.isAir(def))) base*=1+skill.markAirAmp;
     if(skill.vulnAmp&&dm) base*=1+skill.vulnAmp;   // v0.89
     if(skill.frozenAmp&&def.buffs.stun&&def.buffs.stun.frozen) base*=1+skill.frozenAmp;
+    base*=this.txAmp(att,def,skill);   // v0.96 특성 공통 효과
+    if(att._txCut&&att._txCut.until>=this.turn&&isSk(skill)){ base*=1-att._txCut.v; att._txCut=null; }
     if(att.buffs.surge&&isSk(skill)) base*=1+att.buffs.surge.value;
     if(att._str18&&skill.type==="damage"&&this.rand()<0.10) base*=1.3;   // 힘 18 괴력
     if(skill.ccAmp&&this.ccd(def)) base*=1+skill.ccAmp;
@@ -6346,7 +7194,7 @@ class Sim {
     if(T.mark_plus&&dm) base*=1.08;
     if(T.back_penalty&&def.row==="back"&&skill.ammo) base*=0.8;
     if(dm&&this.units.some(x=>x.alive&&x.side===att.side&&x.traits&&x.traits.mark_song)) base*=1.08;
-    let cc=att.crit; if(att._countering&&T.counter_king) cc+=0.25;
+    let cc=att.crit; if(att._countering&&T.counter_king) cc+=0.25; if(att._countering&&T.ctr_crit) cc+=T.ctr_crit;
     if(this.hasPassive(att,"opportunist")) cc+=T.opportunist_plus?0.15:0.10;   // v0.92 급소 감각: 치명타 +10%
     if(dm) cc+=0.10; if(skill.critPlus) cc+=skill.critPlus; if(att._critNextP&&skill.type==="damage"){ cc+=att._critNextP; att._critNextP=0; } if(aim&&T.aim_crit) cc+=0.05*aim; if(att.buffs.focus) cc+=att.buffs.focus.value;
     /* v0.86 치명타 가산 */
@@ -6366,6 +7214,7 @@ class Sim {
     if(att.buffs.blessed_crit) cc+=0.1;
     if(skill.mods&&skill.mods.crit) cc+=skill.mods.crit;
     for(const ca of (att.condAffixes||[])){ if(ca.k==="c_lone_crit"&&this.foes(att).length===1) cc+=ca.v/100; if(ca.k==="c_back_crit"&&att.row==="back") cc+=ca.v/100; }
+    cc+=this.txCrit(att,def,skill);   // v0.96
     const crit=this.rand()<cc||sneak||!!(T.sun_crit&&def.dots&&def.dots.burn)||!!(skill.execCrit&&this.hpPct(def)<=skill.execCrit)||!!(skill.vulnCrit&&dm)||!!(skill.synCrit&&(def.buffs.stun||this.isAir(def)))||!!(skill.rxCrit&&def.buffs.stun&&this.rxOther(att,def,["cc"]));   // v0.94 꿰뚫는 화살 연계
     if(crit){ let cm=(att.critDmg||1.5)+(this.hasPassive(att,"assassin_mark")?0.25:0)+(T.arcane_crit?0.7:0)+(T.crit_dmg||0)+(T.magic_bullet?(T.magic_bullet_v||0.7):0); if(def.critRes) cm=1+(cm-1)*(1-def.critRes); base*=cm; if(att._luk18&&this.rand()<0.2) base*=1.5; }   // 행운 18 회심
     else if(T.noncrit_mult) base*=T.noncrit_mult;   // v0.85 마탄의 대가
@@ -6661,6 +7510,15 @@ class Sim {
     }
     return e;
   }
+  /* v0.96 반격 뒤 특성: 틈 · 마나 · 다음 기술 · 보호막 · 회복 */
+  afterCounter(def,att,fx){ const D=def.traits||{}; if(!def.alive) return;
+    if(D.ctr_expose&&att.alive) this.txExpose(def,att,{dmg:D.ctr_expose,t:2},fx,"빈틈 찌르기");
+    if(D.ctr_mp) this.txMp(def,D.ctr_mp,fx,"반격 회복");
+    if(D.ctr_next) def._txNext=Math.min(D.ctr_next*2,(def._txNext||0)+D.ctr_next);
+    if(D.ctr_shield) this.txShield(def,D.ctr_shield,fx,"반격");
+    if(D.ctr_heal) this.txHeal(def,D.ctr_heal,fx,"반격");
+    if(D.ctr_stun&&att.alive&&!att.buffs.stun&&this.rand()<((att.boss||att.isBossKind)?D.ctr_stun*0.4:D.ctr_stun)) this.applyStatus(def,att,"stun",1,0,"기절",fx);
+    if(D.ctr_mom&&(def.momMax||0)>0) def._mom=Math.min(def.momMax,(def._mom||0)+D.ctr_mom); }
   doCounter(def,att,fx){
     const D=def.traits||{};
     const cs=D.riposte?COUNTER_STRONG:this.hasPassive(def,"counter25")?COUNTER_KNIGHT:SKILLS.basic_attack;   // v0.92 반격 본능: 반격 80%
@@ -6675,6 +7533,7 @@ class Sim {
     this._actor=prevA; this._countering=false;
     sub[0].kind="counter"; sub[0].by=def.id; sub[0].crit=cr.crit; sub[0].killed=k2;
     fx.push(...sub);
+    this.afterCounter(def,att,fx);   // v0.96
     if(D.counter_guard) def._ctrGuardT=this.turn;   // v0.85 반격의 기세: 이 턴 받는 피해 -20%
     if(k2&&D.counter_kill_mom&&(def.momMax||0)>0) def._mom=Math.min(def.momMax,(def._mom||0)+2);   // 응징
     if(D.twin_strike&&att.alive&&!this._dblCtr){ this._dblCtr=true; const c2=this.calcDamage(def,att,Object.assign({},cs,{power:(cs.power||1)*0.65})); const s2=[]; this._actor=def; this.hit(att,c2.dmg,s2,{label:"검의 길"}); this._actor=prevA; fx.push(...s2); this._dblCtr=false; }
@@ -6699,7 +7558,7 @@ class Sim {
     let parryCut=0;
     if(def.buffs.parry&&skill.range==="melee"&&!this._countering&&att.side!==def.side&&def.alive){ const P=def.buffs.parry; P.n--; if(P.n<=0) delete def.buffs.parry; const big=!!(att.isBossKind||att.boss);
       if(big) parryCut=PARRY_BOSS_CUT; fx.push({target:def.id,kind:big?"buff":"miss",amount:0,crit:false,killed:false,hp:def.hp,mp:def.mp,label:big?`흘려 막음 — 피해 -${Math.round(PARRY_BOSS_CUT*100)}%`:"막음"});
-      if(att.alive){ const cr=this.calcDamage(def,att,Object.assign({},SKILLS.basic_attack,{power:P.power||1.3,range:"melee"})); const pa=this._actor; this._actor=def; this._countering=true; const sub=[]; this.hit(att,cr.dmg,sub,{crit:cr.crit,label:"되받아치기"}); if(sub[0]){ sub[0].kind="counter"; sub[0].by=def.id; } fx.push(...sub); this._countering=false; this._actor=pa; def._counters=(def._counters||0)+1; }
+      if(att.alive){ const cr=this.calcDamage(def,att,Object.assign({},SKILLS.basic_attack,{power:P.power||1.3,range:"melee"})); const pa=this._actor; this._actor=def; this._countering=true; const sub=[]; this.hit(att,cr.dmg,sub,{crit:cr.crit,label:"되받아치기"}); if(sub[0]){ sub[0].kind="counter"; sub[0].by=def.id; } fx.push(...sub); this._countering=false; this._actor=pa; def._counters=(def._counters||0)+1; this.afterCounter(def,att,fx); if(def.traits&&def.traits.parry_stun&&att.alive&&!att.buffs.stun&&this.rand()<(big?def.traits.parry_stun*0.4:def.traits.parry_stun)) this.applyStatus(def,att,"stun",1,0,"기절",fx); }
       if(!parryCut) return; if(!att.alive) return; }
     if(!sneak0&&!this._countering){
       const mkA=att.buffs.sg_mock?((att.buffs.sg_mock.acc||0)+(this.songBards(def.side,"mock_blind").length?0.05:0)):0;   // v0.92 조롱의 노래: 그 적의 명중 -8%
@@ -6728,6 +7587,7 @@ class Sim {
     if(r.sneak&&att.traits&&att.traits.death_shadow&&!att._dsUsed&&def.alive){ att._dsUsed=true; if(!(def.boss||def.isBossKind)&&this.hpPct(def)<=(att.traits.death_shadow_v?att.traits.death_shadow_v*100:25)){ r.dmg=def.hp+(def.shield||0); fx.push(this.fxBuff(def,"죽음의 그림자 — 즉사")); } else if(def.boss||def.isBossKind) r.dmg*=att.traits.death_shadow_v?1.5:2; }   // v0.85
     const killed=this.hit(def,r.dmg,fx,{crit:r.crit,label:r.sneak?"그림자 일격":undefined});
     const T=att.traits||{}, D=def.traits||{};
+    if(!killed&&D.taunt_mp&&def.buffs.taunt&&att.side!==def.side) this.txMp(def,D.taunt_mp,fx,"버팀의 대가");   // v0.96
     if(!killed&&def.buffs.prey&&this.multiHit(skill)&&att.side!==def.side){ const P=def.buffs.prey; P.stk=Math.min(Math.round((P.cap||0.3)/(P.value||0.03)),(P.stk||0)+1); }   // v0.92 사냥감: 다단 히트 한 발마다 +1
     /* ---- v0.26 자원·연계 ---- */
     if((att.momMax||0)>0) att._mom=Math.min(att.momMax,(att._mom||0)+1);   // v0.92 흐름: 때릴 때마다 기세 +1
@@ -6768,7 +7628,7 @@ class Sim {
     if(killed&&r.sneak&&T.restealth) att._restealth=true;
     if(r.sneak&&T.sneak_haste){ att._spdT=this.turn+2; att._spdV=4; }   /* v0.86 그림자 추격 */
     if(killed&&pzBefore&&!skill.detonate) this.spreadPoison(def,pzBefore,fx);
-    if(!killed&&skill.detonate) delete def.dots.poison;
+    if(!killed&&skill.detonate){ if(skill.keepHalf&&def.dots.poison&&def.dots.poison.stacks>1) def.dots.poison.stacks=Math.floor(def.dots.poison.stacks/2); else delete def.dots.poison; }   // v0.96 터뜨리기: 독을 절반만 씀
     if(skill.detonate&&pzBefore) for(const f of this.foes(att)) if(f!==def) this.addPoison(att,f,T.burst_spread3?3:2,fx);
     if(r.crit&&this.hasPassive(att,"opportunist")) att._critCombo=(att._critCombo||0)+1;
     if(r.crit){ const T2=att.traits||{};
@@ -6825,6 +7685,7 @@ class Sim {
     if(skill.mods&&skill.mods.ls>0&&att.alive&&att.hp<att.hp_max){ const amt=Math.max(1,Math.floor(r.dmg*skill.mods.ls)); att.hp=Math.min(att.hp_max,att.hp+amt);
       fx.push({target:att.id,kind:"heal",amount:amt,crit:false,killed:false,hp:att.hp,mp:att.mp,label:"흡혈(숙련)"}); }
     if(killed&&skill.mods&&skill.mods.killmp&&att.alive&&att.mp<att.mp_max){ att.mp=Math.min(att.mp_max,att.mp+skill.mods.killmp); fx.push({target:att.id,kind:"mp",amount:skill.mods.killmp,crit:false,killed:false,hp:att.hp,mp:att.mp}); }
+    this.txHit(att,def,skill,r,killed,fx,{air:wasAir,stun:wasStun,weak:wasChilled});   // v0.96 특성 공통 효과(맞힌 적마다)
     if(T.extra_hit&&def.alive&&att.alive&&!this._extraHit&&skill.type==="damage"&&this.rand()<T.extra_hit){
       this._extraHit=true; const r2=this.calcDamage(att,def,Object.assign({},this.skillOf(att,att.skills[0]),{power:0.4})); this.hit(def,r2.dmg,fx,{crit:r2.crit,label:"소매칼"}); this._extraHit=false; }
     if(!killed&&T.freeze&&chilledBefore&&!def.buffs.stun&&!this.ccImmune(def)&&this.rand()<(def.boss?0.14:0.28)){ def.buffs.stun={turns:2,value:0}; fx.push(this.fxBuff(def,"얼음 감옥(행동 불능)")); this.onDebuff(att,def,"cc"); }
@@ -6941,6 +7802,9 @@ class Sim {
   emitAuto(u,fx,name){ if(fx.length) this.events.push({type:"action",auto:true,actor:u.id,actorName:u.name,side:u.side,ruleNo:0,ruleText:"",skillName:name,actorMp:u.mp,effects:fx}); }
   dotThreshold(u){ if(!u.alive) return; const fx=[]; this.lowHpChecks(u,fx); this.emitAuto(u,fx,"위기 효과"); }
   applyDots(u){
+    if(u._rot&&u.alive){ if(u._rot.until<this.turn) u._rot=null; else { const dmg=Math.max(1,Math.floor(u.hp_max*u._rot.v)); this._mtCtx={a:u._rot.src,s:u._rot.label}; u.hp=Math.max(0,u.hp-dmg); this._mtCtx=null; let killed=u.hp<=0; const saved=killed?this.preventDeath(u):null; if(saved) killed=false;
+        if(killed){ u.alive=false; u.taunted_by=""; this.fellTurn[u.id]=this.turn; } if(killed||saved) u._fell=true; u._dmgTaken=(u._dmgTaken||0)+dmg; this.events.push({type:"dot",target:u.id,amount:dmg,hp:u.hp,mp:u.mp,killed,label:u._rot.label}); } }   // v0.96 특성: 서서히 죽음
+    if(u._txRegen&&u.alive){ if(u._txRegen.until<this.turn) u._txRegen=null; else if(u.hp<u.hp_max){ const hv=Math.max(1,Math.floor(u.hp_max*u._txRegen.v)); u.hp=Math.min(u.hp_max,u.hp+hv); this.events.push({type:"regen",target:u.id,amount:hv,hp:u.hp,mp:u.mp,label:u._txRegen.label}); } }   // v0.96 특성: 이어지는 회복
     const pz=u.dots.poison;
     if(pz&&u.alive){
       const dmg=Math.max(1,Math.round(pz.per*pz.stacks*(1-this.erOf(u,"poison")/100)));   // v0.95 독 저항
@@ -7027,7 +7891,7 @@ class Sim {
     if(!targets.length){ this.events.push({type:"log",text:`${u.name}: 행동할 대상이 없다.`}); return; }
     if(u._revLock){ u._revLock=false; if(this.law&&this.lawOn("reverse")&&targets.some(t=>t.side!==u.side)){ this.events.push({type:"log",text:`🔄 역전 — 치유받은 ${u.name}은(는) 이번 차례에 공격하지 못한다.`}); return; } }   // v0.59
     if(skill.leapLand&&u.buffs.leap){ delete u.buffs.leap; u._leapSkill=null; }   // v0.92 용의 도약: 내려오면 다시 맞을 수 있음
-    u._mpBefore=u.mp; u._kills=0; this._actor=u; this._acting=u; this._curSkill=skill; this._curSkillId=skill.id; u._critNow=false;
+    u._mpBefore=u.mp; u._kills=0; u._momBefore=u._mom; u._comboBefore=u._combo; this._txTargets=targets.length; this._actor=u; this._acting=u; this._curSkill=skill; this._curSkillId=skill.id; u._critNow=false;
     const momFull=!!(u.traits&&u.traits.mushin&&(u.momMax||0)>0&&(u._mom||0)>=u.momMax);   // v0.85 무아지경
     if(u.side==="party"&&skill.id){ u._skillUse[skill.id]=(u._skillUse[skill.id]||0)+1; }
     const fx=[];
@@ -7300,6 +8164,7 @@ class Sim {
         const dmg=Math.max(1,Math.floor(healedTotal*0.7));
         this.hit(f,dmg,fx,{label:"징벌의 기도"}); }
     }
+    this.txCast(u,skill,targets,fx);   // v0.96 특성 공통 효과(쓸 때 한 번)
     /* ---- v0.26 행동 마무리: 장전 소모·조준·추격·자원 표시·메아리 기록 ---- */
     if(skill.type==="damage"&&skill.ammo) u._loaded=false;
     if(this.hasPassive(u,"aim_eye")&&skill.type==="damage") u._aim=0;   // v0.92 조준: 공격하면 모두 씀(매 턴 +1은 턴 시작에)
@@ -7676,7 +8541,8 @@ function heroDerived(cid){
   const traits=Object.assign({counter:tr.counter+((off&&off.flags.counter)||0), mp_regen:stats.regen, heal_pct:stats.heal, crit_dmg:0, lifesteal:stats.ls,
     heal_mult:wm.heal_mult||1, aoe_mult:wm.aoe_mult||1, skill_amp:(off&&off.flags.skill_amp)||0, dmg_cut:(off&&off.flags.dmg_cut)||0, extra_hit:(off&&off.flags.extra_hit)||0,
     buff_dur:wm.buffDur||0, shield_pct:stats.shieldp+(tr.shield_pct||0)}, tr.flags);
-  traits.dmg_cut=(traits.dmg_cut||0)+0.004*(P.con-10);   // v0.89 체질 1당 받는 피해 -0.4%(10 기준)
+  traits.dmg_cut=(traits.dmg_cut||0)+0.004*(P.con-10);
+  if(P.con>=STAT_CAP) traits.dmg_cut=(traits.dmg_cut||0)+CON18_CUT;   // v0.96 체질 18 특혜: 받는 피해 -5%   // v0.89 체질 1당 받는 피해 -0.4%(10 기준)
   for(const f of (wm.flags||[])) traits[f]=true;
   for(const [k,v] of Object.entries(tr.mult||{})) traits[k]=v; if(tr.mp_cost) traits.mp_cost=tr.mp_cost; if(tr.mp_cost_heal) traits.mp_cost_heal=tr.mp_cost_heal; if(tr.heal_taken) traits.heal_taken=tr.heal_taken;   // v0.85 특성 배율
   if(tr.res_regen) traits.res_regen=tr.res_regen; if(tr.march_minus) traits.march_minus=tr.march_minus; if(tr.noSkill&&tr.noSkill.length) traits.noSkill=tr.noSkill.slice();
@@ -8409,6 +9275,7 @@ function battleIds(cap){ if(!cap) cap=(typeof runState!=="undefined"&&runState)?
   return ids.slice(0,cap); }
 // v0.94 파티 행동 순서(전투와 같은 규칙: 신속 높은 순 · 같으면 진영 순서) — 전투 중 노래·특성으로 바뀌는 신속은 빼고 장비·기본 신속 기준
 function partyActOrder(){ try{ return battleIds().map((c,i)=>({c,i,spd:buildHeroUnit(c).spd})).sort((a,b)=>b.spd-a.spd||a.i-b.i); }catch(e){ return []; } }
+function unitTvs(u){ u.tvsD=[]; u.tvsC=[]; u.tvsS=[]; for(const k in (u.traits||{})){ if(!u.traits[k]) continue; if(k.startsWith("tvd_")) u.tvsD.push([k.slice(4),+u.traits[k]]); else if(k.startsWith("tvc_")) u.tvsC.push([k.slice(4),+u.traits[k]]); else if(k.startsWith("tvs_")) u.tvsS.push([k.slice(4),+u.traits[k]]); } return u; }
 function buildParty(cap){ normalizeFormation(); return battleIds(cap).map(buildHeroUnit); }
 function buildHeroUnit(cid){
   {
@@ -8420,6 +9287,7 @@ function buildHeroUnit(cid){
     if(a&&a.passive&&(progress.heroes[cid].level||0)>=ADV_PASSIVE_LV) u.passives=[a.passive];
     { const P=heroPrim(cid); u._str18=P.str>=STAT_CAP; u._int18=P.int>=STAT_CAP; u._con18=P.con>=STAT_CAP; u.wil18=P.wil>=STAT_CAP; u._agi18=P.agi>=STAT_CAP; u._luk18=P.luk>=STAT_CAP; u.mpRegen=d.stats.mpRegen; u.hpRegen=d.stats.hpRegen; }   // v0.89 18 특혜   // v0.88 전직 패시브는 Lv14부터
     u.traits=d.traits; u.wtype=d.wtype; u.condAffixes=d.conds; u.gx={}; for(const a of d.conds) if(a.k!=="c_sk") u.gx[a.k.slice(2)]=(u.gx[a.k.slice(2)]||0)+a.v;
+    unitTvs(u);   // v0.96 '그 상태인 적에게 아군 피해·치명타' 특성
     u.unlocks=d.unlocks; u.engraves=d.engraves.map(e=>({key:e,cd:0}));   // v0.44 장비 옵션 합계(u.gx)
     u.cls=cid; Object.assign(u,d.res); u.res=d.stats.resRaw; u.er=d.stats.er; u.resPart=true; u.look=heroLook(cid); u.lane=heroLane(cid); u.adv=(progress.heroes[cid]&&progress.heroes[cid].adv)||null;   // v0.94 전직별 기술 효과(수도승 내공 순환)
     if(d.traits.relic_noburn) u.immune={burn:true};
@@ -8700,7 +9568,8 @@ function traitNodeScore(cid,n,st){
   if(fl&&gearFlags(cid)[fl]) return -50+0.5*num(n);   // v0.36: 장비로 이미 가진 효과는 고르지 않음
   let s=(fl&&COMPANION.flagTag[fl]===stanceLetter(st))?10:0;
   { const B=(TRAITS2[cid]||[]).find(b=>b.id===n.br); if(B&&B.st===stanceLetter(st)) s+=(n.big||n.ks)?8:3; if(n.ks) s+=4; }   // v0.85 갈래의 성향
-  if(n.eff.skmod){ const rl=(partyRules[cid]||[]).some(r=>r.enabled&&r.skill===n.eff.skmod.sk); s+=rl?7:-3; }   // 규칙에 쓰는 기술의 작은 특성
+  if(n.eff.skmod){ const rl=(partyRules[cid]||[]).some(r=>r.enabled&&r.skill===n.eff.skmod.sk); s+=rl?(n.nw?9:7):-6; }   // 규칙에 쓰는 기술의 특성 · v0.96 규칙에 없는 기술의 칸은 피함
+  else if(n.nw) s+=5;   // v0.96 새 보조·조합 칸   // 규칙에 쓰는 기술의 작은 특성
   s+=num(n);
   const t=traitsTaken(cid); let ahead=0; for(const k of n.adj){ if(t.includes(k)) continue; const m=traitNode(cid,k); if(m) ahead=Math.max(ahead,num(m)+((m.big||m.ks)?4:0)); }
   return s+0.5*ahead;
@@ -8725,10 +9594,7 @@ function companionThink(cid){
     msgs.push(`⭐ ${who}${jo(who,"이","가")} 스스로 전직 → ${a.name} (${S.name}) — ${a.desc}`);
     try{ const ar=addAdvRules(cid,a); for(const [sid,x] of ar) msgs.push(x&&x.skip?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — ${STANCES[st].name} 규칙 표에서는 이번 칸에 넣지 않음`:x&&x.failed?`📜 ${who}: 새 스킬 '${SKILLS[sid].name}' — 규칙 칸이 모자라 넣지 못함(전투설정 탭에서 직접)`:`📜 ${who}: 새 스킬 '${SKILLS[sid].name}'을(를) 규칙에 넣음 — 순서는 전투설정 탭에서`); }catch(e){} }
   // 3) 능력치 배분
-  if(h.pts>0){ const R=COMPANION.alloc[cid][st]; const add={};
-    while(h.pts>0){ const tot=PRIM.reduce((a,k)=>a+(h.alloc[k]||0),0)+1; let best=null, bd=-1e9;
-      const P1=heroPrim(cid); for(const k of PRIM){ if(!(R[k]>0)||P1[k]>=STAT_CAP) continue; const d=R[k]-(h.alloc[k]||0)/tot; if(d>bd){ bd=d; best=k; } }
-      if(!best) break; h.alloc[best]=(h.alloc[best]||0)+1; h.pts--; add[best]=(add[best]||0)+1; }
+  if(h.pts>0){ const add=allocPlan(cid,COMPANION.alloc[cid][st]);   // v0.96 중요 능력치 18 먼저
     msgs.push(`📈 ${who} 능력치 배분: ${PRIM.filter(k=>add[k]).map(k=>`${PRIM_LABEL[k]} +${add[k]}`).join(" · ")} (${S.name})`); }
   // 4) 특성
   if(h.adv){ const got=[]; for(let g=0;g<40&&traitPtsLeft(cid)>0;g++){ const n=companionPickTrait(cid); if(!n) break; h.traits.push(n.key); got.push(n.name); }
@@ -8740,7 +9606,23 @@ function companionThink(cid){
   // 6) 자동전투 규칙 — v0.57부터 플레이어가 직접 짠다(동료가 다시 짜지 않음). 전직으로 생긴 스킬만 빈 칸에 넣어 줌(주인공과 같음)
   return msgs;
 }
-function companionsThink(){ const out=[]; for(const c of rosterIds()) out.push(...companionThink(c)); return out; }
+/* v0.96 능력치 자동 배분(동료 · 밸런스 봇 공통): 직업의 중요 능력치 하나를 먼저 18까지 → 남은 포인트는 성향 비율대로.
+   중요 능력치 = 공격 주 능력치(힘·민첩·지능). 생존 성향인 검사·창술사·권사는 체질 */
+function allocMainStat(cid){ return heroStance(cid)==="surv"&&TANK_CON.includes(cid)?"con":MAIN_STAT[cid]; }
+function allocPlan(cid,R){ const h=progress.heroes[cid], add={}, M=allocMainStat(cid);
+  while(h.pts>0){ const P1=heroPrim(cid); let best=null;
+    if(P1[M]<STAT_CAP) best=M;
+    else { const tot=PRIM.reduce((a,k)=>a+(h.alloc[k]||0),0)+1; let bd=-1e9; for(const k of PRIM){ if(!(R[k]>0)||P1[k]>=STAT_CAP) continue; const d=R[k]-(h.alloc[k]||0)/tot; if(d>bd){ bd=d; best=k; } } }
+    if(!best) break; h.alloc[best]=(h.alloc[best]||0)+1; h.pts--; add[best]=(add[best]||0)+1; }
+  return add; }
+/* 이미 키운 동료: 배분을 처음부터 다시 하고, 그동안 오른 성장치(체력·마나·공격력)를 새 능력치 기준으로 다시 계산(능력치 1당 성장 2%) */
+function compRealloc(cid){ const h=progress.heroes[cid]; if(!h) return false; const P0=heroPrim(cid); const tot=PRIM.reduce((a,k)=>a+(h.alloc[k]||0),0)+(h.pts||0); if(!tot) return false;
+  for(const k of PRIM) h.alloc[k]=0; h.pts=tot; allocPlan(cid,COMPANION.alloc[cid][heroStance(cid)]); const P1=heroPrim(cid);
+  const f=(P,k)=>1+0.02*(((k==="hp"?P.con:k==="mp"?P.wil:P[MAIN_STAT[cid]||"str"])||10)-10); h.grow=h.grow||{hp:0,mp:0,atk:0};
+  for(const k of ["hp","mp","atk"]) h.grow[k]=Math.round((h.grow[k]||0)*f(P1,k)/f(P0,k)*100)/100; return PRIM.some(k=>P0[k]!==P1[k]); }
+function compReallocAll(){ if(!progress||!progress.protag||progress.compStatV===1) return []; progress.compStatV=1; const out=[];
+  for(const c of rosterIds()) if(isCompanion(c)){ try{ if(compRealloc(c)) out.push(c); }catch(e){} } return out; }
+function companionsThink(){ const out=[]; { const re=compReallocAll(); if(re.length) out.push(`📈 동료 능력치를 새 기준(중요 능력치 18)으로 다시 배분하고 성장치를 다시 계산했습니다 — ${re.map(c=>heroDisplayName(c)).join(" · ")}`); } for(const c of rosterIds()) out.push(...companionThink(c)); return out; }
 
 
 /* ================= 최종 콘텐츠 (v0.24) =================
@@ -8990,14 +9872,16 @@ function plateStore(){ const P=progress.plate=(progress.plate&&typeof progress.p
 function plateSlots(cid){ const h=progress.heroes[cid]; if(!h) return []; if(!Array.isArray(h.plate)||h.plate.length!==6) h.plate=[null,null,null,null,null,null]; return h.plate; }
 function plateById(id){ return plateStore().inv.find(x=>x.id===id)||null; }
 function plateRoll(set,pos){ const P=plateStore(); let r=Math.random(), rar="rare"; for(const [k,w] of PLATE_RAR){ if(r<w){ rar=k; break; } r-=w; } const R=PLATE_POS[pos].v[rar]; return {id:++P.seq,set,pos,rar,v:ri(R[0],R[1])}; }
-function plateAdd(p){ const P=plateStore(); if(P.inv.length>=PLATE_INV_MAX||(progress.autoPlate||{})[p.rar]==="dis"){ P.dust+=PLATE_DUST[p.rar]||1; p.auto=true; return false; } P.inv.push(p); return true; }   // 가득 차거나 자동 분해 등급이면 바로 가루로   // 가득 차면 바로 가루로
+function plateSeen(){ const P=plateStore(); if(!P.seen||typeof P.seen!=="object") P.seen={}; for(const q of P.inv){ const S=P.seen[q.set]=P.seen[q.set]||{}; S[q.pos]=1; } return P.seen; }   /* v0.96 성반 도감: 한 번이라도 얻은 세트 × 자리 */
+function plateSeenMark(p){ if(!p||!PLATE_SETS[p.set]) return; const S=plateSeen(); (S[p.set]=S[p.set]||{})[p.pos]=1; }
+function plateAdd(p){ plateSeenMark(p); const P=plateStore(); if(P.inv.length>=PLATE_INV_MAX||(progress.autoPlate||{})[p.rar]==="dis"){ P.dust+=PLATE_DUST[p.rar]||1; p.auto=true; return false; } P.inv.push(p); return true; }   // 가득 차거나 자동 분해 등급이면 바로 가루로   // 가득 차면 바로 가루로
 function plateOwner(id){ for(const c of Object.keys(progress.heroes)){ const h=progress.heroes[c]; if(Array.isArray(h.plate)&&h.plate.includes(id)) return c; } return null; }
 function plateWorn(cid){ return plateSlots(cid).map(id=>id!=null?plateById(id):null); }
 function plateEquip(cid,id){ const p=plateById(id); if(!p) return false; const o=plateOwner(id); if(o) plateSlots(o)[p.pos]=null; plateSlots(cid)[p.pos]=id; return true; }
 function plateUnequip(cid,pos){ plateSlots(cid)[pos]=null; }
 function plateDismantle(id){ const P=plateStore(), i=P.inv.findIndex(x=>x.id===id); if(i<0) return 0; const p=P.inv[i]; const o=plateOwner(id); if(o) plateSlots(o)[p.pos]=null; P.inv.splice(i,1); const g=PLATE_DUST[p.rar]||1; P.dust+=g; return g; }
 function plateCanCraft(){ const P=plateStore(); return P.dust>=PLATE_CRAFT.dust&&progress.ess>=PLATE_CRAFT.ess&&P.inv.length<PLATE_INV_MAX; }
-function plateCraft(set,pos){ if(!PLATE_SETS[set]||!(pos>=0&&pos<6)||!plateCanCraft()) return null; const P=plateStore(); P.dust-=PLATE_CRAFT.dust; progress.ess-=PLATE_CRAFT.ess; const p=plateRoll(set,pos); P.inv.push(p); return p; }
+function plateCraft(set,pos){ if(!PLATE_SETS[set]||!(pos>=0&&pos<6)||!plateCanCraft()) return null; const P=plateStore(); P.dust-=PLATE_CRAFT.dust; progress.ess-=PLATE_CRAFT.ess; const p=plateRoll(set,pos); P.inv.push(p); plateSeenMark(p); return p; }
 function plateText(p){ const D=PLATE_POS[p.pos]; return `${D.n} +${Math.min(p.v,D.v.legend[1])}${D.u}`; }
 function plateCount(cid){ const n={}; for(const p of plateWorn(cid)) if(p) n[p.set]=(n[p.set]||0)+1; return n; }
 function plateEffects(cid){ const out=[]; for(const p of plateWorn(cid)) if(p){ const D=PLATE_POS[p.pos]; out.push({[D.k]:Math.min(p.v,D.v.legend[1])*D.f}); }
@@ -9235,6 +10119,7 @@ function refundTrait(cid,n){
 }
 function traitKind(n){
   if(n.ks) return `<span class="tag ks">★ 궁극</span>`;
+  if(n.alt) return `<span class="tag">큰 특성</span><span class="tag" style="color:#ffb347">둘 중 하나</span>`;
   if(n.big) return `<span class="tag">큰 특성</span>`;
   if(n.sm) return `<span class="tag" style="color:#8fd9cc">작은 특성</span>`;
   return `<span class="tag">잔가지</span>`;
@@ -9251,7 +10136,7 @@ function renderTraitDetail(cid){
   const gf=gearFlags(cid), dupF=[].concat(n.eff.flag||[]).find(f=>gf[f]);
   const needSk=n.eff.skmod&&!classSkills(cid).includes(n.eff.skmod.sk)?SKILLS[n.eff.skmod.sk]:null;   // v0.85 스킬북 기술의 특성 — 배우기 전엔 효과 없음
   const brName=(()=>{ const B=(TRAITS2[cid]||[]).find(b=>b.id===n.br); return B?B.name:(n.link?"🔗 이음길":""); })();
-  det.innerHTML=`<div class="hd">${esc(n.name)}${traitKind(n)}${brName?`<span class="tag" style="opacity:.7">${esc(brName)}</span>`:""}</div><div class="ds">${esc(n.desc)}</div>${n.tip?`<div class="tp">💡 ${esc(n.tip)}</div>`:""}${needSk?`<div class="why" style="color:#ffb347">📜 '${esc(needSk.name)}' 스킬북을 배우기 전에는 효과가 없습니다</div>`:""}${dupF?`<div class="why" style="color:#ffb347">⚠ 이미 '${esc(gf[dupF])}'(으)로 가진 효과 — 겹쳐도 더 세지지 않아요</div>`:""}${stat}`;
+  det.innerHTML=`<div class="hd">${esc(n.name)}${traitKind(n)}${brName?`<span class="tag" style="opacity:.7">${esc(brName)}</span>`:""}</div><div class="ds">${esc(n.desc)}</div>${n.alt&&traitNode(cid,n.alt)?`<div class="tp">⚖ 둘 중 하나만 — 다른 쪽: <b>${esc(traitNode(cid,n.alt).name)}</b> (${esc(traitNode(cid,n.alt).desc)})</div>`:""}${n.tip?`<div class="tp">💡 ${esc(n.tip)}</div>`:""}${needSk?`<div class="why" style="color:#ffb347">📜 '${esc(needSk.name)}' 스킬북을 배우기 전에는 효과가 없습니다</div>`:""}${dupF?`<div class="why" style="color:#ffb347">⚠ 이미 '${esc(gf[dupF])}'(으)로 가진 효과 — 겹쳐도 더 세지지 않아요</div>`:""}${stat}`;
   if(st==="open"&&!comp){
     const b=document.createElement("button"); b.className="learnb"; b.textContent=`배우기 · 포인트 1 (남은 ${traitPtsLeft(cid)})`;
     b.onclick=()=>learnTrait(cid,n); det.appendChild(b);
@@ -13049,7 +13934,7 @@ function enhSideBtn(cid,sk){
     b.onclick=e=>{ e.stopPropagation(); progress.gold-=c.gold; progress.ess-=c.ess; setSlotEnh(cid,sk,{gilt:false,gilded:true}); saveProgress(); renderParty(); logLine(`<span class="win">🔧 ${esc(heroDisplayName(cid))}의 ${esc(s0)} — 균열을 금으로 메웠다 (+3%, 금 무늬가 남는다)</span>`); }; return b; }
   if(l>=slotMax(cid,sk)){ b.className+=" max"; b.disabled=true; b.innerHTML=`<b class="enh ${t.cls}">+${l}</b>`; b.title=`${s0} — 최대 강화${l<ENH_ABYSS?" · 칸을 눌러 심연 핵으로 한계를 열 수 있습니다":""}`; return b; }
   const c=enhCost(cid,sk), rate=Math.min(1,ENH_RATE[l]+enhLuck(cid)), fr=enhFailRule(l);
-  b.innerHTML=`<b class="enh ${t.cls}">+${l}</b>`;   // v0.55.6: 단추엔 단계만 — 성공률·비용은 칸을 눌러 여는 창과 도움말에
+  b.innerHTML=`<b class="enh ${t.cls}">+${l}</b>${wardActive(l)?`<small class="wardmk" title="보호 주문서를 씀 — 실패해도 내려가지 않음">🛡</small>`:""}`;   // v0.55.6: 단추엔 단계만 · v0.96 보호 주문서가 쓰일 칸 표시 — 성공률·비용은 칸을 눌러 여는 창과 도움말에
   b.title=`${s0} 강화 +${l+1} — 성공 ${Math.round(rate*100)}% · 골드 ${c.gold} · 정수 ${c.ess}${fr.drop?` · 실패 시 ${fr.drop}단계 하락`:""}${fr.gilt?` · ${Math.round(fr.gilt*100)}% 확률로 금이 감`:""}`;
   b.disabled=progress.gold<c.gold||progress.ess<c.ess||runBusy();
   b.onclick=e=>{ e.stopPropagation(); tryEnhance(cid,sk); };
@@ -13102,7 +13987,7 @@ function rpFxLine(it){ const R=RUNES[it.rune]; if(!R) return ""; const ab=!!(it.
 function rpSocketed(cid){ const h=progress.heroes[cid]; const out=[]; for(const sk of heroSlots()){ const id=h.equip[sk]; if(id==null) continue; const it=findEquipped(cid,sk); if(it&&it.sockets&&it.sockets.length) out.push({sk,it}); } return out; }
 function rpInsert(item,idx,runeIt){ if(!item||!item.sockets||item.sockets[idx]||!runeIt) return false; item.sockets[idx]=runeSock(runeIt); const i=progress.inv.findIndex(x=>x.id===runeIt.id); if(i>=0) progress.inv.splice(i,1);
   saveProgress(); logLine(`<span class="win">◈ ${esc(itemLabel(item))}에 ${esc(RUNES[runeIt.rune].name)}(${esc((RARITIES.find(r=>r.key===runeIt.rarity)||{label:""}).label)}) 끼움 — ${esc(rpFxLine(runeIt))}</span>`); return true; }
-function rpRemove(item,idx){ const r=item&&item.sockets&&item.sockets[idx]; if(!r) return false; item.sockets[idx]=null; progress.inv.push(makeRune(r)); saveProgress(); logLine(`<span class="gain">◈ ${esc(itemLabel(item))}에서 ${esc(RUNES[runeK(r)].name)} 뺌 — 룬주머니로</span>`); return true; }
+function rpRemove(item,idx){ const r=item&&item.sockets&&item.sockets[idx]; if(!r) return false; item.sockets[idx]=null; progress.inv.push(makeRune(r)); saveProgress(); logLine(`<span class="gain">◈ ${esc(itemLabel(item))}에서 ${esc(RUNES[runeK(r)].name)} 뺌 — 룬 탭으로</span>`); return true; }
 function renderRunePouch(B,cid){
   const busy=runBusy(), G=rpGroups(), S=rpSocketed(cid);
   if(!rpSk||!heroSlots().includes(rpSk)) rpSk=S.length?S[0].sk:null;   // 고른 장비(룬주머니를 보는 중 왼쪽 장비 칸을 누르면 바뀜)
@@ -13115,11 +14000,11 @@ function renderRunePouch(B,cid){
   if(!cur) html+=`<div class="rp-cur none"><p class="msub">${rpSk&&picked?`<b>${esc(itemLabel(picked))}</b>에는 소켓이 없어요.`:rpSk?`${esc((SLOTS.find(x=>x.key===rpSk)||{label:""}).label)} 칸이 비어 있어요.`:`${esc(heroDisplayName(cid))}${jo(heroDisplayName(cid),"은","는")} 소켓이 있는 장비를 끼고 있지 않아요.`} 소켓은 영웅·세트 장비 1칸 · 전설 2칸 · 희귀는 30% 확률로 1칸입니다.</p></div>`;
   else { const it=cur.it, sl=(SLOTS.find(x=>x.key===cur.sk)||{label:cur.sk}).label;
     html+=`<div class="rp-cur"><span class="rp-ic">${iconCell(it,{})}</span><span class="rp-nm"><b class="${rarityCls(it)}">${esc(itemLabel(it))}</b><small>${esc(sl)} · 소켓 ${it.sockets.filter(Boolean).length}/${it.sockets.length}</small></span></div>
-      <div class="rp-socks">${it.sockets.map((r,i)=>{ if(r){ const ri=makeRune(r); return `<button class="rp-sock full" data-i="${i}" title="누르면 빼서 룬주머니로">${iconCell(ri,{})}<span class="rp-st"><b class="${rarityCls(ri)}">${esc(RUNES[runeK(r)].name)}</b><small>${esc(rpFxLine(ri))}</small></span><i>빼기</i></button>`; }
+      <div class="rp-socks">${it.sockets.map((r,i)=>{ if(r){ const ri=makeRune(r); return `<button class="rp-sock full" data-i="${i}" title="누르면 빼서 룬 탭으로">${iconCell(ri,{})}<span class="rp-st"><b class="${rarityCls(ri)}">${esc(RUNES[runeK(r)].name)}</b><small>${esc(rpFxLine(ri))}</small></span><i>빼기</i></button>`; }
         return `<button class="rp-sock empty${rpSock===i?" on":""}" data-i="${i}"><span class="rp-plus">＋</span><span class="rp-st"><b>빈 소켓</b><small>${selIt?`눌러서 ${esc(RUNES[selIt.rune].name)} 끼우기`:"아래에서 룬을 고르세요"}</small></span></button>`; }).join("")}</div>
 `; }
   html+=`<p class="rp-tip">왼쪽 장비 칸을 누르면 그 장비의 소켓 · 끼운 룬을 누르면 빼기 · 아래 룬을 <b>두 번 빠르게 누르면</b> 바로 끼우기</p>`;
-  html+=`<div class="rp-h"><b>룬주머니</b> <small>${progress.inv.filter(x=>x.slot==="rune").length}개 · 가방 칸을 차지하지 않음</small><button class="ghostbtn${rpTidy||rpPick?" on":""}" id="rpTidyBtn" style="margin-left:auto">${rpPick?"🧹 정리 — 고르는 중 ▴":rpTidy?"🧹 정리 ▴":"🧹 정리 ▾"}</button></div><div id="rpTidyAt"></div>`;
+  html+=`<div class="rp-h"><b>룬</b> <small>${progress.inv.filter(x=>x.slot==="rune").length}개 · 가방 칸을 차지하지 않음</small><button class="ghostbtn${rpTidy||rpPick?" on":""}" id="rpTidyBtn" style="margin-left:auto">${rpPick?"🧹 정리 — 고르는 중 ▴":rpTidy?"🧹 정리 ▴":"🧹 정리 ▾"}</button></div><div id="rpTidyAt"></div>`;
   html+=G.length?`<div class="rp-grid">${G.map(g=>{ const it=g.items[0]; return `<button class="rp-cell${g.key===rpRune?" sel":""}${rpPick&&g.items.some(x=>rpSel.has(x.id))?" pick":""}" data-g="${esc(g.key)}" title="${esc(itemLabel(it))}${g.items.length>1?` ×${g.items.length}`:""}\n${esc(rpFxLine(it))}">${iconCell(it,{n:g.items.length})}</button>`; }).join("")}</div>`:`<p class="msub">아직 룬이 없어요. 보물상자·보스에서 얻습니다.</p>`;
   if(selIt){ const em=cur?cur.it.sockets.findIndex(r=>!r):-1;
     html+=`<div class="rp-det"><b class="${rarityCls(selIt)}">${esc(itemLabel(selIt))}</b> <small>×${selG.items.length}</small><div>${esc(rpFxLine(selIt))}</div>
@@ -13167,6 +14052,7 @@ function renderEquip(){
     qb.querySelector("#eqOff").onclick=e=>{ const b=e.currentTarget; if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 해제"; return; } unequipAll(cid); };
     mid.appendChild(qb); }
   doll.append(cl,mid,cr); L.appendChild(doll);
+  { const wb=document.createElement("div"); wb.innerHTML=wardRowHTML(null); wardBind(wb,()=>renderParty()); L.appendChild(wb.firstElementChild); }   // v0.96 보호 주문서 줄(장비 화면에 늘 보임)
   const ps=document.createElement("div"); ps.className="eqpow"; ps.innerHTML=[["공격",d.atk],["체력",d.hp],["방어",d.def],["신속",d.spd],["치명",pct(d.crit)+"%"],["명중",pct(d.acc)+"%"]].map(([k,v])=>`<span><i>${k}</i><b>${v}</b></span>`).join(""); L.appendChild(ps);   // v0.55.6: 인형 아래 한 줄(가운데 칸이 좁은 화면에서 글자가 세로로 꺾이던 문제)
   { const S=enhSummary(cid); const es=document.createElement("div"); es.className="eqenh"; const t=enhSummaryText(cid);   // v0.55.6: 한 줄로, 인형 아래 전체 너비
     es.innerHTML=`<b>🔨 부위 강화 +${S.sum}</b>${S.sum?`<span>${esc(t||"끼운 장비가 없어 아직 효과 없음")}</span>`:`<span>칸 옆 단추로 강화 · +1~+9 단계당 +5% · +10부터 +9% · 심연 +15%</span>`}`; L.appendChild(es); }
@@ -13182,7 +14068,7 @@ function renderEquip(){
   // ── 오른쪽: 가방 ──
   const B=document.createElement("div"); B.className="panel eqbag";
   { const nR=progress.inv.filter(x=>x.slot==="rune").length; const tb=document.createElement("div"); tb.className="bagtabs";   // v0.94 가방 · 룬주머니
-    tb.innerHTML=`<button data-bt="gear" class="${bagTab==="gear"?"on":""}">🎒 가방 <small>${bagUsed()}/${bagCap()}</small></button><button data-bt="rune" class="${bagTab==="rune"?"on":""}">💠 룬주머니 <small>${nR}</small></button><button data-bt="plate" class="${bagTab==="plate"?"on":""}">🌟 성반 <small>${plateStore().inv.length}</small></button><button data-bt="cos" class="${bagTab==="cos"?"on":""}">🎨 외형</button>`;
+    tb.innerHTML=`<button data-bt="gear" class="${bagTab==="gear"?"on":""}">🎒 가방 <small>${bagUsed()}/${bagCap()}</small></button><button data-bt="rune" class="${bagTab==="rune"?"on":""}">💠 룬 <small>${nR}</small></button><button data-bt="plate" class="${bagTab==="plate"?"on":""}">🌟 성반 <small>${plateStore().inv.length}</small></button><button data-bt="cos" class="${bagTab==="cos"?"on":""}">🎨 외형</button>`;
     for(const b of tb.querySelectorAll("button")) b.onclick=()=>{ bagTab=b.dataset.bt; bagPick=false; bagSel.clear(); rpRune=null; rpSock=null; renderParty(); };
     B.appendChild(tb); }
   if(bagTab==="rune"){ renderRunePouch(B,cid); pane.appendChild(B); renderCodex(); view.scrollTop=scrollTop; innerKeep(); return; }
@@ -13399,7 +14285,7 @@ const cxOpen=new Set();
 function renderCodex(){
   const pane=$("codexPane"); if(!pane) return; pane.innerHTML="";
   const done=Object.keys(SETS).filter(k=>(progress.codex.done||{})[k]).length;
-  const tabs=[["tokens",`🏅 군단장의 증표 <b>${tokenCount()}/7</b>`],["sets",`🛡 세트 장비 <b>${done}/${Object.keys(SETS).length}</b>`],["rules","📏 게임 규칙"]];
+  const tabs=[["tokens",`🏅 군단장의 증표 <b>${tokenCount()}/7</b>`],["sets",`🛡 세트 장비 <b>${done}/${Object.keys(SETS).length}</b>`],["relics",`🔮 유물 <b>${Object.keys(RELICS).filter(k=>allRelics().some(x=>x.relic===k)).length}/${Object.keys(RELICS).length}</b>`],["plates",`🌌 성반 <b>${PLATE_KEYS.filter(k=>Object.keys(plateSeen()[k]||{}).length>=6).length}/${PLATE_KEYS.length}</b>`],["rules","📏 게임 규칙"]];
   const bar=document.createElement("div"); bar.className="cxtabs";
   for(const [k,l] of tabs){ const b=document.createElement("button"); b.innerHTML=l; b.className=codexTab===k?"on":""; b.onclick=()=>{ codexTab=k; renderCodex(); }; bar.appendChild(b); }
   pane.appendChild(bar);
@@ -13420,6 +14306,20 @@ function renderCodex(){
           <div class="cxmeta">${S.size}부위 · ${A?`${esc(CLASSES[S.cls].name)} [${esc(A.name)}] — 자정·영원한 밤 보스·중간보스 · 새벽 교환소`:S.regions&&S.regions.length?esc(S.regions.map(r=>REGIONS[r].chapter).join(" · ")):"자정·영원한 밤 보스 · 새벽 교환소"}</div>
           ${cxOpen.has(k)?`<div class="cxfx">${setBonuses(S).map(([q,B])=>`<div><b>${q}부위</b> ${esc(B.desc)}</div>`).join("")}</div>`:""}</div>`; }).join("")+`</div>`;   // v0.94 세트를 누르면 효과를 펼쳐 보여 줌
     body.querySelectorAll(".cxset").forEach(c=>{ const tg=()=>{ const k=c.dataset.set; cxOpen.has(k)?cxOpen.delete(k):cxOpen.add(k); renderCodex(); }; c.onclick=tg; c.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); tg(); } }; });
+  } else if(codexTab==="relics"){   // v0.96 유물 도감: 전부 보여 줌 — 효과 · ★3 각성 효과 · 나오는 곳 · 지금 누가 가졌는지
+    body.innerHTML=`<div class="cxsub">유물은 장마다 1종, 계정에 종류별로 1개만 가질 수 있어요(가진 동안은 다시 나오지 않음). 그 장의 장 보스를 쓰러뜨리면 20%(자정 30% · 영원한 밤 40%) 확률로, 그 난이도에서 그 장을 3번 이상 깼다면 반드시 나옵니다. 영웅마다 유물 칸은 1개입니다.</div><div class="cxgrid st">`
+      +Object.keys(RELICS).map(k=>{ const R=RELICS[k], G=REGIONS[k], it=allRelics().find(x=>x.relic===k), ow=it&&itemOwner(it.id), AW=(typeof RELIC_AWAKE!=="undefined"&&RELIC_AWAKE[k])||null;
+        return `<div class="cxcard cxplate${it?" got":""}"><div class="cxhead"><span class="cxname">${esc(R.name)}</span><span class="cxn">${it?"★".repeat(relicStar(it)):"미보유"}</span></div>
+          <div class="cxprow"><img class="cxpcv" style="width:56px;height:56px;flex:0 0 56px" src="${itemIconURL({slot:"relic",relic:k,rarity:"legend"})}" alt=""><div class="cxfx"><div><b>효과</b> ${esc(R.text)}</div>${AW?`<div><b>★3</b> ${esc(AW.t3)}</div>`:""}<div><b>★2 · ★3</b> 능력치 ×1.5 · ×2 (최종 콘텐츠 재료로 각성)</div></div></div>
+          <div class="cxmeta">${esc(G?`${G.chapter} · ${G.name}`:"")} 장 보스${it?` — ${ow?esc(heroDisplayName(ow))+" 착용 중":"가방에 있음"}`:""}</div></div>`; }).join("")+`</div>`;
+  } else if(codexTab==="plates"){   // v0.96 성반 도감: 세트마다 완성 그림 · 얻어 본 자리(6칸) · 2·4·6조각 효과 · 나오는 곳
+    const seen=plateSeen();
+    body.innerHTML=`<div class="cxsub">성편은 영원한 밤의 장 보스(5막)가 ${Math.round(PLATE_DROP*100)}% 확률로 떨어뜨리고, 성반 가루 ${PLATE_CRAFT.dust} + 밤의 정수 ${PLATE_CRAFT.ess}로 원하는 세트·자리를 만들 수 있어요. 한 번이라도 얻은 자리는 그림이 밝혀집니다.</div><div class="cxgrid st">`
+      +PLATE_KEYS.map(k=>{ const S=PLATE_SETS[k], sn=seen[k]||{}, n=Object.keys(sn).length, R=REGIONS[k];
+        return `<div class="cxcard cxplate${n>=6?" got":""}"><div class="cxhead"><span class="cxname">${esc(S.name)}</span><span class="cxn">${n}/6</span></div>
+          <div class="cxprow"><canvas class="cxpcv" data-ps="${k}" width="64" height="64"></canvas><div class="cxfx">${[2,4,6].map(q=>`<div><b>${q}조각</b> ${esc(S.fx[q][0])}</div>`).join("")}</div></div>
+          <div class="cxmeta">${esc(R?`${R.chapter} · ${R.name}`:"")} — 영원한 밤 장 보스 · 제작</div></div>`; }).join("")+`</div>`;
+    body.querySelectorAll("canvas.cxpcv").forEach(cv=>{ const k=cv.dataset.ps, sn=seen[k]||{}; plateDraw(cv,[0,1,2,3,4,5].map(i=>sn[i]?{set:k,pos:i,rar:"legend"}:null),false); });
   } else {
     body.innerHTML=`<div class="cxgrid lm">`+LIMITS.map(([k,v])=>`<div class="cxrule"><div class="cxrk">${esc(k)}</div><div class="cxrv">${esc(v)}</div></div>`).join("")+`</div>`;
   }
@@ -13610,20 +14510,22 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
 }
 
 // v0.95 보호 주문서 줄(부위 창): 개수 · 오늘 쓴 횟수 · 사용 켜기/끄기 · 💎로 사기
-function wardRowHTML(l){ const W=wardState(), drop=enhFailRule(l).drop>0, gem=progress.gem||0;
-  return `<div class="statline">🛡 보호 주문서 <b>${W.n}</b>개 · 오늘 ${W.used}/${WARD_DAY_MAX}번 사용 — 강화할 때마다 1개, 실패해도 단계가 내려가지 않음${drop?"":" (지금 단계는 실패해도 내려가지 않아 쓰지 않음)"}
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><button class="mini" id="wardOn" ${runBusy()?"disabled":""}>${W.on?"✔ 보호 주문서 사용 중 — 끄기":"보호 주문서 사용 켜기"}</button>
-    <button class="mini" id="wardBuy" ${gem<WARD_GEM?"disabled":""}>💎 ${WARD_GEM}개로 1개 사기 <small>보유 ${gem}</small></button></div></div>`; }
-function wardBind(m,re){ const on=m.querySelector("#wardOn"), buy=m.querySelector("#wardBuy");
-  if(on) on.onclick=()=>{ const W=wardState(); W.on=!W.on; saveProgress(); re(); };
-  if(buy) buy.onclick=()=>{ if((progress.gem||0)<WARD_GEM) return; progress.gem-=WARD_GEM; wardState().n++; saveProgress(); logLine(`<span class="gain">💎 새벽 결정 ${WARD_GEM}개로 보호 주문서 1개를 샀습니다 (보유 ${wardState().n}개)</span>`); re(); }; }
+function wardRowHTML(l){ const W=wardState(), gem=progress.gem||0, left=Math.max(0,WARD_DAY_MAX-W.used);   // v0.96 한 줄: 개수 · 오늘 횟수 · [사용|안 씀] · 구매 — 장비 화면과 부위 창이 같은 줄을 씀
+  const note=!W.on?"실패하면 단계가 내려감":W.n<=0?"주문서가 없어 쓰이지 않음":left<=0?"오늘 횟수를 다 써서 쓰이지 않음":(l!=null&&!(enhFailRule(l).drop>0))?"이 단계는 실패해도 안 내려가 쓰지 않음":"+6부터 1개씩 · 실패해도 그대로";
+  return `<div class="wardbar"><span class="wi" title="보호 주문서 — +6 이상 강화에서 시도마다 1개를 쓰고, 실패해도 단계가 내려가지 않습니다 · 하루 ${WARD_DAY_MAX}번">🛡 보호 주문서 <b>${W.n}</b> <span style="white-space:nowrap">· 오늘 <b>${W.used}/${WARD_DAY_MAX}</b></span><small>${note}</small></span>
+    <span class="seg"><button id="wardOn" class="${W.on?"on":""}" ${runBusy()?"disabled":""}>사용</button><button id="wardOff" class="${W.on?"":"on"}" ${runBusy()?"disabled":""}>안 씀</button></span>
+    <button class="mini" id="wardBuy" title="새벽 결정 ${WARD_GEM}개로 1개 (보유 💎${gem})" ${gem<WARD_GEM?"disabled":""}>💎${WARD_GEM} +1</button></div>`; }
+function wardBind(m,re){ const on=m.querySelector("#wardOn"), off=m.querySelector("#wardOff"), buy=m.querySelector("#wardBuy");
+  const set=v=>{ const W=wardState(); if(W.on===v&&W.set) return; W.on=v; W.set=true; saveProgress(); re(); };
+  if(on) on.onclick=()=>set(true); if(off) off.onclick=()=>set(false);
+  if(buy) buy.onclick=()=>{ if((progress.gem||0)<WARD_GEM) return; progress.gem-=WARD_GEM; wardState().n++; saveProgress(); logLine(`<span class="gain">💎 새벽 결정 ${WARD_GEM}개로 보호 주문서 1개를 샀습니다 (보유 ${wardState().n}개)</span>`); re(); try{ renderHud(); }catch(e){} }; }
 function enhButton(cid,sk){
   const b=document.createElement("button"); b.className="enhb";
   const E=slotEnh(cid,sk), l=E.l, s0=(SLOTS.find(x=>x.key===sk)||{label:sk}).label;
   if(l>=slotMax(cid,sk)){ b.textContent=`${s0} 최대 강화`; b.disabled=true; return b; }
   const c=enhCost(cid,sk), rate=Math.min(1,ENH_RATE[l]+enhLuck(cid));
   const fr=enhFailRule(l);
-  b.textContent=`${s0} 강화 +${l+1} (${Math.round(rate*100)}%)${wardState().on&&fr.drop?" 🛡":""}`;
+  b.textContent=`${s0} 강화 +${l+1} (${Math.round(rate*100)}%)${wardActive(l)?" 🛡":""}`;
   b.title=`부위 강화 — 이 칸에 끼는 장비 모두에 붙습니다 · 비용: 골드 ${c.gold} · 밤의 정수 ${c.ess}${fr.drop?` · 실패 시 ${fr.drop}단계 하락`:""}${fr.gilt?` · ${Math.round(fr.gilt*100)}% 확률로 금이 감`:""} · 다음 재질: ${enhTier(l+1).name}`;
   b.disabled=progress.gold<c.gold||progress.ess<c.ess||E.gilt;
   b.onclick=(e)=>{ e.stopPropagation(); tryEnhance(cid,sk); };
@@ -13642,14 +14544,13 @@ function tryEnhance(cid,sk){
   const E=slotEnh(cid,sk), l=E.l; if(!ENH_SLOTS.includes(sk)||l>=slotMax(cid,sk)||E.gilt) return;
   const c=enhCost(cid,sk);
   if(progress.gold<c.gold||progress.ess<c.ess) return;
-  const W=wardState(), useW=!!W.on&&enhFailRule(l).drop>0;   // v0.95 보호 주문서
-  if(useW&&!wardUsable(l)){ toast(W.n<=0?`🛡 보호 주문서가 없어요 — 사거나 '보호 주문서 사용'을 끄고 강화하세요.`:`🛡 보호 주문서는 하루 ${WARD_DAY_MAX}번까지예요 — 오늘은 다 썼어요(새벽 5시에 초기화). 끄고 강화할 수 있어요.`,"warn",3600); return; }
+  const W=wardState(), useW=wardActive(l);   // v0.95 보호 주문서 · v0.96 켜져 있고 쓸 수 있을 때만 씀(없거나 오늘 다 썼으면 주문서 없이 강화)
   progress.gold-=c.gold; progress.ess-=c.ess; if(useW) wardSpend(); dailyAdd("enh",1);
   const ok=Math.random()<Math.min(1,ENH_RATE[l]+enhLuck(cid));
   const fr=useW?{drop:0,gilt:0}:enhFailRule(l); let msg="", cls="r"; try{ SND.fx(ok?"enhance_ok":"enhance_fail"); }catch(e){}
   const nm=`${heroDisplayName(cid)}의 ${(SLOTS.find(x=>x.key===sk)||{label:sk}).label}`;
   if(ok){ setSlotEnh(cid,sk,{l:l+1}); const t=enhTier(l+1), t0=enhTier(l); msg=`✨ 강화 성공! ${nm} +${l+1}${t!==t0?` — 재질이 ${t.name}(으)로 바뀌었다`:""}`; cls="win"; }
-  else if(fr.drop){ setSlotEnh(cid,sk,{l:l-fr.drop}); msg=`💥 강화 실패 — ${fr.drop}단계 내려갔다: ${nm} +${Math.max(0,l-fr.drop)}`; cls="lose";
+  else if(fr.drop){ setSlotEnh(cid,sk,{l:l-fr.drop}); msg=`💥 강화 실패 — ${fr.drop}단계 내려갔다: ${nm} +${Math.max(0,l-fr.drop)}${W.n>0&&!W.on?" · 🛡 보호 주문서 사용이 꺼져 있었다":W.on&&W.n<=0?" · 🛡 보호 주문서가 없었다":W.on&&W.used>=WARD_DAY_MAX?` · 🛡 오늘 ${WARD_DAY_MAX}번을 다 썼다`:""}`; cls="lose";
     if(fr.gilt&&Math.random()<fr.gilt){ setSlotEnh(cid,sk,{gilt:true}); msg+=" · 금이 갔다! (능력치 -10%, 수리 가능)"; } }
   else msg=`강화 실패 — 단계는 그대로 (${nm} +${l})${useW?" · 🛡 보호 주문서가 막았다":""}`;
   logLine(`<span class="${cls}">${esc(msg)} (골드 -${c.gold} · 정수 -${c.ess}${useW?` · 🛡 보호 주문서 1개 (오늘 ${W.used}/${WARD_DAY_MAX})`:""})</span>`);
@@ -13913,7 +14814,7 @@ function decoEditBegin(){
 }
 // 명함 스티커 자리: 명함 그림(640×400) 위 가운데 좌표. 없으면 오른쪽 아래에 나란히
 function cardStickerPos(ST,FR){ const S=(progress.cosEq&&progress.cosEq.stPos)||{}; const W=640,H=400;
-  return ST.map((id,i)=>{ if(S[id]) return S[id]; let x=W-26-(ST.length-i)*58+28, y=H-72+28; if(FR!=="fr_base"){ x=32+0.9*x; y=20+0.9*y; } return [x,y]; }); }
+  return ST.map((id,i)=>{ if(S[id]) return S[id]; let x=W-30-(ST.length-i)*58+28, y=16+28;   /* v0.96 기본 자리 = 오른쪽 위(이름 줄 옆) */ if(FR!=="fr_base"){ x=32+0.9*x; y=20+0.9*y; } return [x,y]; }); }
 function cardEditor(cid,bareUrl){
   const ST=cosOn("sticker")||[]; if(!ST.length){ toast("🪪 명함 스티커를 먼저 달아 주세요 (상점 → 🎨 외형 → 명함 스티커)"); return; }
   const pos=cardStickerPos(ST,cosFrameNow()).map(p=>p.slice());
@@ -13932,50 +14833,89 @@ function cardEditor(cid,bareUrl){
   $("ceOk").onclick=()=>{ const E=cosEq(); E.stPos=Object.assign({},E.stPos||{}); ST.forEach((id,i)=>E.stPos[id]=pos[i]); progress.cosEq=E; saveProgress(); closeModal(); makeNameCard(cid); };
 }
 /* ---- 명함: 영웅 한 장 요약 그림 ---- */
-function makeNameCard(cid,edit){
+const CARD_EL={fire:"#ff9a5c",cold:"#7fc8ff",poison:"#8fe07a",holy:"#ffe98a",dark:"#c79bff"};
+const CARD_RAR={common:"#aab3cf",fine:"#6fdc8c",rare:"#5eaaff",epic:"#c98bff",legend:"#ffb347",set:"#45e0cf",mythic:"#ff7ad9"};
+/* v0.96 영웅을 지금 외형 그대로(망토 · 무기 외형 · 오라 · 특수 오라) 한 장면 그림 — 명함에서 움직이는 모습으로 씀. S는 부르는 쪽이 들고 있는 그림 상태 */
+function heroLiveDraw(g,cid,now,S,x,y,sc){ const L0=heroLook(cid); if(!L0) return; const L=Object.assign({},L0), bob=Math.floor(now/440)%2; L.bob=bob; if(L.pc) L.cf=0;
+  const W=40,H=44,OY=6, tmp=S.cv||(S.cv=document.createElement("canvas")); if(tmp.width!==W||tmp.height!==H){ tmp.width=W; tmp.height=H; } const t=tmp.getContext("2d"); t.imageSmoothingEnabled=false; t.clearRect(0,0,W,H);
+  try{ if(!L.sa&&L.aura){ if(!S.A){ S.A=auraNew(L,L.aura); if(S.A&&L.ac) S.A.ac=L.ac; } if(S.A){ if(now>=(S.A.next||0)){ auraStep(S.A); auraPaint(S.A); S.A.next=now+AURA_STEP; } t.drawImage(S.A.cv,COS2.HX-AURA_OX,COS2.HY+OY-AURA_OY); } } }catch(e){}
+  let R=null; try{ R=S.R=COS2.render({look:L,bob,t:now/1000,cape:L.cp,ws:L.ws,sa:L.sa,L:Math.max(1,L.aura||0)},S.R); COS2.blit(t,R.b,COS2.HX,COS2.HY+OY,1,false,true); }catch(e){}
+  try{ if(L.cp&&!COS2.CAPE_KEY[L.cp]) t.drawImage(COSART.capeLayer(L.cp,Math.floor(now/200)%8,bob),COS2.HX-6,COS2.HY+OY-1); }catch(e){}
+  const sp=lookSprite(L); if(sp) t.drawImage(sp.cv,COS2.HX,COS2.HY+OY); else { const im=S.im||(S.im=Object.assign(new Image(),{src:heroIcon(cid)})); if(im.complete) t.drawImage(im,COS2.HX,COS2.HY+OY,16,16); }
+  try{ if(R) COS2.blit(t,R.f,COS2.HX,COS2.HY+OY,1,false,true); }catch(e){}
+  g.imageSmoothingEnabled=false; g.drawImage(tmp,5,8,30,34,x,y,30*sc,34*sc); }   /* 영웅 둘레만 잘라 크게 */
+/* v0.96 명함 다시 그림: 영웅(지금 외형 · 움직임) · 능력치 · 속성 저항 · 장비(등급 색 + 박힌 룬 등급 색 점) · 전투 규칙(기술 속성 색) · 성반 그림. 글자 뒤에 어두운 판을 깔아 어떤 틀에서도 읽히게 함 */
+function cardBase(cid){
   const c=CLASSES[cid], h=progress.heroes[cid], D=heroDerived(cid), d=D.stats;
   const W=640,H=400, cv=document.createElement("canvas"); cv.width=W; cv.height=H; const g=cv.getContext("2d");
-  const FR=cosFrameNow();   // v0.58 명함 틀(160×100 그림을 ×4)
+  const FR=cosFrameNow();
   if(FR==="fr_base"){ g.fillStyle="#0a0d16"; g.fillRect(0,0,W,H);
     const grd=g.createLinearGradient(0,0,W,H); grd.addColorStop(0,"#1a2140"); grd.addColorStop(1,"#0d1120"); g.fillStyle=grd; g.fillRect(8,8,W-16,H-16);
     g.strokeStyle="#f4c95d"; g.lineWidth=2; g.strokeRect(8,8,W-16,H-16); }
   else { g.save(); g.imageSmoothingEnabled=false; g.scale(4,4); cosFrameDraw(g,FR,0); g.restore(); }
-  if(subActive()){ g.fillStyle="#9db7ff"; g.font="bold 14px sans-serif"; g.textAlign="right"; g.fillText("🌙 정액",W-24,36); g.textAlign="left"; }   // v0.56: 정액 표시
-  const img=new Image(); img.src=heroIcon(cid);
-  const draw=()=>{
-    g.imageSmoothingEnabled=false; if(FR!=="fr_base"){ g.translate(32,20); g.scale(0.9,0.9); }   // v0.58: 꾸민 틀은 테두리가 두꺼워 안쪽을 조금 줄여 그림
-    const HX=FR!=="fr_base"?36:28; const lkC=heroLook(cid), R2=lkC&&(COS2.CAPE_KEY[lkC.cp]||lkC.sa)?COS2.render({look:lkC,bob:0,t:1.2,cape:lkC.cp,sa:lkC.sa,L:Math.max(1,lkC.aura||0)}):null;
-    if(R2) COS2.blit(g,R2.b,HX,40,7,false,true);   // v0.78 망토·특수 오라
-    { const lk=lkC, A=lk&&!lk.sa&&lk.aura&&auraNew(lk,lk.aura); if(A){ if(lk.ac){ A.ac=lk.ac; auraPaint(A); } g.drawImage(A.cv,HX-AURA_OX*7,40-AURA_OY*7,AURA_W*7,AURA_H*7); }
-      if(lk&&lk.cp&&!COS2.CAPE_KEY[lk.cp]) g.drawImage(COSART.capeLayer(lk.cp,0,0),HX-6*7,40-7,24*7,18*7); } g.drawImage(img,HX,40,112,112); if(R2&&lkC.sa) COS2.blit(g,R2.f,HX,40,7,false,true);
-    g.fillStyle="#f4c95d"; g.font="bold 24px sans-serif"; g.fillText(heroDisplayName(cid),160,66);   // v0.55.3: '[undefined]'가 앞에 붙던 오류(칭호는 아랫줄에 이미 있음)
-    g.fillStyle="#8b96bd"; g.font="14px sans-serif"; g.fillText(`${heroTitle(cid)} · Lv.${h.level}${h.awaken?" ✦"+h.awaken:""} · ${WEAPONS[D.wtype].name}`,160,90);
-    g.fillStyle="#e9ecf8"; g.font="13px sans-serif";
-    const st=[`공격력 ${d.atk}`,`체력 ${d.hp}`,`방어력 ${d.def}`,`신속 ${d.spd}`,`마나 ${d.mp}`,`치명타 확률 ${pct(d.crit)}%`,`치명타 피해 ${pct(d.critdmg)}%`,`명중 ${pct(d.acc)}%`,`회피 ${pct(d.eva)}%`,`관통 ${pct(d.pen)}%`,`상태이상 회피 ${pct(d.res)}%`,`흡혈 ${pct(d.ls)}%`];
-    st.forEach((t,i)=>g.fillText(t,160+(i%4)*118,116+Math.floor(i/4)*20));
-    g.fillStyle="#f4c95d"; g.font="bold 13px sans-serif"; g.fillText("장비",28,186);
-    g.font="12px sans-serif"; let y=204;
-    const col={common:"#aab3cf",fine:"#6fdc8c",rare:"#5eaaff",epic:"#c98bff",legend:"#ffb347",set:"#45e0cf",mythic:"#ff7ad9"};
-    { const S=enhSummary(cid); if(S&&S.sum){ g.fillStyle="#c7cfec"; g.fillText(`부위 강화 합 +${S.sum}${enhSummaryText(cid)?" — "+enhSummaryText(cid):""}`.slice(0,46),28,y); y+=16; } }   // v0.55.3
-    for(const s of SLOTS){ const it=findEquipped(cid,s.key); if(!it) continue; const E=ENH_SLOTS.includes(s.key)&&!it.noEnh?slotEnh(cid,s.key).l:0; g.fillStyle=col[it.mythic?"mythic":it.rarity]||"#aab3cf"; g.fillText(`${s.label}: ${E?"+"+E+" ":""}${itemLabel(it)}`,28,y); y+=16; if(y>H-30) break; }
-    g.fillStyle="#f4c95d"; g.font="bold 13px sans-serif"; g.fillText("전투 규칙",330,186);
-    g.fillStyle="#c7cfec"; g.font="12px sans-serif"; let y2=204;
-    partyRules[cid].filter(r=>r.enabled).slice(0,8).forEach((r,i)=>{ const t=`${i+1}. ${cLabel(r.c1)}${r.logic===1?" + ":r.logic===2?" / ":""}${r.logic?cLabel(r.c2):""} → ${SKILLS[r.skill].name}`; g.fillText(t.length>40?t.slice(0,39)+"…":t,330,y2); y2+=16; });
-    g.fillStyle="#6f7da3"; g.font="11px sans-serif"; g.fillText(`프로젝트 나이트 · ${new Date().toLocaleDateString("ko-KR")}`,28,H-20);
-    g.setTransform(1,0,0,1,0,0);
-    if(edit){ cardEditor(cid,cv.toDataURL("image/png")); return; }   // v0.75 꾸미기: 스티커 없는 명함 위에서 끌어 옮김
-    { const ST=cosOn("sticker")||[], P=cardStickerPos(ST,FR); ST.forEach((id,i)=>{ const c=document.createElement("canvas"); c.width=c.height=14; const sg=c.getContext("2d"); sg.imageSmoothingEnabled=false; cosStickerDraw(sg,id.slice(3),0,0); g.drawImage(c,Math.round(P[i][0]-28),Math.round(P[i][1]-28),56,56); }); }   // v0.58 명함 스티커 · v0.75 꾸민 자리
-    const url=cv.toDataURL("image/png");
-    openModal(`<h2>🪪 ${esc(heroDisplayName(cid))}의 명함</h2><p class="sub">아래 버튼으로 내려받거나, 그림을 길게 눌러 저장하세요</p><img src="${url}" style="width:100%;max-width:640px;border-radius:8px;display:block"><div class="row" style="margin-top:10px"><button class="mini" id="cardDl">⬇ 내려받기</button>${(cosOn("sticker")||[]).length?`<button class="mini" id="cardEdit">🎨 꾸미기</button>`:""}<button class="mini" onclick="closeModal()">닫기</button></div>`,"card");
-    if($("cardEdit")) $("cardEdit").onclick=()=>{ closeModal(); makeNameCard(cid,true); };
-    $("cardDl").onclick=async()=>{
-      const fname=`${heroDisplayName(cid)}-명함.png`;
-      try{ const dl=(window.claude&&typeof window.claude.use==="function")?await window.claude.use("downloads"):null;
-        if(dl){ const blob=await new Promise(r=>cv.toBlob(r,"image/png")); await dl.save({filename:fname,data:blob}); return; } }catch(e){ if(e&&e.code==="declined") return; }
-      const a=document.createElement("a"); a.download=fname; a.href=url; document.body.appendChild(a); a.click(); a.remove();
-    };
+  g.save(); if(FR!=="fr_base"){ g.translate(32,20); g.scale(0.9,0.9); }
+  const panel=(x,y,w,hh)=>{ g.fillStyle="rgba(5,8,16,.66)"; g.fillRect(x,y,w,hh); g.strokeStyle="rgba(150,168,220,.22)"; g.lineWidth=1; g.strokeRect(x+.5,y+.5,w-1,hh-1); };
+  const fit=(t,w)=>{ t=String(t); if(g.measureText(t).width<=w) return t; while(t.length>1&&g.measureText(t+"…").width>w) t=t.slice(0,-1); return t+"…"; };
+  const head=(t,x,y)=>{ g.fillStyle="#f4c95d"; g.font="bold 12px sans-serif"; g.fillText(t,x,y); };
+  g.textBaseline="alphabetic"; g.textAlign="left";
+  // 위: 영웅 자리 · 이름 · 능력치
+  panel(24,22,126,140);
+  g.fillStyle="#ffd978"; g.font="bold 24px sans-serif"; const NW=(cosOn("sticker")||[]).length?268:452; g.fillText(fit(heroDisplayName(cid),NW),162,48);
+  if(subActive()){ g.fillStyle="#9db7ff"; g.font="bold 13px sans-serif"; g.font="bold 11px sans-serif"; g.fillText("🌙 정액",30,156); }
+  g.fillStyle="#b9c4e6"; g.font="13px sans-serif"; g.fillText(fit(`${heroTitle(cid)} · Lv.${h.level}${h.awaken?" ✦"+h.awaken:""} · ${WEAPONS[D.wtype].name}`,NW),162,68);
+  panel(158,78,458,84);
+  const st=[["공격력",d.atk],["체력",d.hp],["방어력",d.def],["신속",d.spd],["마나",d.mp],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],["명중",pct(d.acc)+"%"],["회피",pct(d.eva)+"%"],["관통",pct(d.pen)+"%"],["상태이상 회피",pct(d.res)+"%"],["흡혈",pct(d.ls)+"%"]];
+  st.forEach(([k,v],i)=>{ const x=170+(i%3)*150, y=96+Math.floor(i/3)*19; g.font="12px sans-serif"; g.fillStyle="#93a3cc"; g.fillText(k,x,y); const w=g.measureText(k).width; g.font="bold 13px sans-serif"; g.fillStyle="#ffffff"; g.fillText(String(v),x+w+5,y); });
+  // 속성 저항
+  panel(24,168,592,24); g.font="12px sans-serif"; g.fillStyle="#93a3cc"; g.fillText("속성 저항",34,185);
+  EL_KEYS.forEach((e,i)=>{ const x=118+i*100; g.fillStyle=CARD_EL[e]; g.fillRect(x,176,8,8); g.font="12px sans-serif"; g.fillText(EL_NAME[e],x+13,185); const w=g.measureText(EL_NAME[e]).width; g.font="bold 13px sans-serif"; g.fillStyle="#ffffff"; g.fillText(String((d.er&&d.er[e])||0),x+13+w+5,185); });
+  // 아래 왼쪽: 장비 + 룬
+  panel(24,198,232,180); head("장비",32,214);
+  g.font="10px sans-serif"; g.fillStyle="#7f8db5"; g.textAlign="right"; g.fillText("■ 박힌 룬(등급 색)",250,214); g.textAlign="left";
+  let y=231;
+  for(const s of SLOTS){ const it=findEquipped(cid,s.key); g.font="11px sans-serif"; g.fillStyle="#7f8db5"; g.fillText(s.label,32,y);
+    if(it){ const E=ENH_SLOTS.includes(s.key)&&!it.noEnh?slotEnh(cid,s.key).l:0; const socks=(it.sockets||[]); const dotsW=socks.length*8; let x=72;
+      if(E){ g.font="bold 11px sans-serif"; g.fillStyle="#ffd978"; g.fillText("+"+E,x,y); x+=g.measureText("+"+E).width+4; }
+      g.font="11px sans-serif"; g.fillStyle=CARD_RAR[it.mythic?"mythic":it.rarity]||"#aab3cf"; g.fillText(fit(itemDisplayName(it)+(it.relic&&relicStar(it)>1?" "+"★".repeat(relicStar(it)):""),250-dotsW-4-x),x,y);
+      socks.forEach((r,k)=>{ const bx=250-dotsW+k*8, by=y-8; if(r){ g.fillStyle=runeAb(r).length?CARD_RAR.mythic:(CARD_RAR[runeR(r)]||CARD_RAR.rare); g.fillRect(bx,by,6,6); g.strokeStyle="#05070d"; g.strokeRect(bx-.5,by-.5,7,7); } else { g.strokeStyle="#4a5676"; g.strokeRect(bx+.5,by+.5,5,5); } }); }
+    else { g.fillStyle="#4a5676"; g.fillText("—",72,y); }
+    y+=13.4; }
+  // 아래 가운데: 전투 규칙 + 기술 속성
+  panel(262,198,236,180); head("전투 규칙",270,214);
+  g.font="10px sans-serif"; let lx=492; g.textAlign="right"; for(const e of EL_KEYS.slice().reverse()){ g.fillStyle=CARD_EL[e]; g.fillText(EL_NAME[e],lx,214); lx-=g.measureText(EL_NAME[e]).width+6; } g.textAlign="left";
+  let y2=233;
+  (partyRules[cid]||[]).filter(r=>r.enabled&&SKILLS[r.skill]).slice(0,8).forEach((r,i)=>{ const S=SKILLS[r.skill], el=S.el&&CARD_EL[S.el]?S.el:null;
+    g.font="11px sans-serif"; g.fillStyle="#7f8db5"; g.fillText(String(i+1),270,y2);
+    if(el){ g.fillStyle=CARD_EL[el]; g.beginPath(); g.arc(285,y2-4,3.5,0,Math.PI*2); g.fill(); } else { g.strokeStyle="#6c7899"; g.lineWidth=1; g.beginPath(); g.arc(285,y2-4,3,0,Math.PI*2); g.stroke(); }
+    g.font="bold 12px sans-serif"; g.fillStyle=el?CARD_EL[el]:"#eef1fb"; const nm=fit(S.name,120); g.fillText(nm,293,y2); const nw=g.measureText(nm).width;
+    const cond=`${cLabel(r.c1)}${r.logic===1?" + ":r.logic===2?" / ":""}${r.logic?cLabel(r.c2):""}`; g.font="11px sans-serif"; g.fillStyle="#a9b4d6"; g.fillText(fit(cond,492-(293+nw+8)),293+nw+8,y2); y2+=18; });
+  // 아래 오른쪽: 성반
+  panel(504,198,112,180); head("성반",512,214);
+  { const Wn=plateWorn(cid), t=document.createElement("canvas"); plateDraw(t,Wn,false); g.imageSmoothingEnabled=false; g.drawImage(t,512,222,96,96);
+    const cnt=Object.entries(plateCount(cid)).sort((a,b)=>b[1]-a[1]); g.font="11px sans-serif"; let y3=334;
+    if(!cnt.length){ g.fillStyle="#7f8db5"; g.fillText("끼운 성편 없음",512,y3); }
+    for(const [k,n] of cnt.slice(0,3)){ g.fillStyle=n>=6?"#ffd978":"#d8def4"; g.fillText(fit(`${PLATE_SETS[k].name.replace("의 성반","")} ${n}/6`,98),512,y3); y3+=14; } }
+  g.restore();
+  return {cv,FR};
+}
+let cardTimer=0;
+function makeNameCard(cid,edit){
+  const B=cardBase(cid), FR=B.FR, W=640,H=400; const live=document.createElement("canvas"); live.width=W; live.height=H; const g=live.getContext("2d"); const S={};
+  const paint=(now,withSt)=>{ g.setTransform(1,0,0,1,0,0); g.clearRect(0,0,W,H); g.drawImage(B.cv,0,0);
+    g.save(); if(FR!=="fr_base"){ g.translate(32,20); g.scale(0.9,0.9); } heroLiveDraw(g,cid,now,S,27,24,4); g.restore();
+    if(withSt){ const ST=cosOn("sticker")||[], P=cardStickerPos(ST,FR); ST.forEach((id,i)=>{ const c=document.createElement("canvas"); c.width=c.height=14; const sg=c.getContext("2d"); sg.imageSmoothingEnabled=false; cosStickerDraw(sg,id.slice(3),0,0); g.imageSmoothingEnabled=false; g.drawImage(c,Math.round(P[i][0]-28),Math.round(P[i][1]-28),56,56); }); } };
+  if(edit){ paint(performance.now(),false); cardEditor(cid,live.toDataURL("image/png")); return; }   // v0.75 꾸미기: 스티커 없는 명함 위에서 끌어 옮김
+  paint(performance.now(),true);
+  openModal(`<h2>🪪 ${esc(heroDisplayName(cid))}의 명함</h2><p class="sub">아래 버튼으로 그림을 내려받을 수 있어요</p><div id="cardHold"></div><div class="row" style="margin-top:10px"><button class="mini" id="cardDl">⬇ 내려받기</button>${(cosOn("sticker")||[]).length?`<button class="mini" id="cardEdit">🎨 꾸미기</button>`:""}<button class="mini" onclick="closeModal()">닫기</button></div>`,"card");
+  live.id="cardLive"; live.style.cssText="width:100%;max-width:640px;border-radius:8px;display:block"; $("cardHold").appendChild(live);
+  clearInterval(cardTimer); cardTimer=setInterval(()=>{ if(!live.isConnected){ clearInterval(cardTimer); return; } try{ paint(performance.now(),true); }catch(e){} },110);
+  if($("cardEdit")) $("cardEdit").onclick=()=>{ closeModal(); makeNameCard(cid,true); };
+  $("cardDl").onclick=async()=>{
+    const fname=`${heroDisplayName(cid)}-명함.png`;
+    try{ const dl=(window.claude&&typeof window.claude.use==="function")?await window.claude.use("downloads"):null;
+      if(dl){ const blob=await new Promise(r=>live.toBlob(r,"image/png")); await dl.save({filename:fname,data:blob}); return; } }catch(e){ if(e&&e.code==="declined") return; }
+    const a=document.createElement("a"); a.download=fname; a.href=live.toDataURL("image/png"); document.body.appendChild(a); a.click(); a.remove();
   };
-  if(img.complete) draw(); else img.onload=draw;
 }
 
 /* ---- 상점 ---- */
@@ -15600,6 +16540,18 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.11", v:"v0.95", t:"특성 나무 개편 · 명함 · 도감(유물 · 성반)", L:[
+    "🌿 특성 나무를 다시 짰습니다. 갈래마다 '시전 시 마나 +3' 같은 채움 칸을 빼고, 그 자리에 기술을 바꾸는 칸을 넣었습니다(갈래마다 효과 칸 17 → 22). 특성이 하나도 없던 기술 41개(되받아치기 · 방패 치기 · 성벽 · 불굴 · 응징의 방패 · 광폭 휘두르기 · 피 마시기 · 잿불 폭발 · 증기 폭발 · 얼음 감옥 · 서리 외투 · 독침 투척 · 오금 베기 · 그림자 분신 · 표적 각인 · 부패 · 독무 · 금강불괴 · 천룡파 · 회오리 발차기 · 승천권 · 산탄 사격 · 일격 관통 · 약점 간파 · 대폭발 · 소이탄 비 · 진정의 노래 · 불안의 화음 · 전쟁의 북 · 웃음 폭탄 등)에도 칸이 생겼습니다.",
+    "⚖ 둘 중 하나: 갈래의 두 갈림길 첫 큰 칸은 둘 중 하나만 찍을 수 있습니다(갈래마다 2쌍). 반대쪽 길의 나머지 칸은 이음길로 돌아가면 찍을 수 있습니다.",
+    "🤝 조합 칸: '기절한 적에게 아군 치명타 +10%p', '그 기술에 맞은 적이 받는 피해 +8%(2턴)'처럼 파티 구성에 따라 값어치가 달라지는 칸이 갈래마다 들어갔습니다.",
+    "다른 전직의 기술을 고치던 칸을 옮겼습니다 — 최후의 일격 칸은 광전사 갈래로, 장풍 칸은 수도승 갈래로, 숨통 끊기 칸은 암살자 갈래로. 비전 광선 · 부활의 기도 · 연기 구슬 · 화살비 · 거리 두기 칸은 두 전직이 모두 쓰도록 공통 갈래로 옮겼습니다.",
+    "특성을 모두 돌려 드렸습니다 — 주인공은 다시 찍어 주세요. 동료는 새 나무에서 스스로 다시 찍습니다(전투설정 규칙에 넣은 기술의 칸을 먼저).",
+    "📈 동료 능력치: 직업의 중요 능력치 하나를 먼저 18까지 찍습니다 — 힘(검사 · 도적 · 권사 · 창술사) · 민첩(총사 · 궁수) · 지능(마법사 · 성직자 · 음유시인). 생존 성향인 검사 · 창술사 · 권사는 체질 18. 이미 키운 동료도 다시 배분했고, 그동안 오른 체력 · 마나 · 공격력 성장치를 새 능력치 기준으로 다시 계산했습니다.",
+    "체질 18 특혜 '강인함'이 '전투 사이 체력 5% 회복'에서 '받는 피해 -5%'로 바뀌었습니다.",
+    "🪪 명함을 다시 그렸습니다 — 영웅이 지금 외형(망토 · 무기 외형 · 오라) 그대로 움직입니다. 속성 저항 5종, 장비마다 박힌 룬(등급 색 점), 전투 규칙에 넣은 기술의 속성(색), 지금 끼운 성반 그림이 들어갑니다. 글자 뒤에 어두운 판을 깔아 어떤 틀에서도 읽히게 했고, '부위 강화 합' 줄과 맨 아래 '프로젝트 나이트' 표시는 뺐습니다. 스티커 기본 자리는 오른쪽 위입니다.",
+    "📖 도감에 🔮 유물(7종)과 🌌 성반(10종)이 생겼습니다. 얻지 못한 것도 전부 볼 수 있습니다 — 효과, ★3 각성 효과, 나오는 장과 조건, 지금 누가 가졌는지(유물), 얻어 본 자리 6칸과 2 · 4 · 6조각 효과(성반).",
+    "🛡 보호 주문서를 쓸지 고를 수 있습니다 — 장비 화면 인형 아래와 장비 칸 창에 같은 한 줄이 있습니다: '보호 주문서 N · 오늘 x/10' · [사용 | 안 씀] · [💎20 +1]. [사용]이면 +6 이상 강화에서 시도마다 1개를 쓰고 실패해도 단계가 그대로입니다(그 칸의 +N 단추에 🛡 표시). [안 씀]이면 주문서를 쓰지 않습니다. 처음에는 [사용]으로 시작합니다(예전에는 꺼진 채로 시작해 창을 열어 켜야만 쓰였습니다). [사용]인데 주문서가 없거나 오늘 10번을 다 썼으면 주문서 없이 강화합니다.",
+    "장비 화면의 '룬주머니' 탭 이름을 '룬'으로 줄였습니다."]},
   {d:"2026.11.11", v:"v0.94", t:"영웅별 외형 · 점검 반영", L:[
     "외형을 영웅마다 따로 입힙니다. 장비 화면 오른쪽에 '🎨 외형' 탭이 생겼습니다(가방 · 룬주머니 · 성반 옆) — 고른 영웅의 외형 칸 4개(망토 · 무기 외형 · 오라 색 · 특수 오라)와 가진 외형이 가방처럼 늘어서고, 누르면 입히거나 벗깁니다.",
     "산 외형 1개는 영웅 1명만 입을 수 있습니다. 같은 외형을 둘에게 입히려면 상점에서 하나 더 사면 됩니다(상점 🎨 외형에 '보유 n · 착용 n'과 '하나 더' 단추). 남는 것이 없을 때 다른 영웅에게 입히면 입고 있던 영웅에게서 옮겨 입힙니다. 지금까지 입혀 둔 외형은 그대로 주인공이 입고 있습니다.",
@@ -16180,7 +17132,11 @@ async function coopPack(obj){ const txt=JSON.stringify(obj);
   try{ if(typeof CompressionStream==="function"){ const cs=new Blob([txt]).stream().pipeThrough(new CompressionStream("deflate-raw")); const buf=new Uint8Array(await new Response(cs).arrayBuffer());
     let b=""; for(let i=0;i<buf.length;i++) b+=String.fromCharCode(buf[i]); return "z"+btoa(b); } }catch(e){}
   return "j"+txt; }
-function coopExpand(sn){ if(!Array.isArray(sn)) return sn; for(const u of sn){ if(u&&u._exDiff&&u.skillsEx){ const ex={}; for(const [id,d] of Object.entries(u.skillsEx)) ex[id]=Object.assign({},SKILLS[id]||{},d,{id}); u.skillsEx=ex; delete u._exDiff; } } return sn; }
+function coopExpand(sn){ if(!Array.isArray(sn)) return sn; for(const u of sn){
+    if(u&&u._cz){ delete u._cz;   // v0.96 줄여 보낸 것 되살림: 장비 조건 옵션 [이름,값] · 그 합(gx) · 상태 조건 특성 목록
+      u.condAffixes=(u.condAffixes||[]).map(a=>Array.isArray(a)?{k:a[0],v:a[1]}:a); u.gx={}; for(const a of u.condAffixes) if(a.k!=="c_sk") u.gx[a.k.slice(2)]=(u.gx[a.k.slice(2)]||0)+a.v;
+      unitTvs(u); }
+    if(u&&u._exDiff&&u.skillsEx){ const ex={}; for(const [id,d] of Object.entries(u.skillsEx)){ const b=SKILLS[id]||{}; ex[id]=Object.assign({},b,{mods:{},power0:b.power||0,enh:0},d,{id}); } u.skillsEx=ex; delete u._exDiff; } } return sn; }
 async function coopUnpack(str){ if(typeof str!=="string"||str.length>6000) return null;
   try{ if(str[0]==="j") return coopExpand(JSON.parse(str.slice(1)));
     if(str[0]==="z"&&typeof DecompressionStream==="function"){ const bin=atob(str.slice(1)); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
@@ -16242,8 +17198,10 @@ function coopSnap(cid){
   const u=buildHeroUnit(cid);
   const nick=coopNick();
   u.name=(isProtag(cid)?nick:`${nick}의 ${jobName(cid)}`)+` Lv.${progress.heroes[cid].level}`;
-  if(u.condAffixes) u.condAffixes=u.condAffixes.map(a=>{ const b={k:a.k,v:a.v}; return b; });   // v0.44: 전투에 필요한 것만(품질·스킬 옵션은 skillsEx에 이미 반영) — 상태 크기 한도
-  if(u.skillsEx){ const ex={}; for(const [id,m] of Object.entries(u.skillsEx)){ const base=SKILLS[id]||{}; const d={}; for(const [k,v] of Object.entries(m)) if(k!=="id"&&JSON.stringify(base[k])!==JSON.stringify(v)) d[k]=v; ex[id]=d; } u.skillsEx=ex; u._exDiff=true; }   // v0.85: 기본 기술과 다른 항목만(크기)
+  u.condAffixes=(u.condAffixes||[]).map(a=>[a.k,a.v]); delete u.gx; delete u.tvsD; delete u.tvsC; delete u.tvsS; u._cz=1;   // v0.44: 전투에 필요한 것만(품질·스킬 옵션은 skillsEx에 이미 반영) — 상태 크기 한도
+  if(u.skillsEx){ const ex={}; for(const [id,m] of Object.entries(u.skillsEx)){ const base=SKILLS[id]||{}; const d={}; for(const [k,v] of Object.entries(m)) if(k!=="id"&&JSON.stringify(base[k])!==JSON.stringify(v)) d[k]=v;
+      if(d.enh===0) delete d.enh; if(d.mods&&!Object.keys(d.mods).length) delete d.mods; if(d.power0===(base.power||0)) delete d.power0;   // v0.96 안 바뀐 기술은 빈 칸으로(상태 크기 한도) — coopExpand가 되살림
+      ex[id]=d; } u.skillsEx=ex; u._exDiff=true; }   // v0.85: 기본 기술과 다른 항목만(크기)
   return JSON.parse(JSON.stringify(u,(k,v)=>typeof v==="number"&&!Number.isInteger(v)?Math.round(v*10000)/10000:v));
 }
 // 채팅: 각자의 최근 4줄을 상태에 싣고, 받는 쪽은 처음 보는 줄만 이어 붙인다
