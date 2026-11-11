@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794383913071"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794384410466"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3504,8 +3504,7 @@ function battleRewards(zone,d,rk){
   // 룬: 정예·우두머리·보스에게서
   if((els>0||zone.mid||zone.boss)&&Math.random()<(zone.boss?0.22:0.07)+0.05*d) items.push(makeRune(null,null,d));   // v0.38: 룬이 너무 많이 나와 가방이 복잡 → 절반가량으로, 대신 등급이 다양
   // 군단장 유물: 지역 보스에게서 드물게(없을 때만). 3회 이상 깬 지역은 확정
-  if(zone.boss&&RELICS[rk]){ const got=progress.relicGot=progress.relicGot||{}, n=(progress.cl[d]||{})[rk]||0;   // v0.97 가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시, 아니면 난이도별 확률(같은 유물도 계속 나옴)
-    if((!got[rk]&&n>=3)||Math.random()<RELIC_DROP[Math.min(2,d)]){ got[rk]=1; items.push(makeRelic(rk,d)); } }
+  if(zone.boss&&RELICS[rk]&&Math.random()<RELIC_DROP[Math.min(2,d)]) items.push(makeRelic(rk,d));   // v0.96.3 유물은 확률로만(3번 깨면 확정 같은 보장 없음)
   let ess=els+zone.mobs.filter(m=>m.chief).length*3+(zone.named?4:0)+(zone.boss?5:0);
   ess=Math.round(ess*(1+d));
   return {exp,gold,items,ess,plate:plateDropRoll(zone,d,rk)};   // v0.95 성반: 영원한 밤 장 보스 3% — 성편은 바로 보관함에
@@ -16591,6 +16590,7 @@ const UPDATES=[
     "유물은 팔 수 없고, 분해하면 <b>유물의 파편</b> 1개가 나옵니다(정수는 안 나옴). 강화한 유물을 분해하면 강화에 쓴 파편의 절반을 더 돌려받습니다.",
     "유물 강화(유물을 눌러 연 창의 '유물 강화' 단추): 최대 3번 — 1회 파편 2 + 정수 200, 2회 파편 4 + 정수 400, 3회 파편 8 + 정수 800(합계 파편 14 · 정수 1,400). 강화할 때마다 그 유물의 후보 옵션 4개 중 하나가 무작위 수치로 <b>한 줄 더</b> 붙습니다. 이미 있는 옵션이 또 나오면 수치가 합쳐집니다. 다시 굴리기는 없습니다. 황혼·자정에서 얻은 유물은 강화로 붙는 줄도 그 난이도 상한을 따릅니다.",
     "지금 가진 유물은 새 규칙으로 바뀝니다: 옵션 한 줄을 새로 굴리고, ★2는 강화 1회 · ★3은 강화 2회를 한 것으로 쳐서 그만큼 줄이 더 붙습니다(수치 상한은 지금까지 연 가장 높은 난이도 기준). 각성에 쓴 사도의 혼과 새벽 파편은 돌려주지 않습니다.",
+    "<b>v0.96.3</b> 유물은 이제 확률로만 나옵니다(황혼 6% · 자정 10% · 영원한 밤 15%). '가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시 나온다'는 보장을 없앴습니다.",
     "<b>v0.96.2</b> 부위 강화 단추: 골드나 정수가 모자라면 단추가 말없이 안 눌리던 것을 고쳤습니다 — 이제 눌리고, '골드 부족 (필요 1,344 · 보유 915)'처럼 무엇이 얼마나 모자란지 알려 줍니다(모자란 칸의 단추는 점선 테두리).",
     "<b>v0.96.1</b> 유물이 나올 확률을 낮췄습니다: 황혼 25% → 6% · 자정 35% → 10% · 영원한 밤 50% → 15%(가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시 — 그대로).",
     "<b>v0.96.1</b> 난이도별 수치가 분명히 갈리게 했습니다(속성 피해 기준 황혼 4~6% · 자정 5~8% · 영원한 밤 6~10%). 모든 옵션에서 황혼의 최대치는 자정보다, 자정의 최대치는 영원한 밤보다 낮고, 높은 난이도는 최소치도 올라갑니다. 예: 공격력 3~4 / 4~6 / 4~7% · 체력 6~9 / 8~12 / 9~15% · 치명타 확률 3~4 / 4~6 / 4~7% · 턴당 마나 1 / 1~2 / 2~3 · 신속 1 / 1~2 / 2~3(신속은 최대 2 → 3). 이미 가진 유물의 수치는 그대로입니다.",
