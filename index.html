@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794384590389"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794384971798"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3910,7 +3910,7 @@ const RELICS={
 /* 옵션: lo~hi(영원한 밤 기준) · kind — stat(장비 능력치에 더함) · pct(공격력·체력·방어력 %) · trait(전투 수치) */
 const RELIC_OPT={
   el_fire:{lo:4,hi:10,kind:"trait",t:v=>`화염 피해 +${v}%`}, el_cold:{lo:4,hi:10,kind:"trait",t:v=>`냉기 피해 +${v}%`}, el_poison:{lo:4,hi:10,kind:"trait",t:v=>`독 피해 +${v}%`},
-  el_holy:{lo:4,hi:10,kind:"trait",t:v=>`신성 피해 +${v}%`}, el_dark:{lo:4,hi:10,kind:"trait",t:v=>`암흑 피해 +${v}%`}, el_phys:{lo:4,hi:10,kind:"trait",t:v=>`물리 피해(속성 없는 공격) +${v}%`},
+  el_holy:{lo:4,hi:10,kind:"trait",t:v=>`신성 피해 +${v}%`}, el_dark:{lo:4,hi:10,kind:"trait",t:v=>`암흑 피해 +${v}%`}, el_phys:{lo:4,hi:10,kind:"trait",t:v=>`무속성 피해 +${v}%`},
   atk_pct:{lo:3,hi:7,kind:"pct",t:v=>`공격력 +${v}%`}, hp_pct:{lo:6,hi:15,kind:"pct",t:v=>`체력 +${v}%`}, def_pct:{lo:6,hi:15,kind:"pct",t:v=>`방어력 +${v}%`},
   skill:{lo:3,hi:8,kind:"trait",t:v=>`기술 피해 +${v}%`}, aoe:{lo:4,hi:10,kind:"trait",t:v=>`광역 피해 +${v}%`}, dot:{lo:6,hi:15,kind:"trait",t:v=>`지속 피해(화상·독·출혈) +${v}%`},
   cut:{lo:3,hi:7,kind:"trait",t:v=>`받는 피해 -${v}%`}, gold:{lo:8,hi:20,kind:"trait",t:v=>`골드 +${v}%`}, exp:{lo:5,hi:12,kind:"trait",t:v=>`경험치 +${v}%`},
@@ -7276,7 +7276,7 @@ class Sim {
     if(D.ranged_guard&&skill.range==="ranged") cut*=0.8;
     if(D.aoe_guard&&isAoe(skill)) cut*=0.75;
     if(def.aoeRes&&isAoe(skill)) cut*=1-def.aoeRes;
-    if(skill.el){ const er=this.erOf(def,skill.el); if(er) cut*=1-er/100; const am=att.traits&&att.traits["el_"+skill.el]; if(am) cut*=1+am; } else if(att.traits&&att.traits.el_phys) cut*=1+att.traits.el_phys;   // v0.97 유물: 속성 없는 공격 = 물리
+    if(skill.el){ const er=this.erOf(def,skill.el); if(er) cut*=1-er/100; const am=att.traits&&att.traits["el_"+skill.el]; if(am) cut*=1+am; } else if(att.traits&&att.traits.el_phys) cut*=1+att.traits.el_phys;   // v0.97 유물: 무속성(속성 없는 공격) 피해
       // v0.95 속성 저항(피해 %) · 성반의 속성 피해
     if(D.boss_guard&&(att.boss||att.isBossKind)) cut*=0.85;
     if(D.steady&&this.hpPct(def)>=70) cut*=D.steady_v||0.85;
@@ -9451,8 +9451,8 @@ function itemExtraText(it){
   if(it.proc) parts.push("✨ "+it.proc.label);
   if(it.engrave&&ENGRAVES[it.engrave]) parts.push("📜 각인: "+ENGRAVES[it.engrave].text);
   if(it.relic&&RELICS[it.relic]){ const d=it.rd==null?2:it.rd; for(const l of relicLines(it)) parts.push("🔮 "+l);
-    parts.push(`유물 강화 ${relicUp(it)}/${RELIC_UP_MAX} · ${DIFFS[d].name}에서 얻음`+(d<2?` (수치가 ${DIFFS[d+1].name} 것보다 낮음)`:""));
-    parts.push("후보 옵션: "+RELICS[it.relic].opts.map(k=>RELIC_OPT[k].t(relicOptMin(k,d)===relicOptMax(k,d)?`${relicOptMax(k,d)}`:`${relicOptMin(k,d)}~${relicOptMax(k,d)}`)).join(" / ")); }
+    parts.push(`강화 ${relicUp(it)}/${RELIC_UP_MAX} · ${DIFFS[d].name}`);
+    parts.push("후보: "+RELICS[it.relic].opts.map(k=>RELIC_OPT[k].t(relicOptMin(k,d)===relicOptMax(k,d)?`${relicOptMax(k,d)}`:`${relicOptMin(k,d)}~${relicOptMax(k,d)}`)).join(" / ")); }
   if(it.mythic&&MYTHIC[it.mythic]) parts.push("🌠 신화 — "+MYTHIC[it.mythic].desc);
   if(it.rune&&RUNES[it.rune]&&RUNES[it.rune].fx) parts.push("◈ "+runeFxText(it.rune,it.rarity,!!(it.abyss&&it.abyss.length)));
   if(it.rune&&RUNES[it.rune]&&COND[RUNES[it.rune].cond].lock) parts.push("◈ 조건 해금: "+COND[RUNES[it.rune].cond].label);
@@ -10305,11 +10305,6 @@ function renderTraits(){
   }
   // 그물
   const pane=$("traitsPane"); pane.innerHTML="";
-  if(progress._traitRefund){
-    const n=document.createElement("div"); n.className="hintline"; n.style.marginBottom="8px";
-    n.innerHTML=`<span style="color:var(--accent)">🔄 특성 개편 — 포인트를 모두 돌려드렸습니다.</span>`;
-    pane.appendChild(n);
-  }
   if(!traitSel[cid]||!traitNode(cid,traitSel[cid])){
     const open=allTraitNodes(cid).filter(n=>traitState(cid,n)==="open").sort((x,y)=>x.row-y.row)[0];
     traitSel[cid]=(open||allTraitNodes(cid)[0]).key;
@@ -14347,15 +14342,14 @@ function renderCodex(){
     body.querySelectorAll(".cxset").forEach(c=>{ const tg=()=>{ const k=c.dataset.set; cxOpen.has(k)?cxOpen.delete(k):cxOpen.add(k); renderCodex(); }; c.onclick=tg; c.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); tg(); } }; });
   } else if(codexTab==="relics"){   // v0.97 유물 도감: 10종 전부 — 나오는 곳 · 후보 옵션과 수치 범위 · 지금 가진 것
     const own=k=>allRelics().filter(x=>x.relic===k);
-    body.innerHTML=`<div class="cxsub">장 보스가 ${RELIC_DROP.map((v,i)=>`${DIFFS[i].name} ${Math.round(v*100)}%`).join(" · ")}로 떨어뜨립니다. 후보 4개 중 <b>한 줄</b>이 무작위 수치로 붙고, 수치는 높은 난이도일수록 높습니다(아래 숫자는 <b>황혼 / 자정 / 영원한 밤</b> 순). 같은 유물은 한 영웅만 낍니다.<br>
-      분해하면 <b>유물의 파편</b>(보유 ${fragStore().relic}) · 강화 3번까지(${RELIC_UP_COST.slice(1).map(c=>`파편 ${c.shard}+정수 ${c.ess}`).join(" → ")}): 후보 중 하나가 무작위로 한 줄 더, 겹치면 합산.</div><div class="cxgrid st">`
+    body.innerHTML=`<div class="cxgrid st">`
       +Object.keys(RELICS).map(k=>{ const R=RELICS[k], G=REGIONS[k], L=own(k);
         return `<div class="cxcard cxplate${L.length?" got":""}"><div class="cxhead"><span class="cxname">${esc(R.name)}</span><span class="cxn">${L.length?`보유 ${L.length}`:"미보유"}</span></div>
           <div class="cxprow"><img class="cxpcv" style="width:56px;height:56px;flex:0 0 56px" src="${itemIconURL({slot:"relic",relic:k,rarity:"legend"})}" alt=""><div class="cxfx">${R.opts.map(o=>`<div>${esc(RELIC_OPT[o].t("").replace(/ [+-]$/,"").replace(/ [+-]%$/,""))} <span class="shopnote">${[0,1,2].map(d=>relicOptMin(o,d)===relicOptMax(o,d)?relicOptMax(o,d):relicOptMin(o,d)+"~"+relicOptMax(o,d)).join(" / ")}</span></div>`).join("")}</div></div>
           <div class="cxmeta">${esc(G?`${G.chapter} · ${G.name}`:"")} 보스${L.map(it=>{ const ow=itemOwner(it.id); return `<br>· ${esc(relicLines(it).join(" · "))}${relicUp(it)?` (강화 ${relicUp(it)})`:""} — ${ow?esc(heroDisplayName(ow))+" 착용":"가방"}`; }).join("")}</div></div>`; }).join("")+`</div>`;
   } else if(codexTab==="plates"){   // v0.96 성반 도감: 세트마다 완성 그림 · 얻어 본 자리(6칸) · 2·4·6조각 효과 · 나오는 곳
     const seen=plateSeen();
-    body.innerHTML=`<div class="cxsub">성편은 영원한 밤의 장 보스(5막)가 ${Math.round(PLATE_DROP*100)}% 확률로 떨어뜨리고, 성반 가루 ${PLATE_CRAFT.dust} + 밤의 정수 ${PLATE_CRAFT.ess}로 원하는 세트·자리를 만들 수 있어요. 한 번이라도 얻은 자리는 그림이 밝혀집니다.</div><div class="cxgrid st">`
+    body.innerHTML=`<div class="cxgrid st">`
       +PLATE_KEYS.map(k=>{ const S=PLATE_SETS[k], sn=seen[k]||{}, n=Object.keys(sn).length, R=REGIONS[k];
         return `<div class="cxcard cxplate${n>=6?" got":""}"><div class="cxhead"><span class="cxname">${esc(S.name)}</span><span class="cxn">${n}/6</span></div>
           <div class="cxprow"><canvas class="cxpcv" data-ps="${k}" width="64" height="64"></canvas><div class="cxfx">${[2,4,6].map(q=>`<div><b>${q}조각</b> ${esc(S.fx[q][0])}</div>`).join("")}</div></div>
@@ -14552,8 +14546,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
 
 // v0.95 보호 주문서 줄(부위 창): 개수 · 오늘 쓴 횟수 · 사용 켜기/끄기 · 💎로 사기
 function wardRowHTML(l){ const W=wardState(), gem=progress.gem||0, left=Math.max(0,WARD_DAY_MAX-W.used);   // v0.96 한 줄: 개수 · 오늘 횟수 · [사용|안 씀] · 구매 — 장비 화면과 부위 창이 같은 줄을 씀
-  const note=!W.on?"실패하면 단계가 내려감":W.n<=0?"주문서가 없어 쓰이지 않음":left<=0?"오늘 횟수를 다 써서 쓰이지 않음":(l!=null&&!(enhFailRule(l).drop>0))?"이 단계는 실패해도 안 내려가 쓰지 않음":"+6부터 1개씩 · 실패해도 그대로";
-  return `<div class="wardbar"><span class="wi" title="보호 주문서 — +6 이상 강화에서 시도마다 1개를 쓰고, 실패해도 단계가 내려가지 않습니다 · 하루 ${WARD_DAY_MAX}번">🛡 보호 주문서 <b>${W.n}</b> <span style="white-space:nowrap">· 오늘 <b>${W.used}/${WARD_DAY_MAX}</b></span><small>${note}</small></span>
+  return `<div class="wardbar"><span class="wi" title="보호 주문서 — +6 이상 강화에서 시도마다 1개를 쓰고, 실패해도 단계가 내려가지 않습니다 · 하루 ${WARD_DAY_MAX}번">🛡 보호 주문서 <b>${W.n}</b> <span style="white-space:nowrap">· 오늘 <b>${W.used}/${WARD_DAY_MAX}</b></span></span>
     <span class="seg"><button id="wardOn" class="${W.on?"on":""}" ${runBusy()?"disabled":""}>사용</button><button id="wardOff" class="${W.on?"":"on"}" ${runBusy()?"disabled":""}>안 씀</button></span>
     <button class="mini" id="wardBuy" title="새벽 결정 ${WARD_GEM}개로 1개 (보유 💎${gem})" ${gem<WARD_GEM?"disabled":""}>💎${WARD_GEM} +1</button></div>`; }
 function wardBind(m,re){ const on=m.querySelector("#wardOn"), off=m.querySelector("#wardOff"), buy=m.querySelector("#wardBuy");
@@ -16583,14 +16576,14 @@ const UPDATES=[
   {d:"2026.11.11", v:"v0.96", t:"유물 개편 — 옵션 한 줄 · 유물의 파편 · 강화 3번", L:[
     "🔮 유물을 새로 만들었습니다. 고정 효과('화상인 적에게 +20%', '8턴부터 +12%' 같은 조건부 효과 포함), ★2·★3 각성, 유물이 열어 주던 전투 규칙 조건은 모두 없앴습니다. 그 조건 7개(8턴 이후, 화상 중인 적 2마리 이상 등)는 이제 유물 없이 처음부터 쓸 수 있습니다.",
     "유물은 10종(1~10장 보스마다 1종 — 8장 '비에라의 부러진 부채', 9장 '녹타의 빈 투구', 10장 '루멘의 낡은 그림책' 추가)이고 등급은 하나입니다. 유물마다 후보 옵션이 4개 있고, 그중 <b>한 줄</b>이 무작위 수치로 붙어 나옵니다.",
-    "후보 옵션 — 가면: 독 피해 · 회피 · 치명타 확률 · 지속 피해 / 국자: 화염 피해 · 체력 · 치유량 · 공격력 / 악보: 냉기 피해 · 턴당 마나 · 기술 피해 · 상태이상 회피 / 나무 심장: 물리 피해 · 체력 · 방어력 · 받는 피해 감소 / 계산자: 골드 · 경험치 · 치명타 피해 · 관통 / 모래시계: 화염 피해 · 신속 · 광역 피해 · 회피 / 검은 거울: 신성 피해 · 암흑 피해 · 전체 속성 저항 · 상태이상 회피 / 부채: 물리 피해 · 독 피해 · 치명타 확률 · 치명타 피해 / 빈 투구: 암흑 피해 · 냉기 피해 · 방어력 · 흡혈 / 그림책: 신성 피해 · 공격력 · 기술 피해 · 받는 피해 감소. (물리 피해 = 속성이 없는 공격)",
-    "(v0.96.1에서 아래 수치 범위와 확률을 고쳤습니다 — 맨 아래 두 줄 참고) 수치 범위(한 줄, 영원한 밤 기준): 속성·물리·광역 피해 4~10% · 공격력 3~7% · 기술 피해 3~8% · 지속 피해 6~15% · 체력·방어력 6~15% · 받는 피해 -3~7% · 치명타 확률 3~7% · 치명타 피해 8~20% · 관통 3~8% · 회피 3~7% · 상태이상 회피 6~14% · 전체 속성 저항 5~12% · 치유량 6~15% · 턴당 마나 1~3 · 신속 1~2 · 흡혈 2~5% · 골드 8~20% · 경험치 5~12%. 황혼에서는 범위의 절반까지(속성 피해 4~7%), 자정에서는 3분의 2까지(4~8%)만 나오고 <b>최대치는 영원한 밤에서만</b> 나옵니다.",
+    "후보 옵션 — 가면: 독 피해 · 회피 · 치명타 확률 · 지속 피해 / 국자: 화염 피해 · 체력 · 치유량 · 공격력 / 악보: 냉기 피해 · 턴당 마나 · 기술 피해 · 상태이상 회피 / 나무 심장: 무속성 피해 · 체력 · 방어력 · 받는 피해 감소 / 계산자: 골드 · 경험치 · 치명타 피해 · 관통 / 모래시계: 화염 피해 · 신속 · 광역 피해 · 회피 / 검은 거울: 신성 피해 · 암흑 피해 · 전체 속성 저항 · 상태이상 회피 / 부채: 무속성 피해 · 독 피해 · 치명타 확률 · 치명타 피해 / 빈 투구: 암흑 피해 · 냉기 피해 · 방어력 · 흡혈 / 그림책: 신성 피해 · 공격력 · 기술 피해 · 받는 피해 감소. (무속성 피해 = 속성이 없는 공격에 붙음)",
+    "(v0.96.1에서 아래 수치 범위와 확률을 고쳤습니다 — 맨 아래 두 줄 참고) 수치 범위(한 줄, 영원한 밤 기준): 속성·무속성·광역 피해 4~10% · 공격력 3~7% · 기술 피해 3~8% · 지속 피해 6~15% · 체력·방어력 6~15% · 받는 피해 -3~7% · 치명타 확률 3~7% · 치명타 피해 8~20% · 관통 3~8% · 회피 3~7% · 상태이상 회피 6~14% · 전체 속성 저항 5~12% · 치유량 6~15% · 턴당 마나 1~3 · 신속 1~2 · 흡혈 2~5% · 골드 8~20% · 경험치 5~12%. 황혼에서는 범위의 절반까지(속성 피해 4~7%), 자정에서는 3분의 2까지(4~8%)만 나오고 <b>최대치는 영원한 밤에서만</b> 나옵니다.",
     "나올 확률: 장 보스를 쓰러뜨릴 때 황혼 25% · 자정 35% · 영원한 밤 50%. 가져 본 적 없는 유물은 그 난이도에서 그 장을 3번 깼으면 반드시 나옵니다. 같은 유물이 계속 나오고 여러 개 가질 수 있습니다. 던전 상인은 이제 유물을 팔지 않습니다.",
     "같은 종류의 유물은 한 번에 한 영웅만 낄 수 있습니다(국자를 낀 영웅이 있으면 다른 영웅은 국자를 못 낌 — 다른 유물은 낄 수 있음). 영웅마다 유물 칸은 그대로 1개입니다.",
     "유물은 팔 수 없고, 분해하면 <b>유물의 파편</b> 1개가 나옵니다(정수는 안 나옴). 강화한 유물을 분해하면 강화에 쓴 파편의 절반을 더 돌려받습니다.",
     "유물 강화(유물을 눌러 연 창의 '유물 강화' 단추): 최대 3번 — 1회 파편 2 + 정수 200, 2회 파편 4 + 정수 400, 3회 파편 8 + 정수 800(합계 파편 14 · 정수 1,400). 강화할 때마다 그 유물의 후보 옵션 4개 중 하나가 무작위 수치로 <b>한 줄 더</b> 붙습니다. 이미 있는 옵션이 또 나오면 수치가 합쳐집니다. 다시 굴리기는 없습니다. 황혼·자정에서 얻은 유물은 강화로 붙는 줄도 그 난이도 상한을 따릅니다.",
     "지금 가진 유물은 새 규칙으로 바뀝니다: 옵션 한 줄을 새로 굴리고, ★2는 강화 1회 · ★3은 강화 2회를 한 것으로 쳐서 그만큼 줄이 더 붙습니다(수치 상한은 지금까지 연 가장 높은 난이도 기준). 각성에 쓴 사도의 혼과 새벽 파편은 돌려주지 않습니다.",
-    "<b>v0.96.4</b> 특성 화면 위의 긴 안내문(특성 개편 설명 3줄)을 한 줄로 줄였습니다: '특성 개편 — 포인트를 모두 돌려드렸습니다.'",
+    "<b>v0.96.5</b> 화면 안 설명문을 뺐습니다: 특성 화면 위 안내문, 도감 유물·성반 탭 위 설명, 보호 주문서 줄의 작은 글씨, 유물 창의 괄호 설명. 유물 옵션 이름 '물리 피해'는 게임에 없는 말이라 <b>'무속성 피해'</b>로 바로잡았습니다(효과는 같음 — 속성 없는 공격의 피해).",
     "<b>v0.96.3</b> 유물은 이제 확률로만 나옵니다(황혼 6% · 자정 10% · 영원한 밤 15%). '가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시 나온다'는 보장을 없앴습니다.",
     "<b>v0.96.2</b> 부위 강화 단추: 골드나 정수가 모자라면 단추가 말없이 안 눌리던 것을 고쳤습니다 — 이제 눌리고, '골드 부족 (필요 1,344 · 보유 915)'처럼 무엇이 얼마나 모자란지 알려 줍니다(모자란 칸의 단추는 점선 테두리).",
     "<b>v0.96.1</b> 유물이 나올 확률을 낮췄습니다: 황혼 25% → 6% · 자정 35% → 10% · 영원한 밤 50% → 15%(가져 본 적 없는 유물은 그 장을 3번 깼으면 반드시 — 그대로).",
