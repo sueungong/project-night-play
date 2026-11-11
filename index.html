@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794386189803"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794390558955"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1388,7 +1388,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .eqpair{display:flex; align-items:flex-start; gap:4px}
 .enhside{display:flex; align-items:center; justify-content:center; width:34px; height:var(--ic,56px); padding:0; border-radius:8px; border:1px solid var(--line2); background:rgba(14,20,40,.82); color:var(--sub); cursor:pointer; line-height:1}
 .enhside b{font-size:12.5px; font-weight:800} .enhside:hover:not(:disabled){border-color:var(--accent); color:var(--ink)}
-.enhside:disabled{opacity:.55; cursor:default} .enhside.poor b{opacity:.5} .enhside.poor{border-style:dashed} button.enhb.poor{opacity:.65} .enhside.none{display:none} .enhside.max{border-color:var(--accent)}
+.swsum{display:flex; flex-wrap:wrap; gap:4px 14px; font-size:13.5px; margin:4px 0} .swsum b{color:var(--accent)} .swlist{max-height:44vh; overflow:auto; margin-top:6px} .swlist .arow{display:flex; gap:8px; align-items:center; padding:3px 0} .enhside:disabled{opacity:.55; cursor:default} .enhside.poor b{opacity:.5} .enhside.poor{border-style:dashed} button.enhb.poor{opacity:.65} .enhside.none{display:none} .enhside.max{border-color:var(--accent)}
 .eqtop{display:flex; justify-content:center; margin-bottom:10px}
 .eqenh{display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12.5px; color:var(--sub); padding:4px 4px 0} .eqenh b{color:var(--accent); font-weight:700; white-space:nowrap} .eqenh span{color:var(--muted)}
 .eqslot{position:relative; display:flex; flex-direction:column; align-items:center; gap:2px; background:none; border:0; padding:0; cursor:pointer; color:var(--sub)}
@@ -3997,6 +3997,15 @@ function enhCost(cid,sk){ const l=slotEnh(cid,sk).l; const dc=1;
 const WARD_DAY_MAX=10, WARD_GEM=20, WARD_DAILY_GIVE=3;
 function dayKey(t){ return new Date((t||Date.now())+4*3600e3).toISOString().slice(0,10); }   // UTC+9 − 5시간
 function wardState(){ const W=progress.ward=progress.ward||{n:0,day:"",used:0,on:true}; if(W.day!==dayKey()){ W.day=dayKey(); W.used=0; } if(!W.set){ W.on=true; } return W; }   // v0.96 직접 끈 적이 없으면 켜져 있음(예전에는 꺼진 채로 시작해 창을 열어 켜야만 쓰였음)
+/* v0.97 소탕권 — 이미 깬 막을 화면 없이 바로 끝내고 보상을 받음(횃불 안 씀 · 실패 없음 · 1장 = 막 1개).
+   매일(새벽 5시) 3장 무료, 안 쓰면 쌓이되 가진 수가 12장을 넘지 않음. 광고·새벽 결정으로 하루 합쳐 5장까지 더. */
+const SWEEP={daily:3, max:12, extra:5, gem:10};
+function sweepState(){ const S=progress.sweep=progress.sweep&&typeof progress.sweep==="object"?progress.sweep:{n:0,day:"",ex:0}; S.n=S.n|0; S.ex=S.ex|0; const today=dayKey();
+  if(S.day!==today){ const days=S.day?Math.max(1,Math.round((Date.parse(today)-Date.parse(S.day))/864e5)):1; S.n=Math.max(S.n,Math.min(SWEEP.max,S.n+SWEEP.daily*days)); S.day=today; S.ex=0; }
+  return S; }
+function sweepExtraLeft(){ const S=sweepState(); return Math.max(0,Math.min(SWEEP.extra-S.ex,SWEEP.max-S.n)); }
+function sweepAdd(n){ const S=sweepState(); const k=Math.min(n|0,sweepExtraLeft()); if(k<=0) return 0; S.n+=k; S.ex+=k; return k; }
+function sweepCan(d,rk,act){ return !!REGIONS[rk]&&act>=1&&act<=ACT_N&&actsDone(d,rk)>=act&&sweepState().n>0; }
 function wardActive(l){ const W=wardState(); return !!W.on&&wardUsable(l); }
 function wardUsable(l){ const W=wardState(); return enhFailRule(l).drop>0&&W.n>0&&W.used<WARD_DAY_MAX; }
 function wardSpend(){ const W=wardState(); W.n--; W.used++; }
@@ -8655,7 +8664,7 @@ const PASS_T0=Date.UTC(2026,10,1,-9), PASS_DAYS=30, PASS_LEVELS=30, PASS_XP=100,
 const GEM_PACKS=[[1200,60,0],[5900,300,20],[12000,600,60],[33000,1650,250],[59000,2950,550],[119000,5950,1350]];
 const won=n=>n.toLocaleString("ko-KR")+"원";
 function payLater(what){ toast(`💳 ${what} — 결제는 출시 뒤에 연결됩니다 (지금은 시험판)`); }
-const AD_DAILY={torch:5, loot:3, fast:2}, AD_FAST_MS=30*60*1000;
+const AD_DAILY={torch:5, loot:3, fast:2, sweep:99}, AD_FAST_MS=30*60*1000;
 function subPerksHTML(){ return `<ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 3배속 상시 · 이미 깬 막은 4배속으로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>가방 +${BAG_SUB}칸 (기본 ${BAG_BASE}칸)</li><li>매주 최종 콘텐츠 입장권 ${SUB_TICKETS}장</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>`; }
 function renderSubBtn(){ const b=$("subBtn"); if(b) b.hidden=!subActive(); }
 function openSubInfo(){ if(!subActive()){ renderSubBtn(); return; }
@@ -8693,6 +8702,7 @@ function playFakeAd(kind,after){
   let left=5; const tick=setInterval(()=>{ left--; const el=$("adLeft"); if(el) el.textContent=String(left);
     if(left<=0){ clearInterval(tick); const A=adsToday(); A[kind]++;
       if(kind==="torch"){ torchAdd(1); logLine(`<span class="gain">📺 광고 보상 — 횃불 +1 (오늘 ${A.torch}/${AD_DAILY.torch})</span>`); }
+      else if(kind==="sweep"){ const k=sweepAdd(1); logLine(`<span class="gain">📺 광고 보상 — 소탕권 +${k} (오늘 ${sweepState().ex}/${SWEEP.extra})</span>`); }
       else if(kind==="loot") adClaimLoot();
       else if(kind==="fast"){ progress.adFastUntil=Math.max(progress.adFastUntil||0,Date.now())+AD_FAST_MS; logLine(`<span class="gain">📺 광고 보상 — 30분 동안 모든 전투에서 3배속 (${fmtWait(progress.adFastUntil-Date.now())} 남음)</span>`); speedRefresh(); }
       saveProgress(); closeModal(); if(after) after(); } },1000);
@@ -15401,7 +15411,7 @@ function renderDungeonPicker(){
     <label class="fauto"><input type="checkbox" ${autoAdv?"checked":""} onchange="setAutoAdv(this.checked)">구역 자동 진행</label>
     <label class="fauto" title="막을 끝내면 같은 던전에 다시 들어갑니다(횃불이 떨어질 때까지)"><input type="checkbox" class="repChk" ${REPEAT.on?"checked":""} onchange="setRepeat(this.checked)">🔁 반복 전투</label>
     <label class="fauto" ${REPEAT.on?"":"hidden"}><input type="checkbox" class="repLose" ${REPEAT.lose?"checked":""} onchange="setRepeatLose(this.checked)">패배해도 계속</label><span class="spacer"></span>
-    <span class="dptorch">${free?"🔥 무료":`🔥 1 사용 (남은 ${tn})`}</span><button class="btn main" onclick="dpEnter()"><span class="mb1">▶ 입장</span></button></div>`;
+    ${eg?"":`<button class="btn ghost" onclick="openSweep()">🎫 ${sweepState().n}</button><button class="btn" id="dpSweepB" onclick="dpSweep()" ${sweepCan(progress.diff,progress.lastRegion,curAct())&&!runBusy()?"":"disabled"}>소탕</button>`}<span class="dptorch">${free?"🔥 무료":`🔥 1 사용 (남은 ${tn})`}</span><button class="btn main" onclick="dpEnter()"><span class="mb1">▶ 입장</span></button></div>`;
   box.innerHTML=`<div class="dphead"><h2>던전</h2><div class="dptabs">${tabs}</div><button class="ghostbtn" onclick="closeDungeonPicker()" aria-label="닫기">✕</button></div>${body}${foot}`;
 }
 function dpSetDiff(i){ if(i==="eg"){ dpTab="eg"; if(!egModeOf()){ progress.egMode=EG_KEYS[0]; saveProgress(); goCamp(); } renderDungeonPicker(); return; }
@@ -15422,6 +15432,61 @@ function bossInfoHTML(rk,a){ try{
 }catch(e){ return ""; } }
 function dpSetEg(k){ progress.egMode=k; saveProgress(); goCamp(); renderDungeonPicker(); }
 function dpEnter(){ closeModal(); mainButton(); setMainBtn(); }
+/* v0.97 소탕 — 직접 돌 때와 같은 구역·같은 보상 굴림. 전투는 화면 없이 실제로 계산해 숙련·운명·칭호 기록에 쓰고, 결과와 상관없이 돌파로 처리 */
+function dpSweep(){ const d=progress.diff, rk=progress.lastRegion, act=curAct(); if(runBusy()||playing||telling||!sweepCan(d,rk,act)) return; if(!bagGate()) return; closeModal(); const R=sweepAct(d,rk,act); if(R) showSweepResult(R); }
+function sweepAct(d,rk,act){
+  const S=sweepState(); if(S.n<=0||actsDone(d,rk)<act) return null; S.n--;
+  const g0=progress.gold, e0=progress.ess, f0=Object.assign({},fragStore()), lv0={}; for(const c of partyIds()) lv0[c]=progress.heroes[c].level;
+  const zones=genRun(rk,d,act), R={d,rk,act,exp:0,items:[],sold:0,dis:0,plates:0,battles:0}; let party=buildParty(), chests=0, elites=0, metrics=null;
+  logLine(`<span class="zone">⟡ 🎫 소탕 — ${DIFFS[d].icon} ${DIFFS[d].name} · ${REGIONS[rk].chapter} ${esc(REGIONS[rk].name)} ${act}막 '${esc(actName(rk,act))}' (남은 소탕권 ${S.n})</span>`);
+  passXpAdd(20,"던전 입장");
+  const loot=(items)=>{ const L=takeLoot(items); for(const it of L.kept){ R.items.push(lootNote(it)); } R.sold+=L.sold; R.dis+=L.dis; autoLootLog(L); };
+  for(let i=0;i<zones.length;i++){ const z=zones[i];
+    if(z.type==="rest"){ applyRest(party); continue; }
+    if(z.type==="chest"){ const cr=chestRewards(d,rk); progress.gold+=cr.gold; progress.ess+=cr.ess||0; chests++; loot(cr.items); continue; }
+    party=applyZoneAllies(z,refreshParty(party));
+    let won=false, turns=0;
+    try{ const enemies=soloScaleEnemies(z.mobs.map((m,j)=>buildMobUnit(m,j,d,rk)),party.length,false); const sim=new Sim(party,enemies,(Math.random()*0xFFFFFFFF)>>>0); sim.resPen=heroResPen(d); const ev=sim.run(), end=ev[ev.length-1]||{}; won=end.result==="win"; turns=end.turns||0; recordBattle(party,"win"); }catch(e){ console.warn("sweep sim",e); }
+    R.battles++; elites+=z.mobs.filter(m=>m.elite||m.chief).length;
+    if(z.boss&&won) metrics={turns, falls:party.filter(u=>u._fell).length, knightFell:!party.some(u=>u.id==="knight")||!!(party.find(u=>u.id==="knight")||{})._fell, chests, elites, tokens:tokenCount()};
+    const rw=battleRewards(z,d,rk); questOnWin(z,rk,act);
+    dailyAdd("kill",z.mobs.length); if(z.boss||z.mid||z.named){ dailyAdd("boss",1); passXpAdd(40,z.boss?"보스 처치":"우두머리 처치"); }
+    progress.gold+=rw.gold; progress.ess+=rw.ess||0; R.exp+=rw.exp; if(rw.plate){ plateDropNote(rw.plate); R.plates++; }
+    grantExp(rw.exp,partyIds()); loot(rw.items);
+    if(!won) party=buildParty(); else for(const u of party){ if(!u.alive){ u.hp=0; u.buffs={}; u.dots={}; continue; } zoneRecover(u); u.buffs={}; u.dots={}; u.taunted_by=""; }
+    if(!(z.boss||z.actEnd)&&rollChest(z,d,chests)) zones.splice(i+1,0,{type:"chest",label:"보물상자"});
+  }
+  dailyAdd("act",1); passXpAdd(60,`${act}막 돌파`);
+  if(act>=ACT_N){ progress.cl[d][rk]=(progress.cl[d][rk]||0)+1; if(progress.diffMax>=2||d>=2) genMarket();
+    if(TOKENS[rk]&&!progress.tokens[rk]&&metrics){ const cond=TOKEN_COND[rk]; if(cond&&cond.test(metrics)){ progress.tokens[rk]=true; passXpAdd(100,"증표"); R.token=TOKENS[rk]; logLine(`<span class="win">${TOKENS[rk].icon} 군단장의 증표 획득 — 《${TOKENS[rk].name}》 (${tokenCount()}/7)</span>`); } } }
+  try{ runCompanions(); }catch(e){}
+  R.gold=progress.gold-g0; R.ess=progress.ess-e0; R.frag={}; for(const [k,v] of Object.entries(fragStore())) if(v-(f0[k]||0)>0) R.frag[k]=v-(f0[k]||0);
+  R.lv=partyIds().filter(c=>progress.heroes[c].level>lv0[c]).map(c=>`${heroDisplayName(c)} Lv.${progress.heroes[c].level}`);
+  rememberLastRun(Math.max(0,R.gold),R.items);
+  logLine(`<span class="gain">🎫 소탕 합계 — 경험치 ${R.exp} · 골드 ${R.gold} · 정수 ${R.ess} · 장비 ${R.items.length}개</span>`);
+  saveProgress(); try{ renderHud(); renderRegionSel(); setMainBtn(); }catch(e){}
+  return R; }
+function showSweepResult(R){
+  const all=progress.inv.concat(equippedStore), list=R.items.map(n=>all.find(x=>x.id===n.id)).filter(Boolean);
+  const order=it=>-(it.mythic?7:it.slot==="relic"?6:RAR_IDX[it.rarity]||0); list.sort((a,b)=>order(a)-order(b));
+  const rows=list.map(it=>`<div class="arow ${it.mythic?"legend":it.rarity}">${iconCell(it)}<div><span class="anm ${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span><div class="asum">${esc(it.slot==="relic"?relicLines(it).join(" · "):SLOT_LABEL[it.slot]||it.slot)}</div></div></div>`).join("");
+  const S=sweepState(), again=sweepCan(R.d,R.rk,R.act);
+  const m=openModal(`<h2>🎫 소탕 — ${esc(REGIONS[R.rk].chapter)} ${R.act}막</h2>
+    <div class="swsum"><span>경험치 <b>+${R.exp.toLocaleString()}</b></span><span>골드 <b>${R.gold>=0?"+":""}${R.gold.toLocaleString()}</b></span><span>정수 <b>+${R.ess}</b></span>${fragText(R.frag)?`<span>${esc(fragText(R.frag))}</span>`:""}${R.plates?`<span>성편 <b>${R.plates}</b></span>`:""}${R.sold||R.dis?`<span>자동 정리 <b>${R.sold+R.dis}</b></span>`:""}</div>
+    ${R.lv.length?`<div class="swsum"><span>⬆ ${esc(R.lv.join(" · "))}</span></div>`:""}${R.token?`<div class="swsum"><span>${R.token.icon} ${esc(R.token.name)}</span></div>`:""}
+    <div class="alist swlist">${rows||`<div class="asum">장비 없음</div>`}</div>
+    <div class="mfoot"><button id="swAgain" class="btn" ${again?"":"disabled"}>한 번 더 🎫 ${S.n}</button><button id="mclose" class="btn ghost">닫기</button></div>`,"small sweepm");
+  m.onclick=e=>{ if(e.target===m) closeModal(); }; m.querySelector("#mclose").onclick=closeModal;
+  m.querySelector("#swAgain").onclick=()=>{ if(!sweepCan(R.d,R.rk,R.act)||runBusy()||!bagGate()) return; closeModal(); const R2=sweepAct(R.d,R.rk,R.act); if(R2) showSweepResult(R2); }; }
+function openSweep(){ const S=sweepState(), left=sweepExtraLeft(), gem=progress.gem||0; const back=!!$("dpick");
+  const m=openModal(`<h2>🎫 소탕권</h2><div class="torchbig"><span class="tico">🎫</span><b>${S.n}</b><span>/ ${SWEEP.max}</span></div>
+    <div class="torchbuy"><button class="btn" id="swAd" ${left?"":"disabled"}>📺 광고 보고 1장 <small>오늘 ${S.ex}/${SWEEP.extra}</small></button>
+      <button class="btn" id="swGem" ${left&&gem>=SWEEP.gem?"":"disabled"}>💎 ${SWEEP.gem} → 1장 <small>보유 ${gem}</small></button></div>
+    <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small torchm");
+  const done=()=>{ closeModal(); if(back&&typeof openDungeonPicker==="function") openDungeonPicker(); else openSweep(); };
+  m.onclick=e=>{ if(e.target===m) done(); }; m.querySelector("#mclose").onclick=()=>{ closeModal(); if(back&&typeof openDungeonPicker==="function") openDungeonPicker(); };
+  m.querySelector("#swAd").onclick=()=>{ if(!sweepExtraLeft()) return; playFakeAd("sweep",openSweep); };
+  m.querySelector("#swGem").onclick=()=>{ if(!sweepExtraLeft()||(progress.gem||0)<SWEEP.gem) return; progress.gem-=SWEEP.gem; sweepAdd(1); logLine(`<span class="gain">💎 새벽 결정 ${SWEEP.gem}개로 소탕권 1장을 샀습니다 (보유 ${sweepState().n}장)</span>`); saveProgress(); try{ renderHud(); }catch(e){} closeModal(); openSweep(); }; }
 function mainButton(){
   if(playing||telling||TUT.busy) return;
   if($("dpick")) closeModal();   // 던전 선택 창이 열려 있으면 닫고 진행
@@ -16569,6 +16634,13 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.11", v:"v0.97", t:"소탕권", L:[
+    "🎫 소탕권이 생겼습니다. 던전 선택 창 아래의 [소탕] 단추를 누르면 고른 막을 전투 화면 없이 바로 끝내고 결과 창에서 보상을 확인합니다. 소탕권 1장으로 막 1개 · 횃불은 쓰지 않습니다.",
+    "이미 깬 막만 소탕할 수 있고, 소탕은 실패하지 않습니다(소탕권은 항상 1장 쓰임). 경험치 · 골드 · 정수 · 장비 · 룬 · 유물 · 성편 · 보물상자 · 의뢰 진행 · 자동 정리는 직접 돌 때와 같은 구역 구성과 같은 확률로 굴립니다. 5막을 소탕하면 그 장의 클리어 횟수도 1 오릅니다.",
+    "소탕권은 매일 새벽 5시에 3장을 받습니다. 안 쓰면 쌓이고, 가진 수는 12장을 넘지 않습니다. 접속하지 않은 날의 몫도 3장씩 쌓입니다(12장까지).",
+    "더 얻기: 🎫 숫자 단추를 누르면 광고 보고 1장 또는 💎 새벽 결정 10개로 1장 — 둘을 합쳐 하루 5장까지입니다(12장이 차 있으면 더 얻을 수 없음).",
+    "소탕은 1~10장 던전에만 있습니다(최종 콘텐츠 · 함께하기에는 없음).",
+  ]},
   {d:"2026.11.11", v:"v0.96", t:"유물 개편 — 옵션 한 줄 · 유물의 파편 · 강화 3번", L:[
     "🔮 유물을 새로 만들었습니다. 고정 효과('화상인 적에게 +20%', '8턴부터 +12%' 같은 조건부 효과 포함), ★2·★3 각성, 유물이 열어 주던 전투 규칙 조건은 모두 없앴습니다. 그 조건 7개(8턴 이후, 화상 중인 적 2마리 이상 등)는 이제 유물 없이 처음부터 쓸 수 있습니다.",
     "유물은 10종(1~10장 보스마다 1종 — 8장 '비에라의 부러진 부채', 9장 '녹타의 빈 투구', 10장 '루멘의 낡은 그림책' 추가)이고 등급은 하나입니다. 유물마다 후보 옵션이 4개 있고, 그중 <b>한 줄</b>이 무작위 수치로 붙어 나옵니다.",
