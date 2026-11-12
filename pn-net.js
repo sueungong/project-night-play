@@ -126,19 +126,20 @@
       const s = await r.once("value"); const n = s.exists() ? Object.keys(s.val() || {}).length : 0; if (n) await r.remove(); return n; }
   };
   // ---------- v0.104 대전 ----------
-  // pvp/<uid> = 내 대전 파티(누구나 읽음, 나만 씀 — 단, 남은 내 점수 sc를 30점까지 깎고 방어 전적 dw·dl을 1씩 올릴 수 있음)
+  // pvp/<uid> = 내 대전 파티(누구나 읽음, 나만 씀 — 단, 남은 그 주 점수 s/w<주>를 30점까지 바꾸고 방어 전적 dw·dl · dr/w<주>/dw·dl을 1씩 올릴 수 있음)
+  // v0.105 점수는 주마다 따로(s/w<주>, 없으면 1000) — 매주 1000에서 새로 시작
   // pvpLog/<uid>/<번호> = 방어 기록(남이 하나씩 추가, 주인만 읽음) · hof/<주> = 그 주 순위(처음 만든 사람 것으로 고정)
   const txVal = async (path, fn) => { const r = await rtdb.ref(path).transaction(fn); return r && r.snapshot ? r.snapshot.val() : null; };
   const pvp = {
     uid: () => (auth.currentUser && auth.currentUser.uid) || "",
     get: async uid => { const u = await ready; if (!u || !uid) return null; const v = await val("pvp/" + safeKey(uid)); return v ? Object.assign({ uid }, v) : null; },
     list: async n => { const u = await ready; if (!u) return [];
-      const s = await rtdb.ref("pvp").orderByChild("sc").limitToLast(Math.max(1, Math.min(500, n | 0 || 200))).once("value"); const out = [];
+      const s = await rtdb.ref("pvp").orderByChild("at").limitToLast(Math.max(1, Math.min(500, n | 0 || 200))).once("value"); const out = [];
       s.forEach(c => { const v = c.val(); if (v) out.push(Object.assign({ uid: c.key }, v)); }); return out; },
-    put: async o => { const u = await ready; if (!u) return false; const ref = rtdb.ref("pvp/" + safeKey(u.uid)); const has = (await ref.child("sc").once("value")).exists();
-      const up = Object.assign({}, o, { u: u.uid, at: TS }); if (!has) up.sc = 1000; delete up.dw; delete up.dl; await ref.update(up); return true; },
-    addScore: async (uid, d) => txVal("pvp/" + safeKey(uid) + "/sc", cur => cur == null ? cur : Math.max(0, cur + d)),
-    inc: async (uid, k) => { if (k !== "dw" && k !== "dl") return; return txVal("pvp/" + safeKey(uid) + "/" + k, cur => (cur || 0) + 1); },
+    put: async o => { const u = await ready; if (!u) return false; const ref = rtdb.ref("pvp/" + safeKey(u.uid));
+      const up = Object.assign({}, o, { u: u.uid, at: TS }); delete up.s; delete up.dr; delete up.dw; delete up.dl; delete up.sc; await ref.update(up); return true; },
+    addScore: async (uid, d, wk) => txVal("pvp/" + safeKey(uid) + "/s/w" + (wk | 0), cur => Math.max(0, (typeof cur === "number" ? cur : 1000) + d)),
+    inc: async (uid, k, wk) => { if (k !== "dw" && k !== "dl") return; const b = "pvp/" + safeKey(uid) + "/"; await txVal(b + k, cur => (cur || 0) + 1); if (wk != null) await txVal(b + "dr/w" + (wk | 0) + "/" + k, cur => (cur || 0) + 1); },
     logPush: async (uid, o) => { const u = await ready; if (!u) return; await rtdb.ref("pvpLog/" + safeKey(uid)).push(Object.assign({}, o, { a: u.uid, at: TS })); },
     logList: async () => { const u = await ready; if (!u) return []; const s = await rtdb.ref("pvpLog/" + safeKey(u.uid)).orderByChild("at").limitToLast(40).once("value"); const out = [];
       s.forEach(c => { const v = c.val(); if (v) out.push(v); }); return out; },

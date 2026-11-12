@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794498849442"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794500459436"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1623,7 +1623,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .pmode{display:inline-flex; border:1px solid var(--line,#2a3352); border-radius:8px; overflow:hidden} .pmode button{background:none; border:0; color:var(--muted); padding:4px 12px; font:inherit; font-size:14px; cursor:pointer} .pmode button.on{background:var(--accent,#5c7cff); color:#fff; font-weight:700}
 .pvsave{padding:4px 14px; font-size:13.5px} .pvok{color:#6fdc8c; font-size:13px}
 .pvphead{display:flex; flex-direction:column; gap:8px} .pvpme{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; font-size:14px; color:var(--muted)} .pvpsc{font-size:26px; color:var(--text,#e8ecf8)} .pvpnr{color:#ffb347} .pvpstk{color:#ff9a3c}
-.pvpbar{display:flex; flex-wrap:wrap; gap:6px; align-items:center} .pvpwk{margin-left:auto; font-size:13px; color:var(--muted)}
+.pvpbar{display:flex; flex-wrap:wrap; gap:6px; align-items:center} .pvptot{flex-basis:100%; font-size:12.5px} .pvplog em{font-style:normal; color:#6fdc8c}
+.pvpwk{margin-left:auto; font-size:13px; color:var(--muted)}
 .pvplist{display:flex; flex-direction:column; gap:2px; padding:6px} .pvrow{display:grid; grid-template-columns:32px minmax(0,1.2fr) 64px minmax(0,1.6fr) 84px 76px 64px; gap:8px; align-items:center; padding:6px 8px; border-radius:8px; cursor:pointer; font-size:14px} .pvrow:hover{background:rgba(255,255,255,.04)} .pvrow.me{background:rgba(92,124,255,.14); cursor:default}
 .pvrk{text-align:center; color:var(--muted)} .pvnm{overflow:hidden; text-overflow:ellipsis; white-space:nowrap} .pvsc{font-weight:700; text-align:right} .pvjobs{display:flex; gap:2px; overflow:hidden} .pvjobs img{width:24px; height:24px; image-rendering:pixelated} .pvcp,.pvwl{font-size:13px; color:var(--muted); text-align:right} .pvgo{padding:4px 10px; font-size:13px}
 @media (max-width:640px){ .pvrow{grid-template-columns:26px minmax(0,1fr) 54px 60px; } .pvjobs,.pvcp{display:none} }
@@ -15833,7 +15834,8 @@ function openSweep(){ const S=sweepState(), left=sweepExtraLeft(), gem=progress.
 /* ================= v0.104 대전(플레이어끼리) =================
    각자 '대전 파티'(최대 6명)를 서버에 올려 두면, 다른 플레이어가 그 기록을 받아 자동 전투를 함(상대는 자기가 짜 둔 전투 규칙대로 움직임).
    점수: 1000점에서 시작 · 이기면 18 + (상대 점수 − 내 점수)/20 (5~30) · 지면 18 − (상대 − 나)/20 (5~30) 깎임 · 3연승부터 +2씩(최대 +10)
-   방어: 내가 없는 동안 공격받아 지면 공격한 사람이 얻은 점수(연승 보너스 제외)만큼 깎임 · 방어 기록 남음
+   방어: 내가 없는 동안 공격받아 지면 공격한 사람이 얻은 점수(연승 보너스 제외)만큼 깎이고, 이기면 공격한 사람이 잃은 점수의 절반만큼 오름 · 방어 기록 남음
+   v0.105 매주 월요일 05:00에 모두 1,000점에서 새로 시작(점수는 주마다 따로 s/w<주>) · 전적은 이번 주 것과 누적 둘 다 · 연승도 새 주에 끊김
    대전권: 하루 5장(날이 바뀌면 5장보다 적으면 5장으로) · 하루 추가 5장(광고 · 새벽 결정)
    주간: 월요일 05:00(한국 시각) 기준 — 새 주에 처음 들어온 사람이 지난주 순위를 기록(명예의 전당 · 보상 기준) */
 var PVP={daily:5, extra:5, gem:10, size:6, start:1000, base:18, kMin:5, kMax:30, stkFrom:3, stkAdd:2, stkMax:10, listN:200,
@@ -15843,7 +15845,13 @@ function pvpNet(){ try{ return (typeof window!=="undefined"&&window.PNNet&&windo
 function pvpState(){ const S=progress.pvp=progress.pvp&&typeof progress.pvp==="object"?progress.pvp:{};
   if(!Array.isArray(S.party)){ S.party=partyIdsOf(progress.party).slice(0,PVP.size); }
   if(!S.pos||typeof S.pos!=="object"){ S.pos={}; for(const c of S.party){ const h=progress.heroes[c]||{}; S.pos[c]={row:h.row,lane:h.lane}; } }
-  for(const k of ["w","l","d","stk"]) S[k]=S[k]|0; S.saved=!!S.saved; if(!S.pl||typeof S.pl!=="object") S.pl={}; return S; }
+  for(const k of ["w","l","d","stk"]) S[k]=S[k]|0; S.saved=!!S.saved; if(!S.pl||typeof S.pl!=="object") S.pl={}; if(!S.wr||typeof S.wr!=="object") S.wr={};
+  const wk=pvpWeek(); if(S.stkWk!==wk){ S.stk=0; S.stkWk=wk; } return S; }
+function pvpWR(wk){ const S=pvpState(), k="w"+wk; const r=S.wr[k]||(S.wr[k]={w:0,l:0,d:0}); for(const q of Object.keys(S.wr)) if(+q.slice(1)<wk-1) delete S.wr[q]; return r; }
+/* 서버 기록 하나를 '이번 주' 기준으로 읽기 쉽게: sc · w · l · d · dw · dl = 그 주 · tw · tl · td · tdw · tdl = 누적 */
+function pvpNorm(x,wk){ if(!x) return x; wk=wk==null?pvpWeek():wk; const k="w"+wk, s=x.s||{}, wr=(x.wr||{})[k]||{}, dr=(x.dr||{})[k]||{};
+  if(x.tw==null){ x.tw=x.w|0; x.tl=x.l|0; x.td=x.d|0; x.tdw=x.dw|0; x.tdl=x.dl|0; }
+  x.has=typeof s[k]==="number"; x.sc=x.has?s[k]:PVP.start; x.w=wr.w|0; x.l=wr.l|0; x.d=wr.d|0; x.dw=dr.dw|0; x.dl=dr.dl|0; return x; }
 function pvpPos(c){ const S=pvpState(); return S.pos[c]||(S.pos[c]={row:CLASSES[c]?CLASSES[c].row:"front",lane:-1}); }
 function pvpPosAll(){ const o={}; for(const c of rosterIds()) o[c]=pvpPos(c); return o; }
 function fmSetParty(P){ if(fmIsPvp()) pvpState().party=P.slice(0,PVP.size); else progress.party=P; }
@@ -15876,14 +15884,15 @@ async function pvpUnpack(str){ if(typeof str!=="string"||str.length>60000) retur
 async function pvpUpload(force){ const N=pvpNet(), S=pvpState(); if(!N||!(S.saved||force)) return false; const ids=pvpIds(); if(!ids.length) return false;
   const sn=pvpUnits(true), j=await pvpPack(sn); if(j.length>58000) return false;
   const pc=progress.protag&&progress.protag.cid, lk=pc&&progress.heroes[pc]?heroLook(pc):null;
-  const o={n:coopNick(), j, cp:sn.reduce((a,u)=>a+unitCP(u),0), jobs:JSON.stringify(ids.map((c,i)=>[c,(progress.heroes[c]||{}).level|0,unitCP(sn[i])])), w:S.w, l:S.l, d:S.d, stk:S.stk, lk:lk?JSON.stringify(lk):""};
+  const wk=pvpWeek(), wr={}; for(const q of [wk-1,wk]){ const r=S.wr["w"+q]; if(r) wr["w"+q]={w:r.w|0,l:r.l|0,d:r.d|0}; }
+  const o={n:coopNick(), j, cp:sn.reduce((a,u)=>a+unitCP(u),0), jobs:JSON.stringify(ids.map((c,i)=>[c,(progress.heroes[c]||{}).level|0,unitCP(sn[i])])), w:S.w, l:S.l, d:S.d, stk:S.stk, wr, lk:lk?JSON.stringify(lk):""};
   try{ return !!(await N.put(o)); }catch(e){ return false; } }
 async function pvpSaveParty(){ const N=pvpNet(); if(!N){ toast("서버에 연결되어 있지 않아요","warn"); return; } if(!pvpIds().length) return;
   const ok=await pvpUpload(true); if(ok){ pvpState().saved=true; saveProgress(); toast("⚔ 대전 파티를 저장했어요","good"); } else toast("저장하지 못했어요","warn"); try{ renderParty(); }catch(e){} }
 // 주가 바뀌면: 지난주 순위 기록(아직 아무도 안 했으면) → 내 보상
 async function pvpWeekCheck(){ const N=pvpNet(); if(!N) return null; const wk=pvpWeek(), pw=wk-1, S=pvpState(); if(S.wkChk===wk) return null;
   let H=null; try{ H=await N.hofGet(pw);
-    if(!H){ const L=(await N.list(PVP.listN))||[]; const R=L.filter(x=>x&&x.j&&typeof x.sc==="number").sort((a,b)=>b.sc-a.sc||(a.at||0)-(b.at||0)), rk={};
+    if(!H){ const L=((await N.list(PVP.listN))||[]).map(x=>pvpNorm(x,pw)); const R=L.filter(x=>x&&x.j&&x.has).sort((a,b)=>b.sc-a.sc||(a.at||0)-(b.at||0)), rk={};
       R.forEach((x,i)=>{ rk[x.uid]=i+1; });
       H=await N.hofPut(pw,{top:JSON.stringify(R.slice(0,10).map(x=>({u:x.uid,n:String(x.n||"").slice(0,16),sc:x.sc,w:x.w|0,l:x.l|0}))), rk:JSON.stringify(rk)}); } }catch(e){ return null; }
   if(!H) return null; S.wkChk=wk; let got=null;
@@ -15898,13 +15907,13 @@ function pvpRewardModal(g){ const m=openModal(`<h2>🏆 지난주 대전 ${g.ran
 async function renderPvp(){ const P=$("pvpPane"); if(!P) return; const N=pvpNet(), S=pvpState(), T=pvpTix(), wk=pvpWeek();
   const left=Math.max(0,pvpWeekEnd(wk)-serverNow()), dd=Math.floor(left/864e5), hh=Math.floor(left%864e5/3600e3);
   let me=null, L=null; if(N){ try{ await pvpWeekCheck(); }catch(e){} try{ if(S.saved) await pvpUpload(); }catch(e){} try{ L=(await N.list(PVP.listN))||[]; }catch(e){ L=null; } }
-  if(L){ L=L.filter(x=>x&&x.j&&typeof x.sc==="number").sort((a,b)=>b.sc-a.sc||(a.at||0)-(b.at||0)); me=L.find(x=>x.uid===N.uid())||null; PVPL=L; }
-  const rank=me?L.indexOf(me)+1:0, sc=me?me.sc:PVP.start, busy=runBusy()||playing;
+  if(L){ L=L.filter(x=>x&&x.j).map(x=>pvpNorm(x,wk)).sort((a,b)=>b.sc-a.sc||(b.w-a.w)||(a.at||0)-(b.at||0)); me=L.find(x=>x.uid===N.uid())||null; PVPL=L; }
+  const rank=me?L.indexOf(me)+1:0, sc=me?me.sc:PVP.start, busy=runBusy()||playing, WR=pvpWR(wk);
   const jobs=x=>{ let J=[]; try{ J=JSON.parse(x.jobs||"[]"); }catch(e){} return J; };
   const icons=x=>jobs(x).map(([c,lv])=>CLASSES[c]?`<img src="${SPRITES[CLASSES[c].sprite]}" alt="" title="${esc(CLASSES[c].name)} Lv.${lv}">`:"").join("");
   P.innerHTML=`<div class="panel pvphead">
       <div class="pvpme"><b class="pvpsc">${sc.toLocaleString("ko-KR")}</b><span>${rank?`#${rank}`:`<span class="pvpnr">미등록</span>`}</span>
-        <span>공격 ${S.w}승 ${S.l}패${S.d?` ${S.d}무`:""}</span><span>방어 ${me?(me.dw|0):0}승 ${me?(me.dl|0):0}패</span>${S.stk>=2?`<span class="pvpstk">🔥 ${S.stk}연승</span>`:""}</div>
+        <span>공격 ${WR.w}승 ${WR.l}패${WR.d?` ${WR.d}무`:""}</span><span>방어 ${me?me.dw:0}승 ${me?me.dl:0}패</span>${S.stk>=2?`<span class="pvpstk">🔥 ${S.stk}연승</span>`:""}<span class="pvptot">누적 공격 ${S.w}승 ${S.l}패${S.d?` ${S.d}무`:""} · 방어 ${me?me.tdw:0}승 ${me?me.tdl:0}패</span></div>
       <div class="pvpbar"><button class="btn ghost" id="pvTix">🎟 ${T.n}</button><button class="btn" id="pvParty">⚔ 대전 파티</button><button class="btn ghost" id="pvLog">🛡 방어 기록</button><button class="btn ghost" id="pvHof">🏆 명예의 전당</button><span class="pvpwk">⏳ ${dd}일 ${hh}시간</span></div></div>
     <div class="panel pvplist" id="pvList">${!N?`<p class="msub">서버에 연결된 게임에서만 대전할 수 있어요</p>`:!L?`<p class="msub">목록을 불러오지 못했어요</p>`:
       L.map((x,i)=>{ const mine=me&&x===me; return `<div class="pvrow${mine?" me":""}" data-u="${esc(x.uid)}"><b class="pvrk">${i+1}</b><span class="pvnm">${esc(String(x.n||"?").slice(0,16))}</span><span class="pvsc">${(x.sc|0).toLocaleString("ko-KR")}</span><span class="pvjobs">${icons(x)}</span><span class="pvcp">⚔ ${(x.cp|0).toLocaleString("ko-KR")}</span><span class="pvwl">${x.w|0}승 ${x.l|0}패</span>${mine?`<span></span>`:`<button class="btn pvgo" data-go="${esc(x.uid)}" ${S.saved&&!busy&&T.n>0?"":"disabled"}>전투</button>`}</div>`; }).join("")}</div>`;
@@ -15923,11 +15932,11 @@ function openPvpTix(){ const T=pvpTix(), left=pvpExtraLeft(), gem=progress.gem||
 function openPvpPeek(x){ let J=[]; try{ J=JSON.parse(x.jobs||"[]"); }catch(e){} const S=pvpState(), T=pvpTix(), busy=runBusy()||playing;
   const m=openModal(`<h2>${esc(String(x.n||"?").slice(0,16))} <small>${(x.sc|0).toLocaleString("ko-KR")}</small></h2>
     <div class="pvpeek">${J.map(([c,lv,cp])=>CLASSES[c]?`<div><img src="${SPRITES[CLASSES[c].sprite]}" alt=""><b>${esc(CLASSES[c].name)}</b><span>Lv.${lv}</span><span>⚔ ${(cp|0).toLocaleString("ko-KR")}</span></div>`:"").join("")}</div>
-    <div class="pvpsum"><span>⚔ ${(x.cp|0).toLocaleString("ko-KR")}</span><span>${x.w|0}승 ${x.l|0}패</span><span>방어 ${x.dw|0}승 ${x.dl|0}패</span></div>
+    <div class="pvpsum"><span>⚔ ${(x.cp|0).toLocaleString("ko-KR")}</span><span>${x.w|0}승 ${x.l|0}패</span><span>방어 ${x.dw|0}승 ${x.dl|0}패</span></div><div class="pvpsum"><span>누적 ${x.tw|0}승 ${x.tl|0}패</span><span>방어 ${x.tdw|0}승 ${x.tdl|0}패</span></div>
     <div class="mfoot"><button id="pvGo" class="btn" ${S.saved&&!busy&&T.n>0?"":"disabled"}>전투 🎟 ${T.n}</button><button id="mclose" class="btn ghost">닫기</button></div>`,"small");
   m.onclick=e=>{ if(e.target===m) closeModal(); }; m.querySelector("#mclose").onclick=closeModal; m.querySelector("#pvGo").onclick=()=>{ closeModal(); pvpFight(x.uid); }; }
 async function openPvpLog(){ const N=pvpNet(); let L=[]; if(N){ try{ L=(await N.logList())||[]; }catch(e){ L=[]; } } L.sort((a,b)=>(b.at||0)-(a.at||0));
-  const m=openModal(`<h2>🛡 방어 기록</h2><div class="pvplog">${L.length?L.slice(0,40).map(x=>`<div class="${x.win?"lost":"held"}"><span>${esc(fmtDate(x.at||0))}</span><b>${esc(String(x.an||"?").slice(0,16))}</b><span>${x.win?`방어 실패 <i>−${x.d|0}</i>`:"방어 성공"}</span></div>`).join(""):`<p class="msub">기록 없음</p>`}</div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small");
+  const m=openModal(`<h2>🛡 방어 기록</h2><div class="pvplog">${L.length?L.slice(0,40).map(x=>`<div class="${x.win?"lost":"held"}"><span>${esc(fmtDate(x.at||0))}</span><b>${esc(String(x.an||"?").slice(0,16))}</b><span>${x.win?`방어 실패 <i>−${x.d|0}</i>`:`방어 성공 <em>+${x.d|0}</em>`}</span></div>`).join(""):`<p class="msub">기록 없음</p>`}</div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small");
   m.onclick=e=>{ if(e.target===m) closeModal(); }; m.querySelector("#mclose").onclick=closeModal; }
 // 명예의 전당: 지난주 1~10위 · 주인공은 지금 외형 그대로 움직임
 async function openPvpHof(){ const N=pvpNet(); if(!N){ toast("서버에 연결되어 있지 않아요","warn"); return; } try{ await pvpWeekCheck(); }catch(e){}
@@ -15942,21 +15951,21 @@ async function openPvpHof(){ const N=pvpNet(); if(!N){ toast("서버에 연결�
 async function pvpFight(uid){ if(runBusy()||playing||telling||PVPF) return; const N=pvpNet(), S=pvpState(); if(!N||!S.saved) return; if(uid===N.uid()) return;
   const T=pvpTix(); if(T.n<=0){ openPvpTix(); return; }
   try{ await pvpWeekCheck(); }catch(e){}
-  let op=null, mine=null; try{ [op,mine]=await Promise.all([N.get(uid),N.get(N.uid())]); }catch(e){}
+  const wk=pvpWeek(); let op=null, mine=null; try{ [op,mine]=await Promise.all([N.get(uid),N.get(N.uid())]); }catch(e){} pvpNorm(op,wk); pvpNorm(mine,wk);
   if(!op||!op.j){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
   const foes=await pvpUnpack(op.j); if(!Array.isArray(foes)||!foes.length){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
   const party=pvpUnits(false); if(!party.length) return;
   foes.forEach((u,i)=>{ u.id="pv"+i; u.side="enemy"; u.pvpHero=true; u.alive=true; u.hp=u.hp_max; u.mp=u.mp_max; u.buffs={}; u.dots={}; });
   T.n--; const seed=(Math.random()*0xFFFFFFFF)>>>0; const sim=new Sim(party,foes,seed); sim.meterOn=true; const events=sim.run(), end=events[events.length-1]||{}, res=end.result||"draw";
-  const my=mine&&typeof mine.sc==="number"?mine.sc:PVP.start, os=typeof op.sc==="number"?op.sc:PVP.start, wk=pvpWeek();
-  let d=0, bonus=0, defLoss=0;
-  if(res==="win"){ S.w++; S.stk++; d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
-  else if(res==="lose"){ S.l++; S.stk=0; d=-Math.min(my,pvpLoss(my,os)); }
-  else { S.d++; S.stk=0; }
+  const my=mine?mine.sc:PVP.start, os=op.sc, WR=pvpWR(wk);
+  let d=0, bonus=0, defLoss=0, defGain=0;
+  if(res==="win"){ S.w++; WR.w++; S.stk++; d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
+  else if(res==="lose"){ S.l++; WR.l++; S.stk=0; d=-Math.min(my,pvpLoss(my,os)); defGain=Math.floor(-d/2); }
+  else { S.d++; WR.d++; S.stk=0; }
   S.pl[wk]=(S.pl[wk]|0)+1; saveProgress();
-  let after=my+d+bonus; try{ if(d+bonus) after=await N.addScore(N.uid(),d+bonus); }catch(e){}
-  try{ if(res==="win"){ if(defLoss>0) await N.addScore(uid,-defLoss); await N.inc(uid,"dl"); await N.logPush(uid,{an:coopNick(),win:true,d:defLoss}); }
-    else if(res==="lose"){ await N.inc(uid,"dw"); await N.logPush(uid,{an:coopNick(),win:false,d:0}); } }catch(e){}
+  let after=my+d+bonus; try{ const a=await N.addScore(N.uid(),d+bonus,wk); if(typeof a==="number") after=a; }catch(e){}
+  try{ if(res==="win"){ if(defLoss>0) await N.addScore(uid,-defLoss,wk); await N.inc(uid,"dl",wk); await N.logPush(uid,{an:coopNick(),win:true,d:defLoss}); }
+    else if(res==="lose"){ if(defGain>0) await N.addScore(uid,defGain,wk); await N.inc(uid,"dw",wk); await N.logPush(uid,{an:coopNick(),win:false,d:defGain}); } }catch(e){}
   try{ await pvpUpload(); }catch(e){}
   logLine(`<span class="${res==="win"?"win":res==="lose"?"lose":"r"}">⚔ 대전 — ${esc(String(op.n||"?"))} 상대로 ${res==="win"?"승리":res==="lose"?"패배":"무승부"} (${d+bonus>=0?"+":""}${d+bonus}점${bonus?` · 연승 +${bonus}`:""})</span>`);
   await pvpPlay(sim,events,op,{res,d,bonus,after:typeof after==="number"?after:my+d+bonus}); }
@@ -17127,6 +17136,11 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.13", v:"v0.105", t:"대전 점수 주간 초기화 · 방어 성공 점수", L:[
+    "대전 점수가 매주 월요일 05:00에 모두 1,000점으로 초기화됩니다. 명예의 전당과 주간 보상은 지난주 점수로 정합니다.",
+    "전적은 이번 주 전적과 누적 전적을 함께 보여 줍니다(목록 · 순위는 이번 주 전적). 연승도 새 주에 새로 셉니다.",
+    "방어에 성공하면(나를 공격한 사람이 지면) 그 사람이 잃은 점수의 절반만큼 내 점수가 오릅니다. 예: 공격자가 18점을 잃으면 +9.",
+  ]},
   {d:"2026.11.13", v:"v0.104", t:"대전", L:[
     "플레이어끼리 대전할 수 있습니다(서버에 연결된 게임에서). 대전 탭에서 다른 플레이어의 점수 · 직업 · 전투력 · 전적을 보고 골라 '전투'를 누르면 6명 대 6명 자동 전투를 합니다. 상대 파티는 상대가 짜 둔 전투 규칙대로 움직입니다.",
     "파티 탭의 진영을 '던전' / '대전'으로 나눴습니다. 대전 파티는 따로 편성하고 '저장'을 한 번 해야 대전 목록에 올라가고 대전할 수 있습니다. 대전 탭의 '대전 파티'로 바로 갈 수 있습니다.",
