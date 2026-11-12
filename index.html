@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794449159138"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794465318447"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11087,6 +11087,11 @@ function monPolishSprites(){ if(typeof document==="undefined") return; for(const
     for(let y=0;y<n;y++) for(let x=0;x<n;x++){ const ch=D.rows[y][x]; if(ch===".") continue; const col=D.pal[ch]; if(!col) continue; const i=(y*n+x)*4; im.data[i]=col[0]; im.data[i+1]=col[1]; im.data[i+2]=col[2]; im.data[i+3]=255; }
     SPRITES[k]=monDotURL(im,n,D.pal.o||[18,20,32],cv,c); }catch(e){} } }
 try{ monPolishSprites(); }catch(e){}
+/* v0.103 16칸 PNG로 들어 있는 그림(보물상자 2장 · 직업 기본 그림 9장)도 같은 방식으로 2배 — 이미 화면에 쓰인 그림도 바꿔 줌 */
+function pngPolishSprites(){ if(typeof document==="undefined"||!DOT2X) return; for(const k of Object.keys(SPRITES)){ if(ENEMY_DOTS[k]||!/^data:image\/png/.test(SPRITES[k])) continue; const old=SPRITES[k], im=new Image();
+    im.onload=()=>{ try{ const n=im.width; if(n!==im.height||n>24) return; const cv=document.createElement("canvas"); cv.width=cv.height=n; const c=cv.getContext("2d"); c.drawImage(im,0,0); const u=monDotURL(c.getImageData(0,0,n,n),n,[18,20,32],cv,c); if(SPRITES[k]===old) SPRITES[k]=u;
+      document.querySelectorAll("img").forEach(el=>{ if(el.getAttribute("src")===old) el.src=u; }); }catch(e){} }; im.src=old; } }
+try{ pngPolishSprites(); }catch(e){}
 function lookSprite(look){
   if(!look||typeof document==="undefined") return null; const key=lookKey(look)+(look.bob?"|b":"")+(look.blink?"|k":""); if(LOOK_CACHE[key]) return LOOK_CACHE[key];
   const D=HERO_DOTS[look.spr]; if(!D) return null; const px=Array.from({length:16},()=>Array(16).fill(null)); const body=new Set(); const OUT=[18,20,32];
@@ -12328,6 +12333,12 @@ const COSART=(()=>{
   function dot(rows,pal){ const key=rows.join("/")+JSON.stringify(pal); if(dotCache[key]) return dotCache[key]; const c=document.createElement("canvas"); c.width=Math.max(...rows.map(r=>r.length)); c.height=rows.length; const g=c.getContext("2d");
     rows.forEach((r,y)=>[...r].forEach((ch,x)=>{ if(ch==="."||ch===" "||!pal[ch]) return; g.fillStyle=rgb(pal[ch]); g.fillRect(x,y,1,1); })); return dotCache[key]=c; }
   const px=(g,x,y,c)=>{ g.fillStyle=rgb(c); g.fillRect(x,y,1,1); };
+  /* v0.103 dot2: dot()와 같은 그림을 대각선 펴기 + 명암으로 2배 정밀하게. 그릴 때는 절반 크기(원래 자리 · 원래 크기)로 */
+  const dot2Cache={};
+  function dot2(rows,pal){ const key=rows.join("/")+JSON.stringify(pal); if(dot2Cache[key]) return dot2Cache[key]; const d=dot(rows,pal); if(typeof DOT2X==="undefined"||!DOT2X) return d;
+    try{ const w=d.width, h=d.height, n=Math.max(w,h)+2, im=d.getContext("2d").getImageData(0,0,w,h), G=[]; for(let y=0;y<n;y++){ const r=[]; for(let x=0;x<n;x++){ const X=x-1, Y=y-1, i=(Y*w+X)*4; r.push(X>=0&&Y>=0&&X<w&&Y<h&&im.data[i+3]>=250?[im.data[i],im.data[i+1],im.data[i+2]]:null); } G.push(r); }
+      const P2=dotShade2(dotScale2x(G),[18,20,32],true), c=document.createElement("canvas"); c.width=w*2; c.height=h*2; const g=c.getContext("2d"), od=g.createImageData(w*2,h*2);
+      for(let y=0;y<h*2;y++) for(let x=0;x<w*2;x++){ const v=P2[y+2][x+2]; if(!v) continue; const i=(y*w*2+x)*4; od.data[i]=v[0]; od.data[i+1]=v[1]; od.data[i+2]=v[2]; od.data[i+3]=255; } g.putImageData(od,0,0); c._h2=true; return dot2Cache[key]=c; }catch(e){ return d; } }
   // 망토: 24×18 판(영웅은 (6,1)). B=뒤(몸 뒤), F=어깨 앞 장식
   const sil=(B,T,y0,y1,spread,amp,fn)=>{ for(let y=y0;y<=y1;y++){ const tt=(y-y0)/Math.max(1,y1-y0); const sw=Math.round(Math.sin(T*2.4-y*0.7)*amp*tt*tt); const L=Math.round(9-spread*tt)+sw; for(let x=L;x<=11;x++) fn(x,y,x===L,tt,sw); } };
   const CAPES={
@@ -12423,12 +12434,14 @@ const COSART=(()=>{
     font_rune:{"0":[".#.","#.#","#.#","#.#",".#."],"1":[".#.","##.",".#.",".#.","###"],"2":["##.","..#",".#.","#..","###"],"3":["##.","..#",".#.","..#","##."],"4":["#.#","#.#",".##","..#","..#"],"5":["###","#..",".#.","..#","##."],"6":[".##","#..","##.","#.#",".#."],"7":["###","..#",".#.","#..","#.."],"8":[".#.","#.#",".#.","#.#",".#."],"9":[".#.","#.#",".##","..#","##."],"+":["...",".#.","###",".#.","..."],"!":["#",".","#",".","#"]},
   };
   FONTS.font_shadow=Object.fromEntries(Object.entries(B3).map(([ch,rows])=>{ const w=rows[0].length; const out=rows.map(r=>[...(r+".")]); rows.forEach((r,y)=>[...r].forEach((v,x)=>{ if(v==="#"&&out[y][x+1]!=="#") out[y][x+1]="s"; })); return [ch,out.map(r=>r.join(""))]; }));
-  return {P,hash,dot,px,rgb,CAPES,capeCells,capeLayer,WS,WS_PAL,wsGrid,wsFx,tintRamp,FX,FONTS};
+  return {P,hash,dot,dot2,px,rgb,CAPES,capeCells,capeLayer,WS,WS_PAL,wsGrid,wsFx,tintRamp,FX,FONTS};
 })();
 function cosFont(){ const f=cosOn("font"); return f&&COSART.FONTS[f]?f:null; }
 
 /* ---- 명함 틀(160×100 좌표 — 명함은 ×4) ---- */
-function cosFrameDraw(g,id,t){ const FW=160, FH=100, {dot,px,hash}=COSART;
+function cosFrameDraw(g,id,t){ const di=g.drawImage; g.drawImage=function(im,...a){ return im&&im._h2&&a.length===2?di.call(g,im,a[0],a[1],im.width/2,im.height/2):di.call(g,im,...a); };   /* v0.103 2배 정밀 도트는 원래 크기로 */
+  try{ cosFrameDraw0(g,id,t); } finally{ delete g.drawImage; } }
+function cosFrameDraw0(g,id,t){ const FW=160, FH=100, {hash}=COSART, dot=COSART.dot2, px=(g,x,y,c)=>{ g.fillStyle=`rgb(${c[0]},${c[1]},${c[2]})`; g.fillRect(x+0.25,y+0.25,0.5,0.5); };
   const base=(c1,c2)=>{ const gr=g.createLinearGradient(0,0,FW,FH); gr.addColorStop(0,c1); gr.addColorStop(1,c2); g.fillStyle=gr; g.fillRect(0,0,FW,FH); };
   const corner=(rows,pal)=>{ const d=dot(rows,pal); for(const [x,y,fx,fy] of [[3,3,1,1],[FW-3,3,-1,1],[3,FH-3,1,-1],[FW-3,FH-3,-1,-1]]){ g.save(); g.translate(x,y); g.scale(fx,fy); g.drawImage(d,0,0); g.restore(); } };
   switch(id){
@@ -12468,16 +12481,17 @@ const COS_ST_ART={
   dragon:[["..aa....",".aaaa.b.","aacaaab.","aaaaaab.",".aaaaa..","..aa.a.."],{a:"#c43e42",b:"#ffd23f",c:"#ffffff"}],lamp:[["..aa....",".bbbb...",".bccb...",".bccb...",".bbbb...","..a....."],{a:"#8b7355",b:"#c9a24a",c:"#ffd23f"}],
   pact:[["a......b","aa....bb",".aaabbb.",".aabbab.",".abbaab.","..bbaa..","..b..a.."],{a:"#5c9dff",b:"#ff9a3c"}]};
 // 스티커 한 장(14×14 캔버스 g에, 움직임 kind)
-function cosStickerDraw(g,k,t,ph){ const A=COS_ST_ART[k]; if(!A) return; const kind=(COS_STICKERS.find(x=>x[0]===k)||[])[2]; const D=COSART.dot(A[0],A[1]); const T=t/1000+(ph||0);
-  g.save(); g.translate(7,7);
+function cosStickerDraw(g,k,t,ph){ const A=COS_ST_ART[k]; if(!A) return; const kind=(COS_STICKERS.find(x=>x[0]===k)||[])[2]; const D=COSART.dot2(A[0],A[1]), DW=D._h2?D.width/2:D.width, DH=D._h2?D.height/2:D.height; const T=t/1000+(ph||0);
+  g.save(); if(g.canvas&&g.canvas.width===28) g.setTransform(2,0,0,2,0,0);   /* v0.103 28×28 판 = 14칸을 2배로 */
+  g.translate(7,7);
   if(kind==="bob"||kind==="hop") g.translate(0,kind==="hop"?-Math.abs(Math.round(Math.sin(T*4)*2)):Math.round(Math.sin(T*2.5)));
   if(kind==="spin") g.rotate(Math.round(T*2)*Math.PI/8%(Math.PI*2)); if(kind==="swing") g.rotate(Math.sin(T*2.5)*0.25);
   if(kind==="beat"){ const s=1+0.18*Math.max(0,Math.sin(T*6)); g.scale(s,s); } if(kind==="chatter") g.translate(Math.sin(T*20)>0.8?1:0,0); if(kind==="wave") g.transform(1,Math.sin(T*4)*0.08,0,1,0,0);
   if(kind==="glow"){ g.globalAlpha=0.25+0.2*Math.sin(T*3); g.fillStyle=A[1].a; g.beginPath(); g.arc(0,0,6,0,7); g.fill(); g.globalAlpha=1; }
-  g.drawImage(D,-4,-4); g.restore();
-  if(kind==="flicker"&&Math.sin(T*17)>0.3){ g.fillStyle="#ffd23f"; g.fillRect(6,3+(Math.sin(T*11)>0?0:1),1,1); }
-  if(kind==="bubble"){ const p=(T*0.9)%1; g.globalAlpha=1-p; g.fillStyle="#e9ecf8"; g.fillRect(6+Math.round(Math.sin(p*8)),Math.round(5-p*5),1,1); g.globalAlpha=1; }
-  if(kind==="blink"&&(T%2.8)<0.15){ g.fillStyle=A[1].a; g.fillRect(5,5,1,1); } }
+  g.drawImage(D,-4,-4,DW,DH); g.restore(); g.save(); if(g.canvas&&g.canvas.width===28) g.setTransform(2,0,0,2,0,0);
+  if(kind==="flicker"&&Math.sin(T*17)>0.3){ g.fillStyle="#ffd23f"; g.fillRect(6,3+(Math.sin(T*11)>0?0:0.5),0.5,0.5); }
+  if(kind==="bubble"){ const p=(T*0.9)%1; g.globalAlpha=1-p; g.fillStyle="#e9ecf8"; g.fillRect(6+Math.round(Math.sin(p*8)*2)/2,Math.round((5-p*5)*2)/2,0.5,0.5); g.globalAlpha=1; }
+  if(kind==="blink"&&(T%2.8)<0.15){ g.fillStyle=A[1].a; g.fillRect(5,5,1,1); } g.restore(); }
 const COS_DECO_ART={
   duck:[["............","....YY......","...YYYY.F...","...Y.YYFF...","....YYY.....",".....YY.....","..YYYYYYY...",".YYYYYYYYY..",".YYYYYYYY...","..YYYYYY...."],{Y:"#ffd23f",F:"#ff9a3c"},(g,t,d)=>{ g.save(); g.translate(8,6+Math.round(Math.sin(t/400))); g.rotate(Math.sin(t/600)*0.08); g.drawImage(d,-6,-6); g.restore(); g.fillStyle="#5c9dff"; for(let x=0;x<16;x++) if((x+Math.floor(t/250))%4<2) g.fillRect(x,14,1,1); }],
   scare:[[".....T......","....TTT.....","...TKKKT....","...TKeKT....","....KKK.....",".TTTTTTTTT..","....RRR.....","....RRR.....","....RRR.....",".....T......",".....T......",".....T......"],{T:"#8b7355",K:"#f4c95d",e:"#22202a",R:"#c43e42"},(g,t,d)=>{ g.save(); g.translate(8,14); g.transform(1,0,Math.sin(t/700)*0.12,1,0,0); g.drawImage(d,-6,-12); g.restore(); }],
@@ -15165,7 +15179,7 @@ function cardEditor(cid,bareUrl){
   const ST=cosOn("sticker")||[]; if(!ST.length){ toast("🪪 명함 스티커를 먼저 달아 주세요 (상점 → 🎨 외형 → 명함 스티커)"); return; }
   const pos=cardStickerPos(ST,cosFrameNow()).map(p=>p.slice());
   const m=openModal(`<h2>🎨 명함 꾸미기</h2><p class="sub">스티커를 끌어서 원하는 자리에 두고 '확정'을 누르세요</p>
-    <div class="cardedit" id="cardEd"><img src="${bareUrl}" draggable="false">${ST.map((id,i)=>`<canvas class="cesti" data-i="${i}" width="14" height="14"></canvas>`).join("")}</div>
+    <div class="cardedit" id="cardEd"><img src="${bareUrl}" draggable="false">${ST.map((id,i)=>`<canvas class="cesti" data-i="${i}" width="28" height="28"></canvas>`).join("")}</div>
     <div class="row" style="margin-top:10px"><button class="btn" id="ceOk">확정</button><button class="btn ghost" id="ceReset">기본 자리</button><button class="btn ghost" id="ceCancel">취소</button></div>`,"card");
   const box=$("cardEd"), els=[...box.querySelectorAll(".cesti")];
   els.forEach((cv,i)=>{ const g=cv.getContext("2d"); g.imageSmoothingEnabled=false; cosStickerDraw(g,ST[i].slice(3),0,0); });
@@ -15249,7 +15263,7 @@ function makeNameCard(cid,edit){
   const B=cardBase(cid), FR=B.FR, W=640,H=400; const live=document.createElement("canvas"); live.width=W; live.height=H; const g=live.getContext("2d"); const S={};
   const paint=(now,withSt)=>{ g.setTransform(1,0,0,1,0,0); g.clearRect(0,0,W,H); g.drawImage(B.cv,0,0);
     g.save(); if(FR!=="fr_base"){ g.translate(32,20); g.scale(0.9,0.9); } heroLiveDraw(g,cid,now,S,27,24,4); g.restore();
-    if(withSt){ const ST=cosOn("sticker")||[], P=cardStickerPos(ST,FR); ST.forEach((id,i)=>{ const c=document.createElement("canvas"); c.width=c.height=14; const sg=c.getContext("2d"); sg.imageSmoothingEnabled=false; cosStickerDraw(sg,id.slice(3),0,0); g.imageSmoothingEnabled=false; g.drawImage(c,Math.round(P[i][0]-28),Math.round(P[i][1]-28),56,56); }); } };
+    if(withSt){ const ST=cosOn("sticker")||[], P=cardStickerPos(ST,FR); ST.forEach((id,i)=>{ const c=document.createElement("canvas"); c.width=c.height=28; const sg=c.getContext("2d"); sg.imageSmoothingEnabled=false; cosStickerDraw(sg,id.slice(3),0,0); g.imageSmoothingEnabled=false; g.drawImage(c,Math.round(P[i][0]-28),Math.round(P[i][1]-28),56,56); }); } };
   if(edit){ paint(performance.now(),false); cardEditor(cid,live.toDataURL("image/png")); return; }   // v0.75 꾸미기: 스티커 없는 명함 위에서 끌어 옮김
   paint(performance.now(),true);
   openModal(`<h2>🪪 ${esc(heroDisplayName(cid))}의 명함</h2><p class="sub">아래 버튼으로 그림을 내려받을 수 있어요</p><div id="cardHold"></div><div class="row" style="margin-top:10px"><button class="mini" id="cardDl">⬇ 내려받기</button>${(cosOn("sticker")||[]).length?`<button class="mini" id="cardEdit">🎨 꾸미기</button>`:""}<button class="mini" onclick="closeModal()">닫기</button></div>`,"card");
@@ -16933,11 +16947,14 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.12", v:"v0.103", t:"명함 · 보물상자 도트 2배 정밀", L:[
+    "명함 테두리의 도트 장식, 스티커 24종, 보물상자(닫힘 · 열림), 직업 기본 그림 9장(동료 합류 알림 · 첫 화면 · 함께하기 목록)을 영웅과 같은 방식(대각선 펴기 + 명암)으로 2배 정밀하게 그립니다.",
+  ]},
   {d:"2026.11.12", v:"v0.102", t:"망토 길이 · 오라 균형", L:[
     "망토 7종의 길이를 줄였습니다(누더기 18 → 11칸, 깃털 16 → 10, 늑대 13 → 9, 박쥐 15 → 10, 별빛 베일 17 → 11, 불꽃 17 → 10, 왕의 자락 15 → 10). 몸 왼쪽 밖으로 나가는 길이가 7~12칸에서 4~7칸으로 줄었습니다.",
     "특수 오라 · 망토 · 무기 효과를 그리는 판에서 영웅을 가운데에 놓았습니다(예전: 왼쪽 16칸 · 오른쪽 8칸 → 지금: 양쪽 12칸씩). 눈보라 · 벚꽃 바람처럼 판 전체에 퍼지는 오라가 왼쪽으로 치우쳐 보이던 것이 좌우 같아졌습니다.",
     "전투에서 망토 때문에 왼쪽 경계에서 떨어져 서는 거리도 그만큼 줄었습니다.",
-    "모닥불 장식 9종과 외형 '이펙트 테마' 7종을 영웅과 같은 방식(대각선 펴기 + 명암)으로 2배 정밀하게 그립니다.",
+    "모닥불 장식 16종과 외형 '이펙트 테마' 7종을 영웅과 같은 방식(대각선 펴기 + 명암)으로 2배 정밀하게 그립니다.",
   ]},
   {d:"2026.11.12", v:"v0.101", t:"특성 그물판", L:[
     "특성 판을 그물 모양으로 새로 짰습니다. 영웅마다 약 360칸(예전 215칸)이고, 칸마다 이웃 칸이 평균 3개라 같은 칸으로 가는 길이 여러 개입니다. 갈래마다 출발점이 1곳씩 있습니다.",
