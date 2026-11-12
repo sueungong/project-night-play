@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794407067347"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794449159138"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1384,7 +1384,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .eqpick button img{width:32px!important; height:32px!important}
 .eqpick button .sub,.eqpick button .bdg .in,.eqpick button .bdg .out{display:none}
 .eqdoll{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; align-items:start; background:radial-gradient(ellipse at 50% 60%,#1d2846 0%,#111729 70%); border:1px solid var(--line); border-radius:14px; padding:12px}
-.eqcol{display:flex; flex-direction:column; gap:8px}
+.eqcol{display:flex; flex-direction:column; gap:8px; position:relative; z-index:2}
 .eqpair{display:flex; align-items:flex-start; gap:4px}
 .enhside{display:flex; align-items:center; justify-content:center; width:34px; height:var(--ic,56px); padding:0; border-radius:8px; border:1px solid var(--line2); background:rgba(14,20,40,.82); color:var(--sub); cursor:pointer; line-height:1}
 .enhside b{font-size:12.5px; font-weight:800} .enhside:hover:not(:disabled){border-color:var(--accent); color:var(--ink)}
@@ -3918,8 +3918,8 @@ const RELIC_OPT={
   res:{lo:6,hi:14,kind:"stat",t:v=>`상태이상 회피 +${v}%`}, er_all:{lo:5,hi:12,kind:"stat",t:v=>`전체 속성 저항 +${v}%`}, heal:{lo:6,hi:15,kind:"stat",t:v=>`치유량 +${v}%`},
   regen:{lo:1,hi:3,kind:"stat",t:v=>`턴당 마나 +${v}`}, spd:{lo:1,hi:3,kind:"stat",t:v=>`신속 +${v}`}, ls:{lo:2,hi:5,kind:"stat",t:v=>`흡혈 +${v}%`},
 };
-const RELIC_QCAP=[0.34,0.67,1], RELIC_QLOW=[0,0.17,0.34], RELIC_DROP=[0.06,0.10,0.15];   // 난이도별(황혼·자정·영원한 밤): 수치 상한·하한(범위의 몇 %) · 장 보스 처치 시 나올 확률 — v0.96.1 황혼 < 자정 < 영원한 밤이 옵션마다 분명히 갈리게, 확률은 낮춤
-const RELIC_UP_MAX=3, RELIC_UP_COST=[null,{shard:2,ess:200},{shard:4,ess:400},{shard:8,ess:800}], RELIC_UP_SPENT=[0,2,6,14];
+const RELIC_QCAP=[0.34,0.67,1], RELIC_QLOW=[0,0.17,0.34], RELIC_DROP=[0.10,0.10,0.10];   // 난이도별(황혼·자정·영원한 밤): 수치 상한·하한(범위의 몇 %) · 장 보스 처치 시 나올 확률 — v0.96.1 황혼 < 자정 < 영원한 밤이 옵션마다 분명히 갈리게, 확률은 낮춤
+const RELIC_UP_MAX=3, RELIC_UP_COST=[null,{shard:5,ess:500},{shard:10,ess:1200},{shard:20,ess:2500}], RELIC_UP_SPENT=[0,5,15,35];   // v0.100 파편 5·10·20 + 정수 500·1200·2500
 function relicOptMax(k,d){ const O=RELIC_OPT[k], r=O.hi-O.lo; d=Math.max(0,Math.min(2,d|0)); let m=O.hi; for(let x=1;x>=d;x--) m=Math.max(O.lo,Math.min(O.lo+Math.round(RELIC_QCAP[x]*r),m-1)); return m; }   // 낮은 난이도의 상한은 바로 위 난이도보다 반드시 1 이상 낮음
 function relicOptMin(k,d){ const O=RELIC_OPT[k]; d=Math.max(0,Math.min(2,d|0)); return Math.min(relicOptMax(k,d),O.lo+Math.round(RELIC_QLOW[d]*(O.hi-O.lo))); }
 function relicRoll(rk,d){ const R=RELICS[rk], k=R.opts[Math.floor(Math.random()*R.opts.length)]; d=Math.max(0,Math.min(2,d|0)); const lo=relicOptMin(k,d), hi=relicOptMax(k,d);
@@ -3927,7 +3927,7 @@ function relicRoll(rk,d){ const R=RELICS[rk], k=R.opts[Math.floor(Math.random()*
 function relicSum(it){ const o={}; for(const x of (it&&it.ropts)||[]) if(RELIC_OPT[x.k]) o[x.k]=(o[x.k]||0)+x.v; return o; }
 function relicLines(it){ return Object.entries(relicSum(it)).map(([k,v])=>RELIC_OPT[k].t(v)); }
 function relicUp(it){ return Math.max(0,Math.min(RELIC_UP_MAX,(it&&it.up)|0)); }
-function relicShardOf(it){ return 1+Math.floor(RELIC_UP_SPENT[relicUp(it)]/2); }   // 분해: 파편 1 + 강화에 쓴 파편의 절반
+function relicShardOf(it){ return 1+Math.floor(Math.random()*3); }   // v0.100 분해: 파편 1~3개(무작위)
 function relicUpCan(it){ const c=RELIC_UP_COST[relicUp(it)+1]; return !!c&&it.slot==="relic"&&fragStore().relic>=c.shard&&(progress.ess|0)>=c.ess; }
 function relicUpgrade(it){ if(!it||!RELICS[it.relic]||!relicUpCan(it)) return null; const c=RELIC_UP_COST[relicUp(it)+1]; fragStore().relic-=c.shard; progress.ess-=c.ess;
   const o=relicRoll(it.relic,it.rd==null?2:it.rd); (it.ropts=it.ropts||[]).push(o); it.up=relicUp(it)+1; return o; }
@@ -5613,7 +5613,65 @@ function buildTraitGraph2(cid,adv){
   for(const n of nodes) by.set(n.key,n);
   return {nodes,by,grp:{},adv};
 }
-function traitIdx(cid){ const adv=(progress&&progress.heroes&&progress.heroes[cid]&&progress.heroes[cid].adv)||null; const k=cid+"|"+(adv||""); return TRAIT_IDX[k]||(TRAIT_IDX[k]=buildTraitGraph2(cid,adv)); }
+/* ================= v0.101 특성 그물판 =================
+   효과 칸(기술 강화 · 큰 특성 · ★궁극)은 예전 그대로(열쇠 · 내용 같음), 자리만 새로 잡는다.
+   판 = 고리 17겹 × 세로줄(갈래 수 × K) 벌집 격자. 갈래마다 자기 구역(세로줄 K개) · 출발점 1곳(1겹).
+   효과 칸은 종류마다 정해진 깊이 범위 안에서 갈래마다 다른 자리에 놓이고(서로 바로 붙지 않게), 나머지는 능력치 칸.
+   길: 벌집 이웃끼리(바깥 2 · 안 2 · 옆 2) 일부만 이어 여러 갈림길을 만들고, 모든 칸이 출발점과 이어지게 보정. '둘 중 하나만' 규칙 없음. */
+const TG3={RINGS:17, R0:100, STEP:42, HOLE:0.42, P_OUT:0.72, P_SIDE:0.38,
+  DEPTH:{e2:[2,3],e3:[3,5],a1:[3,6],b1:[4,7],a2:[4,7],b2:[5,8],a3:[6,9],b3:[7,10],a4:[7,10],b4:[8,11]}, SUB:{2:[9,13],4:[11,15],6:[14,17]},
+  SIDE:{e:[-1,1],a:[-2,0],b:[0,2],aa:[-2,-1],ab:[-1,0],ba:[0,1],bb:[1,2]}};
+function buildTraitGraph3(cid,adv){
+  const G2=buildTraitGraph2(cid,adv), brs=traitBranches(cid,adv), N=brs.length; if(!N) return G2;
+  const K=Math.max(5,Math.round(25/N)), COLS=N*K, w=2*Math.PI/COLS, RINGS=TG3.RINGS, sc=K/5;
+  let seed=0; for(const ch of cid+"|"+(adv||"")) seed=(seed*31+ch.charCodeAt(0))>>>0; const rnd=mulberry32(seed^0x9e3779b9);
+  const cellKey=(g,d)=>((g%COLS)+COLS)%COLS+"_"+d, cells=new Map();   // 열쇠 → 칸
+  const nbr=(g,d)=>{ const o=[[g-1,d],[g+1,d]]; if(d%2){ o.push([g,d+1],[g+1,d+1],[g,d-1],[g+1,d-1]); } else { o.push([g,d+1],[g-1,d+1],[g,d-1],[g-1,d-1]); } return o.filter(([x,y])=>y>=1&&y<=RINGS); };
+  const pos=(g,d)=>{ const a=-Math.PI/2+(g+(d%2?0.5:0))*w, r=TG3.R0+TG3.STEP*d; return [Math.round(r*Math.cos(a)),Math.round(r*Math.sin(a))]; };
+  const nodes=[], nmc={}; const mname=k=>{ const P=MINOR_NAMES[k]||["잔가지"]; nmc[k]=(nmc[k]||0)+1; return P[(nmc[k]-1)%P.length]; };
+  const add=(n,g,d,extra)=>{ const [x,y]=pos(g,d); const o=Object.assign({},n,{x,y,adj:[],row:d,g:((g%COLS)+COLS)%COLS},extra); delete o.alt; delete o.lane; delete o.sub; delete o.pos; delete o.link; delete o.root; if(extra&&extra.root) o.root=true; nodes.push(o); cells.set(cellKey(g,d),o); return o; };
+  // 1) 효과 칸 자리
+  const eff=G2.nodes.filter(n=>n.sm||n.big||n.ks), isEff=new Set();
+  brs.forEach((B,bi)=>{ const id=cid+"_"+B.id, g0=bi*K;
+    const mine=eff.filter(n=>n.br===B.id).map(n=>({n,slot:n.key.slice(id.length+1)}));
+    const order=s=>{ const m=/^([a-z]+)(\d)$/.exec(s)||[0,"e",2]; return (m[1].length>1?100:0)+(+m[2])*10+(m[1]==="e"?0:1); };
+    mine.sort((p,q)=>order(p.slot)-order(q.slot));
+    for(const {n,slot} of mine){ const m=/^([a-z]+)(\d)$/.exec(slot)||[0,"e","2"], ln=m[1], no=+m[2];
+      const dr=ln.length>1?(TG3.SUB[no]||[10,15]):(TG3.DEPTH[slot]||[4,10]), sd=TG3.SIDE[ln]||[-2,2];
+      const c0=Math.round(sd[0]*sc), c1=Math.round(sd[1]*sc), cand=[];
+      const hK=Math.floor(K/2);   // 자리가 없으면: 옆으로 1줄 → 2줄 넓히고 → 깊이 ±1 → 그래도 없으면 붙여 놓음
+      for(let relax=0;relax<5&&!cand.length;relax++){ const wc=Math.min(relax,2), wd=relax>=3?1:0;
+        for(let d=Math.max(2,dr[0]-wd);d<=Math.min(RINGS,dr[1]+wd);d++) for(let c=Math.max(-hK,c0-wc);c<=Math.min(K-1-hK,c1+wc);c++){ const g=g0+c; if(cells.has(cellKey(g,d))) continue;
+          if(relax<4&&nbr(g,d).some(([x,y])=>isEff.has(cellKey(x,y)))) continue; cand.push([g,d]); } }
+      if(!cand.length){ for(let d=2;d<=RINGS&&!cand.length;d++) for(let c=-Math.floor(K/2);c<=Math.floor((K-1)/2);c++) if(!cells.has(cellKey(g0+c,d))){ cand.push([g0+c,d]); break; } }
+      const [g,d]=cand[Math.floor(rnd()*cand.length)]; add(n,g,d,{key:n.key,br:B.id}); isEff.add(cellKey(g,d)); } });
+  // 2) 능력치 칸(출발점 + 빈 자리) — 구역 주인 갈래의 능력치 묶음을 돌아가며
+  brs.forEach((B,bi)=>{ const id=cid+"_"+B.id, g0=bi*K, pool=B.pool.split(" "); let pi=0; const stat=()=>{ const k=MIN_KEY[pool[pi++%pool.length]]||"hp_pct"; return MIN_OF[k](mname(k)); };
+    add(stat(),g0,1,{key:id+"_e1",br:B.id,root:true});
+    for(let d=2;d<=RINGS;d++) for(let c=-Math.floor(K/2);c<=Math.floor((K-1)/2);c++){ const g=g0+c; if(cells.has(cellKey(g,d))) continue;
+      const nearEff=nbr(g,d).some(([x,y])=>isEff.has(cellKey(x,y))); if(d>=4&&!nearEff&&rnd()<TG3.HOLE*1.6) continue; if(d>=4&&nearEff&&rnd()<TG3.HOLE*0.35) continue;
+      add(stat(),g,d,{key:`${id}_n${d}_${c+Math.floor(K/2)}`,br:B.id}); } });
+  // 3) 길
+  const link=(p,q)=>{ if(p&&q&&p!==q&&!p.adj.includes(q.key)){ p.adj.push(q.key); q.adj.push(p.key); } };
+  const at=(g,d)=>cells.get(cellKey(g,d));
+  for(const n of nodes){ const g=n.g, d=n.row; if(d===1){ link(n,at(g,2)); link(n,at(g+1,2)); continue; }
+    const outs=d%2?[[g,d+1],[g+1,d+1]]:[[g,d+1],[g-1,d+1]]; for(const [x,y] of outs){ const m=at(x,y); if(m&&rnd()<TG3.P_OUT) link(n,m); }
+    const s=at(g+1,d); if(s&&rnd()<TG3.P_SIDE) link(n,s); }
+  // 모든 칸이 출발점과 이어지게: 닿지 않는 칸은 닿는 이웃과 잇는다(안쪽 이웃 먼저)
+  for(let guard=0;guard<60;guard++){ const seen=new Set(), q=nodes.filter(n=>n.root); q.forEach(n=>seen.add(n.key)); const by0=new Map(nodes.map(n=>[n.key,n]));
+    for(let i=0;i<q.length;i++){ if(q[i].ks) continue;   /* ★궁극 칸을 지나지 않고도 닿아야 함(궁극은 한도가 있어 길목이 되면 안 됨) */ for(const k of q[i].adj) if(!seen.has(k)){ seen.add(k); q.push(by0.get(k)); } }
+    const lost=nodes.filter(n=>!seen.has(n.key)); if(!lost.length) break; let fixed=0;
+    for(const n of lost.sort((a,b)=>a.row-b.row)){ const ns=nbr(n.g,n.row).map(([x,y])=>at(x,y)).filter(m=>m&&seen.has(m.key)&&!m.ks).sort((a,b)=>a.row-b.row); if(ns.length){ link(n,ns[0]); seen.add(n.key); fixed++; } }
+    if(!fixed){   // 이웃으로는 못 잇는 칸: 효과 칸은 가장 가까운 닿는 칸과 잇고, 능력치 칸은 뺌
+      for(const n of lost){ if(n.sm||n.big||n.ks){ let bm=null, bd=1e9; for(const m of nodes){ if(!seen.has(m.key)||m.ks) continue; const d=Math.hypot(m.x-n.x,m.y-n.y); if(d<bd){ bd=d; bm=m; } } if(bm){ link(n,bm); fixed++; } }
+        else { for(const k of n.adj){ const m=by0.get(k); if(m) m.adj=m.adj.filter(x=>x!==n.key); } const i=nodes.indexOf(n); nodes.splice(i,1); cells.delete(cellKey(n.g,n.row)); fixed++; } }
+      if(!fixed) break; } }
+  // 효과 칸은 길이 둘 이상(막다른 칸이 되지 않게) — ★궁극은 끝에 있어도 됨
+  for(const n of nodes){ if(!(n.sm||n.big)||n.ks||n.adj.length>=2) continue; const ns=nbr(n.g,n.row).map(([x,y])=>at(x,y)).filter(m=>m&&!n.adj.includes(m.key)); if(ns.length) link(n,ns[Math.floor(rnd()*ns.length)]); }
+  for(const n of nodes) delete n.g;
+  return {nodes,by:new Map(nodes.map(n=>[n.key,n])),grp:{},adv};
+}
+function traitIdx(cid){ const adv=(progress&&progress.heroes&&progress.heroes[cid]&&progress.heroes[cid].adv)||null; const k=cid+"|"+(adv||""); return TRAIT_IDX[k]||(TRAIT_IDX[k]=buildTraitGraph3(cid,adv)); }
 // 특성 포인트(v0.34): 전직(Lv10)부터 레벨마다 1 → Lv40에 31 · 각성마다 4 · 큰 별마다 1
 const TRAIT_AWAKEN=4, AWAKEN_MAX=10;   // v0.94 각성은 10번까지(특성 포인트 Lv40 31 + 각성 40 = 71, 전체 129칸 중)
 // v0.95 n번째 각성에 드는 경험치 = Lv50 경험치(42,426) × n — 1번째 42,426 · 5번째 212,130 · 10번째 424,260 (합계 2,333,430) · v0.94 B안: Lv40 경험치(30,358) × n — 1번째 30,358 · 5번째 151,790 · 10번째 303,580 (합계 1,669,690)
@@ -5853,7 +5911,12 @@ function saveProgress(){ progress._equipped=equippedStore; touchSave(); renderHu
 const VIEW_ID=Math.random().toString(36).slice(2,10);
 // 불러온 던전 기록을 아직 이어받기 전(부팅 중)에 저장이 일어나도 그 기록을 지우지 않도록
 let runPending=false;
-function curRunSave(){ const r=runSnapshot(); return r||(runPending&&progress?progress.run||null:null); }
+// v0.100 다른 창(기기)이 진행 중인 던전 기록 — 이 창은 이어받지 않지만, 이 창이 저장할 때 그 기록을 지우지 않고 그대로 실어 보냄
+let heldRun=null;
+// 끝난 던전의 시작 시각(가장 최근) — 이보다 먼저 시작한 던전 기록은 어느 창에서 오든 이미 끝난 것으로 보고 버림
+let runEndMax=0;
+function runEnded(R){ return !!(R&&R.t0&&R.t0<=Math.max(runEndMax,(progress&&progress.runEnd)||0)); }
+function curRunSave(){ const r=runSnapshot(); if(r){ heldRun=null; return r; } return (runPending&&progress?progress.run||null:null)||(heldRun&&!runEnded(heldRun)?heldRun:null); }
 // 던전을 굴리는 창은 1초마다 '진행 중' 표시를 남긴다 → 같은 브라우저에서 새로 연 창은 그 던전을 가로채지 않음
 function runLockOther(){ try{ const l=JSON.parse(safeGet("pn_run_lock")||"null"); return !!(l&&l.view!==VIEW_ID&&Date.now()-l.at<2500); }catch(e){ return false; } }
 if(typeof window!=="undefined") setInterval(()=>{ try{ if(runState) safeSet("pn_run_lock", JSON.stringify({view:VIEW_ID, at:Date.now()})); }catch(e){} }, 1000);
@@ -5884,7 +5947,7 @@ function runBankRestore(B){ if(!B) return; if(!B.senhV) bankSenhMigrate(B); prog
 function runSnapshot(){
   let rs=null; try{ rs=runState; }catch(e){ return null; }   // 엔진만 떼어 쓰는 시험 환경에는 runState가 없음
   if(!rs) return null;
-  return { view:VIEW_ID, av:5, regionKey:runState.regionKey, d:runState.d, act:runState.act, zones:runState.zones, zone:runState.zone, gains:runState.gains, chests:runState.chests, elites:runState.elites,
+  return { view:VIEW_ID, t0:runState.t0||(runState.t0=Date.now()), at:Date.now(), av:5, regionKey:runState.regionKey, d:runState.d, act:runState.act, zones:runState.zones, zone:runState.zone, gains:runState.gains, chests:runState.chests, elites:runState.elites,
     bossMetrics:runState.bossMetrics||null, mode:runState.mode||null, eg:runState.eg||null, bank:runState.bank||null, party:runState.party.map(u=>({id:u.id,hp:u.hp,hp_max:u.hp_max,mp:u.mp,mp_max:u.mp_max,alive:u.alive})),
     busy:!!(typeof playing!=="undefined"&&playing) };   // v0.55.1: 구역(전투) 도중에 저장된 것 — 이어받을 때 그 구역을 바로 다시 시작
 }
@@ -5898,13 +5961,14 @@ function resumeContinue(){
 }
 function resumeRun(R){
   R=R||(progress&&progress.run); runPending=false; if(!R) return false;
+  if(runEnded(R)){ progress.run=null; return false; }   // v0.100 이미 끝난 던전의 옛 기록
   const ok=REGIONS[R.regionKey]&&DIFFS[R.d]&&Array.isArray(R.zones)&&R.zones.length&&Number.isInteger(R.zone)&&R.zone>=0&&R.zone<R.zones.length&&Array.isArray(R.party);
   if(!ok){ progress.run=null; return false; }
   if(R.mode&&!EG_MODES[R.mode]){ progress.run=null; return false; }
   if(R.mode) progress.egMode=R.mode;
   if(!R.mode&&!(R.av>=5)) R.act=[5,1,3,5][Math.max(0,Math.min(3,R.act|0))];   // v0.88 예전(3막) 저장의 막 번호
   runState={ regionKey:R.regionKey, d:R.d, act:R.act||ACT_N, zones:R.zones, zone:R.zone, gains:R.gains||{exp:0,gold:0,items:0}, chests:R.chests||0, elites:R.elites||0,
-    bossMetrics:R.bossMetrics||undefined, mode:R.mode||undefined, eg:R.eg||undefined, bank:R.bank||null, party:[] };
+    bossMetrics:R.bossMetrics||undefined, mode:R.mode||undefined, eg:R.eg||undefined, bank:R.bank||null, party:[], t0:R.t0||Date.now() };
   runState.party=refreshParty(R.party);
   if(!R.mode) progress.lastRegion=R.regionKey; progress.diff=R.d;
   setZoneLine();
@@ -5913,7 +5977,8 @@ function resumeRun(R){
   if(R.busy||autoAdv) resumeContinue();
   return true;
 }
-function writeLocal(){ progress.run=curRunSave(); progress._equipped=equippedStore; safeSet("pn_progress_v02", JSON.stringify(progress)); safeSet("pn_rules_v01", JSON.stringify(partyRules)); }
+function writeLocal(){ progress.run=curRunSave(); progress._equipped=equippedStore; try{ if(runState) safeSet("pn_run_lock", JSON.stringify({view:VIEW_ID, at:Date.now()})); }catch(e){}   /* v0.100 던전 기록을 저장하는 순간 바로 '진행 중' 표시(1초 간격 표시가 찍히기 전에 다른 창이 가로채지 않게) */
+  safeSet("pn_progress_v02", JSON.stringify(progress)); safeSet("pn_rules_v01", JSON.stringify(partyRules)); }
 function touchSave(){ progress.savedAt=Date.now(); writeLocal(); cloudSchedule(); }
 
 /* ---- 클라우드 저장: 기기 간 진행 연동 ----
@@ -6067,12 +6132,16 @@ function applyCloud(d, live){
   let pr=progress.run; runPending=false;
   // 다른 창이 지금 진행 중인 던전은 이 창에서 이어받지 않는다(두 창이 같은 던전을 따로 굴리면 서로의 저장을 되돌림)
   const foreign=!!(pr&&pr.view&&pr.view!==VIEW_ID&&(live||runLockOther()));
+  runEndMax=Math.max(runEndMax,progress.runEnd||0); if(runEndMax) progress.runEnd=runEndMax;
+  const stale=!!(pr&&runEnded(pr)); if(stale) pr=null;   // v0.100 다른 창의 저장에 실려 온 '이미 끝난 던전'
+  heldRun=foreign&&pr?pr:null;
   if(foreign||(live&&pr&&!pr.view)) pr=null;
   progress.run=null;
   runState=null;
   if(bootDone) autoRulePass();
   rerenderAll();
   if(pr&&progress.protag&&resumeRun(pr)) progress.run=runSnapshot();
+  if(stale&&bootDone) setTimeout(()=>{ try{ if(!runState) touchSave(); }catch(e){} },0);   // 끝난 던전 기록을 지운 저장을 다시 올림
   if(foreign) logLine(`<span class="r">☁ 다른 창(기기)에서 던전을 진행 중입니다 — 이 창은 등불 도시에 머뭅니다. 그 창을 닫고 이 창을 새로 고침하면 이어서 할 수 있어요.</span>`);
   // 저장 시각을 새로 찍지 않고 이 기기에 복사 — 단, 같은 브라우저의 다른 창이 그보다 최근에 저장해 뒀다면 덮어쓰지 않음
   if(storedSavedAt()<(progress.savedAt||0)) writeLocal();
@@ -6179,6 +6248,10 @@ async function cloudInit(){
     if(!sn.exists||sn.metadata.hasPendingWrites) return;
     const x=sn.data(); if(x&&x.chk&&(!cloud.chk||(x.chk.d|0)>=(cloud.chk.d|0))&&(x.savedAt||0)>=((cloud.remote&&cloud.remote.savedAt)||0)) cloud.chk=x.chk;
     try{ if(x&&typeof x.save==="string"&&(x.savedAt||0)>=((cloud.remote&&cloud.remote.savedAt)||0)) cloud.remote={savedAt:x.savedAt||0, dev:x.dev||"", sum:x.sum||"", doc:x, mine:(x.savedAt||0)===(progress.savedAt||0)}; }catch(e){}
+    // v0.100 이 창이 쉬는 동안 다른 창(기기)의 던전 기록을 최신으로 들고 있기 — 이 창의 저장이 그 기록을 지우거나 옛 구역으로 되돌리지 않게
+    try{ const xp=x&&typeof x.save==="string"?JSON.parse(x.save).progress:null; if(xp){ if((xp.runEnd||0)>runEndMax) runEndMax=xp.runEnd; const xr=xp.run, old=(x.savedAt||0)<=(progress.savedAt||0);
+      if(heldRun&&runEnded(heldRun)){ heldRun=null; if(!runState&&old) touchSave(); }
+      else if(xr&&xr.view&&xr.view!==VIEW_ID&&!runState&&!runEnded(xr)&&heldRun&&(xr.t0!==heldRun.t0||(xr.at||0)>(heldRun.at||0))){ heldRun=xr; if(old) touchSave(); } } }catch(e){}
     if(!x||typeof x.save!=="string"||(x.savedAt||0)<=(progress.savedAt||0)) return;
     try{ if(!hasMeaningfulProgress(JSON.parse(x.save).progress)&&hasMeaningfulProgress(progress)) return; }catch(e){ return; }
     cloud.pending=x; cloudApplyPending();
@@ -6221,7 +6294,7 @@ function migrateProgress(p){
     out.heroes[c]=Object.assign(defaultProgress().heroes[c], (p.heroes||{})[c]||{});
     if(!Array.isArray(out.heroes[c].learned)) out.heroes[c].learned=[];
     if(!Array.isArray(out.heroes[c].traits)) out.heroes[c].traits=[];
-    if(p.traitsVer!==10){ if(out.heroes[c].traits.length) out._traitRefund=true; out.heroes[c].traits=[]; }   // v0.96 특성 개편 → 모두 돌려줌(동료는 새 나무로 스스로 다시 찍음)   // v0.86 특성 나무 다시 짬 → 모두 돌려줌
+    if(p.traitsVer!==11){ if(out.heroes[c].traits.length) out._traitRefund=true; out.heroes[c].traits=[]; }   // v0.96 특성 개편 → 모두 돌려줌(동료는 새 나무로 스스로 다시 찍음)   // v0.86 특성 나무 다시 짬 → 모두 돌려줌
     { const T=out.heroes[c].traits, isU=k=>/_(aa|ab|ba|bb)6$/.test(k); let n=T.filter(isU).length; for(let i=T.length-1;i>=0&&n>KS_MAX;i--) if(isU(T[i])){ T.splice(i,1); n--; } }   // v0.87 궁극 3개 제한 — 넘친 궁극(나중에 찍은 것부터)은 포인트로 돌려줌(궁극은 가지 끝이라 빼도 길이 끊기지 않음)
     const eq=Object.assign({}, out.heroes[c].equip||{});
     if(eq.trinket!==undefined){ eq.amulet=eq.amulet??eq.trinket; delete eq.trinket; }
@@ -6293,7 +6366,7 @@ function migrateProgress(p){
   let dm=0; for(let i=0;i<2;i++) if(out.cl[i][REGION_KEYS[REGION_KEYS.length-1]]>0) dm=i+1;
   out.diffMax=Math.max(dm, typeof p.diffMax==="number"?p.diffMax:0);
   if(typeof out.diff!=="number"||out.diff>out.diffMax||out.diff<0) out.diff=0;
-  out.traitsVer=10;
+  out.traitsVer=11;
   out.autoRules=typeof p.autoRules==="number"?p.autoRules:0;
   // v0.11: 주인공·로스터·출전 파티 (예전 세이브는 3명 모두 보유·출전, 주인공은 첫 실행 때 지정)
   const pg=p.protag;
@@ -8868,7 +8941,7 @@ function cosPvDraw(S,c,g,now,cv){ const T=now/1000;
     case "frame": { cosFrameDraw(g,c.id,now); const pid=progress.protag&&progress.protag.cid; if(pid){ const im=cosImg(heroIcon(pid)); if(im.complete) g.drawImage(im,14,30,32,32); }
       g.fillStyle="#f4c95d"; g.font="bold 10px sans-serif"; g.fillText(pid?heroDisplayName(pid):"",54,44); g.fillStyle="#aab3cf"; g.font="8px sans-serif"; g.fillText("명함 미리보기",54,56); break; }
     case "sticker": cosStickerDraw(g,c.id.slice(3),now,0); break;
-    case "deco": { const d=cosDecoFrame(c.id.slice(3),now); if(d) g.drawImage(d,0,0); break; }
+    case "deco": { const d=cosDecoFrame(c.id.slice(3),now); if(d) g.drawImage(d,0,0,16,16); break; }
   } }
 function resoBlock(){   // v0.63: 동행의 증표 상점을 없애고 심연 공명만
   const box=document.createElement("div"); box.className="gemshop tokshop";
@@ -9608,11 +9681,25 @@ function traitNodeScore(cid,n,st){
   const t=traitsTaken(cid); let ahead=0; for(const k of n.adj){ if(t.includes(k)) continue; const m=traitNode(cid,k); if(m) ahead=Math.max(ahead,num(m)+((m.big||m.ks)?4:0)); }
   return s+0.5*ahead;
 }
+/* v0.101 그물판: 목표 칸을 정하고 그리로 가는 길의 첫 칸을 찍음.
+   길 값 = 능력치 칸 1 · 쓸모 있는 효과 칸 0.6 · 쓸모없는 효과 칸 1.4(되도록 쓸모 있는 칸을 지나가게).
+   목표 = ★궁극(한도 안 · 남은 포인트로 닿을 때)을 먼저, 없으면 점수 ÷ 길 값이 가장 높은 효과 칸. 목표가 없으면 예전처럼 이어진 칸 중 가장 좋은 칸 */
 function companionPickTrait(cid){
-  // v0.35: 이어진 칸 중 성향에 가장 맞는 칸(바로 다음 칸까지 내다봄)
-  const st=heroStance(cid), open=allTraitNodes(cid).filter(n=>canTakeTrait(cid,n));
-  let best=null, bs=-1e9; for(const n of open){ const s=traitNodeScore(cid,n,st); if(s>bs){ bs=s; best=n; } }
-  return best;
+  const st=heroStance(cid), all=allTraitNodes(cid), t=traitsTaken(cid), T=new Set(t), left=traitPtsLeft(cid);
+  const open=all.filter(n=>canTakeTrait(cid,n)); if(!open.length) return null;
+  const ksFull=ksTaken(cid).length>=ksMax(cid), sc=new Map(all.map(n=>[n.key,traitNodeScore(cid,n,st)]));
+  const cost=n=>(n.sm||n.big||n.ks)?(sc.get(n.key)>0?0.6:1.4):1;
+  const dist=new Map(), steps=new Map(), first=new Map(), pq=[];
+  for(const n of open){ if(n.ks&&ksFull) continue; dist.set(n.key,cost(n)); steps.set(n.key,1); first.set(n.key,n); pq.push(n); }
+  while(pq.length){ let bi=0; for(let i=1;i<pq.length;i++) if(dist.get(pq[i].key)<dist.get(pq[bi].key)) bi=i; const n=pq.splice(bi,1)[0]; if(n.ks) continue;   // 궁극 칸은 지나가지 않음(끝점으로만)
+    for(const k of n.adj){ if(T.has(k)) continue; const m=traitNode(cid,k); if(!m||traitForkDead(cid,m)||(m.ks&&ksFull)) continue; const d=dist.get(n.key)+cost(m);
+      if(!dist.has(k)||d<dist.get(k)-1e-9){ if(!dist.has(k)) pq.push(m); dist.set(k,d); steps.set(k,steps.get(n.key)+1); first.set(k,first.get(n.key)); } } }
+  let best=null, bv=-1e9;
+  for(const n of all){ if(T.has(n.key)||!dist.has(n.key)||!(n.sm||n.big||n.ks)) continue; const s=sc.get(n.key); if(s<=0||steps.get(n.key)>left) continue;
+    const v=n.ks?1000+s-steps.get(n.key)*3:(s+(n.big?6:0))/dist.get(n.key); if(v>bv){ bv=v; best=n; } }
+  if(best) return first.get(best.key);
+  let b2=null, bs=-1e9; for(const n of open){ const s=sc.get(n.key); if(s>bs){ bs=s; b2=n; } }
+  return b2;
 }
 // 한 동료가 스스로 판단 — 바뀐 것이 있으면 로그 문구 목록을 돌려준다
 var COMP_AUTO_ADV=false;   // v0.93 동료 전직은 플레이어가 고름(밸런스 봇만 스스로 전직)
@@ -10198,7 +10285,7 @@ const SVGNS="http://www.w3.org/2000/svg";
 function svgEl(tag,attrs,parent){ const e=document.createElementNS(SVGNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
 function traitMapFit(cid,box,all){
   const w=box.clientWidth||600, h=box.clientHeight||480;
-  if(all){ const k=Math.min(w,h)/(2*800); return {x:w/2,y:h/2,k}; }
+  if(all){ const k=Math.min(w,h)/(2*900); return {x:w/2,y:h/2,k}; }
   const t=traitsTaken(cid).map(k=>traitNode(cid,k)).filter(Boolean);
   let cx=0, cy=0; if(t.length){ const far=t.reduce((a,n)=>Math.hypot(n.x,n.y)>Math.hypot(a.x,a.y)?n:a,t[0]); cx=far.x*0.55; cy=far.y*0.55; }
   const k=Math.max(0.42,Math.min(1,Math.min(w,h)/(2*330)));
@@ -10214,7 +10301,7 @@ function renderTraitMap(cid,host){
   const taken=traitsTaken(cid), T=new Set(taken), nodes=allTraitNodes(cid), sel=traitNode(cid,traitSel[cid]);
   const stOf=new Map(nodes.map(n=>[n.key,traitState(cid,n)]));
   const path=sel&&stOf.get(sel.key)==="locked"&&progress.heroes[cid].adv?(traitPath(cid,sel)||[]):[]; const P=new Set(path.map(n=>n.key));
-  svgEl("circle",{r:760,fill:"url(#tbg)"},vp);
+  svgEl("circle",{r:880,fill:"url(#tbg)"},vp);
   // 선
   const eg=svgEl("g",{},vp), drawn=new Set();
   for(const n of nodes){
@@ -11133,7 +11220,7 @@ function frameRect(el){ let r = FRAME.rects.get(el); if(!r){ r = el.getBoundingC
    그림판 40×38(영웅 16칸 그림은 (16,14)), 도트 판(p)과 빛 번짐 판(q). 무대(영웅 뒤)에 '뒤' 판, 효과 덮개(영웅 위)에 '앞' 판을 그림 */
 var COS2 = (()=>{
 // 외형 시안 v2 — 망토 · 무기 외형 · 특수 오라 (그림 1칸 = 영웅 도트 1칸, 빛 번짐은 따로 부드럽게)
-const W=40,H=38,HX=16,HY=14,Z=6;           // 판 크기 · 영웅 자리(16칸 그림 왼쪽 위)
+const W=40,H=38,HX=12,HY=14,Z=6;   /* v0.102 영웅이 판 가운데(왼쪽 12칸 · 오른쪽 12칸) — 예전엔 왼쪽 16 · 오른쪽 8이라 오라가 왼쪽으로 치우쳐 보였음 */           // 판 크기 · 영웅 자리(16칸 그림 왼쪽 위)
 const FEET=HY+16;
 const W2=W*2, H2=H*2;   // v0.99 그림판은 반 칸(영웅 32칸 도트의 1점) 단위
 const rgb=c=>`rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;
@@ -11174,14 +11261,14 @@ const shade=(slope,a,b,c)=>slope>0.9?a:slope<-0.9?c:b;   // 주름: 바람에 �
 const CP={
  crimson:{n:"진홍 (기본)",d:"지금 주인공 망토",draw(S,t){ cellsDraw(S.p,flag(t,{L:12,h0:7,h1:4,amp:1.5,spd:5,droop:0.3},(s,u,sl)=>u>0.85?[120,26,32]:shade(sl,[220,70,72],[190,46,52],[140,30,38]))); }},
  tatter:{n:"전장의 찢긴 망토",d:"끝이 여러 갈래로 찢겨 따로 채찍처럼 휘날림 · 해진 가장자리",draw(S,t){
-   cellsDraw(S.p,flag(t,{L:18,h0:8,h1:6,amp:2.2,spd:6,droop:0.2},(s,u,sl,x,y)=>{ x=Math.floor(x); y=Math.floor(y); if(s>0.55){ const strip=Math.floor(u*4.5); if(strip%2===1&&s>0.55+0.15*R(strip)) return null; if(s>0.8+0.18*R(strip+3)) return null; }
+   cellsDraw(S.p,flag(t,{L:11,h0:8,h1:6,amp:1.6,spd:6,droop:0.3},(s,u,sl,x,y)=>{ x=Math.floor(x); y=Math.floor(y); if(s>0.55){ const strip=Math.floor(u*4.5); if(strip%2===1&&s>0.55+0.15*R(strip)) return null; if(s>0.8+0.18*R(strip+3)) return null; }
      if(R(x*7+y*13)>0.93&&s>0.25&&s<0.7) return null; return u>0.9||s>0.92?[64,48,52]:shade(sl,[124,74,76],[96,52,58],[70,38,46]); })); }},
  feather:{n:"까마귀 깃털 망토",d:"비늘처럼 겹친 깃털이 물결 따라 들썩 · 깃 끝에 청록 윤기 · 깃털이 한 장씩 날아감",draw(S,t){
-   cellsDraw(S.p,flag(t,{L:16,h0:8,h1:4,amp:2,spd:4.5,droop:0.25},(s,u,sl,x,y)=>{ x=Math.floor(x); y=Math.floor(y); const row=Math.floor(u*4), ph=(x+row*2)%3; const sheen=(Math.sin(t*2+x*0.5-y*0.3)+1)/2;
+   cellsDraw(S.p,flag(t,{L:10,h0:8,h1:4,amp:1.5,spd:4.5,droop:0.32},(s,u,sl,x,y)=>{ x=Math.floor(x); y=Math.floor(y); const row=Math.floor(u*4), ph=(x+row*2)%3; const sheen=(Math.sin(t*2+x*0.5-y*0.3)+1)/2;
      if(s>0.9&&(x%2)) return null; if(ph===0&&Math.floor(u*8)%2===1) return mix([60,170,170],[130,90,210],sheen); return shade(sl,[56,58,92],[40,42,70],[28,30,50]); }));
-   for(let i=0;i<2;i++){ const ph=(t*0.45+i*0.5)%1, bx=SH_X-10-ph*18, by=SH_Y+3+i*2-ph*5+Math.sin(ph*9)*1.5; const a=ph<0.1?ph*10:1-ph; px(S.p,bx,by,[50,52,84],a); px(S.p,bx+0.5,by,[56,58,92],a); px(S.p,bx+1,by-0.5,[70,170,170],a); px(S.p,bx-0.5,by+0.5,[34,36,60],a); px(S.p,bx-1,by+1,[34,36,60],a*0.7); px(S.q,bx+1,by,[40,140,140],a*0.5); } }},
+   for(let i=0;i<2;i++){ const ph=(t*0.45+i*0.5)%1, bx=SH_X-6-ph*10, by=SH_Y+3+i*2-ph*5+Math.sin(ph*9)*1.5; const a=ph<0.1?ph*10:1-ph; px(S.p,bx,by,[50,52,84],a); px(S.p,bx+0.5,by,[56,58,92],a); px(S.p,bx+1,by-0.5,[70,170,170],a); px(S.p,bx-0.5,by+0.5,[34,36,60],a); px(S.p,bx-1,by+1,[34,36,60],a*0.7); px(S.q,bx+1,by,[40,140,140],a*0.5); } }},
  wolf:{n:"늑대왕의 가죽",d:"등에 업힌 늑대 머리 · 노란 눈이 빛나며 깜빡 · 털끝이 바람에 일렁",draw(S,t,bob){
-   cellsDraw(S.p,flag(t,{L:13,h0:8,h1:5,amp:1.5,spd:4,droop:0.3},(s,u,sl,x,y)=>{ x=Math.floor(x); y=Math.floor(y); if(u>0.85&&(x+Math.floor(t*6))%2) return null; if(s>0.92&&(y%2)) return null; return (x*3+y*2)%7===0?[156,150,156]:shade(sl,[140,136,144],[116,112,120],[88,84,94]); }));
+   cellsDraw(S.p,flag(t,{L:9,h0:8,h1:5,amp:1.2,spd:4,droop:0.34},(s,u,sl,x,y)=>{ x=Math.floor(x); y=Math.floor(y); if(u>0.85&&(x+Math.floor(t*6))%2) return null; if(s>0.92&&(y%2)) return null; return (x*3+y*2)%7===0?[156,150,156]:shade(sl,[140,136,144],[116,112,120],[88,84,94]); }));
    const hx=HX-1, hy=HY+4+bob, blink=(t%3.4)<0.14; const head=new Map(), G=Array.from({length:5},()=>Array(5).fill(null)), EY=[255,214,80]; const P={g:[118,114,122],G:[150,146,152],w:[200,196,200],d:[70,66,74],n:[30,28,34]};
    [[0,0,'g'],[4,0,'g'],[0,1,'G'],[1,1,'g'],[2,1,'g'],[3,1,'g'],[4,1,'G'],[0,2,'g'],[1,2,'E'],[2,2,'G'],[3,2,'E'],[4,2,'g'],[0,3,'g'],[1,3,'w'],[2,3,'w'],[3,3,'w'],[4,3,'g'],[1,4,'d'],[2,4,'n'],[3,4,'d']]
      .forEach(([x,y,c])=>{ G[y][x]=c==='E'?(blink?P.g:EY):P[c]; });
@@ -11189,23 +11276,23 @@ const CP={
    cellsDraw(S.p,head); if(!blink){ px(S.q,hx+1,hy+2,[255,200,60],1); px(S.q,hx+3,hy+2,[255,200,60],1); } }},
  bat:{n:"흡혈귀 박쥐 날개",d:"뼈대가 있는 날개막이 퍼덕이며 펼쳐졌다 접힘 · 막 사이로 붉은 빛",draw(S,t){
    const open=0.5+0.5*Math.sin(t*2.6); const m=new Map(); const sx=SH_X-1, sy=HY+6;
-   const fingers=[[-13,-6],[-15,0],[-13,5],[-9,8]].map(([x,y])=>[x*(0.5+0.5*open),y*(0.6+0.4*open)-(1-open)*2]);
+   const fingers=[[-8,-5],[-10,0],[-8,4],[-6,6]].map(([x,y])=>[x*(0.5+0.5*open),y*(0.6+0.4*open)-(1-open)*2]);
    for(let i=0;i<fingers.length-1;i++){ const [ax,ay]=fingers[i],[bx,by]=fingers[i+1]; for(let s=0;s<=1;s+=0.02) for(let u=0;u<=1;u+=0.016){ const x=sx+lerp(ax,bx,s)*u, y=sy+lerp(ay,by,s)*u; const cut=s>0.25&&s<0.75&&u>0.9-0.12*Math.sin(s*Math.PI); if(cut) continue;
      const k=Math.round(y*2)*W2+Math.round(x*2); if(!m.has(k)) m.set(k,u>0.75?[110,34,60]:u>0.4?[80,26,48]:[60,20,40]); } }
    for(const [fx,fy] of fingers){ const n=Math.max(1,Math.ceil(Math.hypot(fx,fy)*2.4)); for(let k=0;k<=n;k++) m.set(Math.round((sy+fy*k/n)*2)*W2+Math.round((sx+fx*k/n)*2),[34,22,30]); m.set(Math.round((sy+fy)*2)*W2+Math.round((sx+fx)*2),[210,200,190]); }
    cellsDraw(S.p,m); for(let i=0;i<3;i++){ const f=fingers[1+i%2]; px(S.q,sx+f[0]*0.6,sy+f[1]*0.6,[200,40,70],0.35); } }},
  veil:{n:"별빛 베일",d:"밤하늘이 흐르는 반투명 자락 · 별이 반짝이고 빛나는 단 끝",pass:true,draw(S,t){
-   const stars=[]; const m=flag(t,{L:17,h0:8,h1:6,amp:1.8,spd:3.6,droop:0.2,trail:3,taper:0.8},(s,u,sl,x,y)=>{ if(u>0.88) return [150,180,255,0.95]; if(R(Math.round(s*40)*7+Math.round(u*9))>0.95) stars.push([Math.floor(x),Math.floor(y)]); return [...mix(shade(sl,[70,70,160],[50,46,130],[36,32,100]),[100,60,170],s),0.85]; });
+   const stars=[]; const m=flag(t,{L:11,h0:8,h1:6,amp:1.4,spd:3.6,droop:0.28,trail:2,taper:0.8},(s,u,sl,x,y)=>{ if(u>0.88) return [150,180,255,0.95]; if(R(Math.round(s*40)*7+Math.round(u*9))>0.95) stars.push([Math.floor(x),Math.floor(y)]); return [...mix(shade(sl,[70,70,160],[50,46,130],[36,32,100]),[100,60,170],s),0.85]; });
    cellsDraw(S.p,m,[14,14,40]);
    [...new Map(stars.map(q=>[q[0]+","+q[1],q])).values()].forEach(([x,y],i)=>{ const tw=Math.max(0,Math.sin(t*2.2+i*1.7)); px(S.p,x,y,[255,255,255],0.4+tw*0.6); if(tw>0.75){ for(const [dx,dy] of [[0.5,0],[-0.5,0],[0,0.5],[0,-0.5]]) px(S.p,x+dx,y+dy,[200,215,255],tw*0.7); px(S.q,x,y,[180,200,255],1); } });
    for(const [k,c] of m) if(c[0]===150) px(S.q,(k%W2)/2,((k/W2)|0)/2,[120,150,255],0.15); }},
  flame:{n:"불사조 불꽃 망토",d:"자락 끝이 불길로 바뀌어 뒤로 날림 · 불티",draw(S,t){
-   const m=flag(t,{L:17,h0:8,h1:6,amp:2,spd:5.5,droop:0.15},(s,u,sl,x,y)=>{ if(s<0.5) return u>0.88?[110,24,18]:shade(sl,[214,64,36],[178,44,30],[130,30,22]);
+   const m=flag(t,{L:10,h0:8,h1:6,amp:1.5,spd:5.5,droop:0.24},(s,u,sl,x,y)=>{ if(s<0.5) return u>0.88?[110,24,18]:shade(sl,[214,64,36],[178,44,30],[130,30,22]);
      const n=(Math.sin(t*11+x*1.3+y)+Math.sin(t*7.3-x*0.7+y*1.7))*0.22; const heat=1-(s-0.5)*2+n-Math.abs(u-0.5)*0.6; if(heat<-0.1) return null; return heat>0.55?[230,80,30]:heat>0.3?[255,150,40]:heat>0.08?[255,210,90]:[255,245,180]; });
    cellsDraw(S.p,m,[60,14,10]); for(const [k,c] of m) if(c[1]>120) px(S.q,(k%W2)/2,((k/W2)|0)/2,[255,120,40],0.14);
-   for(let i=0;i<5;i++){ const ph=(t*0.7+i/5)%1; const x=SH_X-8-ph*16-i, y=SH_Y+2-ph*8+Math.sin(ph*8+i)*2; px(S.p,x,y,[255,210,90],1-ph); px(S.p,x+0.5,y+0.5,[255,150,40],(1-ph)*0.7); px(S.q,x,y,[255,150,40],1-ph); } }},
+   for(let i=0;i<5;i++){ const ph=(t*0.7+i/5)%1; const x=SH_X-5-ph*9-i*0.5, y=SH_Y+2-ph*8+Math.sin(ph*8+i)*2; px(S.p,x,y,[255,210,90],1-ph); px(S.p,x+0.5,y+0.5,[255,150,40],(1-ph)*0.7); px(S.q,x,y,[255,150,40],1-ph); } }},
  royal:{n:"왕의 자락",d:"금실 테두리에 빛이 흐르고 담비털 끝단 · 무겁고 장엄하게 출렁",draw(S,t){
-   const sw=(t*0.5)%1.4; const m=flag(t,{L:15,h0:8,h1:6,amp:1.8,spd:3.8,droop:0.26},(s,u,sl,x,y,L)=>{ const si=Math.round(s*L), ui=Math.round(u*8);   // 무늬는 천 위 좌표로(펄럭여도 무늬가 천에 붙어 다님)
+   const sw=(t*0.5)%1.4; const m=flag(t,{L:10,h0:8,h1:6,amp:1.4,spd:3.8,droop:0.32},(s,u,sl,x,y,L)=>{ const si=Math.round(s*L), ui=Math.round(u*8);   // 무늬는 천 위 좌표로(펄럭여도 무늬가 천에 붙어 다님)
      if(u>0.84) return (si%3===1&&ui===8)?[30,30,36]:shade(sl,[255,252,246],[240,236,228],[206,200,196]);   // 담비털 아랫단
      if(u<0.12||(u>0.74&&u<=0.84)) return Math.abs(s-sw)<0.07?[255,252,220]:shade(sl,[250,206,90],[230,180,60],[180,130,40]);   // 금실
      if(si%4===2&&ui===4) return [220,170,70];   // 금실 문양
@@ -11734,9 +11821,54 @@ const KA = (()=>{
     puff2: [" a  a ","a bb a"," b  b "," b  b ","a bb a"," a  a "],
     spark: [" w ","wbw"," w "],
   };
+  /* v0.100 반 칸 단위로 다시 그린 모양(1점 = 영웅 도트 1점) — a 본색 · b 밝은색 · w 흰색 · c 어두운색 */
+  const SH2 = {
+    orb:   ["  bbbb  "," bwwbba ","bwwbbaaa","bwbbaaaa","bbbaaaac","bbaaaacc"," aaaacc ","  aacc  "],
+    shard: ["  bb  "," bwba "," bwba ","bwbbaa","bbbaac"," baac "," aacc ","  ac  "],
+    bullet:["bbww","bwww","aaab","caaa"],
+    note:  ["    aabb","    aaab","    aa  ","    aa  ","  aaaa  "," abaaa  "," aaaac  ","  aac   "],
+    plus:  ["  aa  ","  bb  ","abbbba","abbbba","  bb  ","  aa  "],
+    up:    ["  bb  "," bwbb ","bbbbbb","bbbbbb","  aa  ","  aa  ","  aa  ","  ac  "],
+    star:  ["   a   ","   a   ","  aba  ","aabwbaa","  aba  ","   a   ","   a   "],
+    zz:    ["aaaaaa","aaaaab","   aa ","  aa  ","baaaaa","aaaaaa"],
+    drop:  ["  aa  ","  ba  "," bwaa ","abbaaa","aaaaac"," aacc "],
+    shield:["aaaaaaaa","abbbbbba","abwbbbba","abbbbbaa","abbbbaac"," abbaac ","  aaac  ","   ac   "],
+    aim:   ["  aa  aa  "," a      a ","a        a","a   bb   a","   bwwb   ","   bwwb   ","a   bb   a","a        a"," a      a ","  aa  aa  "],
+    flame: ["  b   "," bb b "," bwbb ","abwwba","aabbaa"," aaac "],
+    heart: [" a  a ","abaaaa","abbaaa"," aaaa ","  aa  "],
+    pop1:  ["  bb  "," bwwb ","bwwwwb","bwwwwb"," bwwb ","  bb  "],
+    pop2:  ["b        b"," b  bb  b ","   bwwb   ","  bwwwwb  "," bwwwwwwb "," bwwwwwwb ","  bwwwwb  ","   bwwb   "," b  bb  b ","b        b"],
+    pop3:  ["b            b"," b          b ","     wwww     ","   ww    ww   ","  w        w  ","  w        w  "," w          w "," w          w ","  w        w  ","  w        w  ","   ww    ww   ","     wwww     "," b          b ","b            b"],
+    boom1: ["  bbbb  "," bwwwwb ","bwwwwwwb","bwwwwwwb","bwwwwwwb","bwwwwwwb"," bwwwwb ","  bbbb  "],
+    boom2: ["    aaaa    ","  aabbbbaa  "," abbbwwbbba "," abwwwwwwba ","abbwwwwwwbba","abwwwwwwwwba","abwwwwwwwwba","abbwwwwwwbba"," abwwwwwwba "," abbbwwbbba ","  aabbbbaa  ","    aaaa    "],
+    boom3: ["a     aaaa     a"," a  aabbbbaa  a ","   abb    bba   ","  ab        ba  "," ab          ba "," ab          ba ","ab            ba","ab            ba","ab            ba","ab            ba"," ab          ba "," ab          ba ","  ab        ba  ","   abb    bba   "," a  aabbbbaa  a ","a     aaaa     a"],
+    slash1:["        bb","       bwb","      bww ","     bww  ","    bww   ","   wwb    ","  wwb     "," wwb      ","bwb       ","bb        "],
+    slash2:["    bbbb    ","      bwbb  ","        wwb ","         wwb","          ww","          ww","          ww","          ww","         wwb","        wwb ","      bwbb  ","    bbbb    "],
+    claw:  ["bb      bb"," bw    wb ","  ww  ww  ","   wwww   ","    ww    ","    ww    ","   wwww   ","  ww  ww  "," bw    wb ","bb      bb"],
+    arrow: ["bb         aa     "," bb         aa    ","bbbaaaaaaaaaaaaaww","bbbaaaaaaaaaaaaaww"," bb         aa    ","bb         aa     "],
+    spear: ["                aa    ","                 aa   ","aaaaaaaaaaaaaaaabbbbww","aaaaaaaaaaaaaaaabbbbww","                 aa   ","                aa    "],
+    dagger:["  aa      ","  aa      ","bbbbaaaaww","bbbbaaaww ","  aa      ","  aa      "],
+    thrust1:["            ","            ","bbbbbbaaaaww","bbbbbbaaaww ","            ","            "],
+    thrust2:["      bb        ","       bb       ","bbbbbbbbaaaaaaww","bbbbbbbbaaaaawww","       bb       ","      bb        "],
+    fist1: ["  bbbb  "," bwwwwb ","bwwwwwwb","bwwwwwwb","bwwwwwwb","bwwwwwwb"," bwwwwb ","  bbbb  "],
+    fist2: ["bb    bb    bb"," b    bb    b ","   bbwwwwbb   ","   bwwwwwwb   ","    wwwwww    ","    wwwwww    ","bbwwwwwwwwwwbb","bbwwwwwwwwwwbb","    wwwwww    ","    wwwwww    ","   bwwwwwwb   ","   bbwwwwbb   "," b    bb    b ","bb    bb    bb"],
+    puff1: ["  aaaa  "," aabbaa ","aabbbbaa","abbbbbba","abbbbbba","aabbbbaa"," aabbaa ","  aaaa  "],
+    puff2: ["  aa    aa  "," a  a  a  a ","a   bbbb   a"," a b    b a ","  b      b  ","  b      b  ","  b      b  ","  b      b  "," a b    b a ","a   bbbb   a"," a  a  a  a ","  aa    aa  "],
+    spark: ["  w  ","  w  ","wwbww","  w  ","  w  "],
+  };
   const OUT = [18, 20, 32];
   const sprCache = {};
-  function sprite(name, a, b){ const key = name + a + b; if(sprCache[key]) return sprCache[key];
+  function sh2Auto(g){ const n = Math.max(g.length, ...g.map(r => r.length)) + 2, G = []; for(let y = 0; y < n; y++){ const r = []; for(let x = 0; x < n; x++){ const ch = (g[y - 1] || "")[x - 1]; r.push(ch && ch !== " " ? ch : null); } G.push(r); }
+    const o = dotScale2x(G), at = (x, y) => (o[y] || [])[x] || null;
+    return o.map((r, y) => r.map((ch, x) => !ch ? " " : ch === "a" && (!at(x, y + 1) || !at(x + 1, y)) && at(x, y - 1) && at(x - 1, y) ? "c" : ch).join("")); }
+  function sprite2(g, a, b){ const PAD = 2, h = g.length + PAD * 2, w = Math.max(...g.map(r => r.length)) + PAD * 2; const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d"); const im = x.createImageData(w, h);
+    const at = (yy, xx) => { const r = g[yy - PAD]; return r && xx >= PAD && xx - PAD < r.length && r[xx - PAD] !== " " ? r[xx - PAD] : null; }, W = [255, 255, 255], D = a.map(v => Math.round(v * 0.62));
+    const NB = [[1,0],[-1,0],[0,1],[0,-1],[2,0],[-2,0],[0,2],[0,-2],[1,1],[1,-1],[-1,1],[-1,-1]];   // 외곽선 = 반 칸 2점(영웅 외곽선 굵기)
+    for(let yy = 0; yy < h; yy++) for(let xx = 0; xx < w; xx++){ const ch = at(yy, xx); let col = null;
+      if(ch) col = ch === "a" ? a : ch === "b" ? b : ch === "c" ? D : W; else if(NB.some(([dx, dy]) => at(yy + dy, xx + dx))) col = OUT;
+      if(col){ const i = (yy * w + xx) * 4; im.data[i] = col[0]; im.data[i + 1] = col[1]; im.data[i + 2] = col[2]; im.data[i + 3] = 255; } }
+    x.putImageData(im, 0, 0); c.q = 2; return c; }
+  function sprite(name, a, b){ const key = name + a + b; if(sprCache[key]) return sprCache[key]; if(DOT2X && (SH2[name] || SH[name])){ try{ return sprCache[key] = sprite2(SH2[name] || sh2Auto(SH[name]), a, b); }catch(e){} }
     const g = SH[name], h = g.length + 2, w = Math.max(...g.map(r => r.length)) + 2; const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d"); const im = x.createImageData(w, h);
     const at = (yy, xx) => { const r = g[yy - 1]; return r && xx >= 1 && xx - 1 < r.length && r[xx - 1] !== " " ? r[xx - 1] : null; };
     const W = [255, 255, 255];
@@ -11821,7 +11953,7 @@ const KA = (()=>{
         const ang = (m.ph + t * 1.6) * Math.PI * 2; drawSpr(m.shape, m.a, m.b, f.x + Math.cos(ang) * f.s * 0.28, f.y - f.s * 0.98 + Math.sin(ang) * f.s * 0.07, m.P, t > 0.8 ? (1 - t) / 0.2 : 1); continue; }
     }
     for(let i = parts.length - 1; i >= 0; i--){ const p = parts[i], t = (now - p.t0) / p.life; if(t >= 1){ parts.splice(i, 1); continue; } any = true;
-      const x = p.x + p.vx * t * p.life / 1000, y = p.y + p.vy * t * p.life / 1000 + 40 * t * t; ctx.globalAlpha = t > 0.6 ? (1 - t) / 0.4 : 1; ctx.fillStyle = `rgb(${p.c.join(",")})`; ctx.fillRect(Math.round(x - p.s / 2), Math.round(y - p.s / 2), p.s, p.s); }
+      const x = p.x + p.vx * t * p.life / 1000, y = p.y + p.vy * t * p.life / 1000 + 40 * t * t; ctx.globalAlpha = t > 0.6 ? (1 - t) / 0.4 : 1; ctx.fillStyle = `rgb(${p.c.join(",")})`; { const ps = Math.max(1, Math.round(p.s / 2)); ctx.fillRect(Math.round(x - ps / 2), Math.round(y - ps / 2), ps, ps); } }
     ctx.globalAlpha = 1;
     if(any && ART2.fx && !GFX.low && !instantMode()) glowPass();   // v0.72 스킬 이펙트 빛 번짐
     // 갑옷·방패 광택 + 투구 반짝임(유닛 그림 위)
@@ -11835,9 +11967,10 @@ const KA = (()=>{
         if(ds.shine === "legend" && ph > 0.55 && ph < 0.62){ ctx.globalAlpha = 1; drawSpr("spark", [255,252,236], [255,255,255], r.left + 12.5 * P, r.top + 8.5 * P, P * 0.6); } }
       if(ds.shld && L.shield.length){ const sh = ARMOR_SHINE[ds.shld], ph = ((now + off + 490) % sh.per) / sh.per; sweep(L.shield, sh, ph, -4, 16, 12); }
       if(ds.helm && L.helm){ const hs = HELM_STAR[ds.helm], k = Math.floor(((now + off + 770) % hs.per) / 70);
-        if(k <= 2){ const arm = k === 1 ? 2 : 1, [hx, hy] = L.helm; ctx.globalAlpha = 1; ctx.fillStyle = `rgb(${hs.c.join(",")})`;
-          for(let d = -arm; d <= arm; d++){ ctx.fillRect(Math.round(r.left + (hx + d) * P), Math.round(r.top + hy * P), Math.ceil(P), Math.ceil(P)); ctx.fillRect(Math.round(r.left + hx * P), Math.round(r.top + (hy + d) * P), Math.ceil(P), Math.ceil(P)); }
-          ctx.fillStyle = "#fff"; ctx.fillRect(Math.round(r.left + hx * P), Math.round(r.top + hy * P), Math.ceil(P), Math.ceil(P)); } }
+        if(k <= 2){ const arm = k === 1 ? 4 : 2, [hx, hy] = L.helm, hh = P / 2, sz = Math.ceil(hh), X0 = r.left + (hx + 0.25) * P, Y0 = r.top + (hy + 0.25) * P; ctx.globalAlpha = 1; ctx.fillStyle = `rgb(${hs.c.join(",")})`;   /* v0.100 반 칸 굵기 */
+          for(let d = -arm; d <= arm; d++){ ctx.fillRect(Math.round(X0 + d * hh), Math.round(Y0), sz, sz); ctx.fillRect(Math.round(X0), Math.round(Y0 + d * hh), sz, sz); }
+          if(k === 1) for(const [dx, dy] of [[1,1],[1,-1],[-1,1],[-1,-1]]) ctx.fillRect(Math.round(X0 + dx * hh), Math.round(Y0 + dy * hh), sz, sz);
+          ctx.fillStyle = "#fff"; ctx.fillRect(Math.round(X0), Math.round(Y0), sz, sz); } }
       ctx.globalAlpha = 1; any = true; }
     for(const el of frameUnits(now)){ const ds = el.dataset; if(!ds.look || !(ds.sa || COS2.WS_KEY[ds.ws])) continue; const r = frameRect(el); if(!r.width) continue;   // v0.78 무기 외형 효과·특수 오라 앞 판
       const R = COS2.forEl(el, now), u = el.closest(".unit"); COS2.blit(ctx, R.f, r.left, r.top, r.height / 16, !!(u && u.classList.contains("faceL")), !GFX.low); any = true; }
@@ -11916,18 +12049,18 @@ const KA = (()=>{
   const ellC = {};
   function ell(rx, ry){ rx = Math.max(1, Math.round(rx)); ry = Math.max(1, Math.round(ry)); const key = rx + "_" + ry; if(ellC[key]) return ellC[key];
     const n = Math.max(16, Math.round(Math.PI * 2 * Math.max(rx, ry) * 1.6)), seen = new Set(), pts = [];
-    for(let i = 0; i < n; i++){ const a = i / n * Math.PI * 2, x = Math.round(Math.cos(a) * rx), y = Math.round(Math.sin(a) * ry), k = x + "," + y; if(!seen.has(k)){ seen.add(k); pts.push([x, y]); } }
+    for(let i = 0; i < n * 2; i++){ const a = i / (n * 2) * Math.PI * 2, x = Math.round(Math.cos(a) * rx * 2) / 2, y = Math.round(Math.sin(a) * ry * 2) / 2, k = x + "," + y; if(!seen.has(k)){ seen.add(k); pts.push([x, y]); } }
     return ellC[key] = pts; }
   const WH = [255,255,255];
-  function dot(f, dx, dy, c){ ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`; ctx.fillRect(Math.round(f.x + dx * f.p), Math.round(f.y + dy * f.p), Math.ceil(f.p), Math.ceil(f.p)); }
+  function dot(f, dx, dy, c){ ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`; ctx.fillRect(Math.round(f.x + dx * f.p), Math.round(f.y + dy * f.p), Math.ceil(f.p / 2), Math.ceil(f.p / 2)); }   /* v0.100 점 = 반 칸 */
   function fxFn(life, fn, delay){ moves.push({kind: "fn", t0: performance.now() + (delay || 0), life, fn}); kick(); }
   // 별빛 십자(번쩍)
   function glintAt(id, ox, oy, R, len, life, delay){ fxFn(life, t => { const f = footOf(id); if(!f) return; const L = Math.round(len * (t < 0.25 ? 0.6 + t * 1.6 : 1 - (t - 0.25) / 0.75 * 0.85)), V = Math.max(1, Math.round(L * 0.55));
-    for(let d = 1; d <= L; d++){ const c = d <= L * 0.35 ? WH : d <= L * 0.7 ? R[4] : R[3]; dot(f, ox + d, oy, c); dot(f, ox - d, oy, c); }
-    for(let d = 1; d <= V; d++){ const c = d <= V * 0.4 ? WH : d <= V * 0.75 ? R[4] : R[3]; dot(f, ox, oy + d, c); dot(f, ox, oy - d, c); } dot(f, ox, oy, WH); }, delay); }
+    for(let d = 0.5; d <= L; d += 0.5){ const c = d <= L * 0.35 ? WH : d <= L * 0.7 ? R[4] : R[3]; dot(f, ox + d, oy, c); dot(f, ox - d, oy, c); }
+    for(let d = 0.5; d <= V; d += 0.5){ const c = d <= V * 0.4 ? WH : d <= V * 0.75 ? R[4] : R[3]; dot(f, ox, oy + d, c); dot(f, ox, oy - d, c); } dot(f, ox, oy, WH); }, delay); }
   // 퍼지는 고리
   function ringAt(id, ox, oy, r0, r1, yk, life, R, delay){ fxFn(life, t => { const f = footOf(id); if(!f) return; const e = 1 - (1 - t) * (1 - t), r = r0 + (r1 - r0) * e, c = t < 0.2 ? WH : t < 0.5 ? R[4] : t < 0.75 ? R[3] : R[2];
-    ell(r, r * yk).forEach(([dx, dy], i) => { if(t > 0.5 && i % 3 === 0) return; if(t > 0.75 && i % 2) return; dot(f, ox + dx, oy + dy, c); }); }, delay); }
+    ell(r, r * yk).forEach(([dx, dy], i) => { if(t > 0.5 && (i >> 1) % 3 === 0) return; if(t > 0.75 && (i >> 1) % 2) return; dot(f, ox + dx, oy + dy, c); }); }, delay); }
   function burst(f, R, n, sp){ chunks(f.x, f.y - f.s * 0.5, R[4], R[3], n, f.p, sp, 10); }
   // A 모여드는 기(짧게)
   function castA(id, R, C){ const N = GFX.low ? 6 : 10;
@@ -11938,17 +12071,17 @@ const KA = (()=>{
   // B 발밑 마법진(짧게)
   function castB(id, R, C){ const RX = 11, RY = 3;
     fxFn(C, t => { const f = footOf(id); if(!f) return; const outer = ell(RX, RY), n = outer.length, p = Math.min(1, t / 0.6), rot = Math.floor(t * C / 40), cnt = Math.floor(n * p);
-      if(t > 0.25) for(let y = -RY + 1; y < RY; y++) for(let x = -RX + 1; x < RX; x++) if((x * x) / (RX * RX) + (y * y) / (RY * RY) < 0.85 && ((x + y + rot) & 3) === 0) dot(f, x, y, R[0]);
+      if(t > 0.25) for(let y = -RY + 1; y < RY; y += 0.5) for(let x = -RX + 1; x < RX; x += 0.5) if((x * x) / (RX * RX) + (y * y) / (RY * RY) < 0.85 && ((x * 2 + y * 2 + rot) & 3) === 0) dot(f, x, y, R[0]);
       for(let j = 0; j < cnt; j++){ const [dx, dy] = outer[(j + rot) % n]; dot(f, dx, dy, j >= cnt - 2 && p < 1 ? WH : R[2]); }
-      for(let r = 0; r < 6; r++){ const j = Math.floor(r * n / 6); if(j >= cnt) continue; const [dx, dy] = outer[(j + rot) % n]; dot(f, dx, dy, R[4]); dot(f, dx, dy - 1, R[3]); if(t > 0.6) dot(f, dx, dy - 2, R[2]); }
-      if(t > 0.35) ell(7, 2).forEach(([dx, dy], i) => { if((i - rot * 2 + 999) % 3) dot(f, dx, dy, R[1]); }); });
+      for(let r = 0; r < 6; r++){ const j = Math.floor(r * n / 6); if(j >= cnt) continue; const [dx, dy] = outer[(j + rot) % n]; dot(f, dx, dy, R[4]); dot(f, dx, dy - 0.5, R[4]); dot(f, dx, dy - 1, R[3]); if(t > 0.6){ dot(f, dx, dy - 1.5, R[3]); dot(f, dx, dy - 2, R[2]); } }
+      if(t > 0.35) ell(7, 2).forEach(([dx, dy], i) => { if(((i >> 1) - rot * 2 + 999) % 3) dot(f, dx, dy, R[1]); }); });
     // 솟는 불티
     for(let e = C * 0.2; e < C; e += 45) setTimeout(() => { const f = footOf(id); if(!f) return; const [dx, dy] = ell(RX, RY)[Math.floor(Math.random() * ell(RX, RY).length)];
       parts.push({t0: performance.now(), life: 300 + Math.random() * 200, x: f.x + dx * f.p, y: f.y + dy * f.p, vx: -(3 + Math.random() * 9) * f.p, vy: -(30 + Math.random() * 40) * f.p, c: Math.random() < 0.5 ? R[4] : R[3], s: Math.max(2, Math.round(f.p))}); kick(); }, e);
     setTimeout(() => { if(typeof MOTION !== "undefined") MOTION.flash(id); const f0 = footOf(id); if(!f0) return;
       fxFn(200, t => { const f = footOf(id); if(!f) return; const k = Math.min(5, Math.floor(t * 6)), w = [5,5,3,3,1,1][k], top = -30 + k * 3, hw = (w - 1) >> 1;
-        for(let y = top; y <= 0; y++){ const tp = y - top < 4 ? Math.max(0, hw - 1) : hw; for(let x = -tp; x <= tp; x++){ const edge = Math.abs(x) === tp && tp > 0, fl = (y + k) % 5 === 0; dot(f, x, y, k < 2 ? (edge ? R[3] : fl ? R[4] : WH) : (edge ? R[1] : fl ? R[2] : R[3])); } }
-        if(k < 3) for(let d = 1; d <= 3; d++) dot(f, 0, top - d, d < 2 ? R[4] : R[2]); });
+        for(let y = top; y <= 0; y += 0.5){ const tp = y - top < 4 ? Math.max(0, hw - 1) : hw; for(let x = -tp; x <= tp + 0.5; x += 0.5){ const edge = (x <= -tp || x >= tp + 0.5) && tp > 0, fl = (Math.floor(y) + k) % 5 === 0; dot(f, x, y, k < 2 ? (edge ? R[3] : fl ? R[4] : WH) : (edge ? R[1] : fl ? R[2] : R[3])); } }
+        if(k < 3) for(let d = 0.5; d <= 3; d += 0.5){ dot(f, 0, top - d, d < 2 ? R[4] : R[2]); dot(f, 0.5, top - d, d < 2 ? R[4] : R[2]); } });
       ringAt(id, 0, 0, RX, RX + 8, 0.32, 200, R); glintAt(id, 0, -9, R, 6, 140, 30); burst(f0, R, GFX.low ? 4 : 8, 60); }, C); }
   // v0.37.2: 스킬 소리 갈래 — 스킬 종류 → 속성(이름) → 직업 순으로 정함. 새 스킬도 이 규칙으로 자동
   const CLS_FAM = {knight: "blade", rogue: "blade", fighter: "ki", gunner: "gun", mage: "arcane", priest: "holy", bard: "song", archer: "blade", lancer: "blade"};
@@ -12035,9 +12168,9 @@ const KA = (()=>{
     if(k === "fire"){ anim(["boom1", "boom2", "boom3"], f.x, f.y - f.s * 0.5, P, R[2], R[3], 80); chunks(f.x, f.y - f.s * 0.5, R[2], R[3], big ? 12 : 8, f.p, 80, 30); }
     else if(k === "ice"){ for(let i = 0; i < 6; i++){ const a = i / 6 * Math.PI * 2 + 0.3; floatIcon("shard", f.x + Math.cos(a) * f.p * 7, f.y - f.s * 0.5 + Math.sin(a) * f.p * 5, f.p, R[2], R[3], 380, 0, i * 20); } anim(["pop2", "pop3"], f.x, f.y - f.s * 0.5, P, R[2], R[3], 90); }
     else if(k === "holy"){ fxFn(240, q => { const g = footOf(t.id); if(!g) return; const kk = Math.min(5, Math.floor(q * 6)), w = [5,5,3,3,1,1][kk], hw = (w - 1) >> 1, top = Math.round(my * 2.4);
-        for(let y = top; y <= 0; y++) for(let x = -hw; x <= hw; x++) dot(g, x, y, kk < 2 ? (Math.abs(x) === hw && hw ? R[3] : WH) : (Math.abs(x) === hw && hw ? R[1] : R[3])); }); glintAt(t.id, 0, my, R, 8, 200); }
+        for(let y = top; y <= 0; y += 0.5) for(let x = -hw; x <= hw + 0.5; x += 0.5){ const ed = (x <= -hw || x >= hw + 0.5) && hw; dot(g, x, y, kk < 2 ? (ed ? R[3] : WH) : (ed ? R[1] : R[3])); } }); glintAt(t.id, 0, my, R, 8, 200); }
     else if(k === "shadow" || k === "arcane"){ fxFn(220, q => { const g = footOf(t.id); if(!g) return; const L = Math.round(9 * Math.min(1, q * 3)), c = q < 0.4 ? WH : q < 0.7 ? R[3] : R[2];
-        for(let d = -L; d <= L; d++){ dot(g, d, my + d, c); dot(g, d, my - d, c); if(q < 0.5){ dot(g, d + 1, my + d, R[2]); dot(g, d + 1, my - d, R[2]); } } }); chunks(f.x, f.y - f.s * 0.5, R[2], R[3], 8, f.p, 70); }
+        for(let d = -L; d <= L; d += 0.5){ dot(g, d, my + d, c); dot(g, d, my - d, c); if(q < 0.5){ dot(g, d + 0.5, my + d, R[2]); dot(g, d + 0.5, my - d, R[2]); } } }); chunks(f.x, f.y - f.s * 0.5, R[2], R[3], 8, f.p, 70); }
     else if(k === "gun"){ anim(["pop3", "pop2"], f.x, f.y - f.s * 0.5, P, R[2], R[3], 80); glintAt(t.id, 0, my, R, big ? 12 : 9, 180); chunks(f.x, f.y - f.s * 0.5, R[3], WH, 8, f.p, 90); }
     else if(k === "poison"){ anim(["puff1", "puff2"], f.x, f.y - f.s * 0.5, P, R[1], R[3], 100); for(let i = 0; i < 4; i++) floatIcon("drop", f.x + (i - 1.5) * f.p * 4, f.y - f.s * 0.4, f.p * 0.8, R[1], R[3], 600, -f.p * 5, i * 40); }
     else if(k === "song"){ for(let i = 0; i < 4; i++) floatIcon("note", f.x + (i - 1.5) * f.p * 4, f.y - f.s * 0.6, f.p, R[2], R[3], 700, f.s * 0.35, i * 60); anim(["pop2", "pop3"], f.x, f.y - f.s * 0.5, P, R[2], R[3], 90); }
@@ -12364,7 +12497,11 @@ const COS_DECO_ART={
   doll:[["....RRRR....","...RRRRRR...","...ReRReR...","...RRRRRR...","....RRRR....","..PPPPPPPP..",".PPPPPPPPPP.",".PPPAAAAPPP.","..PPPPPPPP..","...PP..PP..."],{R:"#c43e42",e:"#22202a",P:"#5d667c",A:"#ffd23f"},(g,t,d)=>{ const p=(t%2400)/2400; g.drawImage(d,2,5); if(p<0.8){ const r=0.5+p*3; g.strokeStyle="#dfe6ff"; g.beginPath(); g.arc(10+r*0.6,8,r,0,7); g.stroke(); } else if(p<0.88){ g.fillStyle="#dfe6ff"; for(const [x,y] of [[11,5],[14,7],[12,10],[15,9]]) g.fillRect(x,y,1,1); } }],
 };
 const cosDecoCv={};
-function cosDecoFrame(k,t){ const A=COS_DECO_ART[k]; if(!A) return null; const c=cosDecoCv[k]||(cosDecoCv[k]=document.createElement("canvas")); c.width=16; c.height=16; const g=c.getContext("2d"); g.imageSmoothingEnabled=false; g.clearRect(0,0,16,16); A[2](g,t,COSART.dot(A[0],A[1])); return c; }
+function cosDecoFrame(k,t){ const A=COS_DECO_ART[k]; if(!A) return null; const c=cosDecoCv[k]||(cosDecoCv[k]=document.createElement("canvas")); c.width=16; c.height=16; const g=c.getContext("2d"); g.imageSmoothingEnabled=false; g.clearRect(0,0,16,16); A[2](g,t,COSART.dot(A[0],A[1])); if(!DOT2X) return c;
+  try{ const o=cosDecoCv[k+"@2"]||(cosDecoCv[k+"@2"]=document.createElement("canvas")); if(o.width!==32){ o.width=32; o.height=32; } const og=o.getContext("2d"); og.imageSmoothingEnabled=false; og.clearRect(0,0,32,32);
+    const im=g.getImageData(0,0,16,16), px=[]; let soft=false; for(let y=0;y<16;y++){ const r=[]; for(let x=0;x<16;x++){ const i=(y*16+x)*4, a=im.data[i+3]; if(a>0&&a<250) soft=true; r.push(a>=250?[im.data[i],im.data[i+1],im.data[i+2]]:null); } px.push(r); }
+    if(soft) og.drawImage(c,0,0,32,32);   /* 반투명 빛은 그대로 */
+    const P2=dotShade2(dotScale2x(px),[18,20,32],true), od=og.getImageData(0,0,32,32); for(let y=0;y<32;y++) for(let x=0;x<32;x++){ const v=P2[y][x]; if(!v) continue; const i=(y*32+x)*4; od.data[i]=v[0]; od.data[i+1]=v[1]; od.data[i+2]=v[2]; od.data[i+3]=255; } og.putImageData(od,0,0); return o; }catch(e){ return c; } }
 
 for(const [id,F] of Object.entries(COSART.FX)) F.slice(0,3).forEach((rows,i)=>{ KA._SH[id+i]=rows.map(r=>r.replace(/\./g," ")); });   // 이펙트 테마 그림을 KA 도트 모양에 등록
 /* ---- 모션(v0.28): 영웅·몬스터·보스가 칸 단위로 살아 움직임 ----
@@ -12626,7 +12763,7 @@ const WX = (()=>{
     // v0.54: 줄여야 할 때(좁은 화면에 몬스터가 많을 때)도 영웅 크기는 그대로 — 몬스터만 줄임. 적 수에 따라 영웅까지 전투마다 작아지던 문제
     const put = it => { const k = it.enemy ? shrink : 1; it.sc = scOf(it.y) / shrink * k; it.el.style.setProperty("--s", it.sc.toFixed(3)); it.el.style.setProperty("--bs", k.toFixed(2)); };
     const W = arR.width, yLo = it => hz + it.sh * (mob ? 0.4 : 0.55), yHi = it => arR.height - it.bh - 2 - footRes;
-    const CAPE_REACH = {tatter:12, feather:10, wolf:8, bat:10, veil:14, flame:11, royal:9};   /* v0.99 망토가 몸 왼쪽으로 뻗는 칸 수 */
+    const CAPE_REACH = {tatter:6, feather:5, wolf:5, bat:5, veil:7, flame:5, royal:5};   /* v0.99 망토가 몸 왼쪽으로 뻗는 칸 수 */
     const xLo = it => it.enemy ? W * 0.56 + it.bw / 2 : Math.max(it.bw / 2 + 2, it.cl || 0), xHi = it => it.enemy ? W - it.bw / 2 - 2 : W * 0.44 - it.bw / 2;   // 가운데 12%는 비워 둠
     const clamp = it => { it.y = Math.max(yLo(it), Math.min(yHi(it), it.y)); it.x = Math.max(xLo(it), Math.min(xHi(it), it.x)); };
     const start = items.map(it => [it.x, it.y]);
@@ -12839,10 +12976,11 @@ const WX = (()=>{
   function drawSong(el, now, r, dpr){ const ir = frameRect(el); if(!ir.width) return; const P = ir.height / 16 * dpr, c = SONG_COL[el.dataset.song] || [255,255,255];
     const cxp = (ir.left - r.left + ir.width / 2) * dpr, fy = (ir.top - r.top + ir.height * 0.97) * dpr; const ph = (now / 1000) * 2.2 + (ir.left % 7);
     const a = 0.45 + 0.25 * Math.sin(ph); cx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${a.toFixed(3)})`;
-    for(let i = 0; i < 28; i++){ const t = i / 28 * Math.PI * 2, x = Math.cos(t) * 6.2 * P, y = Math.sin(t) * 1.7 * P; cx.fillRect(Math.round(cxp + x - P / 2), Math.round(fy + y - P / 2), Math.ceil(P), Math.ceil(P)); }
-    const NOTE = [[1,0],[2,0],[1,1],[1,2],[1,3],[0,3],[0,4],[1,4]];
+    const hp = P / 2, hs = Math.ceil(hp);   /* v0.100 반 칸 굵기 */
+    for(let i = 0; i < 64; i++){ const t = i / 64 * Math.PI * 2, x = Math.round(Math.cos(t) * 12.4) * hp, y = Math.round(Math.sin(t) * 3.4) * hp; cx.fillRect(Math.round(cxp + x - hp / 2), Math.round(fy + y - hp / 2), hs, hs); }
+    const NOTE = [[3,0],[4,0],[5,0],[3,1],[4,1],[5,1],[3,2],[3,3],[3,4],[3,5],[1,5],[2,5],[0,6],[1,6],[2,6],[3,6],[0,7],[1,7],[2,7],[3,7],[1,8],[2,8]];
     for(let k = 0; k < 2; k++){ const q = ((now / 1000) * 0.45 + k * 0.5 + (ir.left % 5) * 0.13) % 1; const nx = cxp + (k ? 5.5 : -6.5) * P + Math.sin(q * 6 + k) * P, ny = fy - (4 + q * 12) * P;
-      cx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${(q < 0.2 ? q * 5 : 1 - (q - 0.2) / 0.8).toFixed(3)})`; for(const [x, y] of NOTE) cx.fillRect(Math.round(nx + x * P * 0.8), Math.round(ny + y * P * 0.8), Math.ceil(P * 0.8), Math.ceil(P * 0.8)); } }
+      cx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${(q < 0.2 ? q * 5 : 1 - (q - 0.2) / 0.8).toFixed(3)})`; for(const [x, y] of NOTE) cx.fillRect(Math.round(nx + x * hp * 0.8), Math.round(ny + y * hp * 0.8), Math.ceil(hp * 0.8), Math.ceil(hp * 0.8)); } }
   // v0.58 외형: 망토의 16칸 바깥 자락 · 무기 둘레 움직임 — 영웅 그림 뒤(무대 캔버스)에
   function drawCos(el, now, r, dpr){ const ds = el.dataset, ir = frameRect(el); if(!ir.width) return; const P = ir.height / 16; const [bob, cf] = (ds.af || "0|0").split("|").map(Number);
     const u = el.closest(".unit"), flip = !!(u && u.classList.contains("faceL")); const ox = (ir.left - r.left) * dpr, oy = (ir.top - r.top) * dpr;
@@ -14838,7 +14976,7 @@ function itemRow(it,cid,pv){
     progress.inv.splice(i,1); popRunes(it); progress.gold+=sellPrice(it); saveProgress(); renderParty();
     logLine(`<span class="gain">${esc(itemDisplayName(it))} 판매 — 골드 +${sellPrice(it)}</span>`); };
   if(it.slot!=="relic") acts.appendChild(sb);   // v0.97 유물은 팔 수 없음(분해해서 파편으로)
-  const db=document.createElement("button"); db.className="dis"; db.textContent=it.slot==="relic"?`분해 +유물의 파편 ${relicShardOf(it)}`:`분해 +${dismantleValue(it)}정수${fragText(fragOf(it))?" · "+fragText(fragOf(it)).replace(/ \+/," +"):""}`;
+  const db=document.createElement("button"); db.className="dis"; db.textContent=it.slot==="relic"?`분해 +유물의 파편 1~3`:`분해 +${dismantleValue(it)}정수${fragText(fragOf(it))?" · "+fragText(fragOf(it)).replace(/ \+/," +"):""}`;
   db.title="아이템을 부숴 강화 재료 '밤의 정수'를 얻습니다";
   db.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0) return;
     progress.inv.splice(i,1); popRunes(it); const fr={}; const e=dismantleGive(it,fr); saveProgress(); renderParty();
@@ -15461,12 +15599,13 @@ function onSpeedChanged(){ if(instantMode()){ if(bannerRes&&!$("saybox").classLi
 function campUnits(){ if(!progress||!progress.protag) return [...buildParty()]; const inP=new Set(battleIds()); return rosterIds().map(c=>{ const u=buildHeroUnit(c); u._bench=!inP.has(c); return u; }); }
 function goCamp(){
   try{ lendPublish(); }catch(e){}
-  const had=!!runState; try{ SND.scene("town"); }catch(e){} try{ subDailyGem(); }catch(e){}
+  const had=!!runState, hadT0=runState&&runState.t0; try{ SND.scene("town"); }catch(e){} try{ subDailyGem(); }catch(e){}
   runState=null; runPending=false; retreatArm=false; logSink=null; curTurn=0;
   markAct(null); const ab=$("actbar"); if(ab) ab.hidden=true;
   // 이 창에서 끝낸 던전이면 저장에서도 지운다. (이 창이 굴린 게 아닌 기록은 저장 시각을 새로 찍지 않고 메모리에서만 비움
   //  — 예전엔 여기서 새 시각으로 다시 올려, 다른 창이 그 옛 던전 기록을 '최신'으로 받아 이전 방으로 되돌아갔다)
-  if(progress&&progress.run){ progress.run=null; if(had) touchSave(); }
+  if(had&&hadT0&&progress){ runEndMax=Math.max(runEndMax,hadT0); progress.runEnd=runEndMax; }   // v0.100 이 던전은 끝났음 — 다른 창이 들고 있던 옛 기록이 되살아나지 않게
+  if(progress&&(progress.run||(had&&hadT0))){ progress.run=null; if(had) touchSave(); }
   if(had) try{ const l=JSON.parse(safeGet("pn_run_lock")||"null"); if(l&&l.view===VIEW_ID) safeSet("pn_run_lock","null"); }catch(e){}
   if(progress&&progress.protag) runCompanions();
   setZoneLine();
@@ -16794,6 +16933,26 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.12", v:"v0.102", t:"망토 길이 · 오라 균형", L:[
+    "망토 7종의 길이를 줄였습니다(누더기 18 → 11칸, 깃털 16 → 10, 늑대 13 → 9, 박쥐 15 → 10, 별빛 베일 17 → 11, 불꽃 17 → 10, 왕의 자락 15 → 10). 몸 왼쪽 밖으로 나가는 길이가 7~12칸에서 4~7칸으로 줄었습니다.",
+    "특수 오라 · 망토 · 무기 효과를 그리는 판에서 영웅을 가운데에 놓았습니다(예전: 왼쪽 16칸 · 오른쪽 8칸 → 지금: 양쪽 12칸씩). 눈보라 · 벚꽃 바람처럼 판 전체에 퍼지는 오라가 왼쪽으로 치우쳐 보이던 것이 좌우 같아졌습니다.",
+    "전투에서 망토 때문에 왼쪽 경계에서 떨어져 서는 거리도 그만큼 줄었습니다.",
+    "모닥불 장식 9종과 외형 '이펙트 테마' 7종을 영웅과 같은 방식(대각선 펴기 + 명암)으로 2배 정밀하게 그립니다.",
+  ]},
+  {d:"2026.11.12", v:"v0.101", t:"특성 그물판", L:[
+    "특성 판을 그물 모양으로 새로 짰습니다. 영웅마다 약 360칸(예전 215칸)이고, 칸마다 이웃 칸이 평균 3개라 같은 칸으로 가는 길이 여러 개입니다. 갈래마다 출발점이 1곳씩 있습니다.",
+    "기술 강화 칸 · 큰 특성 · ★궁극의 내용은 그대로이고 자리만 바뀌었습니다. 가운데 가까이에 몰려 있던 기술 강화 칸을 판 전체에 나눠 놓았고, 사이사이에 능력치 칸이 있습니다. ★궁극은 가장 바깥쪽에 있습니다.",
+    "'큰 특성 둘 중 하나만' 규칙을 없앴습니다. 선이 이어져 있으면 포인트가 있는 한 찍을 수 있습니다(★궁극 4개 제한은 그대로).",
+    "판이 바뀌어 찍어 둔 특성 포인트를 모두 돌려드렸습니다. 특성 포인트는 그대로 최대 71점입니다. 동료는 새 판에서 스스로 다시 찍습니다.",
+  ]},
+  {d:"2026.11.12", v:"v0.100", t:"유물 드롭 · 강화 비용 조정, 새로 고침 뒤 던전 이어하기 고침", L:[
+    "유물이 나올 확률이 난이도와 상관없이 10%가 됐습니다(예전: 황혼 6% · 자정 10% · 영원한 밤 15%). 수치 범위는 그대로 난이도가 높을수록 높습니다.",
+    "유물을 분해하면 유물의 파편이 1~3개 나옵니다(예전: 1개 + 강화에 쓴 파편의 절반).",
+    "유물 강화 비용이 올랐습니다: 파편 5 · 10 · 20개(예전 2 · 4 · 8), 밤의 정수 500 · 1,200 · 2,500(예전 200 · 400 · 800).",
+    "던전 도중에 새로 고침하면 하던 구역에서 이어져야 하는데, 같은 게임이 다른 창(기기)에도 열려 있으면 그 창의 저장이 던전 기록을 지워 등불 도시로 돌아가던 문제를 고쳤습니다.",
+    "장비 탭에서 긴 망토가 강화 단추 위를 덮던 것을 고쳤습니다. 망토는 단추 뒤로 지나갑니다.",
+    "스킬 이펙트 도트 32종(불구슬 · 얼음 조각 · 음표 · 베기 · 폭발 · 상태 표시 등)을 영웅과 같은 정밀도로 다시 그렸습니다. 투구 반짝임, 시전 · 맞힘 연출의 고리 · 빛기둥 · 별빛 십자 · 불티, 음유시인 노래의 발밑 고리와 음표도 반 칸 굵기입니다.",
+  ]},
   {d:"2026.11.11", v:"v0.99", t:"외형 효과도 영웅과 같은 정밀도", L:[
     "망토 7종 · 특수 오라 9종 · 무기 외형 효과 7종 · 강화 오라(보스 광폭 오라 포함)를 영웅 도트와 같은 굵기(반 칸)로 다시 그렸습니다. 눈발 · 꽃잎 · 고리 · 햇살 · 불길의 점과 선이 절반 굵기로 가늘어지고, 망토 가장자리와 웅덩이 윤곽이 매끄러워졌습니다. 환영 분신의 잔상은 영웅의 32칸 윤곽을 그대로 씁니다.",
     "망토를 입고 특수 오라를 달면 오라의 뒤쪽(잔상 · 웅덩이 · 성운)이 망토를 덮던 것을 고쳤습니다. 이제 망토가 위에 보입니다.",
@@ -17376,6 +17535,7 @@ function start(snap){
   }
   cloud.bootSavedAt=progress.savedAt||0;
   if(progress.protag&&CLASSES[progress.protag.cid]){ selected=progress.protag.cid; traitCid=progress.protag.cid; }   // v0.33: 자동전투·특성 탭은 주인공부터
+  runEndMax=Math.max(runEndMax,progress.runEnd||0);
   runPending=!!progress.run;
   buildSpeedOptions();
   $("speed").addEventListener("change",()=>{ safeSet("pn_speed",$("speed").value); renderSpeedSeg(); onSpeedChanged(); });
