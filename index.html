@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794465318447"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794498849442"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1620,6 +1620,19 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .tidybox .tidyrow button.on{background:var(--accent); color:#1a1306}
 .rp-h{display:flex; align-items:center; gap:6px} .rp-cell.pick{outline:2px solid var(--accent); outline-offset:-2px}
 .plcell.pick{outline:2px solid var(--accent); outline-offset:-2px} .plfilt button#plTidyBtn.on{background:var(--accent); color:#1a1306}
+.pmode{display:inline-flex; border:1px solid var(--line,#2a3352); border-radius:8px; overflow:hidden} .pmode button{background:none; border:0; color:var(--muted); padding:4px 12px; font:inherit; font-size:14px; cursor:pointer} .pmode button.on{background:var(--accent,#5c7cff); color:#fff; font-weight:700}
+.pvsave{padding:4px 14px; font-size:13.5px} .pvok{color:#6fdc8c; font-size:13px}
+.pvphead{display:flex; flex-direction:column; gap:8px} .pvpme{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; font-size:14px; color:var(--muted)} .pvpsc{font-size:26px; color:var(--text,#e8ecf8)} .pvpnr{color:#ffb347} .pvpstk{color:#ff9a3c}
+.pvpbar{display:flex; flex-wrap:wrap; gap:6px; align-items:center} .pvpwk{margin-left:auto; font-size:13px; color:var(--muted)}
+.pvplist{display:flex; flex-direction:column; gap:2px; padding:6px} .pvrow{display:grid; grid-template-columns:32px minmax(0,1.2fr) 64px minmax(0,1.6fr) 84px 76px 64px; gap:8px; align-items:center; padding:6px 8px; border-radius:8px; cursor:pointer; font-size:14px} .pvrow:hover{background:rgba(255,255,255,.04)} .pvrow.me{background:rgba(92,124,255,.14); cursor:default}
+.pvrk{text-align:center; color:var(--muted)} .pvnm{overflow:hidden; text-overflow:ellipsis; white-space:nowrap} .pvsc{font-weight:700; text-align:right} .pvjobs{display:flex; gap:2px; overflow:hidden} .pvjobs img{width:24px; height:24px; image-rendering:pixelated} .pvcp,.pvwl{font-size:13px; color:var(--muted); text-align:right} .pvgo{padding:4px 10px; font-size:13px}
+@media (max-width:640px){ .pvrow{grid-template-columns:26px minmax(0,1fr) 54px 60px; } .pvjobs,.pvcp{display:none} }
+.pvpeek{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px} .pvpeek div{display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px; border-radius:8px; background:rgba(255,255,255,.04); font-size:13px} .pvpeek img{width:48px; height:48px; image-rendering:pixelated} .pvpeek span{color:var(--muted)}
+.pvpsum{display:flex; gap:14px; justify-content:center; margin-top:10px; font-size:14px; color:var(--muted)}
+.pvplog{display:flex; flex-direction:column; gap:4px; max-height:60vh; overflow:auto} .pvplog div{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; font-size:13.5px; padding:4px 6px; border-radius:6px} .pvplog .lost{background:rgba(229,115,115,.10)} .pvplog .held{background:rgba(111,220,140,.08)} .pvplog i{font-style:normal; color:#e57373}
+.pvhof{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px} .pvhc{display:flex; flex-direction:column; align-items:center; gap:2px; font-size:13px; text-align:center} .pvhc canvas{width:100%; max-width:120px; image-rendering:pixelated} .pvhc span{color:var(--muted)} .pvhc.r1 b{color:#ffd23f} .pvhc.r2 b{color:#d8dee9} .pvhc.r3 b{color:#e0a060}
+@media (max-width:640px){ .pvhof{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.pvprw,.pvpres{display:flex; gap:16px; justify-content:center; align-items:baseline; font-size:18px; margin:8px 0} .pvpres b{font-size:30px}
 .psetbar{display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin:0 0 6px; font-size:13px; color:var(--muted)}
 .psetbar button{padding:3px 10px; border-radius:999px; border:1px dashed var(--line2); background:transparent; color:var(--muted); cursor:pointer; font-size:12.5px} .psetbar button.has{border-style:solid; border-color:var(--accent); color:var(--accent); background:var(--raised)}
 /* v0.95 전투설정 머리: 영웅 한 줄(옆으로 밀기) · 도구 한 줄(검색 · 저장 칸 · 초기화) */
@@ -1679,6 +1692,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
       <button id="tab-traits" onclick="showTab('traits',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9M12 9L6 4M12 9l6-5M12 15l-5-3M12 15l5-3"/></svg>특성<span class="nb" id="traitDot"></span></button>
       <button id="tab-rules" onclick="showTab('rules',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg>전투설정<span class="nb" id="rulesDot"></span></button>
       <button id="tab-codex" onclick="showTab('codex',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-5a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h6z"/></svg>도감·증표</button>
+      <button id="tab-pvp" onclick="showTab('pvp',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 17.5 21 6V3h-3L6.5 14.5M11 19l-6-6M8 16l-4 4M5 21l-2-2"/></svg>대전</button>
       <button id="tab-coop" hidden onclick="showTab('coop',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c0-3 3-5 6-5s6 2 6 5M14 15.5c.6-.3 1.3-.5 2-.5 3 0 6 2 6 5"/></svg>함께하기</button>
     </nav>
 
@@ -1745,6 +1759,10 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 
       <section class="view" id="body-codex" hidden>
         <div id="codexPane" style="display:flex; flex-direction:column; gap:12px"></div>
+      </section>
+
+      <section class="view" id="body-pvp" hidden>
+        <div id="pvpPane" style="display:flex; flex-direction:column; gap:12px"></div>
       </section>
 
       <section class="view" id="body-coop" hidden>
@@ -5835,7 +5853,10 @@ function rosterIds(){
   const p=progress&&progress.protag;
   return p&&r.includes(p.cid)?[p.cid,...r.filter(c=>c!==p.cid)]:r.slice();
 }
-function partyIds(){ const ps=(progress&&Array.isArray(progress.party))?progress.party:BASE_IDS; const r=rosterIds(); return [...new Set(ps)].filter(c=>r.includes(c)); }   // v0.35: 진영 순서대로
+var fmPvpView=false, fmPvpForce=0;   // v0.104 진영 화면이 대전 파티를 보는 중 · 대전 파티로 영웅을 만드는 중
+function fmIsPvp(){ return fmPvpForce>0||(fmPvpView&&typeof curView!=="undefined"&&curView==="party"); }
+function partyIdsOf(ps){ ps=Array.isArray(ps)?ps:BASE_IDS; const r=rosterIds(); return [...new Set(ps)].filter(c=>r.includes(c)); }
+function partyIds(){ if(typeof fmIsPvp==="function"&&fmIsPvp()) return partyIdsOf(pvpState().party).slice(0,PVP.size); return partyIdsOf(progress&&progress.party); }   // v0.104 대전 파티를 보거나 만들 때는 대전 파티   // v0.35: 진영 순서대로
 function safeGet(k){ try{ return localStorage.getItem(k);}catch(e){ return null; } }
 function safeSet(k,v){ try{ localStorage.setItem(k,v);}catch(e){} }
 /* v0.94 화면이 가려져도(알트탭·최소화) 게임이 제 속도로 진행되게 — 브라우저는 숨은 페이지의 타이머를 최소 1초(5분 뒤엔 1분)로 늦춤.
@@ -6887,6 +6908,7 @@ class Sim {
   ri(a,b){ return a+Math.floor(this.rand()*(b-a+1)); }
   byId(id){ return this.units.find(u=>u.id===id); }
   allies(u){ return this.units.filter(x=>x.alive&&x.side===u.side); }
+  hero(u){ return !!u&&(u.side==="party"||!!u.pvpHero); }   // v0.104 대전: 적 쪽에 선 상대 영웅도 영웅(재생 · 특성 · 치유 공식이 같게)
   deadAllies(u){ return this.units.filter(x=>!x.alive&&x.side===u.side); }
   foes(u){ return this.units.filter(x=>x.alive&&x.side!==u.side); }
   hpPct(u){ return u.hp/u.hp_max*100; }
@@ -7287,7 +7309,7 @@ class Sim {
     if(skill.ccAmp&&this.ccd(def)) base*=1+skill.ccAmp;
     if(att._loaded&&skill.ammo) base*=1.3+(T.reload_amp?0.3:0);
     if(att._wqChill) base*=1-(typeof att._wqChill==="number"?att._wqChill:0.1);   // v0.85 겨울의 여왕
-    if(att.side==="party"&&this.hpPct(att)>=80&&this.units.some(x=>x.alive&&x.side==="party"&&x.traits&&x.traits.star_grace)) base*=1.08;
+    if(this.hero(att)&&this.hpPct(att)>=80&&this.units.some(x=>x.alive&&x.side===att.side&&x.traits&&x.traits.star_grace)) base*=1.08;
     if(T.fire_lord&&!T.fire_lord_v&&(skill.burn||/fire|flame|meteor|judgement|holy/.test(skill.id||""))) base*=1.2;
     const aim=this.hasPassive(att,"aim_eye")&&skill.type==="damage"?(att._aim||0):0; if(aim) base*=1+((T.one_shot_art?(T.one_shot_art_v||0.15):0.10)+(T.aim_bonus||0))*aim;   // v0.92 조준 1당 피해 +10%
     if(this.hasPassive(att,"dragon_chain")&&att._chainT===def.id) base*=1+(T.chain_accel_plus?0.04:0.03)*Math.min(10,att._chainN||0);
@@ -7443,8 +7465,8 @@ class Sim {
     if(target.hp<=0||saved) target._fell=true;
     fx.push(Object.assign({target:target.id,kind:"damage",amount:d,crit:false,killed,hp:target.hp,mp:target.mp},extra||{},absorbed?{label:((extra&&extra.label)?extra.label+" · ":"")+`보호 ${absorbed}`}:{}));
     if(saved) fx.push(this.fxBuff(target,saved));
-    if(killed&&target.side==="party"){ const hy=!target._hymnUsed&&this.units.find(x=>x.alive&&x!==target&&x.side==="party"&&x.traits&&x.traits.resurrection_hymn); if(hy&&!(hy.traits.resurrection_hymn_v&&this._hymnOnce)){ target._hymnUsed=true; if(hy.traits.resurrection_hymn_v) this._hymnOnce=true; target._hymnAt=this.turn+2; fx.push(this.fxBuff(target,"부활의 성가 — 2턴 뒤 일어남")); }
-      if(target.traits&&target.traits.martyr){ for(const a of this.units) if(a.alive&&a.side==="party"&&a.hp<a.hp_max){ const hv=Math.floor(a.hp_max*0.3); a.hp=Math.min(a.hp_max,a.hp+hv); fx.push({target:a.id,kind:"heal",amount:hv,crit:false,killed:false,hp:a.hp,mp:a.mp,label:"순교"}); } } }   // v0.85
+    if(killed&&this.hero(target)){ const hy=!target._hymnUsed&&this.units.find(x=>x.alive&&x!==target&&x.side===target.side&&x.traits&&x.traits.resurrection_hymn); if(hy&&!(hy.traits.resurrection_hymn_v&&this._hymnOnce)){ target._hymnUsed=true; if(hy.traits.resurrection_hymn_v) this._hymnOnce=true; target._hymnAt=this.turn+2; fx.push(this.fxBuff(target,"부활의 성가 — 2턴 뒤 일어남")); }
+      if(target.traits&&target.traits.martyr){ for(const a of this.units) if(a.alive&&a.side===target.side&&a.hp<a.hp_max){ const hv=Math.floor(a.hp_max*0.3); a.hp=Math.min(a.hp_max,a.hp+hv); fx.push({target:a.id,kind:"heal",amount:hv,crit:false,killed:false,hp:a.hp,mp:a.mp,label:"순교"}); } } }   // v0.85
     if(killed){ this.onDeath(target,fx);
       const k=this._actor; if(k&&k!==target&&k.side!==target.side) this.onKill(k,target,fx); }
     else this.lowHpChecks(target,fx);
@@ -7494,7 +7516,7 @@ class Sim {
     }
     if(!target._oathHit&&this.hpPct(target)<=35){ target._oathHit=true; this.onDeath(target,fx); }
     if(T.ice_block&&!target._iceBlockUsed&&this.hpPct(target)<=30){ target._iceBlockUsed=true; target.buffs.ward={turns:2,value:1}; target.buffs.stun={turns:2,value:0,label:"얼음 껍질"}; fx.push(this.fxBuff(target,"얼음 껍질 — 2턴간 피해 무시(행동 불가)")); }   // v0.85
-    if(this.hpPct(target)<=30&&target.side==="party"){ const b=this.units.find(x=>x.alive&&x.side==="party"&&x.traits&&x.traits.standing_ovation&&!x._ovationUsed); if(b){ b._ovationUsed=true; for(const a of this.units) if(a.alive&&a.side==="party"&&a.hp<a.hp_max){ const hv=Math.floor(a.hp_max*0.2); a.hp=Math.min(a.hp_max,a.hp+hv); fx.push({target:a.id,kind:"heal",amount:hv,crit:false,killed:false,hp:a.hp,mp:a.mp,label:"기립 박수"}); } } }
+    if(this.hpPct(target)<=30&&this.hero(target)){ const b=this.units.find(x=>x.alive&&x.side===target.side&&x.traits&&x.traits.standing_ovation&&!x._ovationUsed); if(b){ b._ovationUsed=true; for(const a of this.units) if(a.alive&&a.side===target.side&&a.hp<a.hp_max){ const hv=Math.floor(a.hp_max*0.2); a.hp=Math.min(a.hp_max,a.hp+hv); fx.push({target:a.id,kind:"heal",amount:hv,crit:false,killed:false,hp:a.hp,mp:a.mp,label:"기립 박수"}); } } }
     if(T.vanish&&!target._vanishUsed&&!target.buffs.stealth&&this.hpPct(target)<=35){
       target._vanishUsed=true; this.goStealth(target,2,"연기처럼 — 은신",fx);
     }
@@ -7759,7 +7781,7 @@ class Sim {
     const chilledBefore=wasChilled;
     if(!killed&&r.crit&&T.sun_remnant&&!def.dots.burn) this.setBurn(att,def,0.4,"태양의 잔해(화상)",fx);
     if(!killed&&skill.burn&&!att._noSkillSt&&(this.rand()<skill.burn.chance||(skill.rxPoison&&def.dots.poison&&this.rxOther(att,def,["poison"])))) this.setBurn(att,def,skill.burn.ratio,skill.burn.label||"화상",fx,skill.burn.turns);   // v0.36: 스킬 화상도 '지속 피해 +40%'(구슬·특성)를 받음
-    if(!killed&&T.sacred_fire&&!def.dots.burn&&this.rand()<(att.side==="party"?0.5:0.35)) this.setBurn(att,def,att.side==="party"?0.6:0.45,"성화(화상)",fx);
+    if(!killed&&T.sacred_fire&&!def.dots.burn&&this.rand()<(this.hero(att)?0.5:0.35)) this.setBurn(att,def,this.hero(att)?0.6:0.45,"성화(화상)",fx);
     if(!killed&&T.embers&&isSk(skill)&&!def.dots.burn&&this.rand()<0.3) this.setBurn(att,def,0.35,"잔불(화상)",fx);
     if(!killed&&att.stAtk&&def.side==="party"&&skill.type==="damage"){   // v0.91 몹 특기 상태이상: 한 번 맞힐 때 확률(광역은 절반 · 기절은 절반)
       const k=att.stAtk.k[Math.floor(this.rand()*att.stAtk.k.length)]; const c=att.stAtk.ch*(isAoe(skill)||skill.shape?0.5:1)*(k==="stun"?0.5:1);
@@ -7998,7 +8020,7 @@ class Sim {
     if(skill.leapLand&&u.buffs.leap){ delete u.buffs.leap; u._leapSkill=null; }   // v0.92 용의 도약: 내려오면 다시 맞을 수 있음
     u._mpBefore=u.mp; u._kills=0; u._momBefore=u._mom; u._comboBefore=u._combo; this._txTargets=targets.length; this._actor=u; this._acting=u; this._curSkill=skill; this._curSkillId=skill.id; u._critNow=false;
     const momFull=!!(u.traits&&u.traits.mushin&&(u.momMax||0)>0&&(u._mom||0)>=u.momMax);   // v0.85 무아지경
-    if(u.side==="party"&&skill.id){ u._skillUse[skill.id]=(u._skillUse[skill.id]||0)+1; }
+    if(this.hero(u)&&skill.id){ u._skillUse=u._skillUse||{}; u._skillUse[skill.id]=(u._skillUse[skill.id]||0)+1; }
     const fx=[];
     if(skill.leapLand) fx.push({target:u.id,kind:"state",st:false,tag:"도약",amount:0,crit:false,killed:false,hp:u.hp,mp:u.mp});
     if(skill.mods&&skill.mods.castmp&&u.mp<u.mp_max){ u.mp=Math.min(u.mp_max,u.mp+skill.mods.castmp); }
@@ -8163,7 +8185,7 @@ class Sim {
         case "heal": { const T=u.traits||{};
           let hb=(1+(T.heal_pct||0))*(T.heal_mult||1)*(this.hasPassive(u,"blessing")?1.15+(T.grace60?0.1:0)+(T.grace_bonus||0):1);   // v0.92 가호: 치유량 +15%
           if(T.rescue&&this.hpPct(t)<=30) hb+=0.6;
-          const amt=Math.floor((u.side==="enemy"?t.hp_max*ENEMY_HEAL_K:u.atk)*skill.power*hb*this.rr(0.95,1.05)*(1+((t.traits&&t.traits.heal_taken)||0)));   // v0.30: 적 회복은 최대 체력의 7%×위력 · v0.85 받는 치유 보정
+          const amt=Math.floor((!this.hero(u)?t.hp_max*ENEMY_HEAL_K:u.atk)*skill.power*hb*this.rr(0.95,1.05)*(1+((t.traits&&t.traits.heal_taken)||0)));   // v0.30: 적 회복은 최대 체력의 7%×위력 · v0.85 받는 치유 보정
           const room=t.hp_max-t.hp;
           t.hp=Math.min(t.hp_max,t.hp+amt);
           healedTotal+=amt; u._healDone=(u._healDone||0)+Math.min(amt,room);
@@ -8331,7 +8353,7 @@ class Sim {
     for(const u of this.units) if(u.alive&&u.traits.jester_king&&this.rand()<(u.traits.jester_king_v||0.2)){ const fs=this.foes(u); if(fs.length){ const t=fs[this.ri(0,fs.length-1)]; const fx=[]; const pick=["stun","fear","blind","silence"][this.ri(0,3)]; this.applyStatus(u,t,pick,1,pick==="fear"?0.35:0,{stun:"기절",fear:"공포",blind:"실명",silence:"침묵"}[pick],fx); if(fx.length) this.emitAuto(u,fx,"광대의 왕"); } }
     for(const u of this.units) if(u.alive&&u.traits.ghost_sniper&&this.turn===1&&!u.buffs.stealth) this.goStealth(u,u.traits.ghost_sniper_v||2,"유령 저격수",null);
     for(const u of this.units) if(u.alive&&u.traits.ghost_sniper&&u.buffs.stealth&&this.hasPassive(u,"aim_eye")) u._aim=Math.min((u.traits.aim_max4)?4:3,(u._aim||0)+1);
-    for(const u of this.units) if(!u.alive&&u.side==="party"&&u._hymnAt&&this.turn>=u._hymnAt&&this.units.some(x=>x.alive&&x.side==="party"&&x.traits&&x.traits.resurrection_hymn)){ u._hymnAt=0; u.alive=true; u.dots={}; u.buffs={}; u.hp=Math.max(1,Math.floor(u.hp_max*0.2)); this.events.push({type:"action",auto:true,actor:u.id,actorName:u.name,side:u.side,ruleNo:0,ruleText:"",skillName:"부활의 성가",actorMp:u.mp,effects:[{target:u.id,kind:"revive",amount:u.hp,crit:false,killed:false,hp:u.hp,mp:u.mp}]}); }
+    for(const u of this.units) if(!u.alive&&this.hero(u)&&u._hymnAt&&this.turn>=u._hymnAt&&this.units.some(x=>x.alive&&x.side===u.side&&x.traits&&x.traits.resurrection_hymn)){ u._hymnAt=0; u.alive=true; u.dots={}; u.buffs={}; u.hp=Math.max(1,Math.floor(u.hp_max*0.2)); this.events.push({type:"action",auto:true,actor:u.id,actorName:u.name,side:u.side,ruleNo:0,ruleText:"",skillName:"부활의 성가",actorMp:u.mp,effects:[{target:u.id,kind:"revive",amount:u.hp,crit:false,killed:false,hp:u.hp,mp:u.mp}]}); }
     for(const u of this.units) if(u.alive&&u.traits.wellspring){
       for(const a of this.allies(u)) if(a.hp<a.hp_max){
         const hv=Math.max(1,Math.floor(a.hp_max*0.04)); a.hp=Math.min(a.hp_max,a.hp+hv);
@@ -8491,11 +8513,11 @@ class Sim {
             this.events.push({type:"regen",target:u.id,amount:hv,hp:u.hp,mp:u.mp,label:"그림자 휴식"}); }
           u.mp=Math.min(u.mp_max,u.mp+5);
         }
-        if(u.side==="party"&&u.hpRegen>0&&u.hp<u.hp_max){ const hv=Math.min(u.hpRegen,u.hp_max-u.hp); u.hp=Math.min(u.hp_max,u.hp+hv); this.events.push({type:"regen",quiet:true,target:u.id,amount:hv,hp:u.hp,mp:u.mp}); }   // v0.90 매 턴 체력 회복(소량, 숫자 표시 없음)
-        const rg=(u.side==="party"&&u.mp_max>0?(u.mpRegen!=null?u.mpRegen:MP_REGEN_BASE)*((u.wil18&&this.mpPct(u)<30)?2:1):0)+   /* v0.93 매 턴 마나 회복은 정수 능력치(mpRegenOf) */ (this.hasPassive(u,"mana3")?3:0)+((u.traits&&u.traits.mp_regen)||0)   // v0.92 집중된 마나: 매 턴 마나 +3
+        if(this.hero(u)&&u.hpRegen>0&&u.hp<u.hp_max){ const hv=Math.min(u.hpRegen,u.hp_max-u.hp); u.hp=Math.min(u.hp_max,u.hp+hv); this.events.push({type:"regen",quiet:true,target:u.id,amount:hv,hp:u.hp,mp:u.mp}); }   // v0.90 매 턴 체력 회복(소량, 숫자 표시 없음)
+        const rg=(this.hero(u)&&u.mp_max>0?(u.mpRegen!=null?u.mpRegen:MP_REGEN_BASE)*((u.wil18&&this.mpPct(u)<30)?2:1):0)+   /* v0.93 매 턴 마나 회복은 정수 능력치(mpRegenOf) */ (this.hasPassive(u,"mana3")?3:0)+((u.traits&&u.traits.mp_regen)||0)   // v0.92 집중된 마나: 매 턴 마나 +3
           +((u.traits&&u.traits.meditate&&this.mpPct(u)<50)?12:0)
           +((u.traits&&u.traits.rune_healthy&&this.units.every(x=>x.side!==u.side||!x.alive||x.hp>=x.hp_max*0.7))?Math.round(u.traits.rune_healthy):0)   /* v0.94 여유 룬 */
-          +(u.side==="enemy"&&u.mp_max>0?Math.ceil(u.mp_max*ENEMY_MP_REGEN):0);   // 적도 매 턴 마나 회복 → 보스·정예가 특기를 꾸준히 씀
+          +(!this.hero(u)&&u.mp_max>0?Math.ceil(u.mp_max*ENEMY_MP_REGEN):0);   // 적도 매 턴 마나 회복 → 보스·정예가 특기를 꾸준히 씀
         if(rg>0) u.mp=Math.min(u.mp_max,u.mp+rg);
         if(u.traits.mana_share){
           const al=this.allies(u).filter(a=>a!==u&&a.mp_max>0&&a.mp<a.mp_max);
@@ -8737,7 +8759,7 @@ const PASS_T0=Date.UTC(2026,10,1,-9), PASS_DAYS=30, PASS_LEVELS=30, PASS_XP=100,
 const GEM_PACKS=[[1200,60,0],[5900,300,20],[12000,600,60],[33000,1650,250],[59000,2950,550],[119000,5950,1350]];
 const won=n=>n.toLocaleString("ko-KR")+"원";
 function payLater(what){ toast(`💳 ${what} — 결제는 출시 뒤에 연결됩니다 (지금은 시험판)`); }
-const AD_DAILY={torch:5, loot:3, fast:2, sweep:99}, AD_FAST_MS=30*60*1000;
+const AD_DAILY={torch:5, loot:3, fast:2, sweep:99, pvp:99}, AD_FAST_MS=30*60*1000;
 function subPerksHTML(){ return `<ul><li>횃불 최대 ${SUB_TORCH_MAX}개 · ${SUB_TORCH_SPEED}배 빨리 참</li><li>전투 속도 3배속 상시 · 이미 깬 막은 4배속으로 자동</li><li>최종 콘텐츠 '이번 주 첫 보상' 한 번 더</li><li>가방 +${BAG_SUB}칸 (기본 ${BAG_BASE}칸)</li><li>매주 최종 콘텐츠 입장권 ${SUB_TICKETS}장</li><li>매일 💎 ${SUB_DAILY_GEM}</li><li>명함 틀 · 이름 옆 🌙</li></ul>`; }
 function renderSubBtn(){ const b=$("subBtn"); if(b) b.hidden=!subActive(); }
 function openSubInfo(){ if(!subActive()){ renderSubBtn(); return; }
@@ -8776,6 +8798,7 @@ function playFakeAd(kind,after){
     if(left<=0){ clearInterval(tick); const A=adsToday(); A[kind]++;
       if(kind==="torch"){ torchAdd(1); logLine(`<span class="gain">📺 광고 보상 — 횃불 +1 (오늘 ${A.torch}/${AD_DAILY.torch})</span>`); }
       else if(kind==="sweep"){ const k=sweepAdd(1); logLine(`<span class="gain">📺 광고 보상 — 소탕권 +${k} (오늘 ${sweepState().ex}/${SWEEP.extra})</span>`); }
+      else if(kind==="pvp"){ const k=pvpTixAdd(); logLine(`<span class="gain">📺 광고 보상 — 대전권 +${k} (오늘 ${pvpTix().ex}/${PVP.extra})</span>`); }
       else if(kind==="loot") adClaimLoot();
       else if(kind==="fast"){ progress.adFastUntil=Math.max(progress.adFastUntil||0,Date.now())+AD_FAST_MS; logLine(`<span class="gain">📺 광고 보상 — 30분 동안 모든 전투에서 3배속 (${fmtWait(progress.adFastUntil-Date.now())} 남음)</span>`); speedRefresh(); }
       saveProgress(); closeModal(); if(after) after(); } },1000);
@@ -9313,13 +9336,14 @@ function targetChoices(S,comp){ const c=targetCat(S||{}), T=i=>({v:i,label:TARGE
     case "buff": return {opts:[{v:0,label:auto||"기본 — 자신"},T(5),T(7),T(11)],hint:"강화할 아군"};
     default: return {opts:[{v:0,label:auto||"기본 — 맨 앞 적"},T(1),T(3),T(2),T(8),T(9),T(10),T(15),T(16),T(13),T(14)],hint:"'기본'은 맨 앞 적. 빈사 적 마무리·취약·띄운 적·독이 많이 쌓인 적은 직접 골라야 노립니다"}; } }
 // v0.35 배치: 앞줄·뒷줄은 플레이어가 영웅마다 정함(처음엔 직업 기본 줄)
-function heroRow(cid){ const r=(progress.heroes[cid]||{}).row; return r==="front"||r==="back"?r:CLASSES[cid].row; }
+function fmH(cid){ return fmIsPvp()?pvpPos(cid):progress.heroes[cid]; }
+function heroRow(cid){ const r=(fmH(cid)||{}).row; return r==="front"||r==="back"?r:CLASSES[cid].row; }
 /* v0.43 진영 = 앞줄·뒷줄 × 가로줄 (v0.55: 3칸, 위 0 → 아래 2). 같은 가로줄의 앞줄에 아군이 서 있으면 그 뒤(뒷줄)는 근접 공격을 받지 않음 */
 const LANES=3;   // v0.55: 가로줄 3칸(앞 3 · 뒤 3 = 6자리)
-function partyCap(){ return partyCapFor(progress?progress.diff:0); }
-function heroLane(cid){ const l=(progress.heroes[cid]||{}).lane; return Number.isInteger(l)&&l>=0&&l<LANES?l:-1; }
+function partyCap(){ if(fmIsPvp()) return PVP.size; return partyCapFor(progress?progress.diff:0); }
+function heroLane(cid){ const l=(fmH(cid)||{}).lane; return Number.isInteger(l)&&l>=0&&l<LANES?l:-1; }
 function normalizeFormation(){ if(!progress||!progress.heroes) return; const ids=partyIds(), used={front:new Set(),back:new Set()};
-  for(const c of ids){ const h=progress.heroes[c]; if(!h) continue; let r=heroRow(c), l=heroLane(c);
+  for(const c of ids){ const h=progress.heroes[c]?fmH(c):null; if(!h) continue; let r=heroRow(c), l=heroLane(c);
     if(l<0||used[r].has(l)){ const free=k=>[...Array(LANES).keys()].filter(i=>!used[k].has(i)); let f=free(r);
       if(!f.length){ r=r==="front"?"back":"front"; f=free(r); } if(!f.length) continue;
       l=l<0?f[0]:f.reduce((b,i)=>Math.abs(i-l)<Math.abs(b-l)?i:b,f[0]); }
@@ -10075,7 +10099,7 @@ function renderHud(){
   const d=runState?runState.d:progress.diff, D=DIFFS[d];
   const rk=runState?runState.regionKey:progress.lastRegion, r=REGIONS[rk];
   const where=runState?(runState.mode?`<b>${esc(r.name)}</b><span class="sep">/</span><span>${esc((runState.zones[runState.zone]||{}).label||"")}</span>`:`<b class="rgn">${esc(r.chapter)} ${esc(r.name)}</b><span class="sep">/</span><span>${runState.zone+1}구역</span>`)
-    :`<span class="city">등불 도시</span><span class="sep city">/</span><b>${esc(curView==="dungeon"?"대기실":(VIEW_NAMES[curView]||""))}</b>${curView!=="dungeon"?`<button class="crumbx" onclick="showTab('dungeon')" title="대기실(마을)로 돌아가기 — 왼쪽 메뉴의 같은 탭을 다시 눌러도 돼요">✕<span class="glbl"> 닫기</span></button>`:""}`;
+    :`<span class="city">등불 도시</span><span class="sep city">/</span><b>${esc(curView==="dungeon"?(typeof PVPF!=="undefined"&&PVPF?"대전":"대기실"):(VIEW_NAMES[curView]||""))}</b>${curView!=="dungeon"?`<button class="crumbx" onclick="showTab('dungeon')" title="대기실(마을)로 돌아가기 — 왼쪽 메뉴의 같은 탭을 다시 눌러도 돼요">✕<span class="glbl"> 닫기</span></button>`:""}`;
   const egm=runState?runState.mode:egModeOf();
   $("hud").innerHTML=`${pg?`<span class="star">★</span><b class="pname">${esc(pg.name)}</b>`:""}<span class="diffpill">${egm?`${EG_MODES[egm].icon} ${EG_MODES[egm].name}`:`${D.icon} ${D.name}`}</span>${where}`;
   $("hudChips").innerHTML=torchChipHTML()+`<span class="chip gold"><span class="ico"></span><span class="lbl">골드 </span><b>${Number(progress.gold).toLocaleString("ko-KR")}</b></span>`
@@ -10165,8 +10189,8 @@ function onRegionChange(){
   saveProgress();
   goCamp();
 }
-const VIEWS=["dungeon","quest","party","equip","shop","traits","rules","codex","coop"];
-const VIEW_NAMES={dungeon:"던전 준비",quest:"퀘스트",party:"파티",equip:"장비",shop:"상점",traits:"특성",rules:"전투설정",codex:"도감·증표",coop:"함께하기"};
+const VIEWS=["dungeon","quest","party","equip","shop","traits","rules","codex","coop","pvp"];
+const VIEW_NAMES={dungeon:"던전 준비",quest:"퀘스트",party:"파티",equip:"장비",shop:"상점",traits:"특성",rules:"전투설정",codex:"도감·증표",coop:"함께하기",pvp:"대전"};
 let curView="dungeon";
 // v0.33: 던전 진행 중에는 캐릭터에 영향을 주는 탭(파티·장비·상점·특성)은 못 열고, 자동전투 규칙은 보기만
 const RUN_LOCK_TABS=["party","equip","shop","traits"];
@@ -10176,6 +10200,7 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
   if(rail&&t===curView&&t!=="dungeon"&&t!=="log"&&document.body.dataset.view===t) t="dungeon";   // v0.35: 열린 탭을 다시 누르면 대기실(마을)로
   try{ if(typeof curView!=="undefined"&&curView!==t) SND.fx("ui_tab"); }catch(e){}
   if(t==="log") t="dungeon";
+  if(t!=="party") fmPvpView=false;   // v0.104 진영 화면의 대전 보기는 파티 탭 안에서만
   if(t==="equip"&&curView!=="equip"){ bagTab="gear"; rpRune=null; rpSock=null; rpTap=null; }   // v0.94 장비 탭을 열면 늘 가방부터
   if(!VIEWS.includes(t)) t="dungeon";
   try{ if(t!=="equip"&&(bagPick||bagSel.size||bagTidy||rpTidy||rpPick||plTidy||plPick)){ bagPick=false; bagSel.clear(); bagArm=null; bagTidy=false; rpTidy=false; rpPick=false; rpSel.clear(); rpArm=null; plTidy=false; plPick=false; plPickSel.clear(); plArm=null; } }catch(e){}   // v0.80 '여러 개 골라 정리'는 장비 탭을 떠나면 꺼짐
@@ -10196,6 +10221,7 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
   if(t==="codex") renderCodex();
   if(t==="quest") renderQuest();
   if(t==="coop") renderCoop();
+  if(t==="pvp") renderPvp();
   renderHud();
   TUT.onTab(t);
 }
@@ -12722,6 +12748,7 @@ const WX = (()=>{
   function stageKey(){
     const RS = typeof runState !== "undefined" && runState ? runState : null, CR = typeof COOP !== "undefined" && COOP && COOP.run ? COOP.run : null;
     const foes = typeof curUnits !== "undefined" && curUnits.some(u => u.side === "enemy");
+    if(typeof PVPF !== "undefined" && PVPF) return STAGE.ch.citadel_2 ? "citadel_2" : "citadel";   // v0.104 대전 무대
     if(!RS && !CR) return STAGE.ch.camp && !foes ? "camp" : ((typeof progress !== "undefined" && progress && progress.lastRegion) || "swamp");
     const R = RS || CR, rk = R.regionKey || R.rk || "swamp"; const act = R.mode ? 1 : (ACT_BG[(R.act || 1) - 1] || 1);
     return act > 1 && STAGE.ch[rk + "_" + act] ? rk + "_" + act : rk; }
@@ -13091,6 +13118,7 @@ function spawnField(units){
     if(u.tint) div.querySelector("img").style.filter=u.tint;
     if(u.elite){ div.classList.add("elite"); div.title=(u.affixes||[]).map(a=>`${AFFIXES[a].name}: ${AFFIXES[a].desc}`).join("\n"); }
     if(Number.isInteger(u.lane)) div.dataset.lane=u.lane;
+    if(u.side==="enemy"&&u.look) div.classList.add("faceL");   // v0.104 대전: 상대 영웅은 왼쪽을 봄(망토 · 오라도 뒤집어서)
     { const rowEl=$("row-"+u.side+"-"+u.row); const nx=[...rowEl.children].find(c=>+c.dataset.lane>(u.lane??9)); rowEl.insertBefore(div,nx||null); }   // 가로줄 순서대로
     updateWidget(u.id,u.hp,u.mp,!u.alive);
   }
@@ -13746,12 +13774,12 @@ function renderParty(){   // v0.35: 파티(진영) · 장비 두 탭 — 보이�
 // v0.35 진영 정비: 앞줄·뒷줄·대기에 영웅을 끌어다 놓기 · 영웅끼리 끌어서 자리 바꾸기 (터치도 됨)
 function formMove(src,dst){   // src: 영웅 id · dst: {slot:{row,lane}} · {hero} · {zone:"front"|"back"|"bench"}   (v0.43: 앞줄·뒷줄 × 가로줄 4칸)
   normalizeFormation();
-  const P=partyIds().slice(), inP=P.includes(src), H=progress.heroes, protag=progress.protag&&progress.protag.cid, cap=partyCap();
+  const P=partyIds().slice(), inP=P.includes(src), H=fmIsPvp()?pvpPosAll():progress.heroes, protag=progress.protag&&progress.protag.cid, cap=partyCap();
   const freeLane=r=>[...Array(LANES).keys()].find(l=>!slotHero(r,l));
-  if(dst.zone==="bench"){ if(!inP) return false; if(src===protag) return "protag"; P.splice(P.indexOf(src),1); progress.party=P; return true; }
+  if(dst.zone==="bench"){ if(!inP) return false; if(src===protag) return "protag"; P.splice(P.indexOf(src),1); fmSetParty(P); return true; }
   let row, lane;
   if(dst.hero){ if(dst.hero===src) return false; if(!P.includes(dst.hero)){   // 대기 영웅 위에 놓기 = 맞바꾸기
-      if(!inP) return false; if(src===protag) return "protag"; P[P.indexOf(src)]=dst.hero; H[dst.hero].row=heroRow(src); H[dst.hero].lane=heroLane(src); progress.party=P; return true; }
+      if(!inP) return false; if(src===protag) return "protag"; P[P.indexOf(src)]=dst.hero; H[dst.hero].row=heroRow(src); H[dst.hero].lane=heroLane(src); fmSetParty(P); return true; }
     row=heroRow(dst.hero); lane=heroLane(dst.hero); }
   else if(dst.slot){ row=dst.slot.row; lane=+dst.slot.lane; }
   else if(dst.zone==="front"||dst.zone==="back"){ row=dst.zone; if(inP&&heroRow(src)===row) return false; lane=freeLane(row); if(lane===undefined) return "rowfull"; }
@@ -13760,7 +13788,7 @@ function formMove(src,dst){   // src: 영웅 id · dst: {slot:{row,lane}} · {he
   const t=slotHero(row,lane); if(t===src) return false;
   if(inP){ if(t){ H[t].row=heroRow(src); H[t].lane=heroLane(src); } H[src].row=row; H[src].lane=lane; }
   else { if(t){ if(t===protag) return "protag"; P[P.indexOf(t)]=src; } else { if(P.length>=cap) return "full"; P.push(src); } H[src].row=row; H[src].lane=lane; }
-  progress.party=P; return true;
+  fmSetParty(P); return true;
 }
 // 진영 미리보기: 실제 전투 무대 그림 위에 실제 전투와 같은 자리(뒷줄 · 앞줄, 원근)로 영웅을 세움 — 끌어서 줄 바꾸기·자리 바꾸기
 let formBgKey=null, formBgURL=null;
@@ -13801,8 +13829,10 @@ function renderFormation(){
   const board=document.createElement("div"); board.className="panel formboard";
   normalizeFormation(); const cap=partyCap();
   const open=partyOpenSlots();
-  board.innerHTML=`<div class="fbh"><h2 class="ph">진영</h2>${open?`<b class="fopen">빈 자리 ${open}</b>`:""}<span>출전 ${P.length}/${cap}${lock?" · 🔒 던전 진행 중":""}</span></div>`;
-  { const PS=partySets(); const bar=document.createElement("div"); bar.className="psetbar"; bar.id="psetBar";   // v0.95 파티 편성 저장 칸 3개
+  const PV=fmIsPvp();
+  board.innerHTML=`<div class="fbh"><div class="pmode"><button data-pm="0" class="${PV?"":"on"}">던전</button><button data-pm="1" class="${PV?"on":""}">대전</button></div>${open?`<b class="fopen">빈 자리 ${open}</b>`:""}<span>출전 ${P.length}/${cap}${lock&&!PV?" · 🔒 던전 진행 중":""}</span>${PV?`<button class="btn pvsave" id="pvSave">저장</button>${pvpState().saved?`<b class="pvok">✓ 등록</b>`:""}`:""}</div>`;
+  board.querySelectorAll("[data-pm]").forEach(b=>b.onclick=()=>{ fmPvpView=b.dataset.pm==="1"; partySel=null; renderParty(); }); if(PV) board.querySelector("#pvSave").onclick=pvpSaveParty;
+  if(!PV){ const PS=partySets(); const bar=document.createElement("div"); bar.className="psetbar"; bar.id="psetBar";   // v0.95 파티 편성 저장 칸 3개
     bar.innerHTML=`<span>편성 저장</span>`+PS.map((x,k)=>`<button data-pk="${k}" class="${x?"has":""}" title="${x?esc(x.party.map(c=>heroDisplayName(c)).join(" · ")):"빈 칸 — 지금 편성을 저장할 수 있어요"}">${x?esc(x.name||`편성 ${k+1}`):`빈 칸 ${k+1}`}</button>`).join("");
     board.appendChild(bar); bar.querySelectorAll("[data-pk]").forEach(b=>b.onclick=()=>openPartySet(+b.dataset.pk)); }
   const st=document.createElement("div"); st.className="fstage";
@@ -13811,7 +13841,7 @@ function renderFormation(){
     +["back","front"].map(r=>[...Array(LANES).keys()].map(l=>`<div class="fzone fslot" data-row="${r}" data-lane="${l}"><i>${l+1}</i></div>`).join("")).join("");
   formStageURL().then(u=>{ st.style.backgroundImage=`url(${u})`; });
   const pool=((REGIONS[progress.lastRegion]||REGIONS.swamp).pool||[]).slice(0,3);
-  const ghosts=pool.map(q=>{ const M=MOBS[q.key]; if(!M) return null; const im=document.createElement("img"); im.className="fghost"; im.src=SPRITES[M.sprite]; im.alt=""; st.appendChild(im); return im; }).filter(Boolean);
+  const ghosts=(PV?[]:pool).map(q=>{ const M=MOBS[q.key]; if(!M) return null; const im=document.createElement("img"); im.className="fghost"; im.src=SPRITES[M.sprite]; im.alt=""; st.appendChild(im); return im; }).filter(Boolean);
   const ORD=partyActOrder(), ordOf=c=>ORD.findIndex(x=>x.c===c);
   const heroes=P.map(c=>{ const el=document.createElement("div"); el.className="fhero fchip"+(c===partySel?" sel":"")+(isProtag(c)?" pro":""); el.dataset.hero=c; const oi=ordOf(c);
     el.innerHTML=`<img src="${heroIcon(c)}" alt=""${heroAuraStyle(c)}>${oi>=0?`<b class="ford" title="행동 순서 ${oi+1}번째 · 신속 ${ORD[oi].spd}">${oi+1}</b>`:""}<span class="fn">${esc(heroBtnLabel(c))}</span>`; st.appendChild(el); return el; });
@@ -13848,7 +13878,7 @@ function renderFormation(){
     d.ghost.remove(); d.el.classList.remove("lift");
     const t=document.elementFromPoint(e.clientX,e.clientY), tc=t&&t.closest(".fchip"), tz=t&&t.closest(".fzone");
     const r=tc&&tc.dataset.hero!==d.id?formMove(d.id,{hero:tc.dataset.hero}):tz?(tz.dataset.row?formMove(d.id,{slot:{row:tz.dataset.row,lane:tz.dataset.lane}}):formMove(d.id,{zone:tz.dataset.zone})):false;
-    if(r===true){ saveProgress(); renderParty(); renderCharPick(); if(!runState&&!playing&&!telling) goCamp(); try{ SND.fx("ui_tab"); }catch(_){} }
+    if(r===true){ saveProgress(); renderParty(); renderCharPick(); if(!runState&&!playing&&!telling&&!fmIsPvp()) goCamp(); try{ SND.fx("ui_tab"); }catch(_){} }
     else { renderParty(); const m=$("partyPane").querySelector(".fmsg"); if(m) m.textContent=r==="protag"?"★ 주인공은 항상 출전해요.":r==="full"?`출전은 ${partyCap()}명까지예요${partyCap()<6?" (자정을 열면 5명, 영원한 밤을 열면 6명)":""} — 대기 영웅을 출전 영웅 위에 놓으면 서로 바뀌어요.`:r==="rowfull"?"그 줄은 4칸이 다 찼어요 — 빈 칸이나 영웅 위에 놓아 주세요.":""; } };
   board.addEventListener("pointerdown",e=>{ const c=e.target.closest(".fchip"); if(!c) return; e.preventDefault(); drag={id:c.dataset.hero,x:e.clientX,y:e.clientY,el:c,ghost:null};
     document.addEventListener("pointermove",move,{passive:false}); document.addEventListener("pointerup",up); });
@@ -15196,12 +15226,12 @@ function cardEditor(cid,bareUrl){
 const CARD_EL={fire:"#ff9a5c",cold:"#7fc8ff",poison:"#8fe07a",holy:"#ffe98a",dark:"#c79bff"};
 const CARD_RAR={common:"#aab3cf",fine:"#6fdc8c",rare:"#5eaaff",epic:"#c98bff",legend:"#ffb347",set:"#45e0cf",mythic:"#ff7ad9"};
 /* v0.96 영웅을 지금 외형 그대로(망토 · 무기 외형 · 오라 · 특수 오라) 한 장면 그림 — 명함에서 움직이는 모습으로 씀. S는 부르는 쪽이 들고 있는 그림 상태 */
-function heroLiveDraw(g,cid,now,S,x,y,sc){ const L0=heroLook(cid); if(!L0) return; const L=Object.assign({},L0), bob=Math.floor(now/440)%2; L.bob=bob; if(L.pc) L.cf=0;
+function heroLiveDraw(g,cid,now,S,x,y,sc){ const L0=cid&&typeof cid==="object"?cid:heroLook(cid);   /* v0.104 외형(look)을 바로 받을 수도 있음(명예의 전당) */ if(!L0) return; const L=Object.assign({},L0), bob=Math.floor(now/440)%2; L.bob=bob; if(L.pc) L.cf=0;
   const W=40,H=44,OY=6, tmp=S.cv||(S.cv=document.createElement("canvas")); if(tmp.width!==W*2||tmp.height!==H*2){ tmp.width=W*2; tmp.height=H*2; } const t=tmp.getContext("2d"); t.setTransform(2,0,0,2,0,0); t.imageSmoothingEnabled=false; t.clearRect(0,0,W,H);   /* v0.98 2배 정밀 판 */
   try{ if(!L.sa&&L.aura){ if(!S.A){ S.A=auraNew(L,L.aura); if(S.A&&L.ac) S.A.ac=L.ac; } if(S.A){ if(now>=(S.A.next||0)){ auraStep(S.A); auraPaint(S.A); S.A.next=now+AURA_STEP; } t.drawImage(S.A.out||S.A.cv,COS2.HX-AURA_OX,COS2.HY+OY-AURA_OY,S.A.W,S.A.H); } } }catch(e){}
   let R=null; try{ R=S.R=COS2.render({look:L,bob,t:now/1000,cape:L.cp,ws:L.ws,sa:L.sa,L:Math.max(1,L.aura||0)},S.R); COS2.blit(t,R.b,COS2.HX,COS2.HY+OY,1,false,true); }catch(e){}
   try{ if(L.cp&&!COS2.CAPE_KEY[L.cp]) t.drawImage(COSART.capeLayer(L.cp,Math.floor(now/200)%8,bob),COS2.HX-6,COS2.HY+OY-1); }catch(e){}
-  const sp=lookSprite(L); if(sp) t.drawImage(sp.cv2||sp.cv,COS2.HX,COS2.HY+OY,16,16); else { const im=S.im||(S.im=Object.assign(new Image(),{src:heroIcon(cid)})); if(im.complete) t.drawImage(im,COS2.HX,COS2.HY+OY,16,16); }
+  const sp=lookSprite(L); if(sp) t.drawImage(sp.cv2||sp.cv,COS2.HX,COS2.HY+OY,16,16); else { const im=S.im||(S.im=Object.assign(new Image(),{src:typeof cid==="object"?"":heroIcon(cid)})); if(im.complete) t.drawImage(im,COS2.HX,COS2.HY+OY,16,16); }
   try{ if(R) COS2.blit(t,R.f,COS2.HX,COS2.HY+OY,1,false,true); }catch(e){}
   g.imageSmoothingEnabled=false; g.drawImage(tmp,10,16,60,68,x,y,30*sc,34*sc); }   /* 영웅 둘레만 잘라 크게 */
 /* v0.96 명함 다시 그림: 영웅(지금 외형 · 움직임) · 능력치 · 속성 저항 · 장비(등급 색 + 박힌 룬 등급 색 점) · 전투 규칙(기술 속성 색) · 성반 그림. 글자 뒤에 어두운 판을 깔아 어떤 틀에서도 읽히게 함 */
@@ -15800,6 +15830,156 @@ function openSweep(){ const S=sweepState(), left=sweepExtraLeft(), gem=progress.
   m.onclick=e=>{ if(e.target===m) done(); }; m.querySelector("#mclose").onclick=()=>{ closeModal(); if(back&&typeof openDungeonPicker==="function") openDungeonPicker(); };
   m.querySelector("#swAd").onclick=()=>{ if(!sweepExtraLeft()) return; playFakeAd("sweep",openSweep); };
   m.querySelector("#swGem").onclick=()=>{ if(!sweepExtraLeft()||(progress.gem||0)<SWEEP.gem) return; progress.gem-=SWEEP.gem; sweepAdd(1); logLine(`<span class="gain">💎 새벽 결정 ${SWEEP.gem}개로 소탕권 1장을 샀습니다 (보유 ${sweepState().n}장)</span>`); saveProgress(); try{ renderHud(); }catch(e){} closeModal(); openSweep(); }; }
+/* ================= v0.104 대전(플레이어끼리) =================
+   각자 '대전 파티'(최대 6명)를 서버에 올려 두면, 다른 플레이어가 그 기록을 받아 자동 전투를 함(상대는 자기가 짜 둔 전투 규칙대로 움직임).
+   점수: 1000점에서 시작 · 이기면 18 + (상대 점수 − 내 점수)/20 (5~30) · 지면 18 − (상대 − 나)/20 (5~30) 깎임 · 3연승부터 +2씩(최대 +10)
+   방어: 내가 없는 동안 공격받아 지면 공격한 사람이 얻은 점수(연승 보너스 제외)만큼 깎임 · 방어 기록 남음
+   대전권: 하루 5장(날이 바뀌면 5장보다 적으면 5장으로) · 하루 추가 5장(광고 · 새벽 결정)
+   주간: 월요일 05:00(한국 시각) 기준 — 새 주에 처음 들어온 사람이 지난주 순위를 기록(명예의 전당 · 보상 기준) */
+var PVP={daily:5, extra:5, gem:10, size:6, start:1000, base:18, kMin:5, kMax:30, stkFrom:3, stkAdd:2, stkMax:10, listN:200,
+  REWARD:[[1,200,2000],[2,160,1600],[3,130,1300],[10,100,1000],[30,60,600],[100,30,300],[1e9,15,150]]};   // [이 순위까지, 💎, 밤의 정수]
+var PVPF=null, PVPL=null;   // 지금 대전 중 · 마지막으로 받은 목록
+function pvpNet(){ try{ return (typeof window!=="undefined"&&window.PNNet&&window.PNNet.pvp)||null; }catch(e){ return null; } }
+function pvpState(){ const S=progress.pvp=progress.pvp&&typeof progress.pvp==="object"?progress.pvp:{};
+  if(!Array.isArray(S.party)){ S.party=partyIdsOf(progress.party).slice(0,PVP.size); }
+  if(!S.pos||typeof S.pos!=="object"){ S.pos={}; for(const c of S.party){ const h=progress.heroes[c]||{}; S.pos[c]={row:h.row,lane:h.lane}; } }
+  for(const k of ["w","l","d","stk"]) S[k]=S[k]|0; S.saved=!!S.saved; if(!S.pl||typeof S.pl!=="object") S.pl={}; return S; }
+function pvpPos(c){ const S=pvpState(); return S.pos[c]||(S.pos[c]={row:CLASSES[c]?CLASSES[c].row:"front",lane:-1}); }
+function pvpPosAll(){ const o={}; for(const c of rosterIds()) o[c]=pvpPos(c); return o; }
+function fmSetParty(P){ if(fmIsPvp()) pvpState().party=P.slice(0,PVP.size); else progress.party=P; }
+// 대전권
+function pvpTix(){ const S=pvpState(); const T=S.t=S.t&&typeof S.t==="object"?S.t:{n:PVP.daily,day:"",ex:0}; T.n=T.n|0; T.ex=T.ex|0; const d=dayKey(); if(T.day!==d){ T.n=Math.max(T.n,PVP.daily); T.day=d; T.ex=0; } return T; }
+function pvpExtraLeft(){ return Math.max(0,PVP.extra-pvpTix().ex); }
+function pvpTixAdd(){ if(!pvpExtraLeft()) return 0; const T=pvpTix(); T.n++; T.ex++; return 1; }
+// 주(월요일 05:00 한국 시각부터)
+function pvpWeek(t){ return Math.floor((((t||serverNow())+4*3600e3)/864e5+3)/7); }
+function pvpWeekEnd(wk){ return ((wk+1)*7-3)*864e5-4*3600e3; }
+// 점수
+function pvpGain(my,op){ return Math.max(PVP.kMin,Math.min(PVP.kMax,Math.round(PVP.base+(op-my)/20))); }
+function pvpLoss(my,op){ return Math.max(PVP.kMin,Math.min(PVP.kMax,Math.round(PVP.base-(op-my)/20))); }
+function pvpStreakBonus(stk){ return stk>=PVP.stkFrom?Math.min(PVP.stkMax,(stk-PVP.stkFrom+1)*PVP.stkAdd):0; }
+function pvpReward(rank){ const r=PVP.REWARD.find(x=>rank<=x[0]); return r?{gem:r[1],ess:r[2]}:null; }
+// 전투력 = 공격력(치명 반영) × 3 + 체력 × 0.3 + 방어력 × 2
+function unitCP(u){ const off=(u.atk||0)*(1+(u.crit||0)*Math.max(0,(u.critDmg||1.5)-1)); return Math.round(off*3+(u.hp_max||0)*0.3+(u.df||0)*2); }
+function pvpIds(){ fmPvpForce++; try{ return partyIds().slice(0,PVP.size); } finally{ fmPvpForce--; } }
+function pvpUnits(snap){ fmPvpForce++; try{ normalizeFormation(); return partyIds().slice(0,PVP.size).map(c=>snap?coopSnap(c):buildHeroUnit(c)); } finally{ fmPvpForce--; } }
+async function pvpPack(obj){ const txt=JSON.stringify(obj);
+  try{ if(typeof CompressionStream==="function"){ const cs=new Blob([txt]).stream().pipeThrough(new CompressionStream("deflate-raw")); const buf=new Uint8Array(await new Response(cs).arrayBuffer());
+    let b=""; for(let i=0;i<buf.length;i++) b+=String.fromCharCode(buf[i]); return "z"+btoa(b); } }catch(e){}
+  return "j"+txt; }
+async function pvpUnpack(str){ if(typeof str!=="string"||str.length>60000) return null;
+  try{ if(str[0]==="j") return coopExpand(JSON.parse(str.slice(1)));
+    if(str[0]==="z"&&typeof DecompressionStream==="function"){ const bin=atob(str.slice(1)); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+      const ds=new Blob([u]).stream().pipeThrough(new DecompressionStream("deflate-raw")); const t=await new Response(ds).text(); if(t.length>600000) return null; return coopExpand(JSON.parse(t)); } }catch(e){}
+  return null; }
+// 내 대전 파티를 서버에 올림(처음 '저장'한 뒤부터 목록에 보임 · 그 뒤엔 대전 탭을 열 때 · 대전 뒤에 지금 능력치로 다시 올림)
+async function pvpUpload(force){ const N=pvpNet(), S=pvpState(); if(!N||!(S.saved||force)) return false; const ids=pvpIds(); if(!ids.length) return false;
+  const sn=pvpUnits(true), j=await pvpPack(sn); if(j.length>58000) return false;
+  const pc=progress.protag&&progress.protag.cid, lk=pc&&progress.heroes[pc]?heroLook(pc):null;
+  const o={n:coopNick(), j, cp:sn.reduce((a,u)=>a+unitCP(u),0), jobs:JSON.stringify(ids.map((c,i)=>[c,(progress.heroes[c]||{}).level|0,unitCP(sn[i])])), w:S.w, l:S.l, d:S.d, stk:S.stk, lk:lk?JSON.stringify(lk):""};
+  try{ return !!(await N.put(o)); }catch(e){ return false; } }
+async function pvpSaveParty(){ const N=pvpNet(); if(!N){ toast("서버에 연결되어 있지 않아요","warn"); return; } if(!pvpIds().length) return;
+  const ok=await pvpUpload(true); if(ok){ pvpState().saved=true; saveProgress(); toast("⚔ 대전 파티를 저장했어요","good"); } else toast("저장하지 못했어요","warn"); try{ renderParty(); }catch(e){} }
+// 주가 바뀌면: 지난주 순위 기록(아직 아무도 안 했으면) → 내 보상
+async function pvpWeekCheck(){ const N=pvpNet(); if(!N) return null; const wk=pvpWeek(), pw=wk-1, S=pvpState(); if(S.wkChk===wk) return null;
+  let H=null; try{ H=await N.hofGet(pw);
+    if(!H){ const L=(await N.list(PVP.listN))||[]; const R=L.filter(x=>x&&x.j&&typeof x.sc==="number").sort((a,b)=>b.sc-a.sc||(a.at||0)-(b.at||0)), rk={};
+      R.forEach((x,i)=>{ rk[x.uid]=i+1; });
+      H=await N.hofPut(pw,{top:JSON.stringify(R.slice(0,10).map(x=>({u:x.uid,n:String(x.n||"").slice(0,16),sc:x.sc,w:x.w|0,l:x.l|0}))), rk:JSON.stringify(rk)}); } }catch(e){ return null; }
+  if(!H) return null; S.wkChk=wk; let got=null;
+  if((S.claim==null||S.claim<pw)){ S.claim=pw; let r=0; try{ r=JSON.parse(H.rk||"{}")[N.uid()]|0; }catch(e){}
+    if(r&&(S.pl[pw]|0)>0){ const rw=pvpReward(r); if(rw){ progress.gem=(progress.gem||0)+rw.gem; progress.ess=(progress.ess||0)+rw.ess; got={rank:r,...rw};
+      logLine(`<span class="gain">🏆 지난주 대전 ${r}위 — 새벽 결정 +${rw.gem} · 밤의 정수 +${rw.ess}</span>`); } } }
+  for(const k of Object.keys(S.pl)) if(+k<pw) delete S.pl[k];
+  saveProgress(); if(got) pvpRewardModal(got); return got; }
+function pvpRewardModal(g){ const m=openModal(`<h2>🏆 지난주 대전 ${g.rank}위</h2><div class="pvprw"><span>💎 ${g.gem}</span><span>🌙 ${g.ess.toLocaleString("ko-KR")}</span></div><div class="mfoot"><button id="mclose" class="btn">받기</button></div>`,"small");
+  m.querySelector("#mclose").onclick=()=>{ closeModal(); try{ renderHud(); }catch(e){} }; }
+// 대전 탭
+async function renderPvp(){ const P=$("pvpPane"); if(!P) return; const N=pvpNet(), S=pvpState(), T=pvpTix(), wk=pvpWeek();
+  const left=Math.max(0,pvpWeekEnd(wk)-serverNow()), dd=Math.floor(left/864e5), hh=Math.floor(left%864e5/3600e3);
+  let me=null, L=null; if(N){ try{ await pvpWeekCheck(); }catch(e){} try{ if(S.saved) await pvpUpload(); }catch(e){} try{ L=(await N.list(PVP.listN))||[]; }catch(e){ L=null; } }
+  if(L){ L=L.filter(x=>x&&x.j&&typeof x.sc==="number").sort((a,b)=>b.sc-a.sc||(a.at||0)-(b.at||0)); me=L.find(x=>x.uid===N.uid())||null; PVPL=L; }
+  const rank=me?L.indexOf(me)+1:0, sc=me?me.sc:PVP.start, busy=runBusy()||playing;
+  const jobs=x=>{ let J=[]; try{ J=JSON.parse(x.jobs||"[]"); }catch(e){} return J; };
+  const icons=x=>jobs(x).map(([c,lv])=>CLASSES[c]?`<img src="${SPRITES[CLASSES[c].sprite]}" alt="" title="${esc(CLASSES[c].name)} Lv.${lv}">`:"").join("");
+  P.innerHTML=`<div class="panel pvphead">
+      <div class="pvpme"><b class="pvpsc">${sc.toLocaleString("ko-KR")}</b><span>${rank?`#${rank}`:`<span class="pvpnr">미등록</span>`}</span>
+        <span>공격 ${S.w}승 ${S.l}패${S.d?` ${S.d}무`:""}</span><span>방어 ${me?(me.dw|0):0}승 ${me?(me.dl|0):0}패</span>${S.stk>=2?`<span class="pvpstk">🔥 ${S.stk}연승</span>`:""}</div>
+      <div class="pvpbar"><button class="btn ghost" id="pvTix">🎟 ${T.n}</button><button class="btn" id="pvParty">⚔ 대전 파티</button><button class="btn ghost" id="pvLog">🛡 방어 기록</button><button class="btn ghost" id="pvHof">🏆 명예의 전당</button><span class="pvpwk">⏳ ${dd}일 ${hh}시간</span></div></div>
+    <div class="panel pvplist" id="pvList">${!N?`<p class="msub">서버에 연결된 게임에서만 대전할 수 있어요</p>`:!L?`<p class="msub">목록을 불러오지 못했어요</p>`:
+      L.map((x,i)=>{ const mine=me&&x===me; return `<div class="pvrow${mine?" me":""}" data-u="${esc(x.uid)}"><b class="pvrk">${i+1}</b><span class="pvnm">${esc(String(x.n||"?").slice(0,16))}</span><span class="pvsc">${(x.sc|0).toLocaleString("ko-KR")}</span><span class="pvjobs">${icons(x)}</span><span class="pvcp">⚔ ${(x.cp|0).toLocaleString("ko-KR")}</span><span class="pvwl">${x.w|0}승 ${x.l|0}패</span>${mine?`<span></span>`:`<button class="btn pvgo" data-go="${esc(x.uid)}" ${S.saved&&!busy&&T.n>0?"":"disabled"}>전투</button>`}</div>`; }).join("")}</div>`;
+  $("pvTix").onclick=openPvpTix; $("pvParty").onclick=()=>{ fmPvpView=true; showTab("party"); };
+  $("pvLog").onclick=openPvpLog; $("pvHof").onclick=openPvpHof;
+  P.querySelectorAll(".pvrow").forEach(r=>r.onclick=e=>{ const g=e.target.closest("[data-go]"); if(g){ e.stopPropagation(); pvpFight(g.dataset.go); return; } if(r.classList.contains("me")) return; const x=(PVPL||[]).find(y=>y.uid===r.dataset.u); if(x) openPvpPeek(x); }); }
+function openPvpTix(){ const T=pvpTix(), left=pvpExtraLeft(), gem=progress.gem||0;
+  const m=openModal(`<h2>🎟 대전권</h2><div class="torchbig"><span class="tico">🎟</span><b>${T.n}</b></div>
+    <div class="torchbuy"><button class="btn" id="pvAd" ${left?"":"disabled"}>📺 광고 보고 1장 <small>오늘 ${T.ex}/${PVP.extra}</small></button>
+      <button class="btn" id="pvGem" ${left&&gem>=PVP.gem?"":"disabled"}>💎 ${PVP.gem} → 1장 <small>보유 ${gem}</small></button></div>
+    <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small torchm");
+  const back=()=>{ closeModal(); if(curView==="pvp") renderPvp(); };
+  m.onclick=e=>{ if(e.target===m) back(); }; m.querySelector("#mclose").onclick=back;
+  m.querySelector("#pvAd").onclick=()=>{ if(!pvpExtraLeft()) return; playFakeAd("pvp",openPvpTix); };
+  m.querySelector("#pvGem").onclick=()=>{ if(!pvpExtraLeft()||(progress.gem||0)<PVP.gem) return; progress.gem-=PVP.gem; pvpTixAdd(); logLine(`<span class="gain">💎 새벽 결정 ${PVP.gem}개로 대전권 1장을 샀습니다 (보유 ${pvpTix().n}장)</span>`); saveProgress(); try{ renderHud(); }catch(e){} openPvpTix(); }; }
+function openPvpPeek(x){ let J=[]; try{ J=JSON.parse(x.jobs||"[]"); }catch(e){} const S=pvpState(), T=pvpTix(), busy=runBusy()||playing;
+  const m=openModal(`<h2>${esc(String(x.n||"?").slice(0,16))} <small>${(x.sc|0).toLocaleString("ko-KR")}</small></h2>
+    <div class="pvpeek">${J.map(([c,lv,cp])=>CLASSES[c]?`<div><img src="${SPRITES[CLASSES[c].sprite]}" alt=""><b>${esc(CLASSES[c].name)}</b><span>Lv.${lv}</span><span>⚔ ${(cp|0).toLocaleString("ko-KR")}</span></div>`:"").join("")}</div>
+    <div class="pvpsum"><span>⚔ ${(x.cp|0).toLocaleString("ko-KR")}</span><span>${x.w|0}승 ${x.l|0}패</span><span>방어 ${x.dw|0}승 ${x.dl|0}패</span></div>
+    <div class="mfoot"><button id="pvGo" class="btn" ${S.saved&&!busy&&T.n>0?"":"disabled"}>전투 🎟 ${T.n}</button><button id="mclose" class="btn ghost">닫기</button></div>`,"small");
+  m.onclick=e=>{ if(e.target===m) closeModal(); }; m.querySelector("#mclose").onclick=closeModal; m.querySelector("#pvGo").onclick=()=>{ closeModal(); pvpFight(x.uid); }; }
+async function openPvpLog(){ const N=pvpNet(); let L=[]; if(N){ try{ L=(await N.logList())||[]; }catch(e){ L=[]; } } L.sort((a,b)=>(b.at||0)-(a.at||0));
+  const m=openModal(`<h2>🛡 방어 기록</h2><div class="pvplog">${L.length?L.slice(0,40).map(x=>`<div class="${x.win?"lost":"held"}"><span>${esc(fmtDate(x.at||0))}</span><b>${esc(String(x.an||"?").slice(0,16))}</b><span>${x.win?`방어 실패 <i>−${x.d|0}</i>`:"방어 성공"}</span></div>`).join(""):`<p class="msub">기록 없음</p>`}</div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small");
+  m.onclick=e=>{ if(e.target===m) closeModal(); }; m.querySelector("#mclose").onclick=closeModal; }
+// 명예의 전당: 지난주 1~10위 · 주인공은 지금 외형 그대로 움직임
+async function openPvpHof(){ const N=pvpNet(); if(!N){ toast("서버에 연결되어 있지 않아요","warn"); return; } try{ await pvpWeekCheck(); }catch(e){}
+  const pw=pvpWeek()-1; let H=null; try{ H=await N.hofGet(pw); }catch(e){} let top=[]; try{ top=JSON.parse((H&&H.top)||"[]"); }catch(e){}
+  const looks=await Promise.all(top.map(async x=>{ try{ const e=await N.get(x.u); return e&&e.lk?JSON.parse(e.lk):null; }catch(e){ return null; } }));
+  const m=openModal(`<h2>🏆 명예의 전당</h2><div class="pvhof">${top.length?top.map((x,i)=>`<div class="pvhc r${i+1}"><canvas width="120" height="136" data-i="${i}"></canvas><b>${i+1}위 ${esc(String(x.n||"?").slice(0,16))}</b><span>${(x.sc|0).toLocaleString("ko-KR")} · ${x.w|0}승 ${x.l|0}패</span></div>`).join(""):`<p class="msub">기록 없음</p>`}</div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"pvhofm");
+  const cvs=[...m.querySelectorAll("canvas")], st=cvs.map(()=>({})); let raf=0;
+  const draw=now=>{ if(!document.body.contains(m)){ cancelAnimationFrame(raf); return; } cvs.forEach((cv,i)=>{ const g=cv.getContext("2d"); g.clearRect(0,0,cv.width,cv.height); const L=looks[i]; if(L) try{ heroLiveDraw(g,L,now,st[i],0,0,4); }catch(e){} }); raf=requestAnimationFrame(draw); };
+  raf=requestAnimationFrame(draw);
+  m.onclick=e=>{ if(e.target===m){ cancelAnimationFrame(raf); closeModal(); } }; m.querySelector("#mclose").onclick=()=>{ cancelAnimationFrame(raf); closeModal(); }; }
+// 전투: 결과를 먼저 서버에 반영하고(중간에 꺼도 그대로) 그다음 장면을 보여 줌
+async function pvpFight(uid){ if(runBusy()||playing||telling||PVPF) return; const N=pvpNet(), S=pvpState(); if(!N||!S.saved) return; if(uid===N.uid()) return;
+  const T=pvpTix(); if(T.n<=0){ openPvpTix(); return; }
+  try{ await pvpWeekCheck(); }catch(e){}
+  let op=null, mine=null; try{ [op,mine]=await Promise.all([N.get(uid),N.get(N.uid())]); }catch(e){}
+  if(!op||!op.j){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
+  const foes=await pvpUnpack(op.j); if(!Array.isArray(foes)||!foes.length){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
+  const party=pvpUnits(false); if(!party.length) return;
+  foes.forEach((u,i)=>{ u.id="pv"+i; u.side="enemy"; u.pvpHero=true; u.alive=true; u.hp=u.hp_max; u.mp=u.mp_max; u.buffs={}; u.dots={}; });
+  T.n--; const seed=(Math.random()*0xFFFFFFFF)>>>0; const sim=new Sim(party,foes,seed); sim.meterOn=true; const events=sim.run(), end=events[events.length-1]||{}, res=end.result||"draw";
+  const my=mine&&typeof mine.sc==="number"?mine.sc:PVP.start, os=typeof op.sc==="number"?op.sc:PVP.start, wk=pvpWeek();
+  let d=0, bonus=0, defLoss=0;
+  if(res==="win"){ S.w++; S.stk++; d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
+  else if(res==="lose"){ S.l++; S.stk=0; d=-Math.min(my,pvpLoss(my,os)); }
+  else { S.d++; S.stk=0; }
+  S.pl[wk]=(S.pl[wk]|0)+1; saveProgress();
+  let after=my+d+bonus; try{ if(d+bonus) after=await N.addScore(N.uid(),d+bonus); }catch(e){}
+  try{ if(res==="win"){ if(defLoss>0) await N.addScore(uid,-defLoss); await N.inc(uid,"dl"); await N.logPush(uid,{an:coopNick(),win:true,d:defLoss}); }
+    else if(res==="lose"){ await N.inc(uid,"dw"); await N.logPush(uid,{an:coopNick(),win:false,d:0}); } }catch(e){}
+  try{ await pvpUpload(); }catch(e){}
+  logLine(`<span class="${res==="win"?"win":res==="lose"?"lose":"r"}">⚔ 대전 — ${esc(String(op.n||"?"))} 상대로 ${res==="win"?"승리":res==="lose"?"패배":"무승부"} (${d+bonus>=0?"+":""}${d+bonus}점${bonus?` · 연승 +${bonus}`:""})</span>`);
+  await pvpPlay(sim,events,op,{res,d,bonus,after:typeof after==="number"?after:my+d+bonus}); }
+async function pvpPlay(sim,events,op,R){ PVPF={n:String(op.n||"?")}; playing=true; try{ closeModal(); }catch(e){}
+  try{ showTab("dungeon"); setMainBtn(); $("resetBtn").disabled=true; }catch(e){}
+  try{ SND.scene("boss"); }catch(e){}
+  spawnField(sim.units); { const zl=$("zoneline"); if(zl) zl.textContent=`⚔ 대전 — ${PVPF.n}`; }
+  logLine(`<span class="zone">⚔ 대전 — ${esc(PVPF.n)}</span>`);
+  try{ MT.begin(sim,events,"대전"); }catch(e){}
+  let n=0, ei=-1;
+  for(const ev of events){ ei++;
+    if(ev.type==="say"){ handleEvent(ev,{}); continue; }
+    if(ev.type==="end"){ try{ MT.finish(ev); }catch(e){} if(!instantMode()){ await waitHits(); await sleep(Math.min(400,Math.max(160,parseInt($("speed").value,10)||0))); } break; }
+    if(ev.type==="action"){ const cw=KA.cast(ev); if(cw){ markAct(ev.actor,ev.shape?[...new Set((ev.effects||[]).map(f=>f.target))]:[],ev.skillName); await sleep(ev.shape?Math.max(cw,speedMs(420)):cw); } }
+    handleEvent(ev,{}); try{ MT.upto(ei); }catch(e){}
+    const dl=parseInt($("speed").value,10); if(dl>0&&ev.type!=="log") await sleep(dl); else if(dl===0&&++n%40===0) await new Promise(r=>setTimeout(r,0)); }
+  flushLogScroll(); markAct(null); try{ applySts({}); }catch(e){}
+  playing=false; try{ $("resetBtn").disabled=false; }catch(e){}
+  const tt=R.res==="win"?"승리":R.res==="lose"?"패배":"무승부", dv=R.d+R.bonus;
+  const m=openModal(`<h2 class="${R.res==="win"?"win":R.res==="lose"?"lose":""}">⚔ ${tt}</h2><div class="pvpres"><b>${dv>=0?"+":""}${dv}</b>${R.bonus?`<span>🔥 연승 +${R.bonus}</span>`:""}<span>${(R.after|0).toLocaleString("ko-KR")}</span></div>
+    <div class="mfoot"><button id="pvBack" class="btn">대전으로</button></div>`,"small");
+  const back=()=>{ closeModal(); PVPF=null; try{ goCamp(); }catch(e){} showTab("pvp"); };
+  m.querySelector("#pvBack").onclick=back; m.onclick=e=>{ if(e.target===m) back(); }; }
 function mainButton(){
   if(playing||telling||TUT.busy) return;
   if($("dpick")) closeModal();   // 던전 선택 창이 열려 있으면 닫고 진행
@@ -16947,6 +17127,15 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.13", v:"v0.104", t:"대전", L:[
+    "플레이어끼리 대전할 수 있습니다(서버에 연결된 게임에서). 대전 탭에서 다른 플레이어의 점수 · 직업 · 전투력 · 전적을 보고 골라 '전투'를 누르면 6명 대 6명 자동 전투를 합니다. 상대 파티는 상대가 짜 둔 전투 규칙대로 움직입니다.",
+    "파티 탭의 진영을 '던전' / '대전'으로 나눴습니다. 대전 파티는 따로 편성하고 '저장'을 한 번 해야 대전 목록에 올라가고 대전할 수 있습니다. 대전 탭의 '대전 파티'로 바로 갈 수 있습니다.",
+    "대전권: 하루 5장(날이 바뀌면 5장보다 적으면 5장으로 채움). 하루 5장까지 더 얻을 수 있습니다(광고 1장 · 새벽 결정 10개에 1장).",
+    "점수는 1,000점에서 시작합니다. 이기면 18 + (상대 점수 − 내 점수) ÷ 20점(5~30점)을 얻고, 지면 18 − (상대 점수 − 내 점수) ÷ 20점(5~30점)을 잃습니다. 3연승부터 이길 때마다 +2점씩 더(최대 +10). 무승부(60턴)는 점수 변화가 없습니다.",
+    "내가 없는 동안 다른 플레이어에게 공격받아 지면, 그 사람이 얻은 점수(연승 보너스 제외)만큼 내 점수가 깎입니다. '방어 기록'에서 누가 언제 공격했는지 볼 수 있습니다.",
+    "매주 월요일 05:00에 지난주 순위대로 보상을 줍니다(그 주에 한 번 이상 대전한 사람): 1위 💎200 · 정수 2,000 / 2위 💎160 · 1,600 / 3위 💎130 · 1,300 / 4~10위 💎100 · 1,000 / 11~30위 💎60 · 600 / 31~100위 💎30 · 300 / 그 밖 💎15 · 150.",
+    "명예의 전당: 지난주 1~10위의 주인공을 지금 외형 그대로 움직이는 모습으로 보여 줍니다.",
+  ]},
   {d:"2026.11.12", v:"v0.103", t:"명함 · 보물상자 도트 2배 정밀", L:[
     "명함 테두리의 도트 장식, 스티커 24종, 보물상자(닫힘 · 열림), 직업 기본 그림 9장(동료 합류 알림 · 첫 화면 · 함께하기 목록)을 영웅과 같은 방식(대각선 펴기 + 명암)으로 2배 정밀하게 그립니다.",
   ]},
