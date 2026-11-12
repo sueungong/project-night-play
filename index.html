@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794503250963"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794504769889"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -6063,14 +6063,14 @@ function netWall(){ if(typeof document==="undefined") return; let w=document.get
 function netRetry(){ try{ if(cloud.doc&&cloud.ready&&!cloud.writing&&cloud.status==="error") cloudFlush(); }catch(e){} }
 if(typeof document!=="undefined"){ setInterval(()=>{ try{ if(cloud.status==="error"){ const perm=cloud.lastErr&&/PERMISSION|permission/.test(cloud.lastErr.code||""); (perm?chkRecover():chkRefreshGrants()).then(netRetry); } }catch(e){} },5000); setInterval(()=>{ try{ if(netRequired()&&cloud.ready) chkRefreshGrants(); }catch(e){} },60000); setInterval(()=>{ try{ netWall(); }catch(e){} },1000); }
 function cloudStatusHTML(){
-  if(!window.PNNet) return `<div class="sblock"><div class="slabel">저장 위치</div><p class="msub">지금 이 화면(Claude 안에서 연 게임)의 진행은 <b>이 Claude 페이지에만</b> 저장됩니다. 휴대폰 테스트 주소(GitHub Pages)의 진행과는 서로 따로예요.</p></div>`;
+  if(!window.PNNet) return `<div class="sblock"><div class="slabel">저장 위치</div><p class="msub">이 Claude 페이지</p></div>`;
   const ok=cloud.lastOk?fmtDate(cloud.lastOk):"아직 없음", er=cloud.lastErr, R=cloud.remote;
   const mine=(()=>{ try{ return progressSummary(progress); }catch(e){ return ""; } })();
   const other=R&&!R.mine&&R.doc&&(R.savedAt||0)>(progress.savedAt||0);
   return `<div class="sblock"><div class="slabel">서버 저장 상태</div><p class="msub">이 기기에서 마지막 서버 저장: <b>${esc(ok)}</b>${er?` · <span style="color:var(--bad,#e57373)">${er.read?"서버 진행 읽기":"저장"} 실패 (${esc(er.code)}, ${esc(fmtDate(er.at))})</span>`:""}</p>
     <p class="msub">서버에 있는 진행: ${R?`<b>${esc(R.sum||"(요약 없음)")}</b> · ${esc(fmtDate(R.savedAt))}${R.dev?` · ${esc(R.dev)}에서 저장`:""}`:"(아직 못 읽음)"}<br>이 기기 진행: <b>${esc(mine)}</b> · ${esc(fmtDate(progress.savedAt||0))}</p>
     ${other?`<div class="srow"><button class="btn" onclick="cloudTakeRemote()">서버 진행으로 바꾸기</button></div>`:""}
-    <p class="msub">계정 ID(전체): <code style="user-select:all;word-break:break-all">${esc((window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||"")}</code><br>휴대폰과 PC의 계정 ID가 같아야 같은 진행이 이어집니다. 진행이 안 보이면 이 ID를 관리자에게 알려 주세요.</p></div>`; }
+    <p class="msub">계정 ID(전체): <code style="user-select:all;word-break:break-all">${esc((window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||"")}</code></p></div>`; }
 function cloudTakeRemote(){ const R=cloud.remote; if(!R||!R.doc) return; if(runState||playing){ toast("던전이 끝난 뒤에 바꿀 수 있어요.","warn"); return; }
   const before=JSON.parse(JSON.stringify(progress)), br=JSON.parse(JSON.stringify(partyRules));
   if(applyCloud(R.doc)){ { const c=(window.PNNet&&window.PNNet.auth&&window.PNNet.auth.state&&window.PNNet.auth.state())||{}; safeSet("pn_local_backup", JSON.stringify({progress:before, rules:br, at:Date.now(), uid:c.uid||"", anon:!!c.anon})); } writeLocal(); closeModal(); toast(`☁ 서버 진행으로 바꿨어요 — ${esc(progressSummary(progress))}`,"good",5000); logLine(`<span class="win">☁ 서버 진행으로 바꿨습니다(이 기기 진행은 백업). ${esc(progressSummary(progress))}</span>`); } }
@@ -8730,16 +8730,13 @@ function openTorch(blocked){
   if(onboardBusy) return;
   const T=torchState(), A=adsToday(), free=torchFree(), gem=progress.gem||0;
   const m=openModal(`<h2>🔥 횃불</h2>
-    ${blocked?`<p class="tnote warn">횃불이 다 떨어졌습니다. 던전에 들어가려면 횃불이 1개 필요해요.</p>`:""}
+    ${blocked?`<p class="tnote warn">횃불이 다 떨어졌습니다.</p>`:""}
     <div class="torchbig"><span class="tico">🔥</span><b>${T.n}</b><span>/ ${torchMax()}</span></div>
-    <p class="msub">던전 · 최종 콘텐츠 · 함께하기에 <b>들어갈 때마다 1개</b>를 씁니다. 구역을 이어 갈 때는 들지 않아요.<br>
-      <b>${torchEvery()/60000}분마다 1개씩</b>, 최대 <b>${torchMax()}개</b>까지 저절로 차오릅니다. ${T.n>=torchMax()?"지금은 가득 찼어요.":`다음 1개까지 <b>${fmtWait(torchNextMs())}</b> · 가득 차기까지 ${fmtWait(torchFullMs())}`}</p>
-    ${free&&!TORCH.dev?`<p class="tnote">📜 규칙 교실(첫 안내)을 마칠 때까지는 횃불이 들지 않아요.</p>`:""}
+    <p class="msub">${torchEvery()/60000}분마다 1개 · 최대 ${torchMax()}개 · ${T.n>=torchMax()?"가득 참":`다음 1개 <b>${fmtWait(torchNextMs())}</b> · 가득 ${fmtWait(torchFullMs())}`}</p>
     <div class="torchbuy">
       <button class="btn" id="tAd" ${adLeft("torch")?"":"disabled"}>📺 광고 보고 횃불 1개 <small>오늘 ${A.torch}/${AD_DAILY.torch}</small></button>
       <button class="btn" id="tGem" ${gem<TORCH.gemCost?"disabled":""}>💎 새벽 결정 ${TORCH.gemCost}개 → 횃불 ${TORCH.gemGive}개 <small>보유 ${gem}</small></button>
     </div>
-    <p class="mhint">횃불은 ${torchMax()}개를 넘어서도 쌓을 수 있지만, 저절로 차오르는 건 ${torchMax()}개까지예요. 💎 새벽 결정은 유료 재화로, 출시 버전에서 살 수 있게 됩니다.</p>
     ${isAdmin()?`<div class="sblock"><div class="slabel">관리자</div><div class="srow" style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost" id="tFill">횃불 가득</button><button class="btn ghost" id="tZero">횃불 0개</button><button class="btn ghost" id="tGemAdd">새벽 결정 +100</button></div></div>`:""}
     <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`, "small torchm");
   m.onclick=e=>{ if(e.target===m) closeModal(); }; m.tabIndex=-1; m.focus(); m.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
@@ -8993,7 +8990,7 @@ function openPass(){   // v0.69 아트 패스 화면 다시 — 단계 줄 하�
       ${icon(main)}<b>${esc(short(main))}</b>${sub.length?`<small>${sub.map(r=>r.k==="gem"?"💎"+r.v:esc(short(r))).join(" · ")}</small>`:""}
       ${got?`<em class="pst">✓</em>`:can?`<em class="pst go">받기</em>`:lock?`<em class="pst">🔒</em>`:""}</div>`; };
   const cols=Array.from({length:PASS_LEVELS},(_,i)=>{ const L=i+1; return `<div class="pcol${L<=lv?" done":""}${L===lv?" now":""}">${card(L,false)}<div class="pnode"><span>${L}</span></div>${card(L,true)}</div>`; }).join("");
-  const m=openModal(`<div class="phead"><div><h2>🎟 아트 패스 <small>시즌 ${P.season}</small></h2><p class="sub">${passDaysLeft()}일 남음 · 시즌이 끝나면 못 받은 보상과 한정 외형은 사라집니다</p></div>
+  const m=openModal(`<div class="phead"><div><h2>🎟 아트 패스 <small>시즌 ${P.season}</small></h2><p class="sub">${passDaysLeft()}일 남음</p></div>
       <div class="plv"><b>${lv}<small>/${PASS_LEVELS}단계</small></b><div class="pbar2"><i style="width:${lv>=PASS_LEVELS?100:Math.round(xp/PASS_XP*100)}%"></i></div><small>${lv>=PASS_LEVELS?"모든 단계 달성":`다음 단계까지 ${PASS_XP-xp}`}</small></div></div>
     <div class="pgrid"><div class="prow-lab"><span>무료</span><span class="mid"></span><span class="${P.paid?"on":""}">유료${P.paid?"":" 🔒"}</span></div><div class="pscroll" id="pScroll">${cols}</div></div>
     <div class="mfoot"><button class="btn" id="pAll" ${nC?"":"disabled"}>${nC?`받을 수 있는 보상 모두 받기 (${nC})`:"받을 보상 없음"}</button>${P.paid?"":`<button class="btn ghost" id="pBuy">${won(PASS_WON)} — 유료 트랙 열기</button>`}<span class="spacer"></span><button class="btn ghost" id="pClose">닫기</button></div>`,"passm");
@@ -9799,7 +9796,7 @@ function fallLoreGot(){ if(!Array.isArray(progress.fallLore)) progress.fallLore=
 function fallLoreUnlock(ids){ const g=fallLoreGot(), nw=[]; for(const id of ids){ const pg=FALL_LORE.find(x=>x.id===id); if(pg&&!g.includes(id)){ g.push(id); nw.push(pg); } } return nw; }
 function fallLoreLog(pages){ for(const pg of pages){ logLine(`<span class="win">🌠 낙성 기록 — 「${esc(pg.t)}」 (${fallLoreGot().length}/${FALL_LORE.length})</span>`); for(const l of pg.l) logLine(`<span class="story">${esc(storyName(l))}</span>`); } }
 function fallLoreOpen(){ const g=fallLoreGot();
-  const m=openModal(`<h2>🌠 낙성 기록</h2><p class="sub">별들이 장막 아래로 내려온 숨은 이야기 · ${g.length}/${FALL_LORE.length}</p><div class="lorelist">${FALL_LORE.map((p,i)=>g.includes(p.id)?`<details class="lorepg"${i===0?" open":""}><summary><b>${i+1}. ${esc(p.t)}</b></summary>${p.l.map(l=>`<p>${esc(storyName(l))}</p>`).join("")}</details>`:`<div class="lorepg locked"><b>${i+1}. ???</b> <small>${esc(p.need)} 열립니다</small></div>`).join("")}</div><div class="mfoot"><button class="btn" id="loreClose">닫기</button></div>`,"small");
+  const m=openModal(`<h2>🌠 낙성 기록</h2><p class="sub">${g.length}/${FALL_LORE.length}</p><div class="lorelist">${FALL_LORE.map((p,i)=>g.includes(p.id)?`<details class="lorepg"${i===0?" open":""}><summary><b>${i+1}. ${esc(p.t)}</b></summary>${p.l.map(l=>`<p>${esc(storyName(l))}</p>`).join("")}</details>`:`<div class="lorepg locked"><b>${i+1}. ???</b> <small>${esc(p.need)} 열립니다</small></div>`).join("")}</div><div class="mfoot"><button class="btn" id="loreClose">닫기</button></div>`,"small");
   m.querySelector("#loreClose").onclick=closeModal; }
 const FALL_G={hp:1.18, atk:1.08}, FALL_BASE={hp:1.44, atk:0.66};   // v0.93 2.4·1.1 → ×0.6(인원 공식을 일반과 같게 바꾼 뒤에도 최대 성장 6명 1단계 0~8% → 측정 목표 40~60%)
 function fallEnvoy(wk){ wk=wk==null?weekId():wk; return FALL_ENVOYS[((wk%FALL_ENVOYS.length)+FALL_ENVOYS.length)%FALL_ENVOYS.length]; }
@@ -12634,7 +12631,10 @@ const MOTION = (()=>{
 const WX = (()=>{
   const SW = STAGE.w, SH = STAGE.h, HZ = STAGE.hz;
   let kind = null, region = null, A = {}, imgs = {}, ps = [], fx = {}, t0 = performance.now(), flashT = -1e9, nextBolt = 0, bolt = null, geom = null, laySig = "";
-  const lc = document.createElement("canvas"); lc.width = SW; lc.height = SH; const lx = lc.getContext("2d");
+  const LS = 2;   /* v0.107 배경 · 날씨 2배 정밀: 무대 캔버스를 2배로 두고(좌표는 무대 기준 그대로) 배경 그림은 대각선 펴기(epx) 2배본으로 그림 */
+  const lc = document.createElement("canvas"); lc.width = SW * LS; lc.height = SH * LS; const lx = lc.getContext("2d");
+  function x2(I){ if(I.__x2 !== undefined) return I.__x2 || I; try{ const c = document.createElement("canvas"); c.width = I.naturalWidth; c.height = I.naturalHeight; c.getContext("2d").drawImage(I, 0, 0); I.__x2 = epxCanvas(c); }catch(e){ I.__x2 = null; } return I.__x2 || I; }
+  const hx = v => Math.round(v * LS) / LS;
   const C = {rain:[170,196,236], snow:[240,244,255], embers:[255,150,60], embers_purple:[200,120,255], ash:[150,140,140], fireflies:[200,255,120], leaves:[150,180,80], motes:[255,240,190], dust:[230,200,140], sand:[230,160,100], petals:[255,190,210], bubbles:[150,230,220]};
   const rgb = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
   const rgba = (h, a) => { const c = Array.isArray(h) ? h : rgb(h); return `rgba(${c[0]},${c[1]},${c[2]},${a})`; };
@@ -12766,7 +12766,7 @@ const WX = (()=>{
     if (INDOOR[key] && !WEATHER[key]) list = list.filter(w => !OUTK[w]); kind = list.length ? list[Math.floor(Math.random() * list.length)] : null;
     if(kind === "storm") nextBolt = performance.now() + 1500;
     const n = Math.round(({rain: 150, storm: 190, snow: 110, embers: 60, embers_purple: 55, ash: 80, fireflies: 26, leaves: 30, motes: 50, dust: 50, sand: 110, heat: 60, petals: 34, bubbles: 36, fog: 0}[kind] || 0) * (GFX.low ? 0.5 : 1));   // 저사양은 날씨 알갱이 절반
-    ps = []; for(let i = 0; i < n; i++) ps.push(spawn(true)); }
+    ps = []; for(let i = 0; i < Math.round(n * 1.5); i++) ps.push(spawn(true)); }
   // 날씨 입자: z(0=멀리 ~ 1=바로 앞). 멀수록 작고 느리고 흐림. 화면 좌표는 무대 좌표(480×270)로 계산
   function spawn(init){ const z = Math.random() ** 0.8;
     return {x: rand(-20, SW + 20), y: init ? rand(-10, SH) : -8, z, v: 0.6 + Math.random() * 0.8, ph: Math.random() * 6.28}; }
@@ -12869,17 +12869,17 @@ const WX = (()=>{
   function unitScale(id){ const el = $("u-" + id); return el ? (parseFloat(el.style.getPropertyValue("--s")) || 1) : 1; }
   /* ---- 그리기 ---- */
   function layerX(k, w, cam){ return -(w - SW) / 2 - cam * (STAGE.par[k] || 0); }
-  function drawLayer(k, cam, t){ const I = imgs[k]; if(!I || !I.complete || !I.naturalWidth) return; const x0 = layerX(k, I.naturalWidth, cam);
-    if(A.heat && A.heat.layer === k){ const h = A.heat; for(let y = 0; y < SH; y += 2){ const inb = y >= h.y0 && y < h.y1; const o = inb ? Math.sin(t * 3 + y * 0.35) * h.amp * Math.min(1, (y - h.y0) / 20) : 0; lx.drawImage(I, 0, y, I.naturalWidth, 2, Math.round(x0 + o), y, I.naturalWidth, 2); } return; }
+  function drawLayer(k, cam, t){ const I = imgs[k]; if(!I || !I.complete || !I.naturalWidth) return; const x0 = layerX(k, I.naturalWidth, cam); const J = x2(I), r = J.width / I.naturalWidth, IW = I.naturalWidth, IH = I.naturalHeight;
+    if(A.heat && A.heat.layer === k){ const h = A.heat; for(let y = 0; y < SH; y += 2){ const inb = y >= h.y0 && y < h.y1; const o = inb ? Math.sin(t * 3 + y * 0.35) * h.amp * Math.min(1, (y - h.y0) / 20) : 0; lx.drawImage(J, 0, y * r, J.width, 2 * r, hx(x0 + o), y, IW, 2); } return; }
     const sw = (Array.isArray(A.sway) ? A.sway : A.sway ? [A.sway] : []).find(x => x.layer === k);
-    if(sw){ for(let y = 0; y < SH; y += 3){ const o = Math.sin(t * sw.f + y * 0.04) * sw.amp * Math.pow(1 - y / SH, 1.4) * 2; lx.drawImage(I, 0, y, I.naturalWidth, 3, Math.round(x0 + o), y, I.naturalWidth, 3); } return; }
-    if(A.bob && A.bob.layer === k){ lx.drawImage(I, Math.round(x0), Math.round(Math.sin(t * A.bob.f * 6.28) * A.bob.amp)); return; }
-    lx.drawImage(I, Math.round(x0), 0); }
+    if(sw){ for(let y = 0; y < SH; y += 3){ const o = Math.sin(t * sw.f + y * 0.04) * sw.amp * Math.pow(1 - y / SH, 1.4) * 2; lx.drawImage(J, 0, y * r, J.width, 3 * r, hx(x0 + o), y, IW, 3); } return; }
+    if(A.bob && A.bob.layer === k){ lx.drawImage(J, hx(x0), hx(Math.sin(t * A.bob.f * 6.28) * A.bob.amp), IW, IH); return; }
+    lx.drawImage(J, hx(x0), 0, IW, IH); }
   function glow(x, y, r, col, a){ if(a <= 0.004 || !(r > 0.5)) return; const g = lx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, rgba(col, a)); g.addColorStop(1, rgba(col, 0)); lx.fillStyle = g; lx.fillRect(x - r, y - r, r * 2, r * 2); }
   function lpos(layer, x, cam){ const I = imgs[layer]; return x - (layer && STAGE.par[layer] ? cam * STAGE.par[layer] : 0); }
   function drawStage(now){
     const t = (now - t0) / 1000, cam = Math.sin(t * 0.09) * 10 + Math.sin(t * 0.23) * 3;
-    lx.globalCompositeOperation = "source-over"; lx.globalAlpha = 1; lx.imageSmoothingEnabled = false;
+    lx.setTransform(LS, 0, 0, LS, 0, 0); lx.globalCompositeOperation = "source-over"; lx.globalAlpha = 1; lx.imageSmoothingEnabled = false;
     drawLayer("sky", cam, t);
     // v0.32: 별 반짝임 · 오로라 · 별똥별
     if(A.star_pts && A.twinkle){ const P = A.star_pts; lx.fillStyle = A.twinkle.col; for(let i = 0; i < P.length; i++){ const a = Math.sin(t * (0.9 + (i % 7) * 0.27) + i * 2.7); if(a < 0.55) continue;
@@ -12945,9 +12945,9 @@ const WX = (()=>{
   }
   // v0.72 배경 다듬기: 먼 곳은 공기에 바래고 · 가까운 곳·가장자리는 어둡게 · (B) 싸우는 자리에 그 장의 빛 색 웅덩이
   const GRADE = {};
-  function gradeCols(){ if(GRADE[region]) return GRADE[region]; let d; try{ d = lx.getImageData(0, 0, SW, SH).data; }catch(e){ return null; }
+  function gradeCols(){ if(GRADE[region]) return GRADE[region]; let d; try{ d = lx.getImageData(0, 0, SW * LS, SH * LS).data; }catch(e){ return null; }
     let hr = 0, hg = 0, hb = 0, hn = 0, lr = 0, lg = 0, lb = 0, ln = 0;
-    for(let y = 0; y < SH; y += 3) for(let x = 0; x < SW; x += 3){ const i = (y * SW + x) * 4; if(y < SH * 0.3){ hr += d[i]; hg += d[i+1]; hb += d[i+2]; hn++; } const L = d[i] + d[i+1] + d[i+2]; if(L > 520){ lr += d[i]; lg += d[i+1]; lb += d[i+2]; ln++; } }
+    for(let y = 0; y < SH; y += 3) for(let x = 0; x < SW; x += 3){ const i = (y * LS * SW * LS + x * LS) * 4; if(y < SH * 0.3){ hr += d[i]; hg += d[i+1]; hb += d[i+2]; hn++; } const L = d[i] + d[i+1] + d[i+2]; if(L > 520){ lr += d[i]; lg += d[i+1]; lb += d[i+2]; ln++; } }
     const cl = v => Math.max(0, Math.min(255, Math.round(v)));
     return GRADE[region] = {haze: [cl(hr/hn*1.6+20), cl(hg/hn*1.6+24), cl(hb/hn*1.6+34)], light: ln > 20 ? [cl(lr/ln), cl(lg/ln), cl(lb/ln)] : [255, 214, 150]}; }
   function grade(t){ const G = gradeCols(); if(!G) return; lx.save(); lx.globalCompositeOperation = "source-over"; lx.globalAlpha = 1;
@@ -12979,10 +12979,11 @@ const WX = (()=>{
       else if(k === "motes" || k === "dust"){ w = h = Math.max(1, Math.round((front ? S_ * 0.6 : 1) * (1 + p.z))); a = 0.3 + 0.5 * Math.abs(Math.sin(t * 1.7 + p.ph)); }
       else if(k === "sand"){ w = (4 + 8 * p.z) * (front ? S_ * 0.8 : 1); h = Math.max(1, Math.round((front ? S_ * 0.5 : 1) * (1 + p.z))); a = 0.25 + 0.35 * p.z; }
       else if(k === "bubbles"){ w = h = Math.max(2, Math.round((front ? S_ * 0.8 : 1) * (2 + p.z * 2))); a = 0.5; }
+      w *= 0.5; if(k !== "rain" && k !== "sand") h *= 0.5;   /* v0.107 날씨 입자 반 크기(개수 1.5배) */
       g.globalAlpha = Math.max(0, Math.min(1, a)); g.fillStyle = `rgb(${c.join(",")})`;
-      if(k === "bubbles"){ g.strokeStyle = g.fillStyle; g.lineWidth = 1; g.strokeRect(Math.round(x), Math.round(y), w, h); }
+      if(k === "bubbles"){ const q = front ? 1 : LS; g.strokeStyle = g.fillStyle; g.lineWidth = 1 / q; g.strokeRect(Math.round(x * q) / q, Math.round(y * q) / q, Math.max(2, Math.round(w * q)) / q, Math.max(2, Math.round(h * q)) / q); }
       else if(k === "rain"){ g.save(); g.translate(Math.round(x), Math.round(y)); g.rotate(0.22); g.fillRect(0, 0, w, h); g.restore(); }
-      else g.fillRect(Math.round(x), Math.round(y), Math.max(1, Math.round(w)), Math.max(1, Math.round(h)));
+      else { const q = front ? 1 : LS; g.fillRect(Math.round(x * q) / q, Math.round(y * q) / q, Math.max(1, Math.round(w * q)) / q, Math.max(1, Math.round(h * q)) / q); }
     }
     g.globalAlpha = 1;
   }
@@ -13343,7 +13344,7 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
   const how=document.createElement("div"); how.className="howto";
   how.innerHTML=`<b>읽는 법</b><span>매 턴 <b>1번부터 차례로</b> 확인해서, <b>처음 맞는 규칙 하나</b>만 씁니다. 아무것도 안 맞으면 기본공격.</span>`;
   col.appendChild(how);
-  if(ro){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML="🔒 던전 진행 중에는 규칙을 볼 수만 있어요. 바꾸려면 마을로 돌아온 뒤에."; col.appendChild(n); }
+  if(ro){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML="🔒 던전 진행 중"; col.appendChild(n); }
   else if(isCompanion(selected)){ const n=document.createElement("div"); n.className="compnote";   // v0.57: 동료 규칙도 직접 — 성향대로 한 번에 채우는 단추만
     n.innerHTML=`🧭 동료의 규칙도 직접 정합니다. 처음이라면 <button class="ghostbtn" id="compFill">작전 성향 '${esc(STANCES[heroStance(selected)].name)}'대로 채우기</button>로 시작해 고쳐 보세요.`;
     col.appendChild(n); n.querySelector("#compFill").onclick=()=>{ partyRules[selected]=companionRules(selected); ensureRuleSlots(selected); progress.heroes[selected].rulesEdited=false; saveRules(); renderRules(); logLine(`<span class="r">📜 ${esc(heroDisplayName(selected))}의 규칙을 작전 성향대로 채웠습니다.</span>`); }; }
@@ -13441,7 +13442,7 @@ function presetLoad(cid,i){ const x=rulePresets(cid)[i]; if(!x) return false; pa
 function openPreset(cid,i){ if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>규칙은 마을에서 바꿀 수 있어요.`,"",2400); return; }
   const P=rulePresets(cid), x=P[i], who=heroDisplayName(cid);
   const m=openModal(`<h3>📜 ${esc(who)} — 저장 칸 ${i+1}</h3>
-    ${x?`<p class="msub">'${esc(x.name)}' · ${esc(fmtDate(x.at||0))} 저장 · 켜진 규칙 ${x.rules.filter(r=>r.enabled).length}칸</p>`:`<p class="msub">비어 있어요. 지금 규칙을 이 칸에 저장할 수 있어요.</p>`}
+    ${x?`<p class="msub">'${esc(x.name)}' · ${esc(fmtDate(x.at||0))} 저장 · 켜진 규칙 ${x.rules.filter(r=>r.enabled).length}칸</p>`:`<p class="msub">빈 칸</p>`}
     <label class="msub">이름 <input id="psName" maxlength="12" value="${esc(x?x.name:`설정 ${i+1}`)}" style="width:140px"></label>
     <div class="mbtns" style="margin-top:10px">${x?`<button class="btn" id="psLoad">불러오기</button>`:""}<button class="btn ${x?"ghost":""}" id="psSave">${x?"지금 규칙으로 덮어쓰기":"지금 규칙 저장"}</button>${x?`<button class="btn ghost" id="psDel">비우기</button>`:""}<button class="btn ghost" id="psClose">닫기</button></div>`);
   const nm=()=>m.querySelector("#psName").value;
@@ -13497,7 +13498,7 @@ function renderCosPane(B,cid){ const E=cosHeroEq(cid), busy=runBusy(); const CN=
     <div class="plhd"><b>${esc(heroDisplayName(cid))}의 외형</b> <span>영웅마다 따로 입혀요 · 산 외형 1개는 영웅 1명만</span></div>
     <div class="costop"><span class="cospv big cosnow" title="지금 모습"><canvas id="cosNowCv" data-src="${E.cape||E.saura||E.wskin||E.aura||"ws_steel"}"></canvas></span><div class="cosslots">${COS_HERO_CATS.map(slot).join("")}</div></div>
     <div class="plbar"><span>가진 외형 <b>${owned.length}</b>종${cosTabCat?` · ${esc(CN[cosTabCat])}만`:""}</span><span class="plfilt"><button data-cf="all" class="${!cosTabCat?"on":""}" style="min-width:auto;padding:0 10px">전체</button><button id="cosShopGo" style="min-width:auto;padding:0 10px;margin-left:6px">🛒 상점에서 더 보기</button></span></div>
-    <div class="cosgrid2">${owned.map(cell).join("")||`<p class="msub" style="padding:10px">아직 가진 외형이 없어요. 상점 🎨 외형에서 살 수 있습니다.</p>`}</div>${act}</div>`);
+    <div class="cosgrid2">${owned.map(cell).join("")||`<p class="msub" style="padding:10px">아직 가진 외형이 없어요.</p>`}</div>${act}</div>`);
   const R=B.querySelector(".cospane"); const done=()=>{ saveProgress(); try{ cosRefreshHeroes(); }catch(e){} renderParty(); };
   R.querySelectorAll("[data-cc]").forEach(b=>b.onclick=()=>{ const k=b.dataset.cc; cosTabCat=cosTabCat===k?null:k; const id=E[k]; if(id) cosTabSel=id; renderParty(); });
   R.querySelector('[data-cf="all"]').onclick=()=>{ cosTabCat=null; renderParty(); };
@@ -13526,7 +13527,7 @@ function renderPlatePane(B,cid){ const P=plateStore(), busy=runBusy(), W=plateWo
     ${plPick?(()=>{ const T=P.inv.filter(p=>plPickSel.has(p.id)); return `<div class="bgbar"><span>고른 성편 <b>${T.length}</b>개</span><button class="dis${plArm==="dis"?" arm":""}" id="plPkDis" ${T.length&&!busy?"":"disabled"}>${plArm==="dis"?"한 번 더 → ":""}분해 · 성반가루 +${T.reduce((a,p)=>a+PLATE_DUST[p.rar],0)}</button></div>`; })():sel?`<div class="plsel"><span style="color:${col[sel.rar]}"><b>${esc(PLATE_SETS[sel.set].name)}</b> ${sel.pos+1}번 자리 · ${PLATE_RAR_NAME[sel.rar]} · ${esc(plateText(sel))}${so?` <i>(${so===cid?"착용 중":esc(heroDisplayName(so))+" 착용"})</i>`:""}</span>
       <span class="plact">${so===cid?`<button class="btn ghost" id="plOff" ${busy?"disabled":""}>빼기</button>`:`<button class="btn" id="plOn" ${busy?"disabled":""}>${esc(heroDisplayName(cid))}에게 장착</button>`}<button class="btn ghost" id="plDis" ${busy?"disabled":""}>분해 +${PLATE_DUST[sel.rar]}</button></span>
       <div class="plfx">${[2,4,6].map(q=>`(${q}) ${esc(PLATE_SETS[sel.set].fx[q][0])}`).join(" · ")}</div></div>`:`<div class="plsel" style="color:var(--muted)">성편을 누르면 장착 · 분해할 수 있어요.</div>`}
-    <div class="plcraft"><b>성편 제작</b> <span class="msub">성반가루 ${PLATE_CRAFT.dust} · 정수 ${PLATE_CRAFT.ess} — 등급 · 수치는 무작위</span><div><select id="pcSet">${PLATE_KEYS.map(k=>`<option value="${k}">${esc(PLATE_SETS[k].name)} (${REGIONS[k].chapter} 보스)</option>`).join("")}</select><select id="pcPos">${PLATE_POS.map((D,i)=>`<option value="${i}" ${platePos===i?"selected":""}>${i+1}번 · ${D.n}</option>`).join("")}</select><button class="btn" id="pcGo" ${busy||!plateCanCraft()?"disabled":""}>제작</button></div><div class="msub" id="pcFx"></div></div></div>`);
+    <div class="plcraft"><b>성편 제작</b> <span class="msub">성반가루 ${PLATE_CRAFT.dust} · 정수 ${PLATE_CRAFT.ess}</span><div><select id="pcSet">${PLATE_KEYS.map(k=>`<option value="${k}">${esc(PLATE_SETS[k].name)} (${REGIONS[k].chapter} 보스)</option>`).join("")}</select><select id="pcPos">${PLATE_POS.map((D,i)=>`<option value="${i}" ${platePos===i?"selected":""}>${i+1}번 · ${D.n}</option>`).join("")}</select><button class="btn" id="pcGo" ${busy||!plateCanCraft()?"disabled":""}>제작</button></div><div class="msub" id="pcFx"></div></div></div>`);
   const was=done; plateBurst=false; const R=B.querySelector(".plpane");
   const after=()=>{ saveProgress(); const now=plateComplete(cid); if(now&&now!==was){ plateBurst=true; try{ SND.fx("loot_legend"); }catch(e){} toast(`<span class="tc">🌟 성반 완성</span>${esc(PLATE_SETS[now].name)} — 여섯 조각이 하나의 그림이 되었습니다.`,"",3600); } renderParty(); };
   { const cv=R.querySelector("#plCv"); plateDraw(cv,W); cv.onclick=e=>{ const r=cv.getBoundingClientRect(); const i=plateWedgeOf((e.clientX-r.left)/r.width*64,(e.clientY-r.top)/r.height*64); platePos=platePos===i?null:i; renderParty(); }; }
@@ -13558,7 +13559,7 @@ function openPlate(cid,pos,burst){ const P=plateStore(), busy=runBusy(), W=plate
   const m=openModal(`<h3>🌟 ${esc(who)}의 성반</h3><p class="msub">성반가루 <b>${P.dust}</b> · 밤의 정수 <b>${progress.ess}</b> · 보관 ${P.inv.length}/${PLATE_INV_MAX}</p>
     <div class="plwrap${plateComplete(cid)?" done":""}${burst?" burst":""}"><canvas id="plCv" width="64" height="64" title="조각을 누르면 그 자리 성편 목록"></canvas>${plateComplete(cid)?`<div class="pldone">✦ ${esc(PLATE_SETS[plateComplete(cid)].name)} 완성 ✦</div>`:""}</div>
     <div style="display:flex;flex-wrap:wrap;gap:6px">${W.map(slot).join("")}</div><div style="margin-top:6px">${sets}</div>${list}
-    <div style="margin-top:8px;border-top:1px solid var(--line);padding-top:6px"><b>성편 제작</b> <span class="msub">성반가루 ${PLATE_CRAFT.dust} · 정수 ${PLATE_CRAFT.ess} — 등급·수치는 무작위</span><br>
+    <div style="margin-top:8px;border-top:1px solid var(--line);padding-top:6px"><b>성편 제작</b> <span class="msub">성반가루 ${PLATE_CRAFT.dust} · 정수 ${PLATE_CRAFT.ess}</span><br>
       <select id="pcSet">${PLATE_KEYS.map(k=>`<option value="${k}">${esc(PLATE_SETS[k].name)} (${REGIONS[k].chapter} 보스)</option>`).join("")}</select>
       <select id="pcPos">${PLATE_POS.map((D,i)=>`<option value="${i}" ${pos===i?"selected":""}>${i+1}번 · ${D.n}</option>`).join("")}</select>
       <button class="btn" id="pcGo" ${busy||!plateCanCraft()?"disabled":""}>제작</button><div class="msub" id="pcFx" style="margin-top:4px"></div></div>
@@ -13749,9 +13750,6 @@ function autoLootBlock(){
     for(const it of targets){ if(autoLootMode(it)==="sell"||(progress.autoLoot||{})[it.rarity]==="sell"){ r.sold++; r.gold+=sellPrice(it); progress.gold+=sellPrice(it); } else { r.dis++; r.ess+=dismantleGive(it,r.frag=r.frag||{}); } r.names.push(it.name); }
     autoLootLog(r); saveProgress(); renderParty(); };
   row.appendChild(ab); det.appendChild(row);
-  const note=document.createElement("div"); note.style.color="var(--muted)"; note.style.marginTop="4px";
-  note.textContent="전투·보물상자에서 얻는 장비에 바로 적용됩니다. 유물은 정리하지 않습니다. 정리 내역은 전투 로그에 남습니다.";
-  det.appendChild(note);
   return det;
 }
 function heroTabs(){
@@ -14380,7 +14378,7 @@ function renderRunePouch(B,cid){
   const selG=G.find(g=>g.key===rpRune), selIt=selG&&selG.items[0];
   if(rpSock!=null&&!(cur&&!cur.it.sockets[rpSock])) rpSock=null;
   const box=document.createElement("div"); box.className="rpouch"; let html="";
-  if(busy) html+=`<p class="rp-tip">🔒 던전 진행 중 — 룬은 마을에서 바꿀 수 있어요</p>`;
+  if(busy) html+=`<p class="rp-tip">🔒 던전 진행 중</p>`;
   if(!cur) html+=`<div class="rp-cur none"><p class="msub">${rpSk&&picked?`<b>${esc(itemLabel(picked))}</b>에는 소켓이 없어요.`:rpSk?`${esc((SLOTS.find(x=>x.key===rpSk)||{label:""}).label)} 칸이 비어 있어요.`:`${esc(heroDisplayName(cid))}${jo(heroDisplayName(cid),"은","는")} 소켓이 있는 장비를 끼고 있지 않아요.`} 소켓은 영웅·세트 장비 1칸 · 전설 2칸 · 희귀는 30% 확률로 1칸입니다.</p></div>`;
   else { const it=cur.it, sl=(SLOTS.find(x=>x.key===cur.sk)||{label:cur.sk}).label;
     html+=`<div class="rp-cur"><span class="rp-ic">${iconCell(it,{})}</span><span class="rp-nm"><b class="${rarityCls(it)}">${esc(itemLabel(it))}</b><small>${esc(sl)} · 소켓 ${it.sockets.filter(Boolean).length}/${it.sockets.length}</small></span></div>
@@ -14727,7 +14725,7 @@ function openPartySet(k){ const S=partySets()[k], busy=!!(typeof runState!=="und
   const ld=m.querySelector("#pkLoad"); if(ld) ld.onclick=()=>{ const why=partySetLoad(k); if(why){ toast(esc(why)); return; } saveProgress(); closeModal(); rerenderAll(); if(!runState&&!playing&&!telling) goCamp(); toast(`<span class="tc">편성 불러오기</span>${esc(partySets()[k].name)}`,"",2200); };
   const dl=m.querySelector("#pkDel"); if(dl) dl.onclick=()=>{ if(dl.dataset.arm!=="1"){ dl.dataset.arm="1"; dl.textContent="한 번 더 누르면 비움"; return; } partySets()[k]=null; saveProgress(); closeModal(); renderParty(); }; }
 function openTitlePick(cid){ const h=progress.heroes[cid]; const earned=TITLES.filter(t=>(h.stats[t.stat]||0)>=t.need);   // v0.95 칭호 고르기(자세히)
-  const m=openModal(`<h3>🏷 ${esc(heroDisplayName(cid))}의 칭호</h3><p class="msub">얻은 칭호 중 하나를 달 수 있어요.</p><div class="tplist"><button class="tpitem${!h.title?" on":""}" data-tk=""><b>(없음)</b></button>${earned.map(t=>`<button class="tpitem${h.title===t.key?" on":""}" data-tk="${t.key}"><b>${esc(t.name)}</b><span>${esc(t.desc)}</span></button>`).join("")}</div><div class="mbtns" style="margin-top:10px"><button class="btn ghost" id="tpClose">닫기</button></div>`);
+  const m=openModal(`<h3>🏷 ${esc(heroDisplayName(cid))}의 칭호</h3><div class="tplist"><button class="tpitem${!h.title?" on":""}" data-tk=""><b>(없음)</b></button>${earned.map(t=>`<button class="tpitem${h.title===t.key?" on":""}" data-tk="${t.key}"><b>${esc(t.name)}</b><span>${esc(t.desc)}</span></button>`).join("")}</div><div class="mbtns" style="margin-top:10px"><button class="btn ghost" id="tpClose">닫기</button></div>`);
   m.querySelector("#tpClose").onclick=closeModal; m.querySelectorAll("[data-tk]").forEach(b=>b.onclick=()=>{ h.title=b.dataset.tk||null; saveProgress(); closeModal(); renderParty(); }); }
 function stanceRow(cid){
   const st=heroStance(cid); const row=document.createElement("div"); row.className="stance";
@@ -14739,8 +14737,6 @@ function stanceRow(cid){
       toast(`<span class="tc">🧭 ${esc(STANCES[k].name)}</span>${esc(STANCES[k].desc)} — 능력치·특성·숙련은 이 성향에 맞춰 스스로 정합니다. 전직·장비·전투 규칙은 직접 정해 주세요.`,"",4200);
       runCompanions(); saveProgress(); renderParty(); renderRules(); if(!runState&&!playing&&!telling) goCamp(); };
     row.appendChild(b); }
-  const note=document.createElement("div"); note.className="compnote";
-  note.textContent=`능력치·특성·숙련은 ${heroDisplayName(cid)}${jo(heroDisplayName(cid),"이","가")} '${STANCES[st].name}'에 맞춰 스스로 정합니다. 전직(Lv${ADV_LEVEL})·장비·전투 규칙은 직접 정해 주세요.`;
   const wrap=document.createElement("div"); wrap.append(row); return wrap;   // v0.95 설명은 성향을 바꿀 때 알림으로
 }
 function runCompanions(){
@@ -15082,8 +15078,7 @@ function openReforge(it,lock){
   const c=reforgeCost(it), cv=reforgeValueCost(it), ca=reforgeAllCost(it);
   const qs=a=>typeof a.q==="number"?` <span class="qd${a.q>=Q_PERFECT?" perf":""}">${qDots(a.q)}${a.q>=Q_PERFECT?" 완벽":""}</span>`:"";
   const html=`<h2>재련 — ${esc(itemLabel(it))}</h2>
-    <p class="sub">밤의 정수 보유 ${progress.ess}. <b>종류 바꾸기</b>(${c.ess})는 그 줄을 새 옵션으로, <b>수치만</b>(${cv.ess})은 옵션 종류는 그대로 두고 수치만 다시 굴립니다(●○○○○ 품질을 올려 '완벽'을 노릴 때).
-    ${it.affixes.length>=2?`🔒로 한 줄을 잠그면 <b>나머지 전부 다시 굴리기</b>(${ca.ess})를 쓸 수 있습니다.`:""}</p>
+    <p class="sub">밤의 정수 보유 ${progress.ess}</p>
     <div class="rflist" id="rfList"></div>
     ${it.affixes.length>=2?`<div class="row" style="margin-top:8px"><button class="enhb" id="rfAll"${progress.ess<ca.ess?" disabled":""}>${lock!=null?"🔒 잠근 줄 빼고":"모든 줄"} 다시 굴리기 (정수 ${ca.ess})</button></div>`:""}
     <div class="row" style="margin-top:10px"><button class="mini" onclick="closeModal()">닫기</button></div>`;
@@ -15113,7 +15108,7 @@ function gradeUp(it){
 }
 function relicUpButton(it,after){ if(!it||it.slot!=="relic"||!RELICS[it.relic]) return null; const u=relicUp(it), c=RELIC_UP_COST[u+1], b=document.createElement("button"); b.className="enhb";
   if(!c){ b.textContent=`유물 강화 ${u}/${RELIC_UP_MAX} (끝)`; b.disabled=true; return b; }
-  b.textContent=`유물 강화 ${u+1}/${RELIC_UP_MAX} (유물의 파편 ${fragStore().relic}/${c.shard} · 정수 ${c.ess})`; b.title="후보 옵션 중 하나가 무작위로 한 줄 더 붙습니다(같은 옵션이면 합쳐짐). 다시 굴릴 수 없습니다."; b.disabled=!relicUpCan(it)||runBusy();
+  b.textContent=`유물 강화 ${u+1}/${RELIC_UP_MAX} (유물의 파편 ${fragStore().relic}/${c.shard} · 정수 ${c.ess})`; b.disabled=!relicUpCan(it)||runBusy();
   b.onclick=()=>{ const o=relicUpgrade(it); if(!o) return; try{ SND.fx("loot_rare"); }catch(e){} logLine(`<span class="win">🔮 유물 강화 ${relicUp(it)}/${RELIC_UP_MAX} — ${esc(itemDisplayName(it))}: <b>${esc(RELIC_OPT[o.k].t(o.v))}</b> (유물의 파편 -${c.shard} · 정수 -${c.ess})</span>`); saveProgress(); renderParty(); if(after) after(); };
   return b; }
 function gradeUpButton(it,after){ const G=gradeUpInfo(it); if(!G) return null; const S=fragStore();
@@ -15209,7 +15204,7 @@ function cardStickerPos(ST,FR){ const S=(progress.cosEq&&progress.cosEq.stPos)||
 function cardEditor(cid,bareUrl){
   const ST=cosOn("sticker")||[]; if(!ST.length){ toast("🪪 명함 스티커를 먼저 달아 주세요 (상점 → 🎨 외형 → 명함 스티커)"); return; }
   const pos=cardStickerPos(ST,cosFrameNow()).map(p=>p.slice());
-  const m=openModal(`<h2>🎨 명함 꾸미기</h2><p class="sub">스티커를 끌어서 원하는 자리에 두고 '확정'을 누르세요</p>
+  const m=openModal(`<h2>🎨 명함 꾸미기</h2>
     <div class="cardedit" id="cardEd"><img src="${bareUrl}" draggable="false">${ST.map((id,i)=>`<canvas class="cesti" data-i="${i}" width="28" height="28"></canvas>`).join("")}</div>
     <div class="row" style="margin-top:10px"><button class="btn" id="ceOk">확정</button><button class="btn ghost" id="ceReset">기본 자리</button><button class="btn ghost" id="ceCancel">취소</button></div>`,"card");
   const box=$("cardEd"), els=[...box.querySelectorAll(".cesti")];
@@ -15297,7 +15292,7 @@ function makeNameCard(cid,edit){
     if(withSt){ const ST=cosOn("sticker")||[], P=cardStickerPos(ST,FR); ST.forEach((id,i)=>{ const c=document.createElement("canvas"); c.width=c.height=28; const sg=c.getContext("2d"); sg.imageSmoothingEnabled=false; cosStickerDraw(sg,id.slice(3),0,0); g.imageSmoothingEnabled=false; g.drawImage(c,Math.round(P[i][0]-28),Math.round(P[i][1]-28),56,56); }); } };
   if(edit){ paint(performance.now(),false); cardEditor(cid,live.toDataURL("image/png")); return; }   // v0.75 꾸미기: 스티커 없는 명함 위에서 끌어 옮김
   paint(performance.now(),true);
-  openModal(`<h2>🪪 ${esc(heroDisplayName(cid))}의 명함</h2><p class="sub">아래 버튼으로 그림을 내려받을 수 있어요</p><div id="cardHold"></div><div class="row" style="margin-top:10px"><button class="mini" id="cardDl">⬇ 내려받기</button>${(cosOn("sticker")||[]).length?`<button class="mini" id="cardEdit">🎨 꾸미기</button>`:""}<button class="mini" onclick="closeModal()">닫기</button></div>`,"card");
+  openModal(`<h2>🪪 ${esc(heroDisplayName(cid))}의 명함</h2><div id="cardHold"></div><div class="row" style="margin-top:10px"><button class="mini" id="cardDl">⬇ 내려받기</button>${(cosOn("sticker")||[]).length?`<button class="mini" id="cardEdit">🎨 꾸미기</button>`:""}<button class="mini" onclick="closeModal()">닫기</button></div>`,"card");
   live.id="cardLive"; live.style.cssText="width:100%;max-width:640px;border-radius:8px;display:block"; $("cardHold").appendChild(live);
   clearInterval(cardTimer); cardTimer=setInterval(()=>{ if(!live.isConnected){ clearInterval(cardTimer); return; } try{ paint(performance.now(),true); }catch(e){} },110);
   if($("cardEdit")) $("cardEdit").onclick=()=>{ closeModal(); makeNameCard(cid,true); };
@@ -16175,7 +16170,7 @@ const MT={ cur:null, open:false, tab:"dmg", exp:{}, raf:0,
       p.addEventListener("click",e=>{ const t=e.target.closest("[data-mt]"); if(!t) return; const [k,v]=t.dataset.mt.split(":"); if(k==="x"){ this.open=false; p.remove(); return; } if(k==="tab"){ this.tab=v; } if(k==="row"){ this.exp[v]=!this.exp[v]; } this.paint(); }); }
     const C=this.cur, fmt=n=>Math.round(n).toLocaleString("ko-KR");
     let body="";
-    if(!C) body=`<p class="mtnone">전투가 시작되면 여기에 기록됩니다.</p>`;
+    if(!C) body=`<p class="mtnone"></p>`;
     else { const RN=this.run, A=RN.agg[this.tab]; const rows=Object.entries(RN.units).map(([k,x])=>({u:{id:k,name:x.name},a:A[k]||{v:0,by:{}}})).sort((x,y)=>y.a.v-x.a.v); const turns=RN.turns+(C.turn||0); const tot=rows.reduce((t,r)=>t+r.a.v,0)||0, top=rows[0]?rows[0].a.v:0;
       body=rows.map(r=>{ const pc=tot?Math.round(r.a.v/tot*100):0, w=top?r.a.v/top*100:0, op=this.exp[this.tab+r.u.id];
         const det=op?`<ul class="mtdet">${Object.entries(r.a.by).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<li><span>${esc(k)}</span><b>${fmt(v)}</b><i>${r.a.v?Math.round(v/r.a.v*100):0}%</i></li>`).join("")||"<li><span>없음</span></li>"}</ul>`:"";
@@ -16540,9 +16535,9 @@ function borrowUnit(b,idx){ const u=JSON.parse(JSON.stringify(b.snap)); u.id="bw
 function borrowCtlHtml(m){ if(!lendOn()||!borrowModeOk(m)) return ""; const b=progress.borrowSel;
   return `<button class="egstart lorebtn" onclick="borrowOpen()">🤝 ${b?`빌린 영웅 <b>${esc(b.nick)}의 ${esc(b.job)} Lv.${b.lv|0}</b>`:"영웅 빌리기"}</button>`; }
 async function borrowOpen(){ if(!lendOn()) return;
-  const m=openModal(`<h2>🤝 영웅 빌려 쓰기</h2><p class="sub">최종 콘텐츠(혼자)에 다른 사람 영웅 1명을 데려갑니다 — 출전 칸 하나를 차지하고, 그 주인이 정한 장비·규칙 그대로 싸웁니다. 경험치·전리품은 내 영웅만 받습니다.</p>
+  const m=openModal(`<h2>🤝 영웅 빌려 쓰기</h2>
     <div class="sblock"><div class="slabel">내가 빌려줄 영웅</div><div class="srow"><select id="lendSel">${rosterIds().map(c=>`<option value="${c}" ${c===lendCid()?"selected":""}>${esc(heroDisplayName(c))} · ${esc(jobName(c))} Lv.${progress.heroes[c].level}</option>`).join("")}</select></div>
-      <p class="msub">누가 빌려 갈 때마다 🤝 우정 점수 ${FRIEND_PER}점(하루 ${FRIEND_DAY_MAX}점까지) — 상점의 '우정 상점'에서 횃불·금화로 바꿀 수 있어요. 지금 <b>${progress.friend|0}</b>점</p></div>
+      <p class="msub">🤝 우정 점수 <b>${progress.friend|0}</b></p></div>
     <div class="sblock"><div class="slabel">빌릴 영웅</div><div id="bwList" class="bwlist"><p class="msub">불러오는 중…</p></div></div>
     <div class="mfoot">${progress.borrowSel?`<button class="btn ghost" id="bwNone">빌리지 않기</button>`:""}<button class="btn" id="bwClose">닫기</button></div>`,"small");
   m.querySelector("#bwClose").onclick=closeModal;
@@ -16850,13 +16845,12 @@ function pickJoiner(){
     const iv=setInterval(()=>{ if(done){ clearInterval(iv); return; } if(!$("jpick")&&!$("modal")&&!$("coach")) open(); },500);
     const open=()=>{
     const m=openModal(`<h2>새 동료를 맞이하세요</h2>
-      <p class="msub">황혼의 장을 깨 동료 한 명이 더 함께할 수 있어요. 아직 합류하지 않은 ${left.length}명 중 한 명을 고르세요. 고르지 않은 영웅은 다음 자리가 날 때 다시 고를 수 있어요.</p>
       <div class="ccards c9" id="jpick">${left.map(heroCardHTML).join("")}</div><div class="cdet" id="jdet"></div>
       <div class="cfoot"><p class="mhint" id="jhint">영웅을 누르면 설명이 나와요.</p></div>`,"creator joiner");
     const det=m.querySelector("#jdet");
     const upd=()=>{ m.classList.toggle("viewing",!!view); for(const x of m.querySelectorAll(".ccard")) x.classList.toggle("view",x.dataset.c===view);
       if(!view){ det.innerHTML=""; return; }
-      m.querySelector("#jhint").textContent=`[${CLASSES[view].name} 합류]를 누르면 바로 합류합니다. 다른 영웅을 눌러 비교해 보세요.`;
+      m.querySelector("#jhint").textContent="";
       det.innerHTML=heroIntroHTML(view,`<button class="btn" id="jgo">${esc(CLASSES[view].name)} 합류</button>`);
       det.querySelector("#jgo").onclick=()=>{ const c=view; done=true; clearInterval(iv); closeModal(); res(c); }; };
     for(const b of m.querySelectorAll(".ccard")) b.onclick=()=>{ view=b.dataset.c; upd(); };
@@ -16868,7 +16862,6 @@ function pickStartTrio(){
   return new Promise(res0=>{ const pick=[]; let view=null; const res=v=>{ creationCancel=null; res0(v); }; creationCancel=()=>{ closeModal(); res(null); };
     const card=heroCardHTML;
     const m=openModal(`<h2>함께 밤을 걸을 셋을 고르세요</h2>
-      <p class="msub">아홉 직업 중 처음부터 함께할 셋을 고릅니다. 다음 화면에서 그중 한 명이 '나'(주인공)가 됩니다. 고르지 않은 여섯은 황혼의 장을 깰 때마다 그중 한 명을 직접 골라 합류시킵니다.</p>
       <div class="ccards c9">${CLASS_IDS.map(card).join("")}</div><div class="cdet" id="tdet"></div>
       <div class="cfoot"><div class="cname"><button id="tgo" class="btn" disabled>이 셋으로 — 다음</button></div><p class="mhint" id="thint">직업을 누르면 설명이 나와요. (0/3)</p></div>`,"creator");
     const det=m.querySelector("#tdet"), go=m.querySelector("#tgo"), hint=m.querySelector("#thint");
@@ -16878,7 +16871,7 @@ function pickStartTrio(){
         det.innerHTML=heroIntroHTML(view,`<button class="btn${inP?" ghost":""}" id="ttog" ${full?"disabled":""}>${inP?"빼기":full?"셋이 다 찼어요":"이 영웅 고르기"}</button>`);
         const t=det.querySelector("#ttog"); t.onclick=()=>{ const i=pick.indexOf(view); if(i>=0) pick.splice(i,1); else if(pick.length<3) pick.push(view); upd(); }; }
       else det.innerHTML="";
-      hint.textContent=pick.length===3?`${pick.map(c=>CLASSES[c].name).join(" · ")} — 다음 화면에서 주인공을 고릅니다`:`직업을 누르면 설명이 나와요. (${pick.length}/3)`; };
+      hint.textContent=pick.length===3?pick.map(c=>CLASSES[c].name).join(" · "):`${pick.length}/3`; };
     for(const b of m.querySelectorAll(".ccard")) b.onclick=()=>{ view=b.dataset.c; upd(); };
     go.onclick=()=>{ if(pick.length!==3) return; closeModal(); res(pick.slice()); };
   });
@@ -16897,7 +16890,6 @@ function showCreation(mode,trio){
         +`<span class="cst">체력 ${st.hp} · 공격 ${st.atk} · 마나 ${st.mp} · 신속 ${st.spd}</span>`
         +(advs?`<span class="cadv">전직(Lv.${ADV_LEVEL}): ${esc(advs)}</span>`:"")+`</button>`; };
     const m=openModal(`<h2>${mode==="new"?"당신은 누구입니까?":"주인공을 정해 주세요"}</h2>
-      <p class="msub">${mode==="new"?"고른 셋 중 '나'(주인공)를 고르세요. 나머지 둘은 바로 동료로 함께 출발하고, 고르지 않은 여섯 직업은 황혼의 장을 깰 때마다 그중 한 명을 직접 골라 합류시킵니다.":"이제 파티에 '주인공'이 있습니다. 지금 영웅 중 당신의 분신을 고르고 이름을 지어 주세요. 레벨·장비·진행은 그대로입니다."}</p>
       <div class="ccards">${ids.map(card).join("")}</div>
       <div class="cfoot"><div class="cname"><label for="cnameIn">이름</label><input id="cnameIn" maxlength="8" placeholder="최대 8자" autocomplete="off"><button id="cdice" title="무작위 이름" aria-label="무작위 이름">🎲</button><button id="cgo" class="btn" disabled>${mode==="new"?"이 모습으로 시작":"주인공으로 정하기"}</button></div>
       <p class="mhint" id="chint">직업을 고르세요.</p></div><div class="cdet" id="cdet"></div>`, "creator");
@@ -17035,7 +17027,6 @@ async function fbCopy(t){ try{ await navigator.clipboard.writeText(t); return tr
 function openFeedback(){
   let draft=""; try{ draft=safeGet("pn_fb_draft")||""; }catch(e){}
   const m=openModal(`<h2>💬 의견 보내기</h2>
-    <p class="msub">버그·난이도·불편한 점·아이디어 무엇이든 좋아요. ${NET()?"적은 뒤 <b>🚀 개발자에게 보내기</b>를 누르면 바로 전달됩니다.":"적은 뒤 <b>공유하기</b>(카톡·문자 등)나 <b>복사하기</b>로 개발자에게 보내 주세요."}</p>
     <div class="fbcats" role="radiogroup">${FB_CATS.map(([k,l])=>`<button data-c="${k}" class="${fbCat===k?"on":""}" role="radio" aria-checked="${fbCat===k}">${l}</button>`).join("")}</div>
     <textarea id="fbText" maxlength="1500" placeholder="예) 자정 3장 보스에서 계속 져요 / 장비 창 버튼이 손가락에 너무 작아요 / 이런 직업이 있으면 좋겠어요">${esc(draft)}</textarea>
     <label class="fbopt"><input type="checkbox" id="fbState" checked> 게임 상태 함께 보내기 (버전·기기·진행·최근 전투 기록·오류 — 개인 정보 없음)</label>
@@ -17071,20 +17062,19 @@ function openSettings(){
   const m=openModal(`<h2>⚙ 설정</h2>
     <div class="sblock"><div class="slabel">주인공</div>${pg?`<div class="srow"><span class="star">★</span> <b>${esc(pg.name)}</b><span class="msub2">${esc(jobName(pg.cid))}${advInfo(pg.cid)?` · ${esc(CLASSES[pg.cid].name)} 계열`:""} · Lv.${progress.heroes[pg.cid].level}${progress.heroes[pg.cid].awaken?` ✦${progress.heroes[pg.cid].awaken}`:""}</span></div>
       <div class="cname"><input id="renIn" maxlength="8" value="${esc(pg.name)}" aria-label="새 이름" autocomplete="off"><button id="renGo">이름 바꾸기</button></div>`:`<p class="msub">아직 주인공이 없습니다.</p>`}</div>
-    <div class="sblock"><div class="slabel">파티</div><p class="msub">보유 영웅 ${rosterIds().length}명 · 출전 ${partyIds().length}/${partyCap()}명. 직업이 늘어나 영웅이 ${partyCap()}명을 넘으면 파티·장비 탭에서 출전할 영웅을 고릅니다. 주인공은 항상 출전합니다.</p></div>
+    <div class="sblock"><div class="slabel">파티</div><p class="msub">보유 영웅 ${rosterIds().length}명 · 출전 ${partyIds().length}/${partyCap()}명</p></div>
     <div class="sblock"><div class="slabel">소리</div><div class="srow" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
       <button class="btn ${SND.st.on?"":"ghost"}" id="sndOn">${SND.st.on?"🔊 켜짐":"🔇 꺼짐"}</button>
       <label class="msub" for="sndB">배경음 <input id="sndB" type="range" min="0" max="100" value="${Math.round(SND.st.bgm*100)}" style="vertical-align:middle"></label>
       <label class="msub" for="sndS">효과음 <input id="sndS" type="range" min="0" max="100" value="${Math.round(SND.st.sfx*100)}" style="vertical-align:middle"></label></div>
-      <p class="msub">8비트 칩튠 — 마을 · 전투 · 보스(장엄) · 보스 광폭(체력 절반 아래). 위 막대의 🔊 버튼으로도 바로 끄고 켭니다.</p></div>
+</div>
     <div class="sblock"><div class="slabel">전투 속도</div><div class="srow" id="spdSeg" style="display:flex;gap:6px;flex-wrap:wrap">${SPEEDS.filter(speedAllowed).map(o=>`<button class="btn ${$("speed").value===String(o.v)?"":"ghost"}" data-spd="${o.v}">${o.label}${o.tier==="admin"?" (관리자)":""}</button>`).join("")}</div>
-      <p class="msub">${isAdmin()?"관리자 모드 — 모든 배속(4배속 · 즉시 포함)을 쓸 수 있습니다.":"처음 깨는 막은 2배속까지, 이미 깬 막(함께하기·최종 콘텐츠 포함)은 3배속까지 쓸 수 있어요. 정액은 이미 깬 막에서 4배속."}</p>
       ${isAdmin()?`<div class="srow" style="margin-top:6px"><button class="btn" id="opsGo">🛠 운영 도구 — 공지 · 우편 · 플레이어 기록 · 의견 · 오류</button></div>`:`<div class="srow" style="display:flex;gap:6px;align-items:center;margin-top:6px"><input id="admCode" type="password" placeholder="관리자 코드" autocomplete="off" style="height:34px;flex:0 1 180px;min-width:0;background:var(--panel2);border:1px solid var(--line2);color:var(--ink);border-radius:8px;padding:0 10px"><button class="btn ghost" id="admGo">확인</button><span class="msub" id="admMsg"></span></div>`}</div>
     <div class="sblock"><div class="slabel">그래픽</div><div class="srow" id="gfxSeg" style="display:flex;gap:6px;flex-wrap:wrap">${[["auto","자동"],["high","높음"],["low","저사양"]].map(([k,l])=>`<button class="btn ${GFX.mode===k?"":"ghost"}" data-gfx="${k}">${l}</button>`).join("")}</div>
-      <p class="msub">자동: 처음 몇 초 동안 재 보고 느리면 저사양으로 바꿉니다${GFX.mode==="auto"?` (지금 <b>${GFX.low?"저사양":"높음"}</b>)`:""}. 저사양: 초당 20장 · 화면 해상도 1배 · 그림자·흐림·앞쪽 날씨 끔 — 버벅이면 저사양으로 두세요.</p></div>
+      ${GFX.mode==="auto"?`<p class="msub">지금 <b>${GFX.low?"저사양":"높음"}</b></p>`:""}</div>
     ${helpBlockHTML()}
     ${window.PNNet?window.PNNet.settingsHTML():""}${cloudStatusHTML()}${(()=>{ try{ const b=JSON.parse(safeGet("pn_local_backup")||"null"); if(!b||!b.progress||!backupUsable(b)) return ""; return `<div class="sblock"><div class="slabel">이 기기의 이전 진행</div><p class="msub">계정을 바꾸거나 다른 기기 진행을 불러오기 전에 이 기기에 있던 진행을 보관해 두었습니다: <b>${esc(progressSummary(migrateProgress(JSON.parse(JSON.stringify(b.progress)))))}</b> (${fmtDate(b.at)}). 되돌리면 이 진행이 지금 계정에 저장되어 모든 기기에 반영됩니다.</p><div class="srow"><button class="btn ghost" id="bkRestore">이 진행으로 되돌리기</button></div></div>`; }catch(e){ return ""; } })()}
-    <div class="sblock"><div class="slabel">의견 보내기</div><p class="msub">버그·난이도·불편한 점·아이디어를 게임 상태와 함께 보낼 수 있어요.</p><div class="srow"><button class="btn" onclick="closeModal();openFeedback()">💬 의견 보내기</button></div></div>
+    <div class="sblock"><div class="slabel">의견 보내기</div><div class="srow"><button class="btn" onclick="closeModal();openFeedback()">💬 의견 보내기</button></div></div>
     
     <div class="sblock"><div class="slabel">새 게임</div><p class="msub">레벨·장비·골드·증표·엔딩 기록이 모두 지워지고 프롤로그부터 다시 시작합니다. 클라우드 저장도 함께 초기화되어 <b>다른 컴퓨터에서도</b> 처음부터 시작합니다. 되돌릴 수 없습니다.</p><button id="newGame" class="dangerb">처음부터 다시 시작</button></div>
     <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`, "settings");
@@ -17136,6 +17126,11 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.13", v:"v0.107", t:"배경 · 날씨 2배 정밀 · 창 안 설명 문장 정리", L:[
+    "배경 그림을 영웅과 같은 방식(대각선 펴기)으로 2배 정밀하게 그립니다. 배경이 천천히 움직일 때도 반 점씩 움직입니다.",
+    "날씨 입자(비 · 눈 · 불티 · 재 · 반딧불 · 잎 · 꽃잎 · 빛가루 · 먼지 · 모래 · 거품)를 절반 크기로 줄이고 개수를 1.5배로 늘렸습니다.",
+    "창 안의 설명 문장을 지웠습니다 — 횃불 · 아트 패스 · 낙성 기록 · 칭호 · 명함 · 명함 꾸미기 · 옵션 재설정 · 유물 강화 단추 · 영웅 빌려 쓰기 · 동료 합류 · 새 게임 고르기 · 의견 보내기 · 설정(파티 · 배경음 · 배속 · 그래픽 · 저장 위치 · 계정 ID) · 성편 제작 · 룬 · 규칙 저장 칸 · 외형 · 장비 자동 정리 · 전투 기록. 수치 · 이름 · 상태만 남깁니다.",
+  ]},
   {d:"2026.11.13", v:"v0.106", t:"공지 창에서 관리자 편집", L:[
     "관리자는 📢 공지사항 창에서 바로 새 공지를 올리고, 공지를 고치거나 지울 수 있습니다(지우기는 두 번 눌러야 함). 맨 위 📌 고정 공지(테스트 안내)도 제목·내용을 고치거나 숨길 수 있습니다.",
   ]},
