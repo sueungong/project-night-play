@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794500459436"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794503250963"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -17136,6 +17136,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.13", v:"v0.106", t:"공지 창에서 관리자 편집", L:[
+    "관리자는 📢 공지사항 창에서 바로 새 공지를 올리고, 공지를 고치거나 지울 수 있습니다(지우기는 두 번 눌러야 함). 맨 위 📌 고정 공지(테스트 안내)도 제목·내용을 고치거나 숨길 수 있습니다.",
+  ]},
   {d:"2026.11.13", v:"v0.105", t:"대전 점수 주간 초기화 · 방어 성공 점수", L:[
     "대전 점수가 매주 월요일 05:00에 모두 1,000점으로 초기화됩니다. 명예의 전당과 주간 보상은 지난주 점수로 정합니다.",
     "전적은 이번 주 전적과 누적 전적을 함께 보여 줍니다(목록 · 순위는 이번 주 전적). 연승도 새 주에 새로 셉니다.",
@@ -17525,20 +17528,41 @@ function titleScreen(){
   });
 }
 
-// ---- 공지 창: 고정 테스트 안내 + 운영 공지(관리자) + 업데이트 내역 ----
+// ---- 공지 창: 고정 공지(📌 — 서버의 notices/pin, 없으면 TEST_NOTICE) + 운영 공지 + 업데이트 내역 · v0.106 관리자는 이 창에서 바로 새 공지 · 수정 · 지우기 ----
+const PIN_ID="pin";
+function pinDefault(){ return {t:"테스트 안내", body:TEST_NOTICE.map(x=>String(x).replace(/<[^>]*>/g,"")).join("\n")}; }
 async function openNotices(){
-  const N=NET(); let list=[];
+  const N=NET(); let list=[], adm=false, edit=null;
   const m=openModal(`<h2>📢 공지사항</h2><div class="ntabs"><button class="on" data-t="n">공지</button><button data-t="u">업데이트 내역</button></div><div id="nBody" class="nbody"><p class="msub">불러오는 중…</p></div>
     <div class="mfoot"><button id="mclose" class="btn">확인</button></div>`,"notices");
   m.querySelector("#mclose").onclick=closeModal;
   const body=m.querySelector("#nBody");
-  const showN=()=>{ body.innerHTML=`<div class="ncard pin"><div class="nh"><b>📌 테스트 안내</b></div>${TEST_NOTICE.map(x=>`<p>${x}</p>`).join("")}</div>`
-      +(list.length?list.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t||"")}</b><span>${fmtDate(n.at).slice(0,10)}${n.ed?` (수정 ${fmtDate(n.ed).slice(0,10)})`:""}</span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("")
-        :`<p class="msub">${N?"아직 운영 공지가 없어요.":"운영 공지는 게임 주소(sueungong.github.io/project-night-play — PC·휴대폰)에서 보입니다."}</p>`); };
+  const lines=t=>esc(t||"").replace(/\n/g,"<br>");
+  const form=(id,t,b)=>`<div class="opform" data-form="${esc(id)}"><input id="neT" maxlength="100" placeholder="제목" value="${esc(t||"")}"><textarea id="neB" maxlength="4000" placeholder="내용">${esc(b||"")}</textarea><div style="display:flex;gap:8px"><button class="btn" id="neGo">${id==="new"?"공지 올리기":"저장"}</button><button class="btn ghost" id="neNo">취소</button></div></div>`;
+  const tools=id=>adm?` <button class="mini" data-ned="${esc(id)}">수정</button> <button class="mini" data-ndel="${esc(id)}">지우기</button>`:"";
+  const showN=()=>{ const pin=list.find(n=>n.id===PIN_ID), L=list.filter(n=>n.id!==PIN_ID);
+    const P=pin?{t:pin.t||"",body:pin.body||""}:{t:"테스트 안내",body:null}, pinOn=!pin||!!(P.t||P.body);
+    let h=adm&&edit===null?`<div><button class="btn" id="neNew">＋ 새 공지</button></div>`:"";
+    if(edit==="new") h+=form("new","","");
+    if(edit===PIN_ID){ const D=pin?P:pinDefault(); h+=form(PIN_ID,D.t,D.body); }
+    else if(pinOn) h+=`<div class="ncard pin"><div class="nh"><b>📌 ${esc(P.t)}</b>${adm?`<span>${tools(PIN_ID)}</span>`:""}</div>${P.body==null?TEST_NOTICE.map(x=>`<p>${x}</p>`).join(""):String(P.body).split("\n").map(x=>`<p>${esc(x)}</p>`).join("")}</div>`;
+    else if(adm) h+=`<div class="ncard pin"><div class="nh"><b>📌 (숨김)</b><span>${tools(PIN_ID)}</span></div></div>`;
+    h+=L.map(n=>edit===n.id?form(n.id,n.t,n.body):`<div class="ncard"><div class="nh"><b>${esc(n.t||"")}</b><span>${fmtDate(n.at).slice(0,10)}${n.ed?` (수정 ${fmtDate(n.ed).slice(0,10)})`:""}${tools(n.id)}</span></div><div class="nb">${lines(n.body)}</div></div>`).join("");
+    if(!L.length&&edit!=="new") h+=`<p class="msub">${N?"아직 운영 공지가 없어요.":"운영 공지는 게임 주소(sueungong.github.io/project-night-play — PC·휴대폰)에서 보입니다."}</p>`;
+    body.innerHTML=h;
+    const nw=body.querySelector("#neNew"); if(nw) nw.onclick=()=>{ edit="new"; showN(); body.scrollTop=0; };
+    for(const b of body.querySelectorAll("[data-ned]")) b.onclick=()=>{ edit=b.dataset.ned; showN(); const f=body.querySelector(".opform"); if(f) f.scrollIntoView({block:"nearest"}); };
+    for(const b of body.querySelectorAll("[data-ndel]")) b.onclick=async()=>{ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더"; return; }
+      b.disabled=true; try{ const id=b.dataset.ndel; if(id===PIN_ID) await N.ops.noticeEdit(PIN_ID,{t:"",body:""}); else await N.ops.noticeDel(id); await reload(); toast("지웠어요"); }catch(e){ b.disabled=false; toast("지우지 못했어요: "+esc((e&&(e.code||e.message))||e)); } };
+    const go=body.querySelector("#neGo"); if(go) go.onclick=async()=>{ const t=body.querySelector("#neT").value.trim(), bd=body.querySelector("#neB").value.replace(/\s+$/,""); if(!t&&edit!==PIN_ID) return toast("제목을 써 주세요");
+      go.disabled=true; try{ if(edit==="new") await N.ops.noticeAdd({t,body:bd}); else await N.ops.noticeEdit(edit,{t,body:bd}); edit=null; await reload(); toast("저장했어요"); }catch(e){ go.disabled=false; toast("저장하지 못했어요: "+esc((e&&(e.code||e.message))||e)); } };
+    const no=body.querySelector("#neNo"); if(no) no.onclick=()=>{ edit=null; showN(); };
+  };
   const showU=()=>{ body.innerHTML=updatesHTML(); };
+  const reload=async()=>{ try{ list=(await N.ops.notices()).sort((a,b)=>(b.at||0)-(a.at||0)); }catch(e){} if(m.isConnected&&m.querySelector(".ntabs .on").dataset.t==="n") showN(); };
   for(const b of m.querySelectorAll(".ntabs button")) b.onclick=()=>{ for(const x of m.querySelectorAll(".ntabs button")) x.classList.toggle("on",x===b); (b.dataset.t==="n"?showN:showU)(); };
   showN();
-  if(N){ try{ list=(await N.ops.notices()).sort((a,b)=>(b.at||0)-(a.at||0)); }catch(e){} if(m.isConnected&&m.querySelector(".ntabs .on").dataset.t==="n") showN(); }
+  if(N){ try{ adm=isAdmin()&&await N.ops.isAdmin(); }catch(e){ adm=false; } await reload(); }
 }
 
 // ---- 우편: 관리자가 보낸 공지·재화·장비 (전체 또는 한 사람) ----
@@ -17686,7 +17710,7 @@ async function openOps(tab){
         go.disabled=true; say("옮기는 중…"); try{ await N.ops.saveCopy(f,t); say("✔ 옮겼어요. 받는 사람에게 게임을 새로 고침하라고 알려 주세요."); }catch(e){ go.disabled=false; go.dataset.arm=""; go.textContent="옮기기"; say("옮기지 못했어요: "+esc((e&&(e.code||e.message))||e)+" — 서버 규칙을 새로 붙여 넣었는지 확인해 주세요",true); } };
     }
     if(tab==="notice"){
-      const L=(await N.ops.notices()).sort((a,b)=>(b.at||0)-(a.at||0));
+      const L=(await N.ops.notices()).filter(n=>n.id!==PIN_ID).sort((a,b)=>(b.at||0)-(a.at||0));   // 📌 고정 공지는 공지 창에서 고침
       let edit=null;
       body.innerHTML=`<div class="opform"><input id="nT" maxlength="100" placeholder="제목"><textarea id="nB" maxlength="4000" placeholder="내용 (줄바꿈 그대로 보임)"></textarea><div style="display:flex;gap:8px"><button class="btn" id="nGo">공지 올리기</button><button class="btn ghost" id="nCancel" hidden>수정 취소</button></div></div>`
         +L.map(n=>`<div class="ncard"><div class="nh"><b>${esc(n.t)}</b><span>${fmtDate(n.at).slice(0,10)}${n.ed?` (수정 ${fmtDate(n.ed).slice(0,10)})`:""} <button class="mini" data-ed="${esc(n.id)}">수정</button> <button class="mini" data-del="${esc(n.id)}">지우기</button></span></div><div class="nb">${esc(n.body||"").replace(/\n/g,"<br>")}</div></div>`).join("");
