@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794578582650"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794584555838"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -15972,30 +15972,34 @@ async function openPvpHof(){ const N=pvpNet(); if(!N){ toast("서버에 연결�
 async function pvpFight(uid){ if(runBusy()||playing||telling||PVPF) return; const N=pvpNet(), S=pvpState(); if(!N||!S.saved) return; if(uid===N.uid()) return;
   const T=pvpTix(); if(T.n<=0){ openPvpTix(); return; }
   try{ await pvpWeekCheck(); }catch(e){}
-  const wk=pvpWeek(); let op=null, mine=null; try{ [op,mine]=await Promise.all([N.get(uid),N.get(N.uid())]); }catch(e){} pvpNorm(op,wk); pvpNorm(mine,wk);
+  /* v0.113 상대 자료와 내 점수를 동시에 받음 — 내 기록은 점수만(예전엔 내 파티 자료 전체를 받았음) */
+  const wk=pvpWeek(); let op=null, myS=null; try{ [op,myS]=await Promise.all([N.get(uid), N.score?N.score(N.uid(),wk):N.get(N.uid()).then(m=>{ pvpNorm(m,wk); return m?m.sc:null; })]); }catch(e){} pvpNorm(op,wk);
   if(!op||!op.j){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
   const foes=await pvpUnpack(op.j); if(!Array.isArray(foes)||!foes.length){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
   const party=pvpUnits(false); if(!party.length) return;
   const prepFoes=L=>L.forEach((u,i)=>{ u.id="pv"+i; u.side="enemy"; u.pvpHero=true; u.alive=true; u.hp=u.hp_max; u.mp=u.mp_max; u.buffs={}; u.dots={}; }); prepFoes(foes);
   T.n--; const seed=(Math.random()*0xFFFFFFFF)>>>0;
-  /* v0.112 화면용 판: 결과를 먼저 계산하면(sim.run) 유닛이 끝난 상태(쓰러짐 · 체력 0)가 되므로, 같은 조건의 판을 하나 더 만들어 전투 시작 모습을 그림(돌리지 않음) */
-  let view=null; try{ const f2=await pvpUnpack(op.j); if(Array.isArray(f2)&&f2.length===foes.length){ prepFoes(f2); view=new Sim(pvpUnits(false),f2,seed); } }catch(e){ view=null; }
+  /* v0.112 화면용 판: 결과를 먼저 계산하면(sim.run) 유닛이 끝난 상태(쓰러짐 · 체력 0)가 되므로, 같은 조건의 판을 하나 더 만들어 전투 시작 모습을 그림(돌리지 않음) · v0.113 상대 자료는 다시 풀지 않고 복사 */
+  let view=null; try{ const f2=JSON.parse(JSON.stringify(foes)); view=new Sim(pvpUnits(false),f2,seed); }catch(e){ view=null; }
   const sim=new Sim(party,foes,seed); sim.meterOn=true;
   if(view){ const byId=new Map(sim.units.map(u=>[u.id,u])); if(view.units.length!==sim.units.length||view.units.some(u=>!byId.has(u.id))) view=null; else for(const u of view.units){ const o=byId.get(u.id); u.row=o.row; u.lane=o.lane; } }   // 자리(앞·뒷줄 · 가로줄)는 실제 판과 똑같이
   const events=sim.run(), end=events[events.length-1]||{}, res=end.result||"draw";
-  const my=mine?mine.sc:PVP.start, os=op.sc, WR=pvpWR(wk);
+  const my=typeof myS==="number"?myS:PVP.start, os=op.sc, WR=pvpWR(wk);
   let d=0, bonus=0, defLoss=0, defGain=0;
   if(res==="win"){ S.w++; WR.w++; S.stk++; d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
   else if(res==="lose"){ S.l++; WR.l++; S.stk=0; d=-Math.min(my,pvpLoss(my,os)); defGain=Math.floor(-d/2); }
   else { S.d++; WR.d++; S.stk=0; }
   S.pl[wk]=(S.pl[wk]|0)+1; saveProgress();
-  let after=my+d+bonus; try{ const a=await N.addScore(N.uid(),d+bonus,wk); if(typeof a==="number") after=a; }catch(e){}
-  try{ if(res==="win"){ if(defLoss>0) await N.addScore(uid,-defLoss,wk); await N.inc(uid,"dl",wk); await N.logPush(uid,{an:coopNick(),win:true,d:defLoss}); }
-    else if(res==="lose"){ if(defGain>0) await N.addScore(uid,defGain,wk); await N.inc(uid,"dw",wk); await N.logPush(uid,{an:coopNick(),win:false,d:defGain}); } }catch(e){}
-  try{ await pvpUpload(); }catch(e){}
+  /* v0.113 서버 기록(내 점수 · 상대 점수·방어 전적·방어 기록 · 내 파티 다시 올리기)을 한꺼번에 보내고 기다리지 않고 바로 재생 — 결과 창을 열기 전에 끝나기를 기다림 */
+  const R={res,d,bonus,after:my+d+bonus};
+  const net=Promise.all([
+    N.addScore(N.uid(),d+bonus,wk).then(a=>{ if(typeof a==="number") R.after=a; }).catch(()=>{}),
+    (async()=>{ try{ if(res==="win") await Promise.all([defLoss>0?N.addScore(uid,-defLoss,wk):null, N.inc(uid,"dl",wk), N.logPush(uid,{an:coopNick(),win:true,d:defLoss})]);
+      else if(res==="lose") await Promise.all([defGain>0?N.addScore(uid,defGain,wk):null, N.inc(uid,"dw",wk), N.logPush(uid,{an:coopNick(),win:false,d:defGain})]); }catch(e){} })(),
+    pvpUpload().catch(()=>{}) ]);
   logLine(`<span class="${res==="win"?"win":res==="lose"?"lose":"r"}">⚔ 대전 — ${esc(String(op.n||"?"))} 상대로 ${res==="win"?"승리":res==="lose"?"패배":"무승부"} (${d+bonus>=0?"+":""}${d+bonus}점${bonus?` · 연승 +${bonus}`:""})</span>`);
-  await pvpPlay(sim,events,op,{res,d,bonus,after:typeof after==="number"?after:my+d+bonus},view); }
-async function pvpPlay(sim,events,op,R,view){ PVPF={n:String(op.n||"?")}; playing=true; try{ closeModal(); }catch(e){}
+  await pvpPlay(sim,events,op,R,view,net); }
+async function pvpPlay(sim,events,op,R,view,net){ PVPF={n:String(op.n||"?")}; playing=true; try{ closeModal(); }catch(e){}
   try{ showTab("dungeon"); setMainBtn(); $("resetBtn").disabled=true; }catch(e){}
   try{ SND.scene("boss"); }catch(e){}
   spawnField((view||sim).units); if(view) curUnits=sim.units; { const zl=$("zoneline"); if(zl) zl.textContent=`⚔ 대전 — ${PVPF.n}`; }
@@ -16009,6 +16013,7 @@ async function pvpPlay(sim,events,op,R,view){ PVPF={n:String(op.n||"?")}; playin
     handleEvent(ev,{}); try{ MT.upto(ei); }catch(e){}
     const dl=parseInt($("speed").value,10); if(dl>0&&ev.type!=="log") await sleep(dl); else if(dl===0&&++n%40===0) await new Promise(r=>setTimeout(r,0)); }
   flushLogScroll(); markAct(null); try{ applySts({}); }catch(e){}
+  if(net){ try{ await Promise.race([net,new Promise(r=>setTimeout(r,8000))]); }catch(e){} }   // v0.113 서버 기록이 끝난 뒤 결과 창(최대 8초)
   playing=false; try{ $("resetBtn").disabled=false; }catch(e){}
   const tt=R.res==="win"?"승리":R.res==="lose"?"패배":"무승부", dv=R.d+R.bonus;
   const m=openModal(`<h2 class="${R.res==="win"?"win":R.res==="lose"?"lose":""}">⚔ ${tt}</h2><div class="pvpres"><b>${dv>=0?"+":""}${dv}</b>${R.bonus?`<span>🔥 연승 +${R.bonus}</span>`:""}<span>${(R.after|0).toLocaleString("ko-KR")}</span></div>
@@ -17157,6 +17162,11 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.13", v:"v0.113", t:"대전 시작 빨라짐", L:[
+    "대전 단추를 누른 뒤 전투 화면이 나오기까지 서버 기록(내 점수 · 상대 점수 · 방어 전적 · 방어 기록 · 내 파티 다시 올리기)을 하나씩 차례로 기다리던 것을, 한꺼번에 보내고 바로 전투를 보여 주도록 바꿨습니다. 기록은 전투를 보는 동안 끝나고, 결과 창은 기록이 끝난 뒤에 뜹니다.",
+    "내 점수를 확인할 때 내 대전 파티 자료 전체를 받지 않고 점수만 받습니다.",
+    "측정(서버 왕복 0.25초로 흉내): 대전 단추 → 전투 화면 2.85초 → 0.33초.",
+  ]},
   {d:"2026.11.13", v:"v0.112", t:"대전 전투 화면 고침", L:[
     "대전에서 전투가 시작될 때부터 영웅들이 쓰러진 모습(☠ · 체력 0)으로 나오던 문제를 고쳤습니다. 이제 몹과의 전투처럼 양쪽 영웅이 모두 서 있는 모습에서 시작해 공격 · 피해 · 쓰러짐이 차례로 보입니다. 결과와 점수 계산은 그대로입니다.",
   ]},

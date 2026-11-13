@@ -139,7 +139,8 @@
     put: async o => { const u = await ready; if (!u) return false; const ref = rtdb.ref("pvp/" + safeKey(u.uid));
       const up = Object.assign({}, o, { u: u.uid, at: TS }); delete up.s; delete up.dr; delete up.dw; delete up.dl; delete up.sc; await ref.update(up); return true; },
     addScore: async (uid, d, wk) => txVal("pvp/" + safeKey(uid) + "/s/w" + (wk | 0), cur => Math.max(0, (typeof cur === "number" ? cur : 1000) + d)),
-    inc: async (uid, k, wk) => { if (k !== "dw" && k !== "dl") return; const b = "pvp/" + safeKey(uid) + "/"; await txVal(b + k, cur => (cur || 0) + 1); if (wk != null) await txVal(b + "dr/w" + (wk | 0) + "/" + k, cur => (cur || 0) + 1); },
+    inc: async (uid, k, wk) => { if (k !== "dw" && k !== "dl") return; const b = "pvp/" + safeKey(uid) + "/"; await Promise.all([txVal(b + k, cur => (cur || 0) + 1), wk != null ? txVal(b + "dr/w" + (wk | 0) + "/" + k, cur => (cur || 0) + 1) : null]); },   // v0.113 두 칸을 동시에
+    score: async (uid, wk) => { const u = await ready; if (!u || !uid) return null; const v = await val("pvp/" + safeKey(uid) + "/s/w" + (wk | 0)); return typeof v === "number" ? v : null; },   // v0.113 그 주 점수만(파티 자료 전체를 받지 않음)
     logPush: async (uid, o) => { const u = await ready; if (!u) return; await rtdb.ref("pvpLog/" + safeKey(uid)).push(Object.assign({}, o, { a: u.uid, at: TS })); },
     logList: async () => { const u = await ready; if (!u) return []; const s = await rtdb.ref("pvpLog/" + safeKey(u.uid)).orderByChild("at").limitToLast(40).once("value"); const out = [];
       s.forEach(c => { const v = c.val(); if (v) out.push(v); }); return out; },
