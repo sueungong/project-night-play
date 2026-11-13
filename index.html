@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794588517651"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794591099421"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1607,6 +1607,18 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .plcraft{border-top:1px solid var(--line); padding-top:6px; font-size:13px} .plcraft select{max-width:46%; margin:4px 4px 0 0}
 .titlechip{align-self:flex-start; margin:0 0 6px; padding:3px 10px; border-radius:999px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-size:12.5px; cursor:pointer} .titlechip b{color:var(--accent)}
 .tplist{display:flex; flex-direction:column; gap:6px; max-height:50vh; overflow:auto} .tpitem{text-align:left; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--text); cursor:pointer; display:flex; flex-direction:column; gap:2px} .tpitem.on{border-color:var(--accent)} .tpitem span{color:var(--muted); font-size:13px}
+/* v0.116 플레이어 명함(검색) */
+.pcfind{display:flex; gap:6px; margin:4px 0 10px} .pcfind input{flex:1; min-width:0; padding:6px 10px; border-radius:8px; border:1px solid var(--line); background:var(--raised); color:var(--text); font:inherit}
+.pcard{display:flex; gap:12px; align-items:center; padding:10px; border-radius:12px; border:1px solid var(--line); background:var(--raised)} .pcard img{width:96px; height:96px; image-rendering:pixelated; flex:0 0 96px}
+.pcinfo{display:flex; flex-direction:column; gap:3px; min-width:0} .pcn{font-size:17px} .pcn small{color:var(--accent); font-size:12.5px} .pcinfo span{color:var(--sub); font-size:13px} .pcsc b{color:var(--accent)}
+.pct{display:flex; flex-wrap:wrap; gap:4px; margin-top:2px} .pct span{font-size:12px; border:1px solid var(--line); border-radius:999px; padding:1px 8px; color:var(--text)} .pct i{font-style:normal; color:var(--muted); margin-left:2px}
+.pcmore{display:flex; flex-wrap:wrap; gap:4px 10px; margin-top:8px; color:var(--muted); font-size:12.5px}
+/* v0.116 칭호·업적 창 */
+.tphd{display:flex; flex-wrap:wrap; gap:4px 12px; align-items:baseline; margin:0 0 8px} .tphd b{color:var(--accent)} .tphd small{color:var(--muted); font-size:12.5px}
+.tptabs{display:flex; gap:6px; margin:0 0 8px} .tptabs button{padding:4px 12px; border-radius:999px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-size:13px; cursor:pointer} .tptabs button.on{border-color:var(--accent); color:var(--accent)}
+.tprow{display:flex; gap:8px; align-items:center; padding:7px 10px; border-radius:10px; border:1px solid var(--line); background:var(--raised)} .tprow.off{opacity:.5} .tprow.eq{border-color:var(--accent)}
+.tprow .tpt{flex:1; min-width:0; display:flex; flex-direction:column; gap:1px} .tprow .tpt span{color:var(--muted); font-size:12.5px} .tprow .tppt{font-size:11.5px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:0 7px; white-space:nowrap}
+.tprow .tpb{display:flex; gap:4px; flex:0 0 auto} .tprow .tpb button{padding:3px 8px; font-size:12px; border-radius:8px; border:1px solid var(--line); background:transparent; color:var(--sub); cursor:pointer} .tprow .tpb button.on{border-color:var(--accent); color:var(--accent)}
 .advpass{margin:2px 0 8px}
 .ergrid{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:6px}
 .ergrid div{background:#10162a; padding:6px 8px; display:flex; flex-direction:column; align-items:center; gap:1px} .ergrid span{font-size:12px; color:var(--muted)} .ergrid b{font-size:16px}
@@ -4038,7 +4050,9 @@ function dailyDone(k){ const D=dailyState(), q=DAILY_Q.find(x=>x.k===k); return 
 function dailyGotN(){ const D=dailyState(); return DAILY_Q.filter(q=>D.got[q.k]).length; }
 function dailyGoldBase(){ let best=0; try{ for(let d=0;d<=(progress.diffMax|0);d++) for(const rk of REGION_KEYS) if(typeof chapterUnlocked!=="function"||chapterUnlocked(d,rk)) best=Math.max(best,poolGold(rk)*goldMul(d,rk)); }catch(e){} return Math.round((best||9)*10); }
 function dailyReward(k){ const q=DAILY_Q.find(x=>x.k===k); return {ess:DAILY_ESS, gold:q&&q.gold?dailyGoldBase():0}; }
-function dailyClaim(k){ const D=dailyState(); if(D.got[k]||!dailyDone(k)) return null; const r=dailyReward(k); D.got[k]=true; progress.ess+=r.ess; progress.gold+=r.gold; return r; }
+function dailyClaim(k){ const D=dailyState(); if(D.got[k]||!dailyDone(k)) return null; const r=dailyReward(k); D.got[k]=true; progress.ess+=r.ess; progress.gold+=r.gold;
+  if(!D.full&&DAILY_Q.every(q=>D.got[q.k])){ D.full=true; progress.dailyDays=(progress.dailyDays|0)+1; }   // v0.116 일일 의뢰를 모두 마친 날 수(업적)
+  return r; }
 function dailyClaimTier(i){ const D=dailyState(), T=DAILY_TIER[i]; if(!T||D.tier[i]||dailyGotN()<T.at) return null; D.tier[i]=true; progress.ess+=T.ess||0;
   if(T.ward) wardState().n+=T.ward; if(T.gem) progress.gem=(progress.gem||0)+T.gem; return T; }
 function dailyReadyN(){ const D=dailyState(); return DAILY_Q.filter(q=>!D.got[q.k]&&dailyDone(q.k)).length+DAILY_TIER.filter((T,i)=>!D.tier[i]&&dailyGotN()>=T.at).length; }
@@ -4184,29 +4198,81 @@ function cmdOf(cid){ const R=cmdRaw(cid); if(!R) return null; const m=cmdMult(ci
 function cmdEff(){ if(!progress||!progress.protag||!progress.heroes) return null; return cmdOf(progress.protag.cid); }
 function cmdText(o){ return Object.entries(o||{}).map(([k,v])=>RELIC_OPT[k]?RELIC_OPT[k].t(v):"").filter(Boolean).join(" · "); }
 function renownAdd(n){ if(!progress||!progress.protag||!n) return 0; const h=progress.heroes[progress.protag.cid]; if(!h||h.level<LEVEL_CAP) return 0; h.renown=(h.renown|0)+n; return n; }
-function protagActDone(){ if(!progress||!progress.protag) return; const h=progress.heroes[progress.protag.cid]; if(!h) return; h.stats=h.stats||{}; h.stats.pathActs=(h.stats.pathActs|0)+1; }
-function titleEarned(cid,t){ const h=progress.heroes[cid]; return !!h&&(!t.cls||t.cls===cid)&&((h.stats||{})[t.stat]||0)>=t.need; }
+function protagActDone(){ if(!progress||!progress.protag) return; const cid=progress.protag.cid, h=progress.heroes[cid]; if(!h) return; h.stats=h.stats||{}; const n=h.stats.pathActs=(h.stats.pathActs|0)+1;
+  if(typeof logLine==="function"&&PATH_STEPS.includes(n)&&n!==PATH_STEPS[0]) try{ logLine(`<span class="win">★ ${esc(heroDisplayName(cid))} — 영웅의 길 ${n}${n===PATH_STEPS[2]?` · 망토 '${esc((COS_BY["cape_path_"+cid]||{}).name||"")}' 획득`:` · 지휘 효과 +${PATH_CMD*100}%`}</span>`); }catch(e){} }
+/* v0.116 칭호·업적 개편: 얻은 칭호 효과는 항상 적용(장착은 이름 표시용) · 영웅 칭호(그 영웅) + 계정 업적(파티 전체) · 효과 = 점수(1·2·5·10)마다 0.05 · 0.1 · 0.15 · 0.25%
+   효과 수치는 유물 옵션과 같은 단위(RELIC_OPT 키, %) — 반격(counter)만 따로 */
+const TITLE_V={1:0.05,2:0.1,5:0.15,10:0.25}, TITLE_PT_NAME={1:"쉬움",2:"보통",5:"어려움",10:"매우 어려움"};
+const T_=(key,name,stat,need,pt,k,cond,o)=>Object.assign({key,name,stat,need,pt,eff:k?{[k]:TITLE_V[pt]}:{},cond},o||{});
+const TF_=(key,name,fn,pt,k,cond,o)=>Object.assign({key,name,fn,pt,eff:k?{[k]:TITLE_V[pt]}:{},cond},o||{});
+function titleMastered(cid){ const h=progress.heroes[cid]; if(!h) return false; const L=[...new Set(classSkills(cid).concat(h.learned||[]))].filter(s=>SKILLS[s]&&!(SKILLS[s].mp===0&&s===CLASSES[cid].skills[0]));
+  return L.length>0&&L.every(s=>((h.mastery||{})[s]||{}).xp>=MASTERY_MAX); }
 const TITLES=[
-  {key:"pass_free", name:"밤의 길손",   stat:"passFree", need:1, eff:{}, desc:"아트 패스 무료 트랙 30단계 · 효과 없음(장식)"},
-  {key:"pass_paid", name:"새벽의 수호자", stat:"passPaid", need:1, eff:{}, desc:"아트 패스 유료 트랙 30단계 · 효과 없음(장식)"},
-  {key:"undying",  name:"불사신",     stat:"lowSurvive", need:30,  eff:{hp_pct:0.03},  desc:"체력 20% 이하로 전투를 30번 살아 넘김 · 체력 +3%"},
-  {key:"executioner",name:"처형인",   stat:"kills",      need:300, eff:{atk_pct:0.03}, desc:"적 300마리 처치 · 공격력 +3%"},
-  {key:"shield",   name:"방패의 세농", stat:"dmgTaken",   need:40000,eff:{def_pct:0.05},desc:"피해 4만 받아내기 · 방어력 +5%"},
-  {key:"lone",     name:"외톨박이",   stat:"soloWins",   need:10,  eff:{critdmg:10},  desc:"혼자 살아남아 10회 승리 · 치명타 피해 +10%"},
-  {key:"healer",   name:"치유사",     stat:"healed",     need:20000,eff:{heal:5},     desc:"치유 2만 누적 · 치유량 +5%"},
-  {key:"counter",  name:"반격왕",     stat:"counters",   need:150, eff:{counter:0.03},desc:"반격 150회 · 반격 +3%"},
-  {key:"hunter",   name:"보스 사냥꾼", stat:"bossKills",  need:10,  eff:{pen:3},       desc:"보스 10마리 처치 · 관통 +3%"},
-  {key:"critic",   name:"급소의 눈",  stat:"crits",      need:500, eff:{crit:2},      desc:"치명타 500회 · 치명타 +2%"},
-  {key:"path_knight", cls:"knight", name:"검사의 길",     stat:"pathActs", need:30, eff:{def_pct:0.02}, desc:"주인공으로 막 30번 돌파 · 방어력 +2%"},
-  {key:"path_mage",   cls:"mage",   name:"마법사의 길",   stat:"pathActs", need:30, eff:{atk_pct:0.02}, desc:"주인공으로 막 30번 돌파 · 공격력 +2%"},
-  {key:"path_priest", cls:"priest", name:"성직자의 길",   stat:"pathActs", need:30, eff:{heal:3},       desc:"주인공으로 막 30번 돌파 · 치유량 +3%"},
-  {key:"path_rogue",  cls:"rogue",  name:"도적의 길",     stat:"pathActs", need:30, eff:{critdmg:5},    desc:"주인공으로 막 30번 돌파 · 치명타 피해 +5%"},
-  {key:"path_fighter",cls:"fighter",name:"권사의 길",     stat:"pathActs", need:30, eff:{hp_pct:0.02},  desc:"주인공으로 막 30번 돌파 · 체력 +2%"},
-  {key:"path_gunner", cls:"gunner", name:"총사의 길",     stat:"pathActs", need:30, eff:{pen:2},        desc:"주인공으로 막 30번 돌파 · 관통 +2%"},
-  {key:"path_bard",   cls:"bard",   name:"음유시인의 길", stat:"pathActs", need:30, eff:{hp_pct:0.02},  desc:"주인공으로 막 30번 돌파 · 체력 +2%"},
-  {key:"path_archer", cls:"archer", name:"궁수의 길",     stat:"pathActs", need:30, eff:{crit:1},       desc:"주인공으로 막 30번 돌파 · 치명타 +1%"},
-  {key:"path_lancer", cls:"lancer", name:"창술사의 길",   stat:"pathActs", need:30, eff:{def_pct:0.02}, desc:"주인공으로 막 30번 돌파 · 방어력 +2%"},
+  {key:"pass_free", name:"밤의 길손",   stat:"passFree", need:1, pt:0, eff:{}, cond:"아트 패스 무료 트랙 30단계"},
+  {key:"pass_paid", name:"새벽의 수호자", stat:"passPaid", need:1, pt:0, eff:{}, cond:"아트 패스 유료 트랙 30단계"},
+  T_("executioner","처형인","kills",300,2,"atk_pct","적 300마리 처치"), T_("slayer","학살자","kills",3000,5,"atk_pct","적 3,000마리 처치"), T_("nightbane","밤의 재앙","kills",20000,10,"atk_pct","적 20,000마리 처치"),
+  T_("hunter","보스 사냥꾼","bossKills",10,2,"pen","보스 10마리 처치"), T_("boss_hunter","군단장 사냥꾼","bossKills",100,5,"pen","보스 100마리 처치"), T_("boss_legend","전설의 사냥꾼","bossKills",500,10,"pen","보스 500마리 처치"),
+  T_("undying","불사신","lowSurvive",30,2,"hp_pct","체력 20% 이하로 전투 30번 살아 넘김"), T_("deathmock","죽음을 비웃는 자","lowSurvive",300,5,"hp_pct","체력 20% 이하로 전투 300번 살아 넘김"), T_("ember","꺼지지 않는 불씨","lowSurvive",1500,10,"hp_pct","체력 20% 이하로 전투 1,500번 살아 넘김"),
+  T_("shield","방패의 세농","dmgTaken",40000,2,"def_pct","피해 4만 받아내기"), T_("wall","무너지지 않는 성벽","dmgTaken",500000,5,"def_pct","피해 50만 받아내기"), T_("mountain","강철 산맥","dmgTaken",3000000,10,"def_pct","피해 300만 받아내기"),
+  T_("lone","외톨박이","soloWins",10,2,"critdmg","혼자 살아남아 10번 승리"), T_("last_one","최후의 1인","soloWins",100,5,"critdmg","혼자 살아남아 100번 승리"), T_("solo_legend","홀로 선 전설","soloWins",500,10,"critdmg","혼자 살아남아 500번 승리"),
+  T_("healer","치유사","healed",20000,2,"heal","치유 2만 누적"), T_("spring","생명의 샘","healed",300000,5,"heal","치유 30만 누적"), T_("miracle","기적을 부르는 손","healed",2000000,10,"heal","치유 200만 누적"),
+  T_("counter","반격왕","counters",150,2,"counter","반격 150번"), T_("riposte","되받아치는 자","counters",1500,5,"counter","반격 1,500번"), T_("blade_mirror","칼끝의 거울","counters",8000,10,"counter","반격 8,000번"),
+  T_("critic","급소의 눈","crits",500,2,"crit","치명타 500번"), T_("crit_hand","치명의 손","crits",5000,5,"crit","치명타 5,000번"), T_("one_blow","단 한 번의 일격","crits",30000,10,"crit","치명타 30,000번"),
+  T_("b1000","백전","battles",1000,2,"hp_pct","전투 1,000번"), T_("b5000","천전","battles",5000,5,"hp_pct","전투 5,000번"), T_("b20000","만전의 노장","battles",20000,10,"hp_pct","전투 20,000번"),
+  T_("rise","다시 일어서는 자","fell",100,1,"def_pct","쓰러짐 100번"),
+  TF_("g_cap","정점",cid=>progress.heroes[cid].level>=LEVEL_CAP,2,"atk_pct","Lv50 달성"),
+  TF_("g_awaken","각성의 끝",cid=>(progress.heroes[cid].awaken|0)>=AWAKEN_MAX,5,"atk_pct","각성 최대"),
+  TF_("g_stars","별을 다 밝힌 자",cid=>starSmallLit(cid)+heroStars(cid).big>=PRIM.length*STAR_SMALL+STAR_BIG,5,"hp_pct","별자리 27칸 모두"),
+  TF_("g_renown","이름 높은 자",cid=>rboardLit(cid)>=RBOARD.stat+RBOARD.cmd+RBOARD.tp,10,"atk_pct","명성 판 27칸 모두"),
+  TF_("g_mastery","기술의 극의",titleMastered,10,"critdmg","배운 기술 숙련 모두 최대"),
+  TF_("g_enh18","끝까지 벼린 자",cid=>ENH_SLOTS.some(sk=>slotEnh(cid,sk).l>=ENH_ABYSS),10,"def_pct","강화 부위 하나 +18"),
+  T_("path_knight","검사의 길","pathActs",30,2,"def_pct","주인공으로 막 30번 돌파",{cls:"knight"}), T_("path_mage","마법사의 길","pathActs",30,2,"atk_pct","주인공으로 막 30번 돌파",{cls:"mage"}),
+  T_("path_priest","성직자의 길","pathActs",30,2,"heal","주인공으로 막 30번 돌파",{cls:"priest"}), T_("path_rogue","도적의 길","pathActs",30,2,"critdmg","주인공으로 막 30번 돌파",{cls:"rogue"}),
+  T_("path_fighter","권사의 길","pathActs",30,2,"hp_pct","주인공으로 막 30번 돌파",{cls:"fighter"}), T_("path_gunner","총사의 길","pathActs",30,2,"pen","주인공으로 막 30번 돌파",{cls:"gunner"}),
+  T_("path_bard","음유시인의 길","pathActs",30,2,"hp_pct","주인공으로 막 30번 돌파",{cls:"bard"}), T_("path_archer","궁수의 길","pathActs",30,2,"crit","주인공으로 막 30번 돌파",{cls:"archer"}),
+  T_("path_lancer","창술사의 길","pathActs",30,2,"def_pct","주인공으로 막 30번 돌파",{cls:"lancer"}),
+  T_("path100","길을 걷는 자","pathActs",100,5,"atk_pct","주인공으로 막 100번 돌파"), T_("path500","길의 끝","pathActs",500,10,"atk_pct","주인공으로 막 500번 돌파"),
 ];
+const ACH_END=["dawn","night","day"];
+function achClearAll(d,n){ const C=(progress.cl||[])[d]||{}; return REGION_KEYS.every(k=>(C[k]|0)>=(n||1)); }
+function achRuns(){ return Object.values(((progress.rec||{}).runs)||{}).reduce((a,r)=>a+((r&&r[0])|0),0); }
+function achFallBest(){ return Object.values(progress.fall||{}).reduce((a,v)=>Math.max(a,(v&&v.best)|0),0); }
+const ACHS=[
+  TF_("a_dusk","황혼을 걷는 자",()=>achClearAll(0),1,"hp_pct","황혼 10장 모두 클리어"), TF_("a_mid","자정을 넘은 자",()=>achClearAll(1),2,"atk_pct","자정 10장 모두 클리어"),
+  TF_("a_eternal","영원한 밤의 끝",()=>achClearAll(2),5,"atk_pct","영원한 밤 10장 모두 클리어"), TF_("a_tokens","증표의 주인",()=>Object.values(progress.tokens||{}).filter(Boolean).length>=7,5,"crit","군단장의 증표 7개 모두"),
+  TF_("a_endings","세 갈래의 끝",()=>ACH_END.every(k=>(progress.endings||{})[k]),10,"hp_pct","엔딩 3종 모두 보기"), TF_("a_pilgrim","밤의 순례자",()=>achClearAll(2,10),10,"def_pct","영원한 밤 10장을 장마다 10번 클리어"),
+  TF_("a_set1","세트 수집가",()=>Object.keys((progress.codex||{}).done||{}).length>=1,1,"def_pct","세트 도감 하나 완성"), TF_("a_setall","세트 대가",()=>Object.keys(SETS).every(k=>((progress.codex||{}).done||{})[k]),10,"def_pct","세트 도감 모두 완성"),
+  TF_("a_relics","유물 수집가",()=>Object.keys(RELICS).every(k=>(progress.relicSeen||{})[k]),5,"critdmg","유물 도감 10종 모두"),
+  TF_("a_cos","멋쟁이",()=>typeof COS!=="undefined"&&COS.filter(c=>c.src!=="free"&&cosOwned(c.id)).length>=10,2,null,"외형 10종 보유"),
+  TF_("a_abyss30","심연에 발을 디딘 자",()=>((progress.abyss||{}).best|0)>=30,2,"hp_pct","밤의 심연 30층"), TF_("a_abyss60","심연을 걷는 자",()=>((progress.abyss||{}).best|0)>=60,5,"atk_pct","밤의 심연 60층"),
+  TF_("a_abyss100","심연의 밑바닥",()=>((progress.abyss||{}).best|0)>=100,10,"atk_pct","밤의 심연 100층"),
+  TF_("a_fall1","별을 꺾은 자",()=>achFallBest()>=1,2,"pen","낙성 강림 사도 처음 처치"), TF_("a_fall10","낙성의 천적",()=>achFallBest()>=10,10,"pen","낙성 강림 한 사도 강림 단계 10"),
+  TF_("a_pvp1","첫 승리",()=>((progress.pvp||{}).w|0)>=1,1,null,"대전 승리 1번"), TF_("a_pvp100","결투자",()=>((progress.pvp||{}).w|0)>=100,5,"crit","대전 승리 100번"),
+  TF_("a_pvp500","투기장의 왕",()=>((progress.pvp||{}).w|0)>=500,10,"critdmg","대전 승리 500번"), TF_("a_pvpstk","연승가도",()=>((progress.pvp||{}).stkBest|0)>=10,5,"atk_pct","대전 10연승"),
+  TF_("a_coop10","동행",()=>(progress.coopClears|0)>=10,2,"heal","함께하기 클리어 10번"), TF_("a_coop100","믿음직한 동료",()=>(progress.coopClears|0)>=100,5,"hp_pct","함께하기 클리어 100번"),
+  TF_("a_daily30","성실한 모험가",()=>(progress.dailyDays|0)>=30,2,"gold","일일 의뢰 모두 마친 날 30일"), TF_("a_daily100","한결같은 자",()=>(progress.dailyDays|0)>=100,5,"exp","일일 의뢰 모두 마친 날 100일"),
+  TF_("a_daily365","일 년의 밤",()=>(progress.dailyDays|0)>=365,10,"atk_pct","일일 의뢰 모두 마친 날 365일"),
+  TF_("a_run1000","천 번의 밤",()=>achRuns()>=1000,5,"gold","던전 입장 1,000번"), TF_("a_run10000","만 번의 밤",()=>achRuns()>=10000,10,"exp","던전 입장 10,000번"),
+];
+function titleEffText(e){ const L=Object.entries(e||{}).map(([k,v])=>k==="counter"?`반격 +${v}%`:RELIC_OPT[k]?RELIC_OPT[k].t(v):""); return L.filter(Boolean).join(" · ")||"효과 없음(장식)"; }
+for(const t of TITLES.concat(ACHS)) t.desc=`${t.cond} · ${titleEffText(t.eff)}`;
+const TITLE_BY=Object.fromEntries(TITLES.map(t=>[t.key,t])), ACH_BY=Object.fromEntries(ACHS.map(t=>[t.key,t]));
+function titleEarned(cid,t){ const h=progress.heroes[cid]; if(!h||(t.cls&&t.cls!==cid)) return false; try{ return t.fn?!!t.fn(cid):((h.stats||{})[t.stat]||0)>=t.need; }catch(e){ return false; } }
+function achEarned(a){ try{ return !!a.fn(); }catch(e){ return false; } }
+function achGot(){ const A=progress.ach=(progress.ach&&typeof progress.ach==="object")?progress.ach:{}; return A; }
+/* 새로 얻은 칭호·업적을 기록(한 번 얻으면 남음) — 새로 얻은 것 목록을 돌려줌 */
+function achCheck(){ const out=[]; if(!progress||!progress.heroes) return out;
+  if(Array.isArray(progress.inv)||progress.heroes){ const S=progress.relicSeen=progress.relicSeen||{}; try{ for(const it of (progress.inv||[])) if(it&&it.slot==="relic"&&it.relic) S[it.relic]=1; if(typeof equippedStore!=="undefined") for(const it of equippedStore||[]) if(it&&it.slot==="relic"&&it.relic) S[it.relic]=1; }catch(e){} }
+  for(const cid of (progress.roster||Object.keys(progress.heroes))){ const h=progress.heroes[cid]; if(!h) continue; h.titles=Array.isArray(h.titles)?h.titles:[];
+    for(const t of TITLES) if(!h.titles.includes(t.key)&&titleEarned(cid,t)){ h.titles.push(t.key); out.push({cid,t}); } }
+  const A=achGot(); for(const a of ACHS) if(!A[a.key]&&achEarned(a)){ A[a.key]=1; out.push({cid:null,t:a}); }
+  return out; }
+function titleEffOf(cid){ const h=progress.heroes[cid], o={}; if(!h) return o; const add=e=>{ for(const [k,v] of Object.entries(e||{})) o[k]=(o[k]||0)+v; };
+  for(const k of (h.titles||[])){ const t=TITLE_BY[k]; if(t&&(!t.cls||t.cls===cid)) add(t.eff); }
+  for(const k of Object.keys(progress.ach||{})){ const a=ACH_BY[k]; if(a) add(a.eff); } return o; }
+function titleScore(cid){ const h=progress.heroes[cid]; let s=0; if(h) for(const k of (h.titles||[])){ const t=TITLE_BY[k]; if(t&&(!t.cls||t.cls===cid)) s+=t.pt|0; } for(const k of Object.keys(progress.ach||{})){ const a=ACH_BY[k]; if(a) s+=a.pt|0; } return s; }
+function titleScoreMax(cid){ return TITLES.filter(t=>!t.cls||t.cls===cid).reduce((a,t)=>a+(t.pt|0),0)+ACHS.reduce((a,t)=>a+(t.pt|0),0); }
+function titleRound(o){ for(const k of Object.keys(o)) o[k]=Math.round(o[k]*100)/100; return o; }
 const HERO_STAT_KEYS=["kills","bossKills","lowSurvive","dmgTaken","soloWins","healed","counters","crits","fell","battles"];
 const TOKENS={ swamp:{icon:"🌙",name:"뤼네의 달조각"}, volcano:{icon:"🍳",name:"브란도의 앞치마 조각"}, sunken:{icon:"🎵",name:"운디르의 끊긴 현"}, forest:{icon:"🌳",name:"가라드의 나무 문장"},
   gold:{icon:"🪙",name:"펜로의 황금 인장"}, desert:{icon:"🦷",name:"카룸의 모래이빨"}, temple:{icon:"☀️",name:"솔바르의 검은 태양"} };
@@ -5962,7 +6028,7 @@ function saveRules(){ safeSet("pn_rules_v01", JSON.stringify(partyRules)); touch
 // v0.95 사용자가 직접 고친 영웅 표시 — 자동으로 규칙 전체를 다시 짜는 곳(전직·새 전직 기술·규칙표 바뀜)은 이 영웅을 건드리지 않고 빈 칸에만 넣음
 function rulesEdited(cid){ const h=progress&&progress.heroes&&progress.heroes[cid]; return !!(h&&h.rulesEdited); }
 function saveRulesU(cid){ try{ if(progress.heroes[cid]) progress.heroes[cid].rulesEdited=true; }catch(e){} saveRules(); }
-function saveProgress(){ progress._equipped=equippedStore; touchSave(); renderHud(); renderPtsDot(); }
+function saveProgress(){ try{ if(bootDone) achNotify(); }catch(e){} progress._equipped=equippedStore; touchSave(); renderHud(); renderPtsDot(); }   // v0.116 칭호·업적 확인
 // 진행 중인 던전(구역·파티 체력·얻은 것)을 저장에 함께 담는다 — 새로 고침·새 버전·기기 전환 후에도 이어서
 // 이 창(탭·미리보기)마다 다른 취약 — 같은 게임이 두 곳에 열려 있을 때 '남의 창이 진행 중인 던전'을 가려낸다
 const VIEW_ID=Math.random().toString(36).slice(2,10);
@@ -8642,7 +8708,8 @@ function heroEquipTotals(cid){
     if(it.slot==="relic"){ relic=it.relic; for(const [k,v] of Object.entries(relicSum(it))) rel[k]=(rel[k]||0)+v; }
     if(it.mythic) mythic=it.mythic;
   }
-  { const C=cmdEff(); if(C) for(const [k,v] of Object.entries(C)) rel[k]=(rel[k]||0)+v; }   // v0.114 주인공 지휘 효과(파티 전체 · 유물 옵션과 같은 방식으로 더함)
+  { const C=cmdEff(); if(C) for(const [k,v] of Object.entries(C)) rel[k]=(rel[k]||0)+v; }
+  { const T=titleEffOf(cid); for(const [k,v] of Object.entries(T)) if(RELIC_OPT[k]) rel[k]=(rel[k]||0)+v; }   // v0.116 얻은 칭호·업적 효과(항상 적용)   // v0.114 주인공 지휘 효과(파티 전체 · 유물 옵션과 같은 방식으로 더함)
   for(const [k,v] of Object.entries(rel)){ const O=RELIC_OPT[k]; if(O.kind==="stat") t[k]=(t[k]||0)+v; else if(O.kind==="pct") pct[k]=(pct[k]||0)+v/100; }   // v0.97 유물 옵션(강화 배율 없음)
   return {t,procs,sets,pct,conds,uniques,cuniqs,runes,wtype,offhand,relic,rel,mythic,engraves,abyss:[...abyss],rfx};
 }
@@ -8672,7 +8739,7 @@ function heroDerived(cid){
   }
   const ptv={}; for(const e of plateEffects(cid)) for(const k of Object.keys(e)){   // v0.95 성반
     if(k==="flag") for(const f of [].concat(e.flag)) tr.flags[f]=true; else if(k==="tv") for(const [a,b] of Object.entries(e.tv)) ptv[a]=(ptv[a]||0)+b; else tr[k]=(tr[k]||0)+e[k]; }
-  const tt=heroTitleObj(cid); if(tt) for(const [k,v] of Object.entries(tt.eff)) tr[k]=(tr[k]||0)+v;
+  { const T=titleEffOf(cid); if(T.counter) tr.counter=(tr.counter||0)+T.counter/100; }   // v0.116 칭호 반격(나머지 칭호 효과는 heroEquipTotals에서)
   const W=WEAPONS[heroWeaponType(cid)]; const wm=W.mods||{};
   const off=E.offhand&&!W.two?OFFHANDS[cid]:null;
   const g=k=>t[k]||0;
@@ -8936,10 +9003,11 @@ function cosShopBlock(){
   const cat=COS_CATS.find(c=>c.k===cosCat)||COS_CATS[0]; const items=COS.filter(c=>c.cat===cat.k);
   const heroCat=COS_HERO_CATS.includes(cat.k);
   const card=c=>{ const own=cosOwned(c.id), on=Array.isArray(E[cat.k])?E[cat.k].includes(c.id):E[cat.k]===c.id; let act;
-    if(heroCat&&own&&c.src!=="free"&&c.id!==COS_DEFAULT[c.cat]){ const n=cosCount(c.id), w=cosWearers(c.id); act=`<span class="cosst on" title="${esc(w.map(x=>heroDisplayName(x)).join(" · ")||"아무도 안 입음")}">보유 ${n} · 착용 ${w.length}</span>`+(c.src==="pass"||c.src==="sub"?"":`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"하나 더 💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`); }
+    if(heroCat&&own&&c.src!=="free"&&c.id!==COS_DEFAULT[c.cat]){ const n=cosCount(c.id), w=cosWearers(c.id); act=`<span class="cosst on" title="${esc(w.map(x=>heroDisplayName(x)).join(" · ")||"아무도 안 입음")}">보유 ${n} · 착용 ${w.length}</span>`+(c.src==="pass"||c.src==="sub"||c.src==="path"?"":`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"하나 더 💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`); }
     else if(own) act=cat.max?`<button class="btn${on?" ghost":""}" data-eq="${c.id}">${on?"빼기":"달기"}</button>`:on?`<span class="cosst on">착용 중</span>`:`<button class="btn" data-eq="${c.id}">착용</button>`;
     else if(c.src==="pass") act=`<span class="cosst">🎟 아트 패스 시즌 1</span>`;
     else if(c.src==="sub") act=`<span class="cosst">🌙 정액 중에만</span>`;
+    else if(c.src==="path") act=`<span class="cosst">영웅의 길 ${pathActs(c.cls)} / ${PATH_STEPS[2]}</span>`;
     else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`;
     return `<div class="coscard${on?" on":""}"><div class="cospv${/^(cape|wskin|aura|saura)$/.test(c.cat)?" big":""}"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
   const n=cat.max?(E[cat.k]||[]).length:0;
@@ -9649,6 +9717,7 @@ function bestLootTier(){
 function partyLuck(){ const ids=partyIds(); if(!ids.length) return 0; return ids.reduce((a,c)=>a+heroPrim(c).luk,0)/ids.length; }
 // 세트 도감: 얻은 적 있는 세트 조각을 기록. 6부위를 다 모으면 보상 1회
 function codexRecord(it){
+  if(it&&it.slot==="relic"&&it.relic&&progress){ (progress.relicSeen=progress.relicSeen||{})[it.relic]=1; }   // v0.116 유물 도감 업적(얻어 본 유물)
   if(!it||!it.set) return null;
   progress.codex=progress.codex||{sets:{},done:{}};
   const c=progress.codex.sets[it.set]=progress.codex.sets[it.set]||{};
@@ -11357,6 +11426,76 @@ const CP={
      const n=(Math.sin(t*11+x*1.3+y)+Math.sin(t*7.3-x*0.7+y*1.7))*0.22; const heat=1-(s-0.5)*2+n-Math.abs(u-0.5)*0.6; if(heat<-0.1) return null; return heat>0.55?[230,80,30]:heat>0.3?[255,150,40]:heat>0.08?[255,210,90]:[255,245,180]; });
    cellsDraw(S.p,m,[60,14,10]); for(const [k,c] of m) if(c[1]>120) px(S.q,(k%W2)/2,((k/W2)|0)/2,[255,120,40],0.14);
    for(let i=0;i<5;i++){ const ph=(t*0.7+i/5)%1; const x=SH_X-5-ph*9-i*0.5, y=SH_Y+2-ph*8+Math.sin(ph*8+i)*2; px(S.p,x,y,[255,210,90],1-ph); px(S.p,x+0.5,y+0.5,[255,150,40],(1-ph)*0.7); px(S.q,x,y,[255,150,40],1-ph); } }},
+/* v0.115 영웅의 길 망토(주인공으로 막 250번 돌파 · 그 영웅만) */
+ path_knight:{n:"검사의 길",d:"남색 천 · 은 테두리 · 등에 검 문장 · 끝단 은 장식이 반짝",draw(S,t){
+   const sw=(t*0.6)%1.6; const m=flag(t,{L:10,h0:8,h1:6,amp:1.3,spd:4,droop:0.3},(s,u,sl,x,y,L)=>{ const si=Math.round(s*L*2), ui=Math.round(u*16);
+     if(u<0.1||u>0.88) return Math.abs(s-sw)<0.06?[255,255,255]:shade(sl,[226,232,244],[184,192,210],[130,138,160]);   // 은 테두리
+     { const cx=0.62, ds=Math.abs(s-cx); if(ds<0.03&&u>0.22&&u<0.74) return u<0.3?[255,255,255]:[214,222,238]; if(Math.abs(u-0.36)<0.045&&ds<0.1) return [226,186,96]; if(ds<0.03&&u>=0.74&&u<0.8) return [226,186,96]; }   // 검 문장
+     if(u>0.8&&si%3===0) return [200,206,222];
+     return shade(sl,[64,86,150],[44,62,118],[30,42,84]); });
+   cellsDraw(S.p,m,[16,20,40]); for(const [k,c] of m) if(c[0]===255) px(S.q,(k%W2)/2,((k/W2)|0)/2,[200,220,255],0.35); }},
+ path_mage:{n:"마법사의 길",d:"보랏빛 천에 룬 글자가 차례로 빛나며 흐름 · 끝자락은 별가루로 흩어짐",draw(S,t){
+   const glints=[]; const m=flag(t,{L:11,h0:8,h1:5,amp:1.5,spd:3.6,droop:0.28,trail:1.5,taper:0.6},(s,u,sl,x,y,L)=>{ const si=Math.round(s*L*2), ui=Math.round(u*12);
+     if(s>0.82&&R(si*13+ui*7)>0.5) return null;
+     if(u>0.86) return [180,140,255];
+     if(si%5===2&&ui%4===2){ const on=Math.sin(t*3-s*8)>0.3; if(on) glints.push([x,y]); return on?[230,200,255]:[120,80,190]; }   // 룬
+     return shade(sl,[110,70,180],[80,48,146],[54,30,104]); });
+   cellsDraw(S.p,m,[24,14,44]); for(const [x,y] of glints) px(S.q,x,y,[190,140,255],0.6);
+   for(let i=0;i<6;i++){ const ph=(t*0.5+i/6)%1; const x=SH_X-9-ph*7, y=SH_Y+3+Math.sin(i*2.1+ph*6)*2.5+ph*2; const a=1-ph; px(S.p,x,y,[230,210,255],a); px(S.q,x,y,[170,120,255],a); } }},
+ path_priest:{n:"성직자의 길",d:"흰 천에 금빛 수 · 등에 빛나는 성표 · 끝단에서 빛 알갱이가 떠오름",draw(S,t){
+   const pul=0.5+0.5*Math.sin(t*2); const m=flag(t,{L:10,h0:8,h1:6,amp:1.1,spd:3.4,droop:0.34},(s,u,sl,x,y,L)=>{ const si=Math.round(s*L*2), ui=Math.round(u*14);
+     if(u>0.84) return shade(sl,[255,236,150],[236,200,96],[190,150,60]);   // 금빛 단
+     if(u<0.08) return [236,200,96];
+     const cs=Math.abs(s-0.6), cu=Math.abs(u-0.44); if((cs<0.03&&cu<0.26)||(Math.abs(u-0.34)<0.05&&cs<0.1)) return pul>0.5?[255,248,200]:[250,214,110];   // 성표
+     if(si%4===0&&ui===11) return [236,200,96];
+     return shade(sl,[244,244,250],[216,220,234],[168,174,198]); });
+   cellsDraw(S.p,m,[60,54,40]); for(const [k,c] of m) if(c[0]===255&&c[1]===248) px(S.q,(k%W2)/2,((k/W2)|0)/2,[255,230,150],0.25*pul);
+   for(let i=0;i<5;i++){ const ph=(t*0.4+i/5)%1; const x=SH_X-3-i*1.6+Math.sin(ph*6+i)*0.8, y=SH_Y+6-ph*9; const a=Math.sin(ph*Math.PI); px(S.p,x,y,[255,246,200],a); px(S.q,x,y,[255,220,120],a); } }},
+ path_rogue:{n:"도적의 길",d:"짙은 그림자 천 · 끝자락이 연기처럼 풀려 사라짐 · 단검 자수",draw(S,t){
+   const m=flag(t,{L:11,h0:8,h1:5,amp:1.7,spd:5.2,droop:0.26,trail:2},(s,u,sl,x,y,L)=>{ const si=Math.round(s*L*2), ui=Math.round(u*10);
+     if(s>0.6){ const n=Math.sin(t*6+x*1.4+y*0.9)+Math.sin(t*4.1-x*0.8+y*1.6); if((s-0.6)*4.5+n*0.35>1.1) return null; if((s-0.6)*4.5+n*0.35>0.6) return [70,74,92,0.7]; }   // 연기
+     if(Math.abs(u-0.46)<0.05&&s>0.42&&s<0.56) return [208,214,230];   // 단검 자수: 날
+     if(Math.abs(u-0.46)<0.05&&s>=0.56&&s<0.6) return [170,44,56]; if(Math.abs(s-0.555)<0.02&&Math.abs(u-0.46)<0.14) return [170,44,56];   // 손잡이 · 코등이
+     if(u>0.88) return [30,30,42];
+     return shade(sl,[92,96,122],[66,70,92],[44,46,66]); });
+   cellsDraw(S.p,m,[10,10,16]);
+   for(let i=0;i<4;i++){ const ph=(t*0.6+i/4)%1; const x=SH_X-8-ph*6, y=SH_Y+4+i*0.8-ph*3; px(S.p,x,y,[90,94,112],(1-ph)*0.6); px(S.p,x+0.5,y,[90,94,112],(1-ph)*0.4); } }},
+ path_fighter:{n:"권사의 길",d:"짧은 붉은 어깨천 + 길게 두 갈래로 휘날리는 띠 · 띠 끝 금 매듭",draw(S,t){
+   const m=new Map(); const add=(mm)=>{ for(const [k,c] of mm) if(!m.has(k)) m.set(k,c); };
+   add(flag(t,{L:5,h0:7,h1:5,amp:0.8,spd:4,droop:0.3},(s,u,sl)=>u>0.86?[240,190,80]:shade(sl,[226,70,50],[190,46,36],[140,30,26])));
+   for(const [dy,ph,len] of [[1.5,0,13],[4,1.3,11]]){ const L=len*(0.9+0.1*Math.sin(t*1.3+ph)); for(let s=0;s<=1.0001;s+=0.25/L){ const x=SH_X-1-s*L, y=SH_Y+dy+s*L*0.2+Math.sin(t*6+ph-s*6)*1.6*s; for(let w=0;w<1.51;w+=0.5){ const k=Math.round((y+w)*2)*W2+Math.round(x*2); m.set(k,s>0.9?[250,206,90]:w>1.1?[150,30,28]:w<0.1?[240,96,70]:[204,54,40]); } } }
+   cellsDraw(S.p,m,[50,12,10]); }},
+ path_gunner:{n:"총사의 길",d:"갈색 가죽 자락 · 놋쇠 단추와 탄띠 · 끝에서 화약 연기가 피어오름",draw(S,t){
+   const m=flag(t,{L:10,h0:9,h1:7,amp:1.0,spd:3.4,droop:0.3},(s,u,sl,x,y,L)=>{ const si=Math.round(s*L*2), ui=Math.round(u*16);
+     if(s>0.8&&Math.abs(u-0.62)<0.04) return null;   // 뒤트임
+     if(Math.abs(u-0.3)<0.07) return (si%3===0&&Math.abs(u-0.3)<0.035)?[246,206,110]:[74,50,36];   // 탄띠 · 놋쇠 탄
+     if(u>0.9) return [64,42,30];
+     return shade(sl,[170,112,70],[136,86,52],[98,60,38]); });
+   cellsDraw(S.p,m,[34,22,16]);
+   for(let i=0;i<5;i++){ const ph=(t*0.45+i/5)%1; const x=SH_X-8-ph*4+Math.sin(ph*5+i)*1.2, y=SH_Y+8-ph*7; const a=Math.sin(ph*Math.PI)*0.7; px(S.p,x,y,[170,166,160],a); px(S.p,x+0.5,y-0.5,[140,136,132],a*0.8); } }},
+ path_bard:{n:"음유시인의 길",d:"초록·금 마름모 무늬 천 · 술 장식 · 음표가 떠올라 흘러감",draw(S,t){
+   const m=flag(t,{L:10,h0:8,h1:6,amp:1.6,spd:4.6,droop:0.3},(s,u,sl,x,y,L)=>{ const sx=s*L/1.6, uy=u*4, a=Math.floor(sx+uy*0.5), b=Math.floor(uy-sx*0.5+20);
+     if(u>0.88) return Math.round(s*L*2)%2?[250,214,110]:null;   // 술
+     if(u<0.08) return [250,214,110];
+     return (a+b)%2?shade(sl,[96,196,116],[64,160,88],[42,116,62]):shade(sl,[236,120,140],[200,80,110],[150,52,84]); });
+   cellsDraw(S.p,m,[16,40,24]);
+   const note=[[0,0],[0,-0.5],[0,-1],[0,-1.5],[0.5,-1.5],[-0.5,0],[-0.5,0.5],[0,0.5]];
+   for(let i=0;i<3;i++){ const ph=(t*0.35+i/3)%1; const x=SH_X-6-ph*8, y=SH_Y-1-ph*4+Math.sin(ph*8+i)*1.2; const a=Math.sin(ph*Math.PI); for(const [dx,dy] of note) px(S.p,x+dx,y+dy,[255,240,180],a); px(S.q,x,y,[255,220,120],a*0.6); } }},
+ path_archer:{n:"궁수의 길",d:"잎을 겹쳐 엮은 초록 망토 · 잎 가장자리가 하나하나 들썩 · 잎이 한 장씩 날아감",draw(S,t){
+   const m=flag(t,{L:10,h0:8,h1:5,amp:1.4,spd:4.2,droop:0.3},(s,u,sl,x,y,L)=>{ const row=Math.floor(u*4), lu=(u*4)%1, sc=s*L/2+row*0.5, ls=sc%1;
+     if(row===3&&lu>0.55&&Math.abs(ls-0.5)>0.5-(1-lu)) return null;   // 아랫단 잎끝
+     if(lu<0.16) return [176,222,116];   // 잎 윗가장자리
+     if(Math.abs(ls-0.5)<0.05) return row%2?[60,118,52]:[74,136,58];   // 잎맥
+     return row%2?shade(sl,[100,168,82],[74,138,62],[50,100,46]):shade(sl,[124,184,88],[94,154,68],[62,114,50]); });
+   cellsDraw(S.p,m,[16,34,16]);
+   for(let i=0;i<3;i++){ const ph=(t*0.4+i/3)%1; const x=SH_X-7-ph*9, y=SH_Y+5+i-ph*2+Math.sin(ph*9+i)*1.6; const a=ph<0.1?ph*10:1-ph; px(S.p,x,y,[110,176,80],a); px(S.p,x+0.5,y,[140,200,96],a); px(S.p,x,y+0.5,[70,134,62],a); } }},
+ path_lancer:{n:"창술사의 길",d:"붉은 군기 모양 · 끝이 제비꼬리로 갈라짐 · 금 창 문장과 금 술",draw(S,t){
+   const m=flag(t,{L:12,h0:7,h1:7,amp:1.8,spd:5,droop:0.2},(s,u,sl,x,y,L)=>{
+     if(s>0.8&&Math.abs(u-0.5)<(s-0.8)*2.5) return null;   // 제비꼬리
+     if(u<0.08||u>0.92) return s>0.78?[250,214,110]:[230,180,70];   // 금 테
+     if(Math.abs(u-0.5)<0.05&&s>0.42&&s<0.64) return [236,190,80]; if(s>=0.64&&s<0.76&&Math.abs(u-0.5)<(0.76-s)*1.6) return [250,214,110]; if(Math.abs(s-0.62)<0.02&&Math.abs(u-0.5)<0.14) return [250,214,110];   // 창 문장
+     return shade(sl,[214,60,64],[178,38,48],[128,24,36]); });
+   cellsDraw(S.p,m,[50,10,14]); for(const [k,c] of m) if(c[0]===250) px(S.q,(k%W2)/2,((k/W2)|0)/2,[255,210,100],0.18); }},
  royal:{n:"왕의 자락",d:"금실 테두리에 빛이 흐르고 담비털 끝단 · 무겁고 장엄하게 출렁",draw(S,t){
    const sw=(t*0.5)%1.4; const m=flag(t,{L:10,h0:8,h1:6,amp:1.4,spd:3.8,droop:0.32},(s,u,sl,x,y,L)=>{ const si=Math.round(s*L), ui=Math.round(u*8);   // 무늬는 천 위 좌표로(펄럭여도 무늬가 천에 붙어 다님)
      if(u>0.84) return (si%3===1&&ui===8)?[30,30,36]:shade(sl,[255,252,246],[240,236,228],[206,200,196]);   // 담비털 아랫단
@@ -11810,7 +11949,7 @@ AU.dusk.front=function(S,t,L,hk,bob){ this.tail(S,t,L,true,0); this.tail(S,t,L,t
     HERO.cur={mask:m.map(x=>x.a), bodyIm:m.map(x=>x.cv), m2:m.map(x=>x.m2), out:m.map(x=>x.out), d:m}; heroKey='cur'; }
   const mk=()=>{ const c=document.createElement("canvas"); c.width=W2; c.height=H2; return c; };
   function newS(){ const p=mk(), q=mk(), S={p:p.getContext("2d"), q:q.getContext("2d"), pc:p, qc:q}; S.q._q=true; return S; }
-  const CAPE_KEY={cape_tatter:"tatter",cape_feather:"feather",cape_wolf:"wolf",cape_bat:"bat",cape_veil:"veil",cape_flame:"flame",cape_royal:"royal"};
+  const CAPE_KEY={cape_path_knight:"path_knight",cape_path_mage:"path_mage",cape_path_priest:"path_priest",cape_path_rogue:"path_rogue",cape_path_fighter:"path_fighter",cape_path_gunner:"path_gunner",cape_path_bard:"path_bard",cape_path_archer:"path_archer",cape_path_lancer:"path_lancer",cape_tatter:"tatter",cape_feather:"feather",cape_wolf:"wolf",cape_bat:"bat",cape_veil:"veil",cape_flame:"flame",cape_royal:"royal"};
   const WS_KEY={ws_flame:"flame",ws_crystal:"crystal",ws_bone:"bone",ws_moon:"moon",ws_rune:"rune",ws_thunder:"thunder",ws_leaf:"leaf"};
   const SA_KEY={sa_ice:"ice",sa_violet:"violet",sa_venom:"venom",sa_blood:"blood",sa_moon:"moon",sa_sakura:"sakura",sa_jade:"jade",sa_astral:"astral",sa_dusk:"dusk"};
   // o: {look, bob, t(초), cape, ws, sa, L} → {b:{p,q}, f:{p,q}} (뒤·앞 판)
@@ -12333,6 +12472,15 @@ const COS=[
   {id:"cape_veil",cat:"cape",name:"별빛 베일",note:"밤하늘이 흐르는 반투명 자락 · 빛나는 단",src:"pass"},
   {id:"cape_flame",cat:"cape",name:"불사조 불꽃 망토",note:"자락 끝이 불길로 바뀌어 뒤로 날림"},
   {id:"cape_royal",cat:"cape",name:"왕의 자락",note:"금실 테두리에 빛이 흐르고 담비털 끝단",price:1200},
+  {id:"cape_path_knight",cat:"cape",name:"검사의 길",note:"남색 천 · 은 테두리 · 검 문장",src:"path",cls:"knight"},
+  {id:"cape_path_mage",cat:"cape",name:"마법사의 길",note:"룬이 빛나며 흐르고 끝자락은 별가루로",src:"path",cls:"mage"},
+  {id:"cape_path_priest",cat:"cape",name:"성직자의 길",note:"흰 천 · 금빛 단 · 빛나는 성표",src:"path",cls:"priest"},
+  {id:"cape_path_rogue",cat:"cape",name:"도적의 길",note:"그림자 천 · 끝이 연기처럼 풀림",src:"path",cls:"rogue"},
+  {id:"cape_path_fighter",cat:"cape",name:"권사의 길",note:"두 갈래로 길게 휘날리는 띠",src:"path",cls:"fighter"},
+  {id:"cape_path_gunner",cat:"cape",name:"총사의 길",note:"가죽 자락 · 탄띠 · 화약 연기",src:"path",cls:"gunner"},
+  {id:"cape_path_bard",cat:"cape",name:"음유시인의 길",note:"마름모 무늬 · 금 술 · 떠오르는 음표",src:"path",cls:"bard"},
+  {id:"cape_path_archer",cat:"cape",name:"궁수의 길",note:"잎을 겹쳐 엮은 망토 · 날아가는 잎",src:"path",cls:"archer"},
+  {id:"cape_path_lancer",cat:"cape",name:"창술사의 길",note:"붉은 군기 · 제비꼬리 · 금 창 문장",src:"path",cls:"lancer"},
   {id:"ws_steel",cat:"wskin",name:"강철 (기본)",note:"",src:"free"},
   {id:"ws_flame",cat:"wskin",name:"불꽃 '잿불'",note:"불길이 피어오르고 불티가 튐"},
   {id:"ws_crystal",cat:"wskin",name:"수정 '서리꽃'",note:"빛이 결정을 훑고 별 반짝임"},
@@ -12361,7 +12509,7 @@ const COS_BY=Object.fromEntries(COS.map(c=>[c.id,c]));
 const COS_DEFAULT={cape:"cape_crimson",wskin:"ws_steel",aura:"aura_base",saura:"sa_none",fx:"fx_base",font:"font_base",crit:"crit_stamp",frame:"fr_base",sticker:[],deco:[]};
 const PASS_COS_ITEM={cape:"cape_veil",wpn:"ws_moon",fxc:"fx_rune",font:"font_round",fire:"dc_crystal",sticker:"st_moon",aura:"aura_moon"};
 function cosPrice(c){ return c.price||COS_PRICE[c.cat]; }
-function cosOwned(id){ const c=COS_BY[id]; if(!c) return false; if(c.src==="free") return true; if(c.src==="sub") return typeof subActive==="function"&&subActive();
+function cosOwned(id){ const c=COS_BY[id]; if(!c) return false; if(c.src==="free") return true; if(c.src==="path") return pathActs(c.cls)>=PATH_STEPS[2];   // v0.115 영웅의 길 250 if(c.src==="sub") return typeof subActive==="function"&&subActive();
   const C=(progress&&progress.cosmetics)||{}; if(C[id]) return true;
   if(c.src==="pass") for(const [k,v] of Object.entries(PASS_COS_ITEM)) if(v===id&&Object.keys(C).some(x=>/^s\d+_/.test(x)&&x.endsWith("_"+k))) return true;
   return false; }
@@ -12371,11 +12519,12 @@ function cosCount(id){ const c=COS_BY[id]; if(!c) return 0; if(c.src==="free"||i
 function cosHeroAll(){ const M=progress.cosHero=(progress.cosHero&&typeof progress.cosHero==="object")?progress.cosHero:{};
   if(!progress.cosHeroV){ const E=progress.cosEq||{}, pid=progress.protag&&progress.protag.cid; if(pid){ const e=M[pid]=M[pid]||{}; for(const k of COS_HERO_CATS) if(E[k]&&E[k]!==COS_DEFAULT[k]&&!e[k]) e[k]=E[k]; progress.cosHeroV=1; } }   // 예전에 주인공에게 입힌 것은 그대로 주인공에게
   return M; }
-function cosHeroEq(cid){ if(!progress) return {}; const M=cosHeroAll(); const e=M[cid]=M[cid]||{}; for(const k of COS_HERO_CATS) if(e[k]&&(!COS_BY[e[k]]||!cosOwned(e[k])||e[k]===COS_DEFAULT[k])) delete e[k]; return e; }
+function cosHeroEq(cid){ if(!progress) return {}; const M=cosHeroAll(); const e=M[cid]=M[cid]||{}; for(const k of COS_HERO_CATS) if(e[k]&&(!COS_BY[e[k]]||!cosOwned(e[k])||e[k]===COS_DEFAULT[k]||!cosFor(e[k],cid))) delete e[k]; return e; }
+function cosFor(id,cid){ const c=COS_BY[id]; return !c||c.src!=="path"||c.cls===cid; }   // v0.115 영웅의 길 망토는 그 영웅만
 function cosWearers(id){ const M=cosHeroAll(); return Object.keys(M).filter(c=>progress.heroes[c]&&Object.values(M[c]||{}).includes(id)); }
 function cosFreeN(id){ return cosCount(id)-cosWearers(id).length; }
 function cosHeroWear(cid,id){ const c=COS_BY[id]; if(!c||!COS_HERO_CATS.includes(c.cat)||!progress.heroes[cid]) return false; const e=cosHeroEq(cid);
-  if(id===COS_DEFAULT[c.cat]||c.src==="free"&&id===COS_DEFAULT[c.cat]){ delete e[c.cat]; return true; } if(!cosOwned(id)) return false; if(e[c.cat]===id) return true;
+  if(id===COS_DEFAULT[c.cat]||c.src==="free"&&id===COS_DEFAULT[c.cat]){ delete e[c.cat]; return true; } if(!cosOwned(id)||!cosFor(id,cid)) return false; if(e[c.cat]===id) return true;
   if(cosFreeN(id)<=0){ const o=cosWearers(id).find(x=>x!==cid); if(!o) return false; delete cosHeroEq(o)[c.cat]; }   // 남는 것이 없으면 입고 있던 영웅에게서 옮겨 입힘
   e[c.cat]=id; return true; }
 function cosHeroOff(cid,cat){ delete cosHeroEq(cid)[cat]; }
@@ -12848,7 +12997,7 @@ const WX = (()=>{
     // v0.54: 줄여야 할 때(좁은 화면에 몬스터가 많을 때)도 영웅 크기는 그대로 — 몬스터만 줄임. 적 수에 따라 영웅까지 전투마다 작아지던 문제
     const put = it => { const k = it.enemy ? shrink : 1; it.sc = scOf(it.y) / shrink * k; it.el.style.setProperty("--s", it.sc.toFixed(3)); it.el.style.setProperty("--bs", k.toFixed(2)); };
     const W = arR.width, yLo = it => hz + it.sh * (mob ? 0.4 : 0.55), yHi = it => arR.height - it.bh - 2 - footRes;
-    const CAPE_REACH = {tatter:6, feather:5, wolf:5, bat:5, veil:7, flame:5, royal:5};   /* v0.99 망토가 몸 왼쪽으로 뻗는 칸 수 */
+    const CAPE_REACH = {tatter:6, feather:5, wolf:5, bat:5, veil:7, flame:5, royal:5, path_knight:5, path_mage:6, path_priest:5, path_rogue:6, path_fighter:7, path_gunner:5, path_bard:5, path_archer:5, path_lancer:6};   /* v0.99 망토가 몸 왼쪽으로 뻗는 칸 수 */
     const xLo = it => it.enemy ? W * 0.56 + it.bw / 2 : Math.max(it.bw / 2 + 2, it.cl || 0), xHi = it => it.enemy ? W - it.bw / 2 - 2 : W * 0.44 - it.bw / 2;   // 가운데 12%는 비워 둠
     const clamp = it => { it.y = Math.max(yLo(it), Math.min(yHi(it), it.y)); it.x = Math.max(xLo(it), Math.min(xHi(it), it.x)); };
     const start = items.map(it => [it.x, it.y]);
@@ -13534,7 +13683,7 @@ function plateIconsDraw(root){ const tmp=document.createElement("canvas"); root.
 /* v0.95 외형 탭(장비 화면): 가진 외형을 가방처럼 늘어놓고 영웅마다 따로 입힘 — 위: 고른 영웅의 외형 칸 4개 · 가운데: 가진 외형(미리보기 · 남은 수 · 누가 입었는지) · 아래: 고른 외형 입히기/벗기기 */
 let cosTabCat=null, cosTabSel=null, cosNowTimer=0;
 function renderCosPane(B,cid){ const E=cosHeroEq(cid), busy=runBusy(); const CN=Object.fromEntries(COS_CATS.map(c=>[c.k,c.n]));
-  const owned=COS.filter(c=>COS_HERO_CATS.includes(c.cat)&&c.id!==COS_DEFAULT[c.cat]&&cosOwned(c.id)&&(!cosTabCat||c.cat===cosTabCat));
+  const owned=COS.filter(c=>COS_HERO_CATS.includes(c.cat)&&c.id!==COS_DEFAULT[c.cat]&&cosOwned(c.id)&&cosFor(c.id,cid)&&(!cosTabCat||c.cat===cosTabCat));
   if(cosTabSel&&!owned.some(c=>c.id===cosTabSel)) cosTabSel=null; const sel=cosTabSel?COS_BY[cosTabSel]:null;
   const slot=k=>{ const id=E[k], c=id&&COS_BY[id]; return `<button data-cc="${k}" class="${cosTabCat===k?"on":""}"><i>${esc(CN[k])}</i><b>${c?esc(c.name):(k==="cape"&&isProtag(cid)?"진홍 망토(기본)":"기본")}</b></button>`; };
   const cell=c=>{ const w=cosWearers(c.id), n=cosCount(c.id), fr=n-w.length, mine=w.includes(cid); return `<button class="coscell${cosTabSel===c.id?" on":""}${mine?" mine":""}" data-ci="${c.id}" title="${esc(c.name)}${c.note?" — "+esc(c.note):""}"><span class="cospv big"><canvas data-pv="${c.id}"></canvas></span><b>${esc(c.name)}</b><small>${esc(CN[c.cat])} · ${mine?"이 영웅 착용":fr>0?`남음 ${fr}`:`${esc(heroDisplayName(w[0]))} 착용`}${n>1?` · 보유 ${n}`:""}</small></button>`; };
@@ -14785,9 +14934,28 @@ function openPartySet(k){ const S=partySets()[k], busy=!!(typeof runState!=="und
   m.querySelector("#pkSave").onclick=()=>{ partySetSave(k,m.querySelector("#pkName").value); saveProgress(); closeModal(); renderParty(); toast(`<span class="tc">편성 저장</span>칸 ${k+1}에 지금 편성을 저장했어요.`,"",2200); };
   const ld=m.querySelector("#pkLoad"); if(ld) ld.onclick=()=>{ const why=partySetLoad(k); if(why){ toast(esc(why)); return; } saveProgress(); closeModal(); rerenderAll(); if(!runState&&!playing&&!telling) goCamp(); toast(`<span class="tc">편성 불러오기</span>${esc(partySets()[k].name)}`,"",2200); };
   const dl=m.querySelector("#pkDel"); if(dl) dl.onclick=()=>{ if(dl.dataset.arm!=="1"){ dl.dataset.arm="1"; dl.textContent="한 번 더 누르면 비움"; return; } partySets()[k]=null; saveProgress(); closeModal(); renderParty(); }; }
-function openTitlePick(cid){ const h=progress.heroes[cid]; const earned=TITLES.filter(t=>titleEarned(cid,t));   // v0.95 칭호 고르기(자세히)
-  const m=openModal(`<h3>🏷 ${esc(heroDisplayName(cid))}의 칭호</h3><div class="tplist"><button class="tpitem${!h.title?" on":""}" data-tk=""><b>(없음)</b></button>${earned.map(t=>`<button class="tpitem${h.title===t.key?" on":""}" data-tk="${t.key}"><b>${esc(t.name)}</b><span>${esc(t.desc)}</span></button>`).join("")}</div><div class="mbtns" style="margin-top:10px"><button class="btn ghost" id="tpClose">닫기</button></div>`);
-  m.querySelector("#tpClose").onclick=closeModal; m.querySelectorAll("[data-tk]").forEach(b=>b.onclick=()=>{ h.title=b.dataset.tk||null; saveProgress(); closeModal(); renderParty(); }); }
+let titleTab="h";
+function titleCardKeys(cid){ const h=progress.heroes[cid]; const ok=k=>k.startsWith("a:")?!!(progress.ach||{})[k.slice(2)]:(h.titles||[]).includes(k.slice(2));
+  h.cardT=(Array.isArray(h.cardT)?h.cardT:[]).filter(ok).slice(0,3); return h.cardT; }
+function titleCardShow(cid){ const K=titleCardKeys(cid); if(K.length) return K.map(k=>k.startsWith("a:")?ACH_BY[k.slice(2)]:TITLE_BY[k.slice(2)]).filter(Boolean);   // 명함 대표 칭호: 고른 것, 없으면 점수 높은 순 3개
+  const h=progress.heroes[cid]; const L=(h.titles||[]).map(k=>TITLE_BY[k]).filter(t=>t&&(!t.cls||t.cls===cid)).concat(Object.keys(progress.ach||{}).map(k=>ACH_BY[k]).filter(Boolean));
+  return L.sort((a,b)=>(b.pt|0)-(a.pt|0)).slice(0,3); }
+function openTitlePick(cid){ const h=progress.heroes[cid]; achCheck();   // v0.116 칭호·업적 창: 영웅 칭호 / 계정 업적 · 이름 달기 · 명함 대표(3개)
+  const K=titleCardKeys(cid), E=titleRound(titleEffOf(cid)), own=(h.titles||[]);
+  const prog=t=>t.stat&&!t.fn?`${Math.min(t.need,(h.stats||{})[t.stat]|0).toLocaleString("ko-KR")} / ${t.need.toLocaleString("ko-KR")}`:"";
+  const row=(t,acct)=>{ const got=acct?!!(progress.ach||{})[t.key]:own.includes(t.key), ck=(acct?"a:":"t:")+t.key, star=K.includes(ck);
+    return `<div class="tprow${got?"":" off"}${!acct&&h.title===t.key?" eq":""}"><div class="tpt"><b>${esc(t.name)}</b><span>${esc(t.desc)}${got?"":prog(t)?` · ${prog(t)}`:""}</span></div><span class="tppt">${t.pt|0}</span>`
+      +(got?`<div class="tpb">${acct?"":`<button data-tk="${t.key}" class="${h.title===t.key?"on":""}">${h.title===t.key?"이름 표시 중":"이름 달기"}</button>`}<button data-ck="${ck}" class="${star?"on":""}">${star?"★ 명함":"☆ 명함"}</button></div>`:"")+`</div>`; };
+  const HT=TITLES.filter(t=>!t.cls||t.cls===cid), hN=HT.filter(t=>own.includes(t.key)).length, aN=ACHS.filter(a=>(progress.ach||{})[a.key]).length;
+  const list=titleTab==="a"?ACHS.map(a=>row(a,true)).join(""):HT.map(t=>row(t,false)).join("");
+  const m=openModal(`<h3>🏷 ${esc(heroDisplayName(cid))}의 칭호 · 업적</h3><div class="tphd"><span>업적 점수 <b>${titleScore(cid)}</b> / ${titleScoreMax(cid)}</span><small>${esc(titleEffText(E))}</small></div>
+    <div class="tptabs"><button data-tt="h" class="${titleTab!=="a"?"on":""}">영웅 칭호 ${hN}/${HT.length}</button><button data-tt="a" class="${titleTab==="a"?"on":""}">계정 업적 ${aN}/${ACHS.length}</button></div>
+    <div class="tplist">${list}</div><div class="mbtns" style="margin-top:10px">${h.title?`<button class="btn ghost" id="tpNone">이름 표시 빼기</button>`:""}<button class="btn ghost" id="tpClose">닫기</button></div>`);
+  m.querySelector("#tpClose").onclick=()=>{ closeModal(); renderParty(); };
+  const nb=m.querySelector("#tpNone"); if(nb) nb.onclick=()=>{ h.title=null; saveProgress(); openTitlePick(cid); };
+  m.querySelectorAll("[data-tt]").forEach(b=>b.onclick=()=>{ titleTab=b.dataset.tt; openTitlePick(cid); });
+  m.querySelectorAll("[data-tk]").forEach(b=>b.onclick=()=>{ h.title=b.dataset.tk; saveProgress(); openTitlePick(cid); });
+  m.querySelectorAll("[data-ck]").forEach(b=>b.onclick=()=>{ const k=b.dataset.ck, L=titleCardKeys(cid), i=L.indexOf(k); if(i>=0) L.splice(i,1); else { if(L.length>=3) L.shift(); L.push(k); } h.cardT=L; saveProgress(); openTitlePick(cid); }); }
 function stanceRow(cid){
   const st=heroStance(cid); const row=document.createElement("div"); row.className="stance";
   row.innerHTML=`<span class="cap">작전 성향</span>`;
@@ -14828,7 +14996,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   if(rboardOpen(cid)){ const b=document.createElement("button"); b.className="enhb"; b.style.marginLeft="8px";   // v0.114 명성 판
     b.textContent=`명성 판 ${rboardLit(cid)}/${RBOARD.stat+RBOARD.cmd+RBOARD.tp} · ${(h.renown|0).toLocaleString("ko-KR")}`; b.onclick=()=>openRenownBoard(cid); top.appendChild(b); }
   if(mode!=="equip"){ const earned0=TITLES.filter(t=>titleEarned(cid,t));   // v0.95 칭호: 맨 위에 짧게 — 누르면 자세히 보고 고름
-    if(earned0.length){ const tb=document.createElement("button"); tb.className="titlechip"; tb.innerHTML=tt?`🏷 <b>${esc(tt.name)}</b>`:`🏷 칭호 없음`; tb.title=tt?tt.desc:""; tb.onclick=()=>openTitlePick(cid); card.appendChild(tb); } }
+    { const tb=document.createElement("button"); tb.className="titlechip"; tb.innerHTML=`${tt?`🏷 <b>${esc(tt.name)}</b>`:`🏷 칭호`} · 업적 점수 ${titleScore(cid)}`; tb.title=tt?tt.desc:""; tb.onclick=()=>openTitlePick(cid); card.appendChild(tb); } }
   card.appendChild(top);
   if(mode!=="equip"){ const a00=advInfo(cid);   // v0.95 전직 패시브는 맨 위
     if(a00&&a00.passive_name){ const pl=document.createElement("div"); pl.className="learned advpass";
@@ -15315,9 +15483,12 @@ function cardBase(cid){
   g.fillStyle="#ffd978"; g.font="bold 24px sans-serif"; const NW=(cosOn("sticker")||[]).length?268:452; g.fillText(fit(heroDisplayName(cid),NW),162,48);
   if(subActive()){ g.fillStyle="#9db7ff"; g.font="bold 13px sans-serif"; g.font="bold 11px sans-serif"; g.fillText("🌙 정액",30,156); }
   g.fillStyle="#b9c4e6"; g.font="13px sans-serif"; g.fillText(fit(`${heroTitle(cid)} · Lv.${h.level}${h.awaken?" ✦"+h.awaken:""} · ${WEAPONS[D.wtype].name}`,NW),162,68);
-  panel(158,78,458,84);
+  panel(158,78,458,64);   // v0.116 능력치 4칸 × 3줄 · 아래에 업적 점수 · 대표 칭호
   const st=[["공격력",d.atk],["체력",d.hp],["방어력",d.def],["신속",d.spd],["마나",d.mp],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],["명중",pct(d.acc)+"%"],["회피",pct(d.eva)+"%"],["관통",pct(d.pen)+"%"],["상태이상 회피",pct(d.res)+"%"],["흡혈",pct(d.ls)+"%"]];
-  st.forEach(([k,v],i)=>{ const x=170+(i%3)*150, y=96+Math.floor(i/3)*19; g.font="12px sans-serif"; g.fillStyle="#93a3cc"; g.fillText(k,x,y); const w=g.measureText(k).width; g.font="bold 13px sans-serif"; g.fillStyle="#ffffff"; g.fillText(String(v),x+w+5,y); });
+  st.forEach(([k,v],i)=>{ const x=168+(i%4)*112, y=95+Math.floor(i/4)*19; g.font="12px sans-serif"; g.fillStyle="#93a3cc"; g.fillText(k,x,y); const w=g.measureText(k).width; g.font="bold 13px sans-serif"; g.fillStyle="#ffffff"; g.fillText(String(v),x+w+5,y); });
+  { panel(158,146,458,18); g.font="11px sans-serif"; g.fillStyle="#93a3cc"; g.fillText("업적 점수",166,159); let x=166+g.measureText("업적 점수").width+5;   // v0.116
+    g.font="bold 12px sans-serif"; g.fillStyle="#ffd978"; const sc=String(titleScore(cid)); g.fillText(sc,x,159); x+=g.measureText(sc).width+12;
+    for(const t of titleCardShow(cid)){ g.font="bold 11px sans-serif"; const nm=fit("🏷 "+t.name,140); if(x+g.measureText(nm).width>608) break; g.fillStyle="#e8ecfa"; g.fillText(nm,x,159); x+=g.measureText(nm).width+10; } }
   // 속성 저항
   panel(24,168,592,24); g.font="12px sans-serif"; g.fillStyle="#93a3cc"; g.fillText("속성 저항",34,185);
   EL_KEYS.forEach((e,i)=>{ const x=118+i*100; g.fillStyle=CARD_EL[e]; g.fillRect(x,176,8,8); g.font="12px sans-serif"; g.fillText(EL_NAME[e],x+13,185); const w=g.measureText(EL_NAME[e]).width; g.font="bold 13px sans-serif"; g.fillStyle="#ffffff"; g.fillText(String((d.er&&d.er[e])||0),x+13+w+5,185); });
@@ -15977,11 +16148,11 @@ async function renderPvp(){ const P=$("pvpPane"); if(!P) return; const N=pvpNet(
   P.innerHTML=`<div class="panel pvphead">
       <div class="pvpme"><b class="pvpsc">${sc.toLocaleString("ko-KR")}</b><span>${rank?`#${rank}`:`<span class="pvpnr">미등록</span>`}</span>
         <span>공격 ${WR.w}승 ${WR.l}패${WR.d?` ${WR.d}무`:""}</span><span>방어 ${me?me.dw:0}승 ${me?me.dl:0}패</span>${S.stk>=2?`<span class="pvpstk">🔥 ${S.stk}연승</span>`:""}<span class="pvptot">누적 공격 ${S.w}승 ${S.l}패${S.d?` ${S.d}무`:""} · 방어 ${me?me.tdw:0}승 ${me?me.tdl:0}패</span></div>
-      <div class="pvpbar"><button class="btn ghost" id="pvTix">🎟 ${T.n}</button><button class="btn" id="pvParty">⚔ 대전 파티</button><button class="btn ghost" id="pvLog">🛡 방어 기록</button><button class="btn ghost" id="pvHof">🏆 명예의 전당</button><span class="pvpwk">⏳ ${dd}일 ${hh}시간</span></div></div>
+      <div class="pvpbar"><button class="btn ghost" id="pvTix">🎟 ${T.n}</button><button class="btn" id="pvParty">⚔ 대전 파티</button><button class="btn ghost" id="pvLog">🛡 방어 기록</button><button class="btn ghost" id="pvFind">🔍 플레이어</button><button class="btn ghost" id="pvHof">🏆 명예의 전당</button><span class="pvpwk">⏳ ${dd}일 ${hh}시간</span></div></div>
     <div class="panel pvplist" id="pvList">${!N?`<p class="msub">서버에 연결된 게임에서만 대전할 수 있어요</p>`:!L?`<p class="msub">목록을 불러오지 못했어요</p>`:
       L.map((x,i)=>{ const mine=me&&x===me; return `<div class="pvrow${mine?" me":""}" data-u="${esc(x.uid)}"><b class="pvrk">${i+1}</b><span class="pvnm">${esc(String(x.n||"?").slice(0,16))}</span><span class="pvsc">${(x.sc|0).toLocaleString("ko-KR")}</span><span class="pvjobs">${icons(x)}</span><span class="pvcp">⚔ ${(x.cp|0).toLocaleString("ko-KR")}</span><span class="pvwl">${x.w|0}승 ${x.l|0}패</span>${mine?`<span></span>`:`<button class="btn pvgo" data-go="${esc(x.uid)}" ${S.saved&&!busy&&T.n>0?"":"disabled"}>전투</button>`}</div>`; }).join("")}</div>`;
   $("pvTix").onclick=openPvpTix; $("pvParty").onclick=()=>{ fmPvpView=true; showTab("party"); };
-  $("pvLog").onclick=openPvpLog; $("pvHof").onclick=openPvpHof;
+  $("pvLog").onclick=openPvpLog; $("pvHof").onclick=openPvpHof; $("pvFind").onclick=()=>openFindPlayer();
   P.querySelectorAll(".pvrow").forEach(r=>r.onclick=e=>{ const g=e.target.closest("[data-go]"); if(g){ e.stopPropagation(); pvpFight(g.dataset.go); return; } if(r.classList.contains("me")) return; const x=(PVPL||[]).find(y=>y.uid===r.dataset.u); if(x) openPvpPeek(x); }); }
 function openPvpTix(){ const T=pvpTix(), left=pvpExtraLeft(), gem=progress.gem||0;
   const m=openModal(`<h2>🎟 대전권</h2><div class="torchbig"><span class="tico">🎟</span><b>${T.n}</b></div>
@@ -16028,7 +16199,7 @@ async function pvpFight(uid){ if(runBusy()||playing||telling||PVPF) return; cons
   const events=sim.run(), end=events[events.length-1]||{}, res=end.result||"draw";
   const my=typeof myS==="number"?myS:PVP.start, os=op.sc, WR=pvpWR(wk);
   let d=0, bonus=0, defLoss=0, defGain=0;
-  if(res==="win"){ S.w++; WR.w++; S.stk++; renownAdd(RENOWN_WIN); d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
+  if(res==="win"){ S.w++; WR.w++; S.stk++; S.stkBest=Math.max(S.stkBest|0,S.stk); renownAdd(RENOWN_WIN); d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
   else if(res==="lose"){ S.l++; WR.l++; S.stk=0; d=-Math.min(my,pvpLoss(my,os)); defGain=Math.floor(-d/2); }
   else { S.d++; WR.d++; S.stk=0; }
   S.pl[wk]=(S.pl[wk]|0)+1; saveProgress();
@@ -16365,11 +16536,16 @@ function recordBattle(party,result){
       const F=it.fate; const add={kills:R.kills,boss:R.bossKills,survive:R.lowSurvive,heal:R.healed,taken:R.dmgTaken,crits:R.crits}[F.key]||0;
       if(add>0){ F.prog=Math.min(F.need,F.prog+add); if(F.prog>=F.need){ F.done=true; logLine(`<span class="win">🔓 운명이 열렸다 — ${esc(itemLabel(it))}: ${esc(FATES[F.key].btxt)}</span>`); if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:#ffb347">🔓 운명이 열렸다 — ${esc(itemDisplayName(it))}: ${esc(FATES[F.key].btxt)}</span>`,2200); } }
     }
-    for(const t of TITLES) if(titleEarned(u.id,t)&&!(h.titles||[]).includes(t.key)){ h.titles=h.titles||[]; h.titles.push(t.key); if(!h.title) h.title=t.key;
-      logLine(`<span class="win">🏷 ${esc(heroDisplayName(u.id))} 칭호 획득 — [${esc(t.name)}] ${esc(t.desc)} (파티 탭에서 바꿀 수 있어요)</span>`);
-      try{ toast(`<span class="tc">🏷 칭호 획득 — [${esc(t.name)}]</span>${esc(heroDisplayName(u.id))} · ${esc(t.desc)}`,"good",5200); }catch(e){} }
   }
+  achNotify();   // v0.116 칭호·업적
 }
+/* v0.116 새로 얻은 칭호·업적 알림(기록 창 + 알림) — 저장할 때마다 확인 */
+function achNotify(){ let L=[]; try{ L=achCheck(); }catch(e){ return; } if(!L.length) return;
+  for(const {cid,t} of L){ const who=cid?esc(heroDisplayName(cid)):"계정";
+    if(cid){ const h=progress.heroes[cid]; if(!h.title&&t.pt) h.title=t.key; }
+    logLine(`<span class="win">🏷 ${who} ${cid?"칭호":"업적"} — [${esc(t.name)}] ${esc(t.desc)}</span>`); }
+  if(L.length<=3) for(const {cid,t} of L) try{ toast(`<span class="tc">🏷 ${cid?"칭호":"업적"} — [${esc(t.name)}]</span>${cid?esc(heroDisplayName(cid))+" · ":""}${esc(t.desc)}`,"good",5200); }catch(e){}
+  else try{ toast(`<span class="tc">🏷 칭호·업적 ${L.length}개</span>${esc(L.slice(0,3).map(x=>x.t.name).join(" · "))} …`,"good",5200); }catch(e){} }
 /* v0.44 득템 연출 — 쓰러진 적 자리에 등급색 빛기둥, 전설은 화면이 금빛으로 */
 const BEAM_COL={rare:"#5eaaff",epic:"#c98bff",legend:"#ffb347",set:"#45e0cf",mythic:"#ff7ad9"};
 function lootFx(items){
@@ -17219,6 +17395,19 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.14", v:"v0.116", t:"칭호·업적 개편 · 플레이어 검색", L:[
+    "얻은 칭호의 효과가 항상 적용됩니다(장착은 이름 표시용). 대신 효과를 크게 낮췄습니다 — 쉬움 0.05% · 보통 0.1% · 어려움 0.15% · 매우 어려움 0.25%(한 영웅이 다 모으면 합계 약 10%).",
+    "영웅 칭호 37종(전투 기록 3단계씩 · 성장 · 영웅의 길)과 계정 업적 26종(진행 · 수집 · 밤의 심연 · 낙성 강림 · 대전 · 함께하기 · 꾸준함)을 넣었습니다. 계정 업적의 효과는 모든 영웅에게 적용됩니다.",
+    "업적 점수: 쉬움 1 · 보통 2 · 어려움 5 · 매우 어려움 10(한 영웅 만점 353). 영웅 카드의 칭호 칸을 누르면 칭호·업적 창이 열리고, 명함에 올릴 대표 칭호를 3개까지 고를 수 있습니다(고르지 않으면 점수 높은 순).",
+    "명함에 업적 점수와 대표 칭호 3개가 나옵니다(능력치는 4칸 × 3줄로).",
+    "대전 탭의 '🔍 플레이어'에서 영웅 이름으로 다른 플레이어의 명함(모습 · 직업 · Lv · 업적 점수 · 대표 칭호)을 볼 수 있습니다.",
+    "새로 세는 기록: 일일 의뢰를 모두 마친 날 수 · 대전 최고 연승 · 얻어 본 유물(오늘부터 셉니다).",
+  ]},
+  {d:"2026.11.14", v:"v0.115", t:"영웅의 길 망토 9종", L:[
+    "주인공으로 막을 250번 돌파하면 그 영웅의 직업 망토를 얻습니다 — 검사의 길 · 마법사의 길 · 성직자의 길 · 도적의 길 · 권사의 길 · 총사의 길 · 음유시인의 길 · 궁수의 길 · 창술사의 길.",
+    "영웅의 길 망토는 얻은 영웅만 입을 수 있고, 주인공에서 내려와도 계속 입을 수 있습니다. 상점에서는 살 수 없고 진행 수(영웅의 길 n / 250)가 보입니다.",
+    "영웅의 길 100 · 250 · 500에 닿으면 기록 창에 알려 줍니다.",
+  ]},
   {d:"2026.11.14", v:"v0.114", t:"주인공 지휘 효과 · 영웅의 길 · 명성 판", L:[
     "지휘 효과: 주인공의 직업(전직 뒤엔 전직)에 따라 파티 전체에 효과가 붙습니다. 전직 전 — 검사 받는 피해 -4% · 마법사 기술 피해 +5% · 성직자 치유량 +5% · 도적 치명타 피해 +5% · 권사 체력 +5% · 총사 관통 +4% · 음유시인 공격력 +4% · 궁수 광역 피해 +5% · 창술사 방어력 +5%.",
     "전직 뒤 — 수호기사 받는 피해 -8% · 광전사 공격력 +8% · 대마법사 광역 피해 +10% · 서리술사 기술 피해 +10% · 대사제 치유량 +10% · 심판관 관통 +8% · 암살자 치명타 피해 +10% · 독왕 지속 피해 +10% · 수도승 체력 +8% · 용권사 공격력 +5% · 치명타 피해 +5% · 저격수 관통 +5% · 치명타 피해 +5% · 폭탄마 광역 피해 +8% · 군악사 공격력 +5% · 체력 +5% · 광대 전체 속성 저항 +10% · 바람의 명궁 기술 피해 +8% · 숲의 사냥꾼 지속 피해 +8% · 용기병 공격력 +6% · 관통 +4% · 방진 수호자 방어력 +10%.",
@@ -17770,7 +17959,21 @@ function recRun(kind,extra){ REPEAT.last=kind==="clear"?"win":kind==="start"?nul
   if(kind==="start") r[0]++; else if(kind==="clear") r[1]++; else { r[2]++; R.lastLose={k,z:String(extra||"").slice(0,60),at:Date.now()}; } }catch(e){} }
 function recKeyLabel(k){ if(k.startsWith("eg:")) return (EG_MODES[k.slice(3)]||{name:k}).name; const [d,c,a]=k.split("-"); return `${(DIFFS[+d]||{name:"?"}).name} ${c}장 ${a}막`; }
 let recPushAt=0;
-function recPush(force){ const N=NET(); if(!N||!progress||!progress.protag||!bootDone) return; if(!force&&Date.now()-recPushAt<60000) return; recPushAt=Date.now();
+/* v0.116 명함 자료 올리기(플레이어 검색용) — 영웅마다 이름 · 직업 · Lv · 각성 · 모습 · 업적 점수 · 대표 칭호 3개 */
+function cardData(){ return {p:progress.protag?progress.protag.name:"", h:rosterIds().map(c=>{ const h=progress.heroes[c]; return {c, n:isProtag(c)?progress.protag.name:heroOwnName(c), j:jobName(c), lv:h.level|0, aw:h.awaken|0,
+  lk:lookKey(heroLook(c)), sc:titleScore(c), mx:titleScoreMax(c), tn:(h.titles||[]).length, an:Object.keys(progress.ach||{}).length, t:titleCardShow(c).map(t=>[t.name,t.pt|0]), ti:(TITLE_BY[h.title]||{}).name||""}; })}; }
+function cardPush(){ const N=NET(); if(!N||!N.cards||!progress||!progress.protag) return; try{ N.cards.put(cardData()).catch(()=>{}); }catch(e){} }
+function playerCardHTML(x){ const lk=lookFromKey(x.lk||""), sp=lookSprite(lk); const img=sp&&sp.cv?sp.cv.toDataURL():(CLASSES[x.c]?SPRITES[CLASSES[x.c].sprite]:"");
+  return `<div class="pcard"><img src="${img}" alt=""><div class="pcinfo"><b class="pcn">${x.ti?`<small>[${esc(x.ti)}]</small> `:""}${esc(x.n||x.j||"?")}</b><span>${esc(x.j||"")} · Lv.${x.lv|0}${x.aw?` ✦${x.aw}`:""}</span>
+    <span class="pcsc">업적 점수 <b>${x.sc|0}</b> / ${x.mx|0} · 칭호 ${x.tn|0} · 업적 ${x.an|0}</span><div class="pct">${(x.t||[]).map(([n,pt])=>`<span>🏷 ${esc(n)} <i>${pt|0}</i></span>`).join("")}</div></div></div>`; }
+function openFindPlayer(q,res){ const N=NET(); const body=res==null?"":res==="none"?`<p class="msub">찾지 못했어요</p>`:res==="err"?`<p class="msub">불러오지 못했어요</p>`:
+    res.none?`<p class="msub">아직 명함이 없어요</p>`:(()=>{ const k=String(q||"").trim().toLowerCase(), H=res.h||[], f=H.find(x=>String(x.n||"").toLowerCase()===k)||H[0]; return f?playerCardHTML(f)+(H.length>1?`<div class="pcmore">${H.filter(x=>x!==f).map(x=>`<span>${esc(x.n||x.j)} Lv.${x.lv|0} · ${x.sc|0}</span>`).join("")}</div>`:""):`<p class="msub">찾지 못했어요</p>`; })();
+  const m=openModal(`<h2>🔍 플레이어</h2><div class="pcfind"><input id="pfQ" maxlength="8" placeholder="영웅 이름" value="${esc(q||"")}" autocomplete="off"><button class="btn" id="pfGo" ${N&&N.cards?"":"disabled"}>찾기</button></div>${body}
+    <div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small");
+  m.querySelector("#mclose").onclick=closeModal; const inp=m.querySelector("#pfQ"), go=m.querySelector("#pfGo");
+  inp.onkeydown=e=>{ if(e.key==="Enter") go.click(); }; setTimeout(()=>inp.focus(),30);
+  go.onclick=async()=>{ const v=cleanName(inp.value); if(!v||!N||!N.cards) return; go.disabled=true; let r; try{ r=await N.cards.byName(v); }catch(e){ r="err"; } openFindPlayer(v,r==null?"none":r); }; }
+function recPush(force){ const N=NET(); if(!N||!progress||!progress.protag||!bootDone) return; if(!force&&Date.now()-recPushAt<60000) return; recPushAt=Date.now(); cardPush();
   try{ const pg=progress.protag, R=recOf();
     N.ops.playerPut({name:pg.name, cid:pg.cid, job:jobName(pg.cid), lv:progress.heroes[pg.cid].level, aw:progress.heroes[pg.cid].awaken||0,
       heroes:rosterIds().map(c=>[CLASSES[c].name,progress.heroes[c].level,advInfo(c)?advInfo(c).name:""]), diffMax:progress.diffMax|0, prog:progressSummary(progress),

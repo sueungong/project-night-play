@@ -258,7 +258,13 @@
     unInvite: async uid => { await rtdb.ref("invited/" + safeKey(uid)).remove(); },
     allowUid: async uid => { await rtdb.ref("invited/" + safeKey(uid)).set({ by: "admin", at: TS }); }
   };
-  window.PNNet = { lend, pvp, auth: authApi, ops, invite, names: namesApi, serverNow: () => Date.now() + tOff,
+  // v0.116 명함(플레이어 검색): cards/<uid> = {j: 영웅들 명함 자료(JSON), at} · 영웅 이름 → names 등록부 → 그 계정의 명함
+  const cards = {
+    put: async o => { const u = await ready; if (!u) return; await rtdb.ref("cards/" + u.uid).set({ j: JSON.stringify(o), at: TS }); },
+    byName: async n => { const u = await ready; if (!u) return null; const k = nameKey(n); if (!k) return null; const uid = await val("names/" + k); if (!uid) return null;
+      const c = await val("cards/" + safeKey(uid)); if (!c || typeof c.j !== "string") return { uid, none: true }; let d = null; try { d = JSON.parse(c.j); } catch (e) {} return d ? Object.assign({ uid, at: c.at || 0 }, d) : { uid, none: true }; }
+  };
+  window.PNNet = { lend, pvp, auth: authApi, ops, invite, names: namesApi, cards, serverNow: () => Date.now() + tOff,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
     bindSettings: () => bind(document.getElementById("pnAcct")),
     ready, get user() { return user; }
