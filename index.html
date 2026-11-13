@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794556812039"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794578582650"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -15976,8 +15976,13 @@ async function pvpFight(uid){ if(runBusy()||playing||telling||PVPF) return; cons
   if(!op||!op.j){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
   const foes=await pvpUnpack(op.j); if(!Array.isArray(foes)||!foes.length){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
   const party=pvpUnits(false); if(!party.length) return;
-  foes.forEach((u,i)=>{ u.id="pv"+i; u.side="enemy"; u.pvpHero=true; u.alive=true; u.hp=u.hp_max; u.mp=u.mp_max; u.buffs={}; u.dots={}; });
-  T.n--; const seed=(Math.random()*0xFFFFFFFF)>>>0; const sim=new Sim(party,foes,seed); sim.meterOn=true; const events=sim.run(), end=events[events.length-1]||{}, res=end.result||"draw";
+  const prepFoes=L=>L.forEach((u,i)=>{ u.id="pv"+i; u.side="enemy"; u.pvpHero=true; u.alive=true; u.hp=u.hp_max; u.mp=u.mp_max; u.buffs={}; u.dots={}; }); prepFoes(foes);
+  T.n--; const seed=(Math.random()*0xFFFFFFFF)>>>0;
+  /* v0.112 화면용 판: 결과를 먼저 계산하면(sim.run) 유닛이 끝난 상태(쓰러짐 · 체력 0)가 되므로, 같은 조건의 판을 하나 더 만들어 전투 시작 모습을 그림(돌리지 않음) */
+  let view=null; try{ const f2=await pvpUnpack(op.j); if(Array.isArray(f2)&&f2.length===foes.length){ prepFoes(f2); view=new Sim(pvpUnits(false),f2,seed); } }catch(e){ view=null; }
+  const sim=new Sim(party,foes,seed); sim.meterOn=true;
+  if(view){ const byId=new Map(sim.units.map(u=>[u.id,u])); if(view.units.length!==sim.units.length||view.units.some(u=>!byId.has(u.id))) view=null; else for(const u of view.units){ const o=byId.get(u.id); u.row=o.row; u.lane=o.lane; } }   // 자리(앞·뒷줄 · 가로줄)는 실제 판과 똑같이
+  const events=sim.run(), end=events[events.length-1]||{}, res=end.result||"draw";
   const my=mine?mine.sc:PVP.start, os=op.sc, WR=pvpWR(wk);
   let d=0, bonus=0, defLoss=0, defGain=0;
   if(res==="win"){ S.w++; WR.w++; S.stk++; d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
@@ -15989,11 +15994,11 @@ async function pvpFight(uid){ if(runBusy()||playing||telling||PVPF) return; cons
     else if(res==="lose"){ if(defGain>0) await N.addScore(uid,defGain,wk); await N.inc(uid,"dw",wk); await N.logPush(uid,{an:coopNick(),win:false,d:defGain}); } }catch(e){}
   try{ await pvpUpload(); }catch(e){}
   logLine(`<span class="${res==="win"?"win":res==="lose"?"lose":"r"}">⚔ 대전 — ${esc(String(op.n||"?"))} 상대로 ${res==="win"?"승리":res==="lose"?"패배":"무승부"} (${d+bonus>=0?"+":""}${d+bonus}점${bonus?` · 연승 +${bonus}`:""})</span>`);
-  await pvpPlay(sim,events,op,{res,d,bonus,after:typeof after==="number"?after:my+d+bonus}); }
-async function pvpPlay(sim,events,op,R){ PVPF={n:String(op.n||"?")}; playing=true; try{ closeModal(); }catch(e){}
+  await pvpPlay(sim,events,op,{res,d,bonus,after:typeof after==="number"?after:my+d+bonus},view); }
+async function pvpPlay(sim,events,op,R,view){ PVPF={n:String(op.n||"?")}; playing=true; try{ closeModal(); }catch(e){}
   try{ showTab("dungeon"); setMainBtn(); $("resetBtn").disabled=true; }catch(e){}
   try{ SND.scene("boss"); }catch(e){}
-  spawnField(sim.units); { const zl=$("zoneline"); if(zl) zl.textContent=`⚔ 대전 — ${PVPF.n}`; }
+  spawnField((view||sim).units); if(view) curUnits=sim.units; { const zl=$("zoneline"); if(zl) zl.textContent=`⚔ 대전 — ${PVPF.n}`; }
   logLine(`<span class="zone">⚔ 대전 — ${esc(PVPF.n)}</span>`);
   try{ MT.begin(sim,events,"대전"); }catch(e){}
   let n=0, ei=-1;
@@ -17152,6 +17157,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.13", v:"v0.112", t:"대전 전투 화면 고침", L:[
+    "대전에서 전투가 시작될 때부터 영웅들이 쓰러진 모습(☠ · 체력 0)으로 나오던 문제를 고쳤습니다. 이제 몹과의 전투처럼 양쪽 영웅이 모두 서 있는 모습에서 시작해 공격 · 피해 · 쓰러짐이 차례로 보입니다. 결과와 점수 계산은 그대로입니다.",
+  ]},
   {d:"2026.11.13", v:"v0.111", t:"전투 중 오라 계산 줄이기", L:[
     "같은 모습 · 같은 단계의 오라는 이어서 씁니다 — 전투가 바뀌거나 대기실에서 던전으로 들어갈 때마다 오라를 처음부터 다시 만들던 멈춤(영웅 5명 기준 약 0.16초, CPU 4배 느리게 잰 값)이 없어졌습니다.",
     "오라 불길 계산에서 매 걸음 새 판을 만들지 않고 두 장을 번갈아 씁니다 — 오라 계산 시간 약 32% 감소(40초 전투 기준 0.88초 → 0.59초). 오라 모양 · 움직임은 같습니다.",
