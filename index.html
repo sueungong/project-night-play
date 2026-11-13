@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794552550558"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794556812039"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11173,7 +11173,7 @@ function auraNew(look,tier){ const M0=auraMasks(look); if(!M0||!AURA_P[tier]) re
   const cv=document.createElement("canvas"); cv.width=gw; cv.height=gh;
   const A={spr,tier,W:AURA_W,H:AURA_H,gw,gh,body:M0.body,src:M0.src,vars:{"0|0":M0},fk:"0|0",heat:new Float32Array(gw*gh),flakes:[],step:0,cv,out:cv,ctx:cv.getContext("2d"),img:null,next:0};
   for(let i=0;i<40;i++) auraStep(A); auraPaint(A); return A; }
-function auraSub(A){ const W=A.gw, H=A.gh, P=AURA_P[A.tier], R=Math.random, h0=A.heat, nw=new Float32Array(W*H), t=(A.step++)/2;
+function auraSub(A){ const W=A.gw, H=A.gh, P=AURA_P[A.tier], R=Math.random, h0=A.heat; let nw=A.heat2; if(!nw||nw.length!==W*H) nw=new Float32Array(W*H); else nw.fill(0); const t=(A.step++)/2;   /* v0.111 판 두 장을 번갈아 씀(매 걸음 새 판을 만들지 않음) */
   const gust=0.55+0.35*Math.sin(t*0.45)+0.15*Math.sin(t*1.7);
   for(let y=H-1;y>0;y--){ const sway=Math.sin(t*0.55-y*0.3)*0.8-gust*(H-y)/H*1.6;
     for(let x=0;x<W;x++){ const h=((x>0?h0[y*W+x-1]:0)+h0[y*W+x]*2+(x<W-1?h0[y*W+x+1]:0))/4; if(h<=0.2) continue;
@@ -11181,7 +11181,7 @@ function auraSub(A){ const W=A.gw, H=A.gh, P=AURA_P[A.tier], R=Math.random, h0=A
   for(const k of A.src){ const v=P.src-R()*2.5; if(v>nw[k]) nw[k]=v; }
   if(P.flake) for(let k=0;k<W*H;k++) if(nw[k]>P.src*0.5&&R()<P.flake*0.25) A.flakes.push([k%W-2,Math.floor(k/W)-4,1]);
   for(const f of A.flakes){ f[0]-=0.6+gust*0.5; f[1]-=0.55+R()*0.3; f[2]-=0.04; }
-  A.flakes=A.flakes.filter(f=>f[2]>0&&f[1]>0&&f[0]>0); A.heat=nw; }
+  A.flakes=A.flakes.filter(f=>f[2]>0&&f[1]>0&&f[0]>0); A.heat2=h0; A.heat=nw; }
 function auraStep(A){ auraSub(A); auraSub(A); const P=AURA_P[A.tier]; A.spark=P.spark&&Math.random()<P.spark*4?A.src[Math.floor(Math.random()*A.src.length)]:-1; }
 function auraPaint(A){ const W=A.gw, H=A.gh, ramp=A.ac&&typeof COSART!=="undefined"?COSART.tintRamp(AURA_RAMP[A.tier],A.ac):AURA_RAMP[A.tier], P=AURA_P[A.tier], im=A.img||(A.img=A.ctx.createImageData(W,H)), d=im.data; d.fill(0);
   const put=(k,c)=>{ const i=k*4; d[i]=c[0]; d[i+1]=c[1]; d[i+2]=c[2]; d[i+3]=255; };
@@ -11189,7 +11189,8 @@ function auraPaint(A){ const W=A.gw, H=A.gh, ramp=A.ac&&typeof COSART!=="undefin
   for(const [fx,fy,life] of A.flakes){ const x=Math.round(fx), y=Math.round(fy); if(x>=0&&y>=0&&x<W&&y<H) put(y*W+x,ramp[Math.min(ramp.length-1,1+Math.floor(life*(ramp.length-2)))]); }
   if(A.spark>=0){ const x=A.spark%W, y=Math.floor(A.spark/W); for(const [dx,dy] of [[0,0],[1,0],[-1,0],[0,1],[0,-1],[2,0],[-2,0],[0,2],[0,-2]]){ const xx=x+dx, yy=y+dy; if(xx>=0&&yy>=0&&xx<W&&yy<H) put(yy*W+xx,ramp[ramp.length-1]); } }
   A.ctx.putImageData(im,0,0); }
-const AURA_LIVE=new WeakMap();
+const AURA_LIVE=new WeakMap(), AURA_POOL=new Map();   /* v0.111 같은 모습·단계의 오라는 이어서 씀(전투가 바뀔 때마다 새로 만들던 멈춤 방지) — 최근 24개까지 */
+function auraPoolGet(key,make){ let A=AURA_POOL.get(key); if(A){ AURA_POOL.delete(key); AURA_POOL.set(key,A); return A; } A=make(); if(!A) return null; AURA_POOL.set(key,A); if(AURA_POOL.size>24) AURA_POOL.delete(AURA_POOL.keys().next().value); return A; }
 /* v0.32 보스 광폭 오라: 몬스터 도트 윤곽(1칸 = 그림 1칸)에서 핏빛 불길이 짧게 일렁임 — 영웅 오라보다 작게(판 여백 위 6칸·옆 3칸) */
 const RAGE_OX=3, RAGE_OY=6, RAGE_LIVE=new WeakMap();
 function rageNew(key,flip){ const D=ENEMY_DOTS[key]; if(!D) return null; const n=D.rows.length, W=n+RAGE_OX*2, H=n+RAGE_OY+1, gw=W*2, gh=H*2, ON=[1,1,1];
@@ -11198,10 +11199,10 @@ function rageNew(key,flip){ const D=ENEMY_DOTS[key]; if(!D) return null; const n
   const cv=document.createElement("canvas"); cv.width=gw; cv.height=gh;
   const A={key,n,tier:5,W,H,gw,gh,body,src:auraSrc(body,gw,gh,gh),heat:new Float32Array(gw*gh),flakes:[],step:0,cv,out:cv,ctx:cv.getContext("2d"),img:null,next:0};
   for(let i=0;i<30;i++) auraStep(A); auraPaint(A); return A; }
-function rageFor(el,now){ const k=el.dataset.mon; let A=RAGE_LIVE.get(el); if(!A||A.key!==k){ const u=el.closest(".unit"); A=rageNew(k,!!(u&&u.parentElement&&/^row-enemy/.test(u.parentElement.id||""))); if(!A) return null; RAGE_LIVE.set(el,A); }
+function rageFor(el,now){ const k=el.dataset.mon; let A=RAGE_LIVE.get(el); if(!A||A.key!==k){ const u=el.closest(".unit"), fl=!!(u&&u.parentElement&&/^row-enemy/.test(u.parentElement.id||"")); A=auraPoolGet("r|"+(fl?1:0)+"|"+k,()=>rageNew(k,fl)); if(!A) return null; RAGE_LIVE.set(el,A); }
   if(now>=A.next){ auraStep(A); auraPaint(A); A.next=now+AURA_STEP; } return A; }
 function auraFor(el,now){ const spr=el.dataset.look, tier=+el.dataset.aura; let A=AURA_LIVE.get(el);
-  if(!A||A.spr!==spr||A.tier!==tier){ A=auraNew(lookFromKey(spr),tier); if(!A) return null; AURA_LIVE.set(el,A); }
+  if(!A||A.spr!==spr||A.tier!==tier){ A=auraPoolGet("h|"+tier+"|"+spr,()=>auraNew(lookFromKey(spr),tier)); if(!A) return null; AURA_LIVE.set(el,A); }
   const ac=el.dataset.ac||""; if((A.ac||"")!==ac){ A.ac=ac; auraPaint(A); }   // v0.58 오라 색
   const fk=el.dataset.af||"0|0";   // 지금 그려진 그림(숨쉬기 칸 | 망토 장)
   if(fk!==A.fk){ let M=A.vars[fk]; if(!M){ const L=lookFromKey(spr), [b,cf]=fk.split("|").map(Number); L.bob=b; if(L.pc) L.cf=cf; M=A.vars[fk]=auraMasks(L); }
@@ -17151,6 +17152,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.13", v:"v0.111", t:"전투 중 오라 계산 줄이기", L:[
+    "같은 모습 · 같은 단계의 오라는 이어서 씁니다 — 전투가 바뀌거나 대기실에서 던전으로 들어갈 때마다 오라를 처음부터 다시 만들던 멈춤(영웅 5명 기준 약 0.16초, CPU 4배 느리게 잰 값)이 없어졌습니다.",
+    "오라 불길 계산에서 매 걸음 새 판을 만들지 않고 두 장을 번갈아 씁니다 — 오라 계산 시간 약 32% 감소(40초 전투 기준 0.88초 → 0.59초). 오라 모양 · 움직임은 같습니다.",
+  ]},
   {d:"2026.11.13", v:"v0.110", t:"탭 여는 속도", L:[
     "장비 아이콘을 쉬는 시간에 미리 만들어 둡니다 — 장비 탭을 처음 열 때 멈춤이 약 0.4~0.6초 → 0.15초(휴대폰 수준으로 CPU를 4배 느리게 잰 값).",
     "장비 · 파티 · 상점 화면을 그리는 동안 '더 좋은 장비' 비교와 무기 종류 계산을 한 번만 합니다 — 장비 계산 횟수 161번 → 25번, 파티 탭 0.13초 → 0.07초, 규칙 탭 0.04초 → 0.02초(같은 기준).",
