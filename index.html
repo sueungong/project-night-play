@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794510041725"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794552550558"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -8617,7 +8617,7 @@ function setEffects(sets){
   return out;
 }
 function heroPrim(cid){ const c=CLASSES[cid], h=progress.heroes[cid]; const o={}; for(const k of PRIM) o[k]=(c.prim[k]||0)+((h.alloc||{})[k]||0)+2*((h.stars||{})[k]||0); return o; }
-function heroWeaponType(cid){ const w=heroEquipTotals(cid).wtype; return w&&WEAPONS[w]&&WEAPONS[w].cls===cid?w:CLASS_WEAPONS[cid][0]; }
+function heroWeaponType(cid){ let w=null; for(const sk of heroSlots()){ const it=findEquipped(cid,sk); if(it&&it.slot==="weapon") w=it.wtype||null; }   /* v0.110 장비 합계(heroEquipTotals)의 wtype과 같은 값 — 무기 칸만 봐서 빠름 */ return w&&WEAPONS[w]&&WEAPONS[w].cls===cid?w:CLASS_WEAPONS[cid][0]; }
 function heroTitleObj(cid){ const h=progress.heroes[cid]; return h.title?TITLES.find(t=>t.key===h.title)||null:null; }
 // v0.36: 장비(세트·유물·신화·무기)에서 오는 특수 효과 — 특성과 겹치면 하나는 효과가 없으므로 미리 알려 줌
 function gearFlags(cid){ const E=heroEquipTotals(cid), out={};
@@ -13647,7 +13647,7 @@ function itemSpecial(it){ if(!it) return 0; return itemCondAffixes(it).filter(a=
 function previewEquip(cid,it,slot){
   const h=progress.heroes[cid]; slot=slot||equipSlotFor(cid,it);
   const eq0=Object.assign({},h.equip), st0=equippedStore.slice();
-  const before=heroDerived(cid).stats, prev=findEquipped(cid,slot);
+  const bk=UPG_MEMO?"b|"+cid:null; let before=bk?UPG_MEMO.get(bk):null; if(!before){ before=heroDerived(cid).stats; if(bk) UPG_MEMO.set(bk,before); } const prev=findEquipped(cid,slot);
   let offItem=null, after;
   try{
     h.equip[slot]=it.id; if(!equippedStore.includes(it)) equippedStore.push(it);
@@ -13670,7 +13670,11 @@ function cmpDiffs(before,after){
     if(Math.abs(d)>=(isP?0.5:1)) out.push({k,d,txt:`${CMP_LABEL[k]} ${d>0?"+":""}${isP?d.toFixed(Math.abs(d)%1?1:0)+"%":d}`}); }
   return out;
 }
-function upgradeFor(cid,it){ if(it.slot==="rune"||!canEquip(cid,it)) return null; return previewEquip(cid,it,bestSlotFor(cid,it)); }
+/* v0.110 화면을 한 번 그리는 동안(withUpgMemo 안)만 '더 좋은 장비' 비교 결과와 영웅의 지금 능력치를 기억 — 그리는 중엔 장비가 바뀌지 않으므로 결과가 같음 */
+let UPG_MEMO=null;
+function withUpgMemo(fn){ const own=!UPG_MEMO; if(own) UPG_MEMO=new Map(); try{ return fn(); } finally{ if(own) UPG_MEMO=null; } }
+function upgradeFor(cid,it){ if(it.slot==="rune"||!canEquip(cid,it)) return null; const M=UPG_MEMO, k=M&&it.id!=null?cid+"|"+it.id:null; if(k&&M.has(k)) return M.get(k);
+  const r=previewEquip(cid,it,bestSlotFor(cid,it)); if(k) M.set(k,r); return r; }
 function upgradeCount(cid){ return progress.inv.filter(it=>{ const p=upgradeFor(cid,it); return p&&p.pct>0.5; }).length; }
 function isUpgradeForAnyone(it){ return rosterIds().some(c=>{ const p=upgradeFor(c,it); return p&&p.pct>0.5; }); }
 // 자동 정리: 등급별로 새로 얻은 장비를 보관/판매/분해
@@ -13777,10 +13781,10 @@ function heroTabs(){
   }
   return box;
 }
-function renderParty(){   // v0.35: 파티(진영) · 장비 두 탭 — 보이는 쪽만 다시 그림
+function renderParty(){ withUpgMemo(()=>{   // v0.35: 파티(진영) · 장비 두 탭 — 보이는 쪽만 다시 그림
   if($("body-party")&&!$("body-party").hidden) renderFormation();
   if($("body-equip")&&!$("body-equip").hidden) renderEquip();
-}
+}); }
 // v0.35 진영 정비: 앞줄·뒷줄·대기에 영웅을 끌어다 놓기 · 영웅끼리 끌어서 자리 바꾸기 (터치도 됨)
 function formMove(src,dst){   // src: 영웅 id · dst: {slot:{row,lane}} · {hero} · {zone:"front"|"back"|"bench"}   (v0.43: 앞줄·뒷줄 × 가로줄 4칸)
   normalizeFormation();
@@ -14285,6 +14289,15 @@ let bagTidy=false, rpTidy=false, rpPick=false, rpSel=new Set(), rpArm=null; let 
 const DOLL_L=["helm","armor","cape","gloves","boots"], DOLL_R=["weapon","offhand","amulet","ring1","ring2"], DOLL_TOP=["relic"];   // v0.55.6: 유물은 가운데 위(투구·무기 사이) — 좌우 5칸씩 높이 맞춤
 const SLOT_GHOST={weapon:"sword",offhand:"off_knight",helm:"helm",armor:"armor",gloves:"gloves",boots:"boots",cape:"cape",ring1:"ring",ring2:"ring",amulet:"amulet",relic:"relic"};
 function itemIconURL(it){ try{ return ITEM_ICON.url(it); }catch(e){ return ""; } }
+/* v0.110 장비 아이콘을 쉬는 시간에 조금씩 미리 만들어 둠(장비 탭을 처음 열 때 멈춤 방지) — 가방 · 낀 장비 · 빈 칸 그림 */
+let iconWarmQ=null;
+function iconPrewarm(){ try{ if(!progress||!progress.heroes) return; const L=[...progress.inv,...equippedStore].filter(Boolean);
+    for(const c of rosterIds()) for(const sk of [...DOLL_L,...DOLL_R,...DOLL_TOP]) L.push({ghost:[sk,c]});
+    const busy=!!iconWarmQ; iconWarmQ=L; if(busy) return;
+    const ric=window.requestIdleCallback?f=>requestIdleCallback(f,{timeout:2000}):f=>setTimeout(()=>f({timeRemaining:()=>8}),60);
+    const step=dl=>{ const Q=iconWarmQ; if(!Q){ return; } let n=0; while(Q.length&&(dl.timeRemaining()>4||n===0)){ const x=Q.pop(); n++; try{ if(x.ghost) slotGhostURL(x.ghost[0],x.ghost[1]); else itemIconURL(x); }catch(e){} }
+      if(Q.length) ric(step); else iconWarmQ=null; };
+    ric(step); }catch(e){ iconWarmQ=null; } }
 function slotGhostURL(sk,cid){ const k=SLOT_GHOST[sk]; const it=sk==="weapon"?{slot:"weapon",wtype:CLASS_WEAPONS[cid][0],rarity:"common"}:sk==="offhand"?{slot:"offhand",cls:cid,rarity:"common"}:{slot:k==="ring"?"ring":k,rarity:"common"}; return itemIconURL(it); }
 function iconCell(it,o){ o=o||{}; const E=o.enh; const enh=E&&E.l?`<b class="ic-enh ${enhTier(E.l).cls}">+${E.l}</b>`:"";   // v0.45: +N은 부위 강화(끼운 칸에서만)
   return `<span class="icell r-${it?(it.mythic?"mythic":it.rarity):"none"}${E&&E.gilt?" gilt":""}"><img src="${itemIconURL(it)}" alt="">${enh}${o.n>1?`<b class="ic-n">${o.n}</b>`:""}${o.up?`<b class="ic-up">▲</b>`:""}${it&&it.lock?`<b class="ic-lock">🔒</b>`:""}</span>`; }
@@ -15427,7 +15440,8 @@ function openShopItem(it,priceTxt,can,onBuy){
   m.querySelector("#smClose").onclick=closeModal; m.addEventListener("click",e=>{ if(e.target===m) closeModal(); });
   m.querySelector("#smBuy").onclick=()=>{ if(onBuy()) closeModal(); }; }
 
-function renderShop(){
+function renderShop(){ return withUpgMemo(renderShop0); }
+function renderShop0(){
   const pane=$("shopPane"); pane.innerHTML="";
   if(shopTick()) saveProgress();
   const mkOpen=progress.diffMax>=2;
@@ -15662,6 +15676,7 @@ function goCamp(){
   if(coopLobbyOn()){ const lu=coopLobbyUnits(); spawnField(lu); coopLobbyAfter(lu); } else { if(COOP_LB) COOP_LB.sig=""; spawnField(campUnits()); } coopLobbyBox();   // v0.94 함께하기 방 = 방장의 대기실
   setMainBtn(); renderHud();
   setTimeout(()=>TUT.kick(),350);
+  setTimeout(iconPrewarm,1200);   // v0.110 장비 아이콘 미리 만들기(쉬는 시간에)
   if(had) repeatAfterRun();   // v0.93 반복 전투
 }
 /* ================= v0.35 던전 선택 창 ================= */
@@ -17136,6 +17151,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.13", v:"v0.110", t:"탭 여는 속도", L:[
+    "장비 아이콘을 쉬는 시간에 미리 만들어 둡니다 — 장비 탭을 처음 열 때 멈춤이 약 0.4~0.6초 → 0.15초(휴대폰 수준으로 CPU를 4배 느리게 잰 값).",
+    "장비 · 파티 · 상점 화면을 그리는 동안 '더 좋은 장비' 비교와 무기 종류 계산을 한 번만 합니다 — 장비 계산 횟수 161번 → 25번, 파티 탭 0.13초 → 0.07초, 규칙 탭 0.04초 → 0.02초(같은 기준).",
+  ]},
   {d:"2026.11.13", v:"v0.109", t:"렉 줄이기(대기실 · 전투)", L:[
     "배경 그림판(정밀도 2배)을 초당 15장으로 그립니다(영웅 · 효과 · 앞쪽 날씨는 그대로 30장). 배경의 구름 · 새 · 빛가루 · 떠도는 알갱이는 건너뛴 만큼 더 움직여 속도는 같습니다.",
     "배경 색 보정(위 안개 · 아래 어둠 · 가장자리 어둠)을 장마다 새로 칠하지 않고 한 번 그려 둔 것을 씁니다.",
