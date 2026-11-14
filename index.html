@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794655528017"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794658753862"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -118,7 +118,7 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .fspeed{white-space:nowrap} .fspeed b{font-weight:700; color:var(--ink)}
 .fretreat{color:var(--bad)!important; border-color:#6b3d3d!important; white-space:nowrap} .fretreat.arm{background:var(--bad)!important; color:#1a0703!important; font-weight:800}
 .frun{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--sub); background:rgba(10,14,28,.72); border:1px solid var(--line); border-radius:10px; padding:3px 10px}
-.frun b{color:var(--accent)} .fauto{display:inline-flex; align-items:center; gap:5px; font-size:13px; color:var(--sub); cursor:pointer; white-space:nowrap}
+.frun b{color:var(--accent)} .fauto{display:inline-flex; align-items:center; gap:5px; font-size:13px; color:var(--sub); cursor:pointer; white-space:nowrap; padding:10px 4px; margin:-10px -4px}
 .fnext{position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:7; height:52px; padding:0 26px; border-radius:14px; border:0; background:var(--accent); color:var(--accent-ink); font-size:17px; font-weight:800; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 6px 20px #0008}
 .fnext small{font-size:11.5px; font-weight:600; opacity:.85}
 .fnext.go{animation:fgoPulse 2.4s ease-in-out infinite} @keyframes fgoPulse{0%,100%{box-shadow:0 6px 20px #0008}50%{box-shadow:0 6px 20px #0008,0 0 0 6px #f4c95d33}}
@@ -156,7 +156,9 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .dpfoot .btn.main{height:48px; min-width:150px; font-size:17px}
 @media (max-height:560px){ .modal.dpm .mpanel{padding:8px 10px; max-height:calc(100dvh - 12px)} #dpick{gap:6px} .dpgrid{grid-template-columns:repeat(10,minmax(0,1fr)); gap:4px} .dpimg{height:30px} .dpimg img{width:28px; height:28px} .dpc{padding:3px 2px; gap:1px} .dpt{font-size:11.5px} .dpt .rn{display:none} .dpacts i{width:9px; height:4px}
   .dpsel{padding:6px 8px; gap:5px} .dph b{font-size:14px} .fspeed,.logbtn{white-space:nowrap} .frun .fg{display:none} .fnext{height:44px; bottom:8px}
-  .dptabs button{height:32px; font-size:13px; padding:0 10px} .dpactbtns button{padding:5px 8px; font-size:13px} .dpactbtns button small{display:none} .dpfoot .btn.main{height:40px} .dpparty img{width:26px; height:26px} .dphead h2{font-size:17px} }
+  .dptabs button{height:32px; font-size:13px; padding:0 10px} .dpactbtns button{padding:5px 8px; font-size:13px} .dpactbtns button small{display:none} .dpfoot .btn.main{height:40px} .dpparty img{width:26px; height:26px} .dphead h2{font-size:17px}
+  .dpactbtns{grid-template-columns:repeat(5,minmax(0,1fr)); gap:5px} .dpactbtns button{min-width:0; padding:5px 6px} .dpactbtns button > *{max-width:100%; white-space:nowrap}
+  .dpfoot{flex-wrap:nowrap; gap:8px; padding:6px 0 2px} .dpfoot .dpparty{display:none} .dpfoot .fauto{font-size:12px} .dpfoot .btn{flex:none} .dpfoot .btn.main{min-width:0; padding:0 16px; font-size:15px} .dptorch{font-size:12px; white-space:nowrap} }   /* v0.121 낮은 화면: 아래 줄 한 줄 · 막 5칸 한 줄 */
 .crumbx{margin-left:6px; height:28px; padding:0 10px; border-radius:8px; background:var(--raised); border:1px solid var(--line); color:var(--sub); font-size:13px; cursor:pointer; white-space:nowrap} .crumbx:hover{color:var(--ink); border-color:var(--accent)}
 .fieldhead{display:flex; align-items:center; gap:10px; min-height:24px; position:relative; z-index:2}
 .zoneline{font-size:14.5px; color:var(--accent); font-weight:600}
@@ -170,7 +172,7 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .actbar .res .big{font-size:16px; font-weight:700}
 .actbar .p{color:var(--party); font-weight:700} .actbar .e{color:var(--enemy); font-weight:700} .actbar .sk{color:var(--accent); font-weight:700}
 .mtoasts{position:fixed!important; z-index:80!important; top:12px!important; left:50%!important; right:auto!important; bottom:auto!important; transform:translateX(-50%)!important; width:min(360px,90vw)!important}
-.fchip .ford{position:absolute; left:-6px; top:-6px; z-index:3; min-width:20px; height:20px; padding:0 5px; border-radius:999px; background:var(--accent); color:#1a1306; font:800 12px/20px system-ui; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.5)}
+.fchip .ford{font-weight:800; color:var(--accent); margin-right:4px} .fhero.sel .fn .ford{color:inherit}
 .fordline{margin:6px 2px 2px; font-size:13px; color:var(--sub); line-height:1.6} .fordline b{color:var(--ink)} .fordline span{white-space:nowrap} .fordline small{color:var(--dim)}
 .bagtabs{display:flex; gap:6px; margin-bottom:8px} .bagtabs button{flex:1; height:36px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-weight:700; cursor:pointer} .bagtabs button.on{background:var(--accent); color:#1a1306; border-color:var(--accent)} .bagtabs small{font-weight:600; opacity:.8}
 .rpouch .rp-h{display:flex; align-items:baseline; gap:8px; margin:10px 2px 6px} .rpouch .rp-h small{color:var(--dim); font-size:12px}
@@ -190,7 +192,7 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .eqsock.on{color:#1a1306; background:var(--accent); border-color:var(--accent)} .eqslot.rpon .icell{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent)}
 .rp-cell{touch-action:manipulation; user-select:none; -webkit-user-select:none}
 .ttl-code{display:flex; gap:8px; justify-content:center} .ttl-code input{width:200px; height:44px; border-radius:10px; border:1px solid var(--line); background:#0d1324; color:var(--ink); font-size:17px; letter-spacing:.06em; text-align:center; text-transform:uppercase}
-.toasts{position:absolute; right:12px; top:110px; z-index:6; width:300px; display:flex; flex-direction:column; gap:8px; pointer-events:none}
+.toasts{position:absolute; right:64px; top:110px; z-index:6; width:300px; display:flex; flex-direction:column; gap:8px; pointer-events:none}
 .toast{background:#141b30; border:1px solid var(--line2); border-radius:12px; padding:9px 12px; font-size:14px; line-height:1.45; box-shadow:0 10px 30px #000a; animation:toastin .25s}
 .toast .tc{font-size:12.5px; color:var(--muted); display:block}
 .toast.good{border-color:#3d6b4f} .toast.lv{border-color:#6b5a22} .toast.warn{border-color:#8a4a3a}
@@ -203,7 +205,7 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .saybox.choice::after{content:none}
 .saybox .choices{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
 .saybox .choices button{background:var(--raised); color:var(--accent); border:1px solid var(--accent); border-radius:10px; padding:9px 16px; font-size:15px; cursor:pointer}
-.saybox::after{content:"클릭하면 넘어갑니다"; position:absolute; top:-20px; right:2px; font-size:12px; color:var(--muted)}
+
 .saybox{cursor:pointer; position:absolute; left:12px; right:12px; bottom:12px; z-index:7;
   background:#141a2ef7; border:1px solid var(--accent); border-radius:12px;
   padding:12px 16px; display:flex; gap:12px; align-items:center;
@@ -432,7 +434,7 @@ button:focus-visible, select:focus-visible, input:focus-visible{outline:2px soli
 .log.f-imp .lact > div:not(.imp){display:none}
 
 /* ---- 자동전투 규칙 ---- */
-.charpick{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.charpick{display:flex; flex-wrap:wrap; gap:8px; align-items:center} .hs-more{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent)}
 .charpick button{display:flex; align-items:center; gap:8px; height:48px; background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:12px; padding:0 14px 0 6px; cursor:pointer; font-size:15px}
 .charpick button img{width:34px; height:34px; image-rendering:pixelated}
 .charpick button .cs{display:flex; flex-direction:column; align-items:flex-start; line-height:1.25} .charpick button .cs small{font-size:12px; color:var(--muted)}
@@ -474,7 +476,7 @@ input[type=checkbox]{accent-color:var(--accent); width:18px; height:18px}
 .rlh{display:grid; grid-template-columns:22px 20px minmax(0,auto) minmax(0,1fr) auto 14px; align-items:center; gap:8px; padding:7px 10px; min-height:46px; cursor:pointer; -webkit-tap-highlight-color:transparent}
 .rlh:hover{background:#ffffff05}
 .rlh .no{font-size:16px; font-weight:700; color:var(--accent); text-align:center}
-.rlh .chk{width:18px; height:18px; margin:0}
+.rlh .chk{width:18px; height:18px; margin:0} .chkhit{display:inline-flex; align-items:center; justify-content:center; padding:11px; margin:-11px; cursor:pointer}
 .rl select{height:34px; min-width:0; max-width:100%; background:#1d2f4a; color:#d7ecff; border:1px solid #3b5f8f; border-radius:9px; padding:0 6px; font:inherit; font-size:14px; font-weight:600}
 .rl select.sk{background:#2a2410; color:#ffe08f; border-color:#6b5a22; font-size:14.5px; max-width:220px}
 .rl select.rkind{background:#22264a; color:#c9d6ff; border-color:#4a4f8a}
@@ -1411,7 +1413,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .icell .ic-n{position:absolute; right:3px; bottom:1px; font-size:12px; font-weight:800; color:#fff; text-shadow:0 1px 0 #000,0 0 3px #000}
 .icell .ic-up{position:absolute; right:2px; top:0; font-size:11px; color:var(--good); text-shadow:0 1px 0 #000}
 .icell .ic-lock{position:absolute; left:2px; bottom:0; font-size:10px}
-.eqmid{display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0} .eqmid .jsub{white-space:normal; display:block; margin:0; text-align:center; font-size:12px; line-height:1.3; max-width:100%}   /* v0.93 좁은 화면에서 '수호기사 · 검사 계열'이 옆 장비 칸 밑으로 넘치던 것 */
+.eqmid{display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0} .eqmid .jsub{white-space:normal; word-break:keep-all; display:block; margin:0; text-align:center; font-size:12px; line-height:1.3; max-width:100%}   /* v0.93 좁은 화면에서 '수호기사 · 검사 계열'이 옆 장비 칸 밑으로 넘치던 것 */
 
 .eqfig.unit{width:auto; padding:0; border:0; gap:0; background:none; position:relative; display:block}
 .eqfig.unit img.eqimg{width:clamp(112px,11vw,144px); height:clamp(112px,11vw,144px); position:relative; z-index:1; display:block}
@@ -1495,7 +1497,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .bwlist{display:flex;flex-direction:column;gap:6px;max-height:46vh;overflow:auto}.bwrow{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid #3a3f66;border-radius:8px;padding:6px 10px;background:#141830}.bwrow.on{border-color:#d6b3ff}
 .hero .actbox{border:1px solid var(--accent);border-radius:10px;padding:8px 10px;margin:8px 0;background:rgba(255,200,90,.07)}
 .eqquick{display:flex;flex-direction:column;gap:4px;align-items:stretch;width:100%;max-width:150px}.eqquick .btn{padding:5px 6px;font-size:12px;white-space:nowrap}
-@media (max-height:560px){ .eqquick{flex-direction:row;max-width:180px;gap:4px;margin-top:2px} .eqquick .btn{flex:1 1 0;min-width:0;padding:3px 4px;font-size:11px;line-height:1.2;white-space:normal;min-height:0;height:auto} }   /* v0.94 휴대폰 가로: 두 단추를 한 줄로 */
+@media (max-height:560px){ .eqquick{flex-direction:row;max-width:180px;gap:4px;margin-top:2px} .eqquick .btn{flex:1 1 0;min-width:0;padding:3px 4px;font-size:11px;line-height:1.2;white-space:nowrap;min-height:0;height:auto} .eqquick .eqw{display:none} }   /* v0.94 휴대폰 가로: 두 단추를 한 줄로 */
 .tutdots{display:flex;gap:5px;align-items:center;margin-left:10px}.tutdots i{width:8px;height:8px;border-radius:50%;background:#2a3352}.tutdots i.done{background:#8a7232}.tutdots i.on{background:var(--accent);box-shadow:0 0 0 3px #f4c95d33}
 .tutbig{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:17px;padding:12px 14px;margin:6px 0 10px;border-radius:12px;background:#221d0e;border:2px solid var(--accent)} .tutbig .w{color:var(--muted);font-size:15px} .tutbig .c{color:#d7ecff;background:#1d2f4a;border:1px solid #3b5f8f;border-radius:8px;padding:2px 10px} .tutbig .s{color:var(--accent);font-weight:800}
 .ubuffs{position:absolute; display:none; flex-direction:column; align-items:flex-end; gap:1px; z-index:45; pointer-events:none; white-space:nowrap} .ubuffs.rt{align-items:flex-start} .ubuffs.on{display:flex}
@@ -1594,7 +1596,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .pltop .plwrap{width:160px; margin:0} .pltop .plwrap canvas{width:160px; height:160px} .pltop .plwrap.done::before{width:160px; height:160px}
 .plside{flex:1 1 220px; min-width:0; font-size:13px} .plhd{margin-bottom:4px} .plhd span{color:var(--muted)}
 .plslots{display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:6px}
-.plslots button{text-align:left; padding:4px 6px; border-radius:8px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-size:12.5px; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.plslots button{text-align:left; padding:4px 6px; border-radius:8px; border:1px solid var(--line); background:var(--raised); color:var(--sub); font-size:12.5px; cursor:pointer; word-break:keep-all; line-height:1.3}
 .plslots button.on{border-color:var(--accent)} .plslots i{font-style:normal; color:var(--muted)} .plslots em{font-style:normal; color:var(--dim)}
 .plset{font-size:12.5px; margin:2px 0; color:var(--muted)} .plset b{color:var(--text)} .plset span.on{color:var(--accent)}
 .plbar{display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; color:var(--sub)}
@@ -1667,7 +1669,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .viewhead>.charpick.oneline{flex:1 1 auto; min-width:0; margin-bottom:0}
 .cosslots{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px}
 .cosslots button{display:flex; flex-direction:column; gap:1px; align-items:flex-start; padding:5px 8px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--ink); cursor:pointer; min-width:0}
-.cosslots button.on{border-color:var(--accent)} .cosslots i{font-style:normal; font-size:11.5px; color:var(--muted)} .cosslots b{font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%}
+.cosslots button.on{border-color:var(--accent)} .cosslots i{font-style:normal; font-size:11.5px; color:var(--muted)} .cosslots b{font-size:12.5px; word-break:keep-all; line-height:1.3; max-width:100%}
 .cosgrid2{display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:6px; max-height:300px; overflow:auto; padding:2px}
 .coscell{display:flex; flex-direction:column; align-items:center; gap:1px; padding:5px 4px; border-radius:10px; border:1px solid var(--line); background:var(--raised); color:var(--ink); cursor:pointer; min-width:0}
 .coscell.on{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset} .coscell.mine{background:#1b2440}
@@ -8982,7 +8984,7 @@ function egGate(m){ if(egCanEnter(m)) return true; toast(`<span class="tc">${EG_
 function gemShopBlock(){
   const box=document.createElement("div"); box.className="gemshop"; const gem=progress.gem||0; const P=passState(); const lv=passLevel(P); const A=adsToday();
   const sub=subActive();
-  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>유료 재화 · 아래에서 충전(결제는 출시 뒤 연결) · 증표·첫 돌파·패스로도 조금씩</span>${isAdmin()?`<button class="ghostbtn" id="gsAdd">관리자 +100</button>`:""}</div>
+  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b>${isAdmin()?`<button class="ghostbtn" id="gsAdd">관리자 +100</button>`:""}</div>
   <div class="gscards">
     <div class="gscard packs"><h3>💎 새벽 결정 충전</h3><div class="gpacks">${GEM_PACKS.map(([w,g,b],i)=>`<button class="gpack" data-pk="${i}"><b>💎 ${(g+b).toLocaleString("ko-KR")}</b>${b?`<small>${g.toLocaleString("ko-KR")} + 덤 ${b.toLocaleString("ko-KR")}</small>`:"<small>&nbsp;</small>"}<span>${won(w)}</span></button>`).join("")}</div>${isAdmin()?`<div class="gsst">관리자: 누르면 결제 없이 시험 지급</div>`:""}</div>
     <div class="gscard sub${sub?" on":""}"><h3>🌙 30일 정액</h3>${sub?`<div class="gsst">사용 중 · ${subDaysLeft()}일 남음</div>`:""}
@@ -9027,7 +9029,7 @@ function cosShopBlock(){
     else act=`<button class="btn${cosArm===c.id?" arm":""}" data-buy="${c.id}" ${gem<cosPrice(c)?"disabled":""}>${cosArm===c.id?"한 번 더 누르면 구매":"💎 "+cosPrice(c).toLocaleString("ko-KR")}</button>`;
     return `<div class="coscard${on?" on":""}"><div class="cospv${/^(cape|wskin|aura|saura)$/.test(c.cat)?" big":""}"><canvas data-pv="${c.id}"></canvas></div><b>${esc(c.name)}</b>${c.note?`<small>${esc(c.note)}</small>`:""}<div class="cosact">${act}</div></div>`; };
   const n=cat.max?(E[cat.k]||[]).length:0;
-  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b><span>${heroCat?"영웅마다 따로 입혀요 — 장비 화면의 🎨 외형 탭 · 1개는 영웅 1명":esc(cat.who)}${cat.max?` · 지금 ${n}개`:""} · 전투력은 그대로</span>${cat.k==="sticker"||cat.k==="frame"?`<button class="ghostbtn" id="cosEditCard">🪪 명함 꾸미기</button>`:""}</div>
+  box.innerHTML=`<div class="gshead"><b>💎 새벽 결정 ${gem.toLocaleString("ko-KR")}</b>${cat.max?`<span>지금 ${n}개</span>`:""}${cat.k==="sticker"||cat.k==="frame"?`<button class="ghostbtn" id="cosEditCard">🪪 명함 꾸미기</button>`:""}</div>
     <div class="coscats">${COS_CATS.map(c=>`<button data-k="${c.k}" class="${c.k===cat.k?"on":""}">${c.n}</button>`).join("")}</div>
     <div class="cosgrid">${items.map(card).join("")}</div>`;
   box.querySelectorAll(".coscats button").forEach(b=>b.onclick=()=>{ cosCat=b.dataset.k; cosArm=null; renderShop(); });
@@ -9091,8 +9093,8 @@ function resoBlock(){   // v0.63: 동행의 증표 상점을 없애고 심연 �
     const now=k==="silence"?`스킬 피해 +${+(U*1).toFixed(1)}%`:k==="reverse"?`치유량·보호막 +${+(U*1.5).toFixed(1)}%`:k==="mirror"?`받는 피해 -${+(U*0.6).toFixed(1)}%`:`광역 피해 +${+(U*1).toFixed(1)}%`;
     return `<div class="reso"><div class="rh"><b>${Q.icon} ${Q.n}</b><small>${Q.role}</small><span class="rl">${L}단계</span></div>
       <div class="rv">${L?now:`단계마다 ${esc(Q.unit)}`}${m?` · ${esc(Q.mile)}${m>1?" ×"+m:""}`:""}</div>
-      <div class="rf"><small>${Q.icon}석 ${R.st[k]|0}${L<30?` · ${10*(Math.floor(L/10)+1)}단계: ${esc(Q.mile)}`:""}</small><button class="btn" data-reso="${k}" ${have<c?"disabled":""}>올리기 · ${c}개</button></div></div>`; }).join("");
-  box.innerHTML=`<div class="gshead"><b>🌑 심연 공명</b><span>밤의 심연에서 깬 층의 법칙 공명석, 수문장에게서 심연석(어느 줄기에나)을 받습니다 · 내 영웅 모두에게 · 모든 콘텐츠에서 · 심연석 ${R.st.abyss|0}</span></div>
+      <div class="rf"><small>${Q.icon}석 ${R.st[k]|0}${L<30?` · ${10*(Math.floor(L/10)+1)}단계: ${esc(Q.mile)}`:""}</small><button class="btn" data-reso="${k}" style="white-space:nowrap" ${have<c?"disabled":""}>올리기 · ${c}개</button></div></div>`; }).join("");
+  box.innerHTML=`<div class="gshead"><b>🌑 심연 공명</b><span>심연석 ${R.st.abyss|0}</span></div>
   <div class="resos">${reso}</div>`;
   box.querySelectorAll("[data-reso]").forEach(b=>b.onclick=()=>{ if(runBusy()) return; resoUp(b.dataset.reso); renderShop(); });
   return box;
@@ -13074,14 +13076,18 @@ const WX = (()=>{
       const id = (el.id || "").replace(/^u-/, ""), sp = (COOP_LB && COOP_LB.on && COOP_LB.pos[id]) || (CAMP_EDIT && CAMP_EDIT[id]) || CP_[id]; let fixed = false;   // v0.79 내가 놓은 자리
       if(sp){ x = Math.max(30, Math.min(arR.width - 30, cx + sp[0] * g.s)); y = Math.max(60, Math.min(arR.height - 24, cy + sp[1] * g.s)); fixed = true; }
       const depth = Math.max(0, Math.min(1, (y - (cy - ry)) / Math.max(1, 2 * ry))); const sc = (0.82 + 0.22 * depth) * base * 0.95 * crowd;
-      return {el, x, y, sc, depth, fixed, w: 88 * sc * 1.05 + 10, h: 88 * sc * 0.85 + 26}; });
+      const nm = el.querySelector(".uname"), lw = nm ? nm.scrollWidth + 8 : 0;   // v0.121 이름표가 그림보다 넓으면 이름표 너비로 겹침을 잼
+      return {el, x, y, sc, depth, fixed, w: Math.max(88 * sc * 1.05 + 10, lw), h: 88 * sc * 0.85 + 26}; });
     for(let it = 0; it < 60; it++){ let moved = false;   // 겹치면 옆으로 벌림(불에서 멀어지는 쪽으로)
       for(let i = 0; i < P.length; i++) for(let j = i + 1; j < P.length; j++){ const A_ = P[i], B = P[j];
         const ox = Math.min(A_.x + A_.w / 2, B.x + B.w / 2) - Math.max(A_.x - A_.w / 2, B.x - B.w / 2), oy = Math.min(A_.y, B.y) - Math.max(A_.y - A_.h, B.y - B.h);
-        if(ox <= 0 || oy <= 0 || (A_.fixed && B.fixed)) continue; moved = true; const [L, R_] = A_.x <= B.x ? [A_, B] : [B, A_]; const d = ox / 2 + 1;
+        if(ox <= 0 || oy <= 0 || (A_.fixed && B.fixed)) continue; moved = true;
+        if(oy < ox){ const [U, D] = A_.y <= B.y ? [A_, B] : [B, A_], dv = oy / 2 + 1;   // v0.121 위아래로 덜 겹쳐 있으면 위아래로 벌림(좁은 화면에서 벽에 막혀 옆으로 못 벌리던 것)
+          if(U.fixed) D.y += 2 * dv; else if(D.fixed) U.y -= 2 * dv; else { U.y -= dv; D.y += dv; } continue; }
+        const [L, R_] = A_.x <= B.x ? [A_, B] : [B, A_]; const d = ox / 2 + 1;
         if(L.fixed || R_.fixed){ const m = L.fixed ? R_ : L; m.x += (m === R_ ? 1 : -1) * 2 * d; continue; }
         if(L.x < cx && R_.x < cx) L.x -= 2 * d; else if(L.x > cx && R_.x > cx) R_.x += 2 * d; else { L.x -= d; R_.x += d; } }
-      for(const q of P) if(!q.fixed) q.x = Math.max(q.w / 2 + 4, Math.min(arR.width - q.w / 2 - 4, q.x)); if(!moved) break; }
+      for(const q of P) if(!q.fixed){ q.x = Math.max(q.w / 2 + 4, Math.min(arR.width - q.w / 2 - 4, q.x)); q.y = Math.max(q.h * 0.6, Math.min(arR.height - 30, q.y)); } if(!moved) break; }
     campGeom = {cx, cy, s: g.s, arR};
     P.forEach(q => { const el = q.el, x = q.x, y = q.y, sc = q.sc, depth = q.depth;
       el.style.setProperty("--s", sc.toFixed(3)); el.style.setProperty("--bs", "1"); el.style.setProperty("--sb", (base * 0.95 * crowd).toFixed(3));   // --sb: 원근을 뺀 크기(장식 크기 기준)
@@ -13486,6 +13492,10 @@ function heroPickBtn(cid,on,sub,onclick){
   b.innerHTML=`<img src="${heroIcon(cid)}" alt=""${heroAuraStyle(cid)}><span class="cs"><span>${esc(heroBtnLabel(cid))}</span><small>${esc(sub)}</small></span>${advReady(cid)?`<span class="advok" title="전직할 수 있습니다">⭐전직</span>`:""}`;
   b.onclick=onclick; return b;
 }
+// v0.121 옆으로 넘기는 영웅 줄: 오른쪽에 더 있으면 끝을 흐리게
+function hScrollHint(){ for(const el of document.querySelectorAll(".charpick,.eqpick")){ const more=el.scrollWidth>el.clientWidth+4&&el.scrollLeft+el.clientWidth<el.scrollWidth-4; if(el.classList.contains("hs-more")!==more) el.classList.toggle("hs-more",more); } }
+addEventListener("scroll",e=>{ if(e.target&&e.target.classList&&(e.target.classList.contains("charpick")||e.target.classList.contains("eqpick"))) hScrollHint(); },true);
+addEventListener("resize",hScrollHint); setInterval(hScrollHint,700);
 function renderCharPick(){
   const box=$("charpick"); box.innerHTML="";
   const rids=rosterIds(); if(rids.length&&!rids.includes(selected)) selected=rids[0];
@@ -13634,7 +13644,8 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
     const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)){ r.target=T.opts[0].v; saveRules(); }
     const tgl=document.createElement("span"); tgl.className="rtg"; tgl.textContent=(T.opts.find(o=>o.v===r.target)||T.opts[0]).label;
     const ar=document.createElement("b"); ar.className="rar"; ar.setAttribute("aria-hidden","true");
-    hd.append(no,chk,sk,sum,tgl,ar);
+    const ck=document.createElement("label"); ck.className="chkhit"; ck.appendChild(chk); ck.onclick=e=>e.stopPropagation();   // v0.121 손가락으로 누르기 쉽게(보이는 크기는 그대로)
+    hd.append(no,ck,sk,sum,tgl,ar);
     hd.onclick=e=>{ if(e.target.closest("select,input,button")) return; RULE_OPEN[selected]=open?-1:i; rowEls.forEach((_,j)=>redraw(j)); };
     row.appendChild(hd);
     if(open){ const bd=document.createElement("div"); bd.className="rlb";
@@ -13720,15 +13731,15 @@ function renderCosPane(B,cid){ const E=cosHeroEq(cid), busy=runBusy(); const CN=
   if(cosTabSel&&!owned.some(c=>c.id===cosTabSel)) cosTabSel=null; const sel=cosTabSel?COS_BY[cosTabSel]:null;
   const slot=k=>{ const id=E[k], c=id&&COS_BY[id]; return `<button data-cc="${k}" class="${cosTabCat===k?"on":""}"><i>${esc(CN[k])}</i><b>${c?esc(c.name):(k==="cape"&&isProtag(cid)?"진홍 망토(기본)":"기본")}</b></button>`; };
   const cell=c=>{ const w=cosWearers(c.id), n=cosCount(c.id), fr=n-w.length, mine=w.includes(cid); return `<button class="coscell${cosTabSel===c.id?" on":""}${mine?" mine":""}" data-ci="${c.id}" title="${esc(c.name)}${c.note?" — "+esc(c.note):""}"><span class="cospv big"><canvas data-pv="${c.id}"></canvas></span><b>${esc(c.name)}</b><small>${esc(CN[c.cat])} · ${mine?"이 영웅 착용":fr>0?`남음 ${fr}`:`${esc(heroDisplayName(w[0]))} 착용`}${n>1?` · 보유 ${n}`:""}</small></button>`; };
-  let act=`<div class="cossel" style="color:var(--muted)">외형을 누르면 ${esc(heroDisplayName(cid))}에게 입히거나 벗길 수 있어요.</div>`;
+  let act="";
   if(sel){ const w=cosWearers(sel.id), fr=cosCount(sel.id)-w.length, mine=w.includes(cid), other=w.find(x=>x!==cid);
     act=`<div class="cossel"><span><b>${esc(sel.name)}</b> · ${esc(CN[sel.cat])}${sel.note?` — ${esc(sel.note)}`:""}<br><small>보유 ${cosCount(sel.id)}개 · 착용: ${w.length?esc(w.map(x=>heroDisplayName(x)).join(" · ")):"없음"}</small></span>
       <span class="plact">${mine?`<button class="btn ghost" id="cosOffB" ${busy?"disabled":""}>벗기기</button>`:`<button class="btn" id="cosOnB" ${busy?"disabled":""}>${fr>0?`${esc(heroDisplayName(cid))}에게 입히기`:`${esc(heroDisplayName(other))}에게서 옮겨 입히기`}</button>`}</span></div>`; }
   B.insertAdjacentHTML("beforeend",`<div class="plpane cospane">
-    <div class="plhd"><b>${esc(heroDisplayName(cid))}의 외형</b> <span>영웅마다 따로 입혀요 · 산 외형 1개는 영웅 1명만</span></div>
+    <div class="plhd"><b>${esc(heroDisplayName(cid))}의 외형</b></div>
     <div class="costop"><span class="cospv big cosnow" title="지금 모습"><canvas id="cosNowCv" data-src="${E.cape||E.saura||E.wskin||E.aura||"ws_steel"}"></canvas></span><div class="cosslots">${COS_HERO_CATS.map(slot).join("")}</div></div>
     <div class="plbar"><span>가진 외형 <b>${owned.length}</b>종${cosTabCat?` · ${esc(CN[cosTabCat])}만`:""}</span><span class="plfilt"><button data-cf="all" class="${!cosTabCat?"on":""}" style="min-width:auto;padding:0 10px">전체</button><button id="cosShopGo" style="min-width:auto;padding:0 10px;margin-left:6px">🛒 상점에서 더 보기</button></span></div>
-    <div class="cosgrid2">${owned.map(cell).join("")||`<p class="msub" style="padding:10px">아직 가진 외형이 없어요.</p>`}</div>${act}</div>`);
+    <div class="cosgrid2">${owned.map(cell).join("")||`<p class="msub" style="padding:10px; grid-column:1/-1">아직 가진 외형이 없어요.</p>`}</div>${act}</div>`);
   const R=B.querySelector(".cospane"); const done=()=>{ saveProgress(); try{ cosRefreshHeroes(); }catch(e){} renderParty(); };
   R.querySelectorAll("[data-cc]").forEach(b=>b.onclick=()=>{ const k=b.dataset.cc; cosTabCat=cosTabCat===k?null:k; const id=E[k]; if(id) cosTabSel=id; renderParty(); });
   R.querySelector('[data-cf="all"]').onclick=()=>{ cosTabCat=null; renderParty(); };
@@ -13742,7 +13753,7 @@ function renderCosPane(B,cid){ const E=cosHeroEq(cid), busy=runBusy(); const CN=
   cosPvHero=cid; try{ cosPreviewRun(R); }catch(e){} }
 function renderPlatePane(B,cid){ const P=plateStore(), busy=runBusy(), W=plateWorn(cid), cnt=plateCount(cid), done=plateComplete(cid); const col=PLATE_RIM;
   if(plateSel!=null&&!plateById(plateSel)) plateSel=null;
-  const sets=Object.entries(cnt).map(([k,n])=>`<div class="plset"><b>${esc(PLATE_SETS[k].name)} ${n}/6</b> ${[2,4,6].map(q=>`<span class="${n>=q?"on":""}">(${q}) ${esc(PLATE_SETS[k].fx[q][0])}</span>`).join(" ")}</div>`).join("")||`<div class="plset" style="color:var(--muted)">성편은 영원한 밤의 장 보스가 ${Math.round(PLATE_DROP*100)}% 확률로 떨어뜨립니다. 같은 성반을 2 · 4 · 6조각 끼우면 세트 효과가 열립니다.</div>`;
+  const sets=Object.entries(cnt).map(([k,n])=>`<div class="plset"><b>${esc(PLATE_SETS[k].name)} ${n}/6</b> ${[2,4,6].map(q=>`<span class="${n>=q?"on":""}">(${q}) ${esc(PLATE_SETS[k].fx[q][0])}</span>`).join(" ")}</div>`).join("")||"";
   const L=P.inv.filter(p=>!plateOwner(p.id)&&(platePos==null||p.pos===platePos)).sort((a,b)=>a.pos-b.pos||({legend:0,epic:1,rare:2})[a.rar]-({legend:0,epic:1,rare:2})[b.rar]||b.v-a.v);
   const sel=plateSel!=null?plateById(plateSel):null, so=sel?plateOwner(sel.id):null;
   B.insertAdjacentHTML("beforeend",`<div class="plpane">
@@ -13753,7 +13764,7 @@ function renderPlatePane(B,cid){ const P=plateStore(), busy=runBusy(), W=plateWo
     ${plTidy||plPick?(()=>{ const AP=progress.autoPlate||{}; const tg=P.inv.filter(p=>AP[p.rar]==="dis"&&!plateOwner(p.id)); return `<div class="tidybox autoloot"><div class="tidyrow"><b>① 골라서 분해</b><button id="plPk" class="${plPick?"on":""}">${plPick?"✓ 고르는 중":"고르기 시작"}</button>${plPick?`<button data-plq="rare">희귀</button><button data-plq="epic">영웅 이하</button><button id="plClr">선택 풀기</button>`:`<span class="tidyhint">성편을 눌러 여러 개 고른 뒤 한 번에 분해(끼고 있는 성편은 빼고 고름)</span>`}</div>
       <div class="tidyrow"><b>② 자동 분해</b><span class="tidyhint">새로 얻는 성편을 등급에 따라</span></div><div class="grid">${Object.keys(PLATE_DUST).map(r=>`<label><span style="color:${col[r]}">${PLATE_RAR_NAME[r]}</span><select data-plauto="${r}"><option value="keep"${AP[r]!=="dis"?" selected":""}>보관</option><option value="dis"${AP[r]==="dis"?" selected":""}>자동 분해</option></select></label>`).join("")}</div>
       <div class="row2"><button id="plAutoNow" class="${plArm==="auto"?"arm":""}" ${tg.length&&!busy?"":"disabled"}>${tg.length?(plArm==="auto"?`한 번 더 → ${tg.length}개 분해`:`지금 가진 것에 적용 (${tg.length}개 · 성반가루 +${tg.reduce((a,p)=>a+PLATE_DUST[p.rar],0)})`):"지금 정리할 것 없음"}</button></div></div>`; })():""}
-    <div class="plgrid">${L.map(p=>{ const o=plateOwner(p.id); return `<button class="plcell${plateSel===p.id?" on":""}${o?" worn":""}${plPick&&plPickSel.has(p.id)?" pick":""}" data-ps="${p.id}" title="${esc(PLATE_SETS[p.set].name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}${o?` · ${esc(heroDisplayName(o))} 착용`:""}">${plateIconHTML(p)}<small style="color:${col[p.rar]}">+${Math.min(p.v,PLATE_POS[p.pos].v.legend[1])}${PLATE_POS[p.pos].u}</small>${o?`<i class="plown">${o===cid?"E":"·"}</i>`:""}</button>`; }).join("")||`<p class="msub" style="padding:8px">${P.inv.length?"이 자리 성편이 없어요.":"아직 성편이 없어요."}</p>`}</div>
+    <div class="plgrid">${L.map(p=>{ const o=plateOwner(p.id); return `<button class="plcell${plateSel===p.id?" on":""}${o?" worn":""}${plPick&&plPickSel.has(p.id)?" pick":""}" data-ps="${p.id}" title="${esc(PLATE_SETS[p.set].name)} ${p.pos+1}번 · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}${o?` · ${esc(heroDisplayName(o))} 착용`:""}">${plateIconHTML(p)}<small style="color:${col[p.rar]}">+${Math.min(p.v,PLATE_POS[p.pos].v.legend[1])}${PLATE_POS[p.pos].u}</small>${o?`<i class="plown">${o===cid?"E":"·"}</i>`:""}</button>`; }).join("")||`<p class="msub" style="padding:8px; grid-column:1/-1">${P.inv.length?"이 자리 성편이 없어요.":"아직 성편이 없어요."}</p>`}</div>
     ${plPick?(()=>{ const T=P.inv.filter(p=>plPickSel.has(p.id)); return `<div class="bgbar"><span>고른 성편 <b>${T.length}</b>개</span><button class="dis${plArm==="dis"?" arm":""}" id="plPkDis" ${T.length&&!busy?"":"disabled"}>${plArm==="dis"?"한 번 더 → ":""}분해 · 성반가루 +${T.reduce((a,p)=>a+PLATE_DUST[p.rar],0)}</button></div>`; })():sel?`<div class="plsel"><span style="color:${col[sel.rar]}"><b>${esc(PLATE_SETS[sel.set].name)}</b> ${sel.pos+1}번 자리 · ${PLATE_RAR_NAME[sel.rar]} · ${esc(plateText(sel))}${so?` <i>(${so===cid?"착용 중":esc(heroDisplayName(so))+" 착용"})</i>`:""}</span>
       <span class="plact">${so===cid?`<button class="btn ghost" id="plOff" ${busy?"disabled":""}>빼기</button>`:`<button class="btn" id="plOn" ${busy?"disabled":""}>${esc(heroDisplayName(cid))}에게 장착</button>`}<button class="btn ghost" id="plDis" ${busy?"disabled":""}>분해 +${PLATE_DUST[sel.rar]}</button></span>
       <div class="plfx">${[2,4,6].map(q=>`(${q}) ${esc(PLATE_SETS[sel.set].fx[q][0])}`).join(" · ")}</div></div>`:`<div class="plsel" style="color:var(--muted)">성편을 누르면 장착 · 분해할 수 있어요.</div>`}
@@ -14077,7 +14088,7 @@ function renderFormation(){
   const ghosts=(PV?[]:pool).map(q=>{ const M=MOBS[q.key]; if(!M) return null; const im=document.createElement("img"); im.className="fghost"; im.src=SPRITES[M.sprite]; im.alt=""; st.appendChild(im); return im; }).filter(Boolean);
   const ORD=partyActOrder(), ordOf=c=>ORD.findIndex(x=>x.c===c);
   const heroes=P.map(c=>{ const el=document.createElement("div"); el.className="fhero fchip"+(c===partySel?" sel":"")+(isProtag(c)?" pro":""); el.dataset.hero=c; const oi=ordOf(c);
-    el.innerHTML=`<img src="${heroIcon(c)}" alt=""${heroAuraStyle(c)}>${oi>=0?`<b class="ford" title="행동 순서 ${oi+1}번째 · 신속 ${ORD[oi].spd}">${oi+1}</b>`:""}<span class="fn">${esc(heroBtnLabel(c))}</span>`; st.appendChild(el); return el; });
+    el.innerHTML=`<img src="${heroIcon(c)}" alt=""${heroAuraStyle(c)}><span class="fn">${oi>=0?`<b class="ford">${oi+1}</b>`:""}${esc(heroBtnLabel(c))}</span>`; st.appendChild(el); return el; });
   const lay=()=>{ const W=st.clientWidth, H=st.clientHeight; if(!W||!H) return; const L=formSlots(P,W,H,ghosts.length), g=L.g;
     st.style.backgroundSize=`${STAGE.w*g.s}px ${STAGE.h*g.s}px`; st.style.backgroundPosition=`${g.ox}px ${g.oy}px`;
     // v0.43: 진영은 또렷한 칸 — 가로줄 4개를 무대 전체 높이로 고르게, 왼쪽 뒷줄 · 그 오른쪽 앞줄 · 오른쪽은 적(같은 가로줄 높이)
@@ -14085,7 +14096,7 @@ function renderFormation(){
     const SL={}; for(const r of ["back","front"]) for(let l=0;l<LANES;l++) SL[r+l]={x:CX[r],y:top+lh*l,h:lh};
     for(const z of st.querySelectorAll(".fslot")){ const p=SL[z.dataset.row+z.dataset.lane]; z.style.left=(p.x-cw/2)+"px"; z.style.width=cw+"px"; z.style.top=(p.y+2)+"px"; z.style.height=(lh-4)+"px"; }
     for(const b of st.querySelectorAll(".flane")){ const l=+b.dataset.lane; b.style.top=(top+lh*l+lh*0.5)+"px"; }
-    heroes.forEach(el=>{ const c=el.dataset.hero, p=SL[heroRow(c)+heroLane(c)]; if(!p) return; el.style.left=p.x+"px"; el.style.top=(p.y+lh-3)+"px"; el.style.setProperty("--fs",(sz/88).toFixed(3)); el.style.zIndex="20"; });
+    heroes.forEach(el=>{ const c=el.dataset.hero, p=SL[heroRow(c)+heroLane(c)]; if(!p) return; el.style.left=p.x+"px"; el.style.top=(p.y+lh-3)+"px"; el.style.setProperty("--fs",(sz/88).toFixed(3)); el.style.zIndex=String(30-(+heroLane(c)||0)); });   // v0.121 위 칸 영웅의 이름이 아래 칸 영웅 머리에 가리지 않게
     ghosts.forEach((im,i)=>{ im.style.left=(W*0.72)+"px"; im.style.top=(top+lh*(i+1)-3)+"px"; im.style.setProperty("--fs",(sz/88*0.9).toFixed(3)); });
     if(0)
     ghosts.forEach((im,i)=>{ const p=L.pos["e"+i]; im.style.left=p.x+"px"; im.style.top=p.y+"px"; im.style.setProperty("--fs",p.sc.toFixed(3)); }); };
@@ -14622,15 +14633,14 @@ function renderRunePouch(B,cid){
   if(rpSock!=null&&!(cur&&!cur.it.sockets[rpSock])) rpSock=null;
   const box=document.createElement("div"); box.className="rpouch"; let html="";
   if(busy) html+=`<p class="rp-tip">🔒 던전 진행 중</p>`;
-  if(!cur) html+=`<div class="rp-cur none"><p class="msub">${rpSk&&picked?`<b>${esc(itemLabel(picked))}</b>에는 소켓이 없어요.`:rpSk?`${esc((SLOTS.find(x=>x.key===rpSk)||{label:""}).label)} 칸이 비어 있어요.`:`${esc(heroDisplayName(cid))}${jo(heroDisplayName(cid),"은","는")} 소켓이 있는 장비를 끼고 있지 않아요.`} 소켓은 영웅·세트 장비 1칸 · 전설 2칸 · 희귀는 30% 확률로 1칸입니다.</p></div>`;
+  if(!cur) html+=`<div class="rp-cur none"><p class="msub">${rpSk&&picked?`<b>${esc(itemLabel(picked))}</b>에는 소켓이 없어요.`:rpSk?`${esc((SLOTS.find(x=>x.key===rpSk)||{label:""}).label)} 칸이 비어 있어요.`:`${esc(heroDisplayName(cid))}${jo(heroDisplayName(cid),"은","는")} 소켓이 있는 장비를 끼고 있지 않아요.`}</p></div>`;
   else { const it=cur.it, sl=(SLOTS.find(x=>x.key===cur.sk)||{label:cur.sk}).label;
     html+=`<div class="rp-cur"><span class="rp-ic">${iconCell(it,{})}</span><span class="rp-nm"><b class="${rarityCls(it)}">${esc(itemLabel(it))}</b><small>${esc(sl)} · 소켓 ${it.sockets.filter(Boolean).length}/${it.sockets.length}</small></span></div>
       <div class="rp-socks">${it.sockets.map((r,i)=>{ if(r){ const ri=makeRune(r); return `<button class="rp-sock full" data-i="${i}" title="누르면 빼서 룬 탭으로">${iconCell(ri,{})}<span class="rp-st"><b class="${rarityCls(ri)}">${esc(RUNES[runeK(r)].name)}</b><small>${esc(rpFxLine(ri))}</small></span><i>빼기</i></button>`; }
         return `<button class="rp-sock empty${rpSock===i?" on":""}" data-i="${i}"><span class="rp-plus">＋</span><span class="rp-st"><b>빈 소켓</b><small>${selIt?`눌러서 ${esc(RUNES[selIt.rune].name)} 끼우기`:"아래에서 룬을 고르세요"}</small></span></button>`; }).join("")}</div>
 `; }
-  html+=`<p class="rp-tip">왼쪽 장비 칸을 누르면 그 장비의 소켓 · 끼운 룬을 누르면 빼기 · 아래 룬을 <b>두 번 빠르게 누르면</b> 바로 끼우기</p>`;
-  html+=`<div class="rp-h"><b>룬</b> <small>${progress.inv.filter(x=>x.slot==="rune").length}개 · 가방 칸을 차지하지 않음</small><button class="ghostbtn${rpTidy||rpPick?" on":""}" id="rpTidyBtn" style="margin-left:auto">${rpPick?"🧹 정리 — 고르는 중 ▴":rpTidy?"🧹 정리 ▴":"🧹 정리 ▾"}</button></div><div id="rpTidyAt"></div>`;
-  html+=G.length?`<div class="rp-grid">${G.map(g=>{ const it=g.items[0]; return `<button class="rp-cell${g.key===rpRune?" sel":""}${rpPick&&g.items.some(x=>rpSel.has(x.id))?" pick":""}" data-g="${esc(g.key)}" title="${esc(itemLabel(it))}${g.items.length>1?` ×${g.items.length}`:""}\n${esc(rpFxLine(it))}">${iconCell(it,{n:g.items.length})}</button>`; }).join("")}</div>`:`<p class="msub">아직 룬이 없어요. 보물상자·보스에서 얻습니다.</p>`;
+  html+=`<div class="rp-h"><b>룬</b> <small>${progress.inv.filter(x=>x.slot==="rune").length}개</small><button class="ghostbtn${rpTidy||rpPick?" on":""}" id="rpTidyBtn" style="margin-left:auto">${rpPick?"🧹 정리 — 고르는 중 ▴":rpTidy?"🧹 정리 ▴":"🧹 정리 ▾"}</button></div><div id="rpTidyAt"></div>`;
+  html+=G.length?`<div class="rp-grid">${G.map(g=>{ const it=g.items[0]; return `<button class="rp-cell${g.key===rpRune?" sel":""}${rpPick&&g.items.some(x=>rpSel.has(x.id))?" pick":""}" data-g="${esc(g.key)}" title="${esc(itemLabel(it))}${g.items.length>1?` ×${g.items.length}`:""}\n${esc(rpFxLine(it))}">${iconCell(it,{n:g.items.length})}</button>`; }).join("")}</div>`:`<p class="msub">아직 룬이 없어요.</p>`;
   if(selIt){ const em=cur?cur.it.sockets.findIndex(r=>!r):-1;
     html+=`<div class="rp-det"><b class="${rarityCls(selIt)}">${esc(itemLabel(selIt))}</b> <small>×${selG.items.length}</small><div>${esc(rpFxLine(selIt))}</div>
     <div class="rp-acts"><button class="btn" id="rpPut" ${busy||em<0?"disabled":""}>${cur?(em<0?"빈 소켓 없음":`${esc((SLOTS.find(x=>x.key===cur.sk)||{label:""}).label)}에 끼우기`):"끼울 장비 없음"}</button><button class="btn ghost" id="rpSell">판매 +${sellPrice(selIt)}G</button><button class="btn ghost" id="rpDis">분해 +${dismantleValue(selIt)}정수</button></div></div>`; }
@@ -14672,7 +14682,7 @@ function renderEquip(){
   mid.appendChild(eqFigure(cid));
   const nm=document.createElement("div"); nm.className="eqname"; nm.innerHTML=`<b>${heroNameHTML(cid)}</b><span>Lv.${h.level}${h.awaken?` ✦${h.awaken}`:""} · ${esc(WEAPONS[D.wtype].name)}</span>`; mid.appendChild(nm);
   { const qb=document.createElement("div"); qb.className="eqquick"; const busy=runBusy(), up=upgradeCount(cid), worn=Object.values(h.equip).filter(x=>x!=null).length;   // v0.94 인물 아래로 옮김
-    qb.innerHTML=`<button class="btn" id="eqBest" ${busy||!up?"disabled":""}>장비 일괄 장착${up?` (${up})`:""}</button><button class="btn ghost" id="eqOff" ${busy||!worn?"disabled":""}>장비 일괄 해제</button>`;
+    qb.innerHTML=`<button class="btn" id="eqBest" ${busy||!up?"disabled":""}><span class="eqw">장비 </span>일괄 장착${up?` (${up})`:""}</button><button class="btn ghost" id="eqOff" ${busy||!worn?"disabled":""}><span class="eqw">장비 </span>일괄 해제</button>`;
     qb.querySelector("#eqBest").onclick=()=>equipBest(cid);
     qb.querySelector("#eqOff").onclick=e=>{ const b=e.currentTarget; if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 해제"; return; } unequipAll(cid); };
     mid.appendChild(qb); }
@@ -15310,10 +15320,7 @@ function itemRow(it,cid,pv){
 function openProtagSwap(cid){
   const old=progress.protag.cid, nm=progress.protag.name, own=heroOwnName(cid);
   const html=`<h2>★ 주인공 교체</h2><p class="sub">주인공을 <b>${esc(nm)}</b>(${esc(jobName(old))})에서 <b>${esc(own||jobName(cid))}</b>(${esc(jobName(cid))})(으)로 바꿉니다.<br>
-    · ${protagSwapFree()?`오늘 첫 교체 — 무료`:`밤의 정수 <b>${PROTAG_SWAP_ESS}</b>을 씁니다 (보유 ${progress.ess}).`}<br>
-    · <b>${esc(nm)}</b>은(는) 이름과 키운 모습 그대로 동료가 됩니다 — 능력치·특성·숙련·전투 규칙은 지금 상태로 남고, 앞으로 얻는 포인트만 스스로 씁니다.<br>
-    · ${own?`<b>${esc(own)}</b>은(는) 예전 이름 그대로 다시 주인공이 됩니다.`:`<b>${esc(jobName(cid))}</b>은(는) 아직 이름이 없어요 — 새 이름을 지어 주세요.`} 지금까지 자란 상태를 그대로 이어받고, 이제부터 직접 조정합니다.<br>
-    · 던전 밖(마을)에서만 바꿀 수 있습니다.</p>
+    ${protagSwapFree()?`오늘 첫 교체 — 무료`:`밤의 정수 <b>${PROTAG_SWAP_ESS}</b> (보유 ${progress.ess})`}</p>
     ${own?"":`<div class="cname psname"><label for="psName">이름</label><input id="psName" maxlength="8" placeholder="최대 8자" autocomplete="off"><button id="psDice" title="무작위 이름" aria-label="무작위 이름">🎲</button></div>`}
     <div class="row" style="margin-top:12px;gap:8px;display:flex;justify-content:flex-end"><button class="enhb" id="psNo">그만두기</button><button class="enhb" id="psYes"${own?"":" disabled"}>바꾸기</button></div>`;
   openModal(html,"small");
@@ -15781,7 +15788,7 @@ function renderSteps(){
 }
 function setMainBtn(){
   speedRefresh();
-  const b=$("startBtn"); const busy=playing||telling||(typeof TUT!=="undefined"&&TUT.busy); document.body.classList.toggle("inrun",runBusy());
+  const b=$("startBtn"); const busy=playing||telling||(typeof TUT!=="undefined"&&TUT.busy); document.body.classList.toggle("inrun",runBusy()); { const l=$("homeLbl"); if(l) l.textContent=runBusy()?"전장":"대기실"; }   // v0.121 전투가 끝나면 왼쪽 메뉴 글자도 바로 대기실로
   if(typeof COOP!=="undefined"&&COOP.run){ const R=COOP.run, g=R.gains;
     $("dkCamp").hidden=true; $("dkRun").hidden=false; b.disabled=true;
     b.innerHTML=`<span class="mb1">함께 진행 중…</span><span class="mb2">${R.z+1}/${R.zones.length}구역 · ${zoneKind(R.zones[R.z])}</span>`;
@@ -17026,8 +17033,7 @@ function openStarBoard(cid){
   const st=heroStars(cid), m=egMat(), lit=starSmallLit(cid), canBig=st.big<STAR_BIG&&st.big<Math.floor(lit/STAR_PER_BIG);
   const row=k=>`<div class="egx-row"><span style="min-width:64px"><b>${PRIM_LABEL[k]}</b></span><span style="letter-spacing:3px;color:#9fd0ff">${"✦".repeat(st[k])}<span style="color:#3a4460">${"✦".repeat(STAR_SMALL-st[k])}</span></span><span class="shopnote">+${2*st[k]}</span>
     <button class="enhb" data-star="${k}" ${st[k]<STAR_SMALL&&m.star>=starSmallCost(cid)?"":"disabled"}>밝히기 · ${starSmallCost(cid)}</button></div>`;
-  const html=`<h2>✦ 별자리 — ${esc(heroDisplayName(cid))}</h2><p class="sub">별의 정수 <b style="color:#9fd0ff">${m.star}</b> · 작은 별 ${lit}/${PRIM.length*STAR_SMALL} · 큰 별 ${st.big}/${STAR_BIG}<br>
-    작은 별 하나 = 그 능력치 +2. 작은 별 ${STAR_PER_BIG}개마다 큰 별 하나를 밝힐 수 있고, 큰 별 하나 = 특성 포인트 +1.${isCompanion(cid)?"<br>동료도 별자리는 직접 밝혀 줄 수 있습니다(늘어난 포인트는 스스로 씁니다).":""}</p>
+  const html=`<h2>✦ 별자리 — ${esc(heroDisplayName(cid))}</h2><p class="sub">별의 정수 <b style="color:#9fd0ff">${m.star}</b> · 작은 별 ${lit}/${PRIM.length*STAR_SMALL} · 큰 별 ${st.big}/${STAR_BIG}</p>
     <div class="alloc" style="display:block">${PRIM.map(row).join("")}
     <div class="egx-row"><span style="min-width:64px"><b>큰 별</b></span><span style="letter-spacing:3px;color:#ffcf7a">${"★".repeat(st.big)}<span style="color:#3a4460">${"★".repeat(STAR_BIG-st.big)}</span></span><span class="shopnote">특성 +${st.big}</span>
     <button class="enhb" data-star="big" ${canBig&&m.star>=STAR_BIG_COST?"":"disabled"}>밝히기 · ${STAR_BIG_COST}</button></div></div>
@@ -17381,8 +17387,8 @@ function openSettings(){
     <div class="sblock"><div class="slabel">파티</div><p class="msub">보유 영웅 ${rosterIds().length}명 · 출전 ${partyIds().length}/${partyCap()}명</p></div>
     <div class="sblock"><div class="slabel">소리</div><div class="srow" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
       <button class="btn ${SND.st.on?"":"ghost"}" id="sndOn">${SND.st.on?"🔊 켜짐":"🔇 꺼짐"}</button>
-      <label class="msub" for="sndB">배경음 <input id="sndB" type="range" min="0" max="100" value="${Math.round(SND.st.bgm*100)}" style="vertical-align:middle"></label>
-      <label class="msub" for="sndS">효과음 <input id="sndS" type="range" min="0" max="100" value="${Math.round(SND.st.sfx*100)}" style="vertical-align:middle"></label></div>
+      <label class="msub" for="sndB">배경음 <input id="sndB" type="range" min="0" max="100" value="${Math.round(SND.st.bgm*100)}" style="vertical-align:middle; height:32px"></label>
+      <label class="msub" for="sndS">효과음 <input id="sndS" type="range" min="0" max="100" value="${Math.round(SND.st.sfx*100)}" style="vertical-align:middle; height:32px"></label></div>
 </div>
     <div class="sblock"><div class="slabel">전투 속도</div><div class="srow" id="spdSeg" style="display:flex;gap:6px;flex-wrap:wrap">${SPEEDS.filter(speedAllowed).map(o=>`<button class="btn ${$("speed").value===String(o.v)?"":"ghost"}" data-spd="${o.v}">${o.label}${o.tier==="admin"?" (관리자)":""}</button>`).join("")}</div>
       ${isAdmin()?`<div class="srow" style="margin-top:6px"><button class="btn" id="opsGo">🛠 운영 도구 — 공지 · 우편 · 플레이어 기록 · 의견 · 오류</button></div>`:`<div class="srow" style="display:flex;gap:6px;align-items:center;margin-top:6px"><input id="admCode" type="password" placeholder="관리자 코드" autocomplete="off" style="height:34px;flex:0 1 180px;min-width:0;background:var(--panel2);border:1px solid var(--line2);color:var(--ink);border-radius:8px;padding:0 10px"><button class="btn ghost" id="admGo">확인</button><span class="msub" id="admMsg"></span></div>`}</div>
@@ -17442,6 +17448,16 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.14", v:"v0.121", t:"휴대폰 화면 다듬기", L:[
+    "파티 배치판: 행동 순서 번호를 동그라미 대신 이름 앞에 붙였습니다('1 마법사') — 번호가 이름을 가리던 것. 위 칸 영웅 이름이 아래 칸 영웅 머리에 가리지 않게 했습니다.",
+    "던전 고르기(낮은 화면): 아래 줄을 한 줄로(영웅 아이콘 숨김 · 글자 작게) · 1~5막을 한 줄에 — 아래 줄이 4막·5막을 덮던 것.",
+    "화면 안 설명문을 지웠습니다: 룬 탭(소켓 설명 · 누르는 방법 · 가방 칸 안내 · 룬 얻는 곳) · 성반 탭(성편 얻는 곳) · 외형 탭(입히는 방법) · 새벽 상점(유료 재화 안내) · 상점 외형 탭 설명 · 심연 공명 설명(심연석 개수만 남김) · 별자리 설명 · 주인공 교체 창(바뀌는 것과 비용만 남김) · 함께하기 연결 안내 · 대화창 '클릭하면 넘어갑니다'.",
+    "전투가 끝나 대기실로 돌아와도 왼쪽 메뉴 첫 칸이 '전장'으로 남던 것을 고쳤습니다.",
+    "글자 잘림·줄바꿈: 장비 '일괄 장착 · 일괄 해제'(낮은 화면은 '장비' 글자를 빼고 한 줄) · '수호기사 · 검사 계열'이 낱글자로 끊기던 것 · 성반 자리 이름 · 외형 칸 이름(두 줄로 다 보임) · 심연 공명 '올리기 · 3개' · 빈 목록 안내가 좁은 칸에 몰리던 것.",
+    "옆으로 넘기는 영웅 줄(장비·특성·전투설정)에 더 있으면 오른쪽 끝이 흐려집니다.",
+    "체크박스(구역 자동 진행 · 반복 전투 · 이 규칙 사용)와 소리 막대의 누르는 범위를 넓혔습니다(보이는 크기는 그대로).",
+    "대기실 영웅 이름표끼리 겹치던 것(좁은 화면) · 태블릿에서 알림이 오른쪽 단추(기록·배치)를 덮던 것을 고쳤습니다.",
+  ]},
   {d:"2026.11.14", v:"v0.120", t:"전직 바꾸기", L:[
     "전직한 영웅은 파티 탭 영웅 카드의 '⭐ 전직 바꾸기'로 다른 전직으로 바꿀 수 있습니다 — 💎 새벽결정 50 + 밤의 정수 20,000(던전 진행 중에는 못 바꿈).",
     "특성 · 전투 규칙 · 성향은 전직마다 따로 기억합니다. 예전에 쓰던 전직으로 돌아가면 그때 특성 · 규칙 · 성향이 그대로 돌아옵니다.",
@@ -18646,8 +18662,7 @@ function renderCoop(){
   const st=COOP.st;
   const head=`<h2 class="ph">함께하기</h2>`;
   if(st==="off"||st==="connecting"){ pane.innerHTML=head+`<div class="panel coop-note">로비에 연결하는 중…</div>`; if(st==="off") coopInit(); return; }
-  if(st==="na"){ pane.innerHTML=head+`<div class="panel coop-note"><b>지금은 함께하기에 연결할 수 없습니다.</b><br>
-    함께하기는 Claude 앱에서 이 게임 링크를 열었을 때, 로그인한 사람끼리만 연결됩니다. 친구와 하려면 게임 화면의 <b>공유</b>에서 친구를 초대한 뒤 같은 링크를 열면 됩니다(보기 권한이어도 참여 가능).${COOP.notice?`<br><span class="coop-warn">${esc(COOP.notice)}</span>`:""}</div>`; return; }
+  if(st==="na"){ pane.innerHTML=head+`<div class="panel coop-note"><b>지금은 함께하기에 연결할 수 없습니다.</b>${COOP.notice?`<br><span class="coop-warn">${esc(COOP.notice)}</span>`:""}</div>`; return; }
   const rt=COOP.rt, lp=coopPeers(rt), cid=coopHero();
   const heroSel=`<label class="coop-hero">데려갈 영웅 <select id="coopHeroSel" ${COOP.ready||COOP.run?"disabled":""}>${rosterIds().map(c=>`<option value="${c}" ${c===cid?"selected":""}>${esc(heroDisplayName(c))} · ${esc(jobName(c))} Lv.${progress.heroes[c].level}</option>`).join("")}</select></label>`;
   const conn=`<span class="coop-pill ${COOP.conn?"on":""}">${COOP.conn?"● 연결됨":"○ 연결 중"} · 접속 ${lp.length}명</span>`;
