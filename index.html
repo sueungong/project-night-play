@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794650664635"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794655528017"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -9810,6 +9810,22 @@ function stanceLetter(st){ return {atk:"a",surv:"s",supp:"p"}[st]; }
 function isDefaultRule(cid,r){ const same=d=>d.enabled!==false&&d.skill===r.skill&&cKey(d.c1)===cKey(r.c1)&&(d.logic|0)===(r.logic|0)&&(!d.logic||cKey(d.c2)===cKey(r.c2));
   if(inRuleset(cid,r)) return true; if((CLASSES[cid].old_default||[]).some(same)) return true;
   const A=AUTO_RULES[r.skill]; return !!(A&&same({skill:r.skill,c1:A.c1,logic:A.l||0,c2:A.c2||0})); }
+/* v0.120 전직 바꾸기: 💎50 + 밤의 정수 20,000 · 전직마다 특성 · 전투 규칙 · 성향을 따로 기억(h.advMem[전직]) — 바꾸면 그 전직 때 것이 돌아옴
+   처음 가 보는 전직: 특성은 직업 공통 갈래(새 그물에서도 이어지는 칸)만 남김 · 규칙은 예전 전직 기술을 빼고 새 전직 기술을 넣음 · 성향은 그대로 */
+const ADV_SWAP={gem:50, ess:20000};
+function advSwapBlock(cid,key){ const h=progress.heroes[cid]; if(!h||!h.adv) return "전직 전"; if(key===h.adv) return "지금 전직"; if(!ADV[cid].some(a=>a.key===key)) return "없는 전직";
+  if((progress.gem||0)<ADV_SWAP.gem) return `새벽결정 부족 (${progress.gem||0} / ${ADV_SWAP.gem})`; if((progress.ess||0)<ADV_SWAP.ess) return `밤의 정수 부족 (${progress.ess||0} / ${ADV_SWAP.ess})`; return null; }
+function traitPrune(cid,keys){ const I=traitIdx(cid); const T=new Set((keys||[]).filter(k=>I.by.has(k))); const keep=new Set(); let grew=true;   // 새 그물에 있고 뿌리에서 이어지는 칸만
+  while(grew){ grew=false; for(const k of T){ if(keep.has(k)) continue; const n=I.by.get(k); if(n.root||n.adj.some(x=>keep.has(x))){ keep.add(k); grew=true; } } }
+  const out=[]; for(const k of keys||[]) if(keep.has(k)&&!out.includes(k)){ const n=I.by.get(k); if(n.alt&&out.includes(n.alt)) continue; out.push(k); } return out.slice(0,traitPoints(cid)); }
+function advSwitch(cid,key,free){ const h=progress.heroes[cid]; if(!free){ const why=advSwapBlock(cid,key); if(why) return why; } const old=h.adv, A=ADV[cid].find(a=>a.key===key), A0=ADV[cid].find(a=>a.key===old);
+  const M=h.advMem=(h.advMem&&typeof h.advMem==="object")?h.advMem:{}; M[old]={traits:(h.traits||[]).slice(), rules:JSON.parse(JSON.stringify((partyRules[cid]||[]).filter(Boolean))), stance:h.stance||null};
+  if(!free){ progress.gem-=ADV_SWAP.gem; progress.ess-=ADV_SWAP.ess; }
+  h.adv=key; const mem=M[key];
+  if(mem){ h.traits=traitPrune(cid,mem.traits); partyRules[cid]=JSON.parse(JSON.stringify(mem.rules||[])); h.stance=mem.stance||h.stance; }
+  else { h.traits=traitPrune(cid,h.traits||[]); const oldSk=new Set(advSkills(A0)); partyRules[cid]=(partyRules[cid]||[]).filter(r=>r&&!oldSk.has(r.skill)); try{ addAdvRules(cid,A); }catch(e){} }
+  try{ normRules(); ensureRuleSlots(cid); }catch(e){}
+  return null; }
 function tableRules(cid){ const h=progress.heroes[cid]||{}; return ruleTable(cid,h.adv,heroStance(cid),classSkills(cid),heroRuleCount(cid)); }
 function companionRules(cid){ return tableRules(cid); }
 function traitNodeScore(cid,n,st){
@@ -15012,6 +15028,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
     b.textContent=`✦ 별자리 ${starSmallLit(cid)+st.big}/${PRIM.length*STAR_SMALL+STAR_BIG}`; b.title=`Lv${STAR_LV}`; b.onclick=()=>openStarBoard(cid); top.appendChild(b); }
   if(rboardOpen(cid)){ const b=document.createElement("button"); b.className="enhb"; b.style.marginLeft="8px";   // v0.114 명성 판
     b.textContent=`명성 판 ${rboardLit(cid)}/${RBOARD.stat+RBOARD.cmd+RBOARD.tp} · ${(h.renown|0).toLocaleString("ko-KR")}`; b.onclick=()=>openRenownBoard(cid); top.appendChild(b); }
+  if(mode!=="equip"&&h.adv){ const b=document.createElement("button"); b.className="enhb"; b.style.marginLeft="8px"; b.textContent="⭐ 전직 바꾸기"; b.onclick=()=>openAdvSwap(cid); top.appendChild(b); }   // v0.120
   if(mode!=="equip"){ const earned0=TITLES.filter(t=>titleEarned(cid,t));   // v0.95 칭호: 맨 위에 짧게 — 누르면 자세히 보고 고름
     { const tb=document.createElement("button"); tb.className="titlechip"; tb.innerHTML=`${tt?`🏷 <b>${esc(tt.name)}</b>`:`🏷 칭호`} · 업적 점수 ${titleScore(cid)}`; tb.title=tt?tt.desc:""; tb.onclick=()=>openTitlePick(cid); card.appendChild(tb); } }
   card.appendChild(top);
@@ -16978,6 +16995,19 @@ function egGrowthHtml(){
 function lightStar(cid,k){ if(!starOpen(cid)) return false; const st=heroStars(cid), m=egMat();
   if(k==="big"){ if(st.big>=STAR_BIG||st.big>=Math.floor(starSmallLit(cid)/STAR_PER_BIG)||m.star<STAR_BIG_COST) return false; m.star-=STAR_BIG_COST; st.big++; return true; }
   if(!PRIM.includes(k)||st[k]>=STAR_SMALL) return false; const c=starSmallCost(cid); if(m.star<c) return false; m.star-=c; st[k]++; return true; }
+let advSwapArm=null;
+function openAdvSwap(cid){ const h=progress.heroes[cid], cur=advInfo(cid), busy=runBusy();   // v0.120 전직 바꾸기
+  const opts=ADV[cid].filter(a=>a.key!==h.adv), M=h.advMem||{};
+  const row=a=>{ const why=busy?"던전 진행 중":advSwapBlock(cid,a.key), arm=advSwapArm===cid+"|"+a.key;
+    return `<div class="tprow"><div class="tpt"><b>${esc(a.name)}</b><span>${esc(a.desc||"")}</span>${M[a.key]?`<span>특성 ${(M[a.key].traits||[]).length}칸 · 규칙 ${(M[a.key].rules||[]).filter(r=>r&&r.enabled).length}칸</span>`:""}</div>
+      <div class="tpb"><button data-as="${a.key}" class="${arm?"on":""}" ${why?"disabled":""} title="${esc(why||"")}">${arm?"한 번 더 → 바꾸기":"바꾸기"}</button></div></div>`; };
+  const m=openModal(`<h3>⭐ 전직 바꾸기 — ${esc(heroDisplayName(cid))}</h3><p class="msub">지금 <b>${esc(cur?cur.name:"")}</b> · 💎 ${ADV_SWAP.gem} · 밤의 정수 ${ADV_SWAP.ess.toLocaleString("ko-KR")} (보유 💎 ${progress.gem||0} · ${(progress.ess||0).toLocaleString("ko-KR")})</p>
+    <div class="tplist">${opts.map(row).join("")}</div><div class="mbtns" style="margin-top:10px"><button class="btn ghost" id="asClose">닫기</button></div>`,"small");
+  m.querySelector("#asClose").onclick=()=>{ advSwapArm=null; closeModal(); };
+  m.querySelectorAll("[data-as]").forEach(b=>b.onclick=()=>{ const k=b.dataset.as, id=cid+"|"+k; if(advSwapArm!==id){ advSwapArm=id; openAdvSwap(cid); setTimeout(()=>{ if(advSwapArm===id){ advSwapArm=null; } },4000); return; }
+    advSwapArm=null; const why=advSwitch(cid,k); if(why){ toast(`<span class="tc">⭐ 전직 바꾸기</span>${esc(why)}`,"",3000); return; }
+    saveRules(); saveProgress(); closeModal(); renderParty(); try{ renderRules(); renderCharPick(); renderTop&&renderTop(); }catch(e){}
+    logLine(`<span class="win">⭐ ${esc(heroDisplayName(cid))} — ${esc(jobName(cid))}(으)로 전직을 바꿨습니다 (💎 -${ADV_SWAP.gem} · 밤의 정수 -${ADV_SWAP.ess.toLocaleString("ko-KR")})</span>`); }); }
 function openRenownBoard(cid){   // v0.114 명성 판
   const h=progress.heroes[cid], b=rboard(cid), c=rboardCost(cid), rn=h.renown|0, ok=rn>=c, sl=rboardStat(cid), C=cmdOf(cid);
   const row=k=>`<div class="egx-row"><span style="min-width:64px"><b>${PRIM_LABEL[k]}</b></span><span class="shopnote">+${b.stat[k]|0}</span>
@@ -17412,6 +17442,11 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.14", v:"v0.120", t:"전직 바꾸기", L:[
+    "전직한 영웅은 파티 탭 영웅 카드의 '⭐ 전직 바꾸기'로 다른 전직으로 바꿀 수 있습니다 — 💎 새벽결정 50 + 밤의 정수 20,000(던전 진행 중에는 못 바꿈).",
+    "특성 · 전투 규칙 · 성향은 전직마다 따로 기억합니다. 예전에 쓰던 전직으로 돌아가면 그때 특성 · 규칙 · 성향이 그대로 돌아옵니다.",
+    "처음 가 보는 전직: 특성은 직업 공통 갈래(새 전직에서도 이어지는 칸)만 남고 나머지 포인트는 돌려받습니다 · 규칙에서 예전 전직 기술은 빠지고 새 전직 기술이 들어갑니다 · 성향은 그대로.",
+  ]},
   {d:"2026.11.14", v:"v0.119", t:"자정 중반 난이도 · 성반 보관함", L:[
     "자정 4~10장이 첫 도전에 거의 깨지던 것을 올렸습니다 — 일반 몹 체력·공격 +10% · 장 보스 +30%(8장 +25% · 9장 +12% · 10장 보스는 그대로 — 영원한 밤 1장 보스가 10% 이상 세야 하는 규칙). 영원한 밤 5장(일반 +5% · 보스 +12%) · 6장(일반 +5% · 보스 +5%)도 조금. 장 보스는 여전히 장마다 더 셉니다(자정 10장 보스 < 영원한 밤 1장 보스).",
     "성반: 낀 성편은 성편 목록에 보이지 않습니다(장비처럼). 낀 성편은 위의 자리 칸을 눌러 고르고 뺄 수 있습니다. 보관 수와 보관 한도(300)는 끼지 않은 성편만 셉니다.",
