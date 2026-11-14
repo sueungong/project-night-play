@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794658753862"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794661413529"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -10531,6 +10531,7 @@ function renderTraits(){
     const b=heroPickBtn(cid,cid===traitCid,isCompanion(cid)?"스스로 배움":!progress.heroes[cid].adv?"전직 후 열림":tl>0?`남은 포인트 ${tl}`:"포인트 없음",()=>{ traitCid=cid; respecArm=null; renderTraits(); });
     pick.appendChild(b);
   }
+  hsKeep(pick,"traits");
   const cid=traitCid, h=progress.heroes[cid];
   // 상태 바
   const bar=$("traitBar"); bar.innerHTML="";
@@ -10628,7 +10629,7 @@ function showBanner(html, ms, opt){
   return new Promise(res=>{
     const b=$("saybox");
     bannerRes=res;
-    b.className="saybox"+(opt&&opt.mode?" "+opt.mode:""); b.style.left=b.style.top=b.style.right=b.style.bottom=""; b.style.removeProperty("--tx");
+    b.className="saybox"+(opt&&opt.mode?" "+opt.mode:""); b.style.left=b.style.top=b.style.right=b.style.bottom=b.style.maxWidth=""; b.style.removeProperty("--tx");
     b.innerHTML=html; b.hidden=false;
     b.style.animation="none"; void b.offsetWidth; b.style.animation="";
     if(opt&&opt.mode==="bubble"&&opt.anchor) followBubble(b,opt.anchor,res);
@@ -10640,8 +10641,10 @@ function followBubble(b,anchor,res){
   const f=document.querySelector(".field"); let raf=0;
   const place=()=>{ if(b.hidden||bannerRes!==res||!anchor.isConnected){ cancelAnimationFrame(raf); return; }
     const fr=f.getBoundingClientRect(), r=anchor.getBoundingClientRect();   // 유닛 칸 기준(그림이 들썩여도 말풍선은 가만히)
+    const ff=f.querySelector(".fieldfoot"), fb=ff&&ff.offsetParent?ff.getBoundingClientRect():null, lim=fb&&fb.width&&fb.left-fr.left>fr.width*0.6?fb.left-fr.left-6:fr.width-8;   // v0.121 오른쪽 단추 줄(배속·딜미터·후퇴 등)을 덮지 않게
+    { const mw=Math.max(160,lim-8)+"px"; if(b.style.maxWidth!==mw) b.style.maxWidth=mw; }
     const bw=b.offsetWidth, bh=b.offsetHeight, cx=r.left+r.width/2-fr.left;
-    let x=cx-bw/2; x=Math.max(8,Math.min(fr.width-bw-8,x));
+    let x=cx-bw/2; x=Math.max(8,Math.min(lim-bw,x));
     let y=r.top-fr.top-bh-14, below=false; if(y<40){ y=r.bottom-fr.top+10; below=true; }
     b.style.left=x+"px"; b.style.top=Math.max(4,y)+"px"; b.style.setProperty("--tx",Math.max(14,Math.min(bw-14,cx-x))+"px"); b.classList.toggle("below",below);
     raf=requestAnimationFrame(place); };
@@ -13492,6 +13495,12 @@ function heroPickBtn(cid,on,sub,onclick){
   b.innerHTML=`<img src="${heroIcon(cid)}" alt=""${heroAuraStyle(cid)}><span class="cs"><span>${esc(heroBtnLabel(cid))}</span><small>${esc(sub)}</small></span>${advReady(cid)?`<span class="advok" title="전직할 수 있습니다">⭐전직</span>`:""}`;
   b.onclick=onclick; return b;
 }
+// v0.121 옆으로 넘기는 영웅 줄: 다시 그려도 넘긴 자리 그대로(영웅을 고르면 맨 왼쪽으로 돌아가던 것) · 고른 영웅이 잘려 있으면 보이게
+const HS_SL={};
+function hsKeep(el,key){ if(!el||!el.isConnected||!el.clientWidth) return; if(!el._hsKey){ el.addEventListener("scroll",()=>{ HS_SL[el._hsKey]=el.scrollLeft; },{passive:true}); } el._hsKey=key;
+  if(HS_SL[key]!=null) el.scrollLeft=HS_SL[key];
+  const on=el.querySelector(":scope > button.on"); if(on&&el.scrollWidth>el.clientWidth+2){ const r=el.getBoundingClientRect(), b=on.getBoundingClientRect(); if(r.width){ if(b.left<r.left) el.scrollLeft-=r.left-b.left+8; else if(b.right>r.right) el.scrollLeft+=b.right-r.right+8; } }
+  HS_SL[key]=el.scrollLeft; }
 // v0.121 옆으로 넘기는 영웅 줄: 오른쪽에 더 있으면 끝을 흐리게
 function hScrollHint(){ for(const el of document.querySelectorAll(".charpick,.eqpick")){ const more=el.scrollWidth>el.clientWidth+4&&el.scrollLeft+el.clientWidth<el.scrollWidth-4; if(el.classList.contains("hs-more")!==more) el.classList.toggle("hs-more",more); } }
 addEventListener("scroll",e=>{ if(e.target&&e.target.classList&&(e.target.classList.contains("charpick")||e.target.classList.contains("eqpick"))) hScrollHint(); },true);
@@ -13503,6 +13512,7 @@ function renderCharPick(){
   for(const cid of order){ const btn=heroPickBtn(cid,cid===selected,isProtag(cid)?"주인공":"동료",()=>{ selected=cid; renderCharPick(); renderRules(); });
     const mp=masteryPending(cid); if(mp){ const d=document.createElement("span"); d.className="nb mpdot"; d.textContent=String(mp); d.title=`숙련 강화 ${mp}개를 고를 수 있어요`; btn.appendChild(d); btn.style.position="relative"; }   // v0.94
     box.appendChild(btn); }
+  hsKeep(box,"rules");
   const advSel=advInfo(selected);
   $("passive").textContent="패시브 — "+CLASSES[selected].passive_name
     +(advSel&&advSel.passive_name?("  /  "+advSel.passive_name+((progress.heroes[selected].level||0)<ADV_PASSIVE_LV?` (Lv${ADV_PASSIVE_LV}부터)`:"")):"");
@@ -14065,7 +14075,8 @@ function formSlots(ids,W,H,enemyN){   // battle_fx layout()과 같은 규칙: �
 }
 // 다시 그리기 전 안쪽 스크롤 칸들의 위치를 기억했다가(클래스 이름으로 짝지음) 다시 그린 뒤 되돌림
 function keepInnerScroll(root){ const saved=[]; try{ for(const e of root.querySelectorAll("*")) if((e.scrollTop>0||e.scrollLeft>0)&&e.className&&typeof e.className==="string") saved.push([e.className,e.scrollTop,e.scrollLeft]); }catch(e){}   /* v0.83: 가로 스크롤(영웅 목록)도 유지 */
-  return ()=>{ for(const [c,t,l] of saved){ const sel="."+c.trim().split(/\s+/).map(x=>CSS.escape(x)).join("."); const e=root.querySelector(sel); if(e){ e.scrollTop=t; e.scrollLeft=l; } } }; }
+  return ()=>{ for(const [c,t,l] of saved){ const cl=c.trim().split(/\s+/).filter(x=>x!=="hs-more"); if(!cl.length) continue; const sel="."+cl.map(x=>CSS.escape(x)).join("."); const e=root.querySelector(sel); if(e){ e.scrollTop=t; e.scrollLeft=l; } }
+    const ep=root.querySelector(".eqpick"); if(ep) hsKeep(ep,"equip"); }; }   // v0.121 장비 영웅 줄: 고른 자리 유지 · 고른 영웅이 보이게
 function renderFormation(){
   const pane=$("partyPane"); const view=$("body-party"); const scrollTop=view.scrollTop; const innerKeep=keepInnerScroll(pane); pane.innerHTML="";
   const rids=rosterIds(); if(!rids.includes(partySel)) partySel=(progress.protag&&rids.includes(progress.protag.cid))?progress.protag.cid:rids[0];
@@ -17448,6 +17459,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.14", v:"v0.122", t:"영웅 줄 넘긴 자리 유지 · 말풍선", L:[
+    "옆으로 넘기는 영웅 줄(장비 · 특성 · 전투설정)에서 영웅을 고르면 줄이 맨 왼쪽으로 돌아가던 것을 고쳤습니다 — 넘긴 자리 그대로 두고, 고른 영웅이 잘려 있으면 보이게 조금 옮깁니다.",
+    "전투 중 캐릭터 말풍선이 오른쪽 단추 줄(배속 · 딜미터)을 덮어 누를 수 없던 것을 고쳤습니다(좁은 화면).",
+  ]},
   {d:"2026.11.14", v:"v0.121", t:"휴대폰 화면 다듬기", L:[
     "파티 배치판: 행동 순서 번호를 동그라미 대신 이름 앞에 붙였습니다('1 마법사') — 번호가 이름을 가리던 것. 위 칸 영웅 이름이 아래 칸 영웅 머리에 가리지 않게 했습니다.",
     "던전 고르기(낮은 화면): 아래 줄을 한 줄로(영웅 아이콘 숨김 · 글자 작게) · 1~5막을 한 줄에 — 아래 줄이 4막·5막을 덮던 것.",
