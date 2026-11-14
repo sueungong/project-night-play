@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794620511076"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794650664635"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3329,6 +3329,10 @@ const REGION_ST={ swamp:["poison","weak"], volcano:["burn"], sunken:["cold"], fo
 const ST_CHANCE=[0.10,0.30,0.50], ST_CAP=[1,2,3], ST_LINK=[0,0,0.2];   // 한 번 맞힐 때 거는 확률 · 전투당 거는 몹 수(보스 제외) · 영원한 밤: 상태이상 걸린 영웅에게 피해 +20%
 const ST_NAME={burn:"화상",poison:"독",cold:"냉기",weak:"약화",vuln:"취약",stun:"기절",blind:"실명"};
 const DIFF_K=[{hp:1.12,atk:1.1},{hp:1.18,atk:1.12},{hp:1.22,atk:1.15}];
+/* v0.119 자정부터 노가다가 본격이 되게: 자정 4~10장(첫 도전에 거의 깨던 중반)을 함께 올림 · 영원한 밤 5·6장도 조금 — m 일반 몹 · b 장 보스(체력·공격에 같이 곱함)
+   계단 유지: 장마다 기본 약 +13~20%라 뒤 장이 여전히 셈 · 8장 보스 +25% · 9장 +12% · 10장 보스는 그대로(보스 공격도 장마다 오르게)(영원한 밤 1장 보스 ≥ 자정 10장 보스 × 1.10 — v0.95 규칙) · 영원한 밤 6장 보스는 7장보다 세지지 않게 +5%까지 */
+const CH_UP={"1-forest":{m:1.1,b:1.3}, "1-gold":{m:1.1,b:1.3}, "1-desert":{m:1.1,b:1.3}, "1-temple":{m:1.1,b:1.3}, "1-citadel":{m:1.1,b:1.25}, "1-throne":{m:1.1,b:1.12}, "1-altar":{m:1.1,b:1},
+  "2-gold":{m:1.05,b:1.12}, "2-desert":{m:1.05,b:1.05}};
 const BOSS_K=[{hp:1.8,atk:1.15},{hp:2.6,atk:1.2},{hp:2.4,atk:1.25}];   // v0.93 자정 보스 체력 2.1 → 2.6(뒤 장 보스가 첫 도전에 90~100% 깨지던 것)
 /* v0.93 적 강함 = 기준 영웅 × 압박도 (장이 지날수록 · 난이도가 오를수록 늘 강해짐 — 파티 조합·봇 결과로 바꾸지 않음)
    ENEMY_REF: 그 장에 들어올 때 보통 파티의 영웅 평균 [1장, 10장] (영원한 밤 = 만렙 + 장비·강화·특성을 거의 채운 스펙)
@@ -3476,6 +3480,7 @@ function buildMobUnit(spec,idx,d,rk){
   let hp=m.stats.hp*sc.hp, atk=m.stats.atk*sc.atk;
   if(m.boss&&!spec.eg&&ch>=0&&BOSS_FIX[d]&&BOSS_FIX[d][rk]){ hp*=BOSS_FIX[d][rk].hp; atk*=BOSS_FIX[d][rk].atk; }   // v0.93 보스형은 그 장 일반 몹 평균에 맞춘 비율
   { const K=DIFF_K[d]||DIFF_K[0]; hp*=K.hp; atk*=K.atk; }
+  { const U=!spec.eg&&ch>=0&&CH_UP[d+"-"+rk]; if(U){ const k=spec.finalBoss?U.b:U.m; hp*=k; atk*=k; } }   // v0.119
   if(m.boss||spec.finalBoss||spec.named){ const K=BOSS_K[d]||BOSS_K[0]; hp*=K.hp; atk*=K.atk; }
   if(spec.finalBoss&&!spec.eg&&ch>=0){ const E=DIFF_EASE[d]; const b0=d===2?0.88:1; hp*=curveAt([b0,E.hp[1]],ch)/curveAt(E.hp,ch); atk*=curveAt([b0,E.atk[1]],ch)/curveAt(E.atk,ch); if(d===2) hp*=curveAt([1,0.75],ch); }   /* v0.95 영원한 밤 1장 보스는 0.88부터 · 보스 체력은 10장으로 갈수록 추가로 줄어 ×0.75(단일 대상 화력이 줄어 싸움이 길어진 만큼) */   // v0.95 장 보스 완화는 1장 0% → 10장은 일반 몹과 같게 — '장 보스는 늘 오름 · 난이도 1장 보스 ≥ 앞 난이도 10장 보스 ×1.25' 원칙 유지
   if(spec.chief){ hp*=3.2; atk*=1.3; }
@@ -10133,13 +10138,14 @@ function plateById(id){ return plateStore().inv.find(x=>x.id===id)||null; }
 function plateRoll(set,pos){ const P=plateStore(); let r=Math.random(), rar="rare"; for(const [k,w] of PLATE_RAR){ if(r<w){ rar=k; break; } r-=w; } const R=PLATE_POS[pos].v[rar]; return {id:++P.seq,set,pos,rar,v:ri(R[0],R[1])}; }
 function plateSeen(){ const P=plateStore(); if(!P.seen||typeof P.seen!=="object") P.seen={}; for(const q of P.inv){ const S=P.seen[q.set]=P.seen[q.set]||{}; S[q.pos]=1; } return P.seen; }   /* v0.96 성반 도감: 한 번이라도 얻은 세트 × 자리 */
 function plateSeenMark(p){ if(!p||!PLATE_SETS[p.set]) return; const S=plateSeen(); (S[p.set]=S[p.set]||{})[p.pos]=1; }
-function plateAdd(p){ plateSeenMark(p); const P=plateStore(); if(P.inv.length>=PLATE_INV_MAX||(progress.autoPlate||{})[p.rar]==="dis"){ P.dust+=PLATE_DUST[p.rar]||1; p.auto=true; return false; } P.inv.push(p); return true; }   // 가득 차거나 자동 분해 등급이면 바로 가루로   // 가득 차면 바로 가루로
+function plateBagN(){ return plateStore().inv.filter(p=>!plateOwner(p.id)).length; }   // v0.119 낀 성편은 보관함에서 빠짐(장비처럼) — 보관 한도도 안 낀 것만
+function plateAdd(p){ plateSeenMark(p); const P=plateStore(); if(plateBagN()>=PLATE_INV_MAX||(progress.autoPlate||{})[p.rar]==="dis"){ P.dust+=PLATE_DUST[p.rar]||1; p.auto=true; return false; } P.inv.push(p); return true; }   // 가득 차거나 자동 분해 등급이면 바로 가루로   // 가득 차면 바로 가루로
 function plateOwner(id){ for(const c of Object.keys(progress.heroes)){ const h=progress.heroes[c]; if(Array.isArray(h.plate)&&h.plate.includes(id)) return c; } return null; }
 function plateWorn(cid){ return plateSlots(cid).map(id=>id!=null?plateById(id):null); }
 function plateEquip(cid,id){ const p=plateById(id); if(!p) return false; const o=plateOwner(id); if(o) plateSlots(o)[p.pos]=null; plateSlots(cid)[p.pos]=id; return true; }
 function plateUnequip(cid,pos){ plateSlots(cid)[pos]=null; }
 function plateDismantle(id){ const P=plateStore(), i=P.inv.findIndex(x=>x.id===id); if(i<0) return 0; const p=P.inv[i]; const o=plateOwner(id); if(o) plateSlots(o)[p.pos]=null; P.inv.splice(i,1); const g=PLATE_DUST[p.rar]||1; P.dust+=g; return g; }
-function plateCanCraft(){ const P=plateStore(); return P.dust>=PLATE_CRAFT.dust&&progress.ess>=PLATE_CRAFT.ess&&P.inv.length<PLATE_INV_MAX; }
+function plateCanCraft(){ const P=plateStore(); return P.dust>=PLATE_CRAFT.dust&&progress.ess>=PLATE_CRAFT.ess&&plateBagN()<PLATE_INV_MAX; }
 function plateCraft(set,pos){ if(!PLATE_SETS[set]||!(pos>=0&&pos<6)||!plateCanCraft()) return null; const P=plateStore(); P.dust-=PLATE_CRAFT.dust; progress.ess-=PLATE_CRAFT.ess; const p=plateRoll(set,pos); P.inv.push(p); plateSeenMark(p); return p; }
 function plateText(p){ const D=PLATE_POS[p.pos]; return `${D.n} +${Math.min(p.v,D.v.legend[1])}${D.u}`; }
 function plateCount(cid){ const n={}; for(const p of plateWorn(cid)) if(p) n[p.set]=(n[p.set]||0)+1; return n; }
@@ -13721,13 +13727,13 @@ function renderCosPane(B,cid){ const E=cosHeroEq(cid), busy=runBusy(); const CN=
 function renderPlatePane(B,cid){ const P=plateStore(), busy=runBusy(), W=plateWorn(cid), cnt=plateCount(cid), done=plateComplete(cid); const col=PLATE_RIM;
   if(plateSel!=null&&!plateById(plateSel)) plateSel=null;
   const sets=Object.entries(cnt).map(([k,n])=>`<div class="plset"><b>${esc(PLATE_SETS[k].name)} ${n}/6</b> ${[2,4,6].map(q=>`<span class="${n>=q?"on":""}">(${q}) ${esc(PLATE_SETS[k].fx[q][0])}</span>`).join(" ")}</div>`).join("")||`<div class="plset" style="color:var(--muted)">성편은 영원한 밤의 장 보스가 ${Math.round(PLATE_DROP*100)}% 확률로 떨어뜨립니다. 같은 성반을 2 · 4 · 6조각 끼우면 세트 효과가 열립니다.</div>`;
-  const L=P.inv.filter(p=>platePos==null||p.pos===platePos).sort((a,b)=>a.pos-b.pos||({legend:0,epic:1,rare:2})[a.rar]-({legend:0,epic:1,rare:2})[b.rar]||b.v-a.v);
+  const L=P.inv.filter(p=>!plateOwner(p.id)&&(platePos==null||p.pos===platePos)).sort((a,b)=>a.pos-b.pos||({legend:0,epic:1,rare:2})[a.rar]-({legend:0,epic:1,rare:2})[b.rar]||b.v-a.v);
   const sel=plateSel!=null?plateById(plateSel):null, so=sel?plateOwner(sel.id):null;
   B.insertAdjacentHTML("beforeend",`<div class="plpane">
     <div class="pltop"><div class="plwrap${done?" done":""}${plateBurst?" burst":""}"><canvas id="plCv" width="64" height="64" title="조각을 누르면 그 자리 성편만 보기"></canvas>${done?`<div class="pldone">✦ ${esc(PLATE_SETS[done].name)} 완성 ✦</div>`:""}</div>
       <div class="plside"><div class="plhd"><b>${esc(heroDisplayName(cid))}의 성반</b> <span>${W.filter(Boolean).length}/6</span></div>
         <div class="plslots">${W.map((p,i)=>`<button data-pp="${i}" class="${platePos===i?"on":""}"><i>${i+1}</i> ${PLATE_POS[i].n}${p?` <b style="color:${col[p.rar]}">+${Math.min(p.v,PLATE_POS[i].v.legend[1])}${PLATE_POS[i].u}</b>`:` <em>—</em>`}</button>`).join("")}</div>${sets}</div></div>
-    <div class="plbar"><span>성편 <b>${P.inv.length}</b>/${PLATE_INV_MAX} · 성반가루 <b>${P.dust}</b></span><span class="plfilt"><button id="plTidyBtn" class="${plTidy||plPick?"on":""}" style="min-width:auto;padding:0 10px;margin-right:6px">${plPick?"🧹 정리 — 고르는 중 ▴":plTidy?"🧹 정리 ▴":"🧹 정리 ▾"}</button><button data-pf="all" class="${platePos==null?"on":""}">전체</button>${PLATE_POS.map((D,i)=>`<button data-pf="${i}" class="${platePos===i?"on":""}">${i+1}</button>`).join("")}</span></div>
+    <div class="plbar"><span>성편 <b>${plateBagN()}</b>/${PLATE_INV_MAX} · 성반가루 <b>${P.dust}</b></span><span class="plfilt"><button id="plTidyBtn" class="${plTidy||plPick?"on":""}" style="min-width:auto;padding:0 10px;margin-right:6px">${plPick?"🧹 정리 — 고르는 중 ▴":plTidy?"🧹 정리 ▴":"🧹 정리 ▾"}</button><button data-pf="all" class="${platePos==null?"on":""}">전체</button>${PLATE_POS.map((D,i)=>`<button data-pf="${i}" class="${platePos===i?"on":""}">${i+1}</button>`).join("")}</span></div>
     ${plTidy||plPick?(()=>{ const AP=progress.autoPlate||{}; const tg=P.inv.filter(p=>AP[p.rar]==="dis"&&!plateOwner(p.id)); return `<div class="tidybox autoloot"><div class="tidyrow"><b>① 골라서 분해</b><button id="plPk" class="${plPick?"on":""}">${plPick?"✓ 고르는 중":"고르기 시작"}</button>${plPick?`<button data-plq="rare">희귀</button><button data-plq="epic">영웅 이하</button><button id="plClr">선택 풀기</button>`:`<span class="tidyhint">성편을 눌러 여러 개 고른 뒤 한 번에 분해(끼고 있는 성편은 빼고 고름)</span>`}</div>
       <div class="tidyrow"><b>② 자동 분해</b><span class="tidyhint">새로 얻는 성편을 등급에 따라</span></div><div class="grid">${Object.keys(PLATE_DUST).map(r=>`<label><span style="color:${col[r]}">${PLATE_RAR_NAME[r]}</span><select data-plauto="${r}"><option value="keep"${AP[r]!=="dis"?" selected":""}>보관</option><option value="dis"${AP[r]==="dis"?" selected":""}>자동 분해</option></select></label>`).join("")}</div>
       <div class="row2"><button id="plAutoNow" class="${plArm==="auto"?"arm":""}" ${tg.length&&!busy?"":"disabled"}>${tg.length?(plArm==="auto"?`한 번 더 → ${tg.length}개 분해`:`지금 가진 것에 적용 (${tg.length}개 · 성반가루 +${tg.reduce((a,p)=>a+PLATE_DUST[p.rar],0)})`):"지금 정리할 것 없음"}</button></div></div>`; })():""}
@@ -13761,10 +13767,10 @@ function openPlate(cid,pos,burst){ const P=plateStore(), busy=runBusy(), W=plate
   const slot=(p,i)=>`<button class="btn ghost" data-pp="${i}" style="flex:1 1 30%;min-width:96px;text-align:left;padding:6px 8px;${pos===i?"box-shadow:inset 0 0 0 1px var(--accent);":""}"><b>${i+1}번 · ${PLATE_POS[i].n}</b><br>${p?`<span style="color:${col[p.rar]}">${esc(PLATE_SETS[p.set].name.replace("의 성반",""))} +${Math.min(p.v,PLATE_POS[i].v.legend[1])}${PLATE_POS[i].u}</span>`:`<span style="color:var(--muted)">비어 있음</span>`}</button>`;
   const sets=Object.entries(cnt).map(([k,n])=>`<div class="msub" style="margin:2px 0"><b>${esc(PLATE_SETS[k].name)} ${n}/6</b> — ${[2,4,6].map(q=>`<span style="color:${n>=q?"var(--accent)":"var(--muted)"}">(${q}) ${esc(PLATE_SETS[k].fx[q][0])}</span>`).join(" · ")}</div>`).join("")||`<p class="msub">성편은 영원한 밤의 장 보스가 낮은 확률(${Math.round(PLATE_DROP*100)}%)로 떨어뜨립니다. 같은 성반을 2·4·6조각 끼우면 세트 효과가 열립니다.</p>`;
   let list="";
-  if(pos!=null){ const L=P.inv.filter(p=>p.pos===pos).sort((a,b)=>({legend:0,epic:1,rare:2})[a.rar]-({legend:0,epic:1,rare:2})[b.rar]||b.v-a.v);
+  if(pos!=null){ const L=P.inv.filter(p=>p.pos===pos&&!plateOwner(p.id)).sort((a,b)=>({legend:0,epic:1,rare:2})[a.rar]-({legend:0,epic:1,rare:2})[b.rar]||b.v-a.v);
     list=`<div style="margin-top:8px;border-top:1px solid var(--line);padding-top:6px"><b>${pos+1}번 자리 성편 ${L.length}개</b>${W[pos]?` <button class="btn ghost" id="ppOff" ${busy?"disabled":""} style="padding:2px 8px">빼기</button>`:""}
       <div style="max-height:190px;overflow:auto;margin-top:4px">${L.map(p=>{ const o=plateOwner(p.id); return `<div style="display:flex;gap:6px;align-items:center;padding:3px 0;font-size:13px"><span style="flex:1;color:${col[p.rar]}">${esc(PLATE_SETS[p.set].name)} · ${PLATE_RAR_NAME[p.rar]} · ${esc(plateText(p))}${o?` <i style="color:var(--muted);font-style:normal">(${o===cid?"착용 중":esc(heroDisplayName(o))+" 착용"})</i>`:""}</span>${o===cid?"":`<button class="btn" data-pe="${p.id}" ${busy?"disabled":""} style="padding:2px 8px">장착</button>`}<button class="btn ghost" data-pd="${p.id}" ${busy?"disabled":""} style="padding:2px 8px">분해 +${PLATE_DUST[p.rar]}</button></div>`; }).join("")||`<p class="msub">이 자리 성편이 없어요.</p>`}</div></div>`; }
-  const m=openModal(`<h3>🌟 ${esc(who)}의 성반</h3><p class="msub">성반가루 <b>${P.dust}</b> · 밤의 정수 <b>${progress.ess}</b> · 보관 ${P.inv.length}/${PLATE_INV_MAX}</p>
+  const m=openModal(`<h3>🌟 ${esc(who)}의 성반</h3><p class="msub">성반가루 <b>${P.dust}</b> · 밤의 정수 <b>${progress.ess}</b> · 보관 ${plateBagN()}/${PLATE_INV_MAX}</p>
     <div class="plwrap${plateComplete(cid)?" done":""}${burst?" burst":""}"><canvas id="plCv" width="64" height="64" title="조각을 누르면 그 자리 성편 목록"></canvas>${plateComplete(cid)?`<div class="pldone">✦ ${esc(PLATE_SETS[plateComplete(cid)].name)} 완성 ✦</div>`:""}</div>
     <div style="display:flex;flex-wrap:wrap;gap:6px">${W.map(slot).join("")}</div><div style="margin-top:6px">${sets}</div>${list}
     <div style="margin-top:8px;border-top:1px solid var(--line);padding-top:6px"><b>성편 제작</b> <span class="msub">성반가루 ${PLATE_CRAFT.dust} · 정수 ${PLATE_CRAFT.ess}</span><br>
@@ -17406,6 +17412,10 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.14", v:"v0.119", t:"자정 중반 난이도 · 성반 보관함", L:[
+    "자정 4~10장이 첫 도전에 거의 깨지던 것을 올렸습니다 — 일반 몹 체력·공격 +10% · 장 보스 +30%(8장 +25% · 9장 +12% · 10장 보스는 그대로 — 영원한 밤 1장 보스가 10% 이상 세야 하는 규칙). 영원한 밤 5장(일반 +5% · 보스 +12%) · 6장(일반 +5% · 보스 +5%)도 조금. 장 보스는 여전히 장마다 더 셉니다(자정 10장 보스 < 영원한 밤 1장 보스).",
+    "성반: 낀 성편은 성편 목록에 보이지 않습니다(장비처럼). 낀 성편은 위의 자리 칸을 눌러 고르고 뺄 수 있습니다. 보관 수와 보관 한도(300)는 끼지 않은 성편만 셉니다.",
+  ]},
   {d:"2026.11.14", v:"v0.118", t:"상태이상 회피 · 회피 · 관통 조정", L:[
     "상태이상 회피: 장비 몫(최대 20%p)이 자정 1장 무렵 거의 모든 영웅에게 꽉 차던 것을 고쳤습니다 — 투구 9~12 → 4~6 · 망토 8~10 → 4~5 · 옵션 2~5 → 1~3(나오는 비중도 절반) · 유물 6~14 → 3~7 · 조건 옵션 6~12 → 3~6 · 성물 · 악보도 절반.",
     "회피: 장화 7~9 → 4~5 · 옵션 1~5 → 1~3 · 유물 3~7 → 2~4 · 세트 5 → 3 · 민첩 1당 0.4% → 0.2%(명중과 같게).",
