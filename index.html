@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794597607218"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794620511076"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3624,11 +3624,11 @@ const CLASS_WEAPONS={ knight:["sword","greatsword","spear"], mage:["staff","wand
   fighter:["knuckle","gauntlet","wraps"], gunner:["pistols","rifle","shotgun"], bard:["lute","war_drum","flute"], archer:["shortbow","longbow","crossbow"], lancer:["lance","halberd","warpike"] };
 const OFFHANDS={ knight:{name:"방패",   base:{def:[2,3],hp:[20,40]}, desc:"받는 피해 -6%, 반격 +5%", flags:{dmg_cut:0.06,counter:0.05}},
                  mage:  {name:"마도서", base:{mp:[14,24],atk:[2,4]},  desc:"스킬 피해 +6%", flags:{skill_amp:0.06}},
-                 priest:{name:"성물",   base:{heal:[6,10],res:[4,8]},  desc:"치유량·상태이상 회피", flags:{}},
+                 priest:{name:"성물",   base:{heal:[6,10],res:[2,4]},  desc:"치유량·상태이상 회피", flags:{}},
                  rogue: {name:"소매칼", base:{crit:[2,3],spd:[1,2]},   desc:"공격 후 25% 확률로 추가타(40%)", flags:{extra_hit:0.25}},
                  fighter:{name:"수련 띠", base:{hp:[20,40],spd:[1,2]},  desc:"전투 시작 기세 +2", flags:{start_mom:2}},
                  gunner:{name:"탄약 주머니", base:{atk:[2,4],crit:[1,2]}, desc:"소이탄 확률 +10%p, 탄창 +1", flags:{special_plus:0.1,ammo_add:1}},
-                 bard:  {name:"악보",   base:{mp:[14,24],res:[3,6]},   desc:"전투 시작 공명 +3", flags:{start_res:3}},
+                 bard:  {name:"악보",   base:{mp:[14,24],res:[2,3]},   desc:"전투 시작 공명 +3", flags:{start_res:3}},
                  archer:{name:"화살통", base:{atk:[2,4],crit:[1,2]},  desc:"스킬 피해 +6%", flags:{skill_amp:0.06}},
                  lancer:{name:"작은 방패", base:{def:[2,3],hp:[20,40]}, desc:"받는 피해 -4%, 반격 +8%", flags:{dmg_cut:0.04,counter:0.08}} };
 // 무기 이름 재료: 무기 종류별
@@ -3667,11 +3667,11 @@ const PREFIX = { common:"", fine:"정교한 ", rare:"밤의 ", epic:"영웅의 "
 // 기본 능력치(1층): 부위가 정한다. [일반,고급,희귀,영웅,전설] 범위
 const SLOT_BASE={
   weapon:{atk:[[2,4],[4,7],[6,10],[9,13],[12,17]]},
-  helm:{res:[[2,3],[3,5],[5,7],[7,9],[9,12]], acc:[[1,1],[1,1],[1,2],[2,2],[2,3]]},   /* v0.117 명중 약 절반 */
+  helm:{res:[[1,2],[2,3],[3,4],[4,5],[4,6]], acc:[[1,1],[1,1],[1,2],[2,2],[2,3]]},   /* v0.117 명중 약 절반 */
   armor:{hp:[[15,25],[25,45],[45,70],[70,95],[95,130]], def:[[1,1],[1,2],[2,3],[3,4],[4,6]]},
   gloves:{crit:[[1,1],[1,2],[2,2],[2,3],[3,4]], acc:[[1,1],[1,1],[1,2],[2,2],[2,3]]},   /* v0.117 치명타 · 명중 약 절반 */
-  boots:{spd:[[1,1],[1,2],[2,3],[3,3],[3,4]], eva:[[1,2],[2,3],[3,5],[5,7],[7,9]]},
-  cape:{def:[[1,1],[1,2],[2,3],[3,4],[4,5]], res:[[1,2],[2,4],[4,6],[6,8],[8,10]]},
+  boots:{spd:[[1,1],[1,2],[2,3],[3,3],[3,4]], eva:[[1,1],[1,2],[2,3],[3,4],[4,5]]},   /* v0.118 회피 약 절반 */
+  cape:{def:[[1,1],[1,2],[2,3],[3,4],[4,5]], res:[[1,1],[1,2],[2,3],[3,4],[4,5]]},   /* v0.118 상태이상 회피 약 절반(투구도) */
   ring:{critdmg:[[1,2],[2,4],[4,5],[5,6],[6,8]], pen:[[1,1],[1,1],[1,2],[2,2],[2,3]]},   /* v0.117 치명타 피해 약 70% · 관통 약 절반 */ amulet:{hp:[[8,12],[12,20],[20,30],[30,40],[40,55]], mp:[[4,8],[8,12],[12,18],[18,24],[24,32]]},
 };
 // 접사(2층): 무작위 풀 — 일반 능력치 + 조건부(자동전투 규칙과 맞물림)
@@ -3679,7 +3679,7 @@ const SLOT_BASE={
 // min: 붙는 최소 등급(0 일반 … 3 영웅) · slots: 붙는 부위 · g: 묶음(퍼센트·직업 스킬·진영·조건부·상태이상)
 const AFFIX_POOL=[
   {k:"atk",lo:1,hi:4,w:10},{k:"hp",lo:4,hi:22,w:10},{k:"def",lo:1,hi:3,w:8},{k:"spd",lo:1,hi:1,w:4,flat:true},{k:"crit",lo:1,hi:2,w:8},{k:"mp",lo:2,hi:12,w:8},
-  {k:"critdmg",lo:2,hi:8,w:6},{k:"acc",lo:1,hi:3,w:5},{k:"eva",lo:1,hi:5,w:6},{k:"pen",lo:1,hi:4,w:5},{k:"ls",lo:1,hi:4,w:4},{k:"res",lo:2,hi:5,er:true,w:12},{k:"heal",lo:1,hi:7,w:4},{k:"regen",lo:1,hi:1,w:3,flat:true},
+  {k:"critdmg",lo:2,hi:8,w:6},{k:"acc",lo:1,hi:3,w:5},{k:"eva",lo:1,hi:3,w:6},{k:"pen",lo:1,hi:3,w:5},{k:"ls",lo:1,hi:4,w:4},{k:"res",lo:1,hi:3,er:true,w:6},{k:"heal",lo:1,hi:7,w:4},{k:"regen",lo:1,hi:1,w:3,flat:true},
   {k:"er_all",lo:2,hi:6,w:4,er:true},{k:"er_fire",lo:5,hi:15,w:2,er:true},{k:"er_cold",lo:5,hi:15,w:2,er:true},{k:"er_poison",lo:5,hi:15,w:2,er:true},{k:"er_holy",lo:5,hi:15,w:2,er:true},{k:"er_dark",lo:5,hi:15,w:2,er:true},   // v0.95 속성 저항(장·등급에 따라 커지지 않음 — 전체 +2~6 · 개별 +5~15)
   {k:"c_turn3_atk",v:[4,14],w:4,g:"cond",label:v=>`3턴 이후 공격 +${v}%`},
   {k:"c_lone_crit",v:[3,8],w:4,g:"cond",label:v=>`적이 1마리면 치명타 +${v}%`},
@@ -3705,7 +3705,7 @@ const AFFIX_POOL=[
   {k:"c_burn_turn",v:[1,1],w:2,min:3,g:"status",label:v=>`내가 건 화상 지속 +${v}턴`},
   {k:"c_poison_plus",v:[1,1],w:2,min:3,g:"status",label:v=>`독을 걸 때 ${v}중첩 더`},
   {k:"c_stun_pct",v:[3,6],w:2,min:3,g:"status",label:v=>`기절시킬 확률 +${v}%p`},
-  {k:"c_res_plus",v:[6,12],w:2,min:3,g:"status",label:v=>`상태이상 회피 +${v}% (강화와 무관)`},
+  {k:"c_res_plus",v:[3,6],w:2,min:3,g:"status",label:v=>`상태이상 회피 +${v}% (강화와 무관)`},
 ];
 
 // v0.44: 등급별 추가 옵션 수 — 범위의 위쪽이 나오면(30%) 장비 이름 앞에 ★
@@ -3862,7 +3862,7 @@ const ADV_SETS=[
   ["s_judgefire","priest","inquisitor","심판의 불꽃","A",[["공격력 +6%",{atk_pct:0.06}],["꺼지지 않는 불씨 — 내 화상 피해 +40%",{flag:"dot_amp"}]]],
   ["s_crusade","priest","inquisitor","성전의 갑주","H",[["치명타 확률 +3%",{crit:3}],["신성 타격 — 성스러운 타격 +62.5% · 30% 화상",{skmod:{sk:"basic_smite",pow:0.625,set:{burn:{chance:0.3,ratio:0.3,turns:2}}}}],["죄의 고백 — 치명타를 맞힌 적 취약 · 공격력 +6%",{flag:"crit_vuln",atk_pct:0.06}]]],
   ["s_shadowblade","rogue","assassin","그림자 칼날","G",[["치명타 확률 +3%",{crit:3}],["심장 찌르기 — 그림자 칼날 +16%",{skmod:{sk:"rg_shadowblade",pow:0.16}}],["어둠의 잔상 — 은신 공격이 메아리",{flag:"shadow_echo"}]]],
-  ["s_smoke","rogue","assassin","연기의 장막","C",[["회피 +5% · 치명타 확률 +3%",{eva:5,crit:3}],["연기 속 칼날 — 연기 구슬 뒤 확정 치명 · 공격력 +18%",{flag:"smoke_crit",atk_pct:0.18}]]],   // v0.93 보강
+  ["s_smoke","rogue","assassin","연기의 장막","C",[["회피 +3% · 치명타 확률 +3%",{eva:3,crit:3}],["연기 속 칼날 — 연기 구슬 뒤 확정 치명 · 공격력 +18%",{flag:"smoke_crit",atk_pct:0.18}]]],   // v0.93 보강
   ["s_fang","rogue","venom_fang","독니의 장신구","A",[["공격력 +6%",{atk_pct:0.06}],["독 날 — 공격마다 30% 확률로 독 1중첩",{flag:"venom_edge"}]]],
   ["s_herb","rogue","venom_fang","독초꾼의 옷","I",[["체력 +8%",{hp_pct:0.08}],["신경 독 — 독 3중첩 적 약화",{flag:"venom_weaken"}],["독 사냥 — 독 걸린 적에게 +15% · 회피 +5%",{flag:"venom_hunter",eva:5}]]],
   ["s_beads","fighter","monk","금강의 염주","E",[["체력 +8%",{hp_pct:0.08}],["내공 보호막 — 내공이 있으면 받는 피해 -10%",{flag:"ki_guard"}],["내공 방출 — 내공이 최대 체력 10% 이상이면 추가 피해",{flag:"ki_release"}]]],
@@ -3870,15 +3870,15 @@ const ADV_SETS=[
   ["s_ascend","fighter","dragon_fist","승천의 각반","B",[["공격력 +6%",{atk_pct:0.06}],["공중 콤보 — 띄운 적에게 +20%",{flag:"air_chase"}]]],
   ["s_wraps","fighter","dragon_fist","연격의 붕대","G",[["치명타 확률 +3%",{crit:3}],["연격 치명 — 연격 5 이상이면 치명 +10%p",{flag:"chain_crit"}],["연격 강화 — 연격 한 번당 +4%(최대 40%)",{flag:"chain_accel_plus"}]]],
   ["s_scope","gunner","sniper","한 발의 조준경","A",[["치명타 확률 +3%",{crit:3}],["무심 — 조준 2 이상이면 방어 무시",{flag:"aim_pierce"}]]],
-  ["s_ghillie","gunner","sniper","위장 망토","F",[["회피 +5%",{eva:5}],["엎드려 쏴 — 광역 피해 -25%",{flag:"aoe_guard"}],["위장 — 쏘지 않은 턴엔 은신",{flag:"camouflage"}]]],
+  ["s_ghillie","gunner","sniper","위장 망토","F",[["회피 +3%",{eva:3}],["엎드려 쏴 — 광역 피해 -25%",{flag:"aoe_guard"}],["위장 — 쏘지 않은 턴엔 은신",{flag:"camouflage"}]]],
   ["s_powder","gunner","bomber","화약통 벨트","J",[["공격력 +6%",{atk_pct:0.06}],["대형 화약 상자 — 화약 상자 +33%",{skmod:{sk:"gn_keg",pow:0.333}}],["연쇄 폭발 — 화약 상자 2개 · 치명타 확률 +5% · 공격력 +8%",{flag:"keg_chain",crit:5,atk_pct:0.08}]]],
   ["s_incin","gunner","bomber","소각의 장갑","D",[["치명타 확률 +3%",{crit:3}],["화약 장인 — 화상 피해 +30%",{flag:"burn_amp30"}]]],
   ["s_drum","bard","war_band","행진 북","E",[["턴당 마나 +3",{mp_regen:3}],["앞줄 신속 — 앞줄 아군 신속 +2",{flag:"front_haste"}],["행진의 박자 — 추가 기본공격 40%",{flag:"march35"}]]],
   ["s_epaulet","bard","war_band","지휘관의 견장","B",[["공격력 +6%",{atk_pct:0.06}],["집중 사격 신호 — 일제 공격 +40%",{flag:"allout_amp"}]]],
   ["s_bells","bard","jester","광대의 방울","A",[["턴당 마나 +3",{mp_regen:3}],["꿀잠 — 잠든 적 첫 타 +50%",{flag:"sleep_strike"}]]],
-  ["s_masque","bard","jester","가면 무도회","I",[["회피 +5%",{eva:5}],["깊은 놀림 — 어릿광대 춤 약화 -35%",{flag:"fear_weaken"}],["소란 — 기절한 적에게 +25% · 턴당 마나 +3",{flag:"riot",mp_regen:3}]]],
+  ["s_masque","bard","jester","가면 무도회","I",[["회피 +3%",{eva:3}],["깊은 놀림 — 어릿광대 춤 약화 -35%",{flag:"fear_weaken"}],["소란 — 기절한 적에게 +25% · 턴당 마나 +3",{flag:"riot",mp_regen:3}]]],
   ["s_gale","archer","gale_archer","질풍의 깃","H",[["공격력 +6%",{atk_pct:0.06}],["폭풍의 눈 — 폭풍 연사 +1발",{skmod:{sk:"ar_storm",add:{multi:1}}}],["광역 숙련 — 광역 +20% · 치명타 확률 +5% · 공격력 +8%",{flag:"aoe_amp",crit:5,atk_pct:0.08}]]],
-  ["s_windpath","archer","gale_archer","바람길 망토","C",[["회피 +5% · 공격력 +5%",{eva:5,atk_pct:0.05}],["꿰뚫는 바람 숙련 — 꿰뚫는 바람 +1발 · 치명타 확률 +8%",{skmod:{sk:"ar_galepierce",add:{multi:1}},crit:8}]]],   // v0.93 보강
+  ["s_windpath","archer","gale_archer","바람길 망토","C",[["회피 +3% · 공격력 +5%",{eva:3,atk_pct:0.05}],["꿰뚫는 바람 숙련 — 꿰뚫는 바람 +1발 · 치명타 확률 +8%",{skmod:{sk:"ar_galepierce",add:{multi:1}},crit:8}]]],   // v0.93 보강
   ["s_leash","archer","forest_hunter","사냥개 목줄","G",[["공격력 +6%",{atk_pct:0.06}],["훈련된 사냥개 — 사냥개 +1번",{skmod:{sk:"ar_hound",add:{n:1}}}],["급소 노림 — 약점 사냥 치명 +15%p",{skmod:{sk:"ar_weakhunt",add:{critPlus:0.15}}}]]],
   ["s_trapper","archer","forest_hunter","덫사냥꾼 장비","D",[["체력 +8%",{hp_pct:0.08}],["약화 사냥 — 약화된 적에게 +20%",{flag:"weak_hunter"}]]],
   ["s_skytip","lancer","dragoon","천공의 창끝","B",[["치명타 확률 +3%",{crit:3}],["천공 관통 — 천공이 방어 무시",{skmod:{sk:"ln_skypierce",set:{pierceAll:true}}}]]],
@@ -3945,8 +3945,8 @@ const RELIC_OPT={
   atk_pct:{lo:3,hi:7,kind:"pct",t:v=>`공격력 +${v}%`}, hp_pct:{lo:6,hi:15,kind:"pct",t:v=>`체력 +${v}%`}, def_pct:{lo:6,hi:15,kind:"pct",t:v=>`방어력 +${v}%`},
   skill:{lo:3,hi:8,kind:"trait",t:v=>`기술 피해 +${v}%`}, aoe:{lo:4,hi:10,kind:"trait",t:v=>`광역 피해 +${v}%`}, dot:{lo:6,hi:15,kind:"trait",t:v=>`지속 피해(화상·독·출혈) +${v}%`},
   cut:{lo:3,hi:7,kind:"trait",t:v=>`받는 피해 -${v}%`}, gold:{lo:8,hi:20,kind:"trait",t:v=>`골드 +${v}%`}, exp:{lo:5,hi:12,kind:"trait",t:v=>`경험치 +${v}%`},
-  crit:{lo:2,hi:4,kind:"stat",t:v=>`치명타 확률 +${v}%`}, critdmg:{lo:6,hi:14,kind:"stat",t:v=>`치명타 피해 +${v}%`}, pen:{lo:2,hi:5,kind:"stat",t:v=>`관통 +${v}%`}, eva:{lo:3,hi:7,kind:"stat",t:v=>`회피 +${v}%`},
-  res:{lo:6,hi:14,kind:"stat",t:v=>`상태이상 회피 +${v}%`}, er_all:{lo:5,hi:12,kind:"stat",t:v=>`전체 속성 저항 +${v}%`}, heal:{lo:6,hi:15,kind:"stat",t:v=>`치유량 +${v}%`},
+  crit:{lo:2,hi:4,kind:"stat",t:v=>`치명타 확률 +${v}%`}, critdmg:{lo:6,hi:14,kind:"stat",t:v=>`치명타 피해 +${v}%`}, pen:{lo:2,hi:4,kind:"stat",t:v=>`관통 +${v}%`}, eva:{lo:2,hi:4,kind:"stat",t:v=>`회피 +${v}%`},
+  res:{lo:3,hi:7,kind:"stat",t:v=>`상태이상 회피 +${v}%`}, er_all:{lo:5,hi:12,kind:"stat",t:v=>`전체 속성 저항 +${v}%`}, heal:{lo:6,hi:15,kind:"stat",t:v=>`치유량 +${v}%`},
   regen:{lo:1,hi:3,kind:"stat",t:v=>`턴당 마나 +${v}`}, spd:{lo:1,hi:3,kind:"stat",t:v=>`신속 +${v}`}, ls:{lo:2,hi:5,kind:"stat",t:v=>`흡혈 +${v}%`},
 };
 const RELIC_QCAP=[0.34,0.67,1], RELIC_QLOW=[0,0.17,0.34], RELIC_DROP=[0.10,0.10,0.10];   // 난이도별(황혼·자정·영원한 밤): 수치 상한·하한(범위의 몇 %) · 장 보스 처치 시 나올 확률 — v0.96.1 황혼 < 자정 < 영원한 밤이 옵션마다 분명히 갈리게, 확률은 낮춤
@@ -4114,8 +4114,8 @@ const LEVEL_CAP=50;   // v0.95 만렙 40 → 50(적 강함은 그대로 — 41~5
 const TRAIT_LV_MAX=40;   // v0.95 레벨로 받는 특성 포인트는 지금처럼 Lv40까지(최대 31점) — Lv41~50은 특성 포인트 없음
 // v0.19: 게임 곳곳의 상한·제한을 한곳에 모아 도감에서 보여 준다(숨은 규칙 없음)
 const LIMITS=[
-  ["능력치 상한","치명타 확률 75% · 회피 60% · 관통 75% · 상태이상 회피 75% · 명중 120%(100%를 넘는 명중은 적의 회피를 그만큼 상쇄). 상한에 닿으면 능력치 표에 '최대'가 붙고, 그 이상은 효과가 없습니다."],
-  ["명중","기본 85% + 민첩 1당 0.4%p(10 기준) + 장비(투구·장갑) 명중. 실제로 맞힐 확률 = 명중 − 상대 회피(최소 20%). 띄운 적은 회피하지 못함."],
+  ["능력치 상한","치명타 확률 75% · 회피 60% · 관통 75% · 상태이상 회피 30%(기본 10% + 장비 최대 20%p) · 명중 120%(100%를 넘는 명중은 적의 회피를 그만큼 상쇄). 상한에 닿으면 능력치 표에 '최대'가 붙고, 그 이상은 효과가 없습니다."],
+  ["명중","기본 85% + 민첩 1당 0.2%p(10 기준) + 장비(투구·장갑) 명중. 실제로 맞힐 확률 = 명중 − 상대 회피(최소 20%). 띄운 적은 회피하지 못함."],
   ["레벨·각성","최고 레벨 50(v0.95 — 예전 40). 50에서 경험치가 다시 차면 각성 — 특성 포인트 +4. 각성은 횟수 제한 없이 계속할 수 있고, 할 때마다 특성 포인트를 줍니다."],
   ["퀘스트","왼쪽 메뉴의 📜 퀘스트 탭. 메인 의뢰는 황혼 1~10장마다 꼭 필요한 이야기 막 셋(1막 의뢰 · 3막 전환점 · 5막 군단장)에만 있습니다(모두 30개). 황혼에서 그 막을 처음 깨러 들어갈 때는 메인 의뢰를 받아야 하고(입장할 때 의뢰 창이 뜨면 [의뢰 받고 출발]), 앞 메인 의뢰를 보고해야 다음 메인 의뢰를 받을 수 있습니다. 막을 돌파한 뒤 보고하면 알게 된 이야기와 보상(1·3막: 그 장 일반 몹 평균 5마리분 경험치·골드 · 5막: 12마리분 + 밤의 정수 5×장 번호 + 희귀 장비 1개). 서브 의뢰는 막마다 1~2개(모두 70개) — 2·4막은 그 막 우두머리 이야기(받은 뒤 그 막 끝 우두머리를 쓰러뜨리기, 보상 5마리분), 그리고 막마다 몹 잡기 부탁(받은 뒤 그 장 그 막에서 정해진 몹 6~10마리, 어느 난이도든·정예 포함, 보상 4마리분 + 밤의 정수 장 번호, 5막은 희귀 장비 1개 더). 서브는 황혼에서 그 막이 열려 있으면 받을 수 있습니다. 받기·보고는 던전 밖에서 하고, 경험치는 그때 출전 중인 영웅마다 들어갑니다."],
   ["특성 포인트","전직(Lv10)부터 레벨마다 1점(Lv40에 31점) + 각성마다 4점 + 큰 별마다 1점. 특성은 가운데에서 서로 얽혀 뻗는 그물(영웅마다 215칸 — 직업 공통 갈래 3 + 고른 전직 갈래 2)이라, 이미 배운 칸과 이어진 칸만 배울 수 있습니다. 궁극은 갈래 끝 20개 중 4개까지. 각성은 10번까지(최대 71점)."],
@@ -5995,7 +5995,7 @@ function defaultProgress(){
   const heroes={};
   for(const c of CLASS_IDS) heroes[c]={level:1,exp:0,pts:CREATE_PTS,statV:2,grow:{hp:0,mp:0,atk:0},alloc:{str:0,agi:0,int:0,con:0,wil:0,luk:0},
     equip:emptyEquip(), learned:[], adv:null, traits:[], mastery:{}, stats:{}, title:null, awaken:0, stance:null};
-  return { gold:0, lastRegion:"swamp", nerfV:117,   /* v0.117 새 게임은 낮춘 수치로 시작(이전 장비 낮추기는 하지 않음) */
+  return { gold:0, lastRegion:"swamp", nerfV:118,   /* v0.117 새 게임은 낮춘 수치로 시작(이전 장비 낮추기는 하지 않음) */
     regions:{ swamp:{run:1,clears:0}, volcano:{run:1,clears:0}, sunken:{run:1,clears:0}, forest:{run:1,clears:0} },
     diff:0, diffMax:0, cl:[{},{},{}], acts:[{},{},{}], actSel:{}, ess:0, quest:{main:{},sub:{},open:null},
     heroes, inv:[], nextItemId:1, shopStock:null, _equipped:[],
@@ -6405,10 +6405,11 @@ function loadAll(){
 // 버전 업데이트로 새 지역·새 필드가 생겨도 옛 세이브가 깨지지 않게 하는 안전망.
 /* v0.117 장비 치명타·명중·관통·치명타 피해를 낮춤 — 이미 가진 장비도 같은 비율로(한 번만) */
 const GEAR_NERF117={crit:0.5, acc:0.5, pen:0.55, critdmg:0.7, c_lone_crit:0.5, c_back_crit:0.5};
-function gearNerf117(it){ if(!it||typeof it!=="object"||!it.slot) return; const f=(k,v)=>Math.max(1,Math.round(v*GEAR_NERF117[k]));
-  for(const B of [it.base,it.stats]) if(B&&typeof B==="object") for(const k of Object.keys(B)) if(GEAR_NERF117[k]&&typeof B[k]==="number") B[k]=f(k,B[k]);
-  if(Array.isArray(it.affixes)) for(const a of it.affixes) if(a&&GEAR_NERF117[a.k]&&typeof a.v==="number") a.v=f(a.k,a.v);
-  if(Array.isArray(it.ropts)) for(const o of it.ropts) if(o&&GEAR_NERF117[o.k]&&typeof o.v==="number") o.v=Math.max(RELIC_OPT[o.k]?RELIC_OPT[o.k].lo:1,f(o.k,o.v)); }
+const GEAR_NERF118={res:0.5, eva:0.5, pen:0.75, c_res_plus:0.5};   // v0.118 상태이상 회피 · 회피 약 절반 · 관통 한 번 더 약 30%
+function gearNerf117(it,N){ const G=N||GEAR_NERF117; if(!it||typeof it!=="object"||!it.slot) return; const f=(k,v)=>Math.max(1,Math.round(v*G[k]));
+  for(const B of [it.base,it.stats]) if(B&&typeof B==="object") for(const k of Object.keys(B)) if(G[k]&&typeof B[k]==="number") B[k]=f(k,B[k]);
+  if(Array.isArray(it.affixes)) for(const a of it.affixes) if(a&&G[a.k]&&typeof a.v==="number") a.v=f(a.k,a.v);
+  if(Array.isArray(it.ropts)) for(const o of it.ropts) if(o&&G[o.k]&&typeof o.v==="number") o.v=Math.max(RELIC_OPT[o.k]?RELIC_OPT[o.k].lo:1,f(o.k,o.v)); }
 function migrateProgress(p){
   if(p) TUT.markOld(p);   // v0.33: 예전 세이브는 튜토리얼을 마친 것으로
   const d=defaultProgress();
@@ -6417,6 +6418,8 @@ function migrateProgress(p){
   if(!(out.resFixV>=1)){ for(const L of [out.inv,out._equipped]) if(Array.isArray(L)) for(const it of L) if(it&&Array.isArray(it.affixes)) for(const a of it.affixes) if(a&&a.k==="res"&&a.v>5) a.v=5; out.resFixV=1; }   // v0.95 상태이상 회피 옵션: 한 줄 최대 5%로
   if(!(p&&p.nerfV>=117)){ const seen=new Set(); const walk=o=>{ if(!o||typeof o!=="object"||seen.has(o)) return; seen.add(o); if(o.slot&&(o.base||o.affixes||o.ropts)) gearNerf117(o); for(const k of Object.keys(o)) walk(o[k]); };
     walk(out.inv); walk(out._equipped); walk(out.shopStock); walk(out.run); walk(out.market); out.nerfV=117; }   // v0.117
+  if(!(p&&p.nerfV>=118)){ const seen=new Set(); const walk=o=>{ if(!o||typeof o!=="object"||seen.has(o)) return; seen.add(o); if(o.slot&&(o.base||o.affixes||o.ropts)) gearNerf117(o,GEAR_NERF118); for(const k of Object.keys(o)) walk(o[k]); };
+    walk(out.inv); walk(out._equipped); walk(out.shopStock); walk(out.run); walk(out.market); out.nerfV=118; }   // v0.118
   if(!(out.relicV>=1)){ const dm=Math.max(0,Math.min(2,out.diffMax|0)); out.relicGot=out.relicGot||{};   // v0.97 유물 개편: 가진 유물을 새 규칙으로(★2·★3 → 강화 1·2회) · 상점에 걸린 유물은 치움
     for(const L of [out.inv,out._equipped]) if(Array.isArray(L)) for(const it of L) if(it&&it.slot==="relic"&&RELICS[it.relic]){ out.relicGot[it.relic]=1; if(!Array.isArray(it.ropts)) relicConvert(it,dm); }
     if(Array.isArray(out.shopStock)) out.shopStock=out.shopStock.filter(e=>!(e&&e.item&&e.item.slot==="relic")); out.relicV=1; }
@@ -8763,7 +8766,7 @@ function heroDerived(cid){
     crit: Math.min(CAP.crit, Math.max(0, base.crit + 0.01*(P.luk-10) + g("crit")/100 + (b.crit||0)/100 + tr.crit/100)),
     critdmg: 1.5 + 0.04*(P.luk-10) + g("critdmg")/100 + (tr.critdmg||0)/100 + (tr.crit_dmg||0) + (wm.critdmg_add||0),
     acc: Math.min(CAP.acc, 0.85 + 0.002*(P.agi-10) + g("acc")/100),   /* v0.117 설명대로 민첩 1당 0.2%(예전 계산은 0.4%였음) */   // v0.35: 예전 0.95+민첩×0.3%는 민첩 17이면 벌써 100%(그 뒤 명중 옵션·민첩이 쓸모없음) → 기본 85% + 민첩 1당 0.2%
-    eva: Math.min(CAP.eva, Math.max(0,(base.eva||0) + (wm.eva_add||0) + 0.004*(P.agi-10) + g("eva")/100 + (tr.eva||0)/100)),
+    eva: Math.min(CAP.eva, Math.max(0,(base.eva||0) + (wm.eva_add||0) + 0.002*(P.agi-10) + g("eva")/100 + (tr.eva||0)/100)),
     pen: Math.min(CAP.pen, g("pen")/100 + (tr.pen||0)/100),
     resRaw: 0.1 + Math.min(RES_GEAR_MAX, g("res")/100),   // v0.95 장비 몫은 20%p까지(기본 10% + 장비 20% = 30% · 기술로 +α · 상한 50%)   // v0.94 상한·난이도 깎기 전(전투에서는 이 값 - 난이도 깎임, 상한 75%)
     res: Math.min(CAP.res, Math.max(0, 0.1 + Math.min(RES_GEAR_MAX, g("res")/100) - heroResPen())),   // v0.95 화면 값도 전투와 같게(장비 몫 20%p까지)
@@ -17403,6 +17406,13 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.14", v:"v0.118", t:"상태이상 회피 · 회피 · 관통 조정", L:[
+    "상태이상 회피: 장비 몫(최대 20%p)이 자정 1장 무렵 거의 모든 영웅에게 꽉 차던 것을 고쳤습니다 — 투구 9~12 → 4~6 · 망토 8~10 → 4~5 · 옵션 2~5 → 1~3(나오는 비중도 절반) · 유물 6~14 → 3~7 · 조건 옵션 6~12 → 3~6 · 성물 · 악보도 절반.",
+    "회피: 장화 7~9 → 4~5 · 옵션 1~5 → 1~3 · 유물 3~7 → 2~4 · 세트 5 → 3 · 민첩 1당 0.4% → 0.2%(명중과 같게).",
+    "관통: 한 번 더 약 30% — 옵션 1~4 → 1~3 · 유물 2~5 → 2~4.",
+    "이미 가진 장비도 같은 비율로 한 번 낮췄습니다(상태이상 회피 · 회피 ½ · 관통 ¾).",
+    "도감 '능력치 상한'의 상태이상 회피를 실제 계산대로 고쳤습니다(75% → 30% = 기본 10% + 장비 최대 20%p) · 명중 설명도 민첩 1당 0.2%로.",
+  ]},
   {d:"2026.11.14", v:"v0.117", t:"치명타 · 명중 · 관통 · 치명타 피해 조정", L:[
     "치명타 확률이 너무 쉽게 상한(75%)에 닿던 것을 고쳤습니다(치명타 영웅은 자정 3장에서 닿았음). 장비의 치명타 수치를 약 절반으로 — 장갑 6~8 → 3~4 · 옵션 1~4 → 1~2 · 유물 3~7 → 2~4 · 보조 장비 · 세트 · 조건 옵션 · 운명도 함께.",
     "명중: 민첩 1당 0.4% → 0.2%(원래 설명대로) · 장비 명중 약 절반(장갑·투구 4~5 → 2~3 · 옵션 1~5 → 1~3).",
