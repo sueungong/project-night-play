@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795014939717"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795017068501"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3570,7 +3570,7 @@ function battleRewards(zone,d,rk){
   if(zone.boss&&RELICS[rk]&&Math.random()<RELIC_DROP[Math.min(2,d)]) items.push(makeRelic(rk,d));   // v0.96.3 유물은 확률로만(3번 깨면 확정 같은 보장 없음)
   let ess=els+zone.mobs.filter(m=>m.chief).length*3+(zone.named?4:0)+(zone.boss?5:0);
   ess=Math.round(ess*(1+d));
-  return {exp,gold,items,ess,plate:plateDropRoll(zone,d,rk)};   // v0.95 성반: 영원한 밤 장 보스 3% — 성편은 바로 보관함에
+  return {exp,gold,items,ess,plate:plateDropRoll(zone,d,rk)};   // v0.95 성반: 영원한 밤 장 보스 5%(v0.137) — 성편은 바로 보관함에
 }
 function chestRewards(d,rk){
   const D=DIFFS[d], R=REGIONS[rk];
@@ -10179,9 +10179,9 @@ const MOB_SHAPE_POW=0.65, BOSS_SHAPE_POW=0.8;
   for(const [k,S] of Object.entries(SKILLS)){ if(hero.has(k)||S.type!=="damage"||bossOnly[k]===undefined) continue; const back=S.aoe||(S.shape&&!/^front/.test(S.shape)); if(!back) continue;
     S.power=+((S.power||0)*(bossOnly[k]?BOSS_SHAPE_POW:MOB_SHAPE_POW)).toFixed(3); S.cd=S.aoe?3:2; } })();
 /* ===== v0.95 성반(星盤) — 영원한 밤 장 보스 전용. 원을 여섯으로 나눈 조각(성편)을 영웅마다 6자리에 끼움 · 같은 성반 2·4·6조각이면 세트 효과
-   드롭: 영원한 밤 장 보스 처치 시 PLATE_DROP 확률로 그 장 성반의 무작위 자리 성편 1개(등급·수치 무작위)
+   드롭: 영원한 밤 장 보스(5막 끝 · 최종 콘텐츠 보스는 아님) 처치 시 PLATE_DROP 확률로 그 장 성반의 무작위 자리 성편 1개(등급·수치 무작위)
    분해 → 성반가루 · 가루 + 정수로 원하는 성반·자리의 성편 제작(등급·수치는 드롭과 같은 확률) */
-const PLATE_DROP=0.03, PLATE_DUST={rare:1,epic:3,legend:8}, PLATE_CRAFT={dust:20,ess:500}, PLATE_RAR=[["rare",0.6],["epic",0.3],["legend",0.1]], PLATE_INV_MAX=300;
+const PLATE_DROP=0.05, PLATE_DUST={rare:1,epic:3,legend:8}, PLATE_CRAFT={dust:20,ess:500}, PLATE_RAR=[["rare",0.6],["epic",0.3],["legend",0.1]], PLATE_INV_MAX=300;
 const PLATE_RAR_NAME={rare:"희귀",epic:"영웅",legend:"전설"};
 const PLATE_POS=[   // 자리마다 능력치는 고정 · 값만 등급 따라
   {k:"atk_pct",n:"공격력",u:"%",f:0.01,v:{rare:[2,3],epic:[3,5],legend:[5,7]}},
@@ -10222,7 +10222,7 @@ function plateText(p){ const D=PLATE_POS[p.pos]; return `${D.n} +${Math.min(p.v,
 function plateCount(cid){ const n={}; for(const p of plateWorn(cid)) if(p) n[p.set]=(n[p.set]||0)+1; return n; }
 function plateEffects(cid){ const out=[]; for(const p of plateWorn(cid)) if(p){ const D=PLATE_POS[p.pos]; out.push({[D.k]:Math.min(p.v,D.v.legend[1])*D.f}); }
   for(const [k,n] of Object.entries(plateCount(cid))) for(const need of [2,4,6]) if(n>=need) out.push(PLATE_SETS[k].fx[need][1]); return out; }
-function plateDropRoll(zone,d,rk){ if(d!==2||!PLATE_SETS[rk]||!zone||!zone.mobs||!zone.mobs.some(m=>m.finalBoss)) return null; if(Math.random()>=PLATE_DROP) return null; const p=plateRoll(rk,ri(0,5)); plateAdd(p); return p; }
+function plateDropRoll(zone,d,rk){ if(d!==2||!PLATE_SETS[rk]||!zone||!zone.boss||zone.act!==ACT_N||!zone.mobs||zone.mobs.some(m=>m.eg)||!zone.mobs.some(m=>m.finalBoss)) return null; if(Math.random()>=PLATE_DROP) return null; const p=plateRoll(rk,ri(0,5)); plateAdd(p); return p; }   // v0.137 장 보스만(최종 콘텐츠 보스 제외)
 function plateAutoEquip(cid){ const RV={rare:1,epic:2,legend:3}; for(let pos=0;pos<6;pos++){ const cur=plateWorn(cid)[pos]; const free=plateStore().inv.filter(p=>p.pos===pos&&!plateOwner(p.id)).sort((a,b)=>RV[b.rar]-RV[a.rar]||b.v-a.v)[0]; if(free&&(!cur||RV[free.rar]>RV[cur.rar]||(RV[free.rar]===RV[cur.rar]&&free.v>cur.v))) plateEquip(cid,free.id); } }   // 봇·일괄 장착: 자리마다 가장 좋은 성편
 /* ===== v0.95 속성 · 속성 저항 =====
    속성 5종(물리는 속성이 아님 — 방어력이 그 역할). 기술에만 속성이 붙고 영웅·몹 자체 속성은 없음.
@@ -17615,6 +17615,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.19", v:"v0.137", t:"성반 확률", L:[
+    "영원한 밤 장 보스의 성편 확률 3% → 5%",
+    "성편은 영원한 밤 장 보스에게서만 나옴(레이드 · 탑 · 원정 보스에게서 나오던 것 막음)"]},
   {d:"2026.11.19", v:"v0.136", t:"세트 조각 부위", L:[
     "지역 세트 조각이 막과 상관없이 그 세트의 모든 부위 중 무작위로 나옴(망토 · 반지 · 보조구 조각도 나옴)"]},
   {d:"2026.11.18", v:"v0.135", t:"버전 표시", L:[
