@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794989896950"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795014939717"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3457,7 +3457,6 @@ function weightedPick(pool){ const t=pool.reduce((a,x)=>a+x.w,0); let r=Math.ran
 // v0.29 한 번의 던전 입장 = 한 막. v0.88: 1~4막 전투 5~6번 + 중간 쉼터 + 끝의 중간보스 / 5막: 전투 4~5번 + 장 보스. 상자는 전투 승리 후 확률로 끼어든다(rollChest).
 // v0.88 한 장 = 5막(1~4막 끝은 중간보스, 5막 끝은 장 보스). 막마다 전투가 길어지고, 막 중간 쉼터에서 짧은 장면이 나온다
 const ACT_N=5;
-const ACT_SET_SLOTS=[["weapon","gloves"],["armor","helm"],["boots","amulet"],["weapon","armor"],["helm","gloves","boots","amulet"]];   // 세트 조각은 막마다 나오는 부위가 다르다
 const ACT_SCALE=[{hp:0.9,atk:0.94},{hp:0.95,atk:0.97},{hp:1.0,atk:1.0},{hp:1.05,atk:1.03},{hp:1.1,atk:1.05}];   // 막이 깊을수록 적이 강해진다(장 배율 DIFF_SCALE 위에 곱함)
 const ACT_BG=[1,1,2,3,3];   // 막 → 전투 무대 그림(장마다 무대 3개)
 const ACT_NUMS=[1,2,3,4,5];
@@ -3558,7 +3557,7 @@ function battleRewards(zone,d,rk){
   const src=zone.boss?"boss":zone.mid||zone.named?"mid":els>0||zone.mobs.some(m=>m.chief)?"elite":"mob";
   const from=where+(zone.boss?"보스에게서":zone.named?"막 우두머리에게서":zone.mid?"중간보스에게서":src==="elite"?"정예에게서":"전투에서");
   const o={luck,src,d,from,lmAdd:zone.boss?LOOT_BOSS:0};   // v0.88 장 보스 장비는 2장 앞선 수준
-  if(sk&&setP&&Math.random()<setP){ const L=(ACT_SET_SLOTS[(zone.act||0)-1]||[]).filter(x=>SETS[sk].slots.includes(x)); items.push(makeSetItem(sk,tier+1,{slot:L.length?L[ri(0,L.length-1)]:null,from})); }   // 막마다 나오는 부위(그 세트에 없는 부위면 세트 부위 중 하나)
+  if(sk&&setP&&Math.random()<setP) items.push(makeSetItem(sk,tier+1,{from}));   // v0.136 세트 부위 중 무작위(예전 막별 부위표는 망토 · 반지 · 보조구를 막았음)
   if(d>=1&&(zone.boss||zone.mid||zone.named)&&Math.random()<(zone.boss?ADV_SET_P[0]:ADV_SET_P[1])){ const who=(typeof runState!=="undefined"&&runState&&runState.party||[]).map(u=>u.id).filter(c=>advSetsFor(c).length); if(who.length){ const c=who[ri(0,who.length-1)], L=advSetsFor(c); items.push(makeSetItem(L[ri(0,L.length-1)],tier+1,{from})); } }   // v0.93 전직 세트: 자정·영원한 밤 보스 · 중간보스
   if(zone.boss&&d>=1&&Math.random()<0.15) items.push(makeSetItem(EG_SETS[ri(0,EG_SETS.length-1)],tier+1,{from}));   // v0.26 연계 세트
   if(zone.named){ items.push(makeItem(true,tier,o)); items.push(makeItem(true,tier,o)); }
@@ -17616,6 +17615,8 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.19", v:"v0.136", t:"세트 조각 부위", L:[
+    "지역 세트 조각이 막과 상관없이 그 세트의 모든 부위 중 무작위로 나옴(망토 · 반지 · 보조구 조각도 나옴)"]},
   {d:"2026.11.18", v:"v0.135", t:"버전 표시", L:[
     "화면 개선"]},
   {d:"2026.11.18", v:"v0.134", t:"업데이트 기록 정리", L:[
