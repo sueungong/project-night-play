@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794972173317"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794982431433"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -9231,7 +9231,7 @@ const TUT={
     return head+`<h2>📜 규칙 교실 끝!</h2>
       <p class="msub">${nm}님의 규칙 ${L}개가 모두 실제 전투에서 쓰이는 걸 봤어요. 이제 전투설정 탭에서 마음대로 바꿔 보세요.</p>
       <div class="tutlist">${list(null)}</div>
-      ${comp.length?`<p class="tnote warn">⚠ <b>동료(${comp.map(c=>esc(jobName(c))).join("·")})도 같은 규칙으로 싸워요.</b> 기본 규칙이 들어 있지만, 동료마다 스킬과 역할이 다르니 <b>전투설정 탭에서 동료를 하나씩 골라 미리 확인·조정</b>해 두세요. 새 동료가 합류할 때도 마찬가지예요.</p>`:""}
+      ${comp.length?`<p class="tnote">🧭 동료(${comp.map(c=>esc(jobName(c))).join("·")})는 작전 성향대로 스스로 규칙을 정해요. 성향은 파티 탭에서 바꿔요.</p>`:""}
       <ul class="tutul">
         <li><b>순서</b> — 위에 있을수록 먼저 확인해요. 위급할 때 쓸 스킬은 위로.</li>
         <li><b>조건 두 개</b> — '+ 조건'으로 <b>그리고</b>(둘 다) / <b>또는</b>(하나만)을 붙일 수 있어요.</li>
@@ -9246,7 +9246,7 @@ const TUT={
     try{ SND.fx("levelup"); }catch(e){}
     const res=await new Promise(res=>{
       const last=n===this.total();
-      const m=openModal(this.lessonHTML(n,replay)+`<div class="mfoot">${last&&!replay?`<button id="tutRules" class="btn ghost">동료 규칙 확인하러 가기</button>`:""}${replay?`<button id="tutClose" class="btn ghost">닫기</button>`:""}<button id="tutOk" class="btn">${replay?(last?"끝":"다음 수업 ▶"):last?"알겠어요!":"알겠어요 — 전투에서 확인"}</button></div>`, "small tutm");
+      const m=openModal(this.lessonHTML(n,replay)+`<div class="mfoot">${replay?`<button id="tutClose" class="btn ghost">닫기</button>`:""}<button id="tutOk" class="btn">${replay?(last?"끝":"다음 수업 ▶"):last?"알겠어요!":"알겠어요 — 전투에서 확인"}</button></div>`, "small tutm");
       const done=v=>{ closeModal(); res(v); };
       m.querySelector("#tutOk").onclick=()=>done(replay&&last?"stop":"ok");
       const cl=m.querySelector("#tutClose"); if(cl) cl.onclick=()=>done("stop");
@@ -9372,7 +9372,7 @@ const COACH={
     {sel:".tmap", t:"특성 그물", x:"가운데에서 시작해 서로 얽힌 칸들로 뻗어 나가요. 이미 배운 칸과 이어진 칸만 배울 수 있어서, 어느 쪽으로 뻗어 가느냐에 따라 같은 직업도 전혀 다르게 커요. 끌어서 움직이고 두 손가락이나 ＋－로 확대해요."},
     {sel:"#traitDetail", t:"자세히", x:"칸을 누르면 여기서 효과를 보고 배울 수 있어요. 멀리 있는 칸은 '길 따라 배우기'로 한 번에 이어 찍고, 끝에 있는 칸은 골드를 내고 한 칸씩 되돌릴 수 있어요."}]},
   rules:{ name:"전투설정", steps:[
-    {sel:"#charpick", t:"누구의 규칙?", x:"주인공도 동료도 규칙을 직접 짜요. 동료는 '작전 성향대로 채우기'로 시작해 고쳐도 돼요."},
+    {sel:"#charpick", t:"누구의 규칙?", x:"주인공의 규칙을 직접 짜요. 동료는 작전 성향대로 스스로 정해요."},
     {sel:".rlarrow", t:"읽는 법", x:"매 턴 1번부터 차례로 확인해서 처음 맞는 규칙 하나만 써요. 아무것도 안 맞으면 기본공격."},
     {sel:".rules .rl select.sk", t:"기술", x:"한 줄의 제목이 쓸 기술이에요. 옆 회색 글은 언제 쓰는지(조건) 요약이에요."},
     {sel:".rules .rl .rlh", t:"조건 · 대상", x:"줄을 누르면 그 자리에서 펼쳐져요. 조건 종류를 고르고 숫자는 −/+로(예: 아군 2명 이상 체력 50% 이하), ＋로 두 번째 조건(그리고/또는)을 붙이고, 대상도 여기서 골라요. 같은 효과가 아직 남아 있으면 그 기술은 건너뛰어요."},
@@ -9852,7 +9852,7 @@ function isDefaultRule(cid,r){ const same=d=>d.enabled!==false&&d.skill===r.skil
 /* v0.120 전직 바꾸기: 💎50 + 밤의 정수 20,000 · 전직마다 특성 · 전투 규칙 · 성향을 따로 기억(h.advMem[전직]) — 바꾸면 그 전직 때 것이 돌아옴
    처음 가 보는 전직: 특성은 직업 공통 갈래(새 그물에서도 이어지는 칸)만 남김 · 규칙은 예전 전직 기술을 빼고 새 전직 기술을 넣음 · 성향은 그대로 */
 const ADV_SWAP={gem:50, ess:20000};
-function advSwapBlock(cid,key){ const h=progress.heroes[cid]; if(!h||!h.adv) return "전직 전"; if(key===h.adv) return "지금 전직"; if(!ADV[cid].some(a=>a.key===key)) return "없는 전직";
+function advSwapBlock(cid,key){ const h=progress.heroes[cid]; if(!h||!h.adv) return "전직 전"; if(isCompanion(cid)) return "동료"; if(key===h.adv) return "지금 전직"; if(!ADV[cid].some(a=>a.key===key)) return "없는 전직";
   if((progress.gem||0)<ADV_SWAP.gem) return `새벽결정 부족 (${progress.gem||0} / ${ADV_SWAP.gem})`; if((progress.ess||0)<ADV_SWAP.ess) return `밤의 정수 부족 (${progress.ess||0} / ${ADV_SWAP.ess})`; return null; }
 function traitPrune(cid,keys){ const I=traitIdx(cid); const T=new Set((keys||[]).filter(k=>I.by.has(k))); const keep=new Set(); let grew=true;   // 새 그물에 있고 뿌리에서 이어지는 칸만
   while(grew){ grew=false; for(const k of T){ if(keep.has(k)) continue; const n=I.by.get(k); if(n.root||n.adj.some(x=>keep.has(x))){ keep.add(k); grew=true; } } }
@@ -9867,6 +9867,10 @@ function advSwitch(cid,key,free){ const h=progress.heroes[cid]; if(!free){ const
   return null; }
 function tableRules(cid){ const h=progress.heroes[cid]||{}; return ruleTable(cid,h.adv,heroStance(cid),classSkills(cid),heroRuleCount(cid)); }
 function companionRules(cid){ return tableRules(cid); }
+/* v0.130 동료 규칙은 플레이어가 짜지 않음 — 지금 전직 · 성향 · 가진 기술 · 칸 수에 맞는 규칙 표로 늘 맞춤(바뀌면 true) */
+function compRulesSync(cid){ if(!isCompanion(cid)||!progress.heroes[cid]) return false; const before=JSON.stringify(partyRules[cid]||[]);
+  partyRules[cid]=companionRules(cid); ensureRuleSlots(cid); progress.heroes[cid].rulesEdited=false; return JSON.stringify(partyRules[cid])!==before; }
+function compRulesSyncAll(){ let ch=false; if(!progress||!progress.protag) return false; for(const c of rosterIds()) if(compRulesSync(c)) ch=true; return ch; }
 function traitNodeScore(cid,n,st){
   const W=COMPANION.wNum[st]; const num=m=>Object.entries(m.eff).reduce((a,[k,v])=>a+(typeof v==="number"?(W[k]||0)*v:0),0);
   const fl=n.eff.flag!==undefined?[].concat(n.eff.flag)[0]:null;
@@ -13707,7 +13711,7 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
     const kinds=SK_ORD.filter(k=>S.rows.some(r=>r.k===k));
     const row=document.createElement("details"); row.className="skrow"+(elT?" sk-el-"+elT.el:""); row.open=SK_OPEN.has(selected+":"+sid);
     row.addEventListener("toggle",()=>{ if(row.open) SK_OPEN.add(selected+":"+sid); else SK_OPEN.delete(selected+":"+sid); });
-    row.innerHTML=`<summary><span class="skr-n">${esc(S.name)}${adv?`<i class="skb adv">전직</i>`:""}${inRule?"":`<i class="skb warn">규칙에 없음</i>`}${msPick?`<i class="skb mp">숙련 선택</i>`:""}</span>`
+    row.innerHTML=`<summary><span class="skr-n">${esc(S.name)}${adv?`<i class="skb adv">전직</i>`:""}${inRule||isCompanion(selected)?"":`<i class="skb warn">규칙에 없음</i>`}${msPick?`<i class="skb mp">숙련 선택</i>`:""}</span>`
       +(cost?`<span class="skcost c-${cost.c}">${esc(cost.t.replace(/ \(기본.*\)$/,""))}</span>`:"")
       +`<span class="skr-m">${elT?`<i class="skel el-${elT.el}">${esc(elT.t)}</i> `:""}${[tgt?"🎯 "+esc(tgt.t):"",rng?esc(rng.t):"",cdT?esc(cdT.t):""].filter(Boolean).join(" · ")}</span>`
       +`<span class="skr-e">${skHi(S.main)}</span><span class="skr-d">${kinds.map(k=>`<i class="d-${k}" title="${SK_ROWK[k][0]}"></i>`).join("")}<b class="skr-ar" aria-hidden="true"></b></span></summary>`
@@ -13718,11 +13722,10 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
   side.appendChild(det);
   // 왼쪽: 규칙 목록
   ensureRuleSlots(selected);
-  const ro=runBusy();   // v0.57: 동료 규칙도 직접 짬(던전 중에만 읽기 전용)
-  if(ro){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML="🔒 던전 진행 중"; col.appendChild(n); }
-  else if(isCompanion(selected)){ const n=document.createElement("div"); n.className="compnote";   // v0.57: 동료 규칙도 직접 — 성향대로 한 번에 채우는 단추만
-    n.innerHTML=`<button class="ghostbtn" id="compFill">🧭 작전 성향 '${esc(STANCES[heroStance(selected)].name)}'대로 채우기</button>`;   /* v0.128 설명문 없이 단추만 */
-    col.appendChild(n); n.querySelector("#compFill").onclick=()=>{ partyRules[selected]=companionRules(selected); ensureRuleSlots(selected); progress.heroes[selected].rulesEdited=false; saveRules(); renderRules(); logLine(`<span class="r">📜 ${esc(heroDisplayName(selected))}의 규칙을 작전 성향대로 채웠습니다.</span>`); }; }
+  const comp=isCompanion(selected), ro=runBusy()||comp;   // v0.130 동료 규칙은 성향 규칙표대로(플레이어가 고치지 않음) · 던전 중엔 모두 읽기 전용
+  if(comp){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML=`🧭 ${esc(STANCES[heroStance(selected)].name)}`; col.appendChild(n); }
+  else if(ro){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML="🔒 던전 진행 중"; col.appendChild(n); }
+  { const pb=$("presetBar"), rb=$("resetBtn"); if(pb) pb.hidden=comp; if(rb) rb.hidden=comp; }
   const flow=document.createElement("div"); flow.className="rlflow"; flow.innerHTML='<i class="rlarrow" aria-hidden="true"></i>';   // v0.128 읽는 법 = 1번부터 아래로(화살표)
   const list=document.createElement("div"); list.className="rules rl2"; flow.appendChild(list); col.appendChild(flow);
   // v0.94 규칙 = 기술이 제목인 한 줄 · 누르면 그 자리에서 조건(종류 + 조절 칸)과 대상이 펼쳐짐
@@ -13816,7 +13819,7 @@ function renderPresetBar(){ const el=$("presetBar"); if(!el||!progress||!progres
   el.querySelectorAll("[data-ps]").forEach(b=>b.onclick=()=>openPreset(selected,+b.dataset.ps)); }
 function presetSave(cid,i,name){ const P=rulePresets(cid); P[i]={name:(name||"").trim().slice(0,12)||`설정 ${i+1}`, rules:JSON.parse(JSON.stringify((partyRules[cid]||[]).filter(r=>r))), at:Date.now(), stance:heroStance(cid)}; saveProgress(); }
 function presetLoad(cid,i){ const x=rulePresets(cid)[i]; if(!x) return false; partyRules[cid]=JSON.parse(JSON.stringify(x.rules)); normRules(); ensureRuleSlots(cid); saveRulesU(cid); return true; }
-function openPreset(cid,i){ if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>`,"",2400); return; }
+function openPreset(cid,i){ if(isCompanion(cid)) return; if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>`,"",2400); return; }
   const P=rulePresets(cid), x=P[i], who=heroDisplayName(cid);
   const m=openModal(`<h3>📜 ${esc(who)} — 저장 칸 ${i+1}</h3>
     ${x?`<p class="msub">'${esc(x.name)}' · ${esc(fmtDate(x.at||0))} 저장 · 켜진 규칙 ${x.rules.filter(r=>r.enabled).length}칸</p>`:`<p class="msub">빈 칸</p>`}
@@ -15149,9 +15152,9 @@ function stanceRow(cid){
   const wrap=document.createElement("div"); wrap.append(row); return wrap;   // v0.95 설명은 성향을 바꿀 때 알림으로
 }
 function runCompanions(){
-  const msgs=companionsThink();
+  const msgs=companionsThink(), rch=compRulesSyncAll();   // v0.130 동료 규칙도 스스로(성향 규칙표)
   for(const m of msgs) logLine(`<span class="lv">${esc(m)}</span>`);
-  if(msgs.length){ saveRules(); saveProgress(); renderPtsDot(); }
+  if(msgs.length||rch){ saveRules(); saveProgress(); renderPtsDot(); }
   return msgs;
 }
 function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·전직·성향) / "equip"(장비 탭 — 장비만)
@@ -15175,7 +15178,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
     b.textContent=`✦ 별자리 ${starSmallLit(cid)+st.big}/${PRIM.length*STAR_SMALL+STAR_BIG}`; b.title=`Lv${STAR_LV}`; b.onclick=()=>openStarBoard(cid); top.appendChild(b); }
   if(rboardOpen(cid)){ const b=document.createElement("button"); b.className="enhb"; b.style.marginLeft="8px";   // v0.114 명성 판
     b.textContent=`명성 판 ${rboardLit(cid)}/${RBOARD.stat+RBOARD.cmd+RBOARD.tp} · ${(h.renown|0).toLocaleString("ko-KR")}`; b.onclick=()=>openRenownBoard(cid); top.appendChild(b); }
-  if(mode!=="equip"&&h.adv){ const b=document.createElement("button"); b.className="enhb"; b.style.marginLeft="8px"; b.textContent="⭐ 전직 바꾸기"; b.onclick=()=>openAdvSwap(cid); top.appendChild(b); }   // v0.120
+  if(mode!=="equip"&&h.adv&&!comp){ const b=document.createElement("button"); b.className="enhb"; b.style.marginLeft="8px"; b.textContent="⭐ 전직 바꾸기";   /* v0.130 동료는 없음 */ b.onclick=()=>openAdvSwap(cid); top.appendChild(b); }   // v0.120
   if(mode!=="equip"){ const earned0=TITLES.filter(t=>titleEarned(cid,t));   // v0.95 칭호: 맨 위에 짧게 — 누르면 자세히 보고 고름
     { const tb=document.createElement("button"); tb.className="titlechip"; tb.innerHTML=`${tt?`🏷 <b>${esc(tt.name)}</b>`:`🏷 칭호`} · 업적 점수 ${titleScore(cid)}`; tb.title=tt?tt.desc:""; tb.onclick=()=>openTitlePick(cid); card.appendChild(tb); } }
   card.appendChild(top);
@@ -15196,7 +15199,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
       b.textContent=a.name;
       b.title=a.desc;
       b.onclick=()=>{
-        h.adv=a.key; const ars=addAdvRules(cid,a); saveRules(); saveProgress(); renderParty(); renderRules(); renderCharPick();
+        h.adv=a.key; const ars=addAdvRules(cid,a); compRulesSync(cid); saveRules(); saveProgress(); renderParty(); renderRules(); renderCharPick();
         for(const [sid,ar] of ars) logAutoRule(cid,sid,ar);
         logLine(`<span class="win">⭐ ${CLASSES[cid].name} → <b>${a.name}</b> 전직! ${a.desc}</span>`);
         logLine(`<span class="lv">🌿 특성 해금 — 특성 포인트 ${traitPoints(cid)} (이후 레벨업마다 +1, 특성 탭)</span>`);
@@ -15764,6 +15767,7 @@ function autoRulePass(){
   try{ const cid=progress&&progress.protag&&progress.protag.cid;
     if(cid&&TUT.learning()) TUT.applyRules();
     else if(cid&&(progress.rulesFixV|0)<2){ const en=(partyRules[cid]||[]).filter(r=>r.enabled); if(en.every(r=>isDefaultRule(cid,r)||(r.skill===CLASSES[cid].skills[0]&&isAlw(r.c1)&&!r.logic))) protagDefaultRules(cid); }
+    if(progress&&progress.protag&&(progress.compRulesV|0)<1){ progress.compRulesV=1; if(compRulesSyncAll()) saveRules(); saveProgress(); }   // v0.130 직접 짜 둔 동료 규칙 → 성향 규칙표
     if(progress&&progress.protag&&(progress.rulesFixV|0)<2){ for(const c of rosterIds()) if(isCompanion(c)){ partyRules[c]=companionRules(c); ensureRuleSlots(c); } saveRules(); }   // v0.91 동료 규칙을 새 규칙 표로
     // v0.94 기본 규칙표를 다시 짬 → 예전 표 그대로인(직접 고치지 않은) 영웅은 새 표로. 하나라도 직접 바꾼 영웅은 그대로
     if(progress&&progress.protag&&(progress.rulesFixV|0)<3){ for(const c of rosterIds()){ if(c===progress.protag.cid&&TUT.learning()) continue; const en=(partyRules[c]||[]).filter(r=>r.enabled);
@@ -17584,6 +17588,12 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.18", v:"v0.130", t:"동료는 스스로", L:[
+    "동료(주인공이 아닌 영웅)의 전투 규칙을 이제 플레이어가 짜지 않습니다. 동료는 작전 성향 · 전직 · 가진 기술 · 칸 수에 맞는 성향 규칙표대로 스스로 정하고, 성향을 바꾸거나 전직 · 새 기술 · 각성으로 바뀌면 그때마다 다시 맞춥니다.",
+    "이미 직접 짜 둔 동료 규칙(이전 주인공 포함)은 성향 규칙표로 바꿨습니다.",
+    "전투설정에서 동료를 고르면 규칙은 보기만 됩니다(작전 성향 표시). 동료의 규칙 저장 칸 · 규칙 초기화 · '규칙에 없음' 표시와 '작전 성향대로 채우기' 단추를 없앴습니다.",
+    "동료의 '전직 바꾸기' 단추를 없앴습니다. 동료 전직은 지금처럼 Lv10에 플레이어가 고릅니다.",
+    "플레이어가 동료에게 하는 것: 전직 고르기 · 작전 성향 · 장비 · 룬 · 유물 · 성반 착용 · 출전 · 배치 · 외형."]},
   {d:"2026.11.18", v:"v0.129", t:"전투설정 알림 버그 수정", L:[
     "총사 계열 주인공: 탄이 0일 때 저절로 하는 '재장전'에도 숙련이 쌓여, 고를 칸이 없는데 전투설정 알림 숫자가 계속 떠 있던 문제 — 자동 재장전은 숙련에 세지 않고, 이미 쌓인 재장전 숙련은 지웠습니다.",
     "던전 진행 중에는 숙련 변형을 고를 수 없는데(마을에서만) 알림 숫자가 떠 있던 문제 — 던전 중에는 전투설정 알림과 영웅 단추의 숫자를 숨기고, 마을로 돌아오면 다시 표시합니다."]},
