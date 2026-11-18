@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794942483879"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794969121319"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -445,6 +445,16 @@ select{background:#151c33; color:var(--ink); border:1px solid var(--line); borde
 .passive{font-size:14px; color:var(--muted)}
 .rulegrid{display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:12px; align-items:start}
 .rulecol{display:flex; flex-direction:column; gap:10px}
+/* v0.128 규칙 1~4 칸은 고정(스크롤해도 위에 남음) · 아래/옆 스킬 목록만 스크롤 · 읽는 법 = 번호 왼쪽의 아래 화살표 */
+.rulecol{position:sticky; top:0; z-index:3; background:var(--bg); max-height:calc(100vh - 120px); overflow-y:auto; scrollbar-width:thin; box-shadow:0 -16px 0 var(--bg)}   /* 그림자 = 화면 위쪽 여백(스크롤된 스킬이 비치지 않게) */
+@media (max-height:820px){ .rulecol{box-shadow:0 -12px 0 var(--bg)} }
+@media (max-height:560px){ .rulecol{box-shadow:0 -6px 0 var(--bg)} }
+.rlflow{display:flex; gap:7px; align-items:stretch}
+.rlflow > .rules{flex:1; min-width:0}
+.rlarrow{flex:none; width:12px; position:relative; margin:8px 0 2px}
+.rlarrow::before{content:""; position:absolute; left:5px; top:0; bottom:10px; width:2px; border-radius:1px; background:linear-gradient(#f4c95d33,var(--accent))}
+.rlarrow::after{content:""; position:absolute; left:0; bottom:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:11px solid var(--accent)}
+@media (max-width:1100px){ .rulecol{max-height:58vh; padding-bottom:8px; border-bottom:1px solid var(--line)} }
 .howto{display:flex; gap:10px; padding:10px 12px; border-radius:10px; background:var(--panel2); border:1px solid #263052; font-size:14.5px; color:#d5dbf0; flex-wrap:wrap}
 .howto b{color:var(--accent)}
 .rules{display:flex; flex-direction:column; gap:8px}
@@ -9362,7 +9372,7 @@ const COACH={
     {sel:"#traitDetail", t:"자세히", x:"칸을 누르면 여기서 효과를 보고 배울 수 있어요. 멀리 있는 칸은 '길 따라 배우기'로 한 번에 이어 찍고, 끝에 있는 칸은 골드를 내고 한 칸씩 되돌릴 수 있어요."}]},
   rules:{ name:"전투설정", steps:[
     {sel:"#charpick", t:"누구의 규칙?", x:"주인공도 동료도 규칙을 직접 짜요. 동료는 '작전 성향대로 채우기'로 시작해 고쳐도 돼요."},
-    {sel:".howto", t:"읽는 법", x:"매 턴 1번부터 차례로 확인해서 처음 맞는 규칙 하나만 써요. 아무것도 안 맞으면 기본공격."},
+    {sel:".rlarrow", t:"읽는 법", x:"매 턴 1번부터 차례로 확인해서 처음 맞는 규칙 하나만 써요. 아무것도 안 맞으면 기본공격."},
     {sel:".rules .rl select.sk", t:"기술", x:"한 줄의 제목이 쓸 기술이에요. 옆 회색 글은 언제 쓰는지(조건) 요약이에요."},
     {sel:".rules .rl .rlh", t:"조건 · 대상", x:"줄을 누르면 그 자리에서 펼쳐져요. 조건 종류를 고르고 숫자는 −/+로(예: 아군 2명 이상 체력 50% 이하), ＋로 두 번째 조건(그리고/또는)을 붙이고, 대상도 여기서 골라요. 같은 효과가 아직 남아 있으면 그 기술은 건너뛰어요."},
     {sel:".rules .rl", t:"순서", x:"펼친 줄의 ↑↓로 칸을 옮겨요. 위에 있을수록 먼저 확인해요."},
@@ -13640,7 +13650,7 @@ function renderCharPick(){
     box.appendChild(btn); }
   hsKeep(box,"rules");
   const advSel=advInfo(selected);
-  $("passive").textContent="패시브 — "+CLASSES[selected].passive_name
+  $("passive").textContent="무기 "+WEAPONS[heroDerived(selected).wtype].name+" · 패시브 — "+CLASSES[selected].passive_name
     +(advSel&&advSel.passive_name?("  /  "+advSel.passive_name+((progress.heroes[selected].level||0)<ADV_PASSIVE_LV?` (Lv${ADV_PASSIVE_LV}부터)`:"")):"");
 }
 function sel(options,value,onchange){
@@ -13679,15 +13689,9 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
   const side=document.createElement("div"); side.className="skillside";
   grid.append(col,side); box.appendChild(grid);
   // 오른쪽: 스킬 정보
-  const det=document.createElement("details");
-  det.className="skilldetails"; det.open=skillInfoOpen;
-  det.addEventListener("toggle",()=>{ skillInfoOpen=det.open; });
-  const sm=document.createElement("summary");
-  sm.textContent=`📘 ${heroDisplayName(selected)}의 스킬`;
-  det.appendChild(sm);
+  const det=document.createElement("div"); det.className="skilldetails";   // v0.128 접는 머리줄(○○의 스킬) · 무기 줄 없앰 — 무기 이름은 패시브 줄 앞에
   const advS=advInfo(selected);
-  const DV=heroDerived(selected); const Wn=WEAPONS[DV.wtype];
-  const wrow=document.createElement("div"); wrow.className="srow"; wrow.innerHTML=`<span class="sname">무기: ${esc(Wn.name)}</span><span class="sdesc">${esc(Wn.desc)}</span>`; det.appendChild(wrow);
+  const DV=heroDerived(selected);
   const SX=heroSkillsEx(selected,DV.wtype);
   // v0.94 스킬 목록(B안): 평소엔 한 줄 요약(이름 · 대상 · 비용 · 핵심 효과 · 색 점), 누르면 상태이상·조건부 강화·연계·참고·숙련이 펼쳐짐
   const lst=document.createElement("div"); lst.className="sklist"; det.appendChild(lst);
@@ -13714,17 +13718,12 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
   // 왼쪽: 규칙 목록
   ensureRuleSlots(selected);
   const ro=runBusy();   // v0.57: 동료 규칙도 직접 짬(던전 중에만 읽기 전용)
-  const head=document.createElement("div"); head.className="viewhead";
-  head.innerHTML=`<h2 class="ph">${esc(heroDisplayName(selected))}의 규칙</h2>`;
-  col.appendChild(head);
-  const how=document.createElement("div"); how.className="howto";
-  how.innerHTML=`<b>읽는 법</b><span>매 턴 <b>1번부터 차례로</b> 확인해서, <b>처음 맞는 규칙 하나</b>만 씁니다. 아무것도 안 맞으면 기본공격.</span>`;
-  col.appendChild(how);
   if(ro){ const n=document.createElement("div"); n.className="compnote"; n.innerHTML="🔒 던전 진행 중"; col.appendChild(n); }
   else if(isCompanion(selected)){ const n=document.createElement("div"); n.className="compnote";   // v0.57: 동료 규칙도 직접 — 성향대로 한 번에 채우는 단추만
-    n.innerHTML=`🧭 동료의 규칙도 직접 정합니다. 처음이라면 <button class="ghostbtn" id="compFill">작전 성향 '${esc(STANCES[heroStance(selected)].name)}'대로 채우기</button>로 시작해 고쳐 보세요.`;
+    n.innerHTML=`<button class="ghostbtn" id="compFill">🧭 작전 성향 '${esc(STANCES[heroStance(selected)].name)}'대로 채우기</button>`;   /* v0.128 설명문 없이 단추만 */
     col.appendChild(n); n.querySelector("#compFill").onclick=()=>{ partyRules[selected]=companionRules(selected); ensureRuleSlots(selected); progress.heroes[selected].rulesEdited=false; saveRules(); renderRules(); logLine(`<span class="r">📜 ${esc(heroDisplayName(selected))}의 규칙을 작전 성향대로 채웠습니다.</span>`); }; }
-  const list=document.createElement("div"); list.className="rules rl2"; col.appendChild(list);
+  const flow=document.createElement("div"); flow.className="rlflow"; flow.innerHTML='<i class="rlarrow" aria-hidden="true"></i>';   // v0.128 읽는 법 = 1번부터 아래로(화살표)
+  const list=document.createElement("div"); list.className="rules rl2"; flow.appendChild(list); col.appendChild(flow);
   // v0.94 규칙 = 기술이 제목인 한 줄 · 누르면 그 자리에서 조건(종류 + 조절 칸)과 대상이 펼쳐짐
   const myResOpts=cResOpts(selected), unl=DV.unlocks||[];
   const hits=ruleHits[selected]||{};
@@ -17583,6 +17582,11 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.18", v:"v0.128", t:"전투설정 화면 정리", L:[
+    "'○○의 규칙' 제목 줄과 '읽는 법' 줄을 없앴습니다. 대신 규칙 번호 왼쪽에 1번에서 아래로 내려가는 긴 화살표를 그렸습니다(1번부터 차례로 확인).",
+    "스킬 목록의 '○○의 스킬' 접기 줄과 무기 설명 줄을 없앴습니다. 무기 이름은 패시브 줄 앞에 붙였습니다.",
+    "동료의 규칙 칸 위 안내문을 없애고 '작전 성향대로 채우기' 단추만 남겼습니다.",
+    "규칙 1~4 칸은 고정 — 아래로 스크롤해도 화면 위에 남고, 스킬 목록만 스크롤됩니다(넓은 화면은 오른쪽 목록, 좁은 화면은 아래 목록). 모든 영웅 같음."]},
   {d:"2026.11.18", v:"v0.127", t:"새 사도 조정 · 지휘 효과 보강", L:[
     "별무리의 사도: 2 · 5 · 8…턴에 쓰러진 떨어진 별을 모두 되살리던 것을 1개만 되살리게 바꿨습니다(측정: 같은 파티로 1단계 승률 0% → 장막의 사도와 비슷한 수준).",
     "주인공 지휘 효과: 보스전에서 거의 효과가 없던 13개(음유시인 · 마법사 · 도적 · 창술사 · 총사 · 궁수 · 성직자 · 심판관 · 대사제 · 폭탄마 · 독왕 · 숲의 사냥꾼 · 대마법사)에 체력 +3%를 더했습니다. 원래 효과는 그대로입니다."]},
