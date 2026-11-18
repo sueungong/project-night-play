@@ -263,13 +263,22 @@
     watch: async f => { const u = await ready; if (!u) return; rtdb.ref("banned/" + u.uid).on("value", x => f({ ban: x.exists() }), () => {}); rtdb.ref("wipe/" + u.uid).on("value", x => f({ wipe: x.exists() }), () => {}); },
     wipeDone: async () => { const u = await ready; if (!u) return; await rtdb.ref("wipe/" + u.uid).remove(); }
   };
+  // ---------- v0.133 동시 접속 세기: online/<uid>_<창> = {at} (창을 닫거나 연결이 끊기면 서버가 지움) · 오래 쉬면 연결을 끊어 자리를 비움 ----------
+  const onKey = () => user ? safeKey(user.uid + "_" + TAB) : null;
+  const online = {
+    count: async () => { const v = (await val("online")) || {}; const me = onKey(); return Object.keys(v).filter(k => k !== me).length; },
+    join: async () => { const u = await ready; if (!u) return; const r = rtdb.ref("online/" + onKey()); await r.onDisconnect().remove(); await r.set({ at: TS }); },
+    leave: async () => { const k = onKey(); if (k) await rtdb.ref("online/" + k).remove(); },
+    sleep: () => { try { rtdb.goOffline(); } catch (e) {} },
+    wake: () => { try { rtdb.goOnline(); } catch (e) {} }
+  };
   // v0.116 명함(플레이어 검색): cards/<uid> = {j: 영웅들 명함 자료(JSON), at} · 영웅 이름 → names 등록부 → 그 계정의 명함
   const cards = {
     put: async o => { const u = await ready; if (!u) return; await rtdb.ref("cards/" + u.uid).set({ j: JSON.stringify(o), at: TS }); },
     byName: async n => { const u = await ready; if (!u) return null; const k = nameKey(n); if (!k) return null; const uid = await val("names/" + k); if (!uid) return null;
       const c = await val("cards/" + safeKey(uid)); if (!c || typeof c.j !== "string") return { uid, none: true }; let d = null; try { d = JSON.parse(c.j); } catch (e) {} return d ? Object.assign({ uid, at: c.at || 0 }, d) : { uid, none: true }; }
   };
-  window.PNNet = { lend, pvp, auth: authApi, ops, acct, names: namesApi, cards, serverNow: () => Date.now() + tOff,
+  window.PNNet = { lend, pvp, auth: authApi, ops, acct, online, names: namesApi, cards, serverNow: () => Date.now() + tOff,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
     bindSettings: () => bind(document.getElementById("pnAcct")),
     ready, get user() { return user; }

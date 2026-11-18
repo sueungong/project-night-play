@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794988893710"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794989351703"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1340,6 +1340,7 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .field.campfire .unit.bench{opacity:.86} .field.campfire .unit.bench .uname::after{content:"대기"; display:block; font-size:10px; color:#b8a98a; font-weight:500; text-align:center}
 .field.campfire .unit .ulv{display:none}
 .pgbox{margin-top:6px} .pgrow{display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin:6px 0} .pgck{display:flex; gap:6px; align-items:flex-start; margin:4px 0; font-size:13px}
+#idleWall{position:fixed; inset:0; z-index:9998; display:flex; align-items:center; justify-content:center; background:rgba(6,8,16,.82); cursor:pointer}
 #banWall{position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:rgba(6,8,16,.94)}
 
 /* v0.33 대사·해설·알림(상자·합류·규칙 교실 등)은 모두 전장 가운데쪽 — 아래쪽·맨 위는 쓰지 않음. 행동 알림 줄은 없앰(전투 기록은 나중에 '기록'에서) */
@@ -17615,6 +17616,12 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.18", v:"v0.133", t:"동시 접속 정원", L:[
+    "무료 서버는 동시 접속이 100(게임을 연 창 하나 = 1)까지라, 지금 접속 중인 사람이 95명이면 [게임 시작] 때 '지금 접속자가 가득 찼어요'가 나오고 들어가지 않습니다. [다시 시도]로 다시 확인합니다. 관리자는 늘 들어갑니다.",
+    "마을에서 30분 동안 손대지 않거나, 게임 화면을 내린 채 30분이 지나면 서버 연결을 잠시 끊어 자리를 비웁니다(진행은 먼저 저장). 던전 · 함께하기 · 대전 중에는 손대지 않아도 끊지 않고, 함께 던전 중에는 화면을 내려도 끊지 않습니다.",
+    "끊긴 뒤 화면을 누르면 자리가 있을 때 바로 다시 연결합니다. 가득 찼으면 그 안내가 나오고, 다시 누르면 다시 확인합니다.",
+    "운영 도구 → 플레이어 맨 위에 지금 접속 수가 나옵니다.",
+    "서버 규칙에 접속 기록(online)이 추가됐습니다. Firebase 콘솔에 새 규칙을 붙여 넣어야 동작합니다."]},
   {d:"2026.11.18", v:"v0.132", t:"플레이어 정리 · 초대 코드 없앰", L:[
     "초대 코드 기능을 없앴습니다. 이제 누구나 [게임 시작]으로 바로 들어옵니다.",
     "운영 도구 → 플레이어: 플레이어마다(또는 계정 ID로) '정리'에서 지울 것을 골라 처리합니다 — 진행(서버 저장) · 기기 진행 · 공개 기록(플레이어 목록 · 영웅 이름 · 명함 · 대전 · 빌려주기 · 명예의 전당) · 우편 · 지급 장부 · 빌려준 보상 · 의견 · 오류 글 · 접속 막기. 묶음 단추: 진행 초기화 · 탈퇴 처리 · 접속 막기. 두 번 눌러야 실행됩니다.",
@@ -18137,6 +18144,11 @@ function titleScreen(){
       if(r.ban){ el.innerHTML=frame(`<p class="ttl-note">접속이 막힌 계정입니다.</p><button class="ttl-out" id="tOut2">다른 계정으로 로그인</button><p class="ttl-msg" id="tMsg"></p>`);
         el.querySelector("#tOut2").onclick=async()=>{ msg("로그아웃하는 중…"); try{ await N.auth.logout(); }catch(e){} render(); }; return; }
       if(r.wipe){ try{ for(const k of ["pn_progress_v02","pn_rules_v01","pn_run_lock"]) localStorage.removeItem(k); }catch(e){} try{ await N.acct.wipeDone(); }catch(e){} }
+      // v0.133 동시 접속: 지금 접속 중인 사람이 정원(ONLINE_CAP)이면 들어가지 않고 연결을 쉼 — 관리자는 늘 들어감
+      if(N.online){ const n=await onlineFull(N); if(n){ N.online.sleep();
+          el.innerHTML=frame(`<p class="ttl-note">지금 접속자가 가득 찼어요 (${n} / ${ONLINE_CAP})</p><div class="ttl-btns"><button class="btn ttl-start" id="tRetry">다시 시도</button></div><p class="ttl-msg" id="tMsg"></p>`);
+          el.querySelector("#tRetry").onclick=()=>{ N.online.wake(); el.querySelector("#tRetry").disabled=true; el.querySelector("#tRetry").textContent="확인 중…"; gate(); }; return; }
+        N.online.join().catch(()=>{}); }
       finish(); };
     const fail=e=>{ msg(`로그인하지 못했어요 (${esc((e&&(e.code||e.message))||"알 수 없음")}). 인터넷 연결을 확인해 주세요. <button class="ttl-link" id="tOff">이 기기에만 저장하고 시작</button>`);
       const o=el.querySelector("#tOff"); if(o) o.onclick=()=>{ N.auth.offline(); el.remove(); done(); }; };
@@ -18363,7 +18375,7 @@ async function openOps(tab){
       for(const b of body.querySelectorAll("[data-id]")) b.onclick=async()=>{ try{ await N.ops.mailDel(b.dataset.to,b.dataset.id); closeModal(); openOps("mail"); }catch(e){ toast("회수하지 못했어요"); } };
     }
     if(tab==="players"){
-      const [P,B]=await Promise.all([N.ops.players(), N.ops.banned?N.ops.banned().catch(()=>[]):[]]); if(!m.isConnected) return;
+      const [P,B,ON]=await Promise.all([N.ops.players(), N.ops.banned?N.ops.banned().catch(()=>[]):[], N.online?N.online.count().then(n=>n+1).catch(()=>null):null]); if(!m.isConnected) return;
       // v0.132 플레이어 정리: 고른 묶음만 지움 · 묶음 단추 3개(진행 초기화 · 탈퇴 처리 · 접속 막기) · 두 번 눌러야 실행
       const PG=[["save","진행(서버 저장) — 지우기 전 보관함에 복사"],["device","기기 진행도 지우기"],["pub","공개 기록 — 플레이어 목록 · 영웅 이름 · 명함 · 대전 · 빌려주기 · 명예의 전당"],["mail","우편 · 지급 장부 · 빌려준 보상"],["posts","의견 · 오류 글"],["ban","접속 막기"]];
       const PRE=[["reset","진행 초기화",["save","device"]],["leave","탈퇴 처리",["save","device","pub","mail","posts"]],["block","접속 막기",["ban"]]];
@@ -18371,7 +18383,7 @@ async function openOps(tab){
         ${PG.map(([k,l])=>`<label class="pgck"><input type="checkbox" data-pk="${k}"> ${esc(l)}</label>`).join("")}<div class="pgrow"><button class="btn" data-pgo>실행</button></div><p class="msub" data-pst role="status"></p></div>`;
       body.innerHTML=(B.length?`<div class="ncard"><b>접속 막은 계정 ${B.length}</b>${B.map(b=>`<div class="nh"><span>${esc(b.n||"?")} · <code>${esc(b.id)}</code> · ${fmtDate(b.at)}</span><button class="mini" data-unban="${esc(b.id)}">풀기</button></div>`).join("")}</div>`:"")
         +`<div class="ncard"><b>계정 ID로 정리</b><div class="pgrow"><input id="pgUid" placeholder="계정 ID" autocomplete="off" spellcheck="false" style="flex:1;min-width:0"><button class="mini" id="pgUidGo">정리</button></div><div class="pgslot" id="pgUidSlot"></div></div>`
-        +`<p class="msub">플레이어 ${P.length}명 · 1분마다·앱을 내릴 때 기록됩니다. 이름을 누르면 막마다 입장·돌파·패배 수가 나와요.</p>`+P.map(p=>{
+        +`<p class="msub">${ON!=null?`지금 접속 ${ON} / ${ONLINE_CAP} · `:""}플레이어 ${P.length}명 · 1분마다·앱을 내릴 때 기록됩니다. 이름을 누르면 막마다 입장·돌파·패배 수가 나와요.</p>`+P.map(p=>{
         const runs=Object.entries(p.runs||{}).sort((a,b)=>b[1][0]-a[1][0]);
         return `<details class="ncard prow"><summary><b>${esc(p.name||"?")}</b> <span>${esc(p.job||"")} Lv${p.lv||"?"}${p.aw?` ✦${p.aw}`:""} · ${p.anon?"게스트":"Google "+esc(p.gname||"")} · ${esc(p.prog||"")} · 플레이 ${fmtPlay(p.play)} · 마지막 ${fmtDate(p.at)} · ${esc(p.ver||"")}</span></summary>
           <div class="nb">계정 ID <code>${esc(p.id)}</code><br>영웅: ${esc((p.heroes||[]).map(h=>`${h[0]} ${h[1]}${h[2]?`(${h[2]})`:""}`).join(", "))}<br>골드 ${(p.gold||0).toLocaleString("ko-KR")} · 정수 ${p.ess||0} · 결정 ${p.gem||0}${p.sub?` · 🌙 정액 ${p.sub}일`:""} · 기기 ${esc(p.dev||"")}
@@ -19014,6 +19026,28 @@ function coopLobbyBox(){ const f=document.querySelector(".field"); if(!f) return
   ms.innerHTML=last.map(m=>`<div class="${m.me?"me":""}" style="animation-delay:-${Math.max(0,Math.min(14,(now-m.a)/1000)).toFixed(1)}s"><b>${esc(m.nick)}</b>${esc(m.t)}</div>`).join(""); }
 document.addEventListener("click",e=>{ if(!coopLobbyOn()||curView!=="dungeon") return; const f=e.target.closest&&e.target.closest(".field.campfire"); if(!f) return;
   if(e.target.closest("#lobbyBox, button, input, select, a, #saybox, .fieldhead, .fieldfoot")) return; coopLobbyMove(e.clientX,e.clientY); });
+// v0.133 동시 접속 정원: 무료 서버는 동시 접속 100(창 하나 = 1)까지 — 첫 화면에서 정원을 넘지 않게 · 오래 쉬면 연결을 끊어 자리를 비움
+const ONLINE_CAP=95, IDLE_MS=30*60*1000;
+let ONLINE_ADM=null;
+async function onlineFull(N){ try{ if(ONLINE_ADM===null) ONLINE_ADM=!!(await N.ops.isAdmin()); }catch(e){ ONLINE_ADM=false; } if(ONLINE_ADM) return 0;
+  let n=0; try{ n=await N.online.count(); }catch(e){ return 0; } return n>=ONLINE_CAP?n:0; }
+const IDLE={last:Date.now(), hidden:0, sleeping:false, waking:false};
+function idleBusy(){ try{ return !!runState||(typeof COOP!=="undefined"&&(COOP.nr||COOP.run))||(typeof PVPF!=="undefined"&&!!PVPF); }catch(e){ return false; } }
+// 쉼: 마을에서 30분 동안 손대지 않음 · 또는 화면을 내린 채 30분(함께 던전 중은 빼고)
+function idleCheck(now){ now=now||Date.now(); if(IDLE.sleeping) return false; const N=NET(); if(!N||!N.online) return false;
+  const coopRun=typeof COOP!=="undefined"&&!!COOP.run, hid=IDLE.hidden&&now-IDLE.hidden>=IDLE_MS&&!coopRun, still=!idleBusy()&&now-IDLE.last>=IDLE_MS;
+  if(hid||still){ idleSleep(); return true; } return false; }
+async function idleSleep(){ const N=NET(); IDLE.sleeping=true; try{ if(cloud.timer||cloud.dirty) await cloudFlush(); }catch(e){} try{ await N.online.leave(); }catch(e){} N.online.sleep(); idleWall("서버 연결을 쉬는 중 · 누르면 다시 연결"); }
+async function idleWake(){ const N=NET(); if(!IDLE.sleeping||IDLE.waking||!N||!N.online) return; IDLE.waking=true; idleWall("다시 연결하는 중…");
+  try{ N.online.wake(); const n=await onlineFull(N); if(n){ N.online.sleep(); idleWall(`지금 접속자가 가득 찼어요 (${n} / ${ONLINE_CAP}) · 누르면 다시 시도`); return; }
+    await N.online.join().catch(()=>{}); IDLE.sleeping=false; IDLE.last=Date.now(); idleWall(null); try{ cloudFlush(); }catch(e){} } finally{ IDLE.waking=false; } }
+function idleWall(t){ let w=document.getElementById("idleWall"); if(!t){ if(w) w.remove(); return; } if(!w){ w=document.createElement("div"); w.id="idleWall"; document.body.appendChild(w); w.onclick=()=>idleWake(); }
+  w.innerHTML=`<div class="ttl-box"><p class="ttl-note">${esc(t)}</p></div>`; }
+function idleStart(){ const N=NET(); if(!N||!N.online) return;
+  const act=()=>{ IDLE.last=Date.now(); if(IDLE.sleeping) idleWake(); };
+  for(const e of ["pointerdown","keydown","wheel","touchstart"]) addEventListener(e,act,{capture:true,passive:true});
+  document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") IDLE.hidden=Date.now(); else { IDLE.hidden=0; act(); } });
+  setInterval(()=>{ try{ idleCheck(); }catch(e){} },60000); }
 // v0.132 플레이 중에 관리자가 정리하면: 기기 진행 지우기 → 이 기기 진행을 지우고 다시 불러옴 · 접속 막기 → 화면을 막음
 function acctWatchStart(){ const N=NET(); if(!N||!N.acct||!N.acct.watch) return;
   N.acct.watch(async f=>{ if(f.wipe&&!ACCT_WIPE){ acctWipeLocal(); try{ await N.acct.wipeDone(); }catch(e){} location.reload(); }
@@ -19027,7 +19061,7 @@ function confirmLeaveRun(){ COOP.notice="함께 던전 진행 중에는 방을 �
   try{ new ResizeObserver(upd).observe(document.getElementById('dock')); }catch(e){} addEventListener('resize',upd); setTimeout(upd,300); })();
 (function(){ const go=()=>{ window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {}); };
   // v0.93 휴대폰 주소(서버 연결)에서는 첫 화면(로그인)을 지나야 게임이 시작되고, 시작하면 공지 창이 뜸
-  if(NET()) titleScreen().then(()=>{ go(); acctWatchStart(); setTimeout(()=>{ try{ if(!$("modal")) openNotices(); }catch(e){} mailRefresh(); setInterval(mailRefresh,180000); },1600); });
+  if(NET()) titleScreen().then(()=>{ go(); acctWatchStart(); idleStart(); setTimeout(()=>{ try{ if(!$("modal")) openNotices(); }catch(e){} mailRefresh(); setInterval(mailRefresh,180000); },1600); });
   else go(); })();
 </script>
 
