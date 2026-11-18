@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795017068501"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795026155466"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -10181,7 +10181,7 @@ const MOB_SHAPE_POW=0.65, BOSS_SHAPE_POW=0.8;
 /* ===== v0.95 성반(星盤) — 영원한 밤 장 보스 전용. 원을 여섯으로 나눈 조각(성편)을 영웅마다 6자리에 끼움 · 같은 성반 2·4·6조각이면 세트 효과
    드롭: 영원한 밤 장 보스(5막 끝 · 최종 콘텐츠 보스는 아님) 처치 시 PLATE_DROP 확률로 그 장 성반의 무작위 자리 성편 1개(등급·수치 무작위)
    분해 → 성반가루 · 가루 + 정수로 원하는 성반·자리의 성편 제작(등급·수치는 드롭과 같은 확률) */
-const PLATE_DROP=0.05, PLATE_DUST={rare:1,epic:3,legend:8}, PLATE_CRAFT={dust:20,ess:500}, PLATE_RAR=[["rare",0.6],["epic",0.3],["legend",0.1]], PLATE_INV_MAX=300;
+const PLATE_DROP=0.05, PLATE_DUST={rare:1,epic:3,legend:8}, PLATE_CRAFT={dust:15,ess:500}, PLATE_RAR=[["rare",0.6],["epic",0.3],["legend",0.1]], PLATE_INV_MAX=300;
 const PLATE_RAR_NAME={rare:"희귀",epic:"영웅",legend:"전설"};
 const PLATE_POS=[   // 자리마다 능력치는 고정 · 값만 등급 따라
   {k:"atk_pct",n:"공격력",u:"%",f:0.01,v:{rare:[2,3],epic:[3,5],legend:[5,7]}},
@@ -17615,6 +17615,8 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.19", v:"v0.138", t:"성편 제작", L:[
+    "성편 제작 비용: 성반가루 20 → 15"]},
   {d:"2026.11.19", v:"v0.137", t:"성반 확률", L:[
     "영원한 밤 장 보스의 성편 확률 3% → 5%",
     "성편은 영원한 밤 장 보스에게서만 나옴(레이드 · 탑 · 원정 보스에게서 나오던 것 막음)"]},
