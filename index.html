@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794986874908"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1794988893710"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1339,6 +1339,8 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 .field.campfire .unit .uname{max-width:none!important; overflow:visible; font-size:12px; color:#ffe2b0!important; text-shadow:0 1px 0 #000,0 0 4px #000}
 .field.campfire .unit.bench{opacity:.86} .field.campfire .unit.bench .uname::after{content:"대기"; display:block; font-size:10px; color:#b8a98a; font-weight:500; text-align:center}
 .field.campfire .unit .ulv{display:none}
+.pgbox{margin-top:6px} .pgrow{display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin:6px 0} .pgck{display:flex; gap:6px; align-items:flex-start; margin:4px 0; font-size:13px}
+#banWall{position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:rgba(6,8,16,.94)}
 
 /* v0.33 대사·해설·알림(상자·합류·규칙 교실 등)은 모두 전장 가운데쪽 — 아래쪽·맨 위는 쓰지 않음. 행동 알림 줄은 없앰(전투 기록은 나중에 '기록'에서) */
 .field.stage .saybox:not(.bubble){left:50%; right:auto; bottom:auto; top:42%; transform:translate(-50%,-50%); width:min(720px, 88%); animation:bubIn .2s ease-out}
@@ -6134,7 +6136,9 @@ function resumeRun(R){
   if(R.busy||autoAdv) resumeContinue();
   return true;
 }
-function writeLocal(){ progress.run=curRunSave(); progress._equipped=equippedStore; try{ if(runState) safeSet("pn_run_lock", JSON.stringify({view:VIEW_ID, at:Date.now()})); }catch(e){}   /* v0.100 던전 기록을 저장하는 순간 바로 '진행 중' 표시(1초 간격 표시가 찍히기 전에 다른 창이 가로채지 않게) */
+let ACCT_WIPE=false;   // v0.132 관리자가 '기기 진행도 지우기'를 고른 계정: 지우고 다시 불러오는 동안 저장하지 않음
+function acctWipeLocal(){ ACCT_WIPE=true; try{ for(const k of ["pn_progress_v02","pn_rules_v01","pn_run_lock"]) localStorage.removeItem(k); }catch(e){} }
+function writeLocal(){ if(ACCT_WIPE) return; progress.run=curRunSave(); progress._equipped=equippedStore; try{ if(runState) safeSet("pn_run_lock", JSON.stringify({view:VIEW_ID, at:Date.now()})); }catch(e){}   /* v0.100 던전 기록을 저장하는 순간 바로 '진행 중' 표시(1초 간격 표시가 찍히기 전에 다른 창이 가로채지 않게) */
   safeSet("pn_progress_v02", JSON.stringify(progress)); safeSet("pn_rules_v01", JSON.stringify(partyRules)); }
 function touchSave(){ progress.savedAt=Date.now(); writeLocal(); cloudSchedule(); }
 
@@ -6153,7 +6157,7 @@ function setCloud(st){ const was=cloud.status; cloud.status=st; if(st==="error"&
 function cloudOk(){ cloud.lastOk=Date.now(); cloud.lastErr=null; cloud.remote={savedAt:progress.savedAt||0, dev:devLabel(), sum:(()=>{ try{ return progressSummary(progress); }catch(e){ return ""; } })(), mine:true}; setCloud("synced"); }
 function cloudFail(e){ const code=(e&&(e.code||e.message))||String(e); cloud.lastErr={code:String(code).slice(0,120), at:Date.now()}; setCloud("error");
   if(/PERMISSION|permission/.test(code)) chkRecover();
-  if(/PERMISSION|permission/.test(code)&&!cloud.permSaid){ cloud.permSaid=true; try{ const id=(window.PNNet&&window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||""; toast(`☁ 이 계정은 서버 저장이 허용되지 않았어요(초대 확인 안 됨) — 진행은 이 기기에만 남아 있어요. 관리자에게 계정 ID <b>${esc(id.slice(0,10))}</b>를 알려 주세요.`,"warn",12000); }catch(x){} }
+  if(/PERMISSION|permission/.test(code)&&!cloud.permSaid){ cloud.permSaid=true; try{ const id=(window.PNNet&&window.PNNet.ops&&window.PNNet.ops.uid&&window.PNNet.ops.uid())||""; toast(`☁ 이 계정은 서버 저장이 허용되지 않았어요 — 진행은 이 기기에만 남아 있어요. 관리자에게 계정 ID <b>${esc(id.slice(0,10))}</b>를 알려 주세요.`,"warn",12000); }catch(x){} }
   if(!cloud.errLogged){ cloud.errLogged=true; try{ window.PNNet&&window.PNNet.ops&&window.PNNet.ops.error({kind:"cloud-save", code:cloud.lastErr.code, ver:gameVersion(), ua:navigator.userAgent.slice(0,160), uid:(window.PNNet.ops.uid&&window.PNNet.ops.uid())||""}); }catch(x){} } }
 if(typeof document!=="undefined") setInterval(()=>{ try{ if(cloud.status==="error"&&cloud.doc&&cloud.ready&&!cloud.writing) cloudFlush(); }catch(e){} },30000);
 /* v0.95 서버 연결 필수(출시판 = PNNet이 있는 화면만): 서버 진행을 읽기 전 · 연결이 끊긴 동안에는 플레이를 막는다
@@ -6161,7 +6165,7 @@ if(typeof document!=="undefined") setInterval(()=>{ try{ if(cloud.status==="erro
 /* v0.95 저장이 거절됐을 때: 서버의 검사 숫자·지급 장부를 새로 읽어 다시 계산(두 기기 · 오래된 숫자 때문이면 이걸로 풀림) →
    그래도 거절되면 어느 칸이 왜 막혔는지 계산해 saveRej/<uid>에 남김(관리자 → 운영 도구 '저장' 탭에서 보고 '확인 풀기') */
 const CHK_CAP={gold:20000000, ess:100000, gem:500, enh:600}, CHK_NM={gold:"골드",ess:"밤의 정수",gem:"💎 새벽 결정",enh:"강화 합계"};
-function chkWhy(P,N,G){ G=G||{}; if(!P||typeof P.d!=="number") return "검사 숫자 문제는 아님 — 초대 제한이나 서버 규칙 버전을 확인";
+function chkWhy(P,N,G){ G=G||{}; if(!P||typeof P.d!=="number") return "검사 숫자 문제는 아님 — 접속 막힘 · 기기 진행 지우기 표시 · 서버 규칙 버전을 확인";
   if(N.lv>50) return "레벨이 50을 넘음";
   if(N.lv>50) return "레벨이 50을 넘음"; if(N.aw>10) return "각성이 10을 넘음";
   const now=serverNow(); if(N.d*864e5>now||now>=(N.d+2)*864e5||N.d<P.d) return "저장 날짜가 서버 날짜와 맞지 않음";
@@ -6169,13 +6173,13 @@ function chkWhy(P,N,G){ G=G||{}; if(!P||typeof P.d!=="number") return "검사 �
     if(N[b]>CHK_CAP[k]) return `오늘 ${CHK_NM[k]}가 ${Math.round(N[b]).toLocaleString()} 늘어 하루 한도 ${CHK_CAP[k].toLocaleString()}를 넘음(지급 장부로 처리되지 않은 몫 — 이 버전 전에 보낸 우편 등)`;
     if(l&&(N[l]||0)>((+G[k]||0))) return `${CHK_NM[k]} 지급 장부(${(+G[k]||0).toLocaleString()})보다 많이 씀`;
     const want=N.d===P.d?(P[b]||0)+Math.max(0,free):Math.max(0,free); if(N[b]!==want) return `${CHK_NM[k]} 계산이 서버와 다름`; }
-  return "숫자는 맞음 — 초대 제한이나 서버 규칙 버전을 확인"; }
+  return "숫자는 맞음 — 접속 막힘 · 기기 진행 지우기 표시 · 서버 규칙 버전을 확인"; }
 async function chkRecover(){ if(cloud.recovering||!cloud.doc) return; if(cloud.recAt&&Date.now()-cloud.recAt<4000) return; cloud.recovering=true; cloud.recAt=Date.now();
   try{ const sn=await cloud.doc.get(); const d=sn&&sn.exists?sn.data():null; cloud.chk=d&&d.chk?d.chk:null; await chkRefreshGrants();
     const N=cloudPayload().chk; cloud.rejWhy=chkWhy(cloud.chk,N,cloud.grants);
-    let inv=null; try{ if(window.PNNet&&PNNet.invite&&PNNet.invite.status) inv=await PNNet.invite.status(); }catch(e){}
-    if(inv&&inv.ok===false) cloud.rejWhy="초대 제한: 이 계정은 아직 초대되지 않음";
-    if(!cloud.repAt||Date.now()-cloud.repAt>60000||cloud.repWhy!==cloud.rejWhy){ cloud.repAt=Date.now(); cloud.repWhy=cloud.rejWhy; try{ window.PNNet&&PNNet.ops&&PNNet.ops.saveRej&&PNNet.ops.saveRej({why:cloud.rejWhy, chk:N, srv:cloud.chk, g:cloud.grants||null, inv:inv&&inv.why||"", ver:gameVersion(), dev:devLabel()}); }catch(e){} }
+    let inv=null; try{ if(window.PNNet&&PNNet.acct&&PNNet.acct.status) inv=await PNNet.acct.status(); }catch(e){}
+    if(inv&&inv.ban) cloud.rejWhy="접속 막힌 계정"; else if(inv&&inv.wipe) cloud.rejWhy="기기 진행 지우기 표시가 남아 있음";
+    if(!cloud.repAt||Date.now()-cloud.repAt>60000||cloud.repWhy!==cloud.rejWhy){ cloud.repAt=Date.now(); cloud.repWhy=cloud.rejWhy; try{ window.PNNet&&PNNet.ops&&PNNet.ops.saveRej&&PNNet.ops.saveRej({why:cloud.rejWhy, chk:N, srv:cloud.chk, g:cloud.grants||null, inv:inv?(inv.ban?"ban":inv.wipe?"wipe":""):"", ver:gameVersion(), dev:devLabel()}); }catch(e){} }
   }catch(e){} finally{ cloud.recovering=false; try{ netWall(); }catch(e){} } }
 function netRequired(){ return typeof window!=="undefined"&&!!window.PNNet; }
 function netBlocked(){ if(!netRequired()) return false; if(!cloud.ready) return true;
@@ -6239,7 +6243,7 @@ function cloudSchedule(){
   cloud.timer=setTimeout(cloudFlush, 1200);
 }
 async function cloudFlush(){
-  clearTimeout(cloud.timer); cloud.timer=null;
+  clearTimeout(cloud.timer); cloud.timer=null; if(ACCT_WIPE) return;
   if(!cloud.doc||!cloud.ready) return;
   if(cloud.writing){ cloud.dirty=true; return; }
   cloud.writing=true; setCloud("saving");
@@ -17611,6 +17615,13 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.18", v:"v0.132", t:"플레이어 정리 · 초대 코드 없앰", L:[
+    "초대 코드 기능을 없앴습니다. 이제 누구나 [게임 시작]으로 바로 들어옵니다.",
+    "운영 도구 → 플레이어: 플레이어마다(또는 계정 ID로) '정리'에서 지울 것을 골라 처리합니다 — 진행(서버 저장) · 기기 진행 · 공개 기록(플레이어 목록 · 영웅 이름 · 명함 · 대전 · 빌려주기 · 명예의 전당) · 우편 · 지급 장부 · 빌려준 보상 · 의견 · 오류 글 · 접속 막기. 묶음 단추: 진행 초기화 · 탈퇴 처리 · 접속 막기. 두 번 눌러야 실행됩니다.",
+    "진행을 지울 때는 먼저 진행 보관함에 복사해 계속 보관합니다. 운영 도구 → 보관함에서 되살릴 수 있습니다(그때 지금 서버 저장도 보관함에 들어감).",
+    "기기 진행 지우기를 고르면, 그 사람이 다음에 게임을 열 때(플레이 중이면 바로) 기기에 남은 진행도 지워지고 처음부터 시작합니다.",
+    "접속 막힌 계정은 게임에 들어올 수 없고, 플레이 중이면 화면이 막힙니다. 운영 도구 → 플레이어 맨 위에서 풀 수 있습니다.",
+    "서버 규칙이 바뀌었습니다(초대 규칙 삭제 · 접속 막기 · 기기 진행 지우기 · 관리자 정리 권한). Firebase 콘솔에 새 규칙을 붙여 넣어야 동작합니다."]},
   {d:"2026.11.18", v:"v0.131", t:"대기실 배경", L:[
     "대기실 배경이 난이도를 따라 바뀝니다: 황혼 = 지금 야영지 · 자정 = 눈 내린 밤(눈이 내림) · 영원한 밤 = 검은 해(핏빛 하늘 · 날리는 불티).",
     "상점 → 외형 → '대기실' 칸에서 배경을 고를 수 있습니다. 기본은 '난이도 따라'이고, 하나를 착용하면 난이도와 상관없이 그 배경만 나옵니다. 지금까지의 대기실은 '황혼 야영지'로 남아 있습니다.",
@@ -18120,24 +18131,13 @@ function titleScreen(){
         if(!outArm){ outArm=true; el.querySelector("#tOut").textContent="한 번 더 누르면 로그아웃"; msg(st.anon?"⚠ 게스트는 로그아웃하면 다시 들어올 수 없어 <b>지금 진행이 사라집니다</b>. 지키려면 게임 안 ⚙ 설정에서 Google 계정을 먼저 연결하세요.":"로그아웃해도 진행은 Google 계정에 남아 있어요."); return; }
         msg("로그아웃하는 중…"); try{ await N.auth.logout(); }catch(e){} render(); };
     };
-    // v0.94 비공개 테스트: 운영 도구에서 '초대 코드 필요'를 켰을 때만 — 관리자 · 코드를 쓴 계정 · 기존 Google 계정(서버 저장 있음)은 통과
-    const gate=async()=>{ if(!N.invite){ finish(); return; } const b=el.querySelector("#tStart"); if(b){ b.disabled=true; b.textContent="확인 중…"; }
-      let r; try{ r=await N.invite.status(); }catch(e){ r={ok:false,why:"err",err:(e&&(e.code||e.message))||String(e)}; }
-      if(r.ok){ finish(); return; }
-      if(b){ b.disabled=false; b.textContent="게임 시작"; }
-      if(r.why==="err"){ msg(`초대 확인을 하지 못했어요 (${esc(r.err)}). 인터넷 연결을 확인하고 다시 눌러 주세요.`); return; }
-      const st=N.auth.state();
-      el.innerHTML=frame(`<p class="ttl-who">${st&&st.anon?"👤 게스트로 로그인됨":"🔑 "+esc((st&&(st.email||st.name))||"Google 계정")}</p>
-        <p class="ttl-note">지금은 <b>초대받은 분만</b> 하는 비공개 테스트입니다. 받은 초대 코드를 넣어 주세요.</p>
-        <div class="ttl-btns ttl-code"><input id="tCode" maxlength="16" placeholder="NIGHT-XXXXXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn" id="tRedeem">확인</button></div>
-        <p class="ttl-note">한 코드는 한 계정에서만 쓸 수 있어요. 코드를 쓴 계정은 다음부터 묻지 않습니다.${st&&st.anon?" 게스트는 이 기기에서만 이어지니, 들어간 뒤 ⚙ 설정에서 Google 계정을 연결해 두세요.":""}</p>
-        ${st&&st.anon&&N.auth.linkGoogle?`<div class="ttl-btns"><button class="btn ghost" id="tLink">이 게스트 진행 그대로 Google 계정 연결</button></div>`:""}
-        <button class="ttl-out" id="tOut2">다른 계정으로 로그인</button><p class="ttl-msg" id="tMsg"></p>`);
-      { const lk=el.querySelector("#tLink"); if(lk) lk.onclick=async()=>{ msg("Google 창을 여는 중…"); try{ await N.auth.linkGoogle(); msg("✔ 연결했어요 — 다시 확인합니다"); setTimeout(gate,300); }catch(e){ if(e&&/popup-closed|cancelled-popup/.test(e.code||"")){ msg(""); return; } msg("연결하지 못했어요: "+esc((e&&(e.code||e.message))||e)); } }; }
-      const go=async()=>{ const v=el.querySelector("#tCode").value; const rb=el.querySelector("#tRedeem"); rb.disabled=true; msg("확인 중…");
-        try{ await N.invite.redeem(v); msg("✔ 확인됐어요"); setTimeout(finish,400); }catch(e){ rb.disabled=false; msg(esc((e&&e.message)||String(e))); } };
-      el.querySelector("#tRedeem").onclick=go; el.querySelector("#tCode").onkeydown=e=>{ if(e.key==="Enter") go(); };
-      el.querySelector("#tOut2").onclick=async()=>{ msg("로그아웃하는 중…"); try{ await N.auth.logout(); }catch(e){} render(); }; };
+    // v0.132 접속 막힌 계정은 들어가지 못함 · 관리자가 '기기 진행도 지우기'를 고른 계정은 이 기기 진행을 지우고 새로 시작(초대 코드는 없앰)
+    const gate=async()=>{ if(!N.acct){ finish(); return; } const b=el.querySelector("#tStart"); if(b){ b.disabled=true; b.textContent="확인 중…"; }
+      let r={}; try{ r=await N.acct.status()||{}; }catch(e){}
+      if(r.ban){ el.innerHTML=frame(`<p class="ttl-note">접속이 막힌 계정입니다.</p><button class="ttl-out" id="tOut2">다른 계정으로 로그인</button><p class="ttl-msg" id="tMsg"></p>`);
+        el.querySelector("#tOut2").onclick=async()=>{ msg("로그아웃하는 중…"); try{ await N.auth.logout(); }catch(e){} render(); }; return; }
+      if(r.wipe){ try{ for(const k of ["pn_progress_v02","pn_rules_v01","pn_run_lock"]) localStorage.removeItem(k); }catch(e){} try{ await N.acct.wipeDone(); }catch(e){} }
+      finish(); };
     const fail=e=>{ msg(`로그인하지 못했어요 (${esc((e&&(e.code||e.message))||"알 수 없음")}). 인터넷 연결을 확인해 주세요. <button class="ttl-link" id="tOff">이 기기에만 저장하고 시작</button>`);
       const o=el.querySelector("#tOff"); if(o) o.onclick=()=>{ N.auth.offline(); el.remove(); done(); }; };
     el.innerHTML=frame(`<p class="ttl-note">서버에 연결하는 중…</p>`);
@@ -18288,7 +18288,7 @@ try{ document.addEventListener("visibilitychange",()=>{ if(document.visibilitySt
 // ---- 운영 도구(관리자 코드로 연 뒤): 공지 · 우편 · 플레이어 · 의견 · 오류 ----
 async function openOps(tab){
   const N=NET(); tab=tab||"notice";
-  const m=openModal(`<h2>🛠 운영 도구</h2><div class="ntabs">${[["notice","공지"],["mail","우편"],["players","플레이어"],["saves","저장"],["invite","초대"],["fb","의견"],["err","오류"]].map(([k,l])=>`<button data-t="${k}" class="${k===tab?"on":""}">${l}</button>`).join("")}</div>
+  const m=openModal(`<h2>🛠 운영 도구</h2><div class="ntabs">${[["notice","공지"],["mail","우편"],["players","플레이어"],["saves","저장"],["bk","보관함"],["fb","의견"],["err","오류"]].map(([k,l])=>`<button data-t="${k}" class="${k===tab?"on":""}">${l}</button>`).join("")}</div>
     <div id="opWarn"></div><div id="opBody" class="nbody"><p class="msub">불러오는 중…</p></div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"notices ops");
   m.querySelector("#mclose").onclick=closeModal;
   for(const b of m.querySelectorAll(".ntabs button")) b.onclick=()=>{ closeModal(); openOps(b.dataset.t); };
@@ -18299,28 +18299,14 @@ async function openOps(tab){
   { const c=m.querySelector("#opCopy"); if(c) c.onclick=()=>fbCopy(N.ops.uid()||"").then(ok=>toast(ok?"계정 ID를 복사했어요":"복사하지 못했어요")); }
   const err=e=>`<p class="msub">불러오지 못했어요: ${esc((e&&(e.code||e.message))||e)}</p>`;
   try{
-    if(tab==="invite"){   // v0.94 비공개 테스트 초대 코드
-      if(!N.invite){ body.innerHTML=`<p class="msub">이 배포본에는 초대 기능이 없어요 — 새로 고침해 주세요.</p>`; return; }
-      const [on,L,P]=await Promise.all([N.invite.on(), N.invite.list(), N.ops.players().catch(()=>[])]); if(!m.isConnected) return;
-      const nm=uid=>{ const p=P.find(x=>x.id===uid); return p?(p.name||"이름 없음")+" Lv"+(p.lv||"?"):uid.slice(0,6)+"…"; };
-      const used=L.filter(x=>x.used), free=L.filter(x=>!x.used);
-      body.innerHTML=`<div class="opform"><div class="ncard ${on?"":"warn"}"><b>초대 코드 필요: ${on?"켜짐 — 초대받은 계정만 시작할 수 있어요":"꺼짐 — 누구나 시작할 수 있어요"}</b>
-          <p class="msub">켜도 관리자 · 이미 코드를 쓴 계정 · Google로 로그인해 서버 저장이 있는 기존 계정은 그대로 들어옵니다. 손님(게스트) 계정은 코드가 있어야 해요. 켜기 전에 Firebase 규칙을 먼저 바꿔 두세요(규칙을 안 바꾸면 화면에서만 막힘).</p>
-          <button class="btn ${on?"ghost":""}" id="ivOn">${on?"끄기":"켜기"}</button></div>
-        <div class="ncard"><b>코드 만들기</b> <span class="msub">지금 ${L.length}개 · 쓴 것 ${used.length} · 남은 것 ${free.length}</span>
-          <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><input id="ivN" type="number" min="1" max="100" value="10" style="width:80px"> 개 <button class="btn" id="ivMake">만들기</button> <button class="btn ghost" id="ivCopy" ${free.length?"":"disabled"}>남은 코드 복사</button></div>
-          <p class="msub" id="ivSt" role="status"></p></div>
-        <div class="ncard"><b>계정 ID로 바로 허용</b> <span class="msub">코드 없이 그 계정을 통과시킵니다(설정에 보이는 계정 ID 전체)</span>
-          <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><input id="ivUid" placeholder="계정 ID" autocomplete="off" spellcheck="false" style="flex:1;min-width:0"><button class="btn" id="ivAllow">허용</button></div></div></div>`
-        +L.map(x=>`<div class="ncard"><div class="nh"><b style="font-family:monospace;letter-spacing:.04em">${esc(x.code)}</b><span>${x.used?`✔ ${esc(nm(x.used))}`:"아직 안 씀"} <button class="mini" data-rv="${esc(x.code)}">${x.used?"회수":"지우기"}</button></span></div></div>`).join("");
-      const st=body.querySelector("#ivSt"), say=(h,bad)=>{ st.innerHTML=h; st.style.color=bad?"#ff8a8a":"var(--accent)"; };
-      { const ab=body.querySelector("#ivAllow"); if(ab) ab.onclick=async()=>{ const u=body.querySelector("#ivUid").value.trim(); if(!u) return say("계정 ID를 넣어 주세요",true); try{ await N.invite.allowUid(u); say(`✔ ${esc(u.slice(0,10))}… 를 허용했어요`); }catch(e){ say("허용하지 못했어요: "+esc(e.code||e.message),true); } }; }
-      body.querySelector("#ivOn").onclick=async()=>{ try{ await N.invite.setOn(!on); closeModal(); openOps("invite"); }catch(e){ say("바꾸지 못했어요: "+esc(e.code||e.message),true); } };
-      body.querySelector("#ivMake").onclick=async()=>{ const n=Math.max(1,Math.min(100,+body.querySelector("#ivN").value||0)); say("만드는 중…");
-        try{ const c=await N.invite.make(n); say(`✔ ${c.length}개를 만들었어요`); setTimeout(()=>{ if(body.isConnected){ closeModal(); openOps("invite"); } },900); }catch(e){ say("만들지 못했어요: "+esc(e.code||e.message),true); } };
-      body.querySelector("#ivCopy").onclick=()=>fbCopy(free.map(x=>x.code).join("\n")).then(ok=>say(ok?`남은 코드 ${free.length}개를 복사했어요(한 줄에 하나)`:"복사하지 못했어요",!ok));
-      for(const b of body.querySelectorAll("[data-rv]")) b.onclick=async()=>{ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더"; return; }
-        try{ await N.invite.revoke(b.dataset.rv); closeModal(); openOps("invite"); }catch(e){ say("지우지 못했어요: "+esc(e.code||e.message),true); } };
+    if(tab==="bk"){   // v0.132 진행 보관함: 정리로 지운 진행 · 옮기기 때 받는 쪽 원래 저장 — 계속 보관 · 되살리기
+      if(!N.ops.backups){ body.innerHTML=`<p class="msub">새로 고침해 주세요(새 기능).</p>`; return; }
+      const [L,P]=await Promise.all([N.ops.backups(), N.ops.players().catch(()=>[])]); if(!m.isConnected) return;
+      const pn=uid=>{ const p=P.find(x=>x.id===uid); return p?(p.name||"?"):""; }, kb=n=>Math.max(1,Math.round(n/1024)).toLocaleString("ko-KR")+"KB";
+      body.innerHTML=`<p class="msub">보관본 ${L.length}개 · ${kb(L.reduce((a,x)=>a+x.size,0))}</p>`+(L.length?"":`<p class="msub">아직 없어요.</p>`)
+        +L.map(x=>`<div class="ncard"><div class="nh"><b>${esc(x.sum||"(요약 없음)")}</b><span>${x.purged?"정리":"옮기기 전"} ${esc(fmtDate(x.ts))} · ${kb(x.size)}</span></div><p class="msub"><code>${esc(x.uid)}</code>${pn(x.uid)?` · ${esc(pn(x.uid))}`:""} · 저장 ${esc(fmtDate(x.savedAt))} <button class="mini" data-rs="${esc(x.uid)}" data-ts="${x.ts}">되살리기</button></p></div>`).join("");
+      for(const b of body.querySelectorAll("[data-rs]")) b.onclick=async()=>{ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 되살림(지금 서버 저장은 보관함으로)"; return; }
+        b.disabled=true; try{ await N.ops.restore(b.dataset.rs,b.dataset.ts); b.textContent="✔ 되살렸어요 — 그 사람이 새로 고침하면 바뀜"; }catch(e){ b.disabled=false; b.dataset.arm=""; b.textContent="실패: "+((e&&(e.code||e.message))||e); } };
     }
     if(tab==="saves"){   // v0.94 계정 진행 찾기 · 옮기기(게스트로 하다 다른 계정으로 들어가 진행을 잃은 경우 등)
       if(!N.ops.saves){ body.innerHTML=`<p class="msub">새로 고침해 주세요(새 기능).</p>`; return; }
@@ -18377,13 +18363,34 @@ async function openOps(tab){
       for(const b of body.querySelectorAll("[data-id]")) b.onclick=async()=>{ try{ await N.ops.mailDel(b.dataset.to,b.dataset.id); closeModal(); openOps("mail"); }catch(e){ toast("회수하지 못했어요"); } };
     }
     if(tab==="players"){
-      const P=await N.ops.players();
-      body.innerHTML=`<p class="msub">플레이어 ${P.length}명 · 1분마다·앱을 내릴 때 기록됩니다. 이름을 누르면 막마다 입장·돌파·패배 수가 나와요.</p>`+P.map(p=>{
+      const [P,B]=await Promise.all([N.ops.players(), N.ops.banned?N.ops.banned().catch(()=>[]):[]]); if(!m.isConnected) return;
+      // v0.132 플레이어 정리: 고른 묶음만 지움 · 묶음 단추 3개(진행 초기화 · 탈퇴 처리 · 접속 막기) · 두 번 눌러야 실행
+      const PG=[["save","진행(서버 저장) — 지우기 전 보관함에 복사"],["device","기기 진행도 지우기"],["pub","공개 기록 — 플레이어 목록 · 영웅 이름 · 명함 · 대전 · 빌려주기 · 명예의 전당"],["mail","우편 · 지급 장부 · 빌려준 보상"],["posts","의견 · 오류 글"],["ban","접속 막기"]];
+      const PRE=[["reset","진행 초기화",["save","device"]],["leave","탈퇴 처리",["save","device","pub","mail","posts"]],["block","접속 막기",["ban"]]];
+      const box=(id,name)=>`<div class="ncard pgbox" data-pg="${esc(id)}" data-pn="${esc(name||"")}"><div class="pgrow">${PRE.map(([k,l])=>`<button class="mini" data-pre="${k}">${l}</button>`).join("")}</div>
+        ${PG.map(([k,l])=>`<label class="pgck"><input type="checkbox" data-pk="${k}"> ${esc(l)}</label>`).join("")}<div class="pgrow"><button class="btn" data-pgo>실행</button></div><p class="msub" data-pst role="status"></p></div>`;
+      body.innerHTML=(B.length?`<div class="ncard"><b>접속 막은 계정 ${B.length}</b>${B.map(b=>`<div class="nh"><span>${esc(b.n||"?")} · <code>${esc(b.id)}</code> · ${fmtDate(b.at)}</span><button class="mini" data-unban="${esc(b.id)}">풀기</button></div>`).join("")}</div>`:"")
+        +`<div class="ncard"><b>계정 ID로 정리</b><div class="pgrow"><input id="pgUid" placeholder="계정 ID" autocomplete="off" spellcheck="false" style="flex:1;min-width:0"><button class="mini" id="pgUidGo">정리</button></div><div class="pgslot" id="pgUidSlot"></div></div>`
+        +`<p class="msub">플레이어 ${P.length}명 · 1분마다·앱을 내릴 때 기록됩니다. 이름을 누르면 막마다 입장·돌파·패배 수가 나와요.</p>`+P.map(p=>{
         const runs=Object.entries(p.runs||{}).sort((a,b)=>b[1][0]-a[1][0]);
         return `<details class="ncard prow"><summary><b>${esc(p.name||"?")}</b> <span>${esc(p.job||"")} Lv${p.lv||"?"}${p.aw?` ✦${p.aw}`:""} · ${p.anon?"게스트":"Google "+esc(p.gname||"")} · ${esc(p.prog||"")} · 플레이 ${fmtPlay(p.play)} · 마지막 ${fmtDate(p.at)} · ${esc(p.ver||"")}</span></summary>
-          <div class="nb">영웅: ${esc((p.heroes||[]).map(h=>`${h[0]} ${h[1]}${h[2]?`(${h[2]})`:""}`).join(", "))}<br>골드 ${(p.gold||0).toLocaleString("ko-KR")} · 정수 ${p.ess||0} · 결정 ${p.gem||0}${p.sub?` · 🌙 정액 ${p.sub}일`:""} · 기기 ${esc(p.dev||"")}
+          <div class="nb">계정 ID <code>${esc(p.id)}</code><br>영웅: ${esc((p.heroes||[]).map(h=>`${h[0]} ${h[1]}${h[2]?`(${h[2]})`:""}`).join(", "))}<br>골드 ${(p.gold||0).toLocaleString("ko-KR")} · 정수 ${p.ess||0} · 결정 ${p.gem||0}${p.sub?` · 🌙 정액 ${p.sub}일`:""} · 기기 ${esc(p.dev||"")}
           ${p.lastLose?`<br>마지막 패배: ${esc(recKeyLabel(p.lastLose.k))} ${esc(p.lastLose.z||"")} (${fmtDate(p.lastLose.at)})`:""}
-          <table class="optable"><tr><th>막</th><th>입장</th><th>돌파</th><th>패배·후퇴</th></tr>${runs.map(([k,r])=>`<tr><td>${esc(recKeyLabel(k))}</td><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table></div></details>`; }).join("");
+          <table class="optable"><tr><th>막</th><th>입장</th><th>돌파</th><th>패배·후퇴</th></tr>${runs.map(([k,r])=>`<tr><td>${esc(recKeyLabel(k))}</td><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table>
+          <div class="pgrow"><button class="mini" data-pgopen="${esc(p.id)}" data-pgname="${esc(p.name||"")}">정리</button></div><div class="pgslot"></div></div></details>`; }).join("");
+      const open=(slot,id,name)=>{ if(!N.ops.purge){ slot.innerHTML=`<p class="msub">새로 고침해 주세요(새 기능).</p>`; return; } slot.innerHTML=slot.innerHTML?"":box(id,name); };
+      for(const b of body.querySelectorAll("[data-pgopen]")) b.onclick=()=>open(b.closest(".nb").querySelector(".pgslot"),b.dataset.pgopen,b.dataset.pgname);
+      body.querySelector("#pgUidGo").onclick=()=>{ const id=body.querySelector("#pgUid").value.trim(); if(!id) return; const p=P.find(x=>x.id===id); open(body.querySelector("#pgUidSlot"),id,p?p.name:""); };
+      for(const b of body.querySelectorAll("[data-unban]")) b.onclick=async()=>{ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 풂"; return; }
+        b.disabled=true; try{ await N.ops.unban(b.dataset.unban); closeModal(); openOps("players"); }catch(e){ b.disabled=false; b.textContent="실패: "+((e&&(e.code||e.message))||e); } };
+      body.addEventListener("change",e=>{ const g=e.target.closest&&e.target.closest(".pgbox"); if(!g) return; const go=g.querySelector("[data-pgo]"); go.dataset.arm=""; go.textContent="실행"; g.querySelector("[data-pst]").textContent=""; });
+      body.addEventListener("click",async e=>{ const g=e.target.closest&&e.target.closest(".pgbox"); if(!g) return; const st=g.querySelector("[data-pst]"), go=g.querySelector("[data-pgo]");
+        const pre=e.target.closest("[data-pre]"); if(pre){ const on=(PRE.find(x=>x[0]===pre.dataset.pre)||[])[2]||[]; for(const c of g.querySelectorAll("[data-pk]")) c.checked=on.includes(c.dataset.pk); go.dataset.arm=""; go.textContent="실행"; st.textContent=""; return; }
+        if(!e.target.closest("[data-pgo]")) return; const o={}; for(const c of g.querySelectorAll("[data-pk]")) if(c.checked) o[c.dataset.pk]=true;
+        const names=PG.filter(([k])=>o[k]).map(([,l])=>l.split(" — ")[0]); if(!names.length){ st.textContent="고른 항목이 없어요"; st.style.color="#ff8a8a"; return; }
+        if(go.dataset.arm!=="1"){ go.dataset.arm="1"; go.textContent="한 번 더 누르면 실행"; st.style.color="var(--accent)"; st.textContent=`${g.dataset.pg.slice(0,10)}… — ${names.join(" · ")}`; return; }
+        go.disabled=true; st.textContent="정리하는 중…"; try{ const n=await N.ops.purge(g.dataset.pg,Object.assign(o,{name:g.dataset.pn})); st.textContent=`✔ 정리했어요 (${n}곳)`; setTimeout(()=>{ if(m.isConnected){ closeModal(); openOps("players"); } },1200); }
+        catch(err){ go.disabled=false; go.dataset.arm=""; go.textContent="실행"; st.style.color="#ff8a8a"; st.textContent="정리하지 못했어요: "+((err&&(err.code||err.message))||err)+" — 서버 규칙을 새로 붙여 넣었는지 확인해 주세요"; } });
     }
     if(tab==="fb"||tab==="err"){
       const L=tab==="fb"?await N.ops.feedbackList():await N.ops.errorList(); let P=[]; try{ P=await N.ops.players(); }catch(e){}
@@ -19007,13 +19014,20 @@ function coopLobbyBox(){ const f=document.querySelector(".field"); if(!f) return
   ms.innerHTML=last.map(m=>`<div class="${m.me?"me":""}" style="animation-delay:-${Math.max(0,Math.min(14,(now-m.a)/1000)).toFixed(1)}s"><b>${esc(m.nick)}</b>${esc(m.t)}</div>`).join(""); }
 document.addEventListener("click",e=>{ if(!coopLobbyOn()||curView!=="dungeon") return; const f=e.target.closest&&e.target.closest(".field.campfire"); if(!f) return;
   if(e.target.closest("#lobbyBox, button, input, select, a, #saybox, .fieldhead, .fieldfoot")) return; coopLobbyMove(e.clientX,e.clientY); });
+// v0.132 플레이 중에 관리자가 정리하면: 기기 진행 지우기 → 이 기기 진행을 지우고 다시 불러옴 · 접속 막기 → 화면을 막음
+function acctWatchStart(){ const N=NET(); if(!N||!N.acct||!N.acct.watch) return;
+  N.acct.watch(async f=>{ if(f.wipe&&!ACCT_WIPE){ acctWipeLocal(); try{ await N.acct.wipeDone(); }catch(e){} location.reload(); }
+    if(f.ban!==undefined) acctBanWall(!!f.ban); }); }
+function acctBanWall(on){ let w=document.getElementById("banWall"); if(!on){ if(w) w.remove(); return; } if(w) return;
+  w=document.createElement("div"); w.id="banWall"; w.innerHTML=`<div class="ttl-box"><p class="ttl-note">접속이 막힌 계정입니다.</p><button class="ttl-out" id="banOut">다른 계정으로 로그인</button></div>`; document.body.appendChild(w);
+  w.querySelector("#banOut").onclick=async()=>{ try{ await NET().auth.logout(); }catch(e){} location.reload(); }; }
 function confirmLeaveRun(){ COOP.notice="함께 던전 진행 중에는 방을 나갈 수 없습니다. 끝난 뒤에 나가 주세요."; coopRender(); return false; }
 
 (function(){ const upd=()=>{ const d=document.getElementById('dock'); if(d) document.documentElement.style.setProperty('--dockh',d.offsetHeight+'px'); };
   try{ new ResizeObserver(upd).observe(document.getElementById('dock')); }catch(e){} addEventListener('resize',upd); setTimeout(upd,300); })();
 (function(){ const go=()=>{ window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {}); };
   // v0.93 휴대폰 주소(서버 연결)에서는 첫 화면(로그인)을 지나야 게임이 시작되고, 시작하면 공지 창이 뜸
-  if(NET()) titleScreen().then(()=>{ go(); setTimeout(()=>{ try{ if(!$("modal")) openNotices(); }catch(e){} mailRefresh(); setInterval(mailRefresh,180000); },1600); });
+  if(NET()) titleScreen().then(()=>{ go(); acctWatchStart(); setTimeout(()=>{ try{ if(!$("modal")) openNotices(); }catch(e){} mailRefresh(); setInterval(mailRefresh,180000); },1600); });
   else go(); })();
 </script>
 

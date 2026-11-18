@@ -188,6 +188,7 @@
   // ---------- v0.93 테스트 운영(공지 · 우편 · 의견 · 오류 · 플레이어 기록) ----------
   const val = async path => { const s = await rtdb.ref(path).once("value"); return s.val(); };
   const list = o => Object.entries(o || {}).map(([id, v]) => { let x = Object.assign({ id }, v); if (typeof v.j === "string") { try { x = Object.assign(x, JSON.parse(v.j)); } catch (e) {} delete x.j; } return x; });
+  const bkKey = async k => { let t = Date.now(); while ((await val("saveBackups/" + k + "/" + t)) !== null) t++; return t; };   // 보관본은 덮어쓰지 않음
   const ops = {
     isAdmin: async () => { const u = await ready; if (!u) return false; try { return (await val("admins/" + u.uid)) === true; } catch (e) { return false; } },
     notices: async () => list(await val("notices")).sort((a, b) => (b.at || 0) - (a.at || 0)),
@@ -227,36 +228,40 @@
     saveRej: async o => { const u = await ready; if (!u) return; await rtdb.ref("saveRej/" + safeKey(u.uid)).set(Object.assign({}, JSON.parse(JSON.stringify(o)), { at: TS })); },
     saveRejClear: async () => { const u = await ready; if (!u) return; await rtdb.ref("saveRej/" + safeKey(u.uid)).remove().catch(() => {}); },
     saveCopy: async (from, to) => { const v = await val("saves/" + safeKey(from)); if (!v || typeof v.save !== "string") throw new Error("옮길 저장이 없습니다: " + from);
-      const cur = await val("saves/" + safeKey(to)); if (cur && typeof cur.save === "string") await rtdb.ref("saveBackups/" + safeKey(to) + "/" + Date.now()).set(cur);
-      await rtdb.ref("saves/" + safeKey(to)).set(Object.assign({}, v, { savedAt: Date.now(), movedFrom: from })); await rtdb.ref("invited/" + safeKey(to)).set({ by: "admin", at: TS }).catch(() => {}); return true; }
+      const cur = await val("saves/" + safeKey(to)); if (cur && typeof cur.save === "string") await rtdb.ref("saveBackups/" + safeKey(to) + "/" + (await bkKey(safeKey(to)))).set(cur);
+      await rtdb.ref("saves/" + safeKey(to)).set(Object.assign({}, v, { savedAt: Date.now(), movedFrom: from })); return true; },
+    // v0.132 플레이어 정리: 고른 묶음만 한 번에 지움. 진행은 지우기 전에 saveBackups/<uid>/<시각>에 복사(계속 보관 · '진행 옮기기'로 되살림)
+    //   save = 서버 저장 · 저장 거절 기록 / device = 그 사람 기기 진행도 지우라는 표시(wipe/<uid> — 다음에 열 때 지우고 표시를 없앰)
+    //   pub = 플레이어 목록 · 영웅 이름 등록 · 명함 · 대전 등록 · 대전 기록 · 빌려주기 영웅 · 명예의 전당 항목 / mail = 받은 우편 · 지급 장부 · 빌려준 보상 / posts = 의견 · 오류 글 / ban = 접속 막기
+    purge: async (uid, o) => { const k = safeKey(uid); if (!k) throw new Error("계정 ID가 없습니다"); const up = {};
+      if (o.save) { const v = await val("saves/" + k); if (v) await rtdb.ref("saveBackups/" + k + "/" + (await bkKey(k))).set(Object.assign({}, v, { purgedAt: Date.now() })); up["saves/" + k] = null; up["saveRej/" + k] = null; }
+      if (o.device) up["wipe/" + k] = { at: TS };
+      if (o.pub) { for (const p of ["players", "cards", "pvp", "pvpLog", "lend"]) up[p + "/" + k] = null;
+        const N = (await val("names")) || {}; for (const [n, v] of Object.entries(N)) if (v === uid) up["names/" + n] = null;
+        const H = (await val("hof")) || {}; for (const [wk, h] of Object.entries(H)) { if (!h) continue; let top = [], rk = {}; try { top = JSON.parse(h.top || "[]"); rk = JSON.parse(h.rk || "{}"); } catch (e) { continue; }
+          if (!top.some(x => x && x.u === uid) && !(uid in rk)) continue; delete rk[uid]; up["hof/" + wk + "/top"] = JSON.stringify(top.filter(x => !x || x.u !== uid)); up["hof/" + wk + "/rk"] = JSON.stringify(rk); } }
+      if (o.mail) { up["mail/u/" + k] = null; up["grants/" + k] = null; up["credits/" + k] = null; }
+      if (o.posts) for (const p of ["feedback", "errors"]) { const L = (await val(p)) || {}; for (const [id, x] of Object.entries(L)) if (x && x.u === uid) up[p + "/" + id] = null; }
+      if (o.ban) up["banned/" + k] = { at: TS, n: String(o.name || "").slice(0, 40) };
+      if (!Object.keys(up).length) return 0; await rtdb.ref().update(up); return Object.keys(up).length; },
+    banned: async () => Object.entries((await val("banned")) || {}).map(([id, v]) => Object.assign({ id }, v)).sort((a, b) => (b.at || 0) - (a.at || 0)),
+    unban: async uid => { await rtdb.ref("banned/" + safeKey(uid)).remove(); },
+    // 진행 보관함: saveBackups/<uid>/<시각> (받는 쪽 원래 저장 · 정리로 지운 진행) — 되살리면 지금 서버 저장도 먼저 보관함에 넣음
+    backups: async () => { const B = (await val("saveBackups")) || {}; const out = [];
+      for (const [uid, L] of Object.entries(B)) for (const [ts, v] of Object.entries(L || {})) { let sum = (v && v.sum) || ""; if (!sum) { try { const p = JSON.parse(v.save).progress; sum = (p.protag && p.protag.name ? "★" + p.protag.name + " · " : "") + "골드 " + (p.gold || 0); } catch (e) {} }
+        out.push({ uid, ts: +ts, sum, savedAt: (v && v.savedAt) || 0, purged: !!(v && v.purgedAt), size: v && typeof v.save === "string" ? v.save.length : 0 }); }
+      return out.sort((a, b) => b.ts - a.ts); },
+    restore: async (uid, ts) => { const k = safeKey(uid); const v = await val("saveBackups/" + k + "/" + (+ts)); if (!v || typeof v.save !== "string") throw new Error("보관본이 없습니다");
+      const cur = await val("saves/" + k); if (cur && typeof cur.save === "string") await rtdb.ref("saveBackups/" + k + "/" + (await bkKey(k))).set(cur);
+      const nv = Object.assign({}, v, { savedAt: Date.now(), restoredFrom: +ts }); delete nv.purgedAt; await rtdb.ref("saves/" + k).set(nv); return true; },
+    backupCount: async uid => { const v = await val("saveBackups/" + safeKey(uid)); return v ? Object.keys(v).length : 0; }
   };
-  // ---------- v0.94 비공개 테스트 초대 코드 ----------
-  // config/inviteOnly=true 일 때만 막음 · invites/<코드>={at, used:uid} · invited/<uid>={code|g, at}
-  // 통과: 관리자 · 코드를 쓴 계정 · Google 로그인 + 이미 서버 저장이 있는 계정(기존 지인 — 처음 한 번 자동 등록)
-  const CODE_ABC = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  const normCode = c => String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").replace(/^(NIGHT)?/, "").slice(0, 8);
-  const invite = {
-    on: async () => { try { return (await val("config/inviteOnly")) === true; } catch (e) { return false; } },
-    status: async () => { const u = await ready; if (!u) return { ok: true, why: "offline" };
-      if (!(await invite.on())) return { ok: true, why: "off" };
-      try { if ((await val("admins/" + u.uid)) === true) return { ok: true, why: "admin" }; } catch (e) {}
-      try { if (await val("invited/" + u.uid)) return { ok: true, why: "invited" }; } catch (e) { return { ok: false, why: "err", err: (e && (e.code || e.message)) || String(e) }; }
-      // v0.94 기존 플레이어(서버에 저장이나 플레이어 기록이 있는 계정)는 게스트든 Google이든 그대로 통과 — 서버 규칙이 확인
-      try { await rtdb.ref("invited/" + u.uid).set({ g: true, at: TS }); return { ok: true, why: u.isAnonymous ? "old-guest" : "google" }; } catch (e) {}
-      return { ok: false, why: "need", anon: !!u.isAnonymous }; },
-    redeem: async raw => { const u = await ready; if (!u) throw new Error("서버에 연결되어 있지 않습니다"); const c = normCode(raw); if (c.length !== 8) throw new Error("코드는 NIGHT- 뒤 8자리입니다");
-      const code = "NIGHT-" + c;
-      try { await rtdb.ref().update({ ["invites/" + code + "/used"]: u.uid, ["invited/" + u.uid]: { code, at: TS } }); }
-      catch (e) { throw new Error("없는 코드이거나 이미 다른 사람이 쓴 코드입니다"); } return code; },
-    setOn: async on => { await rtdb.ref("config/inviteOnly").set(!!on); },
-    make: async n => { n = Math.max(1, Math.min(100, n | 0)); const up = {}, out = [];
-      for (let i = 0; i < n; i++) { let c = "NIGHT-"; const b = new Uint32Array(8); crypto.getRandomValues(b); for (const x of b) c += CODE_ABC[x % CODE_ABC.length]; up["invites/" + c] = { at: TS }; out.push(c); }
-      await rtdb.ref().update(up); return out; },
-    list: async () => Object.entries((await val("invites")) || {}).map(([code, v]) => Object.assign({ code }, v)).sort((a, b) => (a.at || 0) - (b.at || 0)),
-    invited: async () => (await val("invited")) || {},
-    revoke: async code => { const v = await val("invites/" + code); const up = { ["invites/" + code]: null }; if (v && v.used) up["invited/" + v.used] = null; await rtdb.ref().update(up); },
-    unInvite: async uid => { await rtdb.ref("invited/" + safeKey(uid)).remove(); },
-    allowUid: async uid => { await rtdb.ref("invited/" + safeKey(uid)).set({ by: "admin", at: TS }); }
+  // ---------- v0.132 내 계정 표시: 접속 막힘(banned/<uid>) · 기기 진행 지우기(wipe/<uid>) — 관리자가 '플레이어 정리'에서 남김 ----------
+  const acct = {
+    status: async () => { const u = await ready; if (!u) return { ban: false, wipe: false }; let ban = false, wipe = false;
+      try { ban = !!(await val("banned/" + u.uid)); } catch (e) {} try { wipe = !!(await val("wipe/" + u.uid)); } catch (e) {} return { ban, wipe }; },
+    watch: async f => { const u = await ready; if (!u) return; rtdb.ref("banned/" + u.uid).on("value", x => f({ ban: x.exists() }), () => {}); rtdb.ref("wipe/" + u.uid).on("value", x => f({ wipe: x.exists() }), () => {}); },
+    wipeDone: async () => { const u = await ready; if (!u) return; await rtdb.ref("wipe/" + u.uid).remove(); }
   };
   // v0.116 명함(플레이어 검색): cards/<uid> = {j: 영웅들 명함 자료(JSON), at} · 영웅 이름 → names 등록부 → 그 계정의 명함
   const cards = {
@@ -264,7 +269,7 @@
     byName: async n => { const u = await ready; if (!u) return null; const k = nameKey(n); if (!k) return null; const uid = await val("names/" + k); if (!uid) return null;
       const c = await val("cards/" + safeKey(uid)); if (!c || typeof c.j !== "string") return { uid, none: true }; let d = null; try { d = JSON.parse(c.j); } catch (e) {} return d ? Object.assign({ uid, at: c.at || 0 }, d) : { uid, none: true }; }
   };
-  window.PNNet = { lend, pvp, auth: authApi, ops, invite, names: namesApi, cards, serverNow: () => Date.now() + tOff,
+  window.PNNet = { lend, pvp, auth: authApi, ops, acct, names: namesApi, cards, serverNow: () => Date.now() + tOff,
     settingsHTML: () => `<div class="sblock"><div class="slabel">계정 · 서버 저장</div><div id="pnAcct">${acctInner()}</div></div>`,
     bindSettings: () => bind(document.getElementById("pnAcct")),
     ready, get user() { return user; }
