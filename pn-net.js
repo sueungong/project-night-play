@@ -85,7 +85,7 @@
   function acctInner() {
     if (!user) return `<p class="msub">서버에 연결하는 중… (연결이 안 되면 이 기기에만 저장되고 함께하기는 꺼집니다)</p>`;
     const idl = "";
-    const del = `<div class="srow" style="align-items:center;flex-wrap:wrap"><span class="msub">계정 ID <code style="user-select:all;word-break:break-all">${esc(user.uid)}</code></span><button class="btn ghost" data-pn="copy">복사</button><a class="btn ghost" href="account-delete.html" target="_blank" rel="noopener">계정 삭제 요청</a></div>`;   // v0.145 계정 삭제 요청(구글 플레이) · 방침의 '설정에 보이는 계정 ID'
+    const del = `<div class="srow" style="align-items:center;flex-wrap:wrap"><span class="msub">계정 ID <code style="user-select:all;word-break:break-all">${esc(user.uid)}</code></span><button class="btn ghost" data-pn="copy">복사</button><button class="btn ghost" data-pn="del">계정 삭제</button></div>`;   // v0.146 계정 즉시 삭제(구글 플레이) · 방침의 '설정에 보이는 계정 ID'
 
     if (user.isAnonymous) return `<p class="msub">지금은 <b>손님 계정</b>${idl}입니다 — 진행은 서버에 저장되지만 이 기기·이 브라우저에서만 이어집니다. Google 계정을 연결하면 다른 휴대폰·PC에서도 같은 진행으로 이어 할 수 있어요.</p>
       <div class="srow"><button class="btn" data-pn="google">Google 계정 연결</button></div>${del}`;
@@ -94,6 +94,7 @@
   }
   function bind(el) { if (!el) return;
     const g = el.querySelector('[data-pn="google"]'); if (g) g.onclick = google;
+    const dl = el.querySelector('[data-pn="del"]'); if (dl) dl.onclick = () => { try { if (typeof window.acctDeleteAsk === "function") window.acctDeleteAsk(); } catch (e) {} };
     const cp = el.querySelector('[data-pn="copy"]'); if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(user.uid); note("계정 ID를 복사했습니다"); } catch (e) { const c = el.querySelector("code"); if (c) { const r = document.createRange(); r.selectNodeContents(c); const sl = getSelection(); sl.removeAllRanges(); sl.addRange(r); } } };
     const o = el.querySelector('[data-pn="out"]'); if (o) o.onclick = async () => { if (!confirmBox("로그아웃하면 이 기기는 새 손님 계정으로 처음부터 시작합니다(진행은 Google 계정에 남아 있음). 로그아웃할까요?")) return;
       try { localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (e) {}
@@ -248,6 +249,8 @@
       if (o.posts) for (const p of ["feedback", "errors"]) { const L = (await val(p)) || {}; for (const [id, x] of Object.entries(L)) if (x && x.u === uid) up[p + "/" + id] = null; }
       if (o.ban) up["banned/" + k] = { at: TS, n: String(o.name || "").slice(0, 40) };
       if (!Object.keys(up).length) return 0; await rtdb.ref().update(up); return Object.keys(up).length; },
+    goneList: async () => Object.entries((await val("gone")) || {}).map(([id, v]) => Object.assign({ id }, v)).sort((a, b) => (b.at || 0) - (a.at || 0)),   // v0.146 스스로 삭제한 계정
+    goneClean: async uid => { const k = safeKey(uid); await ops.purge(uid, { save: true, bk: true, pub: true, mail: true, posts: true }); await rtdb.ref("gone/" + k + "/c").set(TS); },
     banned: async () => Object.entries((await val("banned")) || {}).map(([id, v]) => Object.assign({ id }, v)).sort((a, b) => (b.at || 0) - (a.at || 0)),
     unban: async uid => { await rtdb.ref("banned/" + safeKey(uid)).remove(); },
     // 진행 보관함: saveBackups/<uid>/<시각> (받는 쪽 원래 저장 · 정리로 지운 진행) — 되살리면 지금 서버 저장도 먼저 보관함에 넣음
@@ -265,7 +268,21 @@
     status: async () => { const u = await ready; if (!u) return { ban: false, wipe: false }; let ban = false, wipe = false;
       try { ban = !!(await val("banned/" + u.uid)); } catch (e) {} try { wipe = !!(await val("wipe/" + u.uid)); } catch (e) {} return { ban, wipe }; },
     watch: async f => { const u = await ready; if (!u) return; rtdb.ref("banned/" + u.uid).on("value", x => f({ ban: x.exists() }), () => {}); rtdb.ref("wipe/" + u.uid).on("value", x => f({ wipe: x.exists() }), () => {}); },
-    wipeDone: async () => { const u = await ready; if (!u) return; await rtdb.ref("wipe/" + u.uid).remove(); }
+    wipeDone: async () => { const u = await ready; if (!u) return; await rtdb.ref("wipe/" + u.uid).remove(); },
+    // v0.146 계정 즉시 삭제(이용자 본인): gone/<uid> 표시(그 뒤로는 그 계정으로 진행을 다시 쓸 수 없음) → 서버의 내 데이터를 모두 지움 → 로그인 계정 삭제
+    //   명예의 전당 · 남의 대전 기록 속 내 이름은 gone 목록으로 가리고, 실제 정리는 운영 도구에서. 돌려줌: 지우지 못한 경로 목록
+    deleteMe: async names => { const u = await ready; if (!u) throw new Error("로그인 안 됨"); const k = safeKey(u.uid), fails = [];
+      try { await rtdb.ref("gone/" + k).set({ at: TS }); } catch (e) { if (!(await val("gone/" + k).catch(() => null))) throw e; }
+      const del = async p => { try { await rtdb.ref(p).remove(); } catch (e) { fails.push(p); } };
+      for (const p of ["saves", "saveRej", "saveBackups", "players", "cards", "pvp", "lend", "credits", "mail/u", "grants", "wipe"]) await del(p + "/" + k);
+      try { const s2 = await rtdb.ref("pvpLog/" + k).once("value"); const ks = []; s2.forEach(c => { ks.push(c.key); }); for (const id of ks) await del("pvpLog/" + k + "/" + id); } catch (e) {}
+      for (const n of names || []) { const nk = nameKey(n); if (!nk) continue; try { if ((await val("names/" + nk)) === u.uid) await del("names/" + nk); } catch (e) {} }
+      for (const p of ["feedback", "errors"]) { try { const s2 = await rtdb.ref(p).orderByChild("u").equalTo(u.uid).once("value"); const ks = []; s2.forEach(c => { ks.push(c.key); }); for (const id of ks) await del(p + "/" + id); } catch (e) { fails.push(p + "?"); } }
+      try { if (onKey()) await rtdb.ref("online/" + onKey()).remove(); } catch (e) {}
+      try { await u.delete(); }
+      catch (e) { if (e && e.code === "auth/requires-recent-login" && !u.isAnonymous) { const prov = new fb.auth.GoogleAuthProvider(); await u.reauthenticateWithPopup(prov); await auth.currentUser.delete(); } else throw e; }
+      return fails; },
+    gone: async () => { const u = await ready; if (!u) return {}; try { return (await val("gone")) || {}; } catch (e) { return {}; } }
   };
   // ---------- v0.133 동시 접속 세기: online/<uid>_<창> = {at} (창을 닫거나 연결이 끊기면 서버가 지움) · 오래 쉬면 연결을 끊어 자리를 비움 ----------
   const onKey = () => user ? safeKey(user.uid + "_" + TAB) : null;

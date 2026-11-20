@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795200612197"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795202470805"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -16403,12 +16403,14 @@ function openPvpPeek(x){ let J=[]; try{ J=JSON.parse(x.jobs||"[]"); }catch(e){} 
     <div class="pvpsum"><span>⚔ ${(x.cp|0).toLocaleString("ko-KR")}</span><span>${x.w|0}승 ${x.l|0}패</span><span>방어 ${x.dw|0}승 ${x.dl|0}패</span></div><div class="pvpsum"><span>누적 ${x.tw|0}승 ${x.tl|0}패</span><span>방어 ${x.tdw|0}승 ${x.tdl|0}패</span></div>
     <div class="mfoot"><button id="pvGo" class="btn" ${S.saved&&!busy&&T.n>0?"":"disabled"}>전투 🎟 ${T.n}</button><button id="mclose" class="btn ghost">닫기</button></div>`,"small");
   m.onclick=e=>{ if(e.target===m) closeModal(); }; m.querySelector("#mclose").onclick=closeModal; m.querySelector("#pvGo").onclick=()=>{ closeModal(); pvpFight(x.uid); }; }
-async function openPvpLog(){ const N=pvpNet(); let L=[]; if(N){ try{ L=(await N.logList())||[]; }catch(e){ L=[]; } } L.sort((a,b)=>(b.at||0)-(a.at||0));
+// v0.146 스스로 삭제한 계정(gone)은 명예의 전당 · 방어 기록에서 가림(실제 기록은 운영 도구에서 정리)
+let GONE_C=null; async function goneSet(){ if(GONE_C&&Date.now()-GONE_C.at<60000) return GONE_C.s; let o={}; try{ const A=window.PNNet&&window.PNNet.acct; if(A&&A.gone) o=(await A.gone())||{}; }catch(e){} GONE_C={at:Date.now(),s:new Set(Object.keys(o))}; return GONE_C.s; }
+async function openPvpLog(){ const N=pvpNet(); let L=[]; if(N){ try{ L=(await N.logList())||[]; }catch(e){ L=[]; } } { const G=await goneSet(); L=L.filter(x=>!G.has(String(x.a||""))); } L.sort((a,b)=>(b.at||0)-(a.at||0));
   const m=openModal(`<h2>🛡 방어 기록</h2><div class="pvplog">${L.length?L.slice(0,40).map(x=>`<div class="${x.win?"lost":"held"}"><span>${esc(fmtDate(x.at||0))}</span><b>${esc(String(x.an||"?").slice(0,16))}</b><span>${x.win?`방어 실패 <i>−${x.d|0}</i>`:`방어 성공 <em>+${x.d|0}</em>`}</span></div>`).join(""):`<p class="msub">기록 없음</p>`}</div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"small");
   m.onclick=e=>{ if(e.target===m) closeModal(); }; m.querySelector("#mclose").onclick=closeModal; }
 // 명예의 전당: 지난주 1~10위 · 주인공은 지금 외형 그대로 움직임
 async function openPvpHof(){ const N=pvpNet(); if(!N){ toast("서버에 연결되어 있지 않아요","warn"); return; } try{ await pvpWeekCheck(); }catch(e){}
-  const pw=pvpWeek()-1; let H=null; try{ H=await N.hofGet(pw); }catch(e){} let top=[]; try{ top=JSON.parse((H&&H.top)||"[]"); }catch(e){}
+  const pw=pvpWeek()-1; let H=null; try{ H=await N.hofGet(pw); }catch(e){} let top=[]; try{ top=JSON.parse((H&&H.top)||"[]"); }catch(e){} { const G=await goneSet(); top=top.filter(x=>x&&!G.has(String(x.u||""))); }
   const looks=await Promise.all(top.map(async x=>{ try{ const e=await N.get(x.u); return e&&e.lk?JSON.parse(e.lk):null; }catch(e){ return null; } }));
   const m=openModal(`<h2>🏆 명예의 전당</h2><div class="pvhof">${top.length?top.map((x,i)=>`<div class="pvhc r${i+1}"><canvas width="120" height="136" data-i="${i}"></canvas><b>${i+1}위 ${esc(String(x.n||"?").slice(0,16))}</b><span>${(x.sc|0).toLocaleString("ko-KR")} · ${x.w|0}승 ${x.l|0}패</span></div>`).join(""):`<p class="msub">기록 없음</p>`}</div><div class="mfoot"><button id="mclose" class="btn ghost">닫기</button></div>`,"pvhofm");
   const cvs=[...m.querySelectorAll("canvas")], st=cvs.map(()=>({})); let raf=0;
@@ -17568,6 +17570,20 @@ function openFeedback(){
   m.querySelector("#mclose").onclick=closeModal; m.addEventListener("click",e=>{ if(e.target===m) closeModal(); });
   setTimeout(()=>ta.focus(),40);
 }
+// v0.146 계정 즉시 삭제: ⚙ 설정 '계정 삭제' → 확인 창에 '삭제'를 입력해야 실행 → 서버의 내 데이터 · 로그인 계정 · 이 기기 진행을 지우고 첫 화면으로
+function acctDeleteAsk(){ const N=NET(); if(!N||!N.acct||!N.acct.deleteMe){ toast("서버에 연결되어 있지 않아요","warn"); return; }
+  const md=openModal(`<h3>계정 삭제</h3><p>진행 · 보관본 · 공개 기록(플레이어 목록 · 명함 · 대전 · 빌려주기) · 우편 · 의견 · 로그인 계정이 바로 지워지며 되돌릴 수 없습니다.</p>
+    <p><input id="adIn" placeholder="삭제" autocomplete="off" aria-label="확인 글자"></p><p class="msub" id="adMsg" role="status"></p>
+    <div class="mfoot"><button class="btn" id="adGo" disabled>계정 삭제</button><button class="btn ghost" id="adNo">취소</button></div>`);
+  const inp=md.querySelector("#adIn"), go=md.querySelector("#adGo"), msg=md.querySelector("#adMsg");
+  inp.oninput=()=>{ go.disabled=inp.value.trim()!=="삭제"; }; md.querySelector("#adNo").onclick=closeModal;
+  go.onclick=async()=>{ if(inp.value.trim()!=="삭제") return; go.disabled=true; inp.disabled=true; md.querySelector("#adNo").disabled=true; msg.textContent="삭제하는 중…";
+    const names=[]; try{ if(progress&&progress.protag&&progress.protag.name) names.push(progress.protag.name); for(const v of Object.values((progress&&progress.heroNames)||{})) if(v) names.push(v); }catch(e){}
+    ACCT_WIPE=true;
+    try{ await N.acct.deleteMe(names); }catch(e){ ACCT_WIPE=false; msg.textContent=`삭제를 마치지 못했어요 (${(e&&(e.code||e.message))||e}). 다시 눌러 주세요.`; go.disabled=false; inp.disabled=false; md.querySelector("#adNo").disabled=false; return; }
+    try{ const ks=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&/^pn_/.test(k)) ks.push(k); } for(const k of ks) localStorage.removeItem(k); }catch(e){}
+    msg.textContent="계정을 삭제했어요."; setTimeout(()=>location.reload(),900); }; }
+window.acctDeleteAsk=acctDeleteAsk;
 function openSettings(){
   if(onboardBusy) return;
   const pg=progress.protag;
@@ -17638,6 +17654,8 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.21", v:"v0.146", t:"계정 삭제", L:[
+    "⚙ 설정에서 계정을 바로 삭제할 수 있음(확인 글자 입력)"]},
   {d:"2026.11.21", v:"v0.145", t:"계정", L:[
     "⚙ 설정에 계정 ID(복사) · 계정 삭제 요청"]},
   {d:"2026.11.21", v:"v0.144", t:"첫 화면", L:[
@@ -18118,13 +18136,14 @@ async function openOps(tab){
       for(const b of body.querySelectorAll("[data-id]")) b.onclick=async()=>{ try{ await N.ops.mailDel(b.dataset.to,b.dataset.id); closeModal(); openOps("mail"); }catch(e){ toast("회수하지 못했어요"); } };
     }
     if(tab==="players"){
-      const [P,B,ON]=await Promise.all([N.ops.players(), N.ops.banned?N.ops.banned().catch(()=>[]):[], N.online?N.online.count().then(n=>n+1).catch(()=>null):null]); if(!m.isConnected) return;
+      const [P,B,ON,GN]=await Promise.all([N.ops.players(), N.ops.banned?N.ops.banned().catch(()=>[]):[], N.online?N.online.count().then(n=>n+1).catch(()=>null):null, N.ops.goneList?N.ops.goneList().catch(()=>[]):[]]); if(!m.isConnected) return;
       // v0.132 플레이어 정리: 고른 묶음만 지움 · 묶음 단추 3개(진행 초기화 · 탈퇴 처리 · 접속 막기) · 두 번 눌러야 실행
       const PG=[["save","진행(서버 저장) — 지우기 전 보관함에 복사"],["device","기기 진행도 지우기"],["bk","보관함의 지난 진행까지 삭제(되살릴 수 없음)"],["pub","공개 기록 — 플레이어 목록 · 영웅 이름 · 명함 · 대전 · 빌려주기 · 명예의 전당"],["mail","우편 · 지급 장부 · 빌려준 보상"],["posts","의견 · 오류 글"],["ban","접속 막기"]];
       const PRE=[["reset","진행 초기화",["save","device"]],["leave","탈퇴 처리",["save","device","bk","pub","mail","posts"]],["block","접속 막기",["ban"]]];
       const box=(id,name)=>`<div class="ncard pgbox" data-pg="${esc(id)}" data-pn="${esc(name||"")}"><div class="pgrow">${PRE.map(([k,l])=>`<button class="mini" data-pre="${k}">${l}</button>`).join("")}</div>
         ${PG.map(([k,l])=>`<label class="pgck"><input type="checkbox" data-pk="${k}"> ${esc(l)}</label>`).join("")}<div class="pgrow"><button class="btn" data-pgo>실행</button></div><p class="msub" data-pst role="status"></p></div>`;
-      body.innerHTML=(B.length?`<div class="ncard"><b>접속 막은 계정 ${B.length}</b>${B.map(b=>`<div class="nh"><span>${esc(b.n||"?")} · <code>${esc(b.id)}</code> · ${fmtDate(b.at)}</span><button class="mini" data-unban="${esc(b.id)}">풀기</button></div>`).join("")}</div>`:"")
+      const GL=GN.filter(g=>!g.c);   // v0.146 스스로 삭제한 계정 — 명예의 전당 등 남은 공유 기록 정리
+      body.innerHTML=(GL.length?`<div class="ncard"><b>스스로 삭제한 계정 ${GL.length}</b>${GL.map(g=>`<div class="nh"><span><code>${esc(g.id)}</code> · ${fmtDate(g.at)}</span><button class="mini" data-gone="${esc(g.id)}">정리</button></div>`).join("")}</div>`:"")+(B.length?`<div class="ncard"><b>접속 막은 계정 ${B.length}</b>${B.map(b=>`<div class="nh"><span>${esc(b.n||"?")} · <code>${esc(b.id)}</code> · ${fmtDate(b.at)}</span><button class="mini" data-unban="${esc(b.id)}">풀기</button></div>`).join("")}</div>`:"")
         +`<div class="ncard"><b>계정 ID로 정리</b><div class="pgrow"><input id="pgUid" placeholder="계정 ID" autocomplete="off" spellcheck="false" style="flex:1;min-width:0"><button class="mini" id="pgUidGo">정리</button></div><div class="pgslot" id="pgUidSlot"></div></div>`
         +`<p class="msub">${ON!=null?`지금 접속 ${ON} / ${ONLINE_CAP} · `:""}플레이어 ${P.length}명 · 1분마다·앱을 내릴 때 기록됩니다. 이름을 누르면 막마다 입장·돌파·패배 수가 나와요.</p>`+P.map(p=>{
         const runs=Object.entries(p.runs||{}).sort((a,b)=>b[1][0]-a[1][0]);
@@ -18136,6 +18155,7 @@ async function openOps(tab){
       const open=(slot,id,name)=>{ if(!N.ops.purge){ slot.innerHTML=`<p class="msub">새로 고침해 주세요(새 기능).</p>`; return; } slot.innerHTML=slot.innerHTML?"":box(id,name); };
       for(const b of body.querySelectorAll("[data-pgopen]")) b.onclick=()=>open(b.closest(".nb").querySelector(".pgslot"),b.dataset.pgopen,b.dataset.pgname);
       body.querySelector("#pgUidGo").onclick=()=>{ const id=body.querySelector("#pgUid").value.trim(); if(!id) return; const p=P.find(x=>x.id===id); open(body.querySelector("#pgUidSlot"),id,p?p.name:""); };
+      for(const b of body.querySelectorAll("[data-gone]")) b.onclick=async()=>{ b.disabled=true; b.textContent="정리 중…"; try{ await N.ops.goneClean(b.dataset.gone); b.textContent="✔ 정리함"; }catch(e){ b.disabled=false; b.textContent="실패: "+((e&&(e.code||e.message))||e); } };
       for(const b of body.querySelectorAll("[data-unban]")) b.onclick=async()=>{ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="한 번 더 누르면 풂"; return; }
         b.disabled=true; try{ await N.ops.unban(b.dataset.unban); closeModal(); openOps("players"); }catch(e){ b.disabled=false; b.textContent="실패: "+((e&&(e.code||e.message))||e); } };
       body.addEventListener("change",e=>{ const g=e.target.closest&&e.target.closest(".pgbox"); if(!g) return; const go=g.querySelector("[data-pgo]"); go.dataset.arm=""; go.textContent="실행"; g.querySelector("[data-pst]").textContent=""; });
