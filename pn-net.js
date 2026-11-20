@@ -84,14 +84,17 @@
   function render() { const el = document.getElementById("pnAcct"); if (el) el.innerHTML = acctInner(); bind(el); }
   function acctInner() {
     if (!user) return `<p class="msub">서버에 연결하는 중… (연결이 안 되면 이 기기에만 저장되고 함께하기는 꺼집니다)</p>`;
-    const idl = ` <span style="opacity:.75">(계정 ID ${esc(user.uid.slice(0, 6))}…)</span>`;
+    const idl = "";
+    const del = `<div class="srow" style="align-items:center;flex-wrap:wrap"><span class="msub">계정 ID <code style="user-select:all;word-break:break-all">${esc(user.uid)}</code></span><button class="btn ghost" data-pn="copy">복사</button><a class="btn ghost" href="account-delete.html" target="_blank" rel="noopener">계정 삭제 요청</a></div>`;   // v0.145 계정 삭제 요청(구글 플레이) · 방침의 '설정에 보이는 계정 ID'
+
     if (user.isAnonymous) return `<p class="msub">지금은 <b>손님 계정</b>${idl}입니다 — 진행은 서버에 저장되지만 이 기기·이 브라우저에서만 이어집니다. Google 계정을 연결하면 다른 휴대폰·PC에서도 같은 진행으로 이어 할 수 있어요.</p>
-      <div class="srow"><button class="btn" data-pn="google">Google 계정 연결</button></div>`;
+      <div class="srow"><button class="btn" data-pn="google">Google 계정 연결</button></div>${del}`;
     return `<p class="msub">Google 계정 <b>${esc(user.email || user.displayName)}</b>${idl}으로 로그인됨 — 어느 기기에서 열어도 같은 진행이 이어집니다.</p>
-      <div class="srow"><button class="btn ghost" data-pn="out">로그아웃</button></div>`;
+      <div class="srow"><button class="btn ghost" data-pn="out">로그아웃</button></div>${del}`;
   }
   function bind(el) { if (!el) return;
     const g = el.querySelector('[data-pn="google"]'); if (g) g.onclick = google;
+    const cp = el.querySelector('[data-pn="copy"]'); if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(user.uid); note("계정 ID를 복사했습니다"); } catch (e) { const c = el.querySelector("code"); if (c) { const r = document.createRange(); r.selectNodeContents(c); const sl = getSelection(); sl.removeAllRanges(); sl.addRange(r); } } };
     const o = el.querySelector('[data-pn="out"]'); if (o) o.onclick = async () => { if (!confirmBox("로그아웃하면 이 기기는 새 손님 계정으로 처음부터 시작합니다(진행은 Google 계정에 남아 있음). 로그아웃할까요?")) return;
       try { localStorage.removeItem("pn_progress_v02"); localStorage.removeItem("pn_rules_v01"); } catch (e) {}
       await auth.signOut(); location.reload(); };
