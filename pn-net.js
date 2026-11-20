@@ -234,8 +234,9 @@
     //   save = 서버 저장 · 저장 거절 기록 / device = 그 사람 기기 진행도 지우라는 표시(wipe/<uid> — 다음에 열 때 지우고 표시를 없앰)
     //   pub = 플레이어 목록 · 영웅 이름 등록 · 명함 · 대전 등록 · 대전 기록 · 빌려주기 영웅 · 명예의 전당 항목 / mail = 받은 우편 · 지급 장부 · 빌려준 보상 / posts = 의견 · 오류 글 / ban = 접속 막기
     purge: async (uid, o) => { const k = safeKey(uid); if (!k) throw new Error("계정 ID가 없습니다"); const up = {};
-      if (o.save) { const v = await val("saves/" + k); if (v) await rtdb.ref("saveBackups/" + k + "/" + (await bkKey(k))).set(Object.assign({}, v, { purgedAt: Date.now() })); up["saves/" + k] = null; up["saveRej/" + k] = null; }
+      if (o.save) { const v = await val("saves/" + k); if (v && !o.bk) await rtdb.ref("saveBackups/" + k + "/" + (await bkKey(k))).set(Object.assign({}, v, { purgedAt: Date.now() })); up["saves/" + k] = null; up["saveRej/" + k] = null; }
       if (o.device) up["wipe/" + k] = { at: TS };
+      if (o.bk) up["saveBackups/" + k] = null;   // 보관함의 지난 진행까지(되살릴 수 없음)
       if (o.pub) { for (const p of ["players", "cards", "pvp", "pvpLog", "lend"]) up[p + "/" + k] = null;
         const N = (await val("names")) || {}; for (const [n, v] of Object.entries(N)) if (v === uid) up["names/" + n] = null;
         const H = (await val("hof")) || {}; for (const [wk, h] of Object.entries(H)) { if (!h) continue; let top = [], rk = {}; try { top = JSON.parse(h.top || "[]"); rk = JSON.parse(h.rk || "{}"); } catch (e) { continue; }

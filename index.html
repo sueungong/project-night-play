@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795026155466"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795183760921"></script>
 <title>프로젝트 나이트 전투 프로토타입</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1692,8 +1692,11 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 @media (max-width:900px),(max-height:560px){ .cosslots{grid-template-columns:repeat(2,minmax(0,1fr))} .bagtabs button{font-size:12px; padding:0 4px} }
 .costop{display:flex; gap:10px; align-items:stretch} .costop .cosslots{flex:1; grid-template-columns:repeat(2,minmax(0,1fr))}
 .cosnow{flex:0 0 132px; height:110px; border:1px solid var(--line); border-radius:12px; background:#0b1020; display:block} .cosnow canvas{width:100%; height:100%; image-rendering:pixelated}
+#ageNote{position:fixed; inset:0; z-index:10001; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; padding:16px; text-align:center; font-weight:700; font-size:clamp(28px,7vw,64px); letter-spacing:.02em; transition:opacity .5s}
+#ageNote.out{opacity:0; pointer-events:none}
 </style>
 
+<div id="ageNote">만 14세 이상 이용 가능</div>
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>프로젝트 나이트는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
@@ -17615,6 +17618,9 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.20", v:"v0.139", t:"이용 연령", L:[
+    "만 14세 이상 이용 가능",
+    "운영 기능 개선"]},
   {d:"2026.11.19", v:"v0.138", t:"성편 제작", L:[
     "성편 제작 비용: 성반가루 20 → 15"]},
   {d:"2026.11.19", v:"v0.137", t:"성반 확률", L:[
@@ -18059,8 +18065,8 @@ async function openOps(tab){
     if(tab==="players"){
       const [P,B,ON]=await Promise.all([N.ops.players(), N.ops.banned?N.ops.banned().catch(()=>[]):[], N.online?N.online.count().then(n=>n+1).catch(()=>null):null]); if(!m.isConnected) return;
       // v0.132 플레이어 정리: 고른 묶음만 지움 · 묶음 단추 3개(진행 초기화 · 탈퇴 처리 · 접속 막기) · 두 번 눌러야 실행
-      const PG=[["save","진행(서버 저장) — 지우기 전 보관함에 복사"],["device","기기 진행도 지우기"],["pub","공개 기록 — 플레이어 목록 · 영웅 이름 · 명함 · 대전 · 빌려주기 · 명예의 전당"],["mail","우편 · 지급 장부 · 빌려준 보상"],["posts","의견 · 오류 글"],["ban","접속 막기"]];
-      const PRE=[["reset","진행 초기화",["save","device"]],["leave","탈퇴 처리",["save","device","pub","mail","posts"]],["block","접속 막기",["ban"]]];
+      const PG=[["save","진행(서버 저장) — 지우기 전 보관함에 복사"],["device","기기 진행도 지우기"],["bk","보관함의 지난 진행까지 삭제(되살릴 수 없음)"],["pub","공개 기록 — 플레이어 목록 · 영웅 이름 · 명함 · 대전 · 빌려주기 · 명예의 전당"],["mail","우편 · 지급 장부 · 빌려준 보상"],["posts","의견 · 오류 글"],["ban","접속 막기"]];
+      const PRE=[["reset","진행 초기화",["save","device"]],["leave","탈퇴 처리",["save","device","bk","pub","mail","posts"]],["block","접속 막기",["ban"]]];
       const box=(id,name)=>`<div class="ncard pgbox" data-pg="${esc(id)}" data-pn="${esc(name||"")}"><div class="pgrow">${PRE.map(([k,l])=>`<button class="mini" data-pre="${k}">${l}</button>`).join("")}</div>
         ${PG.map(([k,l])=>`<label class="pgck"><input type="checkbox" data-pk="${k}"> ${esc(l)}</label>`).join("")}<div class="pgrow"><button class="btn" data-pgo>실행</button></div><p class="msub" data-pst role="status"></p></div>`;
       body.innerHTML=(B.length?`<div class="ncard"><b>접속 막은 계정 ${B.length}</b>${B.map(b=>`<div class="nh"><span>${esc(b.n||"?")} · <code>${esc(b.id)}</code> · ${fmtDate(b.at)}</span><button class="mini" data-unban="${esc(b.id)}">풀기</button></div>`).join("")}</div>`:"")
@@ -18741,6 +18747,9 @@ function confirmLeaveRun(){ COOP.notice="함께 던전 진행 중에는 방을 �
 
 (function(){ const upd=()=>{ const d=document.getElementById('dock'); if(d) document.documentElement.style.setProperty('--dockh',d.offsetHeight+'px'); };
   try{ new ResizeObserver(upd).observe(document.getElementById('dock')); }catch(e){} addEventListener('resize',upd); setTimeout(upd,300); })();
+// v0.139 시작할 때 '만 14세 이상 이용 가능' 검은 화면(불러오기가 끝나도 1.5초는 보임)
+(function(){ const el=document.getElementById("ageNote"); if(!el) return; const T=performance.timing, t0=T&&T.navigationStart?Date.now()-T.navigationStart:performance.now();
+  const wait=navigator.webdriver?0:Math.max(0,1500-t0); setTimeout(()=>{ el.classList.add("out"); setTimeout(()=>el.remove(),550); },wait); })();
 (function(){ const go=()=>{ window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {}); };
   // v0.93 휴대폰 주소(서버 연결)에서는 첫 화면(로그인)을 지나야 게임이 시작되고, 시작하면 공지 창이 뜸
   if(NET()) titleScreen().then(()=>{ go(); acctWatchStart(); idleStart(); setTimeout(()=>{ try{ if(!$("modal")) openNotices(); }catch(e){} mailRefresh(); setInterval(mailRefresh,180000); },1600); });
