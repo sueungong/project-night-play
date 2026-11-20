@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795189015346"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795194478900"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1563,6 +1563,28 @@ body[data-view]:not([data-view="dungeon"]) .dock{display:none}   /* 던전 탭�
 #title .ttl-msg{margin:0; min-height:1em; color:var(--sub); font-size:13px; line-height:1.55; max-width:360px}
 #title .ttl-link{background:none; border:0; color:var(--accent); text-decoration:underline; font:inherit; cursor:pointer}
 @media (max-height:560px){ #title .ttl-box{gap:6px} #title h1{font-size:26px} #title .ttl-heroes{margin:2px 0} #title .ttl-heroes img{width:28px; height:28px} #title .ttl-btns .btn{height:42px; font-size:15px} }
+/* v0.141 첫 화면: 모닥불 야영지 장면(무대 그림을 전체 화면으로) 위에 제목 · 영웅 · 단추 */
+body.titling .field{position:fixed!important; inset:0!important; width:auto!important; height:auto!important; max-height:none!important; margin:0!important; border:0!important; border-radius:0!important; z-index:8990}
+body.titling .field > :not(#stageBg):not(#stageLoWrap):not(.arena){visibility:hidden}
+#title.scene{display:block; padding:0; overflow:hidden; background:linear-gradient(180deg,rgba(5,7,16,.62) 0%,rgba(5,7,16,.12) 30%,rgba(5,7,16,0) 50%,rgba(5,7,16,.35) 74%,rgba(5,7,16,.88) 100%)}
+#title.scene .ttl-crew{position:absolute; inset:0; pointer-events:none}
+#title.scene .ttl-crew i{position:absolute; display:block; transform:translate(-50%,-100%)}
+#title.scene .ttl-crew i.fl img{transform:scaleX(-1)}
+#title.scene .ttl-crew img{display:block; width:100%; height:100%; image-rendering:pixelated; filter:drop-shadow(0 0 3px rgba(255,160,70,.35)) drop-shadow(0 2px 0 rgba(0,0,0,.45)); animation:ttlBob 1.6s steps(2,jump-none) infinite}
+@keyframes ttlBob{0%,100%{translate:0 0}50%{translate:0 -2px}}
+#title.scene .ttl-top{position:absolute; left:0; right:0; top:max(16px,calc(env(safe-area-inset-top,0px) + 10px)); display:flex; flex-direction:column; align-items:center; gap:2px; text-align:center}
+#title.scene .ttl-eyebrow{font-size:12px; letter-spacing:.42em; color:#e8d9b0; opacity:.9; text-shadow:0 2px 6px #000}
+#title.scene h1{font-size:clamp(40px,13vh,72px); line-height:1.08; color:#ffe7b0; letter-spacing:.04em; text-shadow:0 0 18px rgba(255,170,60,.55),0 3px 0 #5a3a12,0 6px 14px #000}
+#title.scene .ttl-ui{position:absolute; left:0; right:0; bottom:max(14px,calc(env(safe-area-inset-bottom,0px) + 10px)); display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center; padding:0 max(16px,env(safe-area-inset-left,0px))}
+#title.scene .ttl-btns{flex-direction:row; width:min(540px,100%)}
+#title.scene .ttl-btns .btn{flex:1; min-width:0}
+#title.scene .ttl-btns .btn.ghost{background:rgba(10,14,28,.62)}
+#title.scene .ttl-who,#title.scene .ttl-note,#title.scene .ttl-msg,#title.scene .ttl-out{text-shadow:0 1px 3px #000}
+#title.scene .ttl-note{color:#e6e0d2}
+#title.scene .ttl-who{position:fixed; left:max(14px,env(safe-area-inset-left,0px)); top:max(10px,env(safe-area-inset-top,0px)); margin:0; font-size:13px; color:#e6e0d2}
+#title.scene .ttl-out{position:fixed; left:max(8px,calc(env(safe-area-inset-left,0px) - 6px)); top:max(30px,calc(env(safe-area-inset-top,0px) + 20px)); font-size:12.5px; color:#cfc8b8}
+#title.scene .ttl-ver{position:absolute; right:max(12px,env(safe-area-inset-right,0px)); bottom:max(6px,env(safe-area-inset-bottom,0px)); font-size:11px; color:rgba(255,255,255,.42)}
+#title:not(.scene) .ttl-ver{display:none}
 .modal.notices .mpanel{width:min(760px,100%); display:flex; flex-direction:column; max-height:calc(100dvh - 32px)}
 .ntabs{display:flex; gap:6px; margin:4px 0 10px; flex-wrap:wrap} .ntabs button{background:var(--panel2); border:1px solid var(--line); color:var(--sub); border-radius:999px; padding:6px 14px; font:inherit; font-size:14px; cursor:pointer}
 .ntabs button.on{background:var(--accent); color:var(--accent-ink); border-color:var(--accent); font-weight:700}
@@ -13156,7 +13178,7 @@ const WX = (()=>{
   // 날씨 입자: z(0=멀리 ~ 1=바로 앞). 멀수록 작고 느리고 흐림. 화면 좌표는 무대 좌표(480×270)로 계산
   function spawn(init){ const z = Math.random() ** 0.8;
     return {x: rand(-20, SW + 20), y: init ? rand(-10, SH) : -8, z, v: 0.6 + Math.random() * 0.8, ph: Math.random() * 6.28}; }
-  function on(){ return !!field() && field().offsetParent !== null && $("body-dungeon") && !$("body-dungeon").hidden && !!region; }   // 즉시 모드에서도 무대·배치는 그림
+  function on(){ return !!field() && (field().offsetParent !== null || document.body.classList.contains("titling")) && $("body-dungeon") && !$("body-dungeon").hidden && !!region; }   // v0.141 첫 화면에서는 무대를 전체 화면(고정 위치)으로 폄   // 즉시 모드에서도 무대·배치는 그림
   /* ---- 화면 맞춤(가득 채움) ---- */
   function fit(){ const f = field(); const r = f.getBoundingClientRect(); const s = Math.max(r.width / SW, r.height / SH); const ox = (r.width - SW * s) / 2, oy = Math.min(0, (r.height - SH * s) * 0.65);
     return {r, s, ox, oy, hzY: oy + HZ * s, bot: Math.min(r.height, oy + SH * s)}; }
@@ -17618,6 +17640,8 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.21", v:"v0.141", t:"첫 화면", L:[
+    "화면 개선"]},
   {d:"2026.11.21", v:"v0.140", t:"게임 이름", L:[
     "게임 이름이 '밤 원정대'로 바뀜"]},
   {d:"2026.11.20", v:"v0.139", t:"이용 연령", L:[
@@ -17798,28 +17822,49 @@ function fmtDate(t){ if(!t) return ""; const d=new Date(t); return `${d.getFullY
 function fmtPlay(sec){ sec=sec|0; const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h?`${h}시간 ${m}분`:`${m}분`; }
 
 // ---- 첫 화면: 게스트 / Google 로그인 → [게임 시작]. 한 번 로그인하면 다음부터는 로그인된 채로 이 화면이 뜸 ----
+// v0.141 첫 화면 장면: 대기실 무대(모닥불 야영지)를 전체 화면으로 펴고, 그 위에 영웅들을 모닥불 둘레에 세움
+//   영웅 = 이 기기에 저장된 출전 파티(없으면 기본 영웅 9명) · 불 뒤쪽 반원에 세움(불 앞은 단추 자리)
+function titleCrew(){ let ids=CLASS_IDS.slice(); try{ const P=JSON.parse(localStorage.getItem("pn_progress_v02")||"null"); const L=P&&Array.isArray(P.party)?P.party.filter(c=>CLASSES[c]):[]; if(L.length) ids=L; }catch(e){} return ids; }
+function titleSceneOn(el){
+  try{ if(typeof WX==="undefined"||!WX.campGeom) return null; document.body.classList.add("titling"); WX.start(true); WX.layout(); try{ KA.kick(); }catch(e){}
+    const g=WX.campGeom(); if(!g||!g.arR||!g.arR.width||!WX.on()){ document.body.classList.remove("titling"); return null; }
+    el.classList.add("scene"); const crew=document.createElement("div"); crew.className="ttl-crew"; const ui=document.createElement("div"); el.append(crew,ui);
+    const ids=titleCrew(), n=ids.length;
+    crew.innerHTML=ids.map((c,i)=>`<i style="--d:${(i*0.37%1.6).toFixed(2)}s"><img src="${SPRITES[CLASSES[c].sprite]}" alt="" style="animation-delay:calc(var(--d) * -1)"></i>`).join("");
+    const place=()=>{ try{ WX.layout(); const g=WX.campGeom(); if(!g||!g.arR) return; const W=innerWidth, H=innerHeight, cx=g.arR.left+g.cx, cy=g.arR.top+g.cy;
+      const base=Math.max(0.55,Math.min(1,H/(H<=560?470:540))), rx=Math.min(W*0.42,Math.max(W*0.3,110*base+n*38*base)), ry=Math.min(rx*0.32,cy*0.42);
+      const ang=i=>n<2?-90:-172+144*i/(n-1);   // 왼쪽 옆(-172°)에서 불 뒤를 지나 오른쪽 옆(-28°)까지
+      [...crew.children].forEach((e,i)=>{ const a=ang(i)*Math.PI/180, x=cx+Math.cos(a)*rx, y=cy+Math.sin(a)*ry, depth=Math.max(0,Math.min(1,(y-(cy-ry))/Math.max(1,2*ry)));
+        const sz=88*(0.82+0.22*depth)*base*0.95*(n>=7?0.86:1); e.style.left=x.toFixed(1)+"px"; e.style.top=y.toFixed(1)+"px"; e.style.width=e.style.height=sz.toFixed(1)+"px"; e.style.zIndex=String(10+Math.round(depth*60)); e.classList.toggle("fl",x>cx); }); }catch(e){} };
+    place(); setTimeout(place,120); addEventListener("resize",place); TITLE_PLACE=place;
+    return {ui}; }catch(e){ document.body.classList.remove("titling"); return null; } }
+let TITLE_PLACE=null;
+function titleSceneOff(){ document.body.classList.remove("titling"); if(TITLE_PLACE){ removeEventListener("resize",TITLE_PLACE); TITLE_PLACE=null; } try{ WX.layout(); }catch(e){} }
 function titleScreen(){
   const N=NET();
   return new Promise(done=>{
     const el=document.createElement("div"); el.id="title"; document.body.appendChild(el); try{ SND.scene("title"); }catch(e){}   // v0.94 타이틀 곡(첫 터치에 시작)
     const heroes=CLASS_IDS.map(c=>`<img src="${SPRITES[CLASSES[c].sprite]}" alt="">`).join("");
-    const frame=inner=>`<div class="ttl-box"><div class="ttl-eyebrow">FELLOWSHIP OF THE NIGHT</div><h1>밤 원정대</h1>
+    const scene=titleSceneOn(el);   // v0.141 모닥불 야영지 장면 — 안 되면 예전 첫 화면
+    const frame=inner=>scene?`<div class="ttl-top"><div class="ttl-eyebrow">FELLOWSHIP OF THE NIGHT</div><h1>밤 원정대</h1></div><div class="ttl-ui">${inner}</div><div class="ttl-ver">테스트판 ${esc(gameVersion())}</div>`
+      :`<div class="ttl-box"><div class="ttl-eyebrow">FELLOWSHIP OF THE NIGHT</div><h1>밤 원정대</h1>
       <p class="ttl-sub">영원한 밤을 걷는 자동전투 RPG · 테스트판 ${esc(gameVersion())}</p><div class="ttl-heroes">${heroes}</div>${inner}</div>`;
+    const ui=scene?scene.ui:el;
     let outArm=false;
     const msg=t=>{ const m=el.querySelector("#tMsg"); if(m) m.innerHTML=t||""; };
     const finish=()=>{ const st=N.auth.state();
       try{ const last=safeGet("pn_last_uid"); if(st&&last&&last!==st.uid){ try{ const pg=safeGet("pn_progress_v02"), rl=safeGet("pn_rules_v01"); if(pg){ const P=JSON.parse(pg); if(P&&P.heroes&&hasMeaningfulProgress(P)) safeSet("pn_local_backup",JSON.stringify({progress:P, rules:rl?JSON.parse(rl):null, at:Date.now(), why:"switch", uid:last, anon:safeGet("pn_last_anon")==="1"})); } }catch(x){}   // v0.94 지우기 전에 백업
           for(const k of ["pn_progress_v02","pn_rules_v01"]) localStorage.removeItem(k); } if(st){ safeSet("pn_last_uid",st.uid); safeSet("pn_last_anon",st.anon?"1":"0"); } }catch(e){}   // 다른 계정으로 바꿔 들어오면 이 기기의 예전 진행을 섞지 않음
-      el.classList.add("out"); setTimeout(()=>el.remove(),260); done(); };
+      el.classList.add("out"); setTimeout(()=>{ el.remove(); titleSceneOff(); },260); done(); };
     const render=()=>{ const st=N.auth.state(); outArm=false;
       if(!st){
-        el.innerHTML=frame(`<div class="ttl-btns"><button class="btn" id="tGuest">게스트로 시작</button>
+        ui.innerHTML=frame(`<div class="ttl-btns"><button class="btn" id="tGuest">게스트로 시작</button>
           <button class="btn ghost ttl-g" id="tGoogle"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.3c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2-1.9 3.3-4.7 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.5-2.7c-1 .7-2.3 1.1-3.8 1.1-2.9 0-5.4-2-6.3-4.6H2.1v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.7 14.1a6.6 6.6 0 0 1 0-4.2V7.1H2.1a11 11 0 0 0 0 9.8z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.1-3.1A11 11 0 0 0 2.1 7.1l3.6 2.8C6.6 7.4 9.1 5.4 12 5.4z"/></svg>Google로 로그인</button></div>
-          <p class="ttl-note">게스트는 이 기기에서만 이어집니다. Google로 로그인하면 휴대폰·PC 어디서나 같은 진행이 이어져요.</p><p class="ttl-msg" id="tMsg"></p>`);
+          <p class="ttl-msg" id="tMsg"></p>`);
         el.querySelector("#tGuest").onclick=async()=>{ msg("들어가는 중…"); try{ await N.auth.guest(); render(); }catch(e){ fail(e); } };
         el.querySelector("#tGoogle").onclick=async()=>{ msg("Google 창을 여는 중…"); try{ const r=await N.auth.google(); if(r) render(); }catch(e){ if(e&&/popup-closed|cancelled-popup/.test(e.code||"")){ msg(""); return; } fail(e); } };
         return; }
-      el.innerHTML=frame(`<p class="ttl-who">${st.anon?"👤 게스트로 로그인됨":"🔑 "+esc(st.email||st.name||"Google 계정")}</p>
+      ui.innerHTML=frame(`<p class="ttl-who">${st.anon?"👤 게스트로 로그인됨":"🔑 "+esc(st.email||st.name||"Google 계정")}</p>
         <div class="ttl-btns"><button class="btn ttl-start" id="tStart">게임 시작</button>${st.anon&&N.auth.linkGoogle?`<button class="btn ghost" id="tLink0">Google 계정 연결(진행 유지)</button>`:""}</div>
         <button class="ttl-out" id="tOut">로그아웃</button><p class="ttl-msg" id="tMsg"></p>`);
       el.querySelector("#tStart").onclick=gate;
@@ -17831,18 +17876,18 @@ function titleScreen(){
     // v0.132 접속 막힌 계정은 들어가지 못함 · 관리자가 '기기 진행도 지우기'를 고른 계정은 이 기기 진행을 지우고 새로 시작(초대 코드는 없앰)
     const gate=async()=>{ if(!N.acct){ finish(); return; } const b=el.querySelector("#tStart"); if(b){ b.disabled=true; b.textContent="확인 중…"; }
       let r={}; try{ r=await N.acct.status()||{}; }catch(e){}
-      if(r.ban){ el.innerHTML=frame(`<p class="ttl-note">접속이 막힌 계정입니다.</p><button class="ttl-out" id="tOut2">다른 계정으로 로그인</button><p class="ttl-msg" id="tMsg"></p>`);
+      if(r.ban){ ui.innerHTML=frame(`<p class="ttl-note">접속이 막힌 계정입니다.</p><button class="ttl-out" id="tOut2">다른 계정으로 로그인</button><p class="ttl-msg" id="tMsg"></p>`);
         el.querySelector("#tOut2").onclick=async()=>{ msg("로그아웃하는 중…"); try{ await N.auth.logout(); }catch(e){} render(); }; return; }
       if(r.wipe){ try{ for(const k of ["pn_progress_v02","pn_rules_v01","pn_run_lock"]) localStorage.removeItem(k); }catch(e){} try{ await N.acct.wipeDone(); }catch(e){} }
       // v0.133 동시 접속: 지금 접속 중인 사람이 정원(ONLINE_CAP)이면 들어가지 않고 연결을 쉼 — 관리자는 늘 들어감
       if(N.online){ const n=await onlineFull(N); if(n){ N.online.sleep();
-          el.innerHTML=frame(`<p class="ttl-note">지금 접속자가 가득 찼어요 (${n} / ${ONLINE_CAP})</p><div class="ttl-btns"><button class="btn ttl-start" id="tRetry">다시 시도</button></div><p class="ttl-msg" id="tMsg"></p>`);
+          ui.innerHTML=frame(`<p class="ttl-note">지금 접속자가 가득 찼어요 (${n} / ${ONLINE_CAP})</p><div class="ttl-btns"><button class="btn ttl-start" id="tRetry">다시 시도</button></div><p class="ttl-msg" id="tMsg"></p>`);
           el.querySelector("#tRetry").onclick=()=>{ N.online.wake(); el.querySelector("#tRetry").disabled=true; el.querySelector("#tRetry").textContent="확인 중…"; gate(); }; return; }
         N.online.join().catch(()=>{}); }
       finish(); };
     const fail=e=>{ msg(`로그인하지 못했어요 (${esc((e&&(e.code||e.message))||"알 수 없음")}). 인터넷 연결을 확인해 주세요. <button class="ttl-link" id="tOff">이 기기에만 저장하고 시작</button>`);
-      const o=el.querySelector("#tOff"); if(o) o.onclick=()=>{ N.auth.offline(); el.remove(); done(); }; };
-    el.innerHTML=frame(`<p class="ttl-note">서버에 연결하는 중…</p>`);
+      const o=el.querySelector("#tOff"); if(o) o.onclick=()=>{ N.auth.offline(); el.remove(); titleSceneOff(); done(); }; };
+    ui.innerHTML=frame(`<p class="ttl-note">서버에 연결하는 중…</p>`);
     N.auth.init().then(()=>{ render(); const er=N.auth.lastError&&N.auth.lastError(); if(er) fail(er); });
   });
 }
