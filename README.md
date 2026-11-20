@@ -1,4 +1,4 @@
-# 프로젝트 나이트 — 모바일 테스트용
+# 밤 원정대 — 모바일 테스트용
 
 게임 주소: https://sueungong.github.io/project-night-play/
 
