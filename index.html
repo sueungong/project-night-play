@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795194478900"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795200131768"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1115,6 +1115,8 @@ button.dis{background:var(--raised); color:#9fd9ff; border:1px solid #2c4a6b; bo
 .coop-chat{display:flex; flex-direction:column; gap:8px; padding:14px; position:sticky; top:0}
 .coop-msgs{height:min(52vh,460px); overflow:auto; display:flex; flex-direction:column; gap:4px; font-size:14.5px; line-height:1.5; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:8px 10px}
 .coop-msgs b{color:var(--party)} .coop-msgs .me b{color:var(--accent)}
+.coop-chead{display:flex; align-items:center; justify-content:space-between; gap:8px} .coop-blk{display:flex; flex-direction:column; gap:4px; font-size:13px} .coop-blk>div{display:flex; justify-content:space-between; align-items:center; gap:8px}
+.coop-nick{background:none; border:0; padding:0; font:inherit; font-weight:700; color:var(--party); cursor:pointer; text-decoration:underline dotted} .coop-act{display:inline-flex; gap:4px; margin-left:6px; vertical-align:middle}
 @media (max-width:900px) and (max-aspect-ratio:7/10){ .coopgrid{grid-template-columns:minmax(0,1fr)} .coop-chat{position:static} .coop-msgs{height:40vh} }
 /* v0.20 휴대폰(세로) — 디자인 시안: 아래 탭 메뉴, 위 짧은 머리줄, 전장은 아군/적 두 줄 카드, 조작대는 탭 위에 붙음 */
 @media (max-width:640px) and (max-aspect-ratio:7/10){
@@ -1714,11 +1716,8 @@ body.titling .field > :not(#stageBg):not(#stageLoWrap):not(.arena){visibility:hi
 @media (max-width:900px),(max-height:560px){ .cosslots{grid-template-columns:repeat(2,minmax(0,1fr))} .bagtabs button{font-size:12px; padding:0 4px} }
 .costop{display:flex; gap:10px; align-items:stretch} .costop .cosslots{flex:1; grid-template-columns:repeat(2,minmax(0,1fr))}
 .cosnow{flex:0 0 132px; height:110px; border:1px solid var(--line); border-radius:12px; background:#0b1020; display:block} .cosnow canvas{width:100%; height:100%; image-rendering:pixelated}
-#ageNote{position:fixed; inset:0; z-index:10001; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; padding:16px; text-align:center; font-weight:700; font-size:clamp(28px,7vw,64px); letter-spacing:.02em; transition:opacity .5s}
-#ageNote.out{opacity:0; pointer-events:none}
 </style>
 
-<div id="ageNote">만 14세 이상 이용 가능</div>
 <div id="rotateHint" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 4.5h3M17 19.5h-3M19 4l2 2-2 2"/></svg><b>가로 화면에서 플레이해 주세요</b><span>밤 원정대는 전장을 온전히 보도록 가로로 긴 화면만 지원합니다.<br>휴대폰은 가로로 돌려 주세요. PC는 창을 가로로 넓혀 주세요.</span><button id="rotGo" class="btn" onclick="fsLandscape(true)" hidden>📱 가로 전체 화면으로 시작</button><small id="rotDiag" style="color:var(--muted);font-size:12px"></small></div>
 <div class="app">
   <header class="topbar">
@@ -12544,7 +12543,7 @@ const POP = (()=>{
       x: r.left + r.width / 2 + dir * r.width * 0.36, y: r.top + r.height * 0.12 - stack * P0 * 7, rot: (crit ? -0.18 : (Math.random() - 0.5) * 0.16) * dir});
     if(!raf) raf = requestAnimationFrame(draw); }
   /* v0.126 치명타 연출 점 다듬기: 점 하나 = P(영웅 반 칸) 그대로, 모양을 도트 그림(별 · 번개 · 동전 · 띠 · 빛살 · 테두리)으로 */
-  function pat(g, rows, cx, cy, P, pal){ const h = rows.length, w = rows[0].length, x0 = Math.round(cx - w * P / 2), y0 = Math.round(cy - h * P / 2), q = Math.max(1, Math.round(P));
+  function pat(g, rows, cx, cy, P, pal){ if(!rows || !rows.length) return; const h = rows.length, w = rows[0].length, x0 = Math.round(cx - w * P / 2), y0 = Math.round(cy - h * P / 2), q = Math.max(1, Math.round(P));
     for(let y = 0; y < h; y++) for(let x = 0; x < w; x++){ const c = pal[rows[y][x]]; if(!c) continue; g.fillStyle = c; g.fillRect(x0 + x * q, y0 + y * q, q, q); } }
   const STAR = ["...a...", "...b...", "..cbc..", "abbwbba", "..cbc..", "...b...", "...a..."], STAR2 = ["..a..", "..b..", "abwba", "..b..", "..a.."];
   const COIN = [[".ooo.", "ohyyo", "oyyyo", "oyydo", ".ooo."], ["..o..", ".oho.", ".oyo.", ".odo.", "..o.."], ["..o..", "..o..", "..o..", "..o..", "..o.."]];
@@ -12552,7 +12551,7 @@ const POP = (()=>{
     for(let i = 0; i < 8; i++){ const a = i / 8 * Math.PI * 2 + 0.3, L = i % 2 ? 2 : 3; for(let j = 0; j < L; j++){ const r = R - j * P; x.fillStyle = j === 0 ? "#ffffff" : j === 1 ? "#ffe25a" : "#ff9a3c"; x.fillRect(Math.round(px + Math.cos(a) * r - q / 2), Math.round(py + Math.sin(a) * r * 0.75 - q / 2), q, q); } }
     x.restore(); }
   // v0.58 치명타 연출 8종(g 캔버스 · 숫자 가운데 px,py · 도트 P · t 0~1초)
-  function critFx(g, cs, px, py, P, t){ const a0 = g.globalAlpha; const sq = (x, y, s, c) => { g.fillStyle = c; g.fillRect(Math.round(x - s / 2), Math.round(y - s / 2), Math.max(1, Math.round(s)), Math.max(1, Math.round(s))); };
+  function critFx(g, cs, px, py, P, t){ t = Math.max(0, t); const a0 = g.globalAlpha; const sq = (x, y, s, c) => { g.fillStyle = c; g.fillRect(Math.round(x - s / 2), Math.round(y - s / 2), Math.max(1, Math.round(s)), Math.max(1, Math.round(s))); };   // v0.144 그리기 시각이 떠오른 시각보다 이르면(t<0) 동전 그림 번호가 음수가 되어 멈추던 것
     switch(cs){
       case "crit_ring": if(t < 0.45){ const k = t / 0.45; g.globalAlpha = 1 - k * 0.8; for(const [r0, c] of [[4 + k * 14, k < 0.3 ? "#fff1b8" : k < 0.6 ? "#ffd23f" : "#ff9a3c"], [k > 0.2 ? 2 + (k - 0.2) * 10 : 0, "#ff9a3c"]]){ if(!r0) continue; for(let a = 0; a < 6.28; a += 0.2) sq(px + Math.cos(a) * r0 * P, py + Math.sin(a) * r0 * P * 0.7, P * 1.5, c); } } break;
       case "crit_band": if(t < 0.55){ const k = t / 0.55, q = Math.max(1, Math.round(P)), bw = Math.round(34 * P / q) * q, bh = 6 * q, bx = Math.round(px - bw / 2 + (k - 0.5) * P * 26), by = Math.round(py - P * 9 - bh / 2); g.globalAlpha = k > 0.7 ? (1 - k) / 0.3 : 1;
@@ -17111,12 +17110,11 @@ async function egNode(z){
     const i=await ask(`떠돌이 상인이 보따리를 펼친다. (금화 ${E.coins})`, c.map(k=>`${egRelicLabel(k)} · 금화 ${price}`).concat(["붕대 — 전원 체력 40% 회복 · 금화 3","그냥 지나간다"]));
     if(i<c.length){ if(E.coins>=price){ E.coins-=price; egGain(c[i]); } else logLine(`<span class="r">금화가 모자라다 (${E.coins}/${price}).</span>`); }
     else if(i===c.length){ if(E.coins>=3){ E.coins-=3; for(const u of runState.party){ if(!u.alive){ u.alive=true; u.hp=1; } u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.4)); } logLine(`<span class="heal">붕대로 상처를 감쌌다 (체력 40% 회복)</span>`); } else logLine(`<span class="r">금화가 모자라다.</span>`); } }
-  else if(z.type==="event"){ const k=ri(0,2);
+  else if(z.type==="event"){ const k=ri(0,1);   // v0.142 주사위꾼(금화 걸기) 사건은 뺌(콘텐츠 등급 · 사용자 결정 2026-11-21)
     if(k===0){ const i=await ask("핏빛 제단이 속삭인다 — '피를 바치면 힘을 주마.'", ["전원 체력 25%를 바치고 유물을 받는다","지나간다"]);
       if(i===0){ for(const u of runState.party) if(u.alive) u.hp=Math.max(1,u.hp-Math.floor(u.hp_max*0.25)); const c=egRelicChoices(1); if(c[0]) egGain(c[0]); } }
     else if(k===1){ await ask("맑은 샘을 찾았다. 모두 물을 마시고 숨을 고른다.", ["좋다"]); for(const u of runState.party){ if(!u.alive){ u.alive=true; u.hp=1; } u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.6)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*0.6)); } logLine(`<span class="heal">샘물 — 전원 체력·마나 60% 회복</span>`); }
-    else { const i=await ask(`주사위꾼이 판을 벌인다. (금화 ${E.coins})`, ["금화 3을 건다 (이기면 +5)","지나간다"]);
-      if(i===0){ if(E.coins<3) logLine(`<span class="r">걸 금화가 없다.</span>`); else if(Math.random()<0.5){ E.coins+=5; logLine(`<span class="win">🎲 이겼다! 금화 +5</span>`); } else { E.coins-=3; logLine(`<span class="lose">🎲 졌다… 금화 -3</span>`); } } } }
+  }
   telling=false; saveProgress(); advanceZone();
 }
 function egShards(n,why){ if(!n) return; const E=egState(); E.shards+=n; runState.gains.shards=(runState.gains.shards||0)+n; logLine(`<span class="gain">🌅 새벽 파편 +${n}${why?` — ${esc(why)}`:""} (보유 ${E.shards})</span>`); }
@@ -17640,6 +17638,14 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.21", v:"v0.144", t:"첫 화면", L:[
+    "화면 개선",
+    "오류 수정"]},
+  {d:"2026.11.21", v:"v0.143", t:"함께하기 채팅", L:[
+    "채팅에서 다른 사람 이름을 누르면 차단 · 신고",
+    "처음 채팅을 보낼 때 채팅 규칙에 한 번 동의"]},
+  {d:"2026.11.21", v:"v0.142", t:"원정 사건", L:[
+    "원정의 '주사위꾼' 사건(금화를 걸고 주사위)을 없앰 — 사건은 핏빛 제단 · 맑은 샘 두 가지"]},
   {d:"2026.11.21", v:"v0.141", t:"첫 화면", L:[
     "화면 개선"]},
   {d:"2026.11.21", v:"v0.140", t:"게임 이름", L:[
@@ -18282,8 +18288,24 @@ function coopSnap(cid){
       ex[id]=d; } u.skillsEx=ex; u._exDiff=true; }   // v0.85: 기본 기술과 다른 항목만(크기)
   return JSON.parse(JSON.stringify(u,(k,v)=>typeof v==="number"&&!Number.isInteger(v)?Math.round(v*10000)/10000:v));
 }
+// ---------- v0.143 채팅 차단 · 신고 · 규칙 동의(구글 플레이 사용자 제작 콘텐츠 정책) ----------
+//   차단: 그 계정의 채팅을 내 화면에서 숨김(계정 진행에 기억 · 함께하기 채팅 칸의 '차단'에서 풀기) · 신고: 운영 도구 의견 목록에 '🚩 신고'로(대상 계정 ID · 글)
+//   규칙 동의: 처음 채팅을 보낼 때 한 번 — 계정 진행에 기억
+const CHAT_RULES="욕설 · 비방, 음란 · 혐오 표현, 개인정보 공개, 광고 · 도배를 하지 않습니다. 어기면 신고에 따라 채팅이나 접속이 막힐 수 있습니다.";
+function chatUid(p){ return String((p&&(p.uid||String(p.peer||"").split("_")[0]))||"").slice(0,64); }
+function chatBlocks(){ if(!progress) return []; if(!Array.isArray(progress.chatBlock)) progress.chatBlock=[]; return progress.chatBlock; }
+function chatBlocked(uid){ return !!uid&&chatBlocks().some(b=>b&&b.u===uid); }
+function chatBlock(uid,nick){ if(!uid||chatBlocked(uid)) return; const L=chatBlocks(); L.push({u:uid,n:String(nick||"?").slice(0,12),at:Date.now()}); if(L.length>200) L.splice(0,L.length-200);
+  for(const k of ["lobbyChat","roomChat"]) COOP[k]=COOP[k].filter(m=>m.u!==uid); saveProgress(); }
+function chatUnblock(uid){ if(!progress) return; progress.chatBlock=chatBlocks().filter(b=>b&&b.u!==uid); saveProgress(); }
+async function chatReport(m,where){ const N=NET(); if(!N||!N.ops||!N.ops.feedback) throw new Error("서버 연결이 없습니다");
+  await N.ops.feedback({cat:"🚩 신고", t:`대상: ${m.nick} · 계정 ID ${m.u}\n${where==="room"?"방":"로비"} 채팅: ${m.t}`, tu:m.u, ver:gameVersion(), name:progress&&progress.protag?progress.protag.name:""}); }
+function chatRulesAsk(then){ const md=openModal(`<h3>채팅 규칙</h3><p>${esc(CHAT_RULES)}</p><div class="mfoot"><button class="btn" id="crOk">동의</button><button class="btn ghost" id="crNo">취소</button></div>`);
+  md.querySelector("#crOk").onclick=()=>{ if(progress){ progress.chatRules=Date.now(); saveProgress(); } closeModal(); then(); };
+  md.querySelector("#crNo").onclick=()=>closeModal(); }
 // 채팅: 각자의 최근 4줄을 상태에 싣고, 받는 쪽은 처음 보는 줄만 이어 붙인다
 function coopSay(where,text){
+  if(!(progress&&progress.chatRules)&&String(text||"").trim()){ chatRulesAsk(()=>{ coopSay(where,text); for(const id of ["coopChatIn","lbIn"]){ const e=$(id); if(e) e.value=""; } }); return false; }   // v0.143 처음 한 번 채팅 규칙 동의
   text=String(text||"").replace(/[\u0000-\u001f\u007f​-‏‪-‮⁠-⁯﻿]/g," ").trim().slice(0,COOP_MAX_CHAT);
   if(!text) return;
   const m={i:coopRid(6), t:text, a:Date.now()};
@@ -18294,7 +18316,8 @@ function coopReadChat(peers,where){
   const list=where==="room"?COOP.roomChat:COOP.lobbyChat; let added=false;
   for(const p of peers){ const ch=p.presence&&p.presence.chat; if(!Array.isArray(ch)) continue;
     for(const m of ch){ if(!m||typeof m.t!=="string"||typeof m.i!=="string") continue; const key=where+"|"+p.peer+"|"+m.i; if(COOP.seen[key]) continue; COOP.seen[key]=1;
-      list.push({nick:String(p.presence.nick||"?").slice(0,12), t:m.t.slice(0,COOP_MAX_CHAT), a:+m.a||Date.now(), me:p.isMe&&p.sameTab}); added=true;
+      const uid=chatUid(p); if(!p.isMe&&chatBlocked(uid)) continue;   // v0.143 차단한 사람의 글은 받지 않음
+      list.push({nick:String(p.presence.nick||"?").slice(0,12), t:m.t.slice(0,COOP_MAX_CHAT), a:+m.a||Date.now(), me:p.isMe&&p.sameTab, u:uid, i:m.i}); added=true;
       if(where==="room"&&Math.abs(Date.now()-(+m.a||0))<15000) coopLobbyBubble(p.peer,m.t.slice(0,COOP_MAX_CHAT)); } }
   if(added){ list.sort((x,y)=>x.a-y.a); if(list.length>80) list.splice(0,list.length-80); }
 }
@@ -18686,8 +18709,10 @@ function renderCoop(){
     </div>`;
   }
   const chat=COOP.nr?COOP.roomChat:COOP.lobbyChat;
-  const chatHtml=`<div class="panel coop-chat"><h3>${COOP.nr?"방 채팅":"로비 채팅"}</h3>
-    <div class="coop-msgs" id="coopMsgs">${chat.length?chat.map(m=>`<div class="${m.me?"me":""}"><b>${esc(m.nick)}</b> ${esc(m.t)}</div>`).join(""):`<div class="ph-sub">아직 대화가 없습니다.</div>`}</div>
+  const BL=chatBlocks();
+  const chatHtml=`<div class="panel coop-chat"><div class="coop-chead"><h3>${COOP.nr?"방 채팅":"로비 채팅"}</h3>${BL.length?`<button class="mini" id="coopBlk">차단 ${BL.length}</button>`:""}</div>
+    ${COOP.blkOpen&&BL.length?`<div class="coop-blk">${BL.map(b=>`<div><b>${esc(b.n)}</b><button class="mini" data-unblk="${esc(b.u)}">풀기</button></div>`).join("")}</div>`:""}
+    <div class="coop-msgs" id="coopMsgs">${chat.length?chat.map((m,k)=>`<div class="${m.me?"me":""}">${m.me||!m.u?`<b>${esc(m.nick)}</b>`:`<button class="coop-nick" data-k="${k}">${esc(m.nick)}</button>`} ${esc(m.t)}${COOP.chatPick===k&&!m.me?`<span class="coop-act"><button class="mini" data-cblk="${k}">차단</button><button class="mini" data-crep="${k}">${COOP.repArm===k?"한 번 더 누르면 신고":"신고"}</button></span>`:""}</div>`).join(""):`<div class="ph-sub">아직 대화가 없습니다.</div>`}</div>
     <form class="coop-row" id="coopChatForm"><input id="coopChatIn" maxlength="${COOP_MAX_CHAT}" placeholder="메시지 (최대 ${COOP_MAX_CHAT}자)" aria-label="채팅 입력" autocomplete="off"><button class="btn coop-go" type="submit">보내기</button></form></div>`;
   const keepIn=$("coopChatIn"), keep=keepIn?keepIn.value:"", hadFocus=document.activeElement===keepIn;
   const keepT=$("coopTitle"), kt=keepT?keepT.value:"";
@@ -18706,7 +18731,13 @@ function renderCoop(){
   on("coopRegion","change",e=>{ COOP.rk=e.target.value; coopPushRoom(); coopPushLobby(); coopRender(); });
   on("coopMode","change",async e=>{ COOP.mode=EG_MODES[e.target.value]?e.target.value:null; if(COOP.ready) await coopRepack(); coopPushRoom(); coopPushLobby(); coopRender(); });
   on("coopEgStart","change",e=>{ COOP.egStart=+e.target.value||1; coopPushRoom(); coopRender(); });
-  on("coopChatForm","submit",e=>{ e.preventDefault(); const i=$("coopChatIn"); coopSay(COOP.nr?"room":"lobby",i.value); i.value=""; });
+  on("coopChatForm","submit",e=>{ e.preventDefault(); const i=$("coopChatIn"); if(coopSay(COOP.nr?"room":"lobby",i.value)!==false) i.value=""; });
+  on("coopBlk","click",()=>{ COOP.blkOpen=!COOP.blkOpen; coopRender(); });
+  for(const b of pane.querySelectorAll("[data-unblk]")) b.addEventListener("click",()=>{ chatUnblock(b.dataset.unblk); coopRender(); });
+  for(const b of pane.querySelectorAll(".coop-nick")) b.addEventListener("click",()=>{ const k=+b.dataset.k; COOP.chatPick=COOP.chatPick===k?null:k; COOP.repArm=null; coopRender(); });
+  for(const b of pane.querySelectorAll("[data-cblk]")) b.addEventListener("click",()=>{ const m=chat[+b.dataset.cblk]; if(m){ chatBlock(m.u,m.nick); toast(`🚫 ${esc(m.nick)} 차단`); } COOP.chatPick=null; coopRender(); });
+  for(const b of pane.querySelectorAll("[data-crep]")) b.addEventListener("click",async()=>{ const k=+b.dataset.crep, m=chat[k]; if(!m) return; if(COOP.repArm!==k){ COOP.repArm=k; coopRender(); return; }
+    COOP.repArm=null; COOP.chatPick=null; try{ await chatReport(m,COOP.nr?"room":"lobby"); toast(`🚩 ${esc(m.nick)} 신고`); }catch(e){ toast("신고하지 못했어요"); } coopRender(); });
 }
 
 /* ---- v0.94 함께하기 대기실: 방에 있는 동안 게임 화면은 방장의 모닥불 대기실. 모두의 영웅이 모이고, 채팅은 머리 위 말풍선,
@@ -18755,7 +18786,7 @@ function coopLobbyBox(){ const f=document.querySelector(".field"); if(!f) return
     box.innerHTML=`<div class="lbm" id="lbMsgs" aria-live="polite"></div>
       <form id="lbForm"><input id="lbIn" maxlength="${COOP_MAX_CHAT}" placeholder="방 채팅…" aria-label="방 채팅" autocomplete="off"><button class="lbsend" type="submit">보내기</button></form>`;
     f.appendChild(box); box.addEventListener("click",e=>e.stopPropagation());
-    $("lbForm").addEventListener("submit",e=>{ e.preventDefault(); const i=$("lbIn"); coopSay("room",i.value); i.value=""; }); }
+    $("lbForm").addEventListener("submit",e=>{ e.preventDefault(); const i=$("lbIn"); if(coopSay("room",i.value)!==false) i.value=""; }); }
   const ms=$("lbMsgs"), last=COOP.roomChat.slice(-4), now=Date.now();   // v0.94 투명 채팅: 줄은 14초 뒤 사라지고, 입력칸을 누르면 다시 보임
   const key=last.map(m=>m.a+m.t).join("|"); if(ms.dataset.k===key) return; ms.dataset.k=key;
   ms.innerHTML=last.map(m=>`<div class="${m.me?"me":""}" style="animation-delay:-${Math.max(0,Math.min(14,(now-m.a)/1000)).toFixed(1)}s"><b>${esc(m.nick)}</b>${esc(m.t)}</div>`).join(""); }
@@ -18794,9 +18825,6 @@ function confirmLeaveRun(){ COOP.notice="함께 던전 진행 중에는 방을 �
 
 (function(){ const upd=()=>{ const d=document.getElementById('dock'); if(d) document.documentElement.style.setProperty('--dockh',d.offsetHeight+'px'); };
   try{ new ResizeObserver(upd).observe(document.getElementById('dock')); }catch(e){} addEventListener('resize',upd); setTimeout(upd,300); })();
-// v0.139 시작할 때 '만 14세 이상 이용 가능' 검은 화면(불러오기가 끝나도 1.5초는 보임)
-(function(){ const el=document.getElementById("ageNote"); if(!el) return; const T=performance.timing, t0=T&&T.navigationStart?Date.now()-T.navigationStart:performance.now();
-  const wait=navigator.webdriver?0:Math.max(0,1500-t0); setTimeout(()=>{ el.classList.add("out"); setTimeout(()=>el.remove(),550); },wait); })();
 (function(){ const go=()=>{ window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {}); };
   // v0.93 휴대폰 주소(서버 연결)에서는 첫 화면(로그인)을 지나야 게임이 시작되고, 시작하면 공지 창이 뜸
   if(NET()) titleScreen().then(()=>{ go(); acctWatchStart(); idleStart(); setTimeout(()=>{ try{ if(!$("modal")) openNotices(); }catch(e){} mailRefresh(); setInterval(mailRefresh,180000); },1600); });

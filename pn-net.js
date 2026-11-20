@@ -27,7 +27,7 @@
     let state = {}, cache = {}, live = true; const handlers = [], offs = [];
     const snap = () => Object.entries(cache).map(([peer, v]) => {
       let presence = {}; try { presence = JSON.parse(v.j) || {}; } catch (e) {}
-      return { peer, presence, isMe: v.u === user.uid, sameTab: peer === me, kind: "viewer", guest: false, by: null, updatedAt: v.at || 0 };
+      return { peer, uid: v.u || "", presence, isMe: v.u === user.uid, sameTab: peer === me, kind: "viewer", guest: false, by: null, updatedAt: v.at || 0 };
     });
     const fire = () => { const s = snap(); for (const h of handlers) try { h.fn({ peers: s, joined: [], left: [], updated: [] }); } catch (e) { console.warn(e); } };
     const onVal = s => { cache = s.val() || {}; fire(); };
