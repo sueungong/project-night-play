@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795385411451"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795387725237"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11410,6 +11410,48 @@ const HELM_STAR={rare:{c:[236,242,255],per:1820},epic:{c:[214,170,255],per:1540}
 /* ---------- v0.169 무대 날씨 자료 ---------- */
 const WEATHER = {"camp_midnight":["snow"],"swamp":["fog","fireflies","rain"],"volcano":["embers","ash"],"sunken":["rain","bubbles","fog"],"forest":["leaves","motes","rain"],"gold":["dust","motes"],"desert":["sand","heat"],"temple":["petals","motes"],"citadel":["storm","rain","fog"],"throne":["embers_purple","fog"],"altar":["snow","motes"],"abyss":["embers_purple","motes"],"starfall":["motes"]};
 
+/* ---------- v0.171 대전 셈 · 함께하기 파티 자료 ---------- */
+function pvpPrepFoes(foes){ foes.forEach((u,i)=>{ u.id="pv"+i; u.side="enemy"; u.pvpHero=true; u.alive=true; u.hp=u.hp_max; u.mp=u.mp_max; u.buffs={}; u.dots={}; }); return foes; }   // v0.171 대전 셈(엔진 — 게임 화면 · 고돗 화면이 같은 함수)
+// 대전 결과 반영: 내 기록(승 · 패 · 무 · 연승 · 이번 주) · 명성 → 점수 변화(d) · 연승 덤 · 상대가 잃는/얻는 점수
+function pvpApply(res,my,os,wk){ const S=pvpState(), WR=pvpWR(wk); let d=0, bonus=0, defLoss=0, defGain=0;
+  if(res==="win"){ S.w++; WR.w++; S.stk++; S.stkBest=Math.max(S.stkBest|0,S.stk); renownAdd(RENOWN_WIN); d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
+  else if(res==="lose"){ S.l++; WR.l++; S.stk=0; d=-Math.min(my,pvpLoss(my,os)); defGain=Math.floor(-d/2); }
+  else { S.d++; WR.d++; S.stk=0; }
+  S.pl[wk]=(S.pl[wk]|0)+1; return {d,bonus,defLoss,defGain}; }
+// 서버에 올릴 내 대전 파티(이름 · 압축한 파티 j · 전투력 · 직업 · 전적 · 주인공 모습)
+function pvpPayload(sn,j){ const S=pvpState(), ids=pvpIds(); const pc=progress.protag&&progress.protag.cid, lk=pc&&progress.heroes[pc]?heroLook(pc):null;
+  const wk=pvpWeek(), wr={}; for(const q of [wk-1,wk]){ const r=S.wr["w"+q]; if(r) wr["w"+q]={w:r.w|0,l:r.l|0,d:r.d|0}; }
+  return {n:coopNick(), j, cp:sn.reduce((a,u)=>a+unitCP(u),0), jobs:JSON.stringify(ids.map((c,i)=>[c,(progress.heroes[c]||{}).level|0,unitCP(sn[i])])), w:S.w, l:S.l, d:S.d, stk:S.stk, wr, lk:lk?JSON.stringify(lk):""}; }
+// 지난주 순위(명예의 전당 top 10 · 모두의 순위 rk)
+function pvpHofBuild(list,pw){ const L=(list||[]).map(x=>pvpNorm(x,pw)); const R=L.filter(x=>x&&x.j&&x.has).sort((a,b)=>b.sc-a.sc||(a.at||0)-(b.at||0)), rk={};
+  R.forEach((x,i)=>{ rk[x.uid]=i+1; });
+  return {top:JSON.stringify(R.slice(0,10).map(x=>({u:x.uid,n:String(x.n||"").slice(0,16),sc:x.sc,w:x.w|0,l:x.l|0}))), rk:JSON.stringify(rk)}; }
+// 대전 목록: 파티가 있는 것만 · 이번 주 기준으로 읽기 쉽게 · 점수 → 승 → 먼저 올린 순
+function pvpListSort(list,wk){ return (list||[]).filter(x=>x&&x.j).map(x=>pvpNorm(x,wk)).sort((a,b)=>b.sc-a.sc||(b.w-a.w)||(a.at||0)-(b.at||0)); }
+// 전투력 = 공격력(치명 반영) × 3 + 체력 × 0.3 + 방어력 × 2
+function unitCP(u){ const off=(u.atk||0)*(1+(u.crit||0)*Math.max(0,(u.critDmg||1.5)-1)); return Math.round(off*3+(u.hp_max||0)*0.3+(u.df||0)*2); }
+function pvpLoss(my,op){ return Math.max(PVP.kMin,Math.min(PVP.kMax,Math.round(PVP.base-(op-my)/20))); }
+function pvpStreakBonus(stk){ return stk>=PVP.stkFrom?Math.min(PVP.stkMax,(stk-PVP.stkFrom+1)*PVP.stkAdd):0; }
+function pvpIds(){ fmPvpForce++; try{ return partyIds().slice(0,PVP.size); } finally{ fmPvpForce--; } }
+function pvpUnits(snap){ fmPvpForce++; try{ normalizeFormation(); return partyIds().slice(0,PVP.size).map(c=>snap?coopSnap(c):buildHeroUnit(c)); } finally{ fmPvpForce--; } }
+function coopExpand(sn){ if(!Array.isArray(sn)) return sn; for(const u of sn){
+    if(u&&u._cz){ delete u._cz;   // v0.96 줄여 보낸 것 되살림: 장비 조건 옵션 [이름,값] · 그 합(gx) · 상태 조건 특성 목록
+      u.condAffixes=(u.condAffixes||[]).map(a=>Array.isArray(a)?{k:a[0],v:a[1]}:a); u.gx={}; for(const a of u.condAffixes) if(a.k!=="c_sk") u.gx[a.k.slice(2)]=(u.gx[a.k.slice(2)]||0)+a.v;
+      unitTvs(u); }
+    if(u&&u._exDiff&&u.skillsEx){ const ex={}; for(const [id,d] of Object.entries(u.skillsEx)){ const b=SKILLS[id]||{}; ex[id]=Object.assign({},b,{mods:{},power0:b.power||0,enh:0},d,{id}); } u.skillsEx=ex; delete u._exDiff; } } return sn; }
+function coopNick(){ return String((progress&&progress.protag&&progress.protag.name)||"모험가").slice(0,12); }
+// 전투에 들어갈 내 영웅 한 명(숫자는 소수 4자리로 줄여 4KB 안에)
+function coopSnap(cid){
+  const u=buildHeroUnit(cid);
+  const nick=coopNick();
+  u.name=(isProtag(cid)?nick:`${nick}의 ${jobName(cid)}`)+` Lv.${progress.heroes[cid].level}`;
+  u.condAffixes=(u.condAffixes||[]).map(a=>[a.k,a.v]); delete u.gx; delete u.tvsD; delete u.tvsC; delete u.tvsS; u._cz=1;   // v0.44: 전투에 필요한 것만(품질·스킬 옵션은 skillsEx에 이미 반영) — 상태 크기 한도
+  if(u.skillsEx){ const ex={}; for(const [id,m] of Object.entries(u.skillsEx)){ const base=SKILLS[id]||{}; const d={}; for(const [k,v] of Object.entries(m)) if(k!=="id"&&JSON.stringify(base[k])!==JSON.stringify(v)) d[k]=v;
+      if(d.enh===0) delete d.enh; if(d.mods&&!Object.keys(d.mods).length) delete d.mods; if(d.power0===(base.power||0)) delete d.power0;   // v0.96 안 바뀐 기술은 빈 칸으로(상태 크기 한도) — coopExpand가 되살림
+      ex[id]=d; } u.skillsEx=ex; u._exDiff=true; }   // v0.85: 기본 기술과 다른 항목만(크기)
+  return JSON.parse(JSON.stringify(u,(k,v)=>typeof v==="number"&&!Number.isInteger(v)?Math.round(v*10000)/10000:v));
+}
+
 /* ================= UI ================= */
 /* ---------- v0.163 처음 안내(코치) 화면 (엔진 구역에서 옮겨 옴) ---------- */
 function coachRun(key,force){
@@ -16616,12 +16658,6 @@ function openSweep(){ const S=sweepState(), left=sweepExtraLeft(), gem=progress.
 var PVPF=null, PVPL=null;   // 지금 대전 중 · 마지막으로 받은 목록
 function pvpNet(){ try{ return (typeof window!=="undefined"&&window.PNNet&&window.PNNet.pvp)||null; }catch(e){ return null; } }
 /* 서버 기록 하나를 '이번 주' 기준으로 읽기 쉽게: sc · w · l · d · dw · dl = 그 주 · tw · tl · td · tdw · tdl = 누적 */
-function pvpLoss(my,op){ return Math.max(PVP.kMin,Math.min(PVP.kMax,Math.round(PVP.base-(op-my)/20))); }
-function pvpStreakBonus(stk){ return stk>=PVP.stkFrom?Math.min(PVP.stkMax,(stk-PVP.stkFrom+1)*PVP.stkAdd):0; }
-// 전투력 = 공격력(치명 반영) × 3 + 체력 × 0.3 + 방어력 × 2
-function unitCP(u){ const off=(u.atk||0)*(1+(u.crit||0)*Math.max(0,(u.critDmg||1.5)-1)); return Math.round(off*3+(u.hp_max||0)*0.3+(u.df||0)*2); }
-function pvpIds(){ fmPvpForce++; try{ return partyIds().slice(0,PVP.size); } finally{ fmPvpForce--; } }
-function pvpUnits(snap){ fmPvpForce++; try{ normalizeFormation(); return partyIds().slice(0,PVP.size).map(c=>snap?coopSnap(c):buildHeroUnit(c)); } finally{ fmPvpForce--; } }
 async function pvpPack(obj){ const txt=JSON.stringify(obj);
   try{ if(typeof CompressionStream==="function"){ const cs=new Blob([txt]).stream().pipeThrough(new CompressionStream("deflate-raw")); const buf=new Uint8Array(await new Response(cs).arrayBuffer());
     let b=""; for(let i=0;i<buf.length;i++) b+=String.fromCharCode(buf[i]); return "z"+btoa(b); } }catch(e){}
@@ -16634,18 +16670,14 @@ async function pvpUnpack(str){ if(typeof str!=="string"||str.length>60000) retur
 // 내 대전 파티를 서버에 올림(처음 '저장'한 뒤부터 목록에 보임 · 그 뒤엔 대전 탭을 열 때 · 대전 뒤에 지금 능력치로 다시 올림)
 async function pvpUpload(force){ const N=pvpNet(), S=pvpState(); if(!N||!(S.saved||force)) return false; const ids=pvpIds(); if(!ids.length) return false;
   const sn=pvpUnits(true), j=await pvpPack(sn); if(j.length>58000) return false;
-  const pc=progress.protag&&progress.protag.cid, lk=pc&&progress.heroes[pc]?heroLook(pc):null;
-  const wk=pvpWeek(), wr={}; for(const q of [wk-1,wk]){ const r=S.wr["w"+q]; if(r) wr["w"+q]={w:r.w|0,l:r.l|0,d:r.d|0}; }
-  const o={n:coopNick(), j, cp:sn.reduce((a,u)=>a+unitCP(u),0), jobs:JSON.stringify(ids.map((c,i)=>[c,(progress.heroes[c]||{}).level|0,unitCP(sn[i])])), w:S.w, l:S.l, d:S.d, stk:S.stk, wr, lk:lk?JSON.stringify(lk):""};
+  const o=pvpPayload(sn,j);   // v0.171 올릴 자료는 엔진
   try{ return !!(await N.put(o)); }catch(e){ return false; } }
 async function pvpSaveParty(){ const N=pvpNet(); if(!N){ toast("서버에 연결되어 있지 않아요","warn"); return; } if(!pvpIds().length) return;
   const ok=await pvpUpload(true); if(ok){ pvpState().saved=true; saveProgress(); toast("⚔ 대전 파티를 저장했어요","good"); } else toast("저장하지 못했어요","warn"); try{ renderParty(); }catch(e){} }
 // 주가 바뀌면: 지난주 순위 기록(아직 아무도 안 했으면) → 내 보상
 async function pvpWeekCheck(){ const N=pvpNet(); if(!N) return null; const wk=pvpWeek(), pw=wk-1, S=pvpState(); if(S.wkChk===wk) return null;
   let H=null; try{ H=await N.hofGet(pw);
-    if(!H){ const L=((await N.list(PVP.listN))||[]).map(x=>pvpNorm(x,pw)); const R=L.filter(x=>x&&x.j&&x.has).sort((a,b)=>b.sc-a.sc||(a.at||0)-(b.at||0)), rk={};
-      R.forEach((x,i)=>{ rk[x.uid]=i+1; });
-      H=await N.hofPut(pw,{top:JSON.stringify(R.slice(0,10).map(x=>({u:x.uid,n:String(x.n||"").slice(0,16),sc:x.sc,w:x.w|0,l:x.l|0}))), rk:JSON.stringify(rk)}); } }catch(e){ return null; }
+    if(!H){ H=await N.hofPut(pw,pvpHofBuild((await N.list(PVP.listN))||[],pw)); } }catch(e){ return null; }   // v0.171 순위 만들기는 엔진
   if(!H) return null; S.wkChk=wk; let got=null;
   { let r=0; try{ r=JSON.parse(H.rk||"{}")[N.uid()]|0; }catch(e){} got=pvpRankReward(pw,r); }   // v0.151 보상은 엔진 함수
   saveProgress(); if(got) pvpRewardModal(got); return got; }
@@ -16655,7 +16687,7 @@ function pvpRewardModal(g){ const m=openModal(`<h2>🏆 지난주 대전 ${g.ran
 async function renderPvp(){ const P=$("pvpPane"); if(!P) return; const N=pvpNet(), S=pvpState(), T=pvpTix(), wk=pvpWeek();
   const left=Math.max(0,pvpWeekEnd(wk)-serverNow()), dd=Math.floor(left/864e5), hh=Math.floor(left%864e5/3600e3);
   let me=null, L=null; if(N){ try{ await pvpWeekCheck(); }catch(e){} try{ if(S.saved) await pvpUpload(); }catch(e){} try{ L=(await N.list(PVP.listN))||[]; }catch(e){ L=null; } }
-  if(L){ L=L.filter(x=>x&&x.j).map(x=>pvpNorm(x,wk)).sort((a,b)=>b.sc-a.sc||(b.w-a.w)||(a.at||0)-(b.at||0)); me=L.find(x=>x.uid===N.uid())||null; PVPL=L; }
+  if(L){ L=pvpListSort(L,wk); me=L.find(x=>x.uid===N.uid())||null; PVPL=L; }
   const rank=me?L.indexOf(me)+1:0, sc=me?me.sc:PVP.start, busy=runBusy()||playing, WR=pvpWR(wk);
   const jobs=x=>{ let J=[]; try{ J=JSON.parse(x.jobs||"[]"); }catch(e){} return J; };
   const icons=x=>jobs(x).map(([c,lv])=>CLASSES[c]?`<img src="${SPRITES[CLASSES[c].sprite]}" alt="" title="${esc(CLASSES[c].name)} Lv.${lv}">`:"").join("");
@@ -16706,19 +16738,15 @@ async function pvpFight(uid){ if(runBusy()||playing||telling||PVPF) return; cons
   if(!op||!op.j){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
   const foes=await pvpUnpack(op.j); if(!Array.isArray(foes)||!foes.length){ toast("상대 정보를 불러오지 못했어요","warn"); return; }
   const party=pvpUnits(false); if(!party.length) return;
-  const prepFoes=L=>L.forEach((u,i)=>{ u.id="pv"+i; u.side="enemy"; u.pvpHero=true; u.alive=true; u.hp=u.hp_max; u.mp=u.mp_max; u.buffs={}; u.dots={}; }); prepFoes(foes);
+  pvpPrepFoes(foes);   // v0.171 셈은 엔진(pvpPrepFoes · pvpApply)
   T.n--; const seed=(Math.random()*0xFFFFFFFF)>>>0;
   /* v0.112 화면용 판: 결과를 먼저 계산하면(sim.run) 유닛이 끝난 상태(쓰러짐 · 체력 0)가 되므로, 같은 조건의 판을 하나 더 만들어 전투 시작 모습을 그림(돌리지 않음) · v0.113 상대 자료는 다시 풀지 않고 복사 */
   let view=null; try{ const f2=JSON.parse(JSON.stringify(foes)); view=new Sim(pvpUnits(false),f2,seed); }catch(e){ view=null; }
   const sim=new Sim(party,foes,seed); sim.meterOn=true;
   if(view){ const byId=new Map(sim.units.map(u=>[u.id,u])); if(view.units.length!==sim.units.length||view.units.some(u=>!byId.has(u.id))) view=null; else for(const u of view.units){ const o=byId.get(u.id); u.row=o.row; u.lane=o.lane; } }   // 자리(앞·뒷줄 · 가로줄)는 실제 판과 똑같이
   const events=sim.run(), end=events[events.length-1]||{}, res=end.result||"draw";
-  const my=typeof myS==="number"?myS:PVP.start, os=op.sc, WR=pvpWR(wk);
-  let d=0, bonus=0, defLoss=0, defGain=0;
-  if(res==="win"){ S.w++; WR.w++; S.stk++; S.stkBest=Math.max(S.stkBest|0,S.stk); renownAdd(RENOWN_WIN); d=pvpGain(my,os); bonus=pvpStreakBonus(S.stk); defLoss=Math.min(d,os); }
-  else if(res==="lose"){ S.l++; WR.l++; S.stk=0; d=-Math.min(my,pvpLoss(my,os)); defGain=Math.floor(-d/2); }
-  else { S.d++; WR.d++; S.stk=0; }
-  S.pl[wk]=(S.pl[wk]|0)+1; saveProgress();
+  const my=typeof myS==="number"?myS:PVP.start, os=op.sc;
+  const {d,bonus,defLoss,defGain}=pvpApply(res,my,os,wk); saveProgress();
   /* v0.113 서버 기록(내 점수 · 상대 점수·방어 전적·방어 기록 · 내 파티 다시 올리기)을 한꺼번에 보내고 기다리지 않고 바로 재생 — 결과 창을 열기 전에 끝나기를 기다림 */
   const R={res,d,bonus,after:my+d+bonus};
   const net=Promise.all([
@@ -17589,6 +17617,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.23", v:"v0.171", t:"정리", L:["운영 기능 개선"]},
   {d:"2026.11.23", v:"v0.170", t:"정리", L:["운영 기능 개선"]},
   {d:"2026.11.23", v:"v0.169", t:"정리", L:["그래픽 개선"]},
   {d:"2026.11.23", v:"v0.168", t:"정리", L:["그래픽 개선"]},
@@ -18184,11 +18213,6 @@ async function coopPack(obj){ const txt=JSON.stringify(obj);
   try{ if(typeof CompressionStream==="function"){ const cs=new Blob([txt]).stream().pipeThrough(new CompressionStream("deflate-raw")); const buf=new Uint8Array(await new Response(cs).arrayBuffer());
     let b=""; for(let i=0;i<buf.length;i++) b+=String.fromCharCode(buf[i]); return "z"+btoa(b); } }catch(e){}
   return "j"+txt; }
-function coopExpand(sn){ if(!Array.isArray(sn)) return sn; for(const u of sn){
-    if(u&&u._cz){ delete u._cz;   // v0.96 줄여 보낸 것 되살림: 장비 조건 옵션 [이름,값] · 그 합(gx) · 상태 조건 특성 목록
-      u.condAffixes=(u.condAffixes||[]).map(a=>Array.isArray(a)?{k:a[0],v:a[1]}:a); u.gx={}; for(const a of u.condAffixes) if(a.k!=="c_sk") u.gx[a.k.slice(2)]=(u.gx[a.k.slice(2)]||0)+a.v;
-      unitTvs(u); }
-    if(u&&u._exDiff&&u.skillsEx){ const ex={}; for(const [id,d] of Object.entries(u.skillsEx)){ const b=SKILLS[id]||{}; ex[id]=Object.assign({},b,{mods:{},power0:b.power||0,enh:0},d,{id}); } u.skillsEx=ex; delete u._exDiff; } } return sn; }
 async function coopUnpack(str){ if(typeof str!=="string"||str.length>6000) return null;
   try{ if(str[0]==="j") return coopExpand(JSON.parse(str.slice(1)));
     if(str[0]==="z"&&typeof DecompressionStream==="function"){ const bin=atob(str.slice(1)); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
@@ -18202,7 +18226,6 @@ async function coopRepack(){
   COOP.mySnaps=coopExpand(JSON.parse(JSON.stringify(snaps))); COOP.mySnapz=z; COOP.packN=COOP.mem.length;   // v0.85: 내 것도 받는 쪽과 같은 모양으로(기술 항목 복원)
 }
 const COOP_MAX_CHAT=80;
-function coopNick(){ return String((progress&&progress.protag&&progress.protag.name)||"모험가").slice(0,12); }
 function coopHero(){ const ids=rosterIds(); if(!COOP.heroCid||!ids.includes(COOP.heroCid)) COOP.heroCid=(progress.protag&&ids.includes(progress.protag.cid))?progress.protag.cid:ids[0]; return COOP.heroCid; }
 function coopRid(n){ const a="abcdefghijkmnpqrstuvwxyz23456789"; let s=""; for(let i=0;i<n;i++) s+=a[Math.floor(Math.random()*a.length)]; return s; }
 function coopMyPeer(rt){ const me=(rt||COOP.rt).peers().find(p=>p.sameTab); return me?me.peer:null; }
@@ -18244,17 +18267,6 @@ function coopPushRoom(extra){
   if(sz(p)>3950&&p.lk) p.lk=p.lk.map(x=>({c:x.c,j:x.j}));
   COOP.nr.presence(p).catch(e=>{ COOP.notice="상태를 보내지 못했습니다: "+(e&&e.message||e&&e.code||""); coopRender(); });
   coopLobbyRefresh();
-}
-// 전투에 들어갈 내 영웅 한 명(숫자는 소수 4자리로 줄여 4KB 안에)
-function coopSnap(cid){
-  const u=buildHeroUnit(cid);
-  const nick=coopNick();
-  u.name=(isProtag(cid)?nick:`${nick}의 ${jobName(cid)}`)+` Lv.${progress.heroes[cid].level}`;
-  u.condAffixes=(u.condAffixes||[]).map(a=>[a.k,a.v]); delete u.gx; delete u.tvsD; delete u.tvsC; delete u.tvsS; u._cz=1;   // v0.44: 전투에 필요한 것만(품질·스킬 옵션은 skillsEx에 이미 반영) — 상태 크기 한도
-  if(u.skillsEx){ const ex={}; for(const [id,m] of Object.entries(u.skillsEx)){ const base=SKILLS[id]||{}; const d={}; for(const [k,v] of Object.entries(m)) if(k!=="id"&&JSON.stringify(base[k])!==JSON.stringify(v)) d[k]=v;
-      if(d.enh===0) delete d.enh; if(d.mods&&!Object.keys(d.mods).length) delete d.mods; if(d.power0===(base.power||0)) delete d.power0;   // v0.96 안 바뀐 기술은 빈 칸으로(상태 크기 한도) — coopExpand가 되살림
-      ex[id]=d; } u.skillsEx=ex; u._exDiff=true; }   // v0.85: 기본 기술과 다른 항목만(크기)
-  return JSON.parse(JSON.stringify(u,(k,v)=>typeof v==="number"&&!Number.isInteger(v)?Math.round(v*10000)/10000:v));
 }
 // ---------- v0.143 채팅 차단 · 신고 · 규칙 동의(구글 플레이 사용자 제작 콘텐츠 정책) ----------
 //   차단: 그 계정의 채팅을 내 화면에서 숨김(계정 진행에 기억 · 함께하기 채팅 칸의 '차단'에서 풀기) · 신고: 운영 도구 의견 목록에 '🚩 신고'로(대상 계정 ID · 글)
