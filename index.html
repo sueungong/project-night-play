@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795346854556"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795348040496"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11191,6 +11191,45 @@ function formMove(src,dst){   // src: 영웅 id · dst: {slot:{row,lane}} · {he
 // v0.33: 던전 진행 중에는 캐릭터에 영향을 주는 탭(파티·장비·상점·특성)은 못 열고, 자동전투 규칙은 보기만
 const RUN_LOCK_TABS=["party","equip","shop","traits"];
 
+/* ---------- v0.153 부위 강화 한 번(기록 글까지) · 보호 주문서 켜고 끄기 · 사기 — 웹 · 고돗 화면이 같은 함수 ---------- */
+function enhanceDo(cid,sk){
+  const r=enhanceCore(cid,sk); if(!r) return null;
+  const {ok,l,useW,c,W}=r; let msg="", cls="r";
+  const nm=`${heroDisplayName(cid)}의 ${(SLOTS.find(x=>x.key===sk)||{label:sk}).label}`;
+  if(ok){ const t=enhTier(l+1), t0=enhTier(l); msg=`✨ 강화 성공! ${nm} +${l+1}${t!==t0?` — 재질이 ${t.name}(으)로 바뀌었다`:""}`; cls="win"; }
+  else if(r.drop){ msg=`💥 강화 실패 — ${r.drop}단계 내려갔다: ${nm} +${Math.max(0,l-r.drop)}${W.n>0&&!W.on?" · 🛡 보호 주문서 사용이 꺼져 있었다":W.on&&W.n<=0?" · 🛡 보호 주문서가 없었다":W.on&&W.used>=WARD_DAY_MAX?` · 🛡 오늘 ${WARD_DAY_MAX}번을 다 썼다`:""}`; cls="lose";
+    if(r.gilt) msg+=" · 금이 갔다! (능력치 -10%, 수리 가능)"; }
+  else msg=`강화 실패 — 단계는 그대로 (${nm} +${l})${useW?" · 🛡 보호 주문서가 막았다":""}`;
+  logLine(`<span class="${cls}">${esc(msg)} (골드 -${c.gold} · 정수 -${c.ess}${useW?` · 🛡 보호 주문서 1개 (오늘 ${W.used}/${WARD_DAY_MAX})`:""})</span>`);
+  return Object.assign({},r,{msg,cls}); }
+function wardSet(v){ const W=wardState(); if(W.on===v&&W.set) return false; W.on=v; W.set=true; return true; }
+function wardBuyDo(){ if(!wardBuy()) return false; logLine(`<span class="gain">💎 새벽 결정 ${WARD_GEM}개로 보호 주문서 1개를 샀습니다 (보유 ${wardState().n}개)</span>`); return true; }
+/* ---------- v0.153 장비 · 상점 화면에서 쓰는 규칙 · 글(비교 · 더 좋은 장비 수 · 세트 설명 · 빈 칸 그림 · 부족 글 · 새로고침 시각 · 누구에게 좋은지) ---------- */
+const CMP_LABEL={atk:"공격력",hp:"체력",def:"방어력",spd:"신속",mp:"마나",crit:"치명타 확률",critdmg:"치명타 피해",acc:"명중",eva:"회피",pen:"관통",ls:"흡혈",res:"상태이상 회피",heal:"치유량",regen:"턴당 마나",er_all:"전체 속성 저항",er_fire:"화염 저항",er_cold:"냉기 저항",er_poison:"독 저항",er_holy:"신성 저항",er_dark:"암흑 저항"};
+function fmtStatVal(k,v){ v=v||0; return CMP_PCT.has(k)?(Math.round(v*1000)/10).toFixed(Math.abs(v*1000)%10?1:0)+"%":String(Math.round(v)); }
+function cmpDiffs(before,after){
+  const out=[];
+  for(const k of CMP_KEYS){ const isP=CMP_PCT.has(k); const d=isP?Math.round(((after[k]||0)-(before[k]||0))*1000)/10:Math.round((after[k]||0)-(before[k]||0));
+    if(Math.abs(d)>=(isP?0.5:1)) out.push({k,d,txt:`${CMP_LABEL[k]} ${d>0?"+":""}${isP?d.toFixed(Math.abs(d)%1?1:0)+"%":d}`}); }
+  return out;
+}
+const DOLL_L=["helm","armor","cape","gloves","boots"], DOLL_R=["weapon","offhand","amulet","ring1","ring2"], DOLL_TOP=["relic"];   // v0.55.6: 유물은 가운데 위(투구·무기 사이) — 좌우 5칸씩 높이 맞춤
+const SLOT_GHOST={weapon:"sword",offhand:"off_knight",helm:"helm",armor:"armor",gloves:"gloves",boots:"boots",cape:"cape",ring1:"ring",ring2:"ring",amulet:"amulet",relic:"relic"};
+function slotBetterCount(cid,sk){ if(sk==="relic") return 0;   // v0.97 유물은 옵션 종류가 달라 "더 좋다"를 가릴 수 없음
+  return progress.inv.filter(x=>(x.slot===sk||(sk.startsWith("ring")&&x.slot==="ring"))&&canEquip(cid,x)&&previewEquip(cid,x,sk).pct>0.5).length; }
+function setInfoHTML(it,cid,pv){
+  const S=SETS[it.set]; if(!S) return "";
+  const cur=heroEquipTotals(cid).sets[it.set]||0;
+  // 착용 시 개수: 같은 부위의 같은 세트 조각을 바꾸면 그대로
+  let after=cur; if(pv&&canEquip(cid,it)){ after=cur+1-((pv.prev&&pv.prev.set===it.set)?1:0); }
+  const seg=(m,txt)=>`<span class="${after>=m?"on":""}">${m}세트 ${esc(txt)}</span>`;
+  const A=S.adv&&(ADV[S.cls]||[]).find(a=>a.key===S.adv), N=S.size, pn=setSlotsU(S).map(x=>x==="ring"?"반지×2":SET_NOUN[x]).join("·");
+  return `<div class="setinfo">◆ <b>${esc(S.name)}</b> 세트 (${N}부위 — ${esc(pn)}${A?` · ${esc(CLASSES[S.cls].name)} [${esc(A.name)}] 전용`:""}) — ${setBonuses(S).map(([q,B])=>seg(q,B.desc)).join(" · ")}<br>${esc(heroDisplayName(cid))}: 지금 ${Math.min(cur,N)}/${N}${canEquip(cid,it)?` → 착용 시 <b>${Math.min(after,N)}/${N}</b>`:""} · 도감 ${codexCount(it.set)}/${setSlotsU(S).length}</div>`;
+}
+function enhPoorText(c){ const a=[]; if(progress.gold<c.gold) a.push(`골드 부족 (필요 ${c.gold.toLocaleString()} · 보유 ${Math.floor(progress.gold).toLocaleString()})`); if(progress.ess<c.ess) a.push(`밤의 정수 부족 (필요 ${c.ess} · 보유 ${progress.ess|0})`); return a.join(" · "); }
+function shopNextText(){ const ms=Math.max(0,(progress.shopAt||Date.now())+SHOP_AUTO_MS-Date.now()), m=Math.ceil(ms/60000); return `다음 자동 새로고침 ${m>=60?Math.floor(m/60)+"시간 ":""}${m%60}분 뒤`; }
+function shopWhoText(it){ const b=shopBest(it); return b?`<span class="sgup">▲ ${esc(heroDisplayName(b.c))} ${b.p.pct>=99.5?"새 장비":"+"+b.p.pct.toFixed(0)+"%"}</span>`:`<span class="sgno">지금 파티엔 더 좋지 않음</span>`; }
+
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 let curUnits=[];
@@ -14553,14 +14592,6 @@ function moveRule(i,d){
 
 /* ---- 파티·장비 ---- */
 /* ---- 장비 비교 · 추천 · 자동 정리 (v0.17) ---- */
-const CMP_LABEL={atk:"공격력",hp:"체력",def:"방어력",spd:"신속",mp:"마나",crit:"치명타 확률",critdmg:"치명타 피해",acc:"명중",eva:"회피",pen:"관통",ls:"흡혈",res:"상태이상 회피",heal:"치유량",regen:"턴당 마나",er_all:"전체 속성 저항",er_fire:"화염 저항",er_cold:"냉기 저항",er_poison:"독 저항",er_holy:"신성 저항",er_dark:"암흑 저항"};
-function fmtStatVal(k,v){ v=v||0; return CMP_PCT.has(k)?(Math.round(v*1000)/10).toFixed(Math.abs(v*1000)%10?1:0)+"%":String(Math.round(v)); }
-function cmpDiffs(before,after){
-  const out=[];
-  for(const k of CMP_KEYS){ const isP=CMP_PCT.has(k); const d=isP?Math.round(((after[k]||0)-(before[k]||0))*1000)/10:Math.round((after[k]||0)-(before[k]||0));
-    if(Math.abs(d)>=(isP?0.5:1)) out.push({k,d,txt:`${CMP_LABEL[k]} ${d>0?"+":""}${isP?d.toFixed(Math.abs(d)%1?1:0)+"%":d}`}); }
-  return out;
-}
 // 자동 정리: 등급별로 새로 얻은 장비를 보관/판매/분해
 const AUTO_RARS=[["common","일반"],["fine","고급"],["rare","희귀"],["epic","영웅"],["legend","전설"],["set","세트"]];
 /* v0.95 정리 상자(가방 · 룬주머니 공통): ① 골라서 정리(한 번에 고르기 → 판매·분해) ② 자동 정리(등급별 보관·판매·분해 + 지금 가진 것에 적용) */
@@ -15098,8 +15129,6 @@ const ITEM_ICON=(()=>{
 
 // ===== v0.38 장비 화면: 가운데 캐릭터(지금 모습·오라 그대로) + 둘레 부위 칸 / 가방은 정사각형 칸 격자 + 여러 개 골라 판매·분해 =====
 let bagTidy=false, rpTidy=false, rpPick=false, rpSel=new Set(), rpArm=null; let bagPick=false, bagSel=new Set(), bagArm=null, eqFigTimer=0, bagTab="gear", rpRune=null, rpSock=null, rpSk=null, rpTap=null;   // v0.94 룬주머니: 고른 룬(묶음 키) · 고른 빈 소켓 번호 · 고른 장비 칸
-const DOLL_L=["helm","armor","cape","gloves","boots"], DOLL_R=["weapon","offhand","amulet","ring1","ring2"], DOLL_TOP=["relic"];   // v0.55.6: 유물은 가운데 위(투구·무기 사이) — 좌우 5칸씩 높이 맞춤
-const SLOT_GHOST={weapon:"sword",offhand:"off_knight",helm:"helm",armor:"armor",gloves:"gloves",boots:"boots",cape:"cape",ring1:"ring",ring2:"ring",amulet:"amulet",relic:"relic"};
 function itemIconURL(it){ try{ return ITEM_ICON.url(it); }catch(e){ return ""; } }
 /* v0.110 장비 아이콘을 쉬는 시간에 조금씩 미리 만들어 둠(장비 탭을 처음 열 때 멈춤 방지) — 가방 · 낀 장비 · 빈 칸 그림 */
 let iconWarmQ=null;
@@ -15127,8 +15156,6 @@ function eqFigure(cid){
     if(ds.aura&&!ds.sa){ const A=auraFor(img,now); if(A){ c.globalAlpha=0.45; c.drawImage(A.out||A.cv,Math.round((EX-AURA_OX)*K),Math.round((EY-AURA_OY)*K),Math.round(AURA_W*K),Math.round(AURA_H*K)); c.globalAlpha=1; } }
     if(COS2.CAPE_KEY[ds.cape]||ds.sa){ try{ const R=COS2.forEl(img,now); COS2.blit(c,R.b,EX*K,EY*K,K,false,!GFX.low); }catch(e){} } },90);
   return wrap; }
-function slotBetterCount(cid,sk){ if(sk==="relic") return 0;   // v0.97 유물은 옵션 종류가 달라 "더 좋다"를 가릴 수 없음
-  return progress.inv.filter(x=>(x.slot===sk||(sk.startsWith("ring")&&x.slot==="ring"))&&canEquip(cid,x)&&previewEquip(cid,x,sk).pct>0.5).length; }
 function eqSlotBtn(cid,sk){ const it=findEquipped(cid,sk), s=SLOTS.find(x=>x.key===sk), W=WEAPONS[heroWeaponType(cid)], E=slotEnh(cid,sk);
   const up=runBusy()?0:slotBetterCount(cid,sk); const b=document.createElement("button"); b.className="eqslot"+(it?"":" empty")+(up?" hasup":"");
   b.innerHTML=it?iconCell(it,{enh:it.noEnh?null:E}):`<span class="icell r-none ghost${E.gilt?" gilt":""}"><img src="${slotGhostURL(sk,cid)}" alt="">${E.l?`<b class="ic-enh ${enhTier(E.l).cls}">+${E.l}</b>`:""}</span>`;
@@ -15156,7 +15183,6 @@ function enhSideBtn(cid,sk){
   b.onclick=e=>{ e.stopPropagation(); if(poor){ toast(`<span class="tc">강화할 수 없음</span>${esc(s0)} +${l+1} — ${esc(poor)}`,"",2600); return; } tryEnhance(cid,sk); };
   return b;
 }
-function enhPoorText(c){ const a=[]; if(progress.gold<c.gold) a.push(`골드 부족 (필요 ${c.gold.toLocaleString()} · 보유 ${Math.floor(progress.gold).toLocaleString()})`); if(progress.ess<c.ess) a.push(`밤의 정수 부족 (필요 ${c.ess} · 보유 ${progress.ess|0})`); return a.join(" · "); }
 // 부위 창: 끼운 장비 정보 + 부위 강화(빈 칸도 강화할 수 있음)
 function openWornItem(cid,sk){ const it=findEquipped(cid,sk); const s=SLOTS.find(x=>x.key===sk); const E=slotEnh(cid,sk), canE=ENH_SLOTS.includes(sk);
   const opened=canE&&slotMax(cid,sk)>ENH_MAX, canOpen=canE&&!opened&&E.l>=ENH_MAX;
@@ -15673,9 +15699,9 @@ function wardRowHTML(l){ const W=wardState(), gem=progress.gem||0, left=Math.max
     <span class="seg"><button id="wardOn" class="${W.on?"on":""}" ${runBusy()?"disabled":""}>사용</button><button id="wardOff" class="${W.on?"":"on"}" ${runBusy()?"disabled":""}>안 씀</button></span>
     <button class="mini" id="wardBuy" title="새벽 결정 ${WARD_GEM}개로 1개 (보유 💎${gem})" ${gem<WARD_GEM?"disabled":""}>💎${WARD_GEM} +1</button></div>`; }
 function wardBind(m,re){ const on=m.querySelector("#wardOn"), off=m.querySelector("#wardOff"), buy=m.querySelector("#wardBuy");
-  const set=v=>{ const W=wardState(); if(W.on===v&&W.set) return; W.on=v; W.set=true; saveProgress(); re(); };
+  const set=v=>{ if(!wardSet(v)) return; saveProgress(); re(); };
   if(on) on.onclick=()=>set(true); if(off) off.onclick=()=>set(false);
-  if(buy) buy.onclick=()=>{ if(!wardBuy()) return; saveProgress(); logLine(`<span class="gain">💎 새벽 결정 ${WARD_GEM}개로 보호 주문서 1개를 샀습니다 (보유 ${wardState().n}개)</span>`); re(); try{ renderHud(); }catch(e){} }; }
+  if(buy) buy.onclick=()=>{ if(!wardBuyDo()) return; saveProgress(); re(); try{ renderHud(); }catch(e){} }; }
 function enhButton(cid,sk){
   const b=document.createElement("button"); b.className="enhb";
   const E=slotEnh(cid,sk), l=E.l, s0=(SLOTS.find(x=>x.key===sk)||{label:sk}).label;
@@ -15697,14 +15723,8 @@ function repairButton(cid,sk){
   return b;
 }
 function tryEnhance(cid,sk){
-  const r=enhanceCore(cid,sk); if(!r) return;
-  const {ok,l,useW,c,W}=r; let msg="", cls="r"; try{ SND.fx(ok?"enhance_ok":"enhance_fail"); }catch(e){}
-  const nm=`${heroDisplayName(cid)}의 ${(SLOTS.find(x=>x.key===sk)||{label:sk}).label}`;
-  if(ok){ const t=enhTier(l+1), t0=enhTier(l); msg=`✨ 강화 성공! ${nm} +${l+1}${t!==t0?` — 재질이 ${t.name}(으)로 바뀌었다`:""}`; cls="win"; }
-  else if(r.drop){ msg=`💥 강화 실패 — ${r.drop}단계 내려갔다: ${nm} +${Math.max(0,l-r.drop)}${W.n>0&&!W.on?" · 🛡 보호 주문서 사용이 꺼져 있었다":W.on&&W.n<=0?" · 🛡 보호 주문서가 없었다":W.on&&W.used>=WARD_DAY_MAX?` · 🛡 오늘 ${WARD_DAY_MAX}번을 다 썼다`:""}`; cls="lose";
-    if(r.gilt) msg+=" · 금이 갔다! (능력치 -10%, 수리 가능)"; }
-  else msg=`강화 실패 — 단계는 그대로 (${nm} +${l})${useW?" · 🛡 보호 주문서가 막았다":""}`;
-  logLine(`<span class="${cls}">${esc(msg)} (골드 -${c.gold} · 정수 -${c.ess}${useW?` · 🛡 보호 주문서 1개 (오늘 ${W.used}/${WARD_DAY_MAX})`:""})</span>`);
+  const r=enhanceDo(cid,sk); if(!r) return;   // v0.153 강화 · 기록 글은 엔진(enhanceDo — 고돗 화면과 같은 함수)
+  const {ok,msg}=r; try{ SND.fx(ok?"enhance_ok":"enhance_fail"); }catch(e){}
   saveProgress(); renderParty();
   if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:${ok?"var(--accent)":r.drop?"var(--bad)":"var(--muted)"}">${esc(msg)}</span>`, 1500);
 }
@@ -15719,15 +15739,6 @@ function runeTargetLabel(x){
   const o=itemOwner(x.id); const empty=x.sockets.filter(r=>!r).length;
   const sl=o?(SLOTS.find(s=>progress.heroes[o].equip[s.key]===x.id)||{label:SLOT_LABEL[x.slot]}).label:(SLOT_LABEL[x.slot]||x.slot);
   return `${o?`[${heroDisplayName(o)}]`:"[인벤토리]"} ${sl} · ${itemLabel(x)} (빈 소켓 ${empty}/${x.sockets.length})`;
-}
-function setInfoHTML(it,cid,pv){
-  const S=SETS[it.set]; if(!S) return "";
-  const cur=heroEquipTotals(cid).sets[it.set]||0;
-  // 착용 시 개수: 같은 부위의 같은 세트 조각을 바꾸면 그대로
-  let after=cur; if(pv&&canEquip(cid,it)){ after=cur+1-((pv.prev&&pv.prev.set===it.set)?1:0); }
-  const seg=(m,txt)=>`<span class="${after>=m?"on":""}">${m}세트 ${esc(txt)}</span>`;
-  const A=S.adv&&(ADV[S.cls]||[]).find(a=>a.key===S.adv), N=S.size, pn=setSlotsU(S).map(x=>x==="ring"?"반지×2":SET_NOUN[x]).join("·");
-  return `<div class="setinfo">◆ <b>${esc(S.name)}</b> 세트 (${N}부위 — ${esc(pn)}${A?` · ${esc(CLASSES[S.cls].name)} [${esc(A.name)}] 전용`:""}) — ${setBonuses(S).map(([q,B])=>seg(q,B.desc)).join(" · ")}<br>${esc(heroDisplayName(cid))}: 지금 ${Math.min(cur,N)}/${N}${canEquip(cid,it)?` → 착용 시 <b>${Math.min(after,N)}/${N}</b>`:""} · 도감 ${codexCount(it.set)}/${setSlotsU(S).length}</div>`;
 }
 function itemRow(it,cid,pv){
   cid=cid||partySel||rosterIds()[0];
@@ -16015,7 +16026,6 @@ function makeNameCard(cid,edit){
 }
 
 /* ---- 상점 ---- */
-function shopNextText(){ const ms=Math.max(0,(progress.shopAt||Date.now())+SHOP_AUTO_MS-Date.now()), m=Math.ceil(ms/60000); return `다음 자동 새로고침 ${m>=60?Math.floor(m/60)+"시간 ":""}${m%60}분 뒤`; }
 function shopEssCard(e){ const c=document.createElement("div"); c.className="sgcard r-fine";
   c.innerHTML=`<div class="sgtop"><span class="ic ess-ic" aria-hidden="true">✦</span><span class="sgtx"><span class="iname">밤의 정수 ×${e.n}</span><span class="sgsub">재료 · 강화 · 등급 올리기</span></span></div>
     <span class="sgst">지금 ${progress.ess}개 → ${progress.ess+e.n}개</span><div class="sgbot"><span class="sgno">개당 40 골드</span><button class="buy"${progress.gold>=e.price?"":" disabled"}>${e.price} 골드</button></div>`;
@@ -16026,7 +16036,6 @@ setInterval(()=>{ try{ if(!progress||!progress.protag) return; if(shopTick()){ s
 /* v0.40 상점: 탭(오늘의 장비 · 스킬북 · 밤의 시장 · 새벽 교환소)으로 나눠 한 화면에 한 가지만 — 좁은 가로 화면에서도 진열이 한눈에.
    장비는 아이콘 큰 칸 카드(누르면 자세히 + 영웅별 비교), 스킬북은 영웅 고르기 + 촘촘한 카드 */
 let shopTab="gear";
-function shopWhoText(it){ const b=shopBest(it); return b?`<span class="sgup">▲ ${esc(heroDisplayName(b.c))} ${b.p.pct>=99.5?"새 장비":"+"+b.p.pct.toFixed(0)+"%"}</span>`:`<span class="sgno">지금 파티엔 더 좋지 않음</span>`; }
 // 장비 카드 한 장
 function shopGearCard(it,priceTxt,can,onBuy){ const c=document.createElement("div"); c.className="sgcard r-"+(it.mythic?"mythic":it.rarity);
   const extra=itemExtraText(it);
@@ -17429,6 +17438,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.22", v:"v0.153", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.152", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.151", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.150", t:"정리", L:["오류 수정"]},
