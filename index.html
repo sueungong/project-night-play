@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795348040496"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795349883064"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11230,6 +11230,44 @@ function enhPoorText(c){ const a=[]; if(progress.gold<c.gold) a.push(`골드 부
 function shopNextText(){ const ms=Math.max(0,(progress.shopAt||Date.now())+SHOP_AUTO_MS-Date.now()), m=Math.ceil(ms/60000); return `다음 자동 새로고침 ${m>=60?Math.floor(m/60)+"시간 ":""}${m%60}분 뒤`; }
 function shopWhoText(it){ const b=shopBest(it); return b?`<span class="sgup">▲ ${esc(heroDisplayName(b.c))} ${b.p.pct>=99.5?"새 장비":"+"+b.p.pct.toFixed(0)+"%"}</span>`:`<span class="sgno">지금 파티엔 더 좋지 않음</span>`; }
 
+/* ---------- v0.154 배운 특성 효과 합계 글(특성 탭 요약 — 웹 · 고돗 화면이 같은 글) ---------- */
+function traitEffSummary(cid){ const E=traitEffects(cid); return effText(Object.fromEntries(Object.keys(EFF_TXT).filter(k=>E[k]).map(k=>[k,k.endsWith("_pct")||k==="counter"||k==="lifesteal"?Math.round(E[k]*100)/100:E[k]])))||""; }
+/* ---------- v0.154 전투설정 규칙 고치기(켜기 · 기술 바꾸기 · 순서 · 옛 번호 고치기 · 저장 칸) — 웹 · 고돗 화면이 같은 함수 ---------- */
+// 예전 번호로 저장된 규칙은 문장으로 바꿈(38번은 두 조건으로)
+function ruleSpecFix(r){ if(typeof r.c1!=="string"){ if((r.c1|0)===38){ r.c1="hp:me:1:hp:ge:80"; if(!(r.logic|0)){ r.logic=1; r.c2="foes:foe:2:ge"; } } else r.c1=cKey(r.c1); }
+    if(typeof r.c2!=="string") r.c2=(r.c2|0)===38?"hp:me:1:hp:ge:80":cKey(r.c2); }
+// 같은 기술(기본공격 빼고)은 켜진 칸 하나만
+function ruleEnable(cid,i,on){ const rules=partyRules[cid], r=rules&&rules[i]; if(!r||runBusy()) return false; const sk0=classSkills(cid)[0];
+  r.enabled=!!on; if(r.enabled&&r.skill!==sk0) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); saveRulesU(cid); return true; }
+function ruleSkill(cid,i,sid){ const rules=partyRules[cid], r=rules&&rules[i]; if(!r||runBusy()||!classSkills(cid).includes(sid)) return false; const sk0=classSkills(cid)[0];
+  r.skill=sid; if(r.skill!==sk0) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; });
+  const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)) r.target=T.opts[0].v; saveRulesU(cid); return true; }
+function ruleMove(cid,i,d){ if(runBusy()) return false; const rules=partyRules[cid]; const j=i+d; if(!rules||j<0||j>=rules.length) return false;
+  [rules[i],rules[j]]=[rules[j],rules[i]]; saveRulesU(cid); return true; }
+function presetSave(cid,i,name){ const P=rulePresets(cid); P[i]={name:(name||"").trim().slice(0,12)||`설정 ${i+1}`, rules:JSON.parse(JSON.stringify((partyRules[cid]||[]).filter(r=>r))), at:Date.now(), stance:heroStance(cid)}; saveProgress(); }
+// 숙련 변형 고르기(숙련 단계마다 a/b 하나) — quiet면 기록 글 없이(봇)
+function masteryPick(cid,sid,i,k,quiet){ const h=progress.heroes[cid], m=h&&(h.mastery||{})[sid]; if(!m||(m.xp||0)<MASTERY_STEPS[i]||(m.pick&&m.pick[i])||(k!=="a"&&k!=="b")) return false;
+  m.pick=m.pick||{}; m.pick[i]=k;
+  if(!quiet&&SKILLS[sid]) logLine(`<span class="win">📘 ${esc(heroDisplayName(cid))}의 '${esc(SKILLS[sid].name)}' 숙련 ${MASTERY_STEPS[i]} — ${esc(masteryOpts(sid,i)[k==="a"?0:1].t)}</span>`);
+  return true; }
+function masteryPending(cid){ const h=progress.heroes[cid]; if(!h||isCompanion(cid)) return 0; let n=0;
+  for(const [sid,ms] of Object.entries(h.mastery||{})){ if(!SKILLS[sid]) continue; const xp=ms.xp||0; for(let i=0;i<3;i++) if(xp>=MASTERY_STEPS[i]&&!(ms.pick&&ms.pick[i])) n++; } return n; }
+/* ---------- v0.154 특성 화면에서 쓰는 규칙 · 글(칸 상태 · 칸 종류 · 칸 글자) ---------- */
+function traitState(cid,n){
+  if(traitsTaken(cid).includes(n.key)) return "taken";
+  if(progress.heroes[cid].adv&&traitForkDead(cid,n)) return "dead";
+  return canTakeTrait(cid,n)?"open":"locked";
+}
+function traitKind(n){
+  if(n.ks) return `<span class="tag ks">★ 궁극</span>`;
+  if(n.alt) return `<span class="tag">큰 특성</span><span class="tag" style="color:#ffb347">둘 중 하나</span>`;
+  if(n.big) return `<span class="tag">큰 특성</span>`;
+  if(n.sm) return `<span class="tag" style="color:#8fd9cc">작은 특성</span>`;
+  return `<span class="tag">잔가지</span>`;
+}
+const TGLYPH={atk_pct:["공","a"],hp_pct:["체","s"],def:["방","s"],def_pct:["갑","s"],crit:["치","a"],critdmg:["극","a"],spd:["속","p"],counter:["반","a"],
+  mp_pct:["마","m"],mp_regen:["회","m"],heal_pct:["힐","h"],pen:["관","a"],lifesteal:["흡","h"],eva:["피","p"]};
+
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 let curUnits=[];
@@ -11251,8 +11289,6 @@ function renderHud(){
     +`<span class="chip ess"><span class="ico ess"></span><span class="lbl">밤의 정수 </span><b>${progress.ess}</b></span><span class="chip gem" title="새벽 결정">💎 <b>${Number(progress.gem||0).toLocaleString("ko-KR")}</b></span>${(()=>{ const F=fragStore(); return F.gear?`<span class="chip frag" title="장비 조각"><span class="rar-epic">◆</span> <b>${F.gear}</b></span>`:""; })()}`;   // v0.94 동기화 표시는 위쪽 줄에서 뺌(⚙ 설정에서 확인)
 }
 // v0.94 숙련이 올라 고를 수 있게 된 변형(주인공 · 직접 키우는 영웅만 — 동료는 스스로 고름)
-function masteryPending(cid){ const h=progress.heroes[cid]; if(!h||isCompanion(cid)) return 0; let n=0;
-  for(const [sid,ms] of Object.entries(h.mastery||{})){ if(!SKILLS[sid]) continue; const xp=ms.xp||0; for(let i=0;i<3;i++) if(xp>=MASTERY_STEPS[i]&&!(ms.pick&&ms.pick[i])) n++; } return n; }
 function masteryPendingAll(){ try{ return rosterIds().reduce((a,c)=>a+masteryPending(c),0); }catch(e){ return 0; } }
 // v0.94 새로 생긴 할 일 알림: 늘어난 순간 한 번 알림(빈 출전 자리 · 숙련 선택)
 const NOTE_LAST={};
@@ -11367,18 +11403,6 @@ function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="
   TUT.onTab(t);
 }
 let respecArm=null, traitCid="knight", traitSel={}, lastPointer="mouse", traitView={};
-function traitState(cid,n){
-  if(traitsTaken(cid).includes(n.key)) return "taken";
-  if(progress.heroes[cid].adv&&traitForkDead(cid,n)) return "dead";
-  return canTakeTrait(cid,n)?"open":"locked";
-}
-function traitKind(n){
-  if(n.ks) return `<span class="tag ks">★ 궁극</span>`;
-  if(n.alt) return `<span class="tag">큰 특성</span><span class="tag" style="color:#ffb347">둘 중 하나</span>`;
-  if(n.big) return `<span class="tag">큰 특성</span>`;
-  if(n.sm) return `<span class="tag" style="color:#8fd9cc">작은 특성</span>`;
-  return `<span class="tag">잔가지</span>`;
-}
 function renderTraitDetail(cid){
   const det=$("traitDetail"); det.innerHTML="";
   const n=traitNode(cid,traitSel[cid]); if(!n) return;
@@ -11408,13 +11432,11 @@ function renderTraitDetail(cid){
   const taken=traitsTaken(cid).map(k=>traitNode(cid,k)).filter(Boolean);
   const sh=document.createElement("div"); sh.className="sumh"; sh.textContent=`배운 특성 ${taken.length}칸 · 큰 특성 ${taken.filter(x=>x.big&&!x.ks).length} · ★궁극 ${ksTaken(cid).length}/${ksMax(cid)}`; det.appendChild(sh);
   const sm=document.createElement("div"); sm.className="sum";
-  const E=traitEffects(cid), tot=effText(Object.fromEntries(Object.keys(EFF_TXT).filter(k=>E[k]).map(k=>[k,k.endsWith("_pct")||k==="counter"||k==="lifesteal"?Math.round(E[k]*100)/100:E[k]])));
+  const tot=traitEffSummary(cid);
   const bigs=taken.filter(x=>x.big||x.ks);
   sm.innerHTML=taken.length?`${bigs.length?bigs.map(x=>`<span style="color:${x.ks?"#f2c14e":"#ffe08f"}">${x.ks?"★ ":""}${esc(x.name)}</span>`).join(" · ")+"<br>":""}<span class="tot">${esc(tot||"")}</span>`:"아직 없음";
   det.appendChild(sm);
 }
-const TGLYPH={atk_pct:["공","a"],hp_pct:["체","s"],def:["방","s"],def_pct:["갑","s"],crit:["치","a"],critdmg:["극","a"],spd:["속","p"],counter:["반","a"],
-  mp_pct:["마","m"],mp_regen:["회","m"],heal_pct:["힐","h"],pen:["관","a"],lifesteal:["흡","h"],eva:["피","p"]};
 const SVGNS="http://www.w3.org/2000/svg";
 function svgEl(tag,attrs,parent){ const e=document.createElementNS(SVGNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
 function traitMapFit(cid,box,all){
@@ -14398,8 +14420,7 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
     const li=cLockIdx(cJoin(o)); if(li>=0&&!unl.includes(li)){ const w=W("🔒 잠긴 조건 — "+lockTip(li)); w.classList.add("rlock"); box.appendChild(w); }
     return box; };
   // 예전 번호로 저장된 규칙은 보여 줄 때 문장으로 바꿈(38번은 두 조건으로)
-  const toSpec=r=>{ if(typeof r.c1!=="string"){ if((r.c1|0)===38){ r.c1="hp:me:1:hp:ge:80"; if(!(r.logic|0)){ r.logic=1; r.c2="foes:foe:2:ge"; } } else r.c1=cKey(r.c1); }
-    if(typeof r.c2!=="string") r.c2=(r.c2|0)===38?"hp:me:1:hp:ge:80":cKey(r.c2); };
+  const toSpec=ruleSpecFix;   // v0.154 엔진(고돗 화면과 같은 함수)
   const rowEls=[];
   const drawRow=i=>{ const r=rules[i]; toSpec(r);
     if(!skills.includes(r.skill)){ r.skill=skills[0]; saveRules(); }
@@ -14408,8 +14429,8 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
     const hd=document.createElement("div"); hd.className="rlh";
     const no=document.createElement("span"); no.className="no"; no.textContent=i+1;
     const chk=document.createElement("input"); chk.type="checkbox"; chk.className="chk"; chk.checked=r.enabled; chk.title="이 규칙 사용"; chk.disabled=ro;
-    chk.onchange=()=>{ r.enabled=chk.checked; if(r.enabled&&r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); saveRulesU(selected); renderRules(); };
-    const sk=mkSel(skills.map(sid=>({v:sid,l:skLabel(sid)+(sid!==skills[0]&&sid!==r.skill&&rules.some((o,j)=>j!==i&&o.enabled&&o.skill===sid)?" (다른 칸)":"")})),r.skill,v=>{ r.skill=v; if(r.skill!==skills[0]) rules.forEach((o,j)=>{ if(j!==i&&o.enabled&&o.skill===r.skill) o.enabled=false; }); const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)) r.target=T.opts[0].v; saveRulesU(selected); renderRules(); },"sk");
+    chk.onchange=()=>{ ruleEnable(selected,i,chk.checked); renderRules(); };
+    const sk=mkSel(skills.map(sid=>({v:sid,l:skLabel(sid)+(sid!==skills[0]&&sid!==r.skill&&rules.some((o,j)=>j!==i&&o.enabled&&o.skill===sid)?" (다른 칸)":"")})),r.skill,v=>{ ruleSkill(selected,i,v); renderRules(); },"sk");
     sk.onclick=e=>e.stopPropagation();
     const sum=document.createElement("span"); sum.className="rsum"; sum.innerHTML=cLabel(r.c1,true)+((r.logic|0)?` <b class="lgw">${r.logic===1?"그리고":"또는"}</b> `+cLabel(r.c2,true):"");
     const T=targetChoices(SKILLS[r.skill]||{},false); if(!T.opts.some(o=>o.v===r.target)){ r.target=T.opts[0].v; saveRules(); }
@@ -14447,7 +14468,6 @@ function renderRules(){ try{ renderPresetBar(); }catch(e){}
 function renderPresetBar(){ const el=$("presetBar"); if(!el||!progress||!progress.heroes[selected]) return; const P=rulePresets(selected);
   el.innerHTML=P.map((x,i)=>`<button class="ghostbtn pset${x?" has":""}" data-ps="${i}" title="${x?esc(x.name):"빈 칸"}">💾${i+1}${x?` ${esc(x.name)}`:""}</button>`).join("");
   el.querySelectorAll("[data-ps]").forEach(b=>b.onclick=()=>openPreset(selected,+b.dataset.ps)); }
-function presetSave(cid,i,name){ const P=rulePresets(cid); P[i]={name:(name||"").trim().slice(0,12)||`설정 ${i+1}`, rules:JSON.parse(JSON.stringify((partyRules[cid]||[]).filter(r=>r))), at:Date.now(), stance:heroStance(cid)}; saveProgress(); }
 function openPreset(cid,i){ if(isCompanion(cid)) return; if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>`,"",2400); return; }
   const P=rulePresets(cid), x=P[i], who=heroDisplayName(cid);
   const m=openModal(`<h3>📜 ${esc(who)} — 저장 칸 ${i+1}</h3>
@@ -14576,19 +14596,13 @@ function masteryRow(cid,sid){
     if(runBusy()){ const sp=document.createElement("span"); sp.textContent=`${th}: 마을에서 고르기`; row.appendChild(sp); continue; }
     const lab=document.createElement("span"); lab.textContent=`${th}: 선택 →`; lab.style.color="var(--buff)"; row.appendChild(lab);
     for(const [k,v] of [["a",va],["b",vb]]){ const b=document.createElement("button"); b.textContent=v.t;
-      b.onclick=()=>{ h.mastery[sid]=h.mastery[sid]||{xp:0,pick:{}}; h.mastery[sid].pick[i]=k; saveProgress(); renderRules(); logLine(`<span class="win">📘 ${esc(heroDisplayName(cid))}의 '${esc(s.name)}' 숙련 ${th} — ${esc(v.t)}</span>`); };
+      b.onclick=()=>{ if(!masteryPick(cid,sid,i,k)) return; saveProgress(); renderRules(); };   // v0.154 엔진(masteryPick — 봇 · 고돗 화면과 같은 함수)
       row.appendChild(b); }
   }
   if(xp>=MASTERY_MAX){ const sp=document.createElement("span"); sp.className="picked"; sp.textContent=`${MASTERY_MAX}: 숙달 (모든 효과 +5%)`; row.appendChild(sp); }
   return row;
 }
-function moveRule(i,d){
-  if(runBusy()) return;
-  const rules=partyRules[selected]; const j=i+d;
-  if(j<0||j>=rules.length) return;
-  [rules[i],rules[j]]=[rules[j],rules[i]];
-  saveRulesU(selected); renderRules();
-}
+function moveRule(i,d){ if(ruleMove(selected,i,d)) renderRules(); }   // v0.154 규칙은 엔진(ruleMove)
 
 /* ---- 파티·장비 ---- */
 /* ---- 장비 비교 · 추천 · 자동 정리 (v0.17) ---- */
@@ -17438,6 +17452,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.22", v:"v0.154", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.153", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.152", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.151", t:"정리", L:["오류 수정"]},
