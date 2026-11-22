@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795354327578"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795359308749"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11295,6 +11295,40 @@ const CAMP_DIFF_BG=["camp","camp_midnight","camp_eternal"];   // 황혼 · 자�
 // v0.33 모닥불 쉼터: 마을에서는 보유한 영웅이 모두 모닥불 둘레에 앉아 쉼(출전하지 않는 영웅도). 누르면 파티·장비로
 function campUnits(){ if(!progress||!progress.protag) return [...buildParty()]; const inP=new Set(battleIds()); return rosterIds().map(c=>{ const u=buildHeroUnit(c); u._bench=!inP.has(c); return u; }); }
 
+/* ---------- v0.157 설정 · 전투 속도 ---------- */
+const SPEEDS=[{v:700,label:"1배속",tier:"free"},{v:350,label:"2배속",tier:"free"},{v:233,label:"3배속",tier:"cleared"},{v:175,label:"4배속",tier:"sub"},{v:0,label:"즉시",tier:"admin"}];   // v0.93 1·2·3·4배속(예전 보통 700 · 조금 빠르게 500 · 빠르게 320 · 매우 빠르게 160)
+const SPEED_OLD={500:350,320:233,160:175};   // 예전에 저장된 속도 → 새 배속
+const SPEED_DEFAULT=320;
+const ADMIN={on:false};
+function isAdmin(){ return ADMIN.on; }
+function hasPaid(tier){ return false; }   // 유료 상품(나중): 결제한 속도 단계를 여기서 열어 줌
+function speedRoomCleared(){ return speedRoomClearedBase()||speedBoostOn(); }   // v0.56: 정액·광고 30분이면 어디서나 '빠르게'
+function speedRoomClearedBase(){
+    if(coopRunOn()) return true;
+    if(runState){ if(runState.mode) return true; return actsDone(runState.d,runState.regionKey)>=(runState.act||ACT_N); }
+    if(!progress) return false; if(egModeOf()) return true; return actsDone(progress.diff,progress.lastRegion)>=curAct(); }
+function speedAllowed(o){ return isAdmin()||o.tier==="free"||(o.tier==="cleared"&&speedRoomCleared())||(o.tier==="sub"&&speedSubFastest())||(o.tier==="paid"&&hasPaid(o)); }
+// v0.157 쓸 속도: 저장한 값(pref)을 쓸 수 있으면 그것 · 아니면 지금 값(cur) · 둘 다 안 되면 가장 가까운 쓸 수 있는 속도
+function speedPick(pref,cur){ let p=+pref; if(SPEED_OLD[p]) p=SPEED_OLD[p]; const ok=v=>SPEEDS.some(o=>o.v===v&&speedAllowed(o)); const hasP=pref!=null&&pref!=="";
+  if(hasP&&ok(p)) return p; const c=(cur!=null&&cur!=="")?+cur:hasP?p:SPEED_DEFAULT; return ok(c)?c:nearestSpeed(c); }
+// v0.157 막에 들어갈 때 속도 올리기(v0.55.2 이미 깬 막은 3배속 · v0.56 정액이면 4배속): 바꿀 값, 그대로면 null
+function speedEnterCap(cur){ const want=speedSubFastest()?175:speedRoomCleared()?233:0; return want&&cur>want?want:null; }
+function nearestSpeed(v){ const ok=SPEEDS.filter(speedAllowed); if(!isFinite(v)) return SPEED_DEFAULT; let b=ok[0]; for(const o of ok) if(Math.abs(o.v-v)<Math.abs(b.v-v)) b=o; return isFinite(v)&&ok.length?b.v:SPEED_DEFAULT; }
+function setAdmin(on){ ADMIN.on=!!on; speedRefresh(); if(!on&&instantMode()) setSpeed(SPEED_DEFAULT); }
+// v0.157 관리자 코드 넣기(맞으면 이 기기에 기억 · 관리자 켬) · 기억한 코드로 켜기
+function adminTry(code){ if(adminHash(code)!==ADMIN_KEY) return false; safeSet("pn_admin",ADMIN_KEY); setAdmin(true); return true; }
+function adminRestore(){ if(safeGet("pn_admin")===ADMIN_KEY) setAdmin(true); }
+// 관리자 코드: Claude 페이지 밖(일반 주소)에서도 관리자로 — 설정에서 한 번 넣으면 이 브라우저에 기억. 코드는 글자 그대로 두지 않고 해시로만 비교
+function adminHash(t){ let h=2166136261; for(const ch of String(t).trim()){ h^=ch.codePointAt(0); h=Math.imul(h,16777619)>>>0; } return h.toString(36); }
+const ADMIN_KEY="1736i74";   // v0.93 관리자 코드 변경(해시만 둠) — 화면 잠금용. 서버에 쓰는 관리자 권한(공지·우편)은 Firebase admins/<uid>로 따로 막음
+// v0.157 새 게임(규칙): 진행 · 장비 · 규칙을 처음으로 → 저장
+function newGameCore(){ runState=null; progress=defaultProgress(); progress.resetAt=Date.now(); equippedStore=[]; partyRules=defaultRules(); selected="knight"; traitUndo={}; saveProgress(); }
+// v0.157 주인공 이름 바꾸기: 그대로면 null · 바꿨으면 "" · 못 쓰는 이름이면 그 까닭
+function protagRename(raw){ if(!progress.protag) return Promise.resolve(null); const n=cleanName(raw); if(n===progress.protag.name&&!nameProblem(raw)) return Promise.resolve(null);
+  return nameCheck(n,progress.protag.cid,raw).then(why=>{ if(why) return why; if(!progress.protag) return null;   // 엔진 구역은 약속 then으로(기다리는 문법 없이)
+    const old=progress.protag.name; progress.protag.name=n; nameRelease(old); saveProgress(); rerenderAll();
+    logLine(`<span class="win">★ 주인공 이름 변경: ${esc(old)} → ${esc(n)}</span>`); return ""; }); }
+
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 let curUnits=[];
@@ -16268,36 +16302,18 @@ function repeatAfterRun(){
   REPEAT.t=bgSet(go,1800); }
 function setAutoAdv(on){ autoAdv=!!on; const c=$("autoAdv"); if(c) c.checked=autoAdv; safeSet("pn_autoadv",autoAdv?"1":"0"); if(autoAdv&&runState&&!playing&&!telling) scheduleAuto(); try{ setMainBtn(); }catch(e){} }
 /* v0.32 전투 속도 4단계(일반) + 즉시(관리자 전용). tier: free 누구나 · paid 나중에 유료 상품 · admin 관리자만 */
-const SPEEDS=[{v:700,label:"1배속",tier:"free"},{v:350,label:"2배속",tier:"free"},{v:233,label:"3배속",tier:"cleared"},{v:175,label:"4배속",tier:"sub"},{v:0,label:"즉시",tier:"admin"}];   // v0.93 1·2·3·4배속(예전 보통 700 · 조금 빠르게 500 · 빠르게 320 · 매우 빠르게 160)
-const SPEED_OLD={500:350,320:233,160:175};   // 예전에 저장된 속도 → 새 배속
-const SPEED_DEFAULT=320;
 const SPEED_SHORT={"즉시":"즉시"};   /* v0.93 배속 이름(1배속~4배속)을 그대로 씀 */   // v0.55.7: 전장 옆 작은 단추용
-const ADMIN={on:false};
-function isAdmin(){ return ADMIN.on; }
-function hasPaid(tier){ return false; }   // 유료 상품(나중): 결제한 속도 단계를 여기서 열어 줌
 /* v0.43 속도 제한(일반 플레이어): 처음 깨는 막은 '조금 빠르게'까지, 이미 깬 막은 '빠르게'까지. 관리자는 전부.
    함께하기·최종 콘텐츠는 '깬 막'으로 봄. 마을에서는 지금 고른 막 기준 */
-function speedRoomCleared(){ return speedRoomClearedBase()||speedBoostOn(); }   // v0.56: 정액·광고 30분이면 어디서나 '빠르게'
-function speedRoomClearedBase(){ try{
-    if(typeof COOP!=="undefined"&&COOP.run) return true;
-    if(typeof runState!=="undefined"&&runState){ if(runState.mode) return true; return actsDone(runState.d,runState.regionKey)>=(runState.act||ACT_N); }
-    if(!progress) return false; if(typeof egModeOf==="function"&&egModeOf()) return true; return actsDone(progress.diff,progress.lastRegion)>=curAct();
-  }catch(e){ return false; } }
-function speedAllowed(o){ return isAdmin()||o.tier==="free"||(o.tier==="cleared"&&speedRoomCleared())||(o.tier==="sub"&&speedSubFastest())||(o.tier==="paid"&&hasPaid(o)); }
 function speedRefresh(){ try{ buildSpeedOptions(); }catch(e){} }
 let speedForced=null;   // 코드(점검·봇)에서 setSpeed로 정한, 목록에 없는 속도 — 목록을 다시 만들어도 유지
 function buildSpeedOptions(){ const sel=$("speed"); if(!sel) return; const cur=sel.value, sig=SPEEDS.map(o=>speedAllowed(o)?1:0).join("")+"|"+speedForced;
   if(sel._sig===sig&&sel.options.length) return; sel._sig=sig; sel.innerHTML="";
   for(const o of SPEEDS){ if(!speedAllowed(o)) continue; const op=document.createElement("option"); op.value=String(o.v); op.textContent=o.label; sel.appendChild(op); }
   if(speedForced!=null&&![...sel.options].some(x=>x.value===speedForced)){ const o=SPEEDS.find(x=>String(x.v)===speedForced); const op=document.createElement("option"); op.value=speedForced; op.textContent=o?o.label:("점검 "+speedForced); sel.appendChild(op); }
-  let pref=safeGet("pn_speed")||String(SPEED_DEFAULT); if(SPEED_OLD[+pref]){ pref=String(SPEED_OLD[+pref]); safeSet("pn_speed",pref); } const want=speedForced!=null?speedForced:[...sel.options].some(x=>x.value===pref)?pref:(cur!==""?cur:pref);
+  let pref=safeGet("pn_speed")||String(SPEED_DEFAULT); if(SPEED_OLD[+pref]){ pref=String(SPEED_OLD[+pref]); safeSet("pn_speed",pref); } const want=speedForced!=null?speedForced:String(speedPick(pref,cur));
   sel.value=[...sel.options].some(x=>x.value===want)?want:String(nearestSpeed(+want)); renderSpeedSeg(); try{ onSpeedChanged(); }catch(e){} }
-function nearestSpeed(v){ const ok=SPEEDS.filter(speedAllowed); if(!isFinite(v)) return SPEED_DEFAULT; let b=ok[0]; for(const o of ok) if(Math.abs(o.v-v)<Math.abs(b.v-v)) b=o; return isFinite(v)&&ok.length?b.v:SPEED_DEFAULT; }
-function setAdmin(on){ ADMIN.on=!!on; buildSpeedOptions(); if(!on&&instantMode()) setSpeed(SPEED_DEFAULT); }
-// 관리자 코드: Claude 페이지 밖(일반 주소)에서도 관리자로 — 설정에서 한 번 넣으면 이 브라우저에 기억. 코드는 글자 그대로 두지 않고 해시로만 비교
-function adminHash(t){ let h=2166136261; for(const ch of String(t).trim()){ h^=ch.codePointAt(0); h=Math.imul(h,16777619)>>>0; } return h.toString(36); }
-const ADMIN_KEY="1736i74";   // v0.93 관리자 코드 변경(해시만 둠) — 화면 잠금용. 서버에 쓰는 관리자 권한(공지·우편)은 Firebase admins/<uid>로 따로 막음
-if(safeGet("pn_admin")===ADMIN_KEY) setTimeout(()=>setAdmin(true),0);
+setTimeout(()=>adminRestore(),0);
 // 관리자 = 이 게임(아티팩트) 주인. claude.ai 안에서 열었을 때만 알 수 있음 — 그 밖(파일로 연 경우 등)에서는 일반 플레이어
 (async()=>{ try{ if(typeof window!=="undefined"&&window.claude&&window.claude.use){ const u=await window.claude.use("user"); if(u&&u.isOwner&&u.isOwner()) setAdmin(true); } }catch(e){} })();
 function cycleSpeed(){ const sel=$("speed"); if(!sel) return; const o=[...sel.options], i=o.findIndex(x=>x.value===sel.value); setSpeed(o[(i+1)%o.length].value); }
@@ -16622,7 +16638,7 @@ function startRun(){
   ruleHits={}; ruleHitsSeen=true;
   runBegin();
   const rk=runState.regionKey, d=runState.d, act=runState.act;
-  try{ const want=speedSubFastest()?175:speedRoomCleared()?233:0; if(want&&parseInt($("speed").value,10)>want) setSpeed(want); }catch(e){}   // v0.55.2: 이미 깬 막은 '빠르게'로 · v0.56: 정액이면 '매우 빠르게'
+  try{ const w=speedEnterCap(parseInt($("speed").value,10)); if(w!=null) setSpeed(w); }catch(e){}   // v0.55.2: 이미 깬 막은 '빠르게'로 · v0.56: 정액이면 '매우 빠르게'
   spawnField([...runState.party]);   // v0.33: 입장하자마자 그 막 무대로(이야기 자막 동안 마을 모닥불이 남지 않게)
   showTab("dungeon"); setZoneLine(); renderHud();
   const nb=runState.zones.filter(z=>z.type==="battle").length;
@@ -17424,15 +17440,14 @@ function openSettings(){
   m.querySelector("#sndOn").onclick=()=>{ SND.set({on:!SND.st.on}); closeModal(); openSettings(); };
   { const og=m.querySelector("#opsGo"); if(og) og.onclick=()=>{ closeModal(); openOps(); }; }
   { const br=m.querySelector("#bkRestore"); if(br){ let arm=false; br.onclick=()=>{ if(!arm){ arm=true; br.textContent="한 번 더 누르면 지금 진행 대신 이 진행으로 바뀝니다"; return; } closeModal(); restoreLocalBackup(); }; } }
-  { const ab=m.querySelector("#admGo"); if(ab){ const go=()=>{ const v=m.querySelector("#admCode").value; if(adminHash(v)===ADMIN_KEY){ safeSet("pn_admin",ADMIN_KEY); setAdmin(true); closeModal(); openSettings(); toast(`<span class="tc">관리자</span>관리자 모드 켜짐`,"good"); } else { m.querySelector("#admMsg").textContent="코드가 맞지 않습니다."; } };
+  { const ab=m.querySelector("#admGo"); if(ab){ const go=()=>{ const v=m.querySelector("#admCode").value; if(adminTry(v)){ closeModal(); openSettings(); toast(`<span class="tc">관리자</span>관리자 모드 켜짐`,"good"); } else { m.querySelector("#admMsg").textContent="코드가 맞지 않습니다."; } };
     ab.onclick=go; m.querySelector("#admCode").onkeydown=e=>{ if(e.key==="Enter") go(); }; } }
   m.querySelector("#sndB").oninput=e=>SND.set({bgm:e.target.value/100}); m.querySelector("#sndS").oninput=e=>{ SND.set({sfx:e.target.value/100}); SND.fx("ui_click"); };
   if(pg){
     const inp=m.querySelector("#renIn");
-    const doRen=async()=>{ const n=cleanName(inp.value); if(n===progress.protag.name&&!nameProblem(inp.value)) return;
-      const why=await nameCheck(n,progress.protag.cid,inp.value); if(why){ toast(`<span class="tc">이름</span>${esc(why)} — 다른 이름을 지어 주세요.`,"",3200); inp.focus(); return; }
-      const old=progress.protag.name; progress.protag.name=n; nameRelease(old); saveProgress(); rerenderAll();
-      logLine(`<span class="win">★ 주인공 이름 변경: ${esc(old)} → ${esc(n)}</span>`); closeModal(); };
+    const doRen=async()=>{ const why=await protagRename(inp.value); if(why===null) return;
+      if(why){ toast(`<span class="tc">이름</span>${esc(why)} — 다른 이름을 지어 주세요.`,"",3200); inp.focus(); return; }
+      closeModal(); };
     m.querySelector("#renGo").onclick=doRen;
     inp.onkeydown=e=>{ if(e.key==="Enter") doRen(); };
   }
@@ -17445,11 +17460,9 @@ function openSettings(){
   };
 }
 function newGame(){
-  runState=null;
-  progress=defaultProgress(); progress.resetAt=Date.now(); equippedStore=[];
-  partyRules=defaultRules(); selected="knight"; traitCid="knight"; traitUndo={};
+  newGameCore(); traitCid="knight";
   $("log").innerHTML=""; $("result").textContent=""; $("result").className="result";
-  saveProgress(); rerenderAll(); goCamp();
+  rerenderAll(); goCamp();
   logLine(`<span class="r">새 게임을 시작합니다.</span>`);
   maybeOnboard();
 }
@@ -17463,6 +17476,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.22", v:"v0.157", t:"정리", L:["운영 기능 개선"]},
   {d:"2026.11.22", v:"v0.156", t:"정리", L:["운영 기능 개선"]},
   {d:"2026.11.22", v:"v0.155", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.154", t:"정리", L:["오류 수정"]},
@@ -18032,6 +18046,7 @@ function start(snap){
    - 방(named room 'pn-<코드>'): 준비 여부 · 내 영웅의 전투 정보(snap) · 채팅 · (방장만) 구성원 순서·지역·출발 기록
    - 전투는 방장이 정한 난수 씨앗 + 각자의 snap으로 모든 화면이 똑같이 계산(결정적). 방장이 나가도 끝까지 진행된다.
    - 보상(경험치·골드·장비)은 각자 자기 몫. 증표·챕터 클리어 기록은 혼자 하기에서만 쌓인다. */
+function coopRunOn(){ return !!COOP.run; }   // v0.157 엔진(전투 속도)이 부름
 const COOP={ rt:null, st:"off", conn:false, nr:null, code:null, isHost:false, heroCid:null, ready:false,
   lobbyChat:[], roomChat:[], seen:{}, myLobbyChat:[], myRoomChat:[], run:null, lastRunId:null, unsub:[], roomUnsub:[],
   title:"", mx:4, rk:null, d:0, mem:[], hostGoneAt:0, renderDue:false, notice:"", mode:null, egStart:1, mySnaps:null, mySnapz:null, packN:0 };
