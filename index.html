@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795351037745"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795354327578"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -6169,12 +6169,14 @@ function chkWhy(P,N,G){ G=G||{}; if(!P||typeof P.d!=="number") return "검사 �
     const want=N.d===P.d?(P[b]||0)+Math.max(0,free):Math.max(0,free); if(N[b]!==want) return `${CHK_NM[k]} 계산이 서버와 다름`; }
   return "숫자는 맞음 — 접속 막힘 · 기기 진행 지우기 표시 · 서버 규칙 버전을 확인"; }
 async function chkRecover(){ if(cloud.recovering||!cloud.doc) return; if(cloud.recAt&&Date.now()-cloud.recAt<4000) return; cloud.recovering=true; cloud.recAt=Date.now();
-  try{ const sn=await cloud.doc.get(); const d=sn&&sn.exists?sn.data():null; cloud.chk=d&&d.chk?d.chk:null; await chkRefreshGrants();
+  const rs=await netTry(cloud.doc.get());   // v0.156 실패는 {err}로(예외 대신 — 고돗 화면과 같은 흐름)
+  if(!rs.err){ const sn=rs.v; const d=sn&&sn.exists?sn.data():null; cloud.chk=d&&d.chk?d.chk:null; await chkRefreshGrants();
     const N=cloudPayload().chk; cloud.rejWhy=chkWhy(cloud.chk,N,cloud.grants);
     let inv=null; try{ if(window.PNNet&&PNNet.acct&&PNNet.acct.status) inv=await PNNet.acct.status(); }catch(e){}
     if(inv&&inv.ban) cloud.rejWhy="접속 막힌 계정"; else if(inv&&inv.wipe) cloud.rejWhy="기기 진행 지우기 표시가 남아 있음";
     if(!cloud.repAt||Date.now()-cloud.repAt>60000||cloud.repWhy!==cloud.rejWhy){ cloud.repAt=Date.now(); cloud.repWhy=cloud.rejWhy; try{ window.PNNet&&PNNet.ops&&PNNet.ops.saveRej&&PNNet.ops.saveRej({why:cloud.rejWhy, chk:N, srv:cloud.chk, g:cloud.grants||null, inv:inv?(inv.ban?"ban":inv.wipe?"wipe":""):"", ver:gameVersion(), dev:devLabel()}); }catch(e){} }
-  }catch(e){} finally{ cloud.recovering=false; try{ netWall(); }catch(e){} } }
+  }
+  cloud.recovering=false; try{ netWall(); }catch(e){} }
 function netRequired(){ return typeof window!=="undefined"&&!!window.PNNet; }
 function netBlocked(){ if(!netRequired()) return false; if(!cloud.ready) return true;
   if(cloud.status==="synced"||cloud.status==="saving") return false;
@@ -6214,6 +6216,8 @@ function devLabel(){ try{ const u=navigator.userAgent; return /Android/i.test(u)
 const CHK_K=[["gold","bg","lg"],["ess","be","le"],["gem","bm","lm"],["enh","bn",null]];
 /* v0.95 지급 장부(grants): 관리자 우편·(출시 뒤) 결제 확인 서버가 준 골드·정수·💎 누계 — 이만큼은 하루 한도와 따로 늘 수 있음(l* = 이미 쓴 장부 몫).
    💎 결제는 하루 한도 없이 → 결제 확인 서버가 grants/<uid>/gem 에 더해 주는 방식으로 연결할 것 */
+// v0.156 서버 통신 결과를 {v} · {err}로(예외 대신) — 엔진의 async 함수가 try/catch 없이 실패를 다룸(고돗 변환은 catch를 옮기지 못함)
+function netTry(p){ try{ return Promise.resolve(p).then(v=>({v}),e=>({err:e||{}})); }catch(e){ return Promise.resolve({err:e||{}}); } }
 function chkRefreshGrants(){ try{ if(window.PNNet&&PNNet.ops&&PNNet.ops.grants) return PNNet.ops.grants().then(g=>{ if(g) cloud.grants=g; }).catch(()=>{}); }catch(e){} return Promise.resolve(); }
 function serverNow(){ try{ if(typeof window!=="undefined"&&window.PNNet&&PNNet.serverNow) return PNNet.serverNow(); }catch(e){} return Date.now(); }
 function chkNow(){ const ids=Object.keys(progress.heroes||{}); let enh=0, lv=1, aw=0;
@@ -6241,14 +6245,14 @@ async function cloudFlush(){
   if(!cloud.doc||!cloud.ready) return;
   if(cloud.writing){ cloud.dirty=true; return; }
   cloud.writing=true; setCloud("saving");
-  try{ const pl=cloudPayload(); await cloud.doc.set(pl); cloud.chk=pl.chk; cloudOk(); if(cloud.rejWhy){ cloud.rejWhy=""; try{ PNNet.ops.saveRejClear(); }catch(e){} } }
-  catch(e){
-    if(e&&e.code==="unavailable"){
-      try{ await new Promise(r=>setTimeout(r,800+Math.random()*800)); const pl=cloudPayload(); await cloud.doc.set(pl); cloud.chk=pl.chk; cloudOk(); }
-      catch(e2){ cloudFail(e2); }
-    } else cloudFail(e);
-  }
-  finally{ cloud.writing=false; if(cloud.dirty){ cloud.dirty=false; cloudFlush(); } }
+  // v0.156 실패는 {err}로(예외 대신 — 고돗 화면과 같은 흐름) · 서버가 잠깐 안 닿으면(unavailable) 한 번 더
+  let pl=null, r=null;
+  try{ pl=cloudPayload(); }catch(e){ r={err:e||{}}; }
+  if(!r) r=await netTry(cloud.doc.set(pl));
+  if(r.err&&r.err.code==="unavailable"&&pl){ await new Promise(res=>setTimeout(res,800+Math.random()*800)); try{ pl=cloudPayload(); r=await netTry(cloud.doc.set(pl)); }catch(e){ r={err:e||{}}; } }
+  if(!r.err){ cloud.chk=pl.chk; cloudOk(); if(cloud.rejWhy){ cloud.rejWhy=""; try{ PNNet.ops.saveRejClear(); }catch(e){} } }
+  else cloudFail(r.err);
+  cloud.writing=false; if(cloud.dirty){ cloud.dirty=false; cloudFlush(); }
 }
 function progressSummary(pr){
   const lv=(Array.isArray(pr.roster)?pr.roster:BASE_IDS).map(c=>((pr.heroes||{})[c]||{}).level||1);
@@ -6357,12 +6361,13 @@ async function cloudInit(){
   if(!db||!uid){ setCloud("off"); return; }
   cloud.doc=db.doc("data/users/"+uid+"/save");
   let snap=null;
-  for(let i=0;;i++){
-    try{ snap=await cloud.doc.get(); break; }
-    catch(e){ cloud.lastErr={code:String((e&&(e.code||e.message))||e).slice(0,120), at:Date.now(), read:true}; setCloud("error");
+  for(let i=0;;i++){   // v0.156 읽기 실패는 {err}로(예외 대신 — 고돗 화면과 같은 흐름)
+    const rr=await netTry(cloud.doc.get()); if(!rr.err){ snap=rr.v; break; }
+    { const e=rr.err; cloud.lastErr={code:String((e&&(e.code||e.message))||e).slice(0,120), at:Date.now(), read:true}; setCloud("error");
       // v0.94 서버 진행을 읽기 전에는 절대 올리지 않음(예전엔 읽기에 실패해도 올리기를 켜서, 새로 시작한 이 기기 진행이 다른 기기 진행을 덮어쓸 수 있었음)
       if(i===1){ try{ window.PNNet&&window.PNNet.ops&&window.PNNet.ops.error({kind:"cloud-read", code:cloud.lastErr.code, ver:gameVersion(), ua:navigator.userAgent.slice(0,160)}); }catch(x){} }
-      await new Promise(r=>setTimeout(r,i<2?1500:10000)); }
+    }
+    await new Promise(res=>setTimeout(res,i<2?1500:10000));
   }
   cloud.ready=true;
   const d=snap&&snap.exists?snap.data():null;
@@ -17458,6 +17463,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.22", v:"v0.156", t:"정리", L:["운영 기능 개선"]},
   {d:"2026.11.22", v:"v0.155", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.154", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.153", t:"정리", L:["오류 수정"]},
