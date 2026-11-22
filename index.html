@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795310898777"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795320458252"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -10365,6 +10365,7 @@ function resoMigrate(p){ if(!p||p.resoMig) return; p.resoMig=1; const R=p.reso=p
   for(const it of [...(p.inv||[]),...(p._equipped||[])]) if(it&&Array.isArray(it.sockets)) it.sockets=it.sockets.map(r=>{ if(r&&String(r).includes("#")){ give(String(r).split("#")[1].split("+")); return String(r).split("#")[0]; } return r; });
   if(n) p.resoMigN=n; }
 
+let runState=null;   // 지금 진행 중인 던전(없으면 null) — v0.148 엔진 구역으로(던전 진행 함수 · 밸런스 봇이 씀)
 // v0.148 던전 진행 규칙 — 화면 함수(startRun · enterZone · resolveRest · resolveChest · runBattle · endZoneBattle · advanceZone · clearAct · clearRun · startEg · egAfterWin · egEnd · doRetreat)는 연출만 하고 상태는 여기서 바꿈(고돗 화면도 같은 함수를 부름)
 // 막 입장: 던전 만들기 · 기록 · 횃불 · 보관함 · 아트 패스(화면은 먼저 기록 창을 비운 뒤 부름 — 횃불 기록이 남게)
 function runBegin(){
@@ -10579,6 +10580,9 @@ function egFinish(R,res){
   logLine(`<span class="gain">이번 도전 합계 — 경험치 ${g.exp} · 골드 ${g.gold} · 장비 ${g.items}개 · 새벽 파편 ${g.shards||0}</span>`);
   return {msg, win};
 }
+// 각성(플레이어가 누름 · 밸런스 봇도 같은 함수): 만렙 뒤 경험치가 차면 경험치 0 · 각성 +1 · 규칙 칸 · 전직 규칙
+function awakenDo(cid){ const h=progress.heroes[cid]; if(!canAwaken(h)) return false;
+  h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&h.adv) addAdvRules(cid,advInfo(cid)); saveRules(); return true; }
 // 후퇴 — "eg"(최종 콘텐츠: egFinish로 마무리) · "camp"(패배와 같이 골드를 잃고 마을로)
 function runRetreat(R){
   if(!R.mode) recRun("retreat",(R.zones[R.zone]||{}).label);
@@ -10600,11 +10604,131 @@ function plateDropNote(p){ const S=PLATE_SETS[p.set]; if(p.auto){ logLine(`<span
 /* ---------- v0.148 글자 다듬기(기록 글에 넣는 이름의 < > & 를 글자로) ---------- */
 const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 
+/* ---------- v0.149 장비 · 강화 · 룬 · 재련 · 신화 무기 규칙(화면 구역에서 그대로 옮김) ---------- */
+function enhLuck(cid){ return (cid&&progress.heroes[cid]?heroPrim(cid).luk:partyLuck())*0.003; }
+// 장비를 누가 끼고 있는지(없으면 null = 인벤토리)
+function itemOwner(id){ return rosterIds().find(c=>Object.values(progress.heroes[c].equip).includes(id))||null; }
+function reforgeTier(it){ return Math.min(it.rarity==="set"?3:4,RAR_IDX[it.rarity]||0); }
+function reforgeValueCost(it){ return {ess:Math.max(1,Math.ceil(reforgeCost(it).ess/2))}; }
+function reforgeAllCost(it){ return {ess:reforgeCost(it).ess*2}; }
+function reforgeLine(it,i,mode){
+  const a=it.affixes[i]; if(!a) return null; const tier=reforgeTier(it), lm=reforgeLm(it), ctx=affixCtx(it);
+  let x;
+  if(mode==="value"){ if(a.k!=="c_sk"&&(AFFIX_POOL.find(z=>z.k===a.k)||{}).flat) return null; x=rollAffix(tier,lm,ctx,a); }
+  else { x=rollAffix(tier,lm,ctx); for(let g=0;g<40&&it.affixes.some((y,j)=>j!==i&&y.k===x.k);g++) x=rollAffix(tier,lm,ctx); }
+  it.affixes[i]=x; it.rerolls=(it.rerolls||0)+1; return x;
+}
+function reforgeAll(it,lock){
+  const keep=lock!=null&&it.affixes[lock]?[it.affixes[lock]]:[]; const n=it.affixes.length;
+  it.affixes=rollAffixes(n,reforgeTier(it),reforgeLm(it),affixCtx(it),keep);
+  if(keep.length){ const k=it.affixes.shift(); it.affixes.splice(lock,0,k); }   // 잠근 줄은 제자리
+  it.rerolls=(it.rerolls||0)+1;
+}
+function gradeUp(it){
+  const old=it.rarity, G=gradeUpCore(it,(typeof itemOwner==="function"&&itemOwner(it.id))||partySel); if(!G) return false; saveProgress(); const R=RARITIES[RAR_IDX[G.to]];
+  try{ SND.fx(G.to==="legend"?"loot_legend":"loot_rare"); }catch(e){}
+  logLine(`<span class="win">⬆ 등급 올리기 — <span class="${rarityCls(it)}">${esc(itemLabel(it))}</span> (${RARITIES[RAR_IDX[old]].label} → ${R.label}) · ${FRAG_LABEL[G.frag]} -${G.n} · 정수 -${G.ess}</span>`);
+  return true;
+}
+function equip(cid,itemId,slotPick,quiet){
+  const idx=progress.inv.findIndex(x=>x.id===itemId); if(idx<0) return;
+  const it=progress.inv[idx];
+  { const o=relicClash(cid,it); if(o){ logLine(`<span class="r">${esc(RELICS[it.relic].name)}은(는) ${esc(heroDisplayName(o))}이(가) 이미 끼고 있습니다 — 같은 유물은 한 영웅만 낄 수 있습니다.</span>`); return; } }
+  if(!canEquip(cid,it)){ logLine(`<span class="r">${esc(heroDisplayName(cid))}은(는) 이 장비를 착용할 수 없습니다 (${esc(itemClassText(it)||"양손 무기")}).</span>`); return; }
+  progress.inv.splice(idx,1);
+  const slot=(slotPick&&(slotPick===it.slot||(it.slot==="ring"&&(slotPick==="ring1"||slotPick==="ring2"))))?slotPick:bestSlotFor(cid,it);
+  const prevId=progress.heroes[cid].equip[slot];
+  if(prevId!=null){
+    const pi=equippedStore.findIndex(x=>x.id===prevId);
+    if(pi>=0) progress.inv.push(equippedStore.splice(pi,1)[0]);
+  }
+  equippedStore.push(it);
+  progress.heroes[cid].equip[slot]=it.id;
+  // 양손 무기를 들면 보조 장비는 벗는다
+  if(slot==="weapon"&&WEAPONS[it.wtype]&&WEAPONS[it.wtype].two&&progress.heroes[cid].equip.offhand!=null){ unequip(cid,"offhand",true); logLine(`<span class="r">양손 무기라 보조 장비를 벗었습니다.</span>`); }
+  if(quiet) return true;
+  logLine(`<span class="r">🛡 ${esc(heroDisplayName(cid))} 장착: ${esc(itemLabel(it))}</span>`);
+  saveProgress(); renderParty(); renderRules();
+}
+function unequip(cid,slot,quiet){
+  const id=progress.heroes[cid].equip[slot]; if(id==null) return;
+  const pi=equippedStore.findIndex(x=>x.id===id);
+  if(pi>=0) progress.inv.push(equippedStore.splice(pi,1)[0]);
+  progress.heroes[cid].equip[slot]=null;
+  if(!quiet){ saveProgress(); renderParty(); renderRules(); }
+}
+// v0.68 한 번에 장착: 가방에서 이 영웅에게 더 좋은 장비를 부위마다 골라 낌(룬 제외) · 한 번에 해제: 낀 장비를 모두 가방으로
+function equipBest(cid){ if(runBusy()) return 0; const got=[];
+  for(let i=0;i<16;i++){ let best=null, bp=0.5; for(const it of progress.inv){ const p=upgradeFor(cid,it); if(p&&p.pct>bp){ bp=p.pct; best=it; } } if(!best) break; if(!equip(cid,best.id,null,true)) break; got.push(best); }
+  logLine(got.length?`<span class="r">🛡 ${esc(heroDisplayName(cid))} 한 번에 장착 — ${got.map(x=>esc(itemLabel(x))).join(", ")}</span>`:`<span class="r">${esc(heroDisplayName(cid))}에게 가방에서 더 좋은 장비가 없습니다.</span>`);
+  saveProgress(); renderParty(); renderRules(); return got.length; }
+function unequipAll(cid){ if(runBusy()) return 0; const eq=progress.heroes[cid].equip; let n=0; for(const k of Object.keys(eq)) if(eq[k]!=null){ unequip(cid,k,true); n++; }
+  if(n) logLine(`<span class="r">🛡 ${esc(heroDisplayName(cid))} 장비 ${n}개를 모두 벗어 가방에 넣었습니다${bagOver()?` — <b>가방이 가득 찼어요(${bagUsed()}/${bagCap()}칸)</b>: 정리하기 전엔 새 장비를 줍지 못합니다`:""}.</span>`);
+  saveProgress(); renderParty(); renderRules(); return n; }
+function plateComplete(cid){ const W=plateWorn(cid); return W.every(Boolean)&&W.every(p=>p.set===W[0].set)?W[0].set:null; }
+// v0.29 교환소 — 신화 무기 제작 · 유물 각성
+function mythicItem(cid){ return [...progress.inv,...equippedStore].find(x=>x&&x.mythic===cid)||null; }
+function mythicCan(cid){ const E=egState(); return !!MYTHIC[cid]&&!mythicItem(cid)&&E.shards>=MYTHIC_COST.shards; }
+function reforgeMythicCan(cid){ return !!mythicItem(cid)&&egState().shards>=MYTHIC_REFORGE.shards; }
+function reforgeMythic(cid,wtype){ const it=mythicItem(cid); if(!it||!reforgeMythicCan(cid)) return null; const m=egMat(), E=egState();
+  if(!(WEAPONS[wtype]&&WEAPONS[wtype].cls===cid)) wtype=it.wtype;
+  E.shards-=MYTHIC_REFORGE.shards;
+  const nw=makeItem(true,egTier(),{slot:"weapon",rarity:"legend",cls:cid,wtype,luck:partyLuck(),extra:5});
+  for(const r of (it.sockets||[])) if(r&&RUNES[runeK(r)]) progress.inv.push(makeRune(r));   // 박혀 있던 룬은 가방으로
+  const keep={id:it.id, enh:0, mythic:cid, name:it.name};
+  for(const k of Object.keys(it)) delete it[k]; Object.assign(it,nw,keep);
+  saveProgress(); logLine(`<span class="win">🌠 신화 무기 다시 벼리기 — ${esc(itemDisplayName(it))} (${esc(WEAPONS[it.wtype].name)}) · 부위 강화는 그대로</span>`); return it; }
+function craftMythic(cid){ if(!mythicCan(cid)) return null; const m=egMat(), E=egState(), My=MYTHIC[cid];
+  E.shards-=MYTHIC_COST.shards;
+  const wt=heroWeaponType(cid);
+  const it=makeItem(true,egTier(),{slot:"weapon",rarity:"legend",cls:cid,wtype:WEAPONS[wt]&&WEAPONS[wt].cls===cid?wt:undefined,luck:partyLuck(),extra:5});
+  it.mythic=cid; it.name=My.name;
+  progress.inv.push(it); codexRecord(it); saveProgress(); lootToast(it,"신화 무기 제작");
+  logLine(`<span class="win">🌠 신화 무기 제작 — ${esc(My.name)}: ${esc(My.desc)}</span>`); return it; }
+
+// v0.149 부위 강화 한 번(플레이어 · 밸런스 봇 같은 함수): 못 하면 null · 하면 {ok, l(전 단계), drop(내려간 단계), gilt(금 감), useW(보호 주문서), c(비용), W(보호 주문서 상태)}
+function enhanceCore(cid,sk){
+  const E=slotEnh(cid,sk), l=E.l; if(!ENH_SLOTS.includes(sk)||l>=slotMax(cid,sk)||E.gilt) return null;
+  const c=enhCost(cid,sk);
+  if(progress.gold<c.gold||progress.ess<c.ess) return null;
+  const W=wardState(), useW=wardActive(l);   // v0.95 보호 주문서 · v0.96 켜져 있고 쓸 수 있을 때만 씀(없거나 오늘 다 썼으면 주문서 없이 강화)
+  progress.gold-=c.gold; progress.ess-=c.ess; if(useW) wardSpend(); dailyAdd("enh",1);
+  const ok=Math.random()<Math.min(1,ENH_RATE[l]+enhLuck(cid));
+  const fr=useW?{drop:0,gilt:0}:enhFailRule(l); let gilt=false;
+  if(ok) setSlotEnh(cid,sk,{l:l+1});
+  else if(fr.drop){ setSlotEnh(cid,sk,{l:l-fr.drop}); if(fr.gilt&&Math.random()<fr.gilt){ setSlotEnh(cid,sk,{gilt:true}); gilt=true; } }
+  return {ok, l, drop:ok?0:fr.drop, gilt, useW, c, W};
+}
+// 금 간 부위 수리(골드 · 정수) → 금 무늬
+function repairCore(cid,sk){ if(!slotEnh(cid,sk).gilt) return false; const c=repairCost(cid,sk); if(progress.gold<c.gold||progress.ess<c.ess) return false;
+  progress.gold-=c.gold; progress.ess-=c.ess; setSlotEnh(cid,sk,{gilt:false,gilded:true}); return true; }
+// 가방의 장비 · 룬 하나 판매(낀 룬은 가방으로 · 유물은 못 팖) → 받은 골드(못 하면 null) / 분해 → {e: 정수, fr: 조각}
+function invSell(it){ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0||it.slot==="relic") return null; progress.inv.splice(i,1); popRunes(it); const g=sellPrice(it); progress.gold+=g; return g; }
+function invDismantle(it){ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0) return null; progress.inv.splice(i,1); popRunes(it); const fr={}; const e=dismantleGive(it,fr); return {e, fr}; }
+// 고른 것 한 번에 판매 · 분해(가방 · 룬주머니) → {n, gold, ess, fr}
+function tidyItems(its,kind){ const ids=new Set(its.map(x=>x.id)); progress.inv=progress.inv.filter(x=>!ids.has(x.id)); const r={n:its.length, gold:0, ess:0, fr:{}};
+  if(kind==="sell"){ for(const x of its) r.gold+=sellPrice(x); for(const x of its) popRunes(x); progress.gold+=r.gold; }
+  else for(const x of its){ popRunes(x); r.ess+=dismantleGive(x,r.fr); }
+  return r; }
+// 자동 정리 설정을 지금 가진 것에 적용 — 돌려줌: autoLootLog 형식 {sold, gold, dis, ess, names, frag}
+function autoTidyNow(rune){ const targets=progress.inv.filter(it=>(it.slot==="rune")===rune&&autoLootMode(it)!=="keep"); const ids=new Set(targets.map(x=>x.id)); const modes=new Map(targets.map(x=>[x.id,autoLootMode(x)]));
+  progress.inv=progress.inv.filter(x=>!ids.has(x.id));
+  const r={sold:0,gold:0,dis:0,ess:0,names:[]};
+  for(const it of targets){ popRunes(it); if(modes.get(it.id)==="sell"){ r.sold++; r.gold+=sellPrice(it); progress.gold+=sellPrice(it); } else { r.dis++; r.ess+=dismantleGive(it,r.frag=r.frag||{}); } r.names.push(it.name); }   // v0.149 낀 룬은 가방으로(전에는 같이 사라짐)
+  return r; }
+// 룬 끼우기 · 빼기(빼면 룬은 가방으로 — 돌려줌: 뺀 룬 글자)
+function runeSocketCore(item,idx,runeIt){ if(!item||!item.sockets||item.sockets[idx]||!runeIt) return false; item.sockets[idx]=runeSock(runeIt); const i=progress.inv.findIndex(x=>x.id===runeIt.id); if(i>=0) progress.inv.splice(i,1); return true; }
+function runeUnsocket(item,idx){ const r=item&&item.sockets&&item.sockets[idx]; if(!r) return null; item.sockets[idx]=null; progress.inv.push(makeRune(r)); return r; }
+// 재련: 한 줄 종류 바꾸기(kind) · 수치만(value) → 새 줄(못 하면 null) / 전부 다시 굴리기(잠근 줄 lock은 남김)
+function reforgeDo(it,i,mode){ const a=it.affixes[i]; if(!a) return null; if(mode==="value"&&a.k!=="c_sk"&&(AFFIX_POOL.find(z=>z.k===a.k)||{}).flat) return null;
+  const c=mode==="value"?reforgeValueCost(it):reforgeCost(it); if(progress.ess<c.ess) return null; progress.ess-=c.ess; return reforgeLine(it,i,mode); }
+function reforgeAllDo(it,lock){ const ca=reforgeAllCost(it); if(progress.ess<ca.ess) return false; progress.ess-=ca.ess; reforgeAll(it,lock); return true; }
+// 보호 주문서 사기(새벽 결정)
+function wardBuy(){ if((progress.gem||0)<WARD_GEM) return false; progress.gem-=WARD_GEM; wardState().n++; return true; }
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 let curUnits=[];
 let playing=false;
-let runState=null;
 let invFilter="all", partySel=null, invSlot=null, invSort="rarity", autoArm=false, invOpen=null;
 let telling=false;
 
@@ -13978,7 +14102,6 @@ function plateDraw(cv,W,icon){ const g=cv.getContext("2d"); cv.width=64; cv.heig
     let a=Math.atan2(dx,-dy); if(a<0) a+=Math.PI*2; const off=a-w*(Math.PI/3), edge=Math.min(off,Math.PI/3-off)*r<0.8&&r>3&&(!whole||r>=28);   // 조각 사이 틈
     let c; if(edge) c="#05070d"; else if(!p) c=r>=28?"#2a3352":(((x+y)%4===0&&r>4)?"#1a2138":"#0e1322"); else if(r>=28) c=r>=30.5?"#05070d":PLATE_RIM[p.rar]; else c=plateArtPx(p.set,x,y)||"#0e1322";
     g.fillStyle=c; g.fillRect(x,y,1,1); } }
-function plateComplete(cid){ const W=plateWorn(cid); return W.every(Boolean)&&W.every(p=>p.set===W[0].set)?W[0].set:null; }
 /* v0.95 성반 탭(가방 · 룬주머니 옆) — 위: 이 영웅의 성반(원형 그림 · 세트 효과) · 가운데: 가진 성편(조각 모양 아이콘, 자리로 걸러 보기) · 아래: 제작 */
 let platePos=null, plateSel=null, plateBurst=false, plTidy=false, plPick=false, plPickSel=new Set(), plArm=null;
 function plateIconHTML(p,sz){ return `<canvas class="plic" data-pi="${p.id}" width="64" height="64" style="width:${sz||46}px;height:${sz||46}px"></canvas>`; }
@@ -14130,17 +14253,15 @@ function tidyBox(kind){ const rune=kind==="rune"; const box=document.createEleme
   const ab=document.createElement("button"); const armK=rune?"rune":"gear"; ab.className=autoArm===armK?"arm":"";
   ab.textContent=targets.length?(autoArm===armK?`한 번 더 → ${targets.length}개 정리`:`지금 가진 것에 적용 (${targets.length}개 · +${g}G · +${e}정수)`):"지금 정리할 것 없음"; ab.disabled=!targets.length;
   ab.onclick=()=>{ if(autoArm!==armK){ autoArm=armK; renderParty(); setTimeout(()=>{ if(autoArm===armK){ autoArm=false; try{ renderParty(); }catch(e){} } },4000); return; }
-    autoArm=false; const ids=new Set(targets.map(x=>x.id)); const modes=new Map(targets.map(x=>[x.id,autoLootMode(x)])); progress.inv=progress.inv.filter(x=>!ids.has(x.id));
-    const r={sold:0,gold:0,dis:0,ess:0,names:[]};
-    for(const it of targets){ if(modes.get(it.id)==="sell"){ r.sold++; r.gold+=sellPrice(it); progress.gold+=sellPrice(it); } else { r.dis++; r.ess+=dismantleGive(it,r.frag=r.frag||{}); } r.names.push(it.name); }
+    autoArm=false; const r=autoTidyNow(rune);
     autoLootLog(r); saveProgress(); renderParty(); };
   row.appendChild(ab); box.appendChild(row);
   return box; }
 function rpSelTotals(){ let n=0,g=0,e=0; for(const it of progress.inv) if(it.slot==="rune"&&rpSel.has(it.id)){ n++; g+=sellPrice(it); e+=dismantleValue(it); } return {n,g,e}; }
 function rpApply(kind){ if(rpArm!==kind){ rpArm=kind; renderParty(); setTimeout(()=>{ if(rpArm===kind){ rpArm=null; try{ renderParty(); }catch(e){} } },3500); return; }
-  rpArm=null; const T=progress.inv.filter(it=>it.slot==="rune"&&rpSel.has(it.id)); if(!T.length) return; const ids=new Set(T.map(x=>x.id)); progress.inv=progress.inv.filter(x=>!ids.has(x.id));
-  let gold=0, ess=0; const fr={}; for(const it of T){ if(kind==="sell"){ gold+=sellPrice(it); progress.gold+=sellPrice(it); } else ess+=dismantleGive(it,fr); }
-  rpSel.clear(); saveProgress(); logLine(`<span class="gain">◈ 룬 ${T.length}개 ${kind==="sell"?`판매 — 골드 +${gold}`:`분해 — 밤의 정수 +${ess}`}</span>`); renderParty(); }
+  rpArm=null; const T=progress.inv.filter(it=>it.slot==="rune"&&rpSel.has(it.id)); if(!T.length) return;
+  const R=tidyItems(T,kind);
+  rpSel.clear(); saveProgress(); logLine(`<span class="gain">◈ 룬 ${T.length}개 ${kind==="sell"?`판매 — 골드 +${R.gold}`:`분해 — 밤의 정수 +${R.ess}`}</span>`); renderParty(); }
 function heroTabs(){
   const box=document.createElement("div"); box.className="herotabs";
   const B=battleIds(), order=[...B,...rosterIds().filter(c=>!B.includes(c))];   // v0.93 이번 난이도에 출전하는 영웅이 먼저(대기 영웅은 뒤로)
@@ -14708,7 +14829,7 @@ function enhSideBtn(cid,sk){
   if(!ENH_SLOTS.includes(sk)||(it&&it.noEnh)){ b.className+=" none"; b.disabled=true; b.innerHTML=`<b>—</b>`; b.title="강화할 수 없는 부위"; return b; }   // (유물은 가운데 위 칸이라 단추 없음)
   const E=slotEnh(cid,sk), l=E.l, t=enhTier(l), s0=(SLOTS.find(x=>x.key===sk)||{label:sk}).label;
   if(E.gilt){ const c=repairCost(cid,sk); b.className+=" gilt"; b.innerHTML=`<b class="enh ${t.cls}">+${l}</b><small>수리</small>`; b.title=`${s0} — 금이 감(능력치 -10%) · 수리: 골드 ${c.gold} · 정수 ${c.ess}`; b.disabled=progress.gold<c.gold||progress.ess<c.ess||runBusy();
-    b.onclick=e=>{ e.stopPropagation(); progress.gold-=c.gold; progress.ess-=c.ess; setSlotEnh(cid,sk,{gilt:false,gilded:true}); saveProgress(); renderParty(); logLine(`<span class="win">🔧 ${esc(heroDisplayName(cid))}의 ${esc(s0)} — 균열을 금으로 메웠다 (+3%, 금 무늬가 남는다)</span>`); }; return b; }
+    b.onclick=e=>{ e.stopPropagation(); if(!repairCore(cid,sk)) return; saveProgress(); renderParty(); logLine(`<span class="win">🔧 ${esc(heroDisplayName(cid))}의 ${esc(s0)} — 균열을 금으로 메웠다 (+3%, 금 무늬가 남는다)</span>`); }; return b; }
   if(l>=slotMax(cid,sk)){ b.className+=" max"; b.disabled=true; b.innerHTML=`<b class="enh ${t.cls}">+${l}</b>`; b.title=`${s0} — 최대 강화`; return b; }
   const c=enhCost(cid,sk), rate=Math.min(1,ENH_RATE[l]+enhLuck(cid)), fr=enhFailRule(l);
   b.innerHTML=`<b class="enh ${t.cls}">+${l}</b>${wardActive(l)?`<small class="wardmk" title="보호 주문서">🛡</small>`:""}`;   // v0.55.6: 단추엔 단계만 · v0.96 보호 주문서가 쓰일 칸 표시 — 성공률·비용은 칸을 눌러 여는 창과 도움말에
@@ -14753,9 +14874,9 @@ function bagSelTotals(){ const its=progress.inv.filter(x=>bagSel.has(x.id)); ret
 function bagApply(kind){ const T=bagSelTotals(); if(kind==="sell"){ T.its=T.its.filter(x=>x.slot!=="relic"); T.n=T.its.length; T.g=T.its.reduce((a,x)=>a+sellPrice(x),0); }   // v0.97 유물은 팔지 않음(고른 것 중 유물은 남김)
   if(!T.n) return;
   if(bagArm!==kind){ bagArm=kind; renderParty(); setTimeout(()=>{ if(bagArm===kind){ bagArm=null; if(!$("body-equip").hidden) renderParty(); } },3500); return; }
-  bagArm=null; const ids=new Set(T.its.map(x=>x.id)); progress.inv=progress.inv.filter(x=>!ids.has(x.id)); for(const x of T.its) popRunes(x);
-  if(kind==="sell"){ progress.gold+=T.g; logLine(`<span class="gain">🪙 ${T.n}개 판매 — 골드 +${T.g}</span>`); try{ SND.fx("coin"); }catch(e){} }
-  else { const fr={}; for(const x of T.its) dismantleGive(x,fr); logLine(`<span class="gain">⚒ ${T.n}개 분해 — 밤의 정수 +${T.e}${fragText(fr)?" · "+fragText(fr):""}</span>`); }
+  bagArm=null; const R=tidyItems(T.its,kind);
+  if(kind==="sell"){ logLine(`<span class="gain">🪙 ${T.n}개 판매 — 골드 +${R.gold}</span>`); try{ SND.fx("coin"); }catch(e){} }
+  else { logLine(`<span class="gain">⚒ ${T.n}개 분해 — 밤의 정수 +${T.e}${fragText(R.fr)?" · "+fragText(R.fr):""}</span>`); }
   bagSel.clear(); bagPick=false; saveProgress(); renderParty(); }   // v0.93 판매·분해가 끝나면 고르기 모드를 닫고 원래 가방으로
 function bagQuick(maxTier,keepUp){ bagSel.clear(); for(const it of progress.inv){ if(it.lock||it.slot==="relic"||it.slot==="rune") continue; if(rarityTier(it)>maxTier||it.rarity==="set"&&maxTier<5) continue; if(keepUp&&it.slot!=="rune"&&isUpgradeForAnyone(it)) continue; bagSel.add(it.id); } renderParty(); }
 // v0.94 룬주머니 — 위: 이 영웅이 낀 장비의 소켓(빈 칸 누르고 룬 누르면 끼움 · 끼운 룬 누르면 빼서 주머니로) · 아래: 가진 룬
@@ -14765,9 +14886,9 @@ function rpFxLine(it){ const R=RUNES[it.rune]; if(!R) return ""; const ab=!!(it.
   const st=itemSummary(it);
   const fx=runeFxText(it.rune,it.rarity,ab), lk=COND[R.cond]&&COND[R.cond].lock?`조건 해금: ${COND[R.cond].label}`:""; return [st,fx,lk].filter(Boolean).join(" · "); }
 function rpSocketed(cid){ const h=progress.heroes[cid]; const out=[]; for(const sk of heroSlots()){ const id=h.equip[sk]; if(id==null) continue; const it=findEquipped(cid,sk); if(it&&it.sockets&&it.sockets.length) out.push({sk,it}); } return out; }
-function rpInsert(item,idx,runeIt){ if(!item||!item.sockets||item.sockets[idx]||!runeIt) return false; item.sockets[idx]=runeSock(runeIt); const i=progress.inv.findIndex(x=>x.id===runeIt.id); if(i>=0) progress.inv.splice(i,1);
+function rpInsert(item,idx,runeIt){ if(!runeSocketCore(item,idx,runeIt)) return false;
   saveProgress(); logLine(`<span class="win">◈ ${esc(itemLabel(item))}에 ${esc(RUNES[runeIt.rune].name)}(${esc((RARITIES.find(r=>r.key===runeIt.rarity)||{label:""}).label)}) 끼움 — ${esc(rpFxLine(runeIt))}</span>`); return true; }
-function rpRemove(item,idx){ const r=item&&item.sockets&&item.sockets[idx]; if(!r) return false; item.sockets[idx]=null; progress.inv.push(makeRune(r)); saveProgress(); logLine(`<span class="gain">◈ ${esc(itemLabel(item))}에서 ${esc(RUNES[runeK(r)].name)} 뺌 — 룬 탭으로</span>`); return true; }
+function rpRemove(item,idx){ const r=runeUnsocket(item,idx); if(!r) return false; saveProgress(); logLine(`<span class="gain">◈ ${esc(itemLabel(item))}에서 ${esc(RUNES[runeK(r)].name)} 뺌 — 룬 탭으로</span>`); return true; }
 function renderRunePouch(B,cid){
   const busy=runBusy(), G=rpGroups(), S=rpSocketed(cid);
   if(!rpSk||!heroSlots().includes(rpSk)) rpSk=S.length?S[0].sk:null;   // 고른 장비(룬주머니를 보는 중 왼쪽 장비 칸을 누르면 바뀜)
@@ -14806,8 +14927,8 @@ function renderRunePouch(B,cid){
     if(rpSock!=null&&cur&&!busy&&rpInsert(cur.it,rpSock,g.items[0])){ rpTap=null; rpSock=null; rpRune=null; after(); return; }
     if(!dbl) rpRune=rpRune===g.key?null:g.key; else rpRune=g.key; renderParty(); };
   const put=box.querySelector("#rpPut"); if(put) put.onclick=()=>{ const i=rpSock!=null?rpSock:cur.it.sockets.findIndex(r=>!r); if(i>=0&&rpInsert(cur.it,i,selIt)){ rpSock=null; if(selG.items.length<=1) rpRune=null; after(); } };
-  const sl=box.querySelector("#rpSell"); if(sl) sl.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===selIt.id); if(i<0) return; progress.inv.splice(i,1); progress.gold+=sellPrice(selIt); saveProgress(); logLine(`<span class="gain">${esc(itemDisplayName(selIt))} 판매 — 골드 +${sellPrice(selIt)}</span>`); renderParty(); };
-  const ds=box.querySelector("#rpDis"); if(ds) ds.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===selIt.id); if(i<0) return; progress.inv.splice(i,1); const fr={}; const e=dismantleGive(selIt,fr); saveProgress(); logLine(`<span class="gain">${esc(itemLabel(selIt))} 분해 — 밤의 정수 +${e}</span>`); renderParty(); };
+  const sl=box.querySelector("#rpSell"); if(sl) sl.onclick=()=>{ const g=invSell(selIt); if(g==null) return; saveProgress(); logLine(`<span class="gain">${esc(itemDisplayName(selIt))} 판매 — 골드 +${g}</span>`); renderParty(); };
+  const ds=box.querySelector("#rpDis"); if(ds) ds.onclick=()=>{ const D=invDismantle(selIt); if(!D) return; const e=D.e; saveProgress(); logLine(`<span class="gain">${esc(itemLabel(selIt))} 분해 — 밤의 정수 +${e}</span>`); renderParty(); };
 }
 function renderEquip(){
   const pane=$("equipPane"); const view=$("body-equip"); const scrollTop=view.scrollTop; const innerKeep=keepInnerScroll(pane); pane.innerHTML=""; pane.className="eqpane";
@@ -15211,7 +15332,7 @@ function heroCard(cid,mode){   // v0.35: mode "info"(파티 탭 — 능력치·�
   }
   if(!comp&&canAwaken(h)){
     const aw=document.createElement("button"); aw.className="btn"; aw.textContent=`✦ 각성 (${h.awaken+1}/${AWAKEN_MAX})`; aw.title=`레벨 상한에서 경험치가 가득 찼습니다(${awakenNeed(h).toLocaleString("ko-KR")}). 각성: 특성 포인트 +${TRAIT_AWAKEN} · 다음 각성은 경험치 ${(expNeed(LEVEL_CAP)*Math.min(AWAKEN_MAX,(h.awaken||0)+2)).toLocaleString("ko-KR")}`;
-    aw.onclick=()=>{ h.exp=0; h.awaken=(h.awaken||0)+1; ensureRuleSlots(cid); if(!isCompanion(cid)&&progress.heroes[cid].adv) addAdvRules(cid,advInfo(cid)); saveRules(); saveProgress(); renderParty(); renderRules(); renderPtsDot();
+    aw.onclick=()=>{ if(!awakenDo(cid)) return; saveProgress(); renderParty(); renderRules(); renderPtsDot();
       logLine(`<span class="win">✦ ${esc(heroDisplayName(cid))} 각성 ${h.awaken}! 특성 포인트 +${TRAIT_AWAKEN}.</span>`); };
     const awBox=document.createElement("div"); awBox.className="alloc actbox"; awBox.appendChild(aw); card.appendChild(awBox);
   }
@@ -15314,7 +15435,7 @@ function wardRowHTML(l){ const W=wardState(), gem=progress.gem||0, left=Math.max
 function wardBind(m,re){ const on=m.querySelector("#wardOn"), off=m.querySelector("#wardOff"), buy=m.querySelector("#wardBuy");
   const set=v=>{ const W=wardState(); if(W.on===v&&W.set) return; W.on=v; W.set=true; saveProgress(); re(); };
   if(on) on.onclick=()=>set(true); if(off) off.onclick=()=>set(false);
-  if(buy) buy.onclick=()=>{ if((progress.gem||0)<WARD_GEM) return; progress.gem-=WARD_GEM; wardState().n++; saveProgress(); logLine(`<span class="gain">💎 새벽 결정 ${WARD_GEM}개로 보호 주문서 1개를 샀습니다 (보유 ${wardState().n}개)</span>`); re(); try{ renderHud(); }catch(e){} }; }
+  if(buy) buy.onclick=()=>{ if(!wardBuy()) return; saveProgress(); logLine(`<span class="gain">💎 새벽 결정 ${WARD_GEM}개로 보호 주문서 1개를 샀습니다 (보유 ${wardState().n}개)</span>`); re(); try{ renderHud(); }catch(e){} }; }
 function enhButton(cid,sk){
   const b=document.createElement("button"); b.className="enhb";
   const E=slotEnh(cid,sk), l=E.l, s0=(SLOTS.find(x=>x.key===sk)||{label:sk}).label;
@@ -15327,34 +15448,26 @@ function enhButton(cid,sk){
   b.onclick=(e)=>{ e.stopPropagation(); if(poor){ toast(`<span class="tc">강화할 수 없음</span>${esc(poor)}`,"",2600); return; } tryEnhance(cid,sk); };
   return b;
 }
-function enhLuck(cid){ return (cid&&progress.heroes[cid]?heroPrim(cid).luk:partyLuck())*0.003; }
 function repairButton(cid,sk){
   const b=document.createElement("button"); b.className="enhb"; const c=repairCost(cid,sk);
   b.textContent=`수리 (골드 ${c.gold} · 정수 ${c.ess})`; b.title="능력치 -10% → +3%";
   b.disabled=progress.gold<c.gold||progress.ess<c.ess;
-  b.onclick=(e)=>{ e.stopPropagation(); progress.gold-=c.gold; progress.ess-=c.ess; setSlotEnh(cid,sk,{gilt:false,gilded:true}); saveProgress(); renderParty();
+  b.onclick=(e)=>{ e.stopPropagation(); if(!repairCore(cid,sk)) return; saveProgress(); renderParty();
     logLine(`<span class="win">🔧 ${esc(heroDisplayName(cid))}의 ${esc((SLOTS.find(x=>x.key===sk)||{label:sk}).label)} — 균열을 금으로 메웠다 (+3%, 금 무늬가 남는다)</span>`); };
   return b;
 }
 function tryEnhance(cid,sk){
-  const E=slotEnh(cid,sk), l=E.l; if(!ENH_SLOTS.includes(sk)||l>=slotMax(cid,sk)||E.gilt) return;
-  const c=enhCost(cid,sk);
-  if(progress.gold<c.gold||progress.ess<c.ess) return;
-  const W=wardState(), useW=wardActive(l);   // v0.95 보호 주문서 · v0.96 켜져 있고 쓸 수 있을 때만 씀(없거나 오늘 다 썼으면 주문서 없이 강화)
-  progress.gold-=c.gold; progress.ess-=c.ess; if(useW) wardSpend(); dailyAdd("enh",1);
-  const ok=Math.random()<Math.min(1,ENH_RATE[l]+enhLuck(cid));
-  const fr=useW?{drop:0,gilt:0}:enhFailRule(l); let msg="", cls="r"; try{ SND.fx(ok?"enhance_ok":"enhance_fail"); }catch(e){}
+  const r=enhanceCore(cid,sk); if(!r) return;
+  const {ok,l,useW,c,W}=r; let msg="", cls="r"; try{ SND.fx(ok?"enhance_ok":"enhance_fail"); }catch(e){}
   const nm=`${heroDisplayName(cid)}의 ${(SLOTS.find(x=>x.key===sk)||{label:sk}).label}`;
-  if(ok){ setSlotEnh(cid,sk,{l:l+1}); const t=enhTier(l+1), t0=enhTier(l); msg=`✨ 강화 성공! ${nm} +${l+1}${t!==t0?` — 재질이 ${t.name}(으)로 바뀌었다`:""}`; cls="win"; }
-  else if(fr.drop){ setSlotEnh(cid,sk,{l:l-fr.drop}); msg=`💥 강화 실패 — ${fr.drop}단계 내려갔다: ${nm} +${Math.max(0,l-fr.drop)}${W.n>0&&!W.on?" · 🛡 보호 주문서 사용이 꺼져 있었다":W.on&&W.n<=0?" · 🛡 보호 주문서가 없었다":W.on&&W.used>=WARD_DAY_MAX?` · 🛡 오늘 ${WARD_DAY_MAX}번을 다 썼다`:""}`; cls="lose";
-    if(fr.gilt&&Math.random()<fr.gilt){ setSlotEnh(cid,sk,{gilt:true}); msg+=" · 금이 갔다! (능력치 -10%, 수리 가능)"; } }
+  if(ok){ const t=enhTier(l+1), t0=enhTier(l); msg=`✨ 강화 성공! ${nm} +${l+1}${t!==t0?` — 재질이 ${t.name}(으)로 바뀌었다`:""}`; cls="win"; }
+  else if(r.drop){ msg=`💥 강화 실패 — ${r.drop}단계 내려갔다: ${nm} +${Math.max(0,l-r.drop)}${W.n>0&&!W.on?" · 🛡 보호 주문서 사용이 꺼져 있었다":W.on&&W.n<=0?" · 🛡 보호 주문서가 없었다":W.on&&W.used>=WARD_DAY_MAX?` · 🛡 오늘 ${WARD_DAY_MAX}번을 다 썼다`:""}`; cls="lose";
+    if(r.gilt) msg+=" · 금이 갔다! (능력치 -10%, 수리 가능)"; }
   else msg=`강화 실패 — 단계는 그대로 (${nm} +${l})${useW?" · 🛡 보호 주문서가 막았다":""}`;
   logLine(`<span class="${cls}">${esc(msg)} (골드 -${c.gold} · 정수 -${c.ess}${useW?` · 🛡 보호 주문서 1개 (오늘 ${W.used}/${WARD_DAY_MAX})`:""})</span>`);
   saveProgress(); renderParty();
-  if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:${ok?"var(--accent)":fr.drop?"var(--bad)":"var(--muted)"}">${esc(msg)}</span>`, 1500);
+  if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:${ok?"var(--accent)":r.drop?"var(--bad)":"var(--muted)"}">${esc(msg)}</span>`, 1500);
 }
-// 장비를 누가 끼고 있는지(없으면 null = 인벤토리)
-function itemOwner(id){ return rosterIds().find(c=>Object.values(progress.heroes[c].equip).includes(id))||null; }
 // 룬을 끼울 수 있는 장비: 선택한 영웅 → 다른 영웅(출전 우선) → 인벤토리 순
 function runeTargets(cid){
   const all=[...equippedStore,...progress.inv].filter(x=>x.sockets&&x.sockets.some(r=>!r));
@@ -15415,7 +15528,7 @@ function itemRow(it,cid,pv){
     if(!targets.length){ const n=document.createElement("span"); n.textContent="빈 소켓이 있는 장비 없음 (영웅 이상 장비)"; acts.appendChild(n); }
     else { const s=sel(targets.map(x=>({label:runeTargetLabel(x)})),0,()=>{}); s.style.maxWidth="420px"; s.title="누가 낀 장비인지 · 부위 · 장비 · 빈 소켓 수"; acts.appendChild(s);
       const b=document.createElement("button"); b.textContent="룬 장착"; b.onclick=()=>{ const t=targets[parseInt(s.value,10)||0]; const si=t.sockets.findIndex(r=>!r); if(si<0) return;
-        t.sockets[si]=runeSock(it); const i=progress.inv.findIndex(x=>x.id===it.id); if(i>=0) progress.inv.splice(i,1); saveProgress(); renderParty(); renderRules();
+        runeSocketCore(t,si,it); saveProgress(); renderParty(); renderRules();
         const ow=itemOwner(t.id);
         logLine(`<span class="win">◈ ${ow?esc(heroDisplayName(ow))+"의 ":"인벤토리의 "}${esc(itemLabel(t))}에 ${esc(RUNES[it.rune].name)} 장착 — ${!COND[RUNES[it.rune].cond].lock?"능력치와 '"+esc(runeFxText(it.rune,it.rarity,!!(it.abyss&&it.abyss.length)))+"' 효과가 붙었습니다":ow?`${esc(heroDisplayName(ow))}${jo(heroDisplayName(ow),"이","가")} 조건 '${esc(COND[RUNES[it.rune].cond].label)}'을(를) 쓸 수 있습니다`:`조건 '${esc(COND[RUNES[it.rune].cond].label)}'은(는) 이 장비를 낀 영웅만 쓸 수 있습니다`}</span>`); };
       acts.appendChild(b); }
@@ -15430,13 +15543,11 @@ function itemRow(it,cid,pv){
     { const o=relicClash(cid,it); if(o){ const nt=document.createElement("span"); nt.className="shopnote"; nt.textContent=`${heroDisplayName(o)}이(가) 같은 유물을 끼고 있어 ${heroDisplayName(cid)}은(는) 낄 수 없음`; acts.appendChild(nt); } }
   }
   const sb=document.createElement("button"); sb.className="sell"; sb.textContent=`판매 +${sellPrice(it)}G`;
-  sb.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0) return;
-    progress.inv.splice(i,1); popRunes(it); progress.gold+=sellPrice(it); saveProgress(); renderParty();
-    logLine(`<span class="gain">${esc(itemDisplayName(it))} 판매 — 골드 +${sellPrice(it)}</span>`); };
+  sb.onclick=()=>{ const g=invSell(it); if(g==null) return; saveProgress(); renderParty();
+    logLine(`<span class="gain">${esc(itemDisplayName(it))} 판매 — 골드 +${g}</span>`); };
   if(it.slot!=="relic") acts.appendChild(sb);   // v0.97 유물은 팔 수 없음(분해해서 파편으로)
   const db=document.createElement("button"); db.className="dis"; db.textContent=it.slot==="relic"?`분해 +유물의 파편 2~4`:`분해 +${dismantleValue(it)}정수${fragText(fragOf(it))?" · "+fragText(fragOf(it)).replace(/ \+/," +"):""}`;
-  db.onclick=()=>{ const i=progress.inv.findIndex(x=>x.id===it.id); if(i<0) return;
-    progress.inv.splice(i,1); popRunes(it); const fr={}; const e=dismantleGive(it,fr); saveProgress(); renderParty();
+  db.onclick=()=>{ const D=invDismantle(it); if(!D) return; const fr=D.fr, e=D.e; saveProgress(); renderParty();
     logLine(`<span class="gain">${esc(itemLabel(it))} 분해 — ${it.slot==="relic"?fragText(fr):`밤의 정수 +${e}${fragText(fr)?" · "+fragText(fr):""}`}</span>`); };
   acts.appendChild(db);
   more.appendChild(acts);
@@ -15471,22 +15582,6 @@ function openProtagSwap(cid){
     saveProgress(); saveRules(); closeModal(); rerenderAll(); logLine(`<span class="win">★ 주인공 교체 — 이제 주인공은 ${esc(progress.protag.name)}(${esc(jobName(cid))})입니다. ${esc(nm)}은(는) 키운 그대로 동료로 남습니다.</span>`); };
 }
 /* v0.44 재련 — 줄마다 '종류 바꾸기'(정수 c) · '수치만'(정수 c/2, 종류 그대로) · 마음에 드는 줄 하나를 잠그고 나머지 전부 다시 굴리기(정수 c×2) */
-function reforgeTier(it){ return Math.min(it.rarity==="set"?3:4,RAR_IDX[it.rarity]||0); }
-function reforgeValueCost(it){ return {ess:Math.max(1,Math.ceil(reforgeCost(it).ess/2))}; }
-function reforgeAllCost(it){ return {ess:reforgeCost(it).ess*2}; }
-function reforgeLine(it,i,mode){
-  const a=it.affixes[i]; if(!a) return null; const tier=reforgeTier(it), lm=reforgeLm(it), ctx=affixCtx(it);
-  let x;
-  if(mode==="value"){ if(a.k!=="c_sk"&&(AFFIX_POOL.find(z=>z.k===a.k)||{}).flat) return null; x=rollAffix(tier,lm,ctx,a); }
-  else { x=rollAffix(tier,lm,ctx); for(let g=0;g<40&&it.affixes.some((y,j)=>j!==i&&y.k===x.k);g++) x=rollAffix(tier,lm,ctx); }
-  it.affixes[i]=x; it.rerolls=(it.rerolls||0)+1; return x;
-}
-function reforgeAll(it,lock){
-  const keep=lock!=null&&it.affixes[lock]?[it.affixes[lock]]:[]; const n=it.affixes.length;
-  it.affixes=rollAffixes(n,reforgeTier(it),reforgeLm(it),affixCtx(it),keep);
-  if(keep.length){ const k=it.affixes.shift(); it.affixes.splice(lock,0,k); }   // 잠근 줄은 제자리
-  it.rerolls=(it.rerolls||0)+1;
-}
 function openReforge(it,lock){
   const c=reforgeCost(it), cv=reforgeValueCost(it), ca=reforgeAllCost(it);
   const qs=a=>typeof a.q==="number"?` <span class="qd${a.q>=Q_PERFECT?" perf":""}">${qDots(a.q)}${a.q>=Q_PERFECT?" 완벽":""}</span>`:"";
@@ -15504,21 +15599,15 @@ function openReforge(it,lock){
     const lb=document.createElement("button"); lb.className="mini"; lb.textContent=lock===i?"🔒":"🔓"; lb.title=lock===i?"잠금 풀기":"이 줄 잠그기 (전부 다시 굴릴 때 남김)";
     lb.onclick=()=>{ closeModal(); openReforge(it,lock===i?null:i); };
     const b1=document.createElement("button"); b1.className="mini"; b1.textContent=`종류 바꾸기 ${c.ess}`; b1.disabled=progress.ess<c.ess||lock===i;
-    b1.onclick=()=>{ if(progress.ess<c.ess) return; progress.ess-=c.ess; const old=affixLabel(a,it); const x=reforgeLine(it,i,"kind"); closeModal(); done(`'${esc(old)}' → '${esc(affixLabel(x,it))}'`); };
+    b1.onclick=()=>{ const old=affixLabel(a,it); const x=reforgeDo(it,i,"kind"); if(!x) return; closeModal(); done(`'${esc(old)}' → '${esc(affixLabel(x,it))}'`); };
     const flat=a.k!=="c_sk"&&(AFFIX_POOL.find(z=>z.k===a.k)||{}).flat;
     const b2=document.createElement("button"); b2.className="mini"; b2.textContent=`수치만 ${cv.ess}`; b2.disabled=progress.ess<cv.ess||lock===i||!!flat;
     if(flat) b2.title="수치가 하나뿐인 옵션"; 
-    b2.onclick=()=>{ if(progress.ess<cv.ess) return; progress.ess-=cv.ess; const old=affixLabel(a,it); const x=reforgeLine(it,i,"value"); closeModal(); done(`수치만 '${esc(old)}' → '${esc(affixLabel(x,it))}'${x.q>=Q_PERFECT?" ✦완벽!":""}`); };
+    b2.onclick=()=>{ const old=affixLabel(a,it); const x=reforgeDo(it,i,"value"); if(!x) return; closeModal(); done(`수치만 '${esc(old)}' → '${esc(affixLabel(x,it))}'${x.q>=Q_PERFECT?" ✦완벽!":""}`); };
     row.append(lb,b1,b2); box.appendChild(row); });
-  const ab=$("rfAll"); if(ab) ab.onclick=()=>{ if(progress.ess<ca.ess) return; progress.ess-=ca.ess; reforgeAll(it,lock); closeModal(); done(`${lock!=null?"잠근 줄 빼고 ":""}모든 줄을 다시 굴렸다`); };
+  const ab=$("rfAll"); if(ab) ab.onclick=()=>{ if(!reforgeAllDo(it,lock)) return; closeModal(); done(`${lock!=null?"잠근 줄 빼고 ":""}모든 줄을 다시 굴렸다`); };
 }
 /* v0.44 등급 올리기 — 희귀 → 영웅 → 전설. 기본 능력치가 새 등급 범위로, 옵션 1개 추가, 영웅은 고유 효과·소켓, 전설은 운명·직업 전용 효과 */
-function gradeUp(it){
-  const old=it.rarity, G=gradeUpCore(it,(typeof itemOwner==="function"&&itemOwner(it.id))||partySel); if(!G) return false; saveProgress(); const R=RARITIES[RAR_IDX[G.to]];
-  try{ SND.fx(G.to==="legend"?"loot_legend":"loot_rare"); }catch(e){}
-  logLine(`<span class="win">⬆ 등급 올리기 — <span class="${rarityCls(it)}">${esc(itemLabel(it))}</span> (${RARITIES[RAR_IDX[old]].label} → ${R.label}) · ${FRAG_LABEL[G.frag]} -${G.n} · 정수 -${G.ess}</span>`);
-  return true;
-}
 function relicUpButton(it,after){ if(!it||it.slot!=="relic"||!RELICS[it.relic]) return null; const u=relicUp(it), c=RELIC_UP_COST[u+1], b=document.createElement("button"); b.className="enhb";
   if(!c){ b.textContent=`유물 강화 ${u}/${RELIC_UP_MAX} (끝)`; b.disabled=true; return b; }
   b.textContent=`유물 강화 ${u+1}/${RELIC_UP_MAX} (유물의 파편 ${fragStore().relic}/${c.shard} · 정수 ${c.ess})`; b.disabled=!relicUpCan(it)||runBusy();
@@ -15528,41 +15617,6 @@ function gradeUpButton(it,after){ const G=gradeUpInfo(it); if(!G) return null; c
   const b=document.createElement("button"); b.className="enhb"; b.textContent=`등급 올리기 → ${RARITIES[RAR_IDX[G.to]].label} (${FRAG_LABEL[G.frag]} ${S[G.frag]}/${G.n} · 정수 ${G.ess})`;
   b.title=`기본 능력치가 ${RARITIES[RAR_IDX[G.to]].label} 범위로 바뀌고 옵션이 1개 늘어납니다${G.to==="epic"?" · 고유 효과·소켓 1칸":" · 운명 옵션·직업 전용 효과·소켓 2칸"}. `;
   b.disabled=!gradeUpCan(it); b.onclick=e=>{ e.stopPropagation(); if(gradeUp(it)){ renderParty(); if(after) after(); } }; return b; }
-function equip(cid,itemId,slotPick,quiet){
-  const idx=progress.inv.findIndex(x=>x.id===itemId); if(idx<0) return;
-  const it=progress.inv[idx];
-  { const o=relicClash(cid,it); if(o){ logLine(`<span class="r">${esc(RELICS[it.relic].name)}은(는) ${esc(heroDisplayName(o))}이(가) 이미 끼고 있습니다 — 같은 유물은 한 영웅만 낄 수 있습니다.</span>`); return; } }
-  if(!canEquip(cid,it)){ logLine(`<span class="r">${esc(heroDisplayName(cid))}은(는) 이 장비를 착용할 수 없습니다 (${esc(itemClassText(it)||"양손 무기")}).</span>`); return; }
-  progress.inv.splice(idx,1);
-  const slot=(slotPick&&(slotPick===it.slot||(it.slot==="ring"&&(slotPick==="ring1"||slotPick==="ring2"))))?slotPick:bestSlotFor(cid,it);
-  const prevId=progress.heroes[cid].equip[slot];
-  if(prevId!=null){
-    const pi=equippedStore.findIndex(x=>x.id===prevId);
-    if(pi>=0) progress.inv.push(equippedStore.splice(pi,1)[0]);
-  }
-  equippedStore.push(it);
-  progress.heroes[cid].equip[slot]=it.id;
-  // 양손 무기를 들면 보조 장비는 벗는다
-  if(slot==="weapon"&&WEAPONS[it.wtype]&&WEAPONS[it.wtype].two&&progress.heroes[cid].equip.offhand!=null){ unequip(cid,"offhand",true); logLine(`<span class="r">양손 무기라 보조 장비를 벗었습니다.</span>`); }
-  if(quiet) return true;
-  logLine(`<span class="r">🛡 ${esc(heroDisplayName(cid))} 장착: ${esc(itemLabel(it))}</span>`);
-  saveProgress(); renderParty(); renderRules();
-}
-// v0.68 한 번에 장착: 가방에서 이 영웅에게 더 좋은 장비를 부위마다 골라 낌(룬 제외) · 한 번에 해제: 낀 장비를 모두 가방으로
-function equipBest(cid){ if(runBusy()) return 0; const got=[];
-  for(let i=0;i<16;i++){ let best=null, bp=0.5; for(const it of progress.inv){ const p=upgradeFor(cid,it); if(p&&p.pct>bp){ bp=p.pct; best=it; } } if(!best) break; if(!equip(cid,best.id,null,true)) break; got.push(best); }
-  logLine(got.length?`<span class="r">🛡 ${esc(heroDisplayName(cid))} 한 번에 장착 — ${got.map(x=>esc(itemLabel(x))).join(", ")}</span>`:`<span class="r">${esc(heroDisplayName(cid))}에게 가방에서 더 좋은 장비가 없습니다.</span>`);
-  saveProgress(); renderParty(); renderRules(); return got.length; }
-function unequipAll(cid){ if(runBusy()) return 0; const eq=progress.heroes[cid].equip; let n=0; for(const k of Object.keys(eq)) if(eq[k]!=null){ unequip(cid,k,true); n++; }
-  if(n) logLine(`<span class="r">🛡 ${esc(heroDisplayName(cid))} 장비 ${n}개를 모두 벗어 가방에 넣었습니다${bagOver()?` — <b>가방이 가득 찼어요(${bagUsed()}/${bagCap()}칸)</b>: 정리하기 전엔 새 장비를 줍지 못합니다`:""}.</span>`);
-  saveProgress(); renderParty(); renderRules(); return n; }
-function unequip(cid,slot,quiet){
-  const id=progress.heroes[cid].equip[slot]; if(id==null) return;
-  const pi=equippedStore.findIndex(x=>x.id===id);
-  if(pi>=0) progress.inv.push(equippedStore.splice(pi,1)[0]);
-  progress.heroes[cid].equip[slot]=null;
-  if(!quiet){ saveProgress(); renderParty(); renderRules(); }
-}
 
 
 /* v0.79 대기실 영웅 배치 — '배치'를 누르면 영웅을 끌어 옮기고 '확정'하면 그 자리에 그대로(불 기준이라 화면 크기가 달라도 같은 자리) */
@@ -16836,25 +16890,6 @@ function egEnd(res){
   if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:${win?"var(--accent)":"var(--muted)"}">${esc(msg)}</span>`,2200);
   saveProgress(); goCamp();
 }
-// v0.29 교환소 — 신화 무기 제작 · 유물 각성
-function mythicItem(cid){ return [...progress.inv,...equippedStore].find(x=>x&&x.mythic===cid)||null; }
-function mythicCan(cid){ const E=egState(); return !!MYTHIC[cid]&&!mythicItem(cid)&&E.shards>=MYTHIC_COST.shards; }
-function reforgeMythicCan(cid){ return !!mythicItem(cid)&&egState().shards>=MYTHIC_REFORGE.shards; }
-function reforgeMythic(cid,wtype){ const it=mythicItem(cid); if(!it||!reforgeMythicCan(cid)) return null; const m=egMat(), E=egState();
-  if(!(WEAPONS[wtype]&&WEAPONS[wtype].cls===cid)) wtype=it.wtype;
-  E.shards-=MYTHIC_REFORGE.shards;
-  const nw=makeItem(true,egTier(),{slot:"weapon",rarity:"legend",cls:cid,wtype,luck:partyLuck(),extra:5});
-  for(const r of (it.sockets||[])) if(r&&RUNES[runeK(r)]) progress.inv.push(makeRune(r));   // 박혀 있던 룬은 가방으로
-  const keep={id:it.id, enh:0, mythic:cid, name:it.name};
-  for(const k of Object.keys(it)) delete it[k]; Object.assign(it,nw,keep);
-  saveProgress(); logLine(`<span class="win">🌠 신화 무기 다시 벼리기 — ${esc(itemDisplayName(it))} (${esc(WEAPONS[it.wtype].name)}) · 부위 강화는 그대로</span>`); return it; }
-function craftMythic(cid){ if(!mythicCan(cid)) return null; const m=egMat(), E=egState(), My=MYTHIC[cid];
-  E.shards-=MYTHIC_COST.shards;
-  const wt=heroWeaponType(cid);
-  const it=makeItem(true,egTier(),{slot:"weapon",rarity:"legend",cls:cid,wtype:WEAPONS[wt]&&WEAPONS[wt].cls===cid?wt:undefined,luck:partyLuck(),extra:5});
-  it.mythic=cid; it.name=My.name;
-  progress.inv.push(it); codexRecord(it); saveProgress(); lootToast(it,"신화 무기 제작");
-  logLine(`<span class="win">🌠 신화 무기 제작 — ${esc(My.name)}: ${esc(My.desc)}</span>`); return it; }
 function allRelics(){ return [...progress.inv,...equippedStore].filter(x=>x&&x.slot==="relic"&&RELICS[x.relic]); }
 function egGrowthHtml(){
   const m=egMat(), E=egState(), My=MYTHIC[egxWho];
@@ -17292,6 +17327,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.22", v:"v0.149", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.148", t:"정리", L:["오류 수정"]},
   {d:"2026.11.21", v:"v0.147", t:"정리", L:[
     "오류 수정",
