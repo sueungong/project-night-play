@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795320458252"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795327120470"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -10725,6 +10725,120 @@ function reforgeDo(it,i,mode){ const a=it.affixes[i]; if(!a) return null; if(mod
 function reforgeAllDo(it,lock){ const ca=reforgeAllCost(it); if(progress.ess<ca.ess) return false; progress.ess-=ca.ess; reforgeAll(it,lock); return true; }
 // 보호 주문서 사기(새벽 결정)
 function wardBuy(){ if((progress.gem||0)<WARD_GEM) return false; progress.gem-=WARD_GEM; wardState().n++; return true; }
+/* ---------- v0.150 상점 · 의뢰 · 우편 · 친구 상점 규칙(화면 구역에서 그대로 옮김) ---------- */
+// v0.94 오늘의 진열: 6칸을 칸마다 무작위로 — 장비 55% · 룬 30% · 밤의 정수 묶음 15%. 3시간마다 저절로 바뀜.
+//        직접 새로고침은 하루 5회까지(100 → 200 → 300 → 400 → 500 골드, 자정에 초기화)
+const SHOP_N=6, SHOP_AUTO_MS=3*3600e3, SHOP_RR=[100,200,300,400,500];
+function genStock(){
+  progress.shopStock=[]; progress.shopAt=Date.now();
+  const luck=partyLuck(), d=Math.max(0,Math.min(2,progress.diffMax|0));
+  for(let i=0;i<SHOP_N;i++){ const r=Math.random();
+    if(r<0.55){ const it=makeItem(true,bestLootTier(),{luck,src:"mid"}); progress.shopStock.push({kind:"gear", item:it, price:buyPrice(it)}); }   // v0.44: 상점은 중간보스 등급표
+    else if(r<0.85){ const it=makeRune(null,null,d); progress.shopStock.push({kind:"rune", item:it, price:buyPrice(it)}); }
+    else { const n=[5,10,15][Math.floor(Math.random()*3)]; progress.shopStock.push({kind:"ess", n, price:n*40}); } }
+}
+function shopDay(){ const t=new Date(); return t.getFullYear()+"-"+(t.getMonth()+1)+"-"+t.getDate(); }
+function shopRrLeft(){ const r=progress.shopRr; return r&&r.day===shopDay()?Math.max(0,SHOP_RR.length-(r.n|0)):SHOP_RR.length; }
+function shopRrCost(){ return SHOP_RR[Math.min(SHOP_RR.length-1,SHOP_RR.length-shopRrLeft())]; }
+function shopTick(){ if(!progress) return false; const S=progress.shopStock;
+  if(!Array.isArray(S)||S.length!==SHOP_N||!(progress.shopAt>0)||Date.now()-progress.shopAt>=SHOP_AUTO_MS){ genStock(); return true; } return false; }
+function shopBuyEss(e){ if(e.sold) return false; if(progress.gold<e.price){ logLine(`<span class="r">골드가 부족합니다 (${e.price}G 필요).</span>`); return false; }
+  progress.gold-=e.price; progress.ess+=e.n; e.sold=true; dailyAdd("social",1); saveProgress(); renderShop(); renderHud();
+  logLine(`<span class="gain">구매: 밤의 정수 ×${e.n} (골드 -${e.price})</span>`); toast(`<span class="tc">구매 — 밤의 정수 +${e.n}</span>지금 ${progress.ess}개`,"good"); return true; }
+function shopBuyGear(entry){ const it=entry.item; if(entry.sold) return false;
+  if(progress.gold<entry.price){ logLine(`<span class="r">골드가 부족합니다 (${entry.price}G 필요).</span>`); return false; }
+  progress.gold-=entry.price; entry.sold=true; progress.inv.push(it); codexRecord(it); dailyAdd("social",1); saveProgress(); renderShop();
+  logLine(`<span class="gain">구매: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`);
+  toast(`<div class="tit">${iconCell(it)}<div><span class="tc">구매 — 가방에 넣었습니다</span><span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></div></div>`,"good"); return true; }
+function shopBuyMarket(g){ const it=g.item; if(progress.ess<g.price) return false; progress.ess-=g.price; g.sold=true; progress.inv.push(it); codexRecord(it); dailyAdd("social",1); saveProgress(); renderShop();
+  logLine(`<span class="gain">🌌 밤의 시장에서 구매: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span> (정수 -${g.price})</span>`);
+  toast(`<div class="tit">${iconCell(it)}<div><span class="tc">밤의 시장 — 가방에 넣었습니다</span><span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></div></div>`,"good"); return true; }
+function shopBest(it){ return rosterIds().map(c=>({c,p:upgradeFor(c,it)})).filter(x=>x.p&&x.p.pct>0.5).sort((a,b)=>b.p.pct-a.p.pct)[0]; }
+/* ===== v0.93 퀘스트 3판 =====
+   메인: 장마다 꼭 필요한 이야기 막(1막 의뢰 · 3막 전환점 · 5막 군단장)에만. 의뢰를 받아야 황혼에서 그 막(처음 깰 때)에 들어갈 수 있음
+         → 막 돌파 → 보고(이야기 + 보상) → 다음 메인 의뢰. 앞 메인을 보고해야 다음 메인을 받음
+   서브: 막마다 1~2개. 2·4막은 그 막 우두머리 이야기(받은 뒤 그 막 우두머리를 쓰러뜨리기) + 막마다 몹 잡기 부탁.
+         그 막이 열려 있으면 받을 수 있고, 받은 뒤부터 그 장 그 막에서(어느 난이도든) 셈
+   보상(그 장 일반 몹 평균 1마리분 기준): 메인 1·3막 ×5 · 메인 5막 ×12 + 밤의 정수 5×장 + 희귀 장비 1 · 우두머리 서브 ×5 · 몹 서브 ×4 + 밤의 정수 장 번호(5막 서브는 희귀 1 더) */
+const QM_ACTS=[1,3,5], QM_STEP_K=5, QM_LAST_K=12, QS_K=4, QB_K=5;
+for(const rk in QM){ const all=QM[rk].steps; QM[rk].steps=QM_ACTS.map(a=>Object.assign({act:a},all[a-1]));
+  const L=QS[rk].map((q,i)=>Object.assign(q,{id:rk+(i+1), rk, act:i+1}));
+  for(const a of [1,2,3,4,5]) if(!QM_ACTS.includes(a)){ const S=all[a-1]; L.push({id:rk+"b"+a, rk, act:a, boss:true, t:S.t, who:S.who, ask:S.brief, done:S.rep, n:1, keys:[]}); }
+  QS[rk]=L.sort((x,y)=>x.act-y.act||(y.boss?1:0)-(x.boss?1:0)); }
+function questState(){ const Q=progress.quest=progress.quest||{}; Q.main=Q.main||{}; Q.sub=Q.sub||{}; Q.open=Q.open||null; return Q; }
+function questM(rk){ const Q=questState(); const s=Q.main[rk]=Q.main[rk]||{}; s.acc=s.acc||[]; s.rep=s.rep||[]; return s; }
+function questStep(rk,a){ return (QM[rk]&&QM[rk].steps.find(S=>S.act===a))||null; }
+function questAvg(rk){ const R=REGIONS[rk]; let e=0,g=0,w=0; for(const q of R.pool){ const m=MOBS[q.key]; e+=m.exp*q.w; g+=m.gold*q.w; w+=q.w; } return {exp:e/w, gold:g/w}; }
+function questReward(rk,kind,a){ const v=questAvg(rk), c=REGION_KEYS.indexOf(rk)+1;
+  if(kind==="main"){ const last=a>=ACT_N, k=last?QM_LAST_K:QM_STEP_K; return {exp:Math.round(v.exp*k), gold:Math.round(v.gold*k), ess:last?5*c:0, item:last}; }
+  if(kind==="boss") return {exp:Math.round(v.exp*QB_K), gold:Math.round(v.gold*QB_K), ess:0, item:false};
+  return {exp:Math.round(v.exp*QS_K), gold:Math.round(v.gold*QS_K), ess:c, item:a>=ACT_N}; }
+function questSubReward(q){ return questReward(q.rk,q.boss?"boss":"sub",q.act); }
+function questRewardText(r){ return [`경험치 ${r.exp}(출전 영웅마다)`,`골드 ${r.gold}`].concat(r.ess?[`밤의 정수 ${r.ess}`]:[]).concat(r.item?["희귀 장비 1개"]:[]).join(" · "); }
+function questMainOpen(rk){ return chapterUnlocked(0,rk)||actsDone(0,rk)>0; }
+// 메인(막 a): lock(앞 메인 보고 전) · ready(받을 수 있음) · go(받음, 막 돌파 전) · rep(보고할 수 있음) · done(보고함)
+function questMainSt(rk,a){ const S=questStep(rk,a); if(!S) return null; const s=questM(rk), L=QM[rk].steps, i=L.indexOf(S);
+  if(s.rep.includes(a)) return "done";
+  if(s.acc.includes(a)) return actsDone(0,rk)>=a?"rep":"go";
+  return questMainOpen(rk)&&(i===0||s.rep.includes(L[i-1].act))?"ready":"lock"; }
+function questMainCur(rk){ for(const S of QM[rk].steps){ const st=questMainSt(rk,S.act); if(st!=="done") return {a:S.act,st,S}; } return {a:0,st:"all"}; }
+// 서브: lock(황혼에서 그 막이 아직 안 열림) · ready · go · rep · done
+function questSubSt(q){ const S=questState().sub[q.id];
+  if(S&&S.rep) return "done"; if(S) return (S.n||0)>=q.n?"rep":"go";
+  return questMainOpen(q.rk)&&actsDone(0,q.rk)>=q.act-1?"ready":"lock"; }
+function questSubN(q){ const S=questState().sub[q.id]; return Math.min(q.n,(S&&S.n)||0); }
+function questKeysName(q){ return [...new Set(q.keys.map(k=>MOBS[k].name))].join("·"); }
+function questMidName(rk,a){ const m=(ACTS[rk][a-1]||{}).mid||{}; return String(m.label||m.title||"").replace(/^(중간보스|여섯 별) — /,"").trim()||((MOBS[m.key]||{}).name||"우두머리"); }
+function questSubGoal(q){ return q.boss?`${q.act}막 '${actName(q.rk,q.act)}' 끝의 '${questMidName(q.rk,q.act)}' 쓰러뜨리기`:`${questKeysName(q)} ${q.n}마리`; }
+// 알림: 받을 수 있는 메인 + 보고할 수 있는 메인·서브
+function questReady(){ const out=[];
+  for(const rk of REGION_KEYS){ if(!questMainOpen(rk)) continue; const cur=questMainCur(rk);
+    if(cur.st==="ready") out.push({id:"a:"+rk+cur.a, rk, label:`${REGIONS[rk].chapter} 메인 '${cur.S.t}'`, kind:"accept"});
+    if(cur.st==="rep") out.push({id:"r:"+rk+cur.a, rk, label:`${REGIONS[rk].chapter} 메인 '${cur.S.t}'`, kind:"report"});
+    for(const q of QS[rk]) if(questSubSt(q)==="rep") out.push({id:"s:"+q.id, rk, label:`서브 '${q.t}'`, kind:"report"}); }
+  return out; }
+// 전투에서 이기면: 받은 서브 중 '이 장 이 막'인 것 — 몹 서브는 정해진 몹 수, 우두머리 서브는 막 끝 우두머리 전투(어느 난이도든)
+function questOnWin(zone,rk,act){ if(!zone||!QS[rk]) return; act=act||ACT_N;
+  for(const q of QS[rk]){ if(q.act!==act) continue; const S=questState().sub[q.id]; if(!S||S.rep||(S.n||0)>=q.n) continue;
+    const k=q.boss?(zone.mid?1:0):zone.mobs.filter(m=>q.keys.includes(m.key)).length; if(k) S.n=Math.min(q.n,(S.n||0)+k); } }
+function questGive(rk,r,label){ progress.gold+=r.gold; progress.ess+=r.ess||0; grantExp(r.exp, partyIds());
+  let got=""; if(r.item){ const it=makeItem(false,lootTierFor(0,rk),{rarity:"rare",luck:partyLuck(),src:"chest",d:0,from:`퀘스트 '${label}' 보상`}); const L=takeLoot([it]); got=L.kept.length?` · <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span>`:L.lost&&L.lost.length?" · 장비는 가방이 가득해 놓침":" · 장비는 자동 정리됨"; }
+  logLine(`<span class="gain">📜 퀘스트 보상 '${esc(label)}' — ${questRewardText(r).replace(" · 희귀 장비 1개","")}${got}</span>`);
+  return got; }
+function questAccept(rk,a){ const S=questStep(rk,a), s=questM(rk); if(!S||questMainSt(rk,a)!=="ready") return false; s.acc.push(a);
+  logLine(`<span class="story">📜 의뢰를 받았다 — ${esc(REGIONS[rk].chapter)} '${esc(S.t)}' (${esc(S.who)})</span>`); return true; }
+function questSubById(id){ const rk=REGION_KEYS.find(k=>id.startsWith(k)); return rk?QS[rk].find(x=>x.id===id):null; }
+function mailClaim(x){
+  if(!progress||(progress.mailGot||[]).includes(x.id)) return;
+  progress.mailGot=(progress.mailGot||[]).concat(x.id).slice(-300); chkRefreshGrants();   // v0.95 우편 몫은 지급 장부로(하루 한도와 따로)
+  if(x.gold) progress.gold+=+x.gold|0; if(x.ess) progress.ess=(progress.ess||0)+(+x.ess|0); if(x.gem) progress.gem=(progress.gem||0)+(+x.gem|0);
+  if(x.torch) try{ torchAdd(+x.torch|0); }catch(e){}
+  if(x.sub) try{ subStart(Math.min(365,Math.max(0,+x.sub|0)),`우편 선물 ${x.sub|0}일`); }catch(e){}
+  const tier=bestLootTier(); let n=0;
+  for(const it of x.items||[]) for(let i=0;i<Math.min(20,+it.n|0);i++){ try{ const o={rarity:RAR_IDX[it.r]!=null?it.r:"rare"}; if(it.s&&ITEM_SLOTS.includes(it.s)) o.slot=it.s; const item=makeItem(false,tier,o); item.from="우편으로 받음"; progress.inv.push(item); n++; }catch(e){} }
+  logLine(`<span class="gain">📮 우편 받음 — ${esc(x.t||"")}${mailGiftText(x)?` (${esc(mailGiftText(x))})`:""}</span>`);
+  saveProgress(); rerenderAll(); renderMailDot();
+}
+const FRIEND_SHOP=[{k:"torch", name:"🔥 횃불 1개", cost:6, daily:3, give:()=>{ torchAdd(1); return "횃불 +1"; }},
+  {k:"gold", name:"🪙 금화 1,500", cost:4, daily:5, give:()=>{ progress.gold+=1500; return "금화 +1,500"; }}];
+function friendShopDay(){ const d=new Date(Date.now()+9*3600e3).toISOString().slice(0,10); if(!progress.frShop||progress.frShop.d!==d) progress.frShop={d,n:{}}; return progress.frShop; }
+function friendBuy(k){ const it=FRIEND_SHOP.find(x=>x.k===k); if(!it) return false; const D=friendShopDay(); if((progress.friend|0)<it.cost||(D.n[k]|0)>=it.daily) return false;
+  progress.friend-=it.cost; D.n[k]=(D.n[k]|0)+1; const t=it.give(); logLine(`<span class="win">🤝 우정 상점 — ${esc(t)} (우정 점수 -${it.cost} · 남은 ${progress.friend})</span>`); saveProgress(); return true; }
+
+// v0.150 의뢰 보고 · 서브 받기/보고(플레이어 · 밸런스 봇 같은 함수) — 못 하면 null/false, 하면 보상 장비 글(questGive)
+function questReportCore(rk,a){ if(questMainSt(rk,a)!=="rep") return null; const S=questStep(rk,a), R=REGIONS[rk]; questM(rk).rep.push(a); return questGive(rk,questReward(rk,"main",a),`${R.chapter} ${S.t}`); }
+function questSubAcceptCore(id){ const q=questSubById(id); if(!q||questSubSt(q)!=="ready") return false; questState().sub[id]={n:0}; logLine(`<span class="story">📜 서브 의뢰를 받았다 — '${esc(q.t)}' (${esc(q.who)})</span>`); return true; }
+function questSubReportCore(id){ const q=questSubById(id); if(!q||questSubSt(q)!=="rep") return null; questState().sub[id].rep=1; return questGive(q.rk,questSubReward(q),q.t); }
+// 상점 직접 새로고침(하루 5번 · 100~500 골드) → 성공 true
+function shopReroll(){ const L=shopRrLeft(), C=shopRrCost(); if(!L) return false; if(progress.gold<C){ logLine(`<span class="r">골드가 부족합니다 (${C}G 필요).</span>`); return false; }
+  progress.gold-=C; const r=progress.shopRr&&progress.shopRr.day===shopDay()?progress.shopRr:{day:shopDay(),n:0}; r.n=(r.n|0)+1; progress.shopRr=r; genStock(); return true; }
+// 새벽 교환소(새벽 파편): kind "leg"(전설 · 부위 slot · 직업 who) 40 · "set"(세트 set의 부위 slot) 60 · "rune" 15 → 받은 장비(못 하면 null)
+function egxBuy(kind,o){ const E=egState(); o=o||{}; let it=null, cost=0;
+  if(kind==="leg"){ cost=40; if(E.shards<cost) return null; it=makeItem(true,egTier(),{slot:o.slot,rarity:"legend",cls:CLASSES[o.who]?o.who:undefined,luck:partyLuck()}); }
+  else if(kind==="set"){ cost=60; if(E.shards<cost||!SETS[o.set]||!SETS[o.set].slots.includes(o.slot)) return null; it=makeSetItem(o.set,egTier(),{slot:o.slot,cls:o.who}); }
+  else if(kind==="rune"){ cost=15; if(E.shards<cost) return null; it=makeRune(); }
+  else return null;
+  E.shards-=cost; progress.inv.push(it); codexRecord(it); return {it, cost}; }
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 let curUnits=[];
@@ -15037,68 +15151,15 @@ function secGrid(d){
 }
 let codexTab="tokens";
 // ---- v0.93 퀘스트(진행·보상·탭) ----
-/* ===== v0.93 퀘스트 3판 =====
-   메인: 장마다 꼭 필요한 이야기 막(1막 의뢰 · 3막 전환점 · 5막 군단장)에만. 의뢰를 받아야 황혼에서 그 막(처음 깰 때)에 들어갈 수 있음
-         → 막 돌파 → 보고(이야기 + 보상) → 다음 메인 의뢰. 앞 메인을 보고해야 다음 메인을 받음
-   서브: 막마다 1~2개. 2·4막은 그 막 우두머리 이야기(받은 뒤 그 막 우두머리를 쓰러뜨리기) + 막마다 몹 잡기 부탁.
-         그 막이 열려 있으면 받을 수 있고, 받은 뒤부터 그 장 그 막에서(어느 난이도든) 셈
-   보상(그 장 일반 몹 평균 1마리분 기준): 메인 1·3막 ×5 · 메인 5막 ×12 + 밤의 정수 5×장 + 희귀 장비 1 · 우두머리 서브 ×5 · 몹 서브 ×4 + 밤의 정수 장 번호(5막 서브는 희귀 1 더) */
-const QM_ACTS=[1,3,5], QM_STEP_K=5, QM_LAST_K=12, QS_K=4, QB_K=5;
-for(const rk in QM){ const all=QM[rk].steps; QM[rk].steps=QM_ACTS.map(a=>Object.assign({act:a},all[a-1]));
-  const L=QS[rk].map((q,i)=>Object.assign(q,{id:rk+(i+1), rk, act:i+1}));
-  for(const a of [1,2,3,4,5]) if(!QM_ACTS.includes(a)){ const S=all[a-1]; L.push({id:rk+"b"+a, rk, act:a, boss:true, t:S.t, who:S.who, ask:S.brief, done:S.rep, n:1, keys:[]}); }
-  QS[rk]=L.sort((x,y)=>x.act-y.act||(y.boss?1:0)-(x.boss?1:0)); }
-function questState(){ const Q=progress.quest=progress.quest||{}; Q.main=Q.main||{}; Q.sub=Q.sub||{}; Q.open=Q.open||null; return Q; }
-function questM(rk){ const Q=questState(); const s=Q.main[rk]=Q.main[rk]||{}; s.acc=s.acc||[]; s.rep=s.rep||[]; return s; }
-function questStep(rk,a){ return (QM[rk]&&QM[rk].steps.find(S=>S.act===a))||null; }
-function questAvg(rk){ const R=REGIONS[rk]; let e=0,g=0,w=0; for(const q of R.pool){ const m=MOBS[q.key]; e+=m.exp*q.w; g+=m.gold*q.w; w+=q.w; } return {exp:e/w, gold:g/w}; }
-function questReward(rk,kind,a){ const v=questAvg(rk), c=REGION_KEYS.indexOf(rk)+1;
-  if(kind==="main"){ const last=a>=ACT_N, k=last?QM_LAST_K:QM_STEP_K; return {exp:Math.round(v.exp*k), gold:Math.round(v.gold*k), ess:last?5*c:0, item:last}; }
-  if(kind==="boss") return {exp:Math.round(v.exp*QB_K), gold:Math.round(v.gold*QB_K), ess:0, item:false};
-  return {exp:Math.round(v.exp*QS_K), gold:Math.round(v.gold*QS_K), ess:c, item:a>=ACT_N}; }
-function questSubReward(q){ return questReward(q.rk,q.boss?"boss":"sub",q.act); }
-function questRewardText(r){ return [`경험치 ${r.exp}(출전 영웅마다)`,`골드 ${r.gold}`].concat(r.ess?[`밤의 정수 ${r.ess}`]:[]).concat(r.item?["희귀 장비 1개"]:[]).join(" · "); }
-function questMainOpen(rk){ return chapterUnlocked(0,rk)||actsDone(0,rk)>0; }
-// 메인(막 a): lock(앞 메인 보고 전) · ready(받을 수 있음) · go(받음, 막 돌파 전) · rep(보고할 수 있음) · done(보고함)
-function questMainSt(rk,a){ const S=questStep(rk,a); if(!S) return null; const s=questM(rk), L=QM[rk].steps, i=L.indexOf(S);
-  if(s.rep.includes(a)) return "done";
-  if(s.acc.includes(a)) return actsDone(0,rk)>=a?"rep":"go";
-  return questMainOpen(rk)&&(i===0||s.rep.includes(L[i-1].act))?"ready":"lock"; }
-function questMainCur(rk){ for(const S of QM[rk].steps){ const st=questMainSt(rk,S.act); if(st!=="done") return {a:S.act,st,S}; } return {a:0,st:"all"}; }
-// 서브: lock(황혼에서 그 막이 아직 안 열림) · ready · go · rep · done
-function questSubSt(q){ const S=questState().sub[q.id];
-  if(S&&S.rep) return "done"; if(S) return (S.n||0)>=q.n?"rep":"go";
-  return questMainOpen(q.rk)&&actsDone(0,q.rk)>=q.act-1?"ready":"lock"; }
-function questSubN(q){ const S=questState().sub[q.id]; return Math.min(q.n,(S&&S.n)||0); }
-function questKeysName(q){ return [...new Set(q.keys.map(k=>MOBS[k].name))].join("·"); }
-function questMidName(rk,a){ const m=(ACTS[rk][a-1]||{}).mid||{}; return String(m.label||m.title||"").replace(/^(중간보스|여섯 별) — /,"").trim()||((MOBS[m.key]||{}).name||"우두머리"); }
-function questSubGoal(q){ return q.boss?`${q.act}막 '${actName(q.rk,q.act)}' 끝의 '${questMidName(q.rk,q.act)}' 쓰러뜨리기`:`${questKeysName(q)} ${q.n}마리`; }
-// 알림: 받을 수 있는 메인 + 보고할 수 있는 메인·서브
-function questReady(){ const out=[];
-  for(const rk of REGION_KEYS){ if(!questMainOpen(rk)) continue; const cur=questMainCur(rk);
-    if(cur.st==="ready") out.push({id:"a:"+rk+cur.a, rk, label:`${REGIONS[rk].chapter} 메인 '${cur.S.t}'`, kind:"accept"});
-    if(cur.st==="rep") out.push({id:"r:"+rk+cur.a, rk, label:`${REGIONS[rk].chapter} 메인 '${cur.S.t}'`, kind:"report"});
-    for(const q of QS[rk]) if(questSubSt(q)==="rep") out.push({id:"s:"+q.id, rk, label:`서브 '${q.t}'`, kind:"report"}); }
-  return out; }
 let QSEEN=null;
 function renderQuestDot(){ const el=$("questDot"); if(!el) return; const L=questReady(); const dn=(()=>{ try{ return dailyReadyN(); }catch(e){ return 0; } })(); el.textContent=L.length+dn?String(L.length+dn):"";
   const ids=L.filter(x=>x.kind==="report").map(x=>x.id);
   if(QSEEN){ const fresh=L.filter(x=>x.kind==="report"&&!QSEEN.has(x.id));
     for(const x of fresh){ logLine(`<span class="win">📜 ${esc(x.label)} — 목표 달성. 퀘스트 탭에서 보고하세요.</span>`); if(!instantMode()) toast(`<span class="tc">📜 보고할 수 있어요</span><b>${esc(x.label)}</b>`,"",2600); } }
   QSEEN=new Set(ids); }
-// 전투에서 이기면: 받은 서브 중 '이 장 이 막'인 것 — 몹 서브는 정해진 몹 수, 우두머리 서브는 막 끝 우두머리 전투(어느 난이도든)
-function questOnWin(zone,rk,act){ if(!zone||!QS[rk]) return; act=act||ACT_N;
-  for(const q of QS[rk]){ if(q.act!==act) continue; const S=questState().sub[q.id]; if(!S||S.rep||(S.n||0)>=q.n) continue;
-    const k=q.boss?(zone.mid?1:0):zone.mobs.filter(m=>q.keys.includes(m.key)).length; if(k) S.n=Math.min(q.n,(S.n||0)+k); } }
-function questGive(rk,r,label){ progress.gold+=r.gold; progress.ess+=r.ess||0; grantExp(r.exp, partyIds());
-  let got=""; if(r.item){ const it=makeItem(false,lootTierFor(0,rk),{rarity:"rare",luck:partyLuck(),src:"chest",d:0,from:`퀘스트 '${label}' 보상`}); const L=takeLoot([it]); got=L.kept.length?` · <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span>`:L.lost&&L.lost.length?" · 장비는 가방이 가득해 놓침":" · 장비는 자동 정리됨"; }
-  logLine(`<span class="gain">📜 퀘스트 보상 '${esc(label)}' — ${questRewardText(r).replace(" · 희귀 장비 1개","")}${got}</span>`);
-  return got; }
 function questAfter(){ saveProgress(); renderHud&&renderHud(); renderPtsDot(); renderQuest(); }
 function questBusy(){ if(runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>`,"",2400); return true; } return false; }
 function questLines(L,cls){ return [].concat(L).map(l=>`<p class="${cls}">${esc(l)}</p>`).join(""); }
-function questAccept(rk,a){ const S=questStep(rk,a), s=questM(rk); if(!S||questMainSt(rk,a)!=="ready") return false; s.acc.push(a);
-  logLine(`<span class="story">📜 의뢰를 받았다 — ${esc(REGIONS[rk].chapter)} '${esc(S.t)}' (${esc(S.who)})</span>`); return true; }
 // 메인 의뢰 창: 받기 전이면 [의뢰 받기] (던전 입장에서 열렸으면 [의뢰 받고 출발]), 받은 뒤엔 다시 읽기
 function questBrief(rk,a,gate){ const S=questStep(rk,a), st=questMainSt(rk,a), R=REGIONS[rk]; if(!S) return;
   const m=openModal(`<div class="qmodal"><div class="qmh"><span class="qtag">메인 ${R.chapter} · ${a}막</span><h2>${esc(S.t)}</h2><div class="qfrom">의뢰한 사람: ${esc(S.who)}</div></div>
@@ -15109,8 +15170,8 @@ function questBrief(rk,a,gate){ const S=questStep(rk,a), st=questMainSt(rk,a), R
     <div class="qbtns">${st==="ready"?`<button class="btn" id="qacc">${gate?"의뢰 받고 출발":"의뢰 받기"}</button>`:""}<button class="btn ghost" id="qcls">${st==="ready"?"나중에":"닫기"}</button></div></div>`,"qdlg");
   m.querySelector("#qcls").onclick=closeModal; m.onclick=e=>{ if(e.target===m) closeModal(); };
   const b=m.querySelector("#qacc"); if(b) b.onclick=()=>{ if(questBusy()) return; questAccept(rk,a); closeModal(); questAfter(); if(gate) mainButton(); }; }
-function questReport(rk,a){ if(questBusy()||questMainSt(rk,a)!=="rep") return; const S=questStep(rk,a), R=REGIONS[rk], s=questM(rk), L=QM[rk].steps;
-  s.rep.push(a); const got=questGive(rk,questReward(rk,"main",a),`${R.chapter} ${S.t}`); questAfter();
+function questReport(rk,a){ if(questBusy()||questMainSt(rk,a)!=="rep") return; const S=questStep(rk,a), R=REGIONS[rk], L=QM[rk].steps;
+  const got=questReportCore(rk,a); questAfter();
   const next=L[L.indexOf(S)+1]||null, nr=!next&&REGION_KEYS[REGION_KEYS.indexOf(rk)+1];
   const m=openModal(`<div class="qmodal"><div class="qmh"><span class="qtag">보고 ${R.chapter} · ${a}막</span><h2>${esc(S.t)}</h2><div class="qfrom">${esc(S.who)}에게 보고</div></div>
     <div class="qtext">${questLines(S.rep,"qsay")}</div><div class="qrw"><span>받은 보상: ${questRewardText(questReward(rk,"main",a)).replace(" · 희귀 장비 1개","")}${got}</span></div>
@@ -15130,11 +15191,9 @@ function questGate(){ try{ if(runState||progress.diff!==0||egModeOf()) return tr
     <div class="qbtns"><button class="btn" id="qgo">퀘스트 탭 열기</button><button class="btn ghost" id="qcls">닫기</button></div></div>`,"qdlg");
   m.querySelector("#qcls").onclick=closeModal; m.querySelector("#qgo").onclick=()=>{ closeModal(); questState().open=rk; showTab("quest",1); };
   return false; }catch(e){ return true; } }
-function questSubById(id){ const rk=REGION_KEYS.find(k=>id.startsWith(k)); return rk?QS[rk].find(x=>x.id===id):null; }
-function questSubAccept(id){ if(questBusy()) return; const q=questSubById(id); if(!q||questSubSt(q)!=="ready") return;
-  questState().sub[id]={n:0}; logLine(`<span class="story">📜 서브 의뢰를 받았다 — '${esc(q.t)}' (${esc(q.who)})</span>`); questAfter(); }
+function questSubAccept(id){ if(questBusy()) return; if(questSubAcceptCore(id)) questAfter(); }
 function questSubReport(id){ if(questBusy()) return; const q=questSubById(id); if(!q||questSubSt(q)!=="rep") return;
-  questState().sub[id].rep=1; const r=questSubReward(q), got=questGive(q.rk,r,q.t); questAfter();
+  const r=questSubReward(q), got=questSubReportCore(id); questAfter();
   const m=openModal(`<div class="qmodal"><div class="qmh"><span class="qtag sub">서브 보고 · ${q.act}막</span><h2>${esc(q.t)}</h2><div class="qfrom">${esc(q.who)}</div></div>
     <div class="qtext">${questLines(q.done,"qsay")}</div><div class="qrw"><span>받은 보상: ${questRewardText(r).replace(" · 희귀 장비 1개","")}${got}</span></div>
     <div class="qbtns"><button class="btn ghost" id="qcls">닫기</button></div></div>`,"qdlg");
@@ -15775,26 +15834,7 @@ function makeNameCard(cid,edit){
 }
 
 /* ---- 상점 ---- */
-// v0.94 오늘의 진열: 6칸을 칸마다 무작위로 — 장비 55% · 룬 30% · 밤의 정수 묶음 15%. 3시간마다 저절로 바뀜.
-//        직접 새로고침은 하루 5회까지(100 → 200 → 300 → 400 → 500 골드, 자정에 초기화)
-const SHOP_N=6, SHOP_AUTO_MS=3*3600e3, SHOP_RR=[100,200,300,400,500];
-function genStock(){
-  progress.shopStock=[]; progress.shopAt=Date.now();
-  const luck=partyLuck(), d=Math.max(0,Math.min(2,progress.diffMax|0));
-  for(let i=0;i<SHOP_N;i++){ const r=Math.random();
-    if(r<0.55){ const it=makeItem(true,bestLootTier(),{luck,src:"mid"}); progress.shopStock.push({kind:"gear", item:it, price:buyPrice(it)}); }   // v0.44: 상점은 중간보스 등급표
-    else if(r<0.85){ const it=makeRune(null,null,d); progress.shopStock.push({kind:"rune", item:it, price:buyPrice(it)}); }
-    else { const n=[5,10,15][Math.floor(Math.random()*3)]; progress.shopStock.push({kind:"ess", n, price:n*40}); } }
-}
-function shopDay(){ const t=new Date(); return t.getFullYear()+"-"+(t.getMonth()+1)+"-"+t.getDate(); }
-function shopRrLeft(){ const r=progress.shopRr; return r&&r.day===shopDay()?Math.max(0,SHOP_RR.length-(r.n|0)):SHOP_RR.length; }
-function shopRrCost(){ return SHOP_RR[Math.min(SHOP_RR.length-1,SHOP_RR.length-shopRrLeft())]; }
-function shopTick(){ if(!progress) return false; const S=progress.shopStock;
-  if(!Array.isArray(S)||S.length!==SHOP_N||!(progress.shopAt>0)||Date.now()-progress.shopAt>=SHOP_AUTO_MS){ genStock(); return true; } return false; }
 function shopNextText(){ const ms=Math.max(0,(progress.shopAt||Date.now())+SHOP_AUTO_MS-Date.now()), m=Math.ceil(ms/60000); return `다음 자동 새로고침 ${m>=60?Math.floor(m/60)+"시간 ":""}${m%60}분 뒤`; }
-function shopBuyEss(e){ if(e.sold) return false; if(progress.gold<e.price){ logLine(`<span class="r">골드가 부족합니다 (${e.price}G 필요).</span>`); return false; }
-  progress.gold-=e.price; progress.ess+=e.n; e.sold=true; dailyAdd("social",1); saveProgress(); renderShop(); renderHud();
-  logLine(`<span class="gain">구매: 밤의 정수 ×${e.n} (골드 -${e.price})</span>`); toast(`<span class="tc">구매 — 밤의 정수 +${e.n}</span>지금 ${progress.ess}개`,"good"); return true; }
 function shopEssCard(e){ const c=document.createElement("div"); c.className="sgcard r-fine";
   c.innerHTML=`<div class="sgtop"><span class="ic ess-ic" aria-hidden="true">✦</span><span class="sgtx"><span class="iname">밤의 정수 ×${e.n}</span><span class="sgsub">재료 · 강화 · 등급 올리기</span></span></div>
     <span class="sgst">지금 ${progress.ess}개 → ${progress.ess+e.n}개</span><div class="sgbot"><span class="sgno">개당 40 골드</span><button class="buy"${progress.gold>=e.price?"":" disabled"}>${e.price} 골드</button></div>`;
@@ -15847,15 +15887,6 @@ function autoRulePass(){
 /* v0.40 상점: 탭(오늘의 장비 · 스킬북 · 밤의 시장 · 새벽 교환소)으로 나눠 한 화면에 한 가지만 — 좁은 가로 화면에서도 진열이 한눈에.
    장비는 아이콘 큰 칸 카드(누르면 자세히 + 영웅별 비교), 스킬북은 영웅 고르기 + 촘촘한 카드 */
 let shopTab="gear";
-function shopBuyGear(entry){ const it=entry.item; if(entry.sold) return false;
-  if(progress.gold<entry.price){ logLine(`<span class="r">골드가 부족합니다 (${entry.price}G 필요).</span>`); return false; }
-  progress.gold-=entry.price; entry.sold=true; progress.inv.push(it); codexRecord(it); dailyAdd("social",1); saveProgress(); renderShop();
-  logLine(`<span class="gain">구매: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></span>`);
-  toast(`<div class="tit">${iconCell(it)}<div><span class="tc">구매 — 가방에 넣었습니다</span><span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></div></div>`,"good"); return true; }
-function shopBuyMarket(g){ const it=g.item; if(progress.ess<g.price) return false; progress.ess-=g.price; g.sold=true; progress.inv.push(it); codexRecord(it); dailyAdd("social",1); saveProgress(); renderShop();
-  logLine(`<span class="gain">🌌 밤의 시장에서 구매: <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span> (정수 -${g.price})</span>`);
-  toast(`<div class="tit">${iconCell(it)}<div><span class="tc">밤의 시장 — 가방에 넣었습니다</span><span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span></div></div>`,"good"); return true; }
-function shopBest(it){ return rosterIds().map(c=>({c,p:upgradeFor(c,it)})).filter(x=>x.p&&x.p.pct>0.5).sort((a,b)=>b.p.pct-a.p.pct)[0]; }
 function shopWhoText(it){ const b=shopBest(it); return b?`<span class="sgup">▲ ${esc(heroDisplayName(b.c))} ${b.p.pct>=99.5?"새 장비":"+"+b.p.pct.toFixed(0)+"%"}</span>`:`<span class="sgno">지금 파티엔 더 좋지 않음</span>`; }
 // 장비 카드 한 장
 function shopGearCard(it,priceTxt,can,onBuy){ const c=document.createElement("div"); c.className="sgcard r-"+(it.mythic?"mythic":it.rarity);
@@ -15901,8 +15932,7 @@ function renderShop0(){
     const left=shopRrLeft(), cost=shopRrCost();
     bar.innerHTML=`<span class="shopnote"><b id="shopNext">${shopNextText()}</b></span>`;
     const rb=document.createElement("button"); rb.className="ghostbtn"; rb.textContent=left?`지금 새로고침 · ${cost} 골드 (오늘 ${left}/${SHOP_RR.length}회 남음)`:`오늘 새로고침 다 씀 (${SHOP_RR.length}/${SHOP_RR.length})`; rb.disabled=!left||progress.gold<cost;
-    rb.onclick=()=>{ const L=shopRrLeft(), C=shopRrCost(); if(!L) return; if(progress.gold<C){ logLine(`<span class="r">골드가 부족합니다 (${C}G 필요).</span>`); return; }
-      progress.gold-=C; const r=progress.shopRr&&progress.shopRr.day===shopDay()?progress.shopRr:{day:shopDay(),n:0}; r.n=(r.n|0)+1; progress.shopRr=r; genStock(); saveProgress(); renderShop(); renderHud(); };
+    rb.onclick=()=>{ if(!shopReroll()) return; saveProgress(); renderShop(); renderHud(); };
     rb.classList.add("shref"); head.appendChild(rb); body.appendChild(bar);
     const g=document.createElement("div"); g.className="sggrid"; body.appendChild(g);
     for(const entry of progress.shopStock){
@@ -16807,11 +16837,6 @@ function clearRun(){
    내 영웅이 빌려 가면 '우정 점수'(하루 최대 FRIEND_DAY_MAX) → 외형 상점에서 💎 대신 쓸 수 있음. 서버(휴대폰 테스트 주소)가 있을 때만 */
 const FRIEND_PER=2, FRIEND_DAY_MAX=20;   // 빌려 갈 때마다 2점 · 하루 20점까지
 /* v0.68 우정 상점 — 우정 점수는 여기서만 씀(다른 재화와 바꾸지 않음) */
-const FRIEND_SHOP=[{k:"torch", name:"🔥 횃불 1개", cost:6, daily:3, give:()=>{ torchAdd(1); return "횃불 +1"; }},
-  {k:"gold", name:"🪙 금화 1,500", cost:4, daily:5, give:()=>{ progress.gold+=1500; return "금화 +1,500"; }}];
-function friendShopDay(){ const d=new Date(Date.now()+9*3600e3).toISOString().slice(0,10); if(!progress.frShop||progress.frShop.d!==d) progress.frShop={d,n:{}}; return progress.frShop; }
-function friendBuy(k){ const it=FRIEND_SHOP.find(x=>x.k===k); if(!it) return false; const D=friendShopDay(); if((progress.friend|0)<it.cost||(D.n[k]|0)>=it.daily) return false;
-  progress.friend-=it.cost; D.n[k]=(D.n[k]|0)+1; const t=it.give(); logLine(`<span class="win">🤝 우정 상점 — ${esc(t)} (우정 점수 -${it.cost} · 남은 ${progress.friend})</span>`); saveProgress(); return true; }
 function friendShopBlock(){ const box=document.createElement("div"); box.className="gemshop"; const fr=progress.friend|0, D=friendShopDay();
   box.innerHTML=`<div class="gshead"><b>🤝 우정 점수 ${fr}</b><span>내 영웅을 누가 빌려 갈 때마다 ${FRIEND_PER}점(하루 ${FRIEND_DAY_MAX}점까지) · 이 상점에서만 씁니다</span></div>
     <div class="gscards">${FRIEND_SHOP.map(it=>{ const left=it.daily-(D.n[it.k]|0); return `<div class="gscard"><h3>${it.name}</h3><div class="gsst">🤝 ${it.cost} · 오늘 ${left}/${it.daily}번 남음</div><div class="gsbtns"><button class="btn" data-fr="${it.k}" ${fr<it.cost||left<=0?"disabled":""}>🤝 ${it.cost}로 사기</button></div></div>`; }).join("")}</div>`;
@@ -16956,12 +16981,12 @@ function egExchangeBlock(){
     <button class="buy" id="egxSetB" ${E.shards<60||!SETS[egxSet].slots.includes(egxSlot)?"disabled":""}>세트 조각(위 부위) · 파편 60</button>
     <button class="buy" id="egxRune" ${E.shards<15?"disabled":""}>무작위 룬 · 파편 15</button>
     ${SETS[egxSet].slots.includes(egxSlot)?"":`<span class="shopnote">이 세트에 없는 부위입니다 — ${esc(setSlotsU(SETS[egxSet]).map(x=>SET_NOUN[x]).join("·"))}</span>`}</div>${egGrowthHtml()}`;
-  const give=(it,cost)=>{ E.shards-=cost; progress.inv.push(it); codexRecord(it); saveProgress(); renderShop(); lootToast(it,"새벽 교환소"); logLine(`<span class="gain">🌅 새벽 교환 — <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span> (파편 -${cost})</span>`); };
+  const give=(r)=>{ if(!r) return; const it=r.it, cost=r.cost; saveProgress(); renderShop(); lootToast(it,"새벽 교환소"); logLine(`<span class="gain">🌅 새벽 교환 — <span class="${rarityCls(it)}">[${rarityLabel(it)}] ${esc(itemDisplayName(it))}</span> (파편 -${cost})</span>`); };
   setTimeout(()=>{ const on=(id,ev,fn)=>{ const e=$(id); if(e) e.addEventListener(ev,fn); };
     on("egxWho","change",e=>{ egxWho=e.target.value; renderShop(); }); on("egxSlot","change",e=>{ egxSlot=e.target.value; renderShop(); }); on("egxSet","change",e=>{ egxSet=e.target.value; renderShop(); });
-    on("egxLeg","click",()=>{ if(E.shards<40) return; give(makeItem(true,egTier(),{slot:egxSlot,rarity:"legend",cls:CLASSES[egxWho]?egxWho:undefined,luck:partyLuck()}),40); });
-    on("egxSetB","click",()=>{ if(E.shards<60||!SETS[egxSet].slots.includes(egxSlot)) return; give(makeSetItem(egxSet,egTier(),{slot:egxSlot,cls:egxWho}),60); });
-    on("egxRune","click",()=>{ if(E.shards<15) return; give(makeRune(),15); });
+    on("egxLeg","click",()=>give(egxBuy("leg",{slot:egxSlot,who:egxWho})));
+    on("egxSetB","click",()=>give(egxBuy("set",{set:egxSet,slot:egxSlot,who:egxWho})));
+    on("egxRune","click",()=>give(egxBuy("rune")));
     on("egxMyth","click",()=>{ if(!mythicCan(egxWho)) return; craftMythic(egxWho); renderShop(); });
     on("egxMythRe","click",()=>{ const w=$("egxMythW"); if(reforgeMythic(egxWho,w?w.value:null)){ renderShop(); renderParty(); } });
     },0);
@@ -17327,6 +17352,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.22", v:"v0.150", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.149", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.148", t:"정리", L:["오류 수정"]},
   {d:"2026.11.21", v:"v0.147", t:"정리", L:[
@@ -17646,17 +17672,6 @@ function renderMailDot(){ const b=$("mailBtn"); if(!b) return; b.hidden=!NET(); 
   if(MAIL.at) MAIL.first=true; }
 function mailGiftText(x){ const L=[]; if(x.gold) L.push(`골드 ${(+x.gold).toLocaleString("ko-KR")}`); if(x.ess) L.push(`밤의 정수 ${x.ess}`); if(x.gem) L.push(`💎 새벽 결정 ${x.gem}`); if(x.torch) L.push(`🔥 횃불 ${x.torch}`); if(x.sub) L.push(`🌙 정액 ${x.sub}일`);
   for(const it of x.items||[]) if(it&&it.n>0) L.push(`${(RARITIES[RAR_IDX[it.r]]||{label:"장비"}).label} ${it.s?SLOT_LABEL[it.s]:"장비"} ×${it.n}`); return L.join(" · "); }
-function mailClaim(x){
-  if(!progress||(progress.mailGot||[]).includes(x.id)) return;
-  progress.mailGot=(progress.mailGot||[]).concat(x.id).slice(-300); chkRefreshGrants();   // v0.95 우편 몫은 지급 장부로(하루 한도와 따로)
-  if(x.gold) progress.gold+=+x.gold|0; if(x.ess) progress.ess=(progress.ess||0)+(+x.ess|0); if(x.gem) progress.gem=(progress.gem||0)+(+x.gem|0);
-  if(x.torch) try{ torchAdd(+x.torch|0); }catch(e){}
-  if(x.sub) try{ subStart(Math.min(365,Math.max(0,+x.sub|0)),`우편 선물 ${x.sub|0}일`); }catch(e){}
-  const tier=bestLootTier(); let n=0;
-  for(const it of x.items||[]) for(let i=0;i<Math.min(20,+it.n|0);i++){ try{ const o={rarity:RAR_IDX[it.r]!=null?it.r:"rare"}; if(it.s&&ITEM_SLOTS.includes(it.s)) o.slot=it.s; const item=makeItem(false,tier,o); item.from="우편으로 받음"; progress.inv.push(item); n++; }catch(e){} }
-  logLine(`<span class="gain">📮 우편 받음 — ${esc(x.t||"")}${mailGiftText(x)?` (${esc(mailGiftText(x))})`:""}</span>`);
-  saveProgress(); rerenderAll(); renderMailDot();
-}
 async function openMail(){
   const N=NET(); if(!N) return;
   const m=openModal(`<h2>📮 우편함</h2><div id="mlBody" class="nbody"><p class="msub">불러오는 중…</p></div><div class="mfoot"><button id="mlAll" class="btn" hidden>모두 받기</button><button id="mclose" class="btn ghost">닫기</button></div>`,"notices");
