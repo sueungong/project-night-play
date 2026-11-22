@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795343828873"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795346854556"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11109,6 +11109,9 @@ function pvpRankReward(pw,r){ const S=pvpState(); let got=null;
       logLine(`<span class="gain">🏆 지난주 대전 ${r}위 — 새벽 결정 +${rw.gem} · 밤의 정수 +${rw.ess}</span>`); } } }
   for(const k of Object.keys(S.pl)) if(+k<pw) delete S.pl[k];
   return got; }
+// v0.152 처음 시작 대사(접수원) — 화면(웹 · 고돗)이 같은 글을 씀. {나} = 주인공 이름
+const ONBOARD_INTRO=["접수원: 「{나} 님이시군요. 등록 끝났어요. …그런데 혼자 가시려고요?」", "접수원: 「혼자서는 첫 의뢰도 못 버텨요. 마침 파티를 찾던 분들이 계세요. 잠깐만요.」"];
+const ONBOARD_OUTRO=["접수원: 「이제 제법 파티 같네요. 길드 규칙부터 알려 드릴게요.」", "접수원: 「군단장에게 가려면 먼저 길을 지키는 부하를 넷 넘어야 해요. 그래서 땅 하나를 다섯 번에 나눠 들어가요. 그걸 '막'이라고 불러요.」", "접수원: 「첫 의뢰는 1장 달빛 습지예요. 마을 사람 마흔 명이 하룻밤 사이에 사라졌대요.」", "접수원: 「…저는 아직 해를 한 번도 본 적이 없어요. 그래도 {나} 님은 꼭 살아서 돌아오세요.」"];
 // v0.151 처음 시작: 주인공 등록(새 게임이면 주인공 혼자 · 규칙 교실 시작) · 처음 고른 동료 합류
 function protagBegin(r,fresh){ progress.protag=r; if(fresh){ progress.roster=[r.cid]; progress.party=[r.cid]; TUT.begin(); } }
 function startMateAdd(c){ progress.roster.push(c); progress.party.push(c); }
@@ -11133,6 +11136,61 @@ var PVP={daily:5, extra:5, gem:10, size:6, start:1000, base:18, kMin:5, kMax:30,
 /* ---------- v0.151 대전 순위 보상 표 ---------- */
 function pvpReward(rank){ const r=PVP.REWARD.find(x=>rank<=x[0]); return r?{gem:r[1],ess:r[2]}:null; }
 
+/* ---------- v0.152 처음 시작(무작위 이름 · 새 진행인지) ---------- */
+const NAME_POOL=["아린","카엘","세라","로웬","이든","하루","리안","엘라","다온","유나","테오","미르"];
+function isFreshProgress(pr){
+  return !(CLASS_IDS.some(c=>((pr.heroes||{})[c]||{}).level>1)||(pr.gold||0)>0||(pr.inv||[]).length
+    ||(pr.cl||[]).some(c=>REGION_KEYS.some(k=>((c||{})[k]||0)>0)));
+}
+
+/* ---------- v0.152 이야기 글 나누기(누가: 「말」) · 글 길이로 보여 줄 시간 ---------- */
+// 대사 줄 "화자: 「대사」" → 화자 · 대사
+function splitSpeech(line){ const m=/^([^:「」]{1,24}):\s*「([\s\S]*)」\s*$/.exec(String(line||"").trim()); return m?{who:m[1].trim(),text:m[2]}:null; }
+function bannerDur(text){
+  // 한국어 기준 초당 약 14자 + 여유 2.2초 — 속도 설정과 상관없이 읽을 시간 확보(클릭하면 바로 넘어감)
+  return 2200 + Math.min(6500, String(text).length*70);
+}
+
+/* ---------- v0.152 전투 능력치 줄(이름 · 값 글) — 파티 탭 표(웹 secGrid · 고돗 화면)가 같은 줄을 씀 ---------- */
+function secRows(d){
+  const P=[["공격력"+(d.caster?"(마력)":""),d.atk],["체력",d.hp],["방어력",d.def],["마나",d.mp],["턴당 체력 회복",d.hpRegen||0],["턴당 마나 회복",(d.mpRegen||0)+(d.regen||0)],["신속 (행동 순서)",d.spd],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],
+    ["명중",pct(d.acc)+"%"],["회피",pct(d.eva)+"%"],["관통",pct(d.pen)+"%"],["흡혈",pct(d.ls)+"%"],["상태이상 회피",pct(d.res)+"%"+(d.resRaw!=null&&heroResPen()>0?` <small class="rpen" title="장비·기본 합계 ${pct(d.resRaw)}% − ${DIFFS[curDiffIdx()].name} ${pct(heroResPen())}%p">(${DIFFS[curDiffIdx()].name} −${pct(heroResPen())})</small>`:"")]];
+  if(d.heal) P.push(["치유량",(d.heal>=0?"+":"")+pct(d.heal)+"%"]);
+  return P; }
+/* ---------- v0.152 황혼 메인 의뢰 문(의뢰가 걸린 막은 의뢰를 받아야 처음 들어감) ---------- */
+// null = 들어가도 됨 · {auto} = 규칙 교실 중이라 저절로 받음(들어가도 됨) · {st:"ready"} = 의뢰를 받아야 함 · {st:"lock"} = 앞 의뢰를 먼저 보고해야 함
+function questGateNeed(){ if(runState||progress.diff!==0||egModeOf()) return null;
+  const rk=progress.lastRegion, a=curAct(), S=questStep(rk,a); if(!S||actsDone(0,rk)>=a) return null;
+  const st=questMainSt(rk,a); if(st==="go"||st==="rep"||st==="done") return null;
+  if(st==="ready"&&TUT.learning()){ questAccept(rk,a); saveProgress(); return {auto:true,rk,a,S}; }
+  return {st,rk,a,S}; }
+/* ---------- v0.152 진영(자리 옮기기 · 빈 자리) ---------- */
+function pvpPosAll(){ const o={}; for(const c of rosterIds()) o[c]=pvpPos(c); return o; }
+function partyOpenSlots(){ try{ const P=partyIds(); return Math.max(0,Math.min(partyCap()-P.length,rosterIds().filter(c=>!P.includes(c)).length)); }catch(e){ return 0; } }
+// v0.35 진영 정비: 앞줄·뒷줄·대기에 영웅을 끌어다 놓기 · 영웅끼리 끌어서 자리 바꾸기 (터치도 됨)
+function formMove(src,dst){   // src: 영웅 id · dst: {slot:{row,lane}} · {hero} · {zone:"front"|"back"|"bench"}   (v0.43: 앞줄·뒷줄 × 가로줄 4칸)
+  normalizeFormation();
+  const P=partyIds().slice(), inP=P.includes(src), H=fmIsPvp()?pvpPosAll():progress.heroes, protag=progress.protag&&progress.protag.cid, cap=partyCap();
+  const freeLane=r=>[...Array(LANES).keys()].find(l=>!slotHero(r,l));
+  if(dst.zone==="bench"){ if(!inP) return false; if(src===protag) return "protag"; P.splice(P.indexOf(src),1); fmSetParty(P); return true; }
+  let row, lane;
+  if(dst.hero){ if(dst.hero===src) return false; if(!P.includes(dst.hero)){   // 대기 영웅 위에 놓기 = 맞바꾸기
+      if(!inP) return false; if(src===protag) return "protag"; P[P.indexOf(src)]=dst.hero; H[dst.hero].row=heroRow(src); H[dst.hero].lane=heroLane(src); fmSetParty(P); return true; }
+    row=heroRow(dst.hero); lane=heroLane(dst.hero); }
+  else if(dst.slot){ row=dst.slot.row; lane=+dst.slot.lane; }
+  else if(dst.zone==="front"||dst.zone==="back"){ row=dst.zone; if(inP&&heroRow(src)===row) return false; lane=freeLane(row); if(lane===undefined) return "rowfull"; }
+  else return false;
+  if(!(row==="front"||row==="back")||!(lane>=0&&lane<LANES)) return false;
+  const t=slotHero(row,lane); if(t===src) return false;
+  if(inP){ if(t){ H[t].row=heroRow(src); H[t].lane=heroLane(src); } H[src].row=row; H[src].lane=lane; }
+  else { if(t){ if(t===protag) return "protag"; P[P.indexOf(t)]=src; } else { if(P.length>=cap) return "full"; P.push(src); } H[src].row=row; H[src].lane=lane; }
+  fmSetParty(P); return true;
+}
+
+/* ---------- v0.152 던전 진행 중 막는 탭 ---------- */
+// v0.33: 던전 진행 중에는 캐릭터에 영향을 주는 탭(파티·장비·상점·특성)은 못 열고, 자동전투 규칙은 보기만
+const RUN_LOCK_TABS=["party","equip","shop","traits"];
+
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 let curUnits=[];
@@ -11153,7 +11211,6 @@ function renderHud(){
   $("hudChips").innerHTML=torchChipHTML()+`<span class="chip gold"><span class="ico"></span><span class="lbl">골드 </span><b>${Number(progress.gold).toLocaleString("ko-KR")}</b></span>`
     +`<span class="chip ess"><span class="ico ess"></span><span class="lbl">밤의 정수 </span><b>${progress.ess}</b></span><span class="chip gem" title="새벽 결정">💎 <b>${Number(progress.gem||0).toLocaleString("ko-KR")}</b></span>${(()=>{ const F=fragStore(); return F.gear?`<span class="chip frag" title="장비 조각"><span class="rar-epic">◆</span> <b>${F.gear}</b></span>`:""; })()}`;   // v0.94 동기화 표시는 위쪽 줄에서 뺌(⚙ 설정에서 확인)
 }
-function partyOpenSlots(){ try{ const P=partyIds(); return Math.max(0,Math.min(partyCap()-P.length,rosterIds().filter(c=>!P.includes(c)).length)); }catch(e){ return 0; } }
 // v0.94 숙련이 올라 고를 수 있게 된 변형(주인공 · 직접 키우는 영웅만 — 동료는 스스로 고름)
 function masteryPending(cid){ const h=progress.heroes[cid]; if(!h||isCompanion(cid)) return 0; let n=0;
   for(const [sid,ms] of Object.entries(h.mastery||{})){ if(!SKILLS[sid]) continue; const xp=ms.xp||0; for(let i=0;i<3;i++) if(xp>=MASTERY_STEPS[i]&&!(ms.pick&&ms.pick[i])) n++; } return n; }
@@ -11240,8 +11297,6 @@ function onRegionChange(){
 const VIEWS=["dungeon","quest","party","equip","shop","traits","rules","codex","coop","pvp"];
 const VIEW_NAMES={dungeon:"던전 준비",quest:"퀘스트",party:"파티",equip:"장비",shop:"상점",traits:"특성",rules:"전투설정",codex:"도감·증표",coop:"함께하기",pvp:"대전"};
 let curView="dungeon";
-// v0.33: 던전 진행 중에는 캐릭터에 영향을 주는 탭(파티·장비·상점·특성)은 못 열고, 자동전투 규칙은 보기만
-const RUN_LOCK_TABS=["party","equip","shop","traits"];
 function showTab(t,rail){ if((!progress||!progress.protag)&&t!=="dungeon"&&t!=="log") return;   // v0.36: 주인공을 만들기 전(프롤로그 중)에는 탭을 열지 않음
   if(RUN_LOCK_TABS.includes(t)&&runBusy()){ toast(`<span class="tc">🔒 던전 진행 중</span>`,"",2600); return; }
   if(rail&&t===curView&&t!=="dungeon"&&t!=="log"&&document.body.dataset.view===t) t="dungeon";   // v0.35: 열린 탭을 다시 누르면 대기실(마을)로
@@ -11483,10 +11538,6 @@ function toast(html,cls,ms){
   while(box.children.length>3) box.firstChild.remove();
   setTimeout(()=>{ t.classList.add("out"); setTimeout(()=>t.remove(),450); }, ms||3800);
 }
-function bannerDur(text){
-  // 한국어 기준 초당 약 14자 + 여유 2.2초 — 속도 설정과 상관없이 읽을 시간 확보(클릭하면 바로 넘어감)
-  return 2200 + Math.min(6500, String(text).length*70);
-}
 let bannerRes=null, bannerTimer=null;
 function dismissBanner(){
   if(!bannerRes) return;
@@ -11523,8 +11574,6 @@ function followBubble(b,anchor,res){
     raf=requestAnimationFrame(place); };
   place();
 }
-// 대사 줄 "화자: 「대사」" → 화자 · 대사
-function splitSpeech(line){ const m=/^([^:「」]{1,24}):\s*「([\s\S]*)」\s*$/.exec(String(line||"").trim()); return m?{who:m[1].trim(),text:m[2]}:null; }
 function speakerEl(who){
   if(!who||typeof curUnits==="undefined") return null;
   const bare=n=>String(n||"").replace(/^\[[^\]]*\]\s*/,"").replace(/\s*Lv\.\d+$/,"").replace(/^☠\s*/,"").trim();
@@ -14567,25 +14616,6 @@ function renderParty(){ withUpgMemo(()=>{   // v0.35: 파티(진영) · 장비 �
   if($("body-party")&&!$("body-party").hidden) renderFormation();
   if($("body-equip")&&!$("body-equip").hidden) renderEquip();
 }); }
-// v0.35 진영 정비: 앞줄·뒷줄·대기에 영웅을 끌어다 놓기 · 영웅끼리 끌어서 자리 바꾸기 (터치도 됨)
-function formMove(src,dst){   // src: 영웅 id · dst: {slot:{row,lane}} · {hero} · {zone:"front"|"back"|"bench"}   (v0.43: 앞줄·뒷줄 × 가로줄 4칸)
-  normalizeFormation();
-  const P=partyIds().slice(), inP=P.includes(src), H=fmIsPvp()?pvpPosAll():progress.heroes, protag=progress.protag&&progress.protag.cid, cap=partyCap();
-  const freeLane=r=>[...Array(LANES).keys()].find(l=>!slotHero(r,l));
-  if(dst.zone==="bench"){ if(!inP) return false; if(src===protag) return "protag"; P.splice(P.indexOf(src),1); fmSetParty(P); return true; }
-  let row, lane;
-  if(dst.hero){ if(dst.hero===src) return false; if(!P.includes(dst.hero)){   // 대기 영웅 위에 놓기 = 맞바꾸기
-      if(!inP) return false; if(src===protag) return "protag"; P[P.indexOf(src)]=dst.hero; H[dst.hero].row=heroRow(src); H[dst.hero].lane=heroLane(src); fmSetParty(P); return true; }
-    row=heroRow(dst.hero); lane=heroLane(dst.hero); }
-  else if(dst.slot){ row=dst.slot.row; lane=+dst.slot.lane; }
-  else if(dst.zone==="front"||dst.zone==="back"){ row=dst.zone; if(inP&&heroRow(src)===row) return false; lane=freeLane(row); if(lane===undefined) return "rowfull"; }
-  else return false;
-  if(!(row==="front"||row==="back")||!(lane>=0&&lane<LANES)) return false;
-  const t=slotHero(row,lane); if(t===src) return false;
-  if(inP){ if(t){ H[t].row=heroRow(src); H[t].lane=heroLane(src); } H[src].row=row; H[src].lane=lane; }
-  else { if(t){ if(t===protag) return "protag"; P[P.indexOf(t)]=src; } else { if(P.length>=cap) return "full"; P.push(src); } H[src].row=row; H[src].lane=lane; }
-  fmSetParty(P); return true;
-}
 // 진영 미리보기: 실제 전투 무대 그림 위에 실제 전투와 같은 자리(뒷줄 · 앞줄, 원근)로 영웅을 세움 — 끌어서 줄 바꾸기·자리 바꾸기
 let formBgKey=null, formBgURL=null;
 function formStageURL(){
@@ -15304,9 +15334,7 @@ function renderEquip(){
 }
 
 function secGrid(d){
-  const P=[["공격력"+(d.caster?"(마력)":""),d.atk],["체력",d.hp],["방어력",d.def],["마나",d.mp],["턴당 체력 회복",d.hpRegen||0],["턴당 마나 회복",(d.mpRegen||0)+(d.regen||0)],["신속 (행동 순서)",d.spd],["치명타 확률",pct(d.crit)+"%"],["치명타 피해",pct(d.critdmg)+"%"],
-    ["명중",pct(d.acc)+"%"],["회피",pct(d.eva)+"%"],["관통",pct(d.pen)+"%"],["흡혈",pct(d.ls)+"%"],["상태이상 회피",pct(d.res)+"%"+(d.resRaw!=null&&heroResPen()>0?` <small class="rpen" title="장비·기본 합계 ${pct(d.resRaw)}% − ${DIFFS[curDiffIdx()].name} ${pct(heroResPen())}%p">(${DIFFS[curDiffIdx()].name} −${pct(heroResPen())})</small>`:"")]];
-  if(d.heal) P.push(["치유량",(d.heal>=0?"+":"")+pct(d.heal)+"%"]);
+  const P=secRows(d);
   const ER=d.er?`<div class="ergrid" title="속성 저항 1 = 그 속성 피해 -1% · 상한 70">${EL_KEYS.map(e=>`<div class="er-${e}${d.er[e]>=70?" capped":""}"><span>${EL_NAME[e]} 저항</span><b>${d.er[e]||0}</b></div>`).join("")}</div>`:"";   // v0.95 속성별 저항
   // v0.19: 상한이 있는 능력치는 마우스를 올리면 상한을 보여 주고, 상한에 닿으면 '최대'로 표시(더 올려도 소용없음)
   const capOf={"치명타 확률":"crit","명중":"acc","회피":"eva","관통":"pen","상태이상 회피":"res"};
@@ -15344,10 +15372,8 @@ function questReport(rk,a){ if(questBusy()||questMainSt(rk,a)!=="rep") return; c
   m.querySelector("#qcls").onclick=closeModal; m.onclick=e=>{ if(e.target===m) closeModal(); };
   const nb=m.querySelector("#qnx"); if(nb) nb.onclick=()=>questBrief(rk,next.act); }
 // 황혼에서 메인 의뢰가 걸린 막을 처음 깨러 들어갈 때: 의뢰를 받아야 들어감(규칙 교실 중엔 저절로 받음)
-function questGate(){ try{ if(runState||progress.diff!==0||egModeOf()) return true;
-  const rk=progress.lastRegion, a=curAct(), S=questStep(rk,a); if(!S||actsDone(0,rk)>=a) return true;
-  const st=questMainSt(rk,a); if(st==="go"||st==="rep"||st==="done") return true;
-  if(st==="ready"&&TUT.learning()){ questAccept(rk,a); saveProgress(); renderQuestDot(); return true; }
+function questGate(){ try{ const g=questGateNeed(); if(!g) return true; if(g.auto){ renderQuestDot(); return true; }
+  const {rk,a,S,st}=g;
   if(st==="ready"){ questBrief(rk,a,true); return false; }
   const L=QM[rk].steps, prev=L[L.indexOf(S)-1];
   const m=openModal(`<div class="qmodal"><div class="qmh"><span class="qtag">메인 ${REGIONS[rk].chapter} · ${a}막</span><h2>먼저 보고하세요</h2></div>
@@ -16403,7 +16429,6 @@ function pvpWR(wk){ const S=pvpState(), k="w"+wk; const r=S.wr[k]||(S.wr[k]={w:0
 function pvpNorm(x,wk){ if(!x) return x; wk=wk==null?pvpWeek():wk; const k="w"+wk, s=x.s||{}, wr=(x.wr||{})[k]||{}, dr=(x.dr||{})[k]||{};
   if(x.tw==null){ x.tw=x.w|0; x.tl=x.l|0; x.td=x.d|0; x.tdw=x.dw|0; x.tdl=x.dl|0; }
   x.has=typeof s[k]==="number"; x.sc=x.has?s[k]:PVP.start; x.w=wr.w|0; x.l=wr.l|0; x.d=wr.d|0; x.dw=dr.dw|0; x.dl=dr.dl|0; return x; }
-function pvpPosAll(){ const o={}; for(const c of rosterIds()) o[c]=pvpPos(c); return o; }
 function pvpWeekEnd(wk){ return ((wk+1)*7-3)*864e5-4*3600e3; }
 // 점수
 function pvpGain(my,op){ return Math.max(PVP.kMin,Math.min(PVP.kMax,Math.round(PVP.base+(op-my)/20))); }
@@ -17097,7 +17122,6 @@ function playEnding(d,unlockNext){
 
 /* ---- 주인공 만들기 · 동료 합류 · 설정 ---- */
 let bootDone=false, onboardBusy=false;
-const NAME_POOL=["아린","카엘","세라","로웬","이든","하루","리안","엘라","다온","유나","테오","미르"];
 function openModal(html,cls){
   closeModal();
   const m=document.createElement("div"); m.id="modal"; m.className="modal "+(cls||"");
@@ -17186,10 +17210,6 @@ function showCreation(mode,trio){
 }
 // v0.93 시작 동료 고르기: 주인공을 뺀 쉬운 세 직업 중 둘(남은 하나는 황혼 1장을 깨면 합류)
 
-function isFreshProgress(pr){
-  return !(CLASS_IDS.some(c=>((pr.heroes||{})[c]||{}).level>1)||(pr.gold||0)>0||(pr.inv||[]).length
-    ||(pr.cl||[]).some(c=>REGION_KEYS.some(k=>((c||{})[k]||0)>0)));
-}
 let adoptAsking=false;   // v0.94 '게스트 진행 불러오기 / 새로 시작'을 묻는 동안엔 새 주인공 만들기를 띄우지 않음
 async function maybeOnboard(){
   if(onboardBusy||!progress||adoptAsking) return;
@@ -17214,7 +17234,7 @@ async function maybeOnboard(){
       saveProgress(); rerenderAll(); goCamp();
       logLine(`<span class="win">★ ${esc(r.name)} (${esc(jobName(r.cid))}) — 모험가 등록 완료</span>`);
       if(fresh){
-        const intro=["접수원: 「{나} 님이시군요. 등록 끝났어요. …그런데 혼자 가시려고요?」", "접수원: 「혼자서는 첫 의뢰도 못 버텨요. 마침 파티를 찾던 분들이 계세요. 잠깐만요.」"];
+        const intro=ONBOARD_INTRO;
         for(const l of intro) logLine(`<span class="story">${esc(l)}</span>`);
         await showNarration(intro);
         const mates=trio.filter(c=>c!==r.cid); progress.startPick=mates.slice(); saveProgress();   // v0.93 고른 셋 중 주인공이 아닌 둘
@@ -17225,7 +17245,7 @@ async function maybeOnboard(){
           logLine(`<span class="win">✚ ${esc(C.name)}${jo(C.name,"이","가")} 동료로 합류했다.</span>`);
           await showBanner(`<img src="${SPRITES[C.sprite]}" alt=""><span style="min-width:0"><span class="who">${esc(C.name)} — 동료 합류</span><span class="txt">${esc(C.join)}</span></span>`, bannerDur(C.join));
         }
-        const outro=["접수원: 「이제 제법 파티 같네요. 길드 규칙부터 알려 드릴게요.」", "접수원: 「군단장에게 가려면 먼저 길을 지키는 부하를 넷 넘어야 해요. 그래서 땅 하나를 다섯 번에 나눠 들어가요. 그걸 '막'이라고 불러요.」", "접수원: 「첫 의뢰는 1장 달빛 습지예요. 마을 사람 마흔 명이 하룻밤 사이에 사라졌대요.」", "접수원: 「…저는 아직 해를 한 번도 본 적이 없어요. 그래도 {나} 님은 꼭 살아서 돌아오세요.」"];
+        const outro=ONBOARD_OUTRO;
         for(const l of outro) logLine(`<span class="story">${esc(l)}</span>`);
         await showNarration(outro);
         saveProgress(); rerenderAll();
@@ -17409,6 +17429,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.22", v:"v0.152", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.151", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.150", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.149", t:"정리", L:["오류 수정"]},
