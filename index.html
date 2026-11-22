@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795377869392"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795379261000"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11264,6 +11264,129 @@ function tagPrune(m,turn){ let ch=false; for(const [k,v] of Object.entries(m)) i
 function tagView(m,max){ const all=Object.entries(m).map(([k,v])=>({k,v,bad:v.cls==="bad"})); all.sort((a,b)=>(b.bad?1:0)-(a.bad?1:0));   // 약화 먼저 · 최대 max개(넘치면 +n) · 숫자는 중첩 · 자원 수
   const shown=all.slice(0,max); return {shown:shown.map(({k,v})=>({k, cls:v.cls||"", n:(/(\d+)\s*$/.exec(k)||[])[1]||"", kind:statusKind(k,v.cls)})), more:all.length-shown.length, rest:all.slice(max).map(x=>x.k)}; }
 
+/* ---------- v0.167 도트 그림 셈(다듬기 · 2배) ---------- */
+// v0.70 그래픽 다듬기(시안 A) — 16×16 그대로, 위·왼쪽에서 빛: 윗면·왼면은 밝게, 아랫면·오른면은 어둡게 · 외곽선은 옆 색을 살짝 머금게 · 무기 끝에 반짝임 한 점
+function heroPolish(px,OUT,wcells,soft){ const W=px.length, src=px.map(r=>r.slice()); const K=soft?0.55:1;   // soft: 몬스터처럼 이미 명암이 있는 그림은 약하게
+  const isO=c=>c&&Math.abs(c[0]-OUT[0])+Math.abs(c[1]-OUT[1])+Math.abs(c[2]-OUT[2])<30;
+  const at=(x,y)=>x<0||y<0||x>=W||y>=W?null:src[y][x]; const edge=c=>!c||isO(c);
+  const mul=(c,f)=>[0,1,2].map(i=>Math.max(0,Math.min(255,Math.round(c[i]*f))));
+  const mix=(a,b,f)=>[0,1,2].map(i=>Math.round(a[i]+(b[i]-a[i])*f));
+  for(let y=0;y<W;y++) for(let x=0;x<W;x++){ const c=src[y][x]; if(!c) continue;
+    if(isO(c)){ const n=[at(x,y-1),at(x-1,y),at(x,y+1),at(x+1,y)].filter(q=>q&&!isO(q)); if(!n.length) continue;
+      const outer=!at(x,y-1)||!at(x-1,y)||!at(x,y+1)||!at(x+1,y); px[y][x]=mix(OUT,mul(n[0],0.55),outer?0.28:0.42); continue; }
+    let f=1; if(edge(at(x,y-1))) f*=1+0.13*K; if(edge(at(x-1,y))) f*=1+0.05*K; if(edge(at(x,y+1))) f*=1-0.18*K; if(edge(at(x+1,y))) f*=1-0.1*K;
+    px[y][x]=mul(c,f); }
+  if(wcells&&wcells.length){ let best=null; for(const [x,y] of wcells){ const c=src[y]&&src[y][x]; if(!c||isO(c)) continue; const mx=Math.max(...c), mn=Math.min(...c); if(mx<130||(mx-mn)/mx>0.35) continue; if(!best||y<best[1]) best=[x,y]; }
+    if(best) px[best[1]][best[0]]=mix(px[best[1]][best[0]],[255,255,255],0.65); }
+}
+function dotScale2x(px){ const n=px.length, o=Array.from({length:n*2},()=>Array(n*2).fill(null));
+  const P=(x,y)=>px[Math.max(0,Math.min(n-1,y))][Math.max(0,Math.min(n-1,x))], eq=(a,b)=>a===b||(!!a&&!!b&&a[0]===b[0]&&a[1]===b[1]&&a[2]===b[2]);
+  for(let y=0;y<n;y++) for(let x=0;x<n;x++){ const E=P(x,y), A=P(x,y-1), B=P(x+1,y), C=P(x-1,y), D=P(x,y+1); let e0=E,e1=E,e2=E,e3=E;
+    if(eq(C,A)&&!eq(C,D)&&!eq(A,B)) e0=A; if(eq(A,B)&&!eq(A,C)&&!eq(B,D)) e1=B; if(eq(D,C)&&!eq(D,B)&&!eq(C,A)) e2=C; if(eq(B,D)&&!eq(B,A)&&!eq(D,C)) e3=D;
+    o[2*y][2*x]=e0; o[2*y][2*x+1]=e1; o[2*y+1][2*x]=e2; o[2*y+1][2*x+1]=e3; }
+  return o; }
+function dotShade2(px,OUT,soft){ const W=px.length, src=px.map(r=>r.slice()), K=soft?0.55:1;
+  const isO=c=>c&&Math.abs(c[0]-OUT[0])+Math.abs(c[1]-OUT[1])+Math.abs(c[2]-OUT[2])<40, at=(x,y)=>x<0||y<0||x>=W||y>=W?null:src[y][x], edge=c=>!c||isO(c);
+  const mul=(c,f)=>[0,1,2].map(i=>Math.max(0,Math.min(255,Math.round(c[i]*f)))), mix=(a,b,f)=>[0,1,2].map(i=>Math.round(a[i]+(b[i]-a[i])*f));
+  for(let y=0;y<W;y++) for(let x=0;x<W;x++){ const c=src[y][x]; if(!c) continue;
+    if(isO(c)){ const n=[at(x,y+1),at(x+1,y),at(x,y-1),at(x-1,y)].filter(q=>q&&!isO(q)); if(!n.length) continue;
+      if(!at(x,y-1)||!at(x-1,y)) px[y][x]=mix(mul(n[0],0.45),OUT,0.35); else if(at(x,y+1)&&at(x+1,y)) px[y][x]=mix(mul(n[0],0.5),OUT,0.5); continue; }
+    const up=at(x,y-1), dn=at(x,y+1), lf=at(x-1,y), rt=at(x+1,y); let f=1;
+    if(edge(up)) f*=1.16; if(edge(lf)) f*=1.06; if(edge(dn)) f*=0.8; if(edge(rt)) f*=0.88;
+    if(!edge(dn)&&edge(at(x,y+2))) f*=0.9; if(!edge(up)&&edge(at(x,y-2))) f*=1.06;
+    let c2=mul(c,1+(f-1)*K);
+    if(!soft){ const mx=Math.max(...c), mn=Math.min(...c); if((mx?(mx-mn)/mx:0)<0.28&&0.3*c[0]+0.59*c[1]+0.11*c[2]>120&&edge(up)&&edge(lf)) c2=mix(c2,[255,255,255],0.55); }   // 쇠붙이 반짝임
+    px[y][x]=c2; }
+  return px; }
+// 주인공 망토(v0.28): 진홍색, 어깨~무릎, 등 뒤로 흘러내리며 끝자락이 바람에 일렁임(4장 번갈아) + 금 단추
+const PROTAG_CAPE=[[222,78,88],[178,52,64],[124,34,48]], PROTAG_CLASP=[240,200,90];
+
+/* ---------- v0.167 영웅 · 몬스터 그림 셈 ---------- */
+// v0.167 영웅 그림 셈(엔진 — 게임 화면 · 고돗 화면이 같은 함수): 몸(HERO_DOTS) + 손에 무기(WEAPON_DOTS) + 주인공 망토 + 눈 깜빡 · 숨쉬기 → 다듬은 16칸(px) · 2배 32칸(big)
+//   opt: 외형 연결(화면 쪽) — wsk(무기 외형 색) · grid(hk,기본)(무기 외형 모양) · capeSkip(바뀐 망토는 무대에) · cape({back,front} 망토 외형 칸)
+function lookPixels(look,opt){ opt=opt||{}; if(!look) return null;
+  const D=HERO_DOTS[look.spr]; if(!D) return null; const px=Array.from({length:16},()=>Array(16).fill(null)); const body=new Set(); const OUT=[18,20,32];
+  const ROWS=look.ns&&D.ns?D.ns:D.rows;
+  for(let y=0;y<16;y++) for(let x=0;x<16;x++){ const ch=ROWS[y][x]; if(ch===".") continue; px[y][x]=D.pal[ch]; body.add(y*16+x); }
+  const W=WEAPON_DOTS[look.w]; const hands=[]; let wcells=[], wcol=[];
+  if(W){ const col=Object.assign({},WEAPON_COL); const gem=D.gem||[[150,226,250],[84,166,214]]; col.G=gem[0]; col.H=gem[1]; const front=!!W.front; const cells=new Map();
+    const WSK=opt.wsk||null; if(WSK) Object.assign(col,WSK.pal,{"6":WSK.pal[2]});   // v0.78 무기 외형 2차   // v0.58 무기 외형 색 · v0.75 모양은 모든 무기
+    for(const hk of ["R","L"]){ const grid=(WSK&&opt.grid&&opt.grid(hk,W[hk]))||W[hk], h=D[hk]; if(!grid||!h) continue; hands.push(h[1]*16+h[0]);
+      const ay=grid.findIndex(r=>r.includes("*")||r.includes("@")); const ax=grid[ay].indexOf("*")>=0?grid[ay].indexOf("*"):grid[ay].indexOf("@");
+      grid.forEach((r,y)=>[...r].forEach((ch,x)=>{ if(ch===" "||ch==="*") return; const X=h[0]+x-ax, Y=h[1]+y-ay; if(X<0||Y<0||X>15||Y>15) return; cells.set(Y*16+X, ch==="@"?col[W.at||"6"]:col[ch]); })); }
+    for(const k of cells.keys()){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15) continue; const c=Y*16+X;
+      if(cells.has(c)||hands.includes(c)) continue; const b=body.has(c), isO=b&&px[Y][X]===D.pal.o; if(front||!b||isO) px[Y][X]=OUT; } }
+    for(const [k,c] of cells){ if(front||!body.has(k)||hands.includes(k)) px[Math.floor(k/16)][k%16]=c; }
+    for(const k of hands) if(!cells.has(k)) px[Math.floor(k/16)][k%16]=D.pal.g; wcol=[...cells.values()]; wcells=[...cells.keys()].map(k=>[k%16,Math.floor(k/16)]); }
+  if(look.pc&&look.cp&&opt.capeSkip){ /* v0.78 바뀐 망토는 무대(영웅 뒤)에 통째로 그림 */ }
+  else if(look.pc&&look.cp&&opt.cape){   // v0.58 망토 외형: 24×18 판(영웅은 (6,1))의 안쪽 칸만 여기서, 바깥은 무대 캔버스(drawAuras)에서
+    const {back,front}=opt.cape; const inS=(k)=>{ const x=k%24-6, y=Math.floor(k/24)-1; return x>=0&&y>=0&&x<16&&y<16?[x,y]:null; };
+    const bk=new Set(); for(const [k,c] of back){ const q=inS(k); if(!q) continue; bk.add(q[1]*16+q[0]); if(!px[q[1]][q[0]]) px[q[1]][q[0]]=c; }
+    for(const k of bk){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15||bk.has(Y*16+X)) continue; if(!px[Y][X]) px[Y][X]=OUT; } }
+    const fk=new Set(); for(const k of front.keys()){ const q=inS(k); if(q) fk.add(q[1]*16+q[0]); }
+    for(const k of fk){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15||fk.has(Y*16+X)) continue; px[Y][X]=OUT; } }
+    for(const [k,c] of front){ const q=inS(k); if(q) px[q[1]][q[0]]=c; } }
+  else if(look.pc){ const cape=new Map(); const [L,M,Dk]=PROTAG_CAPE;
+    for(let y=8;y<14;y++){ const sway=Math.round(Math.sin((look.cf||0)*Math.PI/2+y*0.8)*Math.max(0,y-9)/4), w=2+Math.floor((y-8)/2);
+      for(let x=5-w+sway;x<=5;x++){ if(x<0||x>15) continue; cape.set(y*16+x, x===5-w+sway?Dk:x<4?M:L); } }
+    for(const [k,c] of cape){ const x=k%16, y=Math.floor(k/16); if(!px[y][x]) px[y][x]=c; }
+    for(const k of cape.keys()){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15||cape.has(Y*16+X)) continue; if(!px[Y][X]) px[Y][X]=OUT; } }
+    if(body.has(8*16+5)) px[8][5]=PROTAG_CLASP; }
+  if(look.blink){ const E=D.pal.e; if(E) for(let y=0;y<16;y++) for(let x=0;x<16;x++) if(px[y][x]===E) px[y][x]=[206,160,124]; }
+  if(look.bob){ const old=px.map(r=>r.slice()); for(let y=0;y<=14;y++) if(y<14) px[y]=Array(16).fill(null);
+    for(let y=13;y>=0;y--) for(let x=0;x<16;x++) if(old[y][x]) px[y+1][x]=old[y][x]; }
+  const raw2=px.map(r=>r.slice());
+  heroPolish(px,OUT,wcells);   // v0.70 그래픽 다듬기(시안 A): 빛 방향 명암 · 부드러운 외곽선 · 쇠붙이 반짝임 한 점
+  if(look.bob) wcells=wcells.map(([x,y])=>[x,y<=13?y+1:y]);
+  let big=null; try{ big=dotShade2(dotScale2x(raw2),OUT,false); }catch(e){ big=null; }
+  const mask=[]; for(let y=0;y<16;y++) for(let x=0;x<16;x++) if(px[y][x]) mask.push([x,y]);
+  return {px,big,mask,torso:D.torso||[],shield:look.ns?[]:(D.shield||[]),helm:D.helm||null,wcells,wcol}; }
+// v0.167 몬스터 그림 셈(엔진 — 게임 화면 · 고돗 화면이 같은 함수): 칸 글자에서 다시 그림(o.mod · o.rowshift · o.bob · o.jaw) → 2배 32칸(약하게 다듬음)
+function enemyPixels(k,o){ o=o||{}; const D=ENEMY_DOTS[k]; if(!D) return null; const n=D.rows.length, keep=n>16?3:2; const px=Array.from({length:n},()=>Array(n).fill(null));
+  for(let y=0;y<n;y++) for(let x=0;x<n;x++){ const ch=D.rows[y][x]; if(ch===".") continue; let col=D.pal[ch]; if(o.mod){ const m=o.mod(ch,x,y,col); if(m) col=m; }
+    const X=x+(o.rowshift?o.rowshift(y):0); let Y=y+(o.bob&&y<n-keep?o.bob:0)+(o.jaw&&y>=o.jaw?1:0); if(X<0||X>=n||Y<0||Y>=n) continue; px[Y][X]=col; }
+  return dotShade2(dotScale2x(px),D.pal.o||[18,20,32],true); }
+const MOTION_FLY=["bat","wasp","jelly","wraith"], MOTION_SLIME=["slime"], MOTION_FLOAT=["lune","isra"];   // 날기(위아래 · 날갯짓) · 말랑(늘었다 줄었다) · 떠 있기
+function motionMix(a,b,t){ return [0,1,2].map(i=>Math.round(a[i]+(b[i]-a[i])*t)); }
+function motionCells(k,chs){ const D=ENEMY_DOTS[k]; const out=[]; D.rows.forEach((r,y)=>[...r].forEach((ch,x)=>{ if(chs.includes(ch)) out.push([x,y]); })); return out; }
+// 보스별 고유 대기 동작(24칸 주기)
+function motionBossOpt(k, f){ const s = Math.sin(f / 24 * 2 * Math.PI), s2 = Math.sin(f / 24 * 4 * Math.PI), bob = s > 0.5 ? 1 : 0;
+  switch(k){
+    case "guardian": { const eye = [9, 10, 11, 12][Math.floor(f / 3) % 4]; return {bob, mod: (ch, x, y) => ch === "E" || ch === "w" ? (x === eye ? [255,255,255] : [60,200,150]) : ch === "G" && (x + y + Math.floor(f / 4)) % 5 === 0 ? [140,230,120] : null}; }
+    case "lune": return {mod: (ch, x, y, col) => ch === "W" ? motionMix(col, [255,255,255], 0.5 + 0.5 * s2) : null};
+    case "brando": return {bob, mod: (ch, x, y) => ch === "F" && (x * 3 + y + f) % 4 === 0 ? [255,220,90] : ch === "Y" && (x + f) % 3 === 0 ? [255,120,40] : null};
+    case "undir": return {rowshift: y => y > 13 ? Math.round(Math.sin(f / 4 + y * 0.5) * (y - 13) / 6) : 0};
+    case "penro": return {rowshift: y => Math.floor(f / 6) % 2 && y < 12 ? 1 : 0};
+    case "karum": return {jaw: Math.floor(f / 3) % 2 ? 12 : 0};
+    case "solvar": return {mod: (ch, x, y, col) => ch === "Y" && y >= 11 ? motionMix(col, [255,255,255], 0.35 + 0.35 * s) : ch === "Y" && y < 4 && (x + Math.floor(f / 2)) % 3 === 0 ? [255,255,255] : null};
+    case "seren": return {bob};
+    case "oldo": return {bob, mod: (ch, x, y, col) => ch === "G" ? motionMix(col, [255,255,255], 0.5 + 0.5 * s) : null};
+    case "viera": { const sw = Math.round(s * 1.5); return {rowshift: y => y < 16 ? sw : -sw, mod: (ch, x, y) => ch === "R" && (x + y + f) % 3 === 0 ? [255,220,110] : null}; }
+    case "mors": { const ey = motionCells(k, "Y"); const closed = new Set([0, 1].map(i => ey[(f + i * 5) % ey.length].join(","))); return {bob, mod: (ch, x, y) => ch === "Y" && closed.has(x + "," + y) ? [46,28,74] : null}; }
+    case "nocta": return {rowshift: y => y > 12 ? Math.round(Math.sin(f / 3 + y * 0.6)) : 0, mod: (ch, x, y, col) => ch === "P" ? motionMix(col, [255,200,255], 0.5 + 0.5 * s2) : null};
+    case "isra": return {mod: (ch, x, y) => (ch === "Y" || ch === "w") && y < 4 && Math.floor(f / 3) % 2 ? [255,255,255] : null};
+    case "lumen": { const bl = motionCells(k, "W").sort((a, b) => b[1] - a[1]); const i0 = Math.floor(f / 2) % bl.length; const hi = new Set(bl.slice(i0, i0 + 2).map(p => p.join(",")));
+      return {mod: (ch, x, y) => hi.has(x + "," + y) ? [255,250,210] : null, rowshift: y => y > 10 && y < 18 ? Math.round(Math.sin(f / 3 + y)) : 0}; }
+    case "garad": return {bob, mod: (ch, x, y) => ch === "G" && (x + Math.floor(f / 3)) % 2 ? [150,230,110] : null};
+    // v0.29 중간보스
+    case "basak": return {rowshift: y => y < 12 && Math.floor(f / 4) % 2 ? 1 : 0};
+    case "maren": case "migyeol": return {bob, rowshift: y => y > 14 ? Math.round(Math.sin(f / 4 + y * 0.5) * (y - 14) / 5) : 0};
+    case "jello": return {rowshift: y => y > 13 ? Math.round(Math.sin(f / 3 + y * 0.7) * (y - 13) / 4) : 0};
+    case "golem7": return {rowshift: y => Math.floor(f / 6) % 2 && y < 12 ? 1 : 0};
+    case "zaira": { const sw = Math.round(s * 1); return {rowshift: y => y < 14 ? sw : 0}; }
+    case "blaze_giant": case "ashmane": return {bob, rowshift: y => y < 8 ? Math.round(Math.sin(f / 2 + y)) : 0};
+  } return {bob}; }
+// 보스 기운 입자 색 · 필살기 준비 색
+const MOTION_MOTE = {ashmane: [255,240,170], blaze_giant: [255,220,120], oren: [255,236,160], maren: [150,230,220], jello: [255,170,230], migyeol: [190,220,255], hasan: [190,130,255], lune: [210,220,255], brando: [255,170,60], undir: [170,230,255], nocta: [150,80,210], isra: [255,240,170], garad: [110,190,90], oldo: [180,120,255], solvar: [255,236,140], penro: [255,210,80], guardian: [120,255,200], mors: [255,214,90]};
+const MOTION_CHARGE = {guardian: [120,255,200], lune: [210,220,255], brando: [255,150,50], undir: [120,220,255], penro: [255,210,80], karum: [240,200,120], solvar: [255,236,140],
+  seren: [230,60,70], oldo: [180,120,255], viera: [255,120,80], mors: [255,214,90], nocta: [190,110,255], isra: [255,250,200], lumen: [255,236,150], garad: [140,230,110]};
+
+/* ---------- v0.167 영웅 모습 열쇠 ---------- */
+// 그림 = 무기를 뺀 몸(HERO_DOTS) + 손 위치에 무기 조각(WEAPON_DOTS) — 조각은 외곽선을 자동으로 두르고, 앞에 드는 무기(총·악기)는 몸 위에 그림
+function lookKey(look){ return look.spr+"|"+(look.w||"")+"|"+(look.ns?"n":"")+(look.pc?"|p"+(look.cf||0):"")+(look.cp?"|c"+look.cp:"")+(look.ws?"|s"+look.ws:""); }   // v0.58: 외형(망토 c · 무기 s)
+function lookFromKey(k){ const a=String(k||"").split("|"); const o={spr:a[0],w:a[1],ns:a[2]==="n"};
+  for(const t of a.slice(3)){ if(t[0]==="p"){ o.pc=true; o.cf=+t.slice(1)||0; } else if(t[0]==="c") o.cp=t.slice(1); else if(t[0]==="s") o.ws=t.slice(1); } return o; }
+
 /* ================= UI ================= */
 /* ---------- v0.163 처음 안내(코치) 화면 (엔진 구역에서 옮겨 옴) ---------- */
 function coachRun(key,force){
@@ -12405,48 +12528,9 @@ const AURA_COL=[null,[200,212,232],[96,190,255],[156,96,246],[248,174,40]];   //
 const AURA_P=[null,{src:3.6,cool:1.55,flake:0,spark:0},{src:4.8,cool:1.4,flake:0.006,spark:0},{src:6.0,cool:1.3,flake:0.014,spark:0},{src:7.2,cool:1.2,flake:0.02,spark:0.06},{src:3.4,cool:1.45,flake:0.012,spark:0.05}];
 const AURA_W=30, AURA_H=36, AURA_OX=7, AURA_OY=18, AURA_STEP=90;   // 판 크기·그림 자리(그림 1칸 = 판 1칸) · 한 걸음(ms)
 const LOOK_CACHE={};
-// 그림 = 무기를 뺀 몸(HERO_DOTS) + 손 위치에 무기 조각(WEAPON_DOTS) — 조각은 외곽선을 자동으로 두르고, 앞에 드는 무기(총·악기)는 몸 위에 그림
-function lookKey(look){ return look.spr+"|"+(look.w||"")+"|"+(look.ns?"n":"")+(look.pc?"|p"+(look.cf||0):"")+(look.cp?"|c"+look.cp:"")+(look.ws?"|s"+look.ws:""); }   // v0.58: 외형(망토 c · 무기 s)
-function lookFromKey(k){ const a=String(k||"").split("|"); const o={spr:a[0],w:a[1],ns:a[2]==="n"};
-  for(const t of a.slice(3)){ if(t[0]==="p"){ o.pc=true; o.cf=+t.slice(1)||0; } else if(t[0]==="c") o.cp=t.slice(1); else if(t[0]==="s") o.ws=t.slice(1); } return o; }
-// 주인공 망토(v0.28): 진홍색, 어깨~무릎, 등 뒤로 흘러내리며 끝자락이 바람에 일렁임(4장 번갈아) + 금 단추
-const PROTAG_CAPE=[[222,78,88],[178,52,64],[124,34,48]], PROTAG_CLASP=[240,200,90];
-// v0.70 그래픽 다듬기(시안 A) — 16×16 그대로, 위·왼쪽에서 빛: 윗면·왼면은 밝게, 아랫면·오른면은 어둡게 · 외곽선은 옆 색을 살짝 머금게 · 무기 끝에 반짝임 한 점
-function heroPolish(px,OUT,wcells,soft){ const W=px.length, src=px.map(r=>r.slice()); const K=soft?0.55:1;   // soft: 몬스터처럼 이미 명암이 있는 그림은 약하게
-  const isO=c=>c&&Math.abs(c[0]-OUT[0])+Math.abs(c[1]-OUT[1])+Math.abs(c[2]-OUT[2])<30;
-  const at=(x,y)=>x<0||y<0||x>=W||y>=W?null:src[y][x]; const edge=c=>!c||isO(c);
-  const mul=(c,f)=>[0,1,2].map(i=>Math.max(0,Math.min(255,Math.round(c[i]*f))));
-  const mix=(a,b,f)=>[0,1,2].map(i=>Math.round(a[i]+(b[i]-a[i])*f));
-  for(let y=0;y<W;y++) for(let x=0;x<W;x++){ const c=src[y][x]; if(!c) continue;
-    if(isO(c)){ const n=[at(x,y-1),at(x-1,y),at(x,y+1),at(x+1,y)].filter(q=>q&&!isO(q)); if(!n.length) continue;
-      const outer=!at(x,y-1)||!at(x-1,y)||!at(x,y+1)||!at(x+1,y); px[y][x]=mix(OUT,mul(n[0],0.55),outer?0.28:0.42); continue; }
-    let f=1; if(edge(at(x,y-1))) f*=1+0.13*K; if(edge(at(x-1,y))) f*=1+0.05*K; if(edge(at(x,y+1))) f*=1-0.18*K; if(edge(at(x+1,y))) f*=1-0.1*K;
-    px[y][x]=mul(c,f); }
-  if(wcells&&wcells.length){ let best=null; for(const [x,y] of wcells){ const c=src[y]&&src[y][x]; if(!c||isO(c)) continue; const mx=Math.max(...c), mn=Math.min(...c); if(mx<130||(mx-mn)/mx>0.35) continue; if(!best||y<best[1]) best=[x,y]; }
-    if(best) px[best[1]][best[0]]=mix(px[best[1]][best[0]],[255,255,255],0.65); }
-}
 /* v0.98 도트 2배 정밀(11월 1일 '아트 패스 시안'의 시안 B 방식) — 16칸 그림을 32칸으로: 계단 모양 대각선을 펴고(Scale2x) 명암을 2단으로(테두리 빛 · 2칸 그림자). 화면에 보이는 크기는 같음.
    그림 자료(HERO_DOTS · ENEMY_DOTS)와 장비·오라 계산은 16칸 그대로 두고, 화면에 내보내는 그림만 바꿈. DOT2X=false면 예전 그림. */
 const DOT2X=true;
-function dotScale2x(px){ const n=px.length, o=Array.from({length:n*2},()=>Array(n*2).fill(null));
-  const P=(x,y)=>px[Math.max(0,Math.min(n-1,y))][Math.max(0,Math.min(n-1,x))], eq=(a,b)=>a===b||(!!a&&!!b&&a[0]===b[0]&&a[1]===b[1]&&a[2]===b[2]);
-  for(let y=0;y<n;y++) for(let x=0;x<n;x++){ const E=P(x,y), A=P(x,y-1), B=P(x+1,y), C=P(x-1,y), D=P(x,y+1); let e0=E,e1=E,e2=E,e3=E;
-    if(eq(C,A)&&!eq(C,D)&&!eq(A,B)) e0=A; if(eq(A,B)&&!eq(A,C)&&!eq(B,D)) e1=B; if(eq(D,C)&&!eq(D,B)&&!eq(C,A)) e2=C; if(eq(B,D)&&!eq(B,A)&&!eq(D,C)) e3=D;
-    o[2*y][2*x]=e0; o[2*y][2*x+1]=e1; o[2*y+1][2*x]=e2; o[2*y+1][2*x+1]=e3; }
-  return o; }
-function dotShade2(px,OUT,soft){ const W=px.length, src=px.map(r=>r.slice()), K=soft?0.55:1;
-  const isO=c=>c&&Math.abs(c[0]-OUT[0])+Math.abs(c[1]-OUT[1])+Math.abs(c[2]-OUT[2])<40, at=(x,y)=>x<0||y<0||x>=W||y>=W?null:src[y][x], edge=c=>!c||isO(c);
-  const mul=(c,f)=>[0,1,2].map(i=>Math.max(0,Math.min(255,Math.round(c[i]*f)))), mix=(a,b,f)=>[0,1,2].map(i=>Math.round(a[i]+(b[i]-a[i])*f));
-  for(let y=0;y<W;y++) for(let x=0;x<W;x++){ const c=src[y][x]; if(!c) continue;
-    if(isO(c)){ const n=[at(x,y+1),at(x+1,y),at(x,y-1),at(x-1,y)].filter(q=>q&&!isO(q)); if(!n.length) continue;
-      if(!at(x,y-1)||!at(x-1,y)) px[y][x]=mix(mul(n[0],0.45),OUT,0.35); else if(at(x,y+1)&&at(x+1,y)) px[y][x]=mix(mul(n[0],0.5),OUT,0.5); continue; }
-    const up=at(x,y-1), dn=at(x,y+1), lf=at(x-1,y), rt=at(x+1,y); let f=1;
-    if(edge(up)) f*=1.16; if(edge(lf)) f*=1.06; if(edge(dn)) f*=0.8; if(edge(rt)) f*=0.88;
-    if(!edge(dn)&&edge(at(x,y+2))) f*=0.9; if(!edge(up)&&edge(at(x,y-2))) f*=1.06;
-    let c2=mul(c,1+(f-1)*K);
-    if(!soft){ const mx=Math.max(...c), mn=Math.min(...c); if((mx?(mx-mn)/mx:0)<0.28&&0.3*c[0]+0.59*c[1]+0.11*c[2]>120&&edge(up)&&edge(lf)) c2=mix(c2,[255,255,255],0.55); }   // 쇠붙이 반짝임
-    px[y][x]=c2; }
-  return px; }
 function dotCanvas(px){ const n=px.length, cv=document.createElement("canvas"); cv.width=cv.height=n; const c=cv.getContext("2d"), im=c.createImageData(n,n);
   for(let y=0;y<n;y++) for(let x=0;x<n;x++){ const v=px[y][x]; if(!v) continue; const i=(y*n+x)*4; im.data[i]=v[0]; im.data[i+1]=v[1]; im.data[i+2]=v[2]; im.data[i+3]=255; } c.putImageData(im,0,0); return cv; }
 /* 그림판(오라·망토·이펙트)을 같은 방식(Scale2x)으로 2배 — 색과 투명도가 똑같은 칸끼리만 이어 붙임. into를 주면 그 판을 다시 씀 */
@@ -12469,45 +12553,17 @@ function pngPolishSprites(){ if(typeof document==="undefined"||!DOT2X) return; f
     im.onload=()=>{ try{ const n=im.width; if(n!==im.height||n>24) return; const cv=document.createElement("canvas"); cv.width=cv.height=n; const c=cv.getContext("2d"); c.drawImage(im,0,0); const u=monDotURL(c.getImageData(0,0,n,n),n,[18,20,32],cv,c); if(SPRITES[k]===old) SPRITES[k]=u;
       document.querySelectorAll("img").forEach(el=>{ if(el.getAttribute("src")===old) el.src=u; }); }catch(e){} }; im.src=old; } }
 try{ pngPolishSprites(); }catch(e){}
+function lookOpt(look){ const o={};   // v0.167 외형(무기 외형 · 망토 외형)은 화면 쪽 그림 자료(COS2 · COSART)에서
+  if(look.ws&&typeof COS2!=="undefined"&&COS2&&COS2.WS_KEY[look.ws]){ o.wsk=COS2.WP[COS2.WS_KEY[look.ws]]; o.grid=(hk,base)=>cos2Grid(look.ws,look.w,hk,base); }
+  if(look.pc&&look.cp){ if(typeof COS2!=="undefined"&&COS2&&COS2.CAPE_KEY[look.cp]) o.capeSkip=true; else if(typeof COSART!=="undefined") o.cape=COSART.capeCells(look.cp,(look.cf||0)*0.35); }
+  return o; }
 function lookSprite(look){
   if(!look||typeof document==="undefined") return null; const key=lookKey(look)+(look.bob?"|b":"")+(look.blink?"|k":""); if(LOOK_CACHE[key]) return LOOK_CACHE[key];
-  const D=HERO_DOTS[look.spr]; if(!D) return null; const px=Array.from({length:16},()=>Array(16).fill(null)); const body=new Set(); const OUT=[18,20,32];
-  const ROWS=look.ns&&D.ns?D.ns:D.rows;
-  for(let y=0;y<16;y++) for(let x=0;x<16;x++){ const ch=ROWS[y][x]; if(ch===".") continue; px[y][x]=D.pal[ch]; body.add(y*16+x); }
-  const W=WEAPON_DOTS[look.w]; const hands=[]; let wcells=[], wcol=[];
-  if(W){ const col=Object.assign({},WEAPON_COL); const gem=D.gem||[[150,226,250],[84,166,214]]; col.G=gem[0]; col.H=gem[1]; const front=!!W.front; const cells=new Map();
-    const WSK=look.ws&&typeof COS2!=="undefined"&&COS2&&COS2.WS_KEY[look.ws]?COS2.WP[COS2.WS_KEY[look.ws]]:null; if(WSK) Object.assign(col,WSK.pal,{"6":WSK.pal[2]});   // v0.78 무기 외형 2차   // v0.58 무기 외형 색 · v0.75 모양은 모든 무기
-    for(const hk of ["R","L"]){ const grid=(WSK&&cos2Grid(look.ws,look.w,hk,W[hk]))||W[hk], h=D[hk]; if(!grid||!h) continue; hands.push(h[1]*16+h[0]);
-      const ay=grid.findIndex(r=>r.includes("*")||r.includes("@")); const ax=grid[ay].indexOf("*")>=0?grid[ay].indexOf("*"):grid[ay].indexOf("@");
-      grid.forEach((r,y)=>[...r].forEach((ch,x)=>{ if(ch===" "||ch==="*") return; const X=h[0]+x-ax, Y=h[1]+y-ay; if(X<0||Y<0||X>15||Y>15) return; cells.set(Y*16+X, ch==="@"?col[W.at||"6"]:col[ch]); })); }
-    for(const k of cells.keys()){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15) continue; const c=Y*16+X;
-      if(cells.has(c)||hands.includes(c)) continue; const b=body.has(c), isO=b&&px[Y][X]===D.pal.o; if(front||!b||isO) px[Y][X]=OUT; } }
-    for(const [k,c] of cells){ if(front||!body.has(k)||hands.includes(k)) px[Math.floor(k/16)][k%16]=c; }
-    for(const k of hands) if(!cells.has(k)) px[Math.floor(k/16)][k%16]=D.pal.g; wcol=[...cells.values()]; wcells=[...cells.keys()].map(k=>[k%16,Math.floor(k/16)]); }
-  if(look.pc&&look.cp&&typeof COS2!=="undefined"&&COS2&&COS2.CAPE_KEY[look.cp]){ /* v0.78 바뀐 망토는 무대(영웅 뒤)에 통째로 그림 */ }
-  else if(look.pc&&look.cp&&typeof COSART!=="undefined"){   // v0.58 망토 외형: 24×18 판(영웅은 (6,1))의 안쪽 칸만 여기서, 바깥은 무대 캔버스(drawAuras)에서
-    const {back,front}=COSART.capeCells(look.cp,(look.cf||0)*0.35); const inS=(k)=>{ const x=k%24-6, y=Math.floor(k/24)-1; return x>=0&&y>=0&&x<16&&y<16?[x,y]:null; };
-    const bk=new Set(); for(const [k,c] of back){ const q=inS(k); if(!q) continue; bk.add(q[1]*16+q[0]); if(!px[q[1]][q[0]]) px[q[1]][q[0]]=c; }
-    for(const k of bk){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15||bk.has(Y*16+X)) continue; if(!px[Y][X]) px[Y][X]=OUT; } }
-    const fk=new Set(); for(const k of front.keys()){ const q=inS(k); if(q) fk.add(q[1]*16+q[0]); }
-    for(const k of fk){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15||fk.has(Y*16+X)) continue; px[Y][X]=OUT; } }
-    for(const [k,c] of front){ const q=inS(k); if(q) px[q[1]][q[0]]=c; } }
-  else if(look.pc){ const cape=new Map(); const [L,M,Dk]=PROTAG_CAPE;
-    for(let y=8;y<14;y++){ const sway=Math.round(Math.sin((look.cf||0)*Math.PI/2+y*0.8)*Math.max(0,y-9)/4), w=2+Math.floor((y-8)/2);
-      for(let x=5-w+sway;x<=5;x++){ if(x<0||x>15) continue; cape.set(y*16+x, x===5-w+sway?Dk:x<4?M:L); } }
-    for(const [k,c] of cape){ const x=k%16, y=Math.floor(k/16); if(!px[y][x]) px[y][x]=c; }
-    for(const k of cape.keys()){ const x=k%16, y=Math.floor(k/16); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const X=x+dx, Y=y+dy; if(X<0||Y<0||X>15||Y>15||cape.has(Y*16+X)) continue; if(!px[Y][X]) px[Y][X]=OUT; } }
-    if(body.has(8*16+5)) px[8][5]=PROTAG_CLASP; }
-  if(look.blink){ const E=D.pal.e; if(E) for(let y=0;y<16;y++) for(let x=0;x<16;x++) if(px[y][x]===E) px[y][x]=[206,160,124]; }
-  if(look.bob){ const old=px.map(r=>r.slice()); for(let y=0;y<=14;y++) if(y<14) px[y]=Array(16).fill(null);
-    for(let y=13;y>=0;y--) for(let x=0;x<16;x++) if(old[y][x]) px[y+1][x]=old[y][x]; }
-  const raw2=DOT2X?px.map(r=>r.slice()):null;
-  heroPolish(px,OUT,wcells);   // v0.70 그래픽 다듬기(시안 A): 빛 방향 명암 · 부드러운 외곽선 · 쇠붙이 반짝임 한 점
-  const cv=document.createElement("canvas"); cv.width=cv.height=16; const c=cv.getContext("2d"); const im=c.createImageData(16,16); const mask=[];
-  for(let y=0;y<16;y++) for(let x=0;x<16;x++){ const v=px[y][x]; if(!v) continue; const i=(y*16+x)*4; im.data[i]=v[0]; im.data[i+1]=v[1]; im.data[i+2]=v[2]; im.data[i+3]=255; mask.push([x,y]); }
-  if(look.bob) wcells=wcells.map(([x,y])=>[x,y<=13?y+1:y]);
-  c.putImageData(im,0,0); let url=null, cv2=null, m2=null; if(raw2){ try{ const big=dotShade2(dotScale2x(raw2),OUT,false); cv2=dotCanvas(big); url=cv2.toDataURL(); m2=new Uint8Array(1024); for(let y=0;y<32;y++) for(let x=0;x<32;x++) if(big[y][x]) m2[y*32+x]=1; }catch(e){} }   // v0.98 화면용은 2배 정밀(cv·mask는 16칸 그대로 — 오라·광택 계산용)
-  return LOOK_CACHE[key]={url:url||cv.toDataURL(),cv,cv2,m2,mask,torso:D.torso||[],shield:look.ns?[]:(D.shield||[]),helm:D.helm||null,wcells,wcol};
+  const R=lookPixels(look,lookOpt(look)); if(!R) return null; const px=R.px;   // v0.167 셈은 엔진 lookPixels
+  const cv=document.createElement("canvas"); cv.width=cv.height=16; const c=cv.getContext("2d"); const im=c.createImageData(16,16);
+  for(let y=0;y<16;y++) for(let x=0;x<16;x++){ const v=px[y][x]; if(!v) continue; const i=(y*16+x)*4; im.data[i]=v[0]; im.data[i+1]=v[1]; im.data[i+2]=v[2]; im.data[i+3]=255; }
+  c.putImageData(im,0,0); let url=null, cv2=null, m2=null; if(DOT2X&&R.big){ try{ const big=R.big; cv2=dotCanvas(big); url=cv2.toDataURL(); m2=new Uint8Array(1024); for(let y=0;y<32;y++) for(let x=0;x<32;x++) if(big[y][x]) m2[y*32+x]=1; }catch(e){} }   // v0.98 화면용은 2배 정밀(cv·mask는 16칸 그대로 — 오라·광택 계산용)
+  return LOOK_CACHE[key]={url:url||cv.toDataURL(),cv,cv2,m2,mask:R.mask,torso:R.torso,shield:R.shield,helm:R.helm,wcells:R.wcells,wcol:R.wcol};
 }
 // 갑옷·방패 등급 광택: 비스듬한 빛줄기가 주기적으로 훑고 지나감(희귀 흰빛 · 영웅 보랏빛 · 전설 흰 금빛+반짝 · 세트 초록빛)
 // 투구 등급 반짝임: 투구 오른쪽 위에서 작은 별이 가끔 반짝(같은 등급색)
@@ -13777,48 +13833,17 @@ for(const [id,F] of Object.entries(COSART.FX)) F.slice(0,3).forEach((rows,i)=>{ 
    몬스터: 슬라임 찌부-쭉 · 날짐승 둥실 · 짐승·사람형 숨쉬기
    보스: 저마다 고유한 대기 동작 + 기운 입자 · 큰 기술 전 '필살기 준비'(기운이 모여듦) · 체력 절반 아래 '분노'(붉은 불티) */
 const MOTION = (()=>{
-  const FLY = new Set(["bat", "wasp", "jelly", "wraith"]), SLIME = new Set(["slime"]), FLOAT = new Set(["lune", "isra"]);
+  const FLY = new Set(MOTION_FLY), SLIME = new Set(MOTION_SLIME), FLOAT = new Set(MOTION_FLOAT);
   const cache = {}; let f = 0, nextT = 0;
-  const mixc = (a, b, t) => [0, 1, 2].map(i => Math.round(a[i] + (b[i] - a[i]) * t));
   function render(k, o){   // 적 그림을 칸 글자에서 다시 그림: o.mod(ch,x,y,col) · o.rowshift(y) · o.bob(윗몸 아래로) · o.jaw(아래턱 내림)
+    if(DOT2X){ try{ return dotCanvas(enemyPixels(k, o)).toDataURL(); }catch(e){} }   // v0.167 셈은 엔진 enemyPixels
     const D = ENEMY_DOTS[k]; const n = D.rows.length; const cv = document.createElement("canvas"); cv.width = cv.height = n; const c = cv.getContext("2d"); const im = c.createImageData(n, n);
     const keep = n > 16 ? 3 : 2;
     for(let y = 0; y < n; y++) for(let x = 0; x < n; x++){ const ch = D.rows[y][x]; if(ch === ".") continue; let col = D.pal[ch]; if(o.mod){ const m = o.mod(ch, x, y, col); if(m) col = m; }
       const X = x + (o.rowshift ? o.rowshift(y) : 0); let Y = y + (o.bob && y < n - keep ? o.bob : 0) + (o.jaw && y >= o.jaw ? 1 : 0); if(X < 0 || X >= n || Y < 0 || Y >= n) continue;
       const i = (Y * n + X) * 4; im.data[i] = col[0]; im.data[i + 1] = col[1]; im.data[i + 2] = col[2]; im.data[i + 3] = 255; }
     return monDotURL(im, n, D.pal.o || [18, 20, 32], cv, c); }   // v0.71 그래픽 다듬기(몬스터는 약하게) · v0.98 2배 정밀
-  function cells(k, chs){ const D = ENEMY_DOTS[k]; const out = []; D.rows.forEach((r, y) => [...r].forEach((ch, x) => { if(chs.includes(ch)) out.push([x, y]); })); return out; }
-  // 보스별 고유 대기 동작(24칸 주기)
-  function bossOpt(k, f){ const s = Math.sin(f / 24 * 2 * Math.PI), s2 = Math.sin(f / 24 * 4 * Math.PI), bob = s > 0.5 ? 1 : 0;
-    switch(k){
-      case "guardian": { const eye = [9, 10, 11, 12][Math.floor(f / 3) % 4]; return {bob, mod: (ch, x, y) => ch === "E" || ch === "w" ? (x === eye ? [255,255,255] : [60,200,150]) : ch === "G" && (x + y + Math.floor(f / 4)) % 5 === 0 ? [140,230,120] : null}; }
-      case "lune": return {mod: (ch, x, y, col) => ch === "W" ? mixc(col, [255,255,255], 0.5 + 0.5 * s2) : null};
-      case "brando": return {bob, mod: (ch, x, y) => ch === "F" && (x * 3 + y + f) % 4 === 0 ? [255,220,90] : ch === "Y" && (x + f) % 3 === 0 ? [255,120,40] : null};
-      case "undir": return {rowshift: y => y > 13 ? Math.round(Math.sin(f / 4 + y * 0.5) * (y - 13) / 6) : 0};
-      case "penro": return {rowshift: y => Math.floor(f / 6) % 2 && y < 12 ? 1 : 0};
-      case "karum": return {jaw: Math.floor(f / 3) % 2 ? 12 : 0};
-      case "solvar": return {mod: (ch, x, y, col) => ch === "Y" && y >= 11 ? mixc(col, [255,255,255], 0.35 + 0.35 * s) : ch === "Y" && y < 4 && (x + Math.floor(f / 2)) % 3 === 0 ? [255,255,255] : null};
-      case "seren": return {bob};
-      case "oldo": return {bob, mod: (ch, x, y, col) => ch === "G" ? mixc(col, [255,255,255], 0.5 + 0.5 * s) : null};
-      case "viera": { const sw = Math.round(s * 1.5); return {rowshift: y => y < 16 ? sw : -sw, mod: (ch, x, y) => ch === "R" && (x + y + f) % 3 === 0 ? [255,220,110] : null}; }
-      case "mors": { const ey = cells(k, "Y"); const closed = new Set([0, 1].map(i => ey[(f + i * 5) % ey.length].join(","))); return {bob, mod: (ch, x, y) => ch === "Y" && closed.has(x + "," + y) ? [46,28,74] : null}; }
-      case "nocta": return {rowshift: y => y > 12 ? Math.round(Math.sin(f / 3 + y * 0.6)) : 0, mod: (ch, x, y, col) => ch === "P" ? mixc(col, [255,200,255], 0.5 + 0.5 * s2) : null};
-      case "isra": return {mod: (ch, x, y) => (ch === "Y" || ch === "w") && y < 4 && Math.floor(f / 3) % 2 ? [255,255,255] : null};
-      case "lumen": { const bl = cells(k, "W").sort((a, b) => b[1] - a[1]); const i0 = Math.floor(f / 2) % bl.length; const hi = new Set(bl.slice(i0, i0 + 2).map(p => p.join(",")));
-        return {mod: (ch, x, y) => hi.has(x + "," + y) ? [255,250,210] : null, rowshift: y => y > 10 && y < 18 ? Math.round(Math.sin(f / 3 + y)) : 0}; }
-      case "garad": return {bob, mod: (ch, x, y) => ch === "G" && (x + Math.floor(f / 3)) % 2 ? [150,230,110] : null};
-      // v0.29 중간보스
-      case "basak": return {rowshift: y => y < 12 && Math.floor(f / 4) % 2 ? 1 : 0};
-      case "maren": case "migyeol": return {bob, rowshift: y => y > 14 ? Math.round(Math.sin(f / 4 + y * 0.5) * (y - 14) / 5) : 0};
-      case "jello": return {rowshift: y => y > 13 ? Math.round(Math.sin(f / 3 + y * 0.7) * (y - 13) / 4) : 0};
-      case "golem7": return {rowshift: y => Math.floor(f / 6) % 2 && y < 12 ? 1 : 0};
-      case "zaira": { const sw = Math.round(s * 1); return {rowshift: y => y < 14 ? sw : 0}; }
-      case "blaze_giant": case "ashmane": return {bob, rowshift: y => y < 8 ? Math.round(Math.sin(f / 2 + y)) : 0};
-    } return {bob}; }
-  // 보스 기운 입자(색 · 위로/아래로 · 빨아들임)
-  const MOTE = {ashmane: [255,240,170], blaze_giant: [255,220,120], oren: [255,236,160], maren: [150,230,220], jello: [255,170,230], migyeol: [190,220,255], hasan: [190,130,255], lune: [210,220,255], brando: [255,170,60], undir: [170,230,255], nocta: [150,80,210], isra: [255,240,170], garad: [110,190,90], oldo: [180,120,255], solvar: [255,236,140], penro: [255,210,80], guardian: [120,255,200], mors: [255,214,90]};
-  const CHARGE = {guardian: [120,255,200], lune: [210,220,255], brando: [255,150,50], undir: [120,220,255], penro: [255,210,80], karum: [240,200,120], solvar: [255,236,140],
-    seren: [230,60,70], oldo: [180,120,255], viera: [255,120,80], mors: [255,214,90], nocta: [190,110,255], isra: [255,250,200], lumen: [255,236,150], garad: [140,230,110]};
+  const cells = motionCells, bossOpt = motionBossOpt, MOTE = MOTION_MOTE, CHARGE = MOTION_CHARGE;   // v0.167 셈 · 자료는 엔진
   function enemyURL(k, f, boss){ const key = k + "|" + (boss ? f % 24 : (f >> 2) & 1); if(cache[key]) return cache[key];
     const o = boss ? bossOpt(k, f % 24) : {bob: (f >> 2) & 1}; return cache[key] = render(k, o); }
   function whiteURL(el){ try{ const n = el.naturalWidth || 16; const cv = document.createElement("canvas"); cv.width = cv.height = n; const c = cv.getContext("2d"); c.drawImage(el, 0, 0);
@@ -17559,6 +17584,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.23", v:"v0.167", t:"정리", L:["그래픽 개선"]},
   {d:"2026.11.23", v:"v0.166", t:"정리", L:["그래픽 개선"]},
   {d:"2026.11.23", v:"v0.165", t:"정리", L:["그래픽 개선"]},
   {d:"2026.11.23", v:"v0.164", t:"정리", L:["운영 기능 개선"]},
