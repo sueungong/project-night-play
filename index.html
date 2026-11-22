@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795349883064"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795351037745"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11268,6 +11268,28 @@ function traitKind(n){
 const TGLYPH={atk_pct:["공","a"],hp_pct:["체","s"],def:["방","s"],def_pct:["갑","s"],crit:["치","a"],critdmg:["극","a"],spd:["속","p"],counter:["반","a"],
   mp_pct:["마","m"],mp_regen:["회","m"],heal_pct:["힐","h"],pen:["관","a"],lifesteal:["흡","h"],eva:["피","p"]};
 
+/* ---------- v0.155 도감에서 쓰는 자료(엔딩 · 가진 유물) ---------- */
+const ENDINGS={
+  dawn:{ title:"새벽 엔딩", lines:["그때, 일곱 개의 증표가 한꺼번에 빛나기 시작했다.", "달, 불, 물, 나무, 금, 모래, 해. 일곱 군단장이 끝까지 지켜 낸 마음이었다.", "뤼네는 사람들을 숨겼고, 브란도는 포로들을 먹였다.", "운디르는 노래를 지켰고, 가라드는 약속을 지켰다.", "펜로는 굶주린 사람들을 살렸다.", "카룸의 분노도, 솔바르의 침묵도, 결국은 이 세상을 지키기 위한 것이었다.", "'밤이 걷히면 모두 타 버린다'던 뤼네의 말. '해가 미친 날'을 노래하던 운디르.", "흩어져 있던 조각들이 비로소 하나로 맞춰졌다.", "증표의 빛이 장막에 스며들자, 미쳐 있던 햇빛이 천천히 가라앉았다.", "사람을 태우지 않는, 따뜻한 빛. 새벽이었다.", "루멘: 「…이런 길이 있었구나.」", "루멘: 「수백 년 동안 혼자 짊어진 짐을, 이제야 내려놓는다.」", "이스라가 루멘의 곁에 섰다. 사람이던 시절의 약속이, 수백 년 만에 지켜졌다.", "영원한 밤이 끝났다. 등불 도시에 처음으로 아침이 왔다.", "{나}는 할머니의 등불을 끄고, 처음 보는 해를 오래도록 바라보았다."]},
+  night:{ title:"밤의 수호자 엔딩", lines:["{나}는 칼을 거두었다. 루멘의 장막은 그대로 남았다.", "세상은 불타지 않았다. 다만 아주 천천히 식어 갈 뿐이다.", "등불 도시의 불빛은 오늘도 꺼지지 않는다.", "언젠가 다른 길을 찾아낼 그날까지."]},
+  day:{ title:"타오르는 낮 엔딩", lines:["{나}는 장막을 찢었다. 수백 년 만에 햇빛이 쏟아져 내렸다.", "눈부신 빛 속에서 비명이 들렸다. …그리고 곧, 아주 조용해졌다.", "루멘: 「…그래도, 너희가 고른 낮이다.」"]},
+};
+function allRelics(){ return [...progress.inv,...equippedStore].filter(x=>x&&x.slot==="relic"&&RELICS[x.relic]); }
+
+/* ---------- v0.155 대전 주간 기록 · 주 끝 시각 · 점수 계산 ---------- */
+function pvpWR(wk){ const S=pvpState(), k="w"+wk; const r=S.wr[k]||(S.wr[k]={w:0,l:0,d:0}); for(const q of Object.keys(S.wr)) if(+q.slice(1)<wk-1) delete S.wr[q]; return r; }
+function pvpNorm(x,wk){ if(!x) return x; wk=wk==null?pvpWeek():wk; const k="w"+wk, s=x.s||{}, wr=(x.wr||{})[k]||{}, dr=(x.dr||{})[k]||{};
+  if(x.tw==null){ x.tw=x.w|0; x.tl=x.l|0; x.td=x.d|0; x.tdw=x.dw|0; x.tdl=x.dl|0; }
+  x.has=typeof s[k]==="number"; x.sc=x.has?s[k]:PVP.start; x.w=wr.w|0; x.l=wr.l|0; x.d=wr.d|0; x.dw=dr.dw|0; x.dl=dr.dl|0; return x; }
+function pvpWeekEnd(wk){ return ((wk+1)*7-3)*864e5-4*3600e3; }
+// 점수
+function pvpGain(my,op){ return Math.max(PVP.kMin,Math.min(PVP.kMax,Math.round(PVP.base+(op-my)/20))); }
+
+/* ---------- v0.155 대기실(난이도마다 배경 · 둘러앉는 영웅) ---------- */
+const CAMP_DIFF_BG=["camp","camp_midnight","camp_eternal"];   // 황혼 · 자정 · 영원한 밤
+// v0.33 모닥불 쉼터: 마을에서는 보유한 영웅이 모두 모닥불 둘레에 앉아 쉼(출전하지 않는 영웅도). 누르면 파티·장비로
+function campUnits(){ if(!progress||!progress.protag) return [...buildParty()]; const inP=new Set(battleIds()); return rosterIds().map(c=>{ const u=buildHeroUnit(c); u._bench=!inP.has(c); return u; }); }
+
 /* ================= UI ================= */
 const $=id=>document.getElementById(id);
 let curUnits=[];
@@ -13281,7 +13303,6 @@ const POP_BASE_GLYPHS=POP._G;
    망토는 영웅 뒤 무대 캔버스에 16칸 밖까지(오라처럼) + 그림 안쪽은 lookSprite에서 같은 색으로. */
 /* v0.95 영웅별 외형: 망토 · 무기 외형 · 오라 색 · 특수 오라는 영웅마다 따로 입힘. 산 외형 1개 = 영웅 1명(같은 것을 둘에게 입히려면 하나 더 삼) · 기본 외형은 수량 제한 없음 */
 function cosHeroOff(cid,cat){ delete cosHeroEq(cid)[cat]; }
-const CAMP_DIFF_BG=["camp","camp_midnight","camp_eternal"];   // 황혼 · 자정 · 영원한 밤
 function campStageMine(){ const c=progress?COS_BY[cosEq().camp]:null; if(c&&c.stage&&STAGE.ch[c.stage]) return c.stage;
   let d=progress?progress.diff|0:0; try{ if(typeof COOP!=="undefined"&&COOP.nr&&COOP.d!=null) d=COOP.d|0; }catch(e){}
   const k=CAMP_DIFF_BG[Math.max(0,Math.min(2,d))]; return STAGE.ch[k]?k:"camp"; }
@@ -16282,8 +16303,6 @@ function renderSpeedSeg(){
 function setSpeed(v){ const sel=$("speed"); if(!sel) return; { const o=SPEEDS.find(x=>x.v===+v); speedForced=o&&speedAllowed(o)?null:String(+v); sel._sig=null; } if(![...sel.options].some(o=>o.value===String(v))){ if(!isFinite(+v)) return; const o=SPEEDS.find(x=>x.v===+v); const op=document.createElement("option"); op.value=String(+v); op.textContent=o?o.label:("점검 "+v); sel.appendChild(op); }   // 코드(점검·봇)에서 부르는 속도는 그대로 허용
   sel.value=String(v); if(SPEEDS.some(o=>o.v===+v&&speedAllowed(o))) safeSet("pn_speed",String(v)); renderSpeedSeg(); onSpeedChanged(); }
 function onSpeedChanged(){ if(instantMode()){ if(bannerRes&&!$("saybox").classList.contains("choice")) dismissBanner(); markAct(null); const ab=$("actbar"); if(ab) ab.hidden=true; for(const id of Object.keys(unitTags)) delTag(id); flushLogScroll(); } }
-// v0.33 모닥불 쉼터: 마을에서는 보유한 영웅이 모두 모닥불 둘레에 앉아 쉼(출전하지 않는 영웅도). 누르면 파티·장비로
-function campUnits(){ if(!progress||!progress.protag) return [...buildParty()]; const inP=new Set(battleIds()); return rosterIds().map(c=>{ const u=buildHeroUnit(c); u._bench=!inP.has(c); return u; }); }
 function goCamp(){
   try{ lendPublish(); }catch(e){}
   const had=!!runState, hadT0=runState&&runState.t0; try{ SND.scene("town"); }catch(e){} try{ subDailyGem(); }catch(e){}
@@ -16447,14 +16466,7 @@ function openSweep(){ const S=sweepState(), left=sweepExtraLeft(), gem=progress.
    주간: 월요일 05:00(한국 시각) 기준 — 새 주에 처음 들어온 사람이 지난주 순위를 기록(명예의 전당 · 보상 기준) */
 var PVPF=null, PVPL=null;   // 지금 대전 중 · 마지막으로 받은 목록
 function pvpNet(){ try{ return (typeof window!=="undefined"&&window.PNNet&&window.PNNet.pvp)||null; }catch(e){ return null; } }
-function pvpWR(wk){ const S=pvpState(), k="w"+wk; const r=S.wr[k]||(S.wr[k]={w:0,l:0,d:0}); for(const q of Object.keys(S.wr)) if(+q.slice(1)<wk-1) delete S.wr[q]; return r; }
 /* 서버 기록 하나를 '이번 주' 기준으로 읽기 쉽게: sc · w · l · d · dw · dl = 그 주 · tw · tl · td · tdw · tdl = 누적 */
-function pvpNorm(x,wk){ if(!x) return x; wk=wk==null?pvpWeek():wk; const k="w"+wk, s=x.s||{}, wr=(x.wr||{})[k]||{}, dr=(x.dr||{})[k]||{};
-  if(x.tw==null){ x.tw=x.w|0; x.tl=x.l|0; x.td=x.d|0; x.tdw=x.dw|0; x.tdl=x.dl|0; }
-  x.has=typeof s[k]==="number"; x.sc=x.has?s[k]:PVP.start; x.w=wr.w|0; x.l=wr.l|0; x.d=wr.d|0; x.dw=dr.dw|0; x.dl=dr.dl|0; return x; }
-function pvpWeekEnd(wk){ return ((wk+1)*7-3)*864e5-4*3600e3; }
-// 점수
-function pvpGain(my,op){ return Math.max(PVP.kMin,Math.min(PVP.kMax,Math.round(PVP.base+(op-my)/20))); }
 function pvpLoss(my,op){ return Math.max(PVP.kMin,Math.min(PVP.kMax,Math.round(PVP.base-(op-my)/20))); }
 function pvpStreakBonus(stk){ return stk>=PVP.stkFrom?Math.min(PVP.stkMax,(stk-PVP.stkFrom+1)*PVP.stkAdd):0; }
 // 전투력 = 공격력(치명 반영) × 3 + 체력 × 0.3 + 방어력 × 2
@@ -17023,7 +17035,6 @@ function egEnd(res){
   if(!instantMode()) showBanner(`<span class="txt" style="font-size:17px;font-weight:700;color:${win?"var(--accent)":"var(--muted)"}">${esc(msg)}</span>`,2200);
   saveProgress(); goCamp();
 }
-function allRelics(){ return [...progress.inv,...equippedStore].filter(x=>x&&x.slot==="relic"&&RELICS[x.relic]); }
 function egGrowthHtml(){
   const m=egMat(), E=egState(), My=MYTHIC[egxWho];
   const myth=My?`<div class="egx-row"><span><b class="rar-mythic">🌠 신화 무기</b> — ${esc(heroDisplayName(egxWho))}: <b>${esc(My.name)}</b> <span class="shopnote">${esc(My.desc)}</span></span>
@@ -17102,11 +17113,6 @@ function egExchangeBlock(){
 }
 
 /* ---- 엔딩 ---- */
-const ENDINGS={
-  dawn:{ title:"새벽 엔딩", lines:["그때, 일곱 개의 증표가 한꺼번에 빛나기 시작했다.", "달, 불, 물, 나무, 금, 모래, 해. 일곱 군단장이 끝까지 지켜 낸 마음이었다.", "뤼네는 사람들을 숨겼고, 브란도는 포로들을 먹였다.", "운디르는 노래를 지켰고, 가라드는 약속을 지켰다.", "펜로는 굶주린 사람들을 살렸다.", "카룸의 분노도, 솔바르의 침묵도, 결국은 이 세상을 지키기 위한 것이었다.", "'밤이 걷히면 모두 타 버린다'던 뤼네의 말. '해가 미친 날'을 노래하던 운디르.", "흩어져 있던 조각들이 비로소 하나로 맞춰졌다.", "증표의 빛이 장막에 스며들자, 미쳐 있던 햇빛이 천천히 가라앉았다.", "사람을 태우지 않는, 따뜻한 빛. 새벽이었다.", "루멘: 「…이런 길이 있었구나.」", "루멘: 「수백 년 동안 혼자 짊어진 짐을, 이제야 내려놓는다.」", "이스라가 루멘의 곁에 섰다. 사람이던 시절의 약속이, 수백 년 만에 지켜졌다.", "영원한 밤이 끝났다. 등불 도시에 처음으로 아침이 왔다.", "{나}는 할머니의 등불을 끄고, 처음 보는 해를 오래도록 바라보았다."]},
-  night:{ title:"밤의 수호자 엔딩", lines:["{나}는 칼을 거두었다. 루멘의 장막은 그대로 남았다.", "세상은 불타지 않았다. 다만 아주 천천히 식어 갈 뿐이다.", "등불 도시의 불빛은 오늘도 꺼지지 않는다.", "언젠가 다른 길을 찾아낼 그날까지."]},
-  day:{ title:"타오르는 낮 엔딩", lines:["{나}는 장막을 찢었다. 수백 년 만에 햇빛이 쏟아져 내렸다.", "눈부신 빛 속에서 비명이 들렸다. …그리고 곧, 아주 조용해졌다.", "루멘: 「…그래도, 너희가 고른 낮이다.」"]},
-};
 function showChoice(html, options){
   return new Promise(res=>{
     const b=$("saybox");
@@ -17452,6 +17458,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.22", v:"v0.155", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.154", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.153", t:"정리", L:["오류 수정"]},
   {d:"2026.11.22", v:"v0.152", t:"정리", L:["오류 수정"]},
