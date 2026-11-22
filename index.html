@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795376507887"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795377869392"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11234,6 +11234,36 @@ function meterRows(M,tab){ const C=M.cur, RN=M.run, A=RN.agg[tab]; const rows=Ob
   const turns=RN.turns+(C.turn||0); const tot=rows.reduce((t,r)=>t+r.a.v,0)||0, top=rows[0]?rows[0].a.v:0; return {rows,turns,tot,top}; }
 function meterState(M){ const C=M.cur; return !C?"":`전투 ${M.run.battles}번째 ${C.done?`끝(${C.result==="win"?"승리":C.result==="lose"?"패배":"후퇴"})`:`진행 중 · 턴 ${C.turn}`}`; }
 
+/* ---------- v0.166 전투 표시 셈(상태 아이콘 · 보호막 · 체력 막대) ---------- */
+const STATUS_DOTS={"poison":{"pal":{"g":"#7ce060","G":"#2f8a2a","w":"#e8ffd8"},"rows":["...g....","...g....","..ggg...",".gwggg..",".gwgggG.",".ggggGG.","..gGGG..","........"]},"burn":{"pal":{"r":"#ff5a2a","o":"#ffa040","y":"#ffe07a"},"rows":["...r....","..rr..r.","..ror.r.",".rooorr.",".royyor.",".royyyor","..ryyr..","........"]},"frost":{"pal":{"c":"#8ae0ff","w":"#ffffff"},"rows":["...c....",".c.c.c..","..ccc...","ccwwwcc.","..ccc...",".c.c.c..","...c....","........"]},"stun":{"pal":{"y":"#ffe04a","o":"#c89020"},"rows":["...y....","...y....","yyyyyyy.",".yyyyy..","..yyy...",".yy.yy..",".y...y..","........"]},"bleed":{"pal":{"r":"#e0283a","R":"#8a1020","w":"#ffb0b8"},"rows":["..r.....","..r...r.",".rrr..r.",".rwrr.R.",".rrrR...","..RR....","........","........"]},"silence":{"pal":{"p":"#c890ff","w":"#f0e0ff"},"rows":["........",".pppppp.","pw....wp","p.w..w.p","p..ww..p","p.w..w.p",".pppppp.","........"]},"atkdown":{"pal":{"s":"#c8d0e0","h":"#8a6a3a","r":"#ff6a5a"},"rows":["....s...","...s..r.","..s...r.",".s..rrrr","hs...rr.",".h......","h.......","........"]},"taunt":{"pal":{"o":"#ffb04a","O":"#a86a1a","w":"#fff0c8"},"rows":[".oooooo.",".oOwwOo.",".oOwwOo.",".oOwwOo.",".oOOOOo.","..oOwo..","...oo...","........"]},"shield":{"pal":{"b":"#6ab0ff","B":"#2a5aa8","w":"#e0f0ff"},"rows":[".bbbbbb.",".bwbbBb.",".bwbbBb.",".bbbbBb.","..bbBb..","...bb...","........","........"]},"atkup":{"pal":{"s":"#e8eef8","h":"#8a6a3a","g":"#6aff8a"},"rows":["....s.g.","...s.ggg","..s...g.",".s....g.","hs......",".h......","h.......","........"]},"regen":{"pal":{"g":"#6ae08a","w":"#e8ffe8","G":"#2a8a4a"},"rows":["........",".gg.gg..","gwgggGg.","ggg.gGg.",".gg.gG..","..gGG...","...G....","........"]},"stealth":{"pal":{"p":"#b080e0","w":"#f0e8ff","k":"#2a1a40"},"rows":["........","..pppp..",".pwwwwp.","pwwkkwwp",".pwwwwp.","..pppp..","........","........"]},"combo":{"pal":{"y":"#ffd86a","o":"#b88a2a"},"rows":["........","y...y...",".y...y..","..y...y.",".y...y..","y...y...","........","........"]},"song":{"pal":{"y":"#ffd86a","o":"#b88a2a"},"rows":["....yy..","....yoy.","....y.y.","....y...","..yyy...",".yyyy...","..yy....","........"]},"mark":{"pal":{"r":"#ff6a5a","w":"#ffd0c8"},"rows":["...r....","..rrr...",".r.w.r..","rrwwwrr.",".r.w.r..","..rrr...","...r....","........"]},"up":{"pal":{"g":"#7af0a0","G":"#2a8a4a"},"rows":["...g....","..ggg...",".ggggg..","...g....","...g....","...G....","...G....","........"]},"down":{"pal":{"r":"#ff7a6a","R":"#8a2020"},"rows":["...R....","...R....","...r....","...r....",".rrrrr..","..rrr...","...r....","........"]},"fear":{"pal":{"w":"#e8e0f0","k":"#1a1020","p":"#9a6ad0"},"rows":[".wwwww..","wwwwwww.","wkkwkkw.","wkkwkkw.","wwwkwww.",".wwwww..",".w.w.w..","........"]},"blind":{"pal":{"w":"#e8eef8","k":"#1a1a2a","r":"#ff6a5a"},"rows":["r.......",".rwwww..","wwrkkww.","wwkrkww.","wwkkrww.",".wwwwr..",".......r","........"]}};
+const STATUS_RULES=[[/독/,"poison"],[/화상|불타|불씨|작열/,"burn"],[/빙결|얼어|동상|냉기/,"frost"],[/기절|휘청|띄움|넘어/,"stun"],[/출혈/,"bleed"],[/침묵/,"silence"],[/실명|눈멂/,"blind"],[/공포/,"fear"],
+  [/취약|낙인|조준점/,"mark"],[/도발/,"taunt"],[/은신/,"stealth"],[/^♪/,"song"],[/연계|탄 |조준 |공명|기세/,"combo"],[/재생|회복/,"regen"],[/공격력\s*-|약화|위축|공격↓/,"atkdown"],
+  [/받는 피해\s*-|방어|철벽|수호|보호|피해 감소|막기/,"shield"],[/공격력\s*\+|격려|분노|광폭|축성|강화|공격↑/,"atkup"]];
+function statusKind(label,cls){ for(const [re,k] of STATUS_RULES) if(re.test(label)) return k; return cls==="bad"?"down":"up"; }
+function initShield(u,all){ let sh=u.startShield?Math.floor(u.hp_max*u.startShield):0; const T=u.traits||{};
+  if(T.opening_shield) sh=Math.max(sh,Math.floor(u.hp_max*0.2));
+  for(const a of all) if(a.side===u.side&&a.traits&&a.traits.team_shield) sh=Math.min(Math.floor(u.hp_max*0.4),sh+Math.floor(u.hp_max*0.1));
+  return sh; }
+function shortLabel(l){ return String(l||"").replace(/\(.*?\)/g,"").trim(); }
+// v0.55.6: 보스 체력 겹 수 — 중간보스 5겹 · 보스 8겹, 난이도마다 +1 (황혼·자정·영원한 밤)
+const HP_LAYER_COLORS=["#ff6b5b","#ff9a3c","#ffd23f","#7ee26a","#4fd6c8","#5c9dff","#b48cff","#ff7ad9","#ffffff","#c9c9c9"];
+function bossLayerN(u,d){ if(!u||u.side!=="enemy"||!u.isBossKind) return 1; return (u.named&&!u.finalBoss?5:8)+Math.min(2,d|0); }   // v0.166 전투 표시 셈(엔진 — 게임 화면 · 고돗 화면이 같은 함수)
+function hpBar(u,hp,sh,L){ sh=Math.max(0,sh||0);   // 체력 막대: 보스 겹바(L겹 — 지금 겹 비율 · 색 · 아래 겹 색 · ×n) · 보호막 흰 막대 자리
+  if(L>1){ const per=u.hp_max/L, cur=hp<=0?0:Math.max(1,Math.ceil(hp/per-1e-9)), frac=cur?Math.max(0,Math.min(1,(hp-(cur-1)*per)/per)):0;
+    return {L, w:frac, col:HP_LAYER_COLORS[(cur-1+HP_LAYER_COLORS.length)%HP_LAYER_COLORS.length], under:cur>1?HP_LAYER_COLORS[(cur-2)%HP_LAYER_COLORS.length]:"", lab:cur>1?"×"+cur:"", shL:1, shW:sh?Math.min(1,sh/per):0}; }
+  const tot=Math.max(u.hp_max,hp+sh); return {L:1, w:hp/tot, col:"", under:"", lab:"", shL:hp/tot, shW:sh/tot}; }
+function shieldNext(cur,label,isDamage){ const L=String(label||""); let m;   // 보호막 추적: 맞으면 '보호 n'만큼 깎고, '보호막 n'이 걸리면 n
+  if(isDamage){ if((m=/보호 (\d+)/.exec(L))) return Math.max(0,(cur||0)-(+m[1])); return cur||0; }
+  if((m=/^보호막 (\d+)/.exec(L))) return +m[1]; return cur||0; }
+function tagAdd(m,label,cls,turn){ label=shortLabel(label); if(!label) return false; if(/^보호막 \d+/.test(label)||/^보호 \d+/.test(label)) return false;   // v0.32: 보호막은 HP 바에
+  const rp=/^(기세|공명|탄|조준|연계|독) /.exec(label); if(rp) for(const k of Object.keys(m)) if(k.startsWith(rp[1]+" ")) delete m[k];   // 자원·중첩 표시는 최신 값 하나만
+  const song=label.startsWith("♪ ");   // v0.92 노래는 3턴(다른 노래끼리 함께)
+  delete m[label]; m[label]={until:turn+(song?3:rp?3:2),cls:song?"st":rp&&!cls?"res":cls}; return true; }
+function tagDel(m,prefix){ let ch=false; for(const k of Object.keys(m)) if(!prefix||k.startsWith(prefix)){ delete m[k]; ch=true; } return ch; }
+function tagPrune(m,turn){ let ch=false; for(const [k,v] of Object.entries(m)) if(v.until<turn){ delete m[k]; ch=true; } return ch; }
+function tagView(m,max){ const all=Object.entries(m).map(([k,v])=>({k,v,bad:v.cls==="bad"})); all.sort((a,b)=>(b.bad?1:0)-(a.bad?1:0));   // 약화 먼저 · 최대 max개(넘치면 +n) · 숫자는 중첩 · 자원 수
+  const shown=all.slice(0,max); return {shown:shown.map(({k,v})=>({k, cls:v.cls||"", n:(/(\d+)\s*$/.exec(k)||[])[1]||"", kind:statusKind(k,v.cls)})), more:all.length-shown.length, rest:all.slice(max).map(x=>x.k)}; }
+
 /* ================= UI ================= */
 /* ---------- v0.163 처음 안내(코치) 화면 (엔진 구역에서 옮겨 옴) ---------- */
 function coachRun(key,force){
@@ -14361,36 +14391,16 @@ function spawnField(units){
 }
 // 상태 표시(최근에 걸린 효과 — 약 2턴 뒤 사라짐)
 /* v0.32 상태 아이콘(8×8 도트) · 보호막 추적(HP 바에 흰 막대로) */
-const STATUS_DOTS={"poison":{"pal":{"g":"#7ce060","G":"#2f8a2a","w":"#e8ffd8"},"rows":["...g....","...g....","..ggg...",".gwggg..",".gwgggG.",".ggggGG.","..gGGG..","........"]},"burn":{"pal":{"r":"#ff5a2a","o":"#ffa040","y":"#ffe07a"},"rows":["...r....","..rr..r.","..ror.r.",".rooorr.",".royyor.",".royyyor","..ryyr..","........"]},"frost":{"pal":{"c":"#8ae0ff","w":"#ffffff"},"rows":["...c....",".c.c.c..","..ccc...","ccwwwcc.","..ccc...",".c.c.c..","...c....","........"]},"stun":{"pal":{"y":"#ffe04a","o":"#c89020"},"rows":["...y....","...y....","yyyyyyy.",".yyyyy..","..yyy...",".yy.yy..",".y...y..","........"]},"bleed":{"pal":{"r":"#e0283a","R":"#8a1020","w":"#ffb0b8"},"rows":["..r.....","..r...r.",".rrr..r.",".rwrr.R.",".rrrR...","..RR....","........","........"]},"silence":{"pal":{"p":"#c890ff","w":"#f0e0ff"},"rows":["........",".pppppp.","pw....wp","p.w..w.p","p..ww..p","p.w..w.p",".pppppp.","........"]},"atkdown":{"pal":{"s":"#c8d0e0","h":"#8a6a3a","r":"#ff6a5a"},"rows":["....s...","...s..r.","..s...r.",".s..rrrr","hs...rr.",".h......","h.......","........"]},"taunt":{"pal":{"o":"#ffb04a","O":"#a86a1a","w":"#fff0c8"},"rows":[".oooooo.",".oOwwOo.",".oOwwOo.",".oOwwOo.",".oOOOOo.","..oOwo..","...oo...","........"]},"shield":{"pal":{"b":"#6ab0ff","B":"#2a5aa8","w":"#e0f0ff"},"rows":[".bbbbbb.",".bwbbBb.",".bwbbBb.",".bbbbBb.","..bbBb..","...bb...","........","........"]},"atkup":{"pal":{"s":"#e8eef8","h":"#8a6a3a","g":"#6aff8a"},"rows":["....s.g.","...s.ggg","..s...g.",".s....g.","hs......",".h......","h.......","........"]},"regen":{"pal":{"g":"#6ae08a","w":"#e8ffe8","G":"#2a8a4a"},"rows":["........",".gg.gg..","gwgggGg.","ggg.gGg.",".gg.gG..","..gGG...","...G....","........"]},"stealth":{"pal":{"p":"#b080e0","w":"#f0e8ff","k":"#2a1a40"},"rows":["........","..pppp..",".pwwwwp.","pwwkkwwp",".pwwwwp.","..pppp..","........","........"]},"combo":{"pal":{"y":"#ffd86a","o":"#b88a2a"},"rows":["........","y...y...",".y...y..","..y...y.",".y...y..","y...y...","........","........"]},"song":{"pal":{"y":"#ffd86a","o":"#b88a2a"},"rows":["....yy..","....yoy.","....y.y.","....y...","..yyy...",".yyyy...","..yy....","........"]},"mark":{"pal":{"r":"#ff6a5a","w":"#ffd0c8"},"rows":["...r....","..rrr...",".r.w.r..","rrwwwrr.",".r.w.r..","..rrr...","...r....","........"]},"up":{"pal":{"g":"#7af0a0","G":"#2a8a4a"},"rows":["...g....","..ggg...",".ggggg..","...g....","...g....","...G....","...G....","........"]},"down":{"pal":{"r":"#ff7a6a","R":"#8a2020"},"rows":["...R....","...R....","...r....","...r....",".rrrrr..","..rrr...","...r....","........"]},"fear":{"pal":{"w":"#e8e0f0","k":"#1a1020","p":"#9a6ad0"},"rows":[".wwwww..","wwwwwww.","wkkwkkw.","wkkwkkw.","wwwkwww.",".wwwww..",".w.w.w..","........"]},"blind":{"pal":{"w":"#e8eef8","k":"#1a1a2a","r":"#ff6a5a"},"rows":["r.......",".rwwww..","wwrkkww.","wwkrkww.","wwkkrww.",".wwwwr..",".......r","........"]}};
 const STATUS_URL={};
 function statusIcon(k){ if(STATUS_URL[k]) return STATUS_URL[k]; const D=STATUS_DOTS[k]; if(!D||typeof document==="undefined") return ""; const c=document.createElement("canvas"); c.width=c.height=8; const x=c.getContext("2d");
   D.rows.forEach((r,y)=>[...r].forEach((ch,i)=>{ if(D.pal[ch]){ x.fillStyle=D.pal[ch]; x.fillRect(i,y,1,1); } })); return STATUS_URL[k]=c.toDataURL(); }
-const STATUS_RULES=[[/독/,"poison"],[/화상|불타|불씨|작열/,"burn"],[/빙결|얼어|동상|냉기/,"frost"],[/기절|휘청|띄움|넘어/,"stun"],[/출혈/,"bleed"],[/침묵/,"silence"],[/실명|눈멂/,"blind"],[/공포/,"fear"],
-  [/취약|낙인|조준점/,"mark"],[/도발/,"taunt"],[/은신/,"stealth"],[/^♪/,"song"],[/연계|탄 |조준 |공명|기세/,"combo"],[/재생|회복/,"regen"],[/공격력\s*-|약화|위축|공격↓/,"atkdown"],
-  [/받는 피해\s*-|방어|철벽|수호|보호|피해 감소|막기/,"shield"],[/공격력\s*\+|격려|분노|광폭|축성|강화|공격↑/,"atkup"]];
-function statusKind(label,cls){ for(const [re,k] of STATUS_RULES) if(re.test(label)) return k; return cls==="bad"?"down":"up"; }
 let unitShield={};
-function initShield(u,all){ let sh=u.startShield?Math.floor(u.hp_max*u.startShield):0; const T=u.traits||{};
-  if(T.opening_shield) sh=Math.max(sh,Math.floor(u.hp_max*0.2));
-  for(const a of all) if(a.side===u.side&&a.traits&&a.traits.team_shield) sh=Math.min(Math.floor(u.hp_max*0.4),sh+Math.floor(u.hp_max*0.1));
-  return sh; }
-function shieldFromFx(id,label,isDamage){ const L=String(label||""); let m;
-  if(isDamage){ if((m=/보호 (\d+)/.exec(L))) unitShield[id]=Math.max(0,(unitShield[id]||0)-(+m[1])); }
-  else if((m=/^보호막 (\d+)/.exec(L))) unitShield[id]=+m[1]; }
-function shortLabel(l){ return String(l||"").replace(/\(.*?\)/g,"").trim(); }
-function addTag(id,label,cls){ if(instantMode()) return; label=shortLabel(label); if(!label) return; if(/^보호막 \d+/.test(label)||/^보호 \d+/.test(label)) return;   // v0.32: 보호막은 HP 바에
-  const m=unitTags[id]=unitTags[id]||{};
-  const rp=/^(기세|공명|탄|조준|연계|독) /.exec(label); if(rp) for(const k of Object.keys(m)) if(k.startsWith(rp[1]+" ")) delete m[k];   // 자원·중첩 표시는 최신 값 하나만
-  const song=label.startsWith("♪ ");   // v0.92 노래는 3턴(다른 노래끼리 함께)
-  delete m[label]; m[label]={until:curTurn+(song?3:rp?3:2),cls:song?"st":rp&&!cls?"res":cls}; renderTags(id); }
-function delTag(id,prefix){ const m=unitTags[id]; if(!m) return; for(const k of Object.keys(m)) if(!prefix||k.startsWith(prefix)) delete m[k]; renderTags(id); }
-function pruneTags(){ for(const id of Object.keys(unitTags)){ let ch=false; for(const [k,v] of Object.entries(unitTags[id])) if(v.until<curTurn){ delete unitTags[id][k]; ch=true; } if(ch) renderTags(id); } }
-function renderTags(id){ const el=$("u-"+id); const box=el&&el.querySelector(".utags"); if(!box) return; const m=unitTags[id]||{};
-  // v0.32: 도트 아이콘 — 약화 먼저, 최대 4개(넘치면 +n) · 숫자는 중첩·자원 수 · 마우스를 올리면 이름
-  const all=Object.entries(m).map(([k,v])=>({k,v,bad:v.cls==="bad"})); all.sort((a,b)=>(b.bad?1:0)-(a.bad?1:0));
-  const shown=all.slice(0,4), more=all.length-shown.length;
-  box.innerHTML=shown.map(({k,v})=>{ const n=(/(\d+)\s*$/.exec(k)||[])[1]; const kind=statusKind(k,v.cls);
-    return `<span class="sti ${v.cls||""}" title="${esc(k)}"><i style="background-image:url(${statusIcon(kind)})"></i>${n&&n.length<=2?`<em>${n}</em>`:""}</span>`; }).join("")+(more>0?`<span class="stmore" title="${esc(all.slice(4).map(x=>x.k).join(", "))}">+${more}</span>`:""); }
+function shieldFromFx(id,label,isDamage){ unitShield[id]=shieldNext(unitShield[id],label,isDamage); }   // v0.166 셈은 엔진 shieldNext
+function addTag(id,label,cls){ if(instantMode()) return; const m=unitTags[id]=unitTags[id]||{}; if(tagAdd(m,label,cls,curTurn)) renderTags(id); }   // v0.166 표 다루기는 엔진(tagAdd · tagDel · tagPrune · tagView)
+function delTag(id,prefix){ const m=unitTags[id]; if(!m) return; tagDel(m,prefix); renderTags(id); }
+function pruneTags(){ for(const id of Object.keys(unitTags)) if(tagPrune(unitTags[id],curTurn)) renderTags(id); }
+function renderTags(id){ const el=$("u-"+id); const box=el&&el.querySelector(".utags"); if(!box) return; const V=tagView(unitTags[id]||{},4);
+  box.innerHTML=V.shown.map(s=>`<span class="sti ${s.cls}" title="${esc(s.k)}"><i style="background-image:url(${statusIcon(s.kind)})"></i>${s.n&&s.n.length<=2?`<em>${s.n}</em>`:""}</span>`).join("")+(V.more>0?`<span class="stmore" title="${esc(V.rest.join(", "))}">+${V.more}</span>`:""); }
 function popNum(id,text,cls){
   if(instantMode()) return; if(/^[−+]0$/.test(text)) text="막음"; const el=$("u-"+id); if(!el) return;
   POP.add(id,text,cls);   // v0.27: 캔버스에 도트 숫자로(머리 위 바깥쪽 '도장')
@@ -14411,9 +14421,7 @@ function showActBar(ev){
   ab.innerHTML=`<span class="turn">턴 ${curTurn||1}</span>${u?`<img src="${unitSprite(u)}" alt=""${u.side==="enemy"?' style="transform:scaleX(-1)"':""}>`:""}<div class="what"><div class="l1"><span class="${ev.side==="party"?"p":"e"}">${esc(ev.actorName)}</span> → <span class="sk">${esc(ev.skillName)}</span></div><div class="l2">${esc(rule)}</div></div><div class="res">${res}</div>`;
   ab.hidden=false;
 }
-// v0.55.6: 보스 체력 겹 수 — 중간보스 5겹 · 보스 8겹, 난이도마다 +1 (황혼·자정·영원한 밤)
-const HP_LAYER_COLORS=["#ff6b5b","#ff9a3c","#ffd23f","#7ee26a","#4fd6c8","#5c9dff","#b48cff","#ff7ad9","#ffffff","#c9c9c9"];
-function bossLayers(u){ if(!u||u.side!=="enemy"||!u.isBossKind) return 1; const d=(typeof runState!=="undefined"&&runState&&runState.d)||(typeof COOP!=="undefined"&&COOP.run&&COOP.run.d)||0; return (u.named&&!u.finalBoss?5:8)+Math.min(2,d|0); }
+function bossLayers(u){ const d=(typeof runState!=="undefined"&&runState&&runState.d)||(typeof COOP!=="undefined"&&COOP.run&&COOP.run.d)||0; return bossLayerN(u,d); }
 // v0.87: 체력 갱신 순서 — 피해는 연출이 닿는 순간까지 늦춰 그리므로, 그 사이 다른 효과(지속 피해 등)가 먼저 그려질 수 있음.
 //   갱신마다 사건 순서 번호를 붙이고, 더 나중 사건이 이미 그려졌으면 늦게 도착한 옛 갱신은 버림(쓰러진 몹이 체력이 남은 것처럼 보이던 문제)
 let hpSeq=0; const hpSeqOf={};
@@ -14422,13 +14430,12 @@ function updateWidget(id,hp,mp,killed,seq){
   const el=$("u-"+id); if(!el) return;
   if(seq==null) seq=++hpSeq; if(seq<(hpSeqOf[id]||0)) return; hpSeqOf[id]=seq;
   if(!killed&&hp>0&&el.classList.contains("dead")) return;   // 쓰러진 뒤에 도착한 옛 체력은 무시(부활은 reviveWidget이 먼저 표시를 되돌림)
-  { const sh=Math.max(0,unitShield[id]||0), tot=Math.max(u.hp_max,hp+sh), b=el.querySelector(".bar:not(.mp)>b.shb");   // v0.32: 보호막은 HP 바 끝에 흰 막대
-    const L=bossLayers(u), bar=el.querySelector(".bar:not(.mp)");
-    if(L>1){   // v0.55.6: 보스 겹바 — 체력을 L겹으로 나눠 겹마다 색을 달리함. 한 방이 작아도 겹이 줄어드는 게 보이게
-      const per=u.hp_max/L, cur=hp<=0?0:Math.max(1,Math.ceil(hp/per-1e-9)), frac=cur?Math.max(0,Math.min(1,(hp-(cur-1)*per)/per)):0;
-      bar.classList.add("layered"); el.querySelector(".bar:not(.mp)>i").style.width=(frac*100)+"%"; el.querySelector(".bar:not(.mp)>i").style.background=HP_LAYER_COLORS[(cur-1+HP_LAYER_COLORS.length)%HP_LAYER_COLORS.length];
-      bar.style.background=cur>1?HP_LAYER_COLORS[(cur-2)%HP_LAYER_COLORS.length]:""; let lb=bar.querySelector("em.hpl"); if(!lb){ lb=document.createElement("em"); lb.className="hpl"; bar.appendChild(lb); } lb.textContent=cur>1?"×"+cur:""; if(b){ b.style.left="100%"; b.style.width=sh?Math.min(100,sh/per*100)+"%":"0"; } }
-    else { el.querySelector(".bar:not(.mp)>i").style.width=(hp/tot*100)+"%"; if(b){ b.style.left=(hp/tot*100)+"%"; b.style.width=(sh/tot*100)+"%"; } }
+  { const sh=Math.max(0,unitShield[id]||0), b=el.querySelector(".bar:not(.mp)>b.shb");   // v0.32: 보호막은 HP 바 끝에 흰 막대
+    const bar=el.querySelector(".bar:not(.mp)"), V=hpBar(u,hp,sh,bossLayers(u));   // v0.166 막대 셈은 엔진 hpBar
+    if(V.L>1){   // v0.55.6: 보스 겹바 — 체력을 L겹으로 나눠 겹마다 색을 달리함. 한 방이 작아도 겹이 줄어드는 게 보이게
+      bar.classList.add("layered"); el.querySelector(".bar:not(.mp)>i").style.width=(V.w*100)+"%"; el.querySelector(".bar:not(.mp)>i").style.background=V.col;
+      bar.style.background=V.under; let lb=bar.querySelector("em.hpl"); if(!lb){ lb=document.createElement("em"); lb.className="hpl"; bar.appendChild(lb); } lb.textContent=V.lab; if(b){ b.style.left="100%"; b.style.width=(V.shW*100)+"%"; } }
+    else { el.querySelector(".bar:not(.mp)>i").style.width=(V.w*100)+"%"; if(b){ b.style.left=(V.shL*100)+"%"; b.style.width=(V.shW*100)+"%"; } }
     el.title=`${u.name} — 체력 ${hp}/${u.hp_max}`+(sh?` · 보호막 ${sh}`:"")+(u.mp_max?` · 마나 ${mp}/${u.mp_max}`:""); }
   el.querySelector(".bar.mp>i").style.width=(u.mp_max?mp/u.mp_max*100:0)+"%";
   el.querySelector(".hptext").textContent=`${hp}/${u.hp_max}`+((unitShield[id]||0)>0?` +${unitShield[id]}`:"");
@@ -17552,6 +17559,7 @@ const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트
   "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.23", v:"v0.166", t:"정리", L:["그래픽 개선"]},
   {d:"2026.11.23", v:"v0.165", t:"정리", L:["그래픽 개선"]},
   {d:"2026.11.23", v:"v0.164", t:"정리", L:["운영 기능 개선"]},
   {d:"2026.11.23", v:"v0.163", t:"정리", L:["운영 기능 개선"]},
