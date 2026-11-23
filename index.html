@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795413051335"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795416122433"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11500,6 +11500,8 @@ const PIN_ID="pin";
 function pinDefault(){ return {t:"테스트 안내", body:TEST_NOTICE.map(x=>String(x).replace(/<[^>]*>/g,"")).join("\n")}; }
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.23", v:"v0.174", t:"정리", L:["운영 기능 개선", "오류 수정"]},
+  {d:"2026.11.23", v:"v0.173", t:"정리", L:["그래픽 개선"]},
   {d:"2026.11.23", v:"v0.172", t:"정리", L:["운영 기능 개선"]},
   {d:"2026.11.23", v:"v0.171", t:"정리", L:["운영 기능 개선"]},
   {d:"2026.11.23", v:"v0.170", t:"정리", L:["운영 기능 개선"]},
@@ -11716,6 +11718,10 @@ const UPDATES=[
     "세트 장비 36종 · 📊 딜미터기"]},
   {d:"2026.10.22 ~ 11.03", v:"v0.1 ~ v0.92", t:"개발 기간", L:["테스트 이전 개발"]},
 ];
+
+/* ---------- v0.174 운영 도구(플레이어 기록 글) ---------- */
+function recKeyLabel(k){ if(k.startsWith("eg:")) return (EG_MODES[k.slice(3)]||{name:k}).name; const [d,c,a]=k.split("-"); return `${(DIFFS[+d]||{name:"?"}).name} ${c}장 ${a}막`; }
+function fmtPlay(sec){ sec=sec|0; const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h?`${h}시간 ${m}분`:`${m}분`; }
 
 /* ================= UI ================= */
 function fbGithubUrl(cat,msg,body){ const first=(String(msg||"").trim().split("\n")[0]||"의견").slice(0,60); if(body.length>5000) body=body.slice(0,5000)+"\n…(길어서 잘림)";
@@ -17860,7 +17866,6 @@ function NET(){ return (typeof window!=="undefined"&&window.PNNet&&window.PNNet.
 { const el=typeof document!=="undefined"&&document.querySelector(".brand .ver"); if(el) el.textContent=gameVersion(); }   // v0.135 위쪽 줄 버전 표시도 업데이트 기록 맨 위를 따름
 function updatesHTML(){ return `<div class="upds">${UPDATES.map(u=>`<div class="ncard"><div class="nh"><b>${esc(u.t)}</b><span>${esc(u.d)} · ${esc(u.v)}</span></div><ul class="ul">${u.L.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div>`; }
 function fmtDate(t){ if(!t) return ""; const d=new Date(t); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`; }
-function fmtPlay(sec){ sec=sec|0; const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h?`${h}시간 ${m}분`:`${m}분`; }
 
 // ---- 첫 화면: 게스트 / Google 로그인 → [게임 시작]. 한 번 로그인하면 다음부터는 로그인된 채로 이 화면이 뜸 ----
 // v0.141 첫 화면 장면: 대기실 무대(모닥불 야영지)를 전체 화면으로 펴고, 그 위에 영웅들을 모닥불 둘레에 세움
@@ -18028,7 +18033,6 @@ function errReport(m){ const N=NET(); if(!N||ERR_SENT.size>=15||ERR_SENT.has(m))
 try{ addEventListener("error",e=>errReport(`${(e.message||"오류").slice(0,300)} @${(e.filename||"").split("/").pop()}:${e.lineno||0}:${e.colno||0}`+(e.error&&e.error.stack?"\n"+String(e.error.stack).slice(0,800):"")));
   addEventListener("unhandledrejection",e=>errReport("약속 오류: "+String(e.reason&&(e.reason.stack||e.reason.message)||e.reason).slice(0,800))); }catch(e){}
 
-function recKeyLabel(k){ if(k.startsWith("eg:")) return (EG_MODES[k.slice(3)]||{name:k}).name; const [d,c,a]=k.split("-"); return `${(DIFFS[+d]||{name:"?"}).name} ${c}장 ${a}막`; }
 let recPushAt=0;
 /* v0.116 명함 자료 올리기(플레이어 검색용) — 영웅마다 이름 · 직업 · Lv · 각성 · 모습 · 업적 점수 · 대표 칭호 3개 */
 function cardPush(){ const N=NET(); if(!N||!N.cards||!progress||!progress.protag) return; try{ N.cards.put(cardData()).catch(()=>{}); }catch(e){} }
