@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795459526638"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795462459948"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11500,6 +11500,7 @@ const PIN_ID="pin";
 function pinDefault(){ return {t:"테스트 안내", body:TEST_NOTICE.map(x=>String(x).replace(/<[^>]*>/g,"")).join("\n")}; }
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.24", v:"v0.178", t:"정리", L:["운영 기능 개선", "그래픽 개선"]},
   {d:"2026.11.24", v:"v0.177", t:"정리", L:["운영 기능 개선", "화면 개선"]},
   {d:"2026.11.23", v:"v0.176", t:"정리", L:["그래픽 개선", "화면 개선"]},
   {d:"2026.11.23", v:"v0.175", t:"정리", L:["화면 개선"]},
@@ -11897,6 +11898,11 @@ function chatBlock(uid,nick){ if(!uid||chatBlocked(uid)) return; const L=chatBlo
 
 /* ---------- v0.177 채팅 규칙 글 ---------- */
 const CHAT_RULES="욕설 · 비방, 음란 · 혐오 표현, 개인정보 공개, 광고 · 도배를 하지 않습니다. 어기면 신고에 따라 채팅이나 접속이 막힐 수 있습니다.";
+
+/* ---------- v0.178 빌려 쓰기 ---------- */
+// v0.178 빌려 쓰기(엔진)
+function borrowModeOk(m){ return m==="abyss"||m==="fall"; }
+function lendCid(){ const c=progress.lendCid; return c&&rosterIds().includes(c)?c:(progress.protag&&progress.protag.cid)||rosterIds()[0]; }
 
 /* ================= UI ================= */
 function fbGithubUrl(cat,msg,body){ const first=(String(msg||"").trim().split("\n")[0]||"의견").slice(0,60); if(body.length>5000) body=body.slice(0,5000)+"\n…(길어서 잘림)";
@@ -17464,8 +17470,6 @@ function friendShopBlock(){ const box=document.createElement("div"); box.classNa
   box.querySelectorAll("[data-fr]").forEach(b=>b.onclick=()=>{ if(friendBuy(b.dataset.fr)){ renderShop(); renderHud(); } }); return box; }
 const LEND={pubAt:0};
 function lendOn(){ return !!(window.PNNet&&window.PNNet.lend&&window.PNNet.user); }
-function borrowModeOk(m){ return m==="abyss"||m==="fall"; }
-function lendCid(){ const c=progress.lendCid; return c&&rosterIds().includes(c)?c:(progress.protag&&progress.protag.cid)||rosterIds()[0]; }
 async function lendPublish(force){ if(!lendOn()||!progress||!progress.protag) return; const now=Date.now(); if(!force&&now-LEND.pubAt<300000) return; LEND.pubAt=now;
   try{ const cid=lendCid(), h=progress.heroes[cid]; const z=await coopPack([coopSnap(cid)]);
     await window.PNNet.lend.publish({v:1, nick:coopNick(), cid, job:jobName(cid), lv:h.level, z}); }catch(e){ console.warn("lendPublish",e); } }
