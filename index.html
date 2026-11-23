@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795387725237"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795413051335"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11452,7 +11452,274 @@ function coopSnap(cid){
   return JSON.parse(JSON.stringify(u,(k,v)=>typeof v==="number"&&!Number.isInteger(v)?Math.round(v*10000)/10000:v));
 }
 
+/* ---------- v0.172 온라인 생활(공지 · 우편 · 의견 · 기록 올리기 · 계정 삭제) ---------- */
+// v0.172 온라인 생활(우편 · 의견 · 기록 올리기 · 계정 삭제)의 셈 — 웹 · 고돗 화면이 같은 함수(화면 쪽은 기기 · 시각 · 기록 줄만 넘김)
+function mailOpenOf(list,now){ const got=new Set((progress&&progress.mailGot)||[]); now=now||Date.now(); return (list||[]).filter(x=>!got.has(x.id)&&!(x.exp&&x.exp<now)); }   // 안 받은 우편
+function mailShown(list,now){ now=now||Date.now(); return (list||[]).filter(x=>!(x.exp&&x.exp<now)); }   // 우편함에 보이는 것(기한 지난 것 뺌)
+function fbCatLabel(k){ return (FB_CATS.find(x=>x[0]===k)||FB_CATS[0])[1]; }
+// 의견에 함께 보낼 게임 상태 — o: {dev 기기, at 지금 시각 글, turn 턴, speed 속도, errs 최근 오류, log 최근 기록 줄}
+function fbStateText(o){
+  const L=[]; try{
+    const pg=progress.protag, D=DIFFS[progress.diff]||DIFFS[0];
+    L.push(`버전 ${gameVersion()} · ${o.at}`);
+    L.push(`기기 ${o.dev}`);
+    L.push(`진행 ${progressSummary(progress)} · 연 난이도 ${DIFFS[progress.diffMax].name} · 고른 난이도 ${D.name}`);
+    if(pg) L.push(`주인공 ${pg.name}(${jobName(pg.cid)})`);
+    L.push(`출전 ${partyIds().map(c=>`${jobName(c)} Lv${progress.heroes[c].level}`).join(", ")}`);
+    if(runState){ const R=REGIONS[runState.regionKey]; L.push(`지금 던전 ${DIFFS[runState.d].name} ${R?R.chapter+" "+R.name:runState.regionKey}${runState.act?` ${runState.act}막`:""} · ${runState.zone+1}구역${o.turn?` · 턴 ${o.turn}`:""}${runState.mode?` · ${runState.mode}`:""}`); }
+    else L.push(`지금 위치 등불 도시 (${(REGIONS[progress.lastRegion]||{}).name||""})`);
+    L.push(`골드 ${progress.gold} · 정수 ${progress.ess} · 가방 ${progress.inv.length}칸 · 속도 ${o.speed||"?"}`);
+    if(o.errs&&o.errs.length) L.push(`오류 ${o.errs.length}건: ${o.errs.join(" | ")}`);
+    const lines=(o.log||[]).map(x=>String(x).replace(/\s+/g," ").trim()).filter(Boolean); if(lines.length) L.push("최근 기록:\n"+lines.map(x=>"· "+x.slice(0,140)).join("\n"));
+  }catch(e){ L.push("상태 읽기 실패: "+e.message); }
+  return L.join("\n");
+}
+function fbTextOf(cat,msg,state){ return `[밤 원정대 의견] ${fbCatLabel(cat)}\n${(msg||"").trim()||"(내용 없음)"}${state?"\n\n— 게임 상태 —\n"+state:""}`; }
+function fbPayload(cat,t,state,dev){ return {cat:fbCatLabel(cat), t:String(t).slice(0,1500), st:String(state||"").slice(0,15000), ver:gameVersion(), name:progress&&progress.protag?progress.protag.name:"", dev}; }
+// 운영 도구 플레이어 목록에 올릴 내 기록(1분마다 · 화면을 내릴 때)
+function recPayload(dev){ const pg=progress.protag, R=recOf();
+  return {name:pg.name, cid:pg.cid, job:jobName(pg.cid), lv:progress.heroes[pg.cid].level, aw:progress.heroes[pg.cid].awaken||0,
+    heroes:rosterIds().map(c=>[CLASSES[c].name,progress.heroes[c].level,advInfo(c)?advInfo(c).name:""]), diffMax:progress.diffMax|0, prog:progressSummary(progress),
+    gold:progress.gold|0, ess:progress.ess|0, gem:progress.gem|0, sub:subDaysLeft(), play:R.play, runs:R.runs, lastLose:R.lastLose||null, ver:gameVersion(), dev}; }
+function errPayload(m,dev,where){ return {m:String(m).slice(0,1500), ver:gameVersion(), dev, name:progress&&progress.protag?progress.protag.name:"", where, prog:progress?progressSummary(progress):""}; }
+// 계정 삭제 때 이름 등록부에서 풀 이름(주인공 · 영웅 이름)
+function acctNames(){ const names=[]; try{ if(progress&&progress.protag&&progress.protag.name) names.push(progress.protag.name); for(const v of Object.values((progress&&progress.heroNames)||{})) if(v) names.push(v); }catch(e){} return names; }
+function mailGiftText(x){ const L=[]; if(x.gold) L.push(`골드 ${(+x.gold).toLocaleString("ko-KR")}`); if(x.ess) L.push(`밤의 정수 ${x.ess}`); if(x.gem) L.push(`💎 새벽 결정 ${x.gem}`); if(x.torch) L.push(`🔥 횃불 ${x.torch}`); if(x.sub) L.push(`🌙 정액 ${x.sub}일`);
+  for(const it of x.items||[]) if(it&&it.n>0) L.push(`${(RARITIES[RAR_IDX[it.r]]||{label:"장비"}).label} ${it.s?SLOT_LABEL[it.s]:"장비"} ×${it.n}`); return L.join(" · "); }
+function cardData(){ return {p:progress.protag?progress.protag.name:"", h:rosterIds().map(c=>{ const h=progress.heroes[c]; return {c, n:isProtag(c)?progress.protag.name:heroOwnName(c), j:jobName(c), lv:h.level|0, aw:h.awaken|0,
+  lk:lookKey(heroLook(c)), sc:titleScore(c), mx:titleScoreMax(c), tn:(h.titles||[]).length, an:Object.keys(progress.ach||{}).length, t:titleCardShow(c).map(t=>[t.name,t.pt|0]), ti:(TITLE_BY[h.title]||{}).name||""}; })}; }
+const FB_CATS=[["bug","🐞 버그"],["bal","⚖ 난이도·밸런스"],["ui","😣 불편함"],["idea","💡 아이디어"],["etc","💬 그 밖에"]];
+const FB_REPO="sueungong/project-night-play";
+function gameVersion(){ return (UPDATES[0]&&UPDATES[0].v)||"?"; }   // v0.135 버전 = 업데이트 기록 맨 위
+const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트 기간은 정해져 있지 않고, 그동안 게임은 계속 업데이트됩니다.",
+  "업데이트 뒤에도 진행은 이어지지만, 밸런스(수치·보상·난이도)는 수시로 바뀔 수 있어요.",
+  "<b>테스트 중의 계정·진행·플레이 기록은 정식 출시 뒤 모두 삭제됩니다.</b>",
+  "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
+// ---- 공지 창: 고정 공지(📌 — 서버의 notices/pin, 없으면 TEST_NOTICE) + 운영 공지 + 업데이트 내역 · v0.106 관리자는 이 창에서 바로 새 공지 · 수정 · 지우기 ----
+const PIN_ID="pin";
+function pinDefault(){ return {t:"테스트 안내", body:TEST_NOTICE.map(x=>String(x).replace(/<[^>]*>/g,"")).join("\n")}; }
+// v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
+const UPDATES=[
+  {d:"2026.11.23", v:"v0.172", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.171", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.170", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.169", t:"정리", L:["그래픽 개선"]},
+  {d:"2026.11.23", v:"v0.168", t:"정리", L:["그래픽 개선"]},
+  {d:"2026.11.23", v:"v0.167", t:"정리", L:["그래픽 개선"]},
+  {d:"2026.11.23", v:"v0.166", t:"정리", L:["그래픽 개선"]},
+  {d:"2026.11.23", v:"v0.165", t:"정리", L:["그래픽 개선"]},
+  {d:"2026.11.23", v:"v0.164", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.163", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.162", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.161", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.160", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.159", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.23", v:"v0.158", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.22", v:"v0.157", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.22", v:"v0.156", t:"정리", L:["운영 기능 개선"]},
+  {d:"2026.11.22", v:"v0.155", t:"정리", L:["오류 수정"]},
+  {d:"2026.11.22", v:"v0.154", t:"정리", L:["오류 수정"]},
+  {d:"2026.11.22", v:"v0.153", t:"정리", L:["오류 수정"]},
+  {d:"2026.11.22", v:"v0.152", t:"정리", L:["오류 수정"]},
+  {d:"2026.11.22", v:"v0.151", t:"정리", L:["오류 수정"]},
+  {d:"2026.11.22", v:"v0.150", t:"정리", L:["오류 수정"]},
+  {d:"2026.11.22", v:"v0.149", t:"정리", L:["오류 수정"]},
+  {d:"2026.11.22", v:"v0.148", t:"정리", L:["오류 수정"]},
+  {d:"2026.11.21", v:"v0.147", t:"정리", L:[
+    "오류 수정",
+    "성능 개선"]},
+  {d:"2026.11.21", v:"v0.146", t:"계정 삭제", L:[
+    "⚙ 설정에서 계정을 바로 삭제할 수 있음(확인 글자 입력)"]},
+  {d:"2026.11.21", v:"v0.145", t:"계정", L:[
+    "⚙ 설정에 계정 ID(복사) · 계정 삭제 요청"]},
+  {d:"2026.11.21", v:"v0.144", t:"첫 화면", L:[
+    "화면 개선",
+    "오류 수정"]},
+  {d:"2026.11.21", v:"v0.143", t:"함께하기 채팅", L:[
+    "채팅에서 다른 사람 이름을 누르면 차단 · 신고",
+    "처음 채팅을 보낼 때 채팅 규칙에 한 번 동의"]},
+  {d:"2026.11.21", v:"v0.142", t:"원정 사건", L:[
+    "원정의 '주사위꾼' 사건(금화를 걸고 주사위)을 없앰 — 사건은 핏빛 제단 · 맑은 샘 두 가지"]},
+  {d:"2026.11.21", v:"v0.141", t:"첫 화면", L:[
+    "화면 개선"]},
+  {d:"2026.11.21", v:"v0.140", t:"게임 이름", L:[
+    "게임 이름이 '밤 원정대'로 바뀜"]},
+  {d:"2026.11.20", v:"v0.139", t:"이용 연령", L:[
+    "만 14세 이상 이용 가능",
+    "운영 기능 개선"]},
+  {d:"2026.11.19", v:"v0.138", t:"성편 제작", L:[
+    "성편 제작 비용: 성반가루 20 → 15"]},
+  {d:"2026.11.19", v:"v0.137", t:"성반 확률", L:[
+    "영원한 밤 장 보스의 성편 확률 3% → 5%",
+    "성편은 영원한 밤 장 보스에게서만 나옴(레이드 · 탑 · 원정 보스에게서 나오던 것 막음)"]},
+  {d:"2026.11.19", v:"v0.136", t:"세트 조각 부위", L:[
+    "지역 세트 조각이 막과 상관없이 그 세트의 모든 부위 중 무작위로 나옴(망토 · 반지 · 보조구 조각도 나옴)"]},
+  {d:"2026.11.18", v:"v0.135", t:"버전 표시", L:[
+    "화면 개선"]},
+  {d:"2026.11.18", v:"v0.134", t:"업데이트 기록 정리", L:[
+    "업데이트 기록을 플레이에 영향을 주는 내용 위주로 짧게 정리"]},
+  {d:"2026.11.18", v:"v0.133", t:"동시 접속 정원", L:[
+    "동시 접속이 가득 차면 [게임 시작]에서 잠시 기다렸다가 다시 시도",
+    "마을에서 오래 쉬면 서버 연결을 잠시 끊고, 화면을 누르면 다시 연결"]},
+  {d:"2026.11.18", v:"v0.132", t:"초대 코드 없앰", L:[
+    "초대 코드 없이 누구나 바로 시작",
+    "운영 기능 개선"]},
+  {d:"2026.11.18", v:"v0.131", t:"대기실 배경", L:[
+    "대기실 배경이 난이도를 따라 바뀜(황혼 · 자정 · 영원한 밤)",
+    "상점 외형에 '대기실' 추가 — 장 테마 배경 6종(💎 1,200) · 원하는 배경으로 고정 가능",
+    "함께하기 대기실은 방장의 배경으로 보임"]},
+  {d:"2026.11.18", v:"v0.130", t:"동료는 스스로", L:[
+    "동료의 전투 규칙은 작전 성향 · 전직 · 기술에 맞춰 스스로 정함(직접 짠 규칙은 성향 규칙표로 바뀜)",
+    "동료의 '전직 바꾸기' 없앰 · 동료 전직은 그대로 플레이어가 고름"]},
+  {d:"2026.11.18", v:"v0.129", t:"숙련 · 알림", L:[
+    "자동 재장전은 숙련에 세지 않음",
+    "오류 수정"]},
+  {d:"2026.11.18", v:"v0.128", t:"화면 개선", L:[
+    "전투설정 화면 정리"]},
+  {d:"2026.11.18", v:"v0.127", t:"사도 조정 · 지휘 효과 보강", L:[
+    "별무리의 사도: 쓰러진 별을 3턴마다 1개만 되살림",
+    "지휘 효과가 약하던 13개 직업 · 전직에 체력 +3% 추가"]},
+  {d:"2026.11.18", v:"v0.126", t:"그래픽 개선", L:[
+    "그래픽 개선"]},
+  {d:"2026.11.18", v:"v0.125", t:"심연 주간 변주 · 새 사도 2명", L:[
+    "심연: 층별 법칙 순서가 주마다 바뀜",
+    "심연: 이번 주 저주가 모든 적에게(1~10층 1개 · 11층부터 2개)",
+    "낙성 강림에 별무리의 사도 · 유성의 사도 추가(주마다 4명이 차례로)"]},
+  {d:"2026.11.18", v:"v0.124", t:"재화 정리", L:[
+    "희귀 · 영웅 조각을 '장비 조각' 하나로 합침",
+    "사도의 혼을 새벽 파편으로 합침(혼 1 = 파편 10)",
+    "심연 공명석을 하나로 합침 · 가진 재화는 모두 옮김"]},
+  {d:"2026.11.14", v:"v0.123", t:"외형 개선", L:[
+    "오라 색 9종을 서로 다른 색으로 다시 고름",
+    "그래픽 개선 · 오류 수정"]},
+  {d:"2026.11.14", v:"v0.122", t:"화면 개선", L:[
+    "화면 · 편의 개선"]},
+  {d:"2026.11.14", v:"v0.121", t:"화면 개선", L:[
+    "휴대폰 화면 · 편의 개선"]},
+  {d:"2026.11.14", v:"v0.120", t:"전직 바꾸기", L:[
+    "전직한 영웅을 다른 전직으로 바꿀 수 있음(💎 50 + 정수 20,000)",
+    "특성 · 규칙 · 성향은 전직마다 따로 기억"]},
+  {d:"2026.11.14", v:"v0.119", t:"자정 난이도 · 성반", L:[
+    "자정 4~10장 강화(일반 몹 +10% · 장 보스 최대 +30%) · 영원한 밤 5 · 6장 소폭 강화",
+    "성반에 낀 성편은 보관 수에 세지 않음"]},
+  {d:"2026.11.14", v:"v0.118", t:"회피 · 관통 조정", L:[
+    "장비의 상태이상 회피 · 회피 · 관통 수치 하향(가진 장비도 함께)"]},
+  {d:"2026.11.14", v:"v0.117", t:"치명타 · 명중 조정", L:[
+    "장비의 치명타 · 명중 · 관통 · 치명타 피해 수치 하향(가진 장비도 함께)",
+    "민첩 1당 명중 0.4% → 0.2%"]},
+  {d:"2026.11.14", v:"v0.116", t:"칭호 · 업적 · 플레이어 검색", L:[
+    "얻은 칭호 효과가 늘 적용(효과는 크게 낮춤) · 영웅 칭호 37종 · 계정 업적 26종 추가",
+    "업적 점수 · 대표 칭호를 명함에 표시",
+    "대전 탭에서 영웅 이름으로 다른 플레이어 명함 보기"]},
+  {d:"2026.11.14", v:"v0.115", t:"영웅의 길 망토", L:[
+    "주인공으로 막 250번 돌파 시 그 직업 망토 획득(9종)"]},
+  {d:"2026.11.14", v:"v0.114", t:"지휘 효과 · 영웅의 길 · 명성 판", L:[
+    "주인공의 직업 · 전직에 따라 파티 전체 지휘 효과",
+    "영웅의 길: 주인공으로 막을 돌파한 횟수에 따라 칭호 · 지휘 효과 강화",
+    "명성 판: Lv50 이후 승리로 명성을 모아 능력치 · 지휘 효과 · 특성 포인트",
+    "주인공 교체: 하루 첫 번 무료 · 그 뒤 정수 3,000"]},
+  {d:"2026.11.13", v:"v0.113", t:"성능 개선", L:[
+    "대전 시작 속도 개선"]},
+  {d:"2026.11.13", v:"v0.112", t:"오류 수정", L:[
+    "대전 화면 오류 수정"]},
+  {d:"2026.11.13", v:"v0.111", t:"성능 개선", L:[
+    "성능 개선"]},
+  {d:"2026.11.13", v:"v0.110", t:"성능 개선", L:[
+    "성능 개선"]},
+  {d:"2026.11.13", v:"v0.109", t:"성능 개선", L:[
+    "성능 개선"]},
+  {d:"2026.11.13", v:"v0.108", t:"유물 파편 증가", L:[
+    "유물 분해 시 유물의 파편 1~3개 → 2~4개",
+    "화면 개선"]},
+  {d:"2026.11.13", v:"v0.107", t:"그래픽 개선", L:[
+    "그래픽 · 화면 개선"]},
+  {d:"2026.11.13", v:"v0.106", t:"운영 기능 개선", L:[
+    "운영 기능 개선"]},
+  {d:"2026.11.13", v:"v0.105", t:"대전 점수 주간 초기화", L:[
+    "대전 점수가 매주 월요일 05:00에 1,000점으로 초기화",
+    "방어에 성공하면 공격자가 잃은 점수의 절반을 얻음"]},
+  {d:"2026.11.13", v:"v0.104", t:"대전", L:[
+    "플레이어끼리 6 대 6 자동 대전 · 대전 파티 따로 편성",
+    "대전권 하루 5장 · 점수 1,000점에서 시작 · 주간 순위 보상 · 명예의 전당"]},
+  {d:"2026.11.12", v:"v0.103", t:"그래픽 개선", L:[
+    "그래픽 개선"]},
+  {d:"2026.11.12", v:"v0.102", t:"그래픽 개선", L:[
+    "그래픽 개선"]},
+  {d:"2026.11.12", v:"v0.101", t:"특성 그물판", L:[
+    "특성 판을 그물 모양(약 360칸)으로 새로 짬 · 같은 칸으로 가는 길이 여러 개",
+    "'큰 특성 둘 중 하나만' 규칙 없앰 · 찍은 특성 포인트 모두 돌려받음"]},
+  {d:"2026.11.12", v:"v0.100", t:"유물 드롭 · 강화 비용", L:[
+    "유물 확률이 난이도와 상관없이 10%",
+    "유물 강화 비용 상향(파편 5 · 10 · 20 · 정수 500 · 1,200 · 2,500)",
+    "그래픽 개선 · 오류 수정"]},
+  {d:"2026.11.11", v:"v0.99", t:"그래픽 개선", L:[
+    "그래픽 개선 · 오류 수정"]},
+  {d:"2026.11.11", v:"v0.98", t:"그래픽 개선", L:[
+    "영웅 · 몬스터 그림을 2배 정밀하게"]},
+  {d:"2026.11.11", v:"v0.97", t:"소탕권", L:[
+    "🎫 소탕권: 깬 막을 전투 없이 바로 끝내고 보상 받기(1~10장)",
+    "매일 3장(최대 12장) · 하루 5장까지 더 얻기"]},
+  {d:"2026.11.11", v:"v0.96", t:"유물 개편", L:[
+    "유물 10종 · 무작위 옵션 한 줄 · 강화 3번(한 줄씩 추가)",
+    "유물이 열던 전투 규칙 조건은 누구나 사용",
+    "같은 종류 유물은 한 영웅만 · 분해하면 유물의 파편"]},
+  {d:"2026.11.11", v:"v0.95", t:"특성 나무 · 동료 능력치", L:[
+    "특성 나무 개편(기술을 바꾸는 칸 · 조합 칸) · 특성 모두 돌려받음",
+    "동료는 직업의 중요 능력치를 먼저 올림",
+    "체질 18 특혜 '강인함': 받는 피해 -5%",
+    "명함 · 도감(유물 · 성반) · 보호 주문서 사용 선택"]},
+  {d:"2026.11.11", v:"v0.94", t:"외형 · 상태이상 회피 · 냉기 · 실명", L:[
+    "외형을 영웅마다 따로 입힘",
+    "상태이상 회피 난이도 차감 완화(자정 -10%p · 영원한 밤 -20%p)",
+    "냉기는 중첩마다 느려짐 · 실명 = 명중 -40%(보스 -20%)",
+    "전직별 주속성 · 일반 몹 약점 커짐(약점 속성 피해 +40%)",
+    "편성 저장 3칸 · 스킬 검색 · 정리 단추 통합(룬 · 성편 자동 정리)",
+    "특성 전체 초기화: 💎 10"]},
+  {d:"2026.11.10", v:"v0.94", t:"속성 · 성반 · 영웅 밸런스", L:[
+    "속성 5종 · 속성 저항 · 무속성",
+    "성반 · 성편(영원한 밤 장 보스)",
+    "센 기술에 쿨타임 · 광역 일부 최대 4명",
+    "단일 대상 전직 강화 · 방진 수호자 탱커 강화 · 몹 범위 기술 약화"]},
+  {d:"2026.11.09", v:"v0.94", t:"규칙 저장 칸 · 일반 몹 완화", L:[
+    "영웅마다 규칙 저장 칸 3개",
+    "자정 · 영원한 밤 일반 몹 · 중간 보스 약화",
+    "오류 수정"]},
+  {d:"2026.11.08", v:"v0.94", t:"만렙 50 · 일일 의뢰 · 강화", L:[
+    "최고 레벨 50 · 각성은 Lv50부터",
+    "자정 · 영원한 밤 골드 상향",
+    "일일 의뢰 6개 · 🛡 보호 주문서",
+    "강화 성공률 조정(+9 이상 하향)",
+    "천룡파 · 용의 도약 조정 · 전직 기본 규칙표 개선",
+    "서버 연결 필수 · 운영 기능 개선"]},
+  {d:"2026.11.07", v:"v0.94", t:"계정 · 서버 저장", L:[
+    "계정 · 서버 저장 개선"]},
+  {d:"2026.11.06", v:"v0.94", t:"연계 · 각성 · 룬 · 전투 규칙", L:[
+    "영웅 간 연계(다른 아군이 건 상태이상으로 강해지는 기술 5개)",
+    "각성 최대 10번 · 궁극 특성 4개",
+    "난이도별 상태이상 저항 차감",
+    "룬 · 유물 고유 효과 · 룬주머니",
+    "등급 올리기 비용 상향",
+    "전투 규칙 새 화면(조건 숫자 조절)",
+    "방어 전직에 소량 지원(보호막 · 회복)",
+    "세트 도감 보상 상향 · 상점 6칸 · 함께하기 대기실",
+    "배경음악 추가 · 화면 · 편의 개선"]},
+  {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
+    "새 게임: 9명 중 3명으로 시작 · 황혼 1~6장마다 동료 1명 합류",
+    "전투 속도 1~4배속 · 🔁 반복 전투",
+    "음유시인 '진정의 노래' 회복 강화",
+    "영원한 밤 10장 보스 체력 하향 · 최종 콘텐츠 적이 출전 인원에 맞춤",
+    "로그인 · 공지 · 우편 · 의견"]},
+  {d:"2026.11.04", v:"v0.93", t:"퀘스트 · 밸런스 · 세트", L:[
+    "퀘스트(메인 · 서브 의뢰)",
+    "장 · 난이도가 오를수록 적이 강해지도록 조정",
+    "기술 강화마다 마나 비용 증가",
+    "세트 장비 36종 · 📊 딜미터기"]},
+  {d:"2026.10.22 ~ 11.03", v:"v0.1 ~ v0.92", t:"개발 기간", L:["테스트 이전 개발"]},
+];
+
 /* ================= UI ================= */
+function fbGithubUrl(cat,msg,body){ const first=(String(msg||"").trim().split("\n")[0]||"의견").slice(0,60); if(body.length>5000) body=body.slice(0,5000)+"\n…(길어서 잘림)";
+  return `https://github.com/${FB_REPO}/issues/new?title=${encodeURIComponent(`${fbCatLabel(cat)} ${first}`)}&body=${encodeURIComponent(body)}`; }
 /* ---------- v0.163 처음 안내(코치) 화면 (엔진 구역에서 옮겨 옴) ---------- */
 function coachRun(key,force){
   const C=COACH[key]; if(!C) return Promise.resolve();
@@ -17478,31 +17745,13 @@ async function maybeLateJoin(){
 const FB_ERRS=[];
 try{ addEventListener("error",e=>{ FB_ERRS.push(`${(e.message||"오류").slice(0,160)} @${(e.filename||"").split("/").pop()}:${e.lineno||0}`); if(FB_ERRS.length>8) FB_ERRS.shift(); });
   addEventListener("unhandledrejection",e=>{ FB_ERRS.push("약속 오류: "+String(e.reason&&e.reason.message||e.reason).slice(0,160)); if(FB_ERRS.length>8) FB_ERRS.shift(); }); }catch(e){}
-const FB_CATS=[["bug","🐞 버그"],["bal","⚖ 난이도·밸런스"],["ui","😣 불편함"],["idea","💡 아이디어"],["etc","💬 그 밖에"]];
-const FB_REPO="sueungong/project-night-play";
 let fbCat="bug";
-function gameVersion(){ return (typeof UPDATES!=="undefined"&&UPDATES[0]&&UPDATES[0].v)||"?"; }   // v0.135 버전 = 업데이트 기록 맨 위
 function fbDevice(){ const ua=navigator.userAgent||""; const os=/Android [\d.]+/.exec(ua)||/iPhone OS [\d_]+/.exec(ua)||/Windows NT [\d.]+/.exec(ua)||/Mac OS X [\d_]+/.exec(ua); const br=/(SamsungBrowser|Edg|CriOS|Chrome|Firefox|Version)\/[\d.]+/.exec(ua);
   const where=(()=>{ try{ return window.top===window?(matchMedia("(display-mode: fullscreen), (display-mode: standalone)").matches?"홈 화면 앱":"웹 주소"):"Claude 안"; }catch(e){ return "Claude 안"; } })();
   return `${os?os[0].replace(/_/g,"."):"?"} · ${br?br[0]:"?"} · 화면 ${innerWidth}×${innerHeight}@${(devicePixelRatio||1).toFixed(1)} · ${where}`; }
-function fbState(){
-  const L=[]; try{
-    const pg=progress.protag, D=DIFFS[progress.diff]||DIFFS[0];
-    L.push(`버전 ${gameVersion()} · ${new Date().toLocaleString("ko-KR")}`);
-    L.push(`기기 ${fbDevice()}`);
-    L.push(`진행 ${progressSummary(progress)} · 연 난이도 ${DIFFS[progress.diffMax].name} · 고른 난이도 ${D.name}`);
-    if(pg) L.push(`주인공 ${pg.name}(${jobName(pg.cid)})`);
-    L.push(`출전 ${partyIds().map(c=>`${jobName(c)} Lv${progress.heroes[c].level}`).join(", ")}`);
-    if(runState){ const R=REGIONS[runState.regionKey]; L.push(`지금 던전 ${DIFFS[runState.d].name} ${R?R.chapter+" "+R.name:runState.regionKey}${runState.act?` ${runState.act}막`:""} · ${runState.zone+1}구역${curTurn?` · 턴 ${curTurn}`:""}${runState.mode?` · ${runState.mode}`:""}`); }
-    else L.push(`지금 위치 등불 도시 (${(REGIONS[progress.lastRegion]||{}).name||""})`);
-    L.push(`골드 ${progress.gold} · 정수 ${progress.ess} · 가방 ${progress.inv.length}칸 · 속도 ${(($("speed")||{}).value)||"?"}`);
-    if(FB_ERRS.length) L.push(`오류 ${FB_ERRS.length}건: ${FB_ERRS.join(" | ")}`);
-    const lg=$("log"); if(lg){ const lines=[...lg.children].slice(-15).map(x=>x.textContent.replace(/\s+/g," ").trim()).filter(Boolean); if(lines.length) L.push("최근 기록:\n"+lines.map(x=>"· "+x.slice(0,140)).join("\n")); }
-  }catch(e){ L.push("상태 읽기 실패: "+e.message); }
-  return L.join("\n");
-}
-function fbText(msg,withState){ const cat=(FB_CATS.find(x=>x[0]===fbCat)||FB_CATS[0])[1];
-  return `[밤 원정대 의견] ${cat}\n${(msg||"").trim()||"(내용 없음)"}${withState?"\n\n— 게임 상태 —\n"+fbState():""}`; }
+function fbState(){ const lg=$("log");
+  return fbStateText({dev:fbDevice(), at:new Date().toLocaleString("ko-KR"), turn:curTurn, speed:(($("speed")||{}).value)||"", errs:FB_ERRS, log:lg?[...lg.children].slice(-15).map(x=>x.textContent):[]}); }
+function fbText(msg,withState){ return fbTextOf(fbCat,msg,withState?fbState():""); }
 async function fbCopy(t){ try{ await navigator.clipboard.writeText(t); return true; }catch(e){}
   try{ const ta=document.createElement("textarea"); ta.value=t; ta.style.cssText="position:fixed;left:-9999px;top:0"; document.body.appendChild(ta); ta.select(); const ok=document.execCommand("copy"); ta.remove(); return ok; }catch(e){ return false; } }
 function openFeedback(){
@@ -17523,16 +17772,14 @@ function openFeedback(){
   const done=()=>{ try{ safeSet("pn_fb_draft",""); }catch(e){} };
   { const sb=m.querySelector("#fbSend"); if(sb) sb.onclick=async()=>{ const t=ta.value.trim(); if(!t){ say("내용을 적어 주세요."); ta.focus(); return; }
       sb.disabled=true; say("보내는 중…");
-      try{ await NET().ops.feedback({cat:(FB_CATS.find(x=>x[0]===fbCat)||FB_CATS[0])[1], t:t.slice(0,1500), st:st.checked?fbState().slice(0,15000):"", ver:gameVersion(), name:progress&&progress.protag?progress.protag.name:"", dev:fbDevice()});
+      try{ await NET().ops.feedback(fbPayload(fbCat,t,st.checked?fbState():"",fbDevice()));
         say("✓ 보냈어요. 고마워요!"); ta.value=""; done(); }catch(e){ say("보내지 못했어요 — 공유하기나 복사하기를 써 주세요. ("+esc((e&&(e.code||e.message))||"")+")"); }
       sb.disabled=false; }; }
   m.querySelector("#fbShare").onclick=async()=>{ const t=fbText(ta.value,st.checked);
     if(navigator.share){ try{ await navigator.share({title:"밤 원정대 의견",text:t}); say("✓ 보냈어요. 고마워요!"); done(); return; }catch(e){ if(e&&e.name==="AbortError"){ say("공유를 취소했어요."); return; } } }
     const ok=await fbCopy(t); say(ok?"이 기기에서는 공유가 안 돼서 복사해 두었어요 — 카톡·문자에 붙여 넣어 보내 주세요.":"복사도 안 돼요 — 위 내용을 길게 눌러 직접 복사해 주세요."); if(ok) done(); };
   m.querySelector("#fbCopy").onclick=async()=>{ const ok=await fbCopy(fbText(ta.value,st.checked)); say(ok?"✓ 복사했어요 — 카톡·문자·메일에 붙여 넣어 보내 주세요.":"복사가 안 돼요 — 내용을 길게 눌러 직접 복사해 주세요."); if(ok) done(); };
-  m.querySelector("#fbGh").onclick=()=>{ const cat=(FB_CATS.find(x=>x[0]===fbCat)||FB_CATS[0])[1]; const first=(ta.value.trim().split("\n")[0]||"의견").slice(0,60);
-    let body=fbText(ta.value,st.checked); if(body.length>5000) body=body.slice(0,5000)+"\n…(길어서 잘림)";
-    const url=`https://github.com/${FB_REPO}/issues/new?title=${encodeURIComponent(`${cat} ${first}`)}&body=${encodeURIComponent(body)}`;
+  m.querySelector("#fbGh").onclick=()=>{ const url=fbGithubUrl(fbCat,ta.value,fbText(ta.value,st.checked));
     const w=window.open(url,"_blank","noopener"); say(w?"GitHub 창에서 '제출'을 누르면 올라가요.":"새 창이 막혔어요 — 공유하기나 복사하기를 써 주세요."); };
   m.querySelector("#mclose").onclick=closeModal; m.addEventListener("click",e=>{ if(e.target===m) closeModal(); });
   setTimeout(()=>ta.focus(),40);
@@ -17545,9 +17792,8 @@ function acctDeleteAsk(){ const N=NET(); if(!N||!N.acct||!N.acct.deleteMe){ toas
   const inp=md.querySelector("#adIn"), go=md.querySelector("#adGo"), msg=md.querySelector("#adMsg");
   inp.oninput=()=>{ go.disabled=inp.value.trim()!=="삭제"; }; md.querySelector("#adNo").onclick=closeModal;
   go.onclick=async()=>{ if(inp.value.trim()!=="삭제") return; go.disabled=true; inp.disabled=true; md.querySelector("#adNo").disabled=true; msg.textContent="삭제하는 중…";
-    const names=[]; try{ if(progress&&progress.protag&&progress.protag.name) names.push(progress.protag.name); for(const v of Object.values((progress&&progress.heroNames)||{})) if(v) names.push(v); }catch(e){}
     ACCT_WIPE=true;
-    try{ await N.acct.deleteMe(names); }catch(e){ ACCT_WIPE=false; msg.textContent=`삭제를 마치지 못했어요 (${(e&&(e.code||e.message))||e}). 다시 눌러 주세요.`; go.disabled=false; inp.disabled=false; md.querySelector("#adNo").disabled=false; return; }
+    try{ await N.acct.deleteMe(acctNames()); }catch(e){ ACCT_WIPE=false; msg.textContent=`삭제를 마치지 못했어요 (${(e&&(e.code||e.message))||e}). 다시 눌러 주세요.`; go.disabled=false; inp.disabled=false; md.querySelector("#adNo").disabled=false; return; }
     try{ const ks=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&/^pn_/.test(k)) ks.push(k); } for(const k of ks) localStorage.removeItem(k); }catch(e){}
     msg.textContent="계정을 삭제했어요."; setTimeout(()=>location.reload(),900); }; }
 window.acctDeleteAsk=acctDeleteAsk;
@@ -17611,227 +17857,6 @@ function newGame(){
 /* ================= v0.93 테스트 운영: 첫 화면(로그인) · 공지 · 우편 · 의견/오류 자동 수집 · 플레이어 기록 · 운영 도구 =================
    서버(Firebase)는 휴대폰 주소(배포본)에만 있음 — window.PNNet. Claude 안(아티팩트)에선 첫 화면 없이 바로 시작하고, 공지 창은 고정 안내·업데이트 내역만 보임. */
 function NET(){ return (typeof window!=="undefined"&&window.PNNet&&window.PNNet.auth&&window.PNNet.ops)?window.PNNet:null; }
-const TEST_NOTICE=["지금은 <b>지인 테스트 기간</b>입니다. 테스트 기간은 정해져 있지 않고, 그동안 게임은 계속 업데이트됩니다.",
-  "업데이트 뒤에도 진행은 이어지지만, 밸런스(수치·보상·난이도)는 수시로 바뀔 수 있어요.",
-  "<b>테스트 중의 계정·진행·플레이 기록은 정식 출시 뒤 모두 삭제됩니다.</b>",
-  "버그·불편한 점·의견은 위쪽 💬 단추 → [보내기]로 바로 보내 주세요. 오류는 자동으로 개발자에게 전달됩니다."];
-// v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
-const UPDATES=[
-  {d:"2026.11.23", v:"v0.171", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.23", v:"v0.170", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.23", v:"v0.169", t:"정리", L:["그래픽 개선"]},
-  {d:"2026.11.23", v:"v0.168", t:"정리", L:["그래픽 개선"]},
-  {d:"2026.11.23", v:"v0.167", t:"정리", L:["그래픽 개선"]},
-  {d:"2026.11.23", v:"v0.166", t:"정리", L:["그래픽 개선"]},
-  {d:"2026.11.23", v:"v0.165", t:"정리", L:["그래픽 개선"]},
-  {d:"2026.11.23", v:"v0.164", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.23", v:"v0.163", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.23", v:"v0.162", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.23", v:"v0.161", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.23", v:"v0.160", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.23", v:"v0.159", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.23", v:"v0.158", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.22", v:"v0.157", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.22", v:"v0.156", t:"정리", L:["운영 기능 개선"]},
-  {d:"2026.11.22", v:"v0.155", t:"정리", L:["오류 수정"]},
-  {d:"2026.11.22", v:"v0.154", t:"정리", L:["오류 수정"]},
-  {d:"2026.11.22", v:"v0.153", t:"정리", L:["오류 수정"]},
-  {d:"2026.11.22", v:"v0.152", t:"정리", L:["오류 수정"]},
-  {d:"2026.11.22", v:"v0.151", t:"정리", L:["오류 수정"]},
-  {d:"2026.11.22", v:"v0.150", t:"정리", L:["오류 수정"]},
-  {d:"2026.11.22", v:"v0.149", t:"정리", L:["오류 수정"]},
-  {d:"2026.11.22", v:"v0.148", t:"정리", L:["오류 수정"]},
-  {d:"2026.11.21", v:"v0.147", t:"정리", L:[
-    "오류 수정",
-    "성능 개선"]},
-  {d:"2026.11.21", v:"v0.146", t:"계정 삭제", L:[
-    "⚙ 설정에서 계정을 바로 삭제할 수 있음(확인 글자 입력)"]},
-  {d:"2026.11.21", v:"v0.145", t:"계정", L:[
-    "⚙ 설정에 계정 ID(복사) · 계정 삭제 요청"]},
-  {d:"2026.11.21", v:"v0.144", t:"첫 화면", L:[
-    "화면 개선",
-    "오류 수정"]},
-  {d:"2026.11.21", v:"v0.143", t:"함께하기 채팅", L:[
-    "채팅에서 다른 사람 이름을 누르면 차단 · 신고",
-    "처음 채팅을 보낼 때 채팅 규칙에 한 번 동의"]},
-  {d:"2026.11.21", v:"v0.142", t:"원정 사건", L:[
-    "원정의 '주사위꾼' 사건(금화를 걸고 주사위)을 없앰 — 사건은 핏빛 제단 · 맑은 샘 두 가지"]},
-  {d:"2026.11.21", v:"v0.141", t:"첫 화면", L:[
-    "화면 개선"]},
-  {d:"2026.11.21", v:"v0.140", t:"게임 이름", L:[
-    "게임 이름이 '밤 원정대'로 바뀜"]},
-  {d:"2026.11.20", v:"v0.139", t:"이용 연령", L:[
-    "만 14세 이상 이용 가능",
-    "운영 기능 개선"]},
-  {d:"2026.11.19", v:"v0.138", t:"성편 제작", L:[
-    "성편 제작 비용: 성반가루 20 → 15"]},
-  {d:"2026.11.19", v:"v0.137", t:"성반 확률", L:[
-    "영원한 밤 장 보스의 성편 확률 3% → 5%",
-    "성편은 영원한 밤 장 보스에게서만 나옴(레이드 · 탑 · 원정 보스에게서 나오던 것 막음)"]},
-  {d:"2026.11.19", v:"v0.136", t:"세트 조각 부위", L:[
-    "지역 세트 조각이 막과 상관없이 그 세트의 모든 부위 중 무작위로 나옴(망토 · 반지 · 보조구 조각도 나옴)"]},
-  {d:"2026.11.18", v:"v0.135", t:"버전 표시", L:[
-    "화면 개선"]},
-  {d:"2026.11.18", v:"v0.134", t:"업데이트 기록 정리", L:[
-    "업데이트 기록을 플레이에 영향을 주는 내용 위주로 짧게 정리"]},
-  {d:"2026.11.18", v:"v0.133", t:"동시 접속 정원", L:[
-    "동시 접속이 가득 차면 [게임 시작]에서 잠시 기다렸다가 다시 시도",
-    "마을에서 오래 쉬면 서버 연결을 잠시 끊고, 화면을 누르면 다시 연결"]},
-  {d:"2026.11.18", v:"v0.132", t:"초대 코드 없앰", L:[
-    "초대 코드 없이 누구나 바로 시작",
-    "운영 기능 개선"]},
-  {d:"2026.11.18", v:"v0.131", t:"대기실 배경", L:[
-    "대기실 배경이 난이도를 따라 바뀜(황혼 · 자정 · 영원한 밤)",
-    "상점 외형에 '대기실' 추가 — 장 테마 배경 6종(💎 1,200) · 원하는 배경으로 고정 가능",
-    "함께하기 대기실은 방장의 배경으로 보임"]},
-  {d:"2026.11.18", v:"v0.130", t:"동료는 스스로", L:[
-    "동료의 전투 규칙은 작전 성향 · 전직 · 기술에 맞춰 스스로 정함(직접 짠 규칙은 성향 규칙표로 바뀜)",
-    "동료의 '전직 바꾸기' 없앰 · 동료 전직은 그대로 플레이어가 고름"]},
-  {d:"2026.11.18", v:"v0.129", t:"숙련 · 알림", L:[
-    "자동 재장전은 숙련에 세지 않음",
-    "오류 수정"]},
-  {d:"2026.11.18", v:"v0.128", t:"화면 개선", L:[
-    "전투설정 화면 정리"]},
-  {d:"2026.11.18", v:"v0.127", t:"사도 조정 · 지휘 효과 보강", L:[
-    "별무리의 사도: 쓰러진 별을 3턴마다 1개만 되살림",
-    "지휘 효과가 약하던 13개 직업 · 전직에 체력 +3% 추가"]},
-  {d:"2026.11.18", v:"v0.126", t:"그래픽 개선", L:[
-    "그래픽 개선"]},
-  {d:"2026.11.18", v:"v0.125", t:"심연 주간 변주 · 새 사도 2명", L:[
-    "심연: 층별 법칙 순서가 주마다 바뀜",
-    "심연: 이번 주 저주가 모든 적에게(1~10층 1개 · 11층부터 2개)",
-    "낙성 강림에 별무리의 사도 · 유성의 사도 추가(주마다 4명이 차례로)"]},
-  {d:"2026.11.18", v:"v0.124", t:"재화 정리", L:[
-    "희귀 · 영웅 조각을 '장비 조각' 하나로 합침",
-    "사도의 혼을 새벽 파편으로 합침(혼 1 = 파편 10)",
-    "심연 공명석을 하나로 합침 · 가진 재화는 모두 옮김"]},
-  {d:"2026.11.14", v:"v0.123", t:"외형 개선", L:[
-    "오라 색 9종을 서로 다른 색으로 다시 고름",
-    "그래픽 개선 · 오류 수정"]},
-  {d:"2026.11.14", v:"v0.122", t:"화면 개선", L:[
-    "화면 · 편의 개선"]},
-  {d:"2026.11.14", v:"v0.121", t:"화면 개선", L:[
-    "휴대폰 화면 · 편의 개선"]},
-  {d:"2026.11.14", v:"v0.120", t:"전직 바꾸기", L:[
-    "전직한 영웅을 다른 전직으로 바꿀 수 있음(💎 50 + 정수 20,000)",
-    "특성 · 규칙 · 성향은 전직마다 따로 기억"]},
-  {d:"2026.11.14", v:"v0.119", t:"자정 난이도 · 성반", L:[
-    "자정 4~10장 강화(일반 몹 +10% · 장 보스 최대 +30%) · 영원한 밤 5 · 6장 소폭 강화",
-    "성반에 낀 성편은 보관 수에 세지 않음"]},
-  {d:"2026.11.14", v:"v0.118", t:"회피 · 관통 조정", L:[
-    "장비의 상태이상 회피 · 회피 · 관통 수치 하향(가진 장비도 함께)"]},
-  {d:"2026.11.14", v:"v0.117", t:"치명타 · 명중 조정", L:[
-    "장비의 치명타 · 명중 · 관통 · 치명타 피해 수치 하향(가진 장비도 함께)",
-    "민첩 1당 명중 0.4% → 0.2%"]},
-  {d:"2026.11.14", v:"v0.116", t:"칭호 · 업적 · 플레이어 검색", L:[
-    "얻은 칭호 효과가 늘 적용(효과는 크게 낮춤) · 영웅 칭호 37종 · 계정 업적 26종 추가",
-    "업적 점수 · 대표 칭호를 명함에 표시",
-    "대전 탭에서 영웅 이름으로 다른 플레이어 명함 보기"]},
-  {d:"2026.11.14", v:"v0.115", t:"영웅의 길 망토", L:[
-    "주인공으로 막 250번 돌파 시 그 직업 망토 획득(9종)"]},
-  {d:"2026.11.14", v:"v0.114", t:"지휘 효과 · 영웅의 길 · 명성 판", L:[
-    "주인공의 직업 · 전직에 따라 파티 전체 지휘 효과",
-    "영웅의 길: 주인공으로 막을 돌파한 횟수에 따라 칭호 · 지휘 효과 강화",
-    "명성 판: Lv50 이후 승리로 명성을 모아 능력치 · 지휘 효과 · 특성 포인트",
-    "주인공 교체: 하루 첫 번 무료 · 그 뒤 정수 3,000"]},
-  {d:"2026.11.13", v:"v0.113", t:"성능 개선", L:[
-    "대전 시작 속도 개선"]},
-  {d:"2026.11.13", v:"v0.112", t:"오류 수정", L:[
-    "대전 화면 오류 수정"]},
-  {d:"2026.11.13", v:"v0.111", t:"성능 개선", L:[
-    "성능 개선"]},
-  {d:"2026.11.13", v:"v0.110", t:"성능 개선", L:[
-    "성능 개선"]},
-  {d:"2026.11.13", v:"v0.109", t:"성능 개선", L:[
-    "성능 개선"]},
-  {d:"2026.11.13", v:"v0.108", t:"유물 파편 증가", L:[
-    "유물 분해 시 유물의 파편 1~3개 → 2~4개",
-    "화면 개선"]},
-  {d:"2026.11.13", v:"v0.107", t:"그래픽 개선", L:[
-    "그래픽 · 화면 개선"]},
-  {d:"2026.11.13", v:"v0.106", t:"운영 기능 개선", L:[
-    "운영 기능 개선"]},
-  {d:"2026.11.13", v:"v0.105", t:"대전 점수 주간 초기화", L:[
-    "대전 점수가 매주 월요일 05:00에 1,000점으로 초기화",
-    "방어에 성공하면 공격자가 잃은 점수의 절반을 얻음"]},
-  {d:"2026.11.13", v:"v0.104", t:"대전", L:[
-    "플레이어끼리 6 대 6 자동 대전 · 대전 파티 따로 편성",
-    "대전권 하루 5장 · 점수 1,000점에서 시작 · 주간 순위 보상 · 명예의 전당"]},
-  {d:"2026.11.12", v:"v0.103", t:"그래픽 개선", L:[
-    "그래픽 개선"]},
-  {d:"2026.11.12", v:"v0.102", t:"그래픽 개선", L:[
-    "그래픽 개선"]},
-  {d:"2026.11.12", v:"v0.101", t:"특성 그물판", L:[
-    "특성 판을 그물 모양(약 360칸)으로 새로 짬 · 같은 칸으로 가는 길이 여러 개",
-    "'큰 특성 둘 중 하나만' 규칙 없앰 · 찍은 특성 포인트 모두 돌려받음"]},
-  {d:"2026.11.12", v:"v0.100", t:"유물 드롭 · 강화 비용", L:[
-    "유물 확률이 난이도와 상관없이 10%",
-    "유물 강화 비용 상향(파편 5 · 10 · 20 · 정수 500 · 1,200 · 2,500)",
-    "그래픽 개선 · 오류 수정"]},
-  {d:"2026.11.11", v:"v0.99", t:"그래픽 개선", L:[
-    "그래픽 개선 · 오류 수정"]},
-  {d:"2026.11.11", v:"v0.98", t:"그래픽 개선", L:[
-    "영웅 · 몬스터 그림을 2배 정밀하게"]},
-  {d:"2026.11.11", v:"v0.97", t:"소탕권", L:[
-    "🎫 소탕권: 깬 막을 전투 없이 바로 끝내고 보상 받기(1~10장)",
-    "매일 3장(최대 12장) · 하루 5장까지 더 얻기"]},
-  {d:"2026.11.11", v:"v0.96", t:"유물 개편", L:[
-    "유물 10종 · 무작위 옵션 한 줄 · 강화 3번(한 줄씩 추가)",
-    "유물이 열던 전투 규칙 조건은 누구나 사용",
-    "같은 종류 유물은 한 영웅만 · 분해하면 유물의 파편"]},
-  {d:"2026.11.11", v:"v0.95", t:"특성 나무 · 동료 능력치", L:[
-    "특성 나무 개편(기술을 바꾸는 칸 · 조합 칸) · 특성 모두 돌려받음",
-    "동료는 직업의 중요 능력치를 먼저 올림",
-    "체질 18 특혜 '강인함': 받는 피해 -5%",
-    "명함 · 도감(유물 · 성반) · 보호 주문서 사용 선택"]},
-  {d:"2026.11.11", v:"v0.94", t:"외형 · 상태이상 회피 · 냉기 · 실명", L:[
-    "외형을 영웅마다 따로 입힘",
-    "상태이상 회피 난이도 차감 완화(자정 -10%p · 영원한 밤 -20%p)",
-    "냉기는 중첩마다 느려짐 · 실명 = 명중 -40%(보스 -20%)",
-    "전직별 주속성 · 일반 몹 약점 커짐(약점 속성 피해 +40%)",
-    "편성 저장 3칸 · 스킬 검색 · 정리 단추 통합(룬 · 성편 자동 정리)",
-    "특성 전체 초기화: 💎 10"]},
-  {d:"2026.11.10", v:"v0.94", t:"속성 · 성반 · 영웅 밸런스", L:[
-    "속성 5종 · 속성 저항 · 무속성",
-    "성반 · 성편(영원한 밤 장 보스)",
-    "센 기술에 쿨타임 · 광역 일부 최대 4명",
-    "단일 대상 전직 강화 · 방진 수호자 탱커 강화 · 몹 범위 기술 약화"]},
-  {d:"2026.11.09", v:"v0.94", t:"규칙 저장 칸 · 일반 몹 완화", L:[
-    "영웅마다 규칙 저장 칸 3개",
-    "자정 · 영원한 밤 일반 몹 · 중간 보스 약화",
-    "오류 수정"]},
-  {d:"2026.11.08", v:"v0.94", t:"만렙 50 · 일일 의뢰 · 강화", L:[
-    "최고 레벨 50 · 각성은 Lv50부터",
-    "자정 · 영원한 밤 골드 상향",
-    "일일 의뢰 6개 · 🛡 보호 주문서",
-    "강화 성공률 조정(+9 이상 하향)",
-    "천룡파 · 용의 도약 조정 · 전직 기본 규칙표 개선",
-    "서버 연결 필수 · 운영 기능 개선"]},
-  {d:"2026.11.07", v:"v0.94", t:"계정 · 서버 저장", L:[
-    "계정 · 서버 저장 개선"]},
-  {d:"2026.11.06", v:"v0.94", t:"연계 · 각성 · 룬 · 전투 규칙", L:[
-    "영웅 간 연계(다른 아군이 건 상태이상으로 강해지는 기술 5개)",
-    "각성 최대 10번 · 궁극 특성 4개",
-    "난이도별 상태이상 저항 차감",
-    "룬 · 유물 고유 효과 · 룬주머니",
-    "등급 올리기 비용 상향",
-    "전투 규칙 새 화면(조건 숫자 조절)",
-    "방어 전직에 소량 지원(보호막 · 회복)",
-    "세트 도감 보상 상향 · 상점 6칸 · 함께하기 대기실",
-    "배경음악 추가 · 화면 · 편의 개선"]},
-  {d:"2026.11.05", v:"v0.93", t:"지인 테스트 시작", L:[
-    "새 게임: 9명 중 3명으로 시작 · 황혼 1~6장마다 동료 1명 합류",
-    "전투 속도 1~4배속 · 🔁 반복 전투",
-    "음유시인 '진정의 노래' 회복 강화",
-    "영원한 밤 10장 보스 체력 하향 · 최종 콘텐츠 적이 출전 인원에 맞춤",
-    "로그인 · 공지 · 우편 · 의견"]},
-  {d:"2026.11.04", v:"v0.93", t:"퀘스트 · 밸런스 · 세트", L:[
-    "퀘스트(메인 · 서브 의뢰)",
-    "장 · 난이도가 오를수록 적이 강해지도록 조정",
-    "기술 강화마다 마나 비용 증가",
-    "세트 장비 36종 · 📊 딜미터기"]},
-  {d:"2026.10.22 ~ 11.03", v:"v0.1 ~ v0.92", t:"개발 기간", L:["테스트 이전 개발"]},
-];
 { const el=typeof document!=="undefined"&&document.querySelector(".brand .ver"); if(el) el.textContent=gameVersion(); }   // v0.135 위쪽 줄 버전 표시도 업데이트 기록 맨 위를 따름
 function updatesHTML(){ return `<div class="upds">${UPDATES.map(u=>`<div class="ncard"><div class="nh"><b>${esc(u.t)}</b><span>${esc(u.d)} · ${esc(u.v)}</span></div><ul class="ul">${u.L.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div>`; }
 function fmtDate(t){ if(!t) return ""; const d=new Date(t); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`; }
@@ -17908,9 +17933,6 @@ function titleScreen(){
   });
 }
 
-// ---- 공지 창: 고정 공지(📌 — 서버의 notices/pin, 없으면 TEST_NOTICE) + 운영 공지 + 업데이트 내역 · v0.106 관리자는 이 창에서 바로 새 공지 · 수정 · 지우기 ----
-const PIN_ID="pin";
-function pinDefault(){ return {t:"테스트 안내", body:TEST_NOTICE.map(x=>String(x).replace(/<[^>]*>/g,"")).join("\n")}; }
 async function openNotices(){
   const N=NET(); let list=[], adm=false, edit=null;
   const m=openModal(`<h2>📢 공지사항</h2><div class="ntabs"><button class="on" data-t="n">공지</button><button data-t="u">업데이트 내역</button></div><div id="nBody" class="nbody"><p class="msub">불러오는 중…</p></div>
@@ -17949,21 +17971,19 @@ async function openNotices(){
 const MAIL={list:[],at:0,seen:new Set(),first:false,watch:false};
 async function mailRefresh(){ const N=NET(); if(!N||!progress||!progress.protag) return; try{ MAIL.list=await N.ops.mail(); MAIL.at=Date.now(); }catch(e){} renderMailDot();
   if(!MAIL.watch&&N.ops.mailWatch){ MAIL.watch=true; let t=0; try{ N.ops.mailWatch(()=>{ clearTimeout(t); t=setTimeout(mailRefresh,800); }); }catch(e){} } }   // 우편이 오면 바로(서버가 알려 줌) · 3분마다 다시 확인은 그대로
-function mailOpen(){ const got=new Set((progress&&progress.mailGot)||[]); return MAIL.list.filter(x=>!got.has(x.id)&&!(x.exp&&x.exp<Date.now())); }
+function mailOpen(){ return mailOpenOf(MAIL.list); }
 function renderMailDot(){ const b=$("mailBtn"); if(!b) return; b.hidden=!NET(); const open=progress&&progress.protag?mailOpen():[]; const n=open.length; b.querySelector("i").textContent=n?String(n):"";
   // 새 우편 알림: 이번 접속에서 처음 보는 안 받은 우편이 생기면 한 번 알림(처음 불러올 때는 쌓인 개수만 알림)
   const fresh=open.filter(x=>!MAIL.seen.has(x.id)); if(!fresh.length){ if(MAIL.at) MAIL.first=true; return; } if($("modal")) return;   // 창이 열려 있으면 닫힌 뒤 알림
   for(const x of open) MAIL.seen.add(x.id);
   toast(MAIL.first?`<span class="tc">📮 새 우편 ${fresh.length}통</span>${esc(fresh[0].t||"")}${fresh.length>1?` 외 ${fresh.length-1}통`:""}`:`<span class="tc">📮 받지 않은 우편 ${fresh.length}통</span>위쪽 📮을 눌러 받으세요`);
   if(MAIL.at) MAIL.first=true; }
-function mailGiftText(x){ const L=[]; if(x.gold) L.push(`골드 ${(+x.gold).toLocaleString("ko-KR")}`); if(x.ess) L.push(`밤의 정수 ${x.ess}`); if(x.gem) L.push(`💎 새벽 결정 ${x.gem}`); if(x.torch) L.push(`🔥 횃불 ${x.torch}`); if(x.sub) L.push(`🌙 정액 ${x.sub}일`);
-  for(const it of x.items||[]) if(it&&it.n>0) L.push(`${(RARITIES[RAR_IDX[it.r]]||{label:"장비"}).label} ${it.s?SLOT_LABEL[it.s]:"장비"} ×${it.n}`); return L.join(" · "); }
 async function openMail(){
   const N=NET(); if(!N) return;
   const m=openModal(`<h2>📮 우편함</h2><div id="mlBody" class="nbody"><p class="msub">불러오는 중…</p></div><div class="mfoot"><button id="mlAll" class="btn" hidden>모두 받기</button><button id="mclose" class="btn ghost">닫기</button></div>`,"notices");
   m.querySelector("#mclose").onclick=closeModal;
   await mailRefresh(); if(!m.isConnected) return; for(const x of MAIL.list) MAIL.seen.add(x.id); MAIL.first=true;
-  const draw=()=>{ const got=new Set(progress.mailGot||[]); const L=MAIL.list.filter(x=>!(x.exp&&x.exp<Date.now()));
+  const draw=()=>{ const got=new Set(progress.mailGot||[]); const L=mailShown(MAIL.list);
     m.querySelector("#mlBody").innerHTML=L.length?L.map(x=>{ const g=mailGiftText(x), done=got.has(x.id);
       return `<div class="ncard${done?" done":""}"><div class="nh"><b>${x.mine?"✉ ":""}${esc(x.t||"")}</b><span>${fmtDate(x.at)}${x.exp?` · ${fmtDate(x.exp).slice(0,10)}까지`:""}</span></div>${x.body?`<div class="nb">${esc(x.body).replace(/\n/g,"<br>")}</div>`:""}
         ${g?`<div class="mgift">🎁 ${esc(g)}</div>`:""}<div class="mact">${done?`<span class="msub">받음</span>`:g?`<button class="btn" data-id="${esc(x.id)}">받기</button>`:`<button class="btn ghost" data-id="${esc(x.id)}">읽음</button>`}</div></div>`; }).join(""):`<p class="msub">받은 우편이 없어요.</p>`;
@@ -18004,15 +18024,13 @@ setInterval(()=>{ try{
 // ---- 오류 자동 수집(같은 오류는 한 번 · 한 번 켤 때 최대 15건) ----
 const ERR_SENT=new Set();
 function errReport(m){ const N=NET(); if(!N||ERR_SENT.size>=15||ERR_SENT.has(m)) return; ERR_SENT.add(m);
-  try{ N.ops.error({m:String(m).slice(0,1500), ver:gameVersion(), dev:fbDevice(), name:progress&&progress.protag?progress.protag.name:"", where:(typeof curView!=="undefined"?curView:"")+(runState?" · 던전":""), prog:progress?progressSummary(progress):""}).catch(()=>{}); }catch(e){} }
+  try{ N.ops.error(errPayload(m,fbDevice(),(typeof curView!=="undefined"?curView:"")+(runState?" · 던전":""))).catch(()=>{}); }catch(e){} }
 try{ addEventListener("error",e=>errReport(`${(e.message||"오류").slice(0,300)} @${(e.filename||"").split("/").pop()}:${e.lineno||0}:${e.colno||0}`+(e.error&&e.error.stack?"\n"+String(e.error.stack).slice(0,800):"")));
   addEventListener("unhandledrejection",e=>errReport("약속 오류: "+String(e.reason&&(e.reason.stack||e.reason.message)||e.reason).slice(0,800))); }catch(e){}
 
 function recKeyLabel(k){ if(k.startsWith("eg:")) return (EG_MODES[k.slice(3)]||{name:k}).name; const [d,c,a]=k.split("-"); return `${(DIFFS[+d]||{name:"?"}).name} ${c}장 ${a}막`; }
 let recPushAt=0;
 /* v0.116 명함 자료 올리기(플레이어 검색용) — 영웅마다 이름 · 직업 · Lv · 각성 · 모습 · 업적 점수 · 대표 칭호 3개 */
-function cardData(){ return {p:progress.protag?progress.protag.name:"", h:rosterIds().map(c=>{ const h=progress.heroes[c]; return {c, n:isProtag(c)?progress.protag.name:heroOwnName(c), j:jobName(c), lv:h.level|0, aw:h.awaken|0,
-  lk:lookKey(heroLook(c)), sc:titleScore(c), mx:titleScoreMax(c), tn:(h.titles||[]).length, an:Object.keys(progress.ach||{}).length, t:titleCardShow(c).map(t=>[t.name,t.pt|0]), ti:(TITLE_BY[h.title]||{}).name||""}; })}; }
 function cardPush(){ const N=NET(); if(!N||!N.cards||!progress||!progress.protag) return; try{ N.cards.put(cardData()).catch(()=>{}); }catch(e){} }
 function playerCardHTML(x){ const lk=lookFromKey(x.lk||""), sp=lookSprite(lk); const img=sp&&sp.cv?sp.cv.toDataURL():(CLASSES[x.c]?SPRITES[CLASSES[x.c].sprite]:"");
   return `<div class="pcard"><img src="${img}" alt=""><div class="pcinfo"><b class="pcn">${x.ti?`<small>[${esc(x.ti)}]</small> `:""}${esc(x.n||x.j||"?")}</b><span>${esc(x.j||"")} · Lv.${x.lv|0}${x.aw?` ✦${x.aw}`:""}</span>
@@ -18025,10 +18043,7 @@ function openFindPlayer(q,res){ const N=NET(); const body=res==null?"":res==="no
   inp.onkeydown=e=>{ if(e.key==="Enter") go.click(); }; setTimeout(()=>inp.focus(),30);
   go.onclick=async()=>{ const v=cleanName(inp.value); if(!v||!N||!N.cards) return; go.disabled=true; let r; try{ r=await N.cards.byName(v); }catch(e){ r="err"; } openFindPlayer(v,r==null?"none":r); }; }
 function recPush(force){ const N=NET(); if(!N||!progress||!progress.protag||!bootDone) return; if(!force&&Date.now()-recPushAt<60000) return; recPushAt=Date.now(); cardPush();
-  try{ const pg=progress.protag, R=recOf();
-    N.ops.playerPut({name:pg.name, cid:pg.cid, job:jobName(pg.cid), lv:progress.heroes[pg.cid].level, aw:progress.heroes[pg.cid].awaken||0,
-      heroes:rosterIds().map(c=>[CLASSES[c].name,progress.heroes[c].level,advInfo(c)?advInfo(c).name:""]), diffMax:progress.diffMax|0, prog:progressSummary(progress),
-      gold:progress.gold|0, ess:progress.ess|0, gem:progress.gem|0, sub:subDaysLeft(), play:R.play, runs:R.runs, lastLose:R.lastLose||null, ver:gameVersion(), dev:fbDevice()}).catch(()=>{}); }catch(e){} }
+  try{ N.ops.playerPut(recPayload(fbDevice())).catch(()=>{}); }catch(e){} }
 setInterval(()=>{ try{ if(bootDone&&progress&&progress.protag&&document.visibilityState==="visible"){ recOf().play+=60; recPush(); } }catch(e){} },60000);
 try{ document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") recPush(true); }); }catch(e){}
 
