@@ -25,7 +25,9 @@
   function makeRoom(name, me) {
     const ref = rtdb.ref("rooms/" + safeKey(name)), mine = ref.child(me);
     let state = {}, cache = {}, live = true; const handlers = [], offs = [];
-    const snap = () => Object.entries(cache).map(([peer, v]) => {
+    // v0.177 고돗판(앱)은 서버 연결을 붙잡지 않아 hb:1을 달고 20초마다 at을 새로 씀 — 60초 넘게 안 새로 쓴 hb 칸은 나간 것으로 봄
+    const stale = v => v && v.hb && (Date.now() + tOff) - (+v.at || 0) > 60000;
+    const snap = () => Object.entries(cache).filter(([peer, v]) => peer === me || !stale(v)).map(([peer, v]) => {
       let presence = {}; try { presence = JSON.parse(v.j) || {}; } catch (e) {}
       return { peer, uid: v.u || "", presence, isMe: v.u === user.uid, sameTab: peer === me, kind: "viewer", guest: false, by: null, updatedAt: v.at || 0 };
     });
@@ -33,6 +35,7 @@
     const onVal = s => { cache = s.val() || {}; fire(); };
     const onErr = e => { for (const h of handlers) if (h.err) try { h.err({ code: (e && e.code) || "unavailable", message: e && e.message }); } catch (x) {} };
     ref.on("value", onVal, onErr);
+    let staleSig = ""; const staleT = setInterval(() => { if (!live) return clearInterval(staleT); const sg = snap().map(p => p.peer).join(","); if (sg !== staleSig) { staleSig = sg; fire(); } }, 5000);   // 고돗 칸이 말없이 끊기면 5초 안에 알림
     mine.onDisconnect().remove();
     return {
       name,

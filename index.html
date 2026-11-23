@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795427603295"></script>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script>window.PN_FIREBASE={"apiKey":"AIzaSyBoAamDWbuakNFfwm5yw0INWAVL2jU9SzQ","authDomain":"project-night-66395.firebaseapp.com","databaseURL":"https://project-night-66395-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"project-night-66395","storageBucket":"project-night-66395.firebasestorage.app","messagingSenderId":"221196608316","appId":"1:221196608316:web:e0e1dd5220e8165041f439"};</script><script src="pn-net.js?v=1795459526638"></script>
 <title>밤 원정대</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -11500,6 +11500,7 @@ const PIN_ID="pin";
 function pinDefault(){ return {t:"테스트 안내", body:TEST_NOTICE.map(x=>String(x).replace(/<[^>]*>/g,"")).join("\n")}; }
 // v0.93 업데이트 내역(플레이어용) — 날짜 · 버전 · 주요 변경을 짧은 문장으로(수치가 바뀌면 적음). 새 업데이트는 맨 위에 추가. 예전 상세 기록은 newsTpl(개발 기록)에 남김
 const UPDATES=[
+  {d:"2026.11.24", v:"v0.177", t:"정리", L:["운영 기능 개선", "화면 개선"]},
   {d:"2026.11.23", v:"v0.176", t:"정리", L:["그래픽 개선", "화면 개선"]},
   {d:"2026.11.23", v:"v0.175", t:"정리", L:["화면 개선"]},
   {d:"2026.11.23", v:"v0.174", t:"정리", L:["운영 기능 개선", "오류 수정"]},
@@ -11865,6 +11866,37 @@ function cardStickerPos(ST,FR){ const S=(progress.cosEq&&progress.cosEq.stPos)||
   return ST.map((id,i)=>{ if(S[id]) return S[id]; let x=W-30-(ST.length-i)*58+28, y=16+28;   /* v0.96 기본 자리 = 오른쪽 위(이름 줄 옆) */ if(FR!=="fr_base"){ x=32+0.9*x; y=20+0.9*y; } return [x,y]; }); }
 const CARD_EL={fire:"#ff9a5c",cold:"#7fc8ff",poison:"#8fe07a",holy:"#ffe98a",dark:"#c79bff"};
 const CARD_RAR={common:"#aab3cf",fine:"#6fdc8c",rare:"#5eaaff",epic:"#c98bff",legend:"#ffb347",set:"#45e0cf",mythic:"#ff7ad9"};
+
+/* ---------- v0.177 함께하기 규칙 ---------- */
+// v0.177 함께하기 규칙(엔진 — 웹 · 고돗 같은 함수): 데려갈 영웅 · 파티 만들기 · 적 · 전투 · 구역 사이 정비 · 보상 받을 영웅
+function coopHeroCount(n){ if(!COOP.mode) return 1; n=Math.max(1,n||COOP.mem.length||1); return Math.max(1,Math.min(EG_PARTY,Math.floor(EG_MULTI_MAX/n))); }
+function coopHeroList(k){ const first=coopHero(); const ids=[first].concat(battleIds(EG_PARTY).filter(c=>c!==first)).concat(rosterIds().filter(c=>c!==first)); return [...new Set(ids)].slice(0,k); }
+function coopHero(){ const ids=rosterIds(); if(!COOP.heroCid||!ids.includes(COOP.heroCid)) COOP.heroCid=(progress.protag&&ids.includes(progress.protag.cid))?progress.protag.cid:ids[0]; return COOP.heroCid; }
+function coopPartyFrom(R,L){ const units=[]; const k=Math.max(1,Math.min(EG_PARTY,+R.k||1));
+  for(const e of L){ if(!Array.isArray(e.snaps)) continue;
+    e.snaps.slice(0,R.mode?k:1).forEach((snap,j)=>{ if(!snap||typeof snap!=="object") return;
+      const u=JSON.parse(JSON.stringify(snap)); u.id="m"+e.i+"_"+j; u.side="party"; u.coopNick=e.nick; u.mine=!!e.mine;
+      if(typeof u.name!=="string") u.name=e.nick; u.name=u.name.slice(0,28);
+      units.push(u); }); }
+  return units.slice(0,R.mode?EG_MULTI_MAX:6); }
+function coopEnemies(run,z){ return partyScaleEnemies(z.mobs.map((m,i)=>buildMobUnit(m,i,run.d,run.rk)), run.party.length, 4, !!run.mode); }   // 기본 균형은 일반 3명 · 최종 콘텐츠 4명 기준
+function coopSim(run,z,enemies){ const seed=(run.seed+7919*(run.z+1))>>>0;
+  applyZoneAllies(z,run.party);
+  const sim=new Sim(run.party,enemies,seed); sim.meterOn=true; sim.resPen=heroResPen(run.d); if(z.law) sim.law=z.law;   // v0.59 밤의 심연 법칙
+  return {sim,seed}; }
+function coopAbyssHeal(run){ for(const u of run.party){ if(!u.alive){ u.alive=true; u.hp=1; } u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.25)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*0.25)); } }
+function coopRecover(run){ for(const u of run.party){ if(!u.alive){ u.hp=0; continue; } zoneRecover(u); u.buffs={}; u.dots={}; u.taunted_by=""; } }
+function coopMyIds(run){ return [...new Set([run.myCid].concat((run.myCids||[]).length&&run.mode?coopHeroList(+(COOP.hostRun||{}).k||coopHeroCount()):[]))]; }
+
+/* ---------- v0.177 채팅 차단 ---------- */
+// v0.177 채팅 차단(엔진)
+function chatUid(p){ return String((p&&(p.uid||String(p.peer||"").split("_")[0]))||"").slice(0,64); }
+function chatBlocked(uid){ return !!uid&&chatBlocks().some(b=>b&&b.u===uid); }
+function chatBlock(uid,nick){ if(!uid||chatBlocked(uid)) return; const L=chatBlocks(); L.push({u:uid,n:String(nick||"?").slice(0,12),at:Date.now()}); if(L.length>200) L.splice(0,L.length-200);
+  for(const k of ["lobbyChat","roomChat"]) COOP[k]=COOP[k].filter(m=>m.u!==uid); saveProgress(); }
+
+/* ---------- v0.177 채팅 규칙 글 ---------- */
+const CHAT_RULES="욕설 · 비방, 음란 · 혐오 표현, 개인정보 공개, 광고 · 도배를 하지 않습니다. 어기면 신고에 따라 채팅이나 접속이 막힐 수 있습니다.";
 
 /* ================= UI ================= */
 function fbGithubUrl(cat,msg,body){ const first=(String(msg||"").trim().split("\n")[0]||"의견").slice(0,60); if(body.length>5000) body=body.slice(0,5000)+"\n…(길어서 잘림)";
@@ -18252,8 +18284,6 @@ const COOP={ rt:null, st:"off", conn:false, nr:null, code:null, isHost:false, he
   lobbyChat:[], roomChat:[], seen:{}, myLobbyChat:[], myRoomChat:[], run:null, lastRunId:null, unsub:[], roomUnsub:[],
   title:"", mx:4, rk:null, d:0, mem:[], hostGoneAt:0, renderDue:false, notice:"", mode:null, egStart:1, mySnaps:null, mySnapz:null, packN:0 };
 // v0.24 최종 콘텐츠 함께하기: 모두 합쳐 최대 6명 — 인원이 적으면 한 사람이 영웅을 여럿 데려감(2명→3명씩, 3명→2명씩, 4~6명→1명씩)
-function coopHeroCount(n){ if(!COOP.mode) return 1; n=Math.max(1,n||COOP.mem.length||1); return Math.max(1,Math.min(EG_PARTY,Math.floor(EG_MULTI_MAX/n))); }
-function coopHeroList(k){ const first=coopHero(); const ids=[first].concat(battleIds(EG_PARTY).filter(c=>c!==first)).concat(rosterIds().filter(c=>c!==first)); return [...new Set(ids)].slice(0,k); }
 // 영웅 정보는 압축해 상태(4KB 한도)에 싣는다
 async function coopPack(obj){ const txt=JSON.stringify(obj);
   try{ if(typeof CompressionStream==="function"){ const cs=new Blob([txt]).stream().pipeThrough(new CompressionStream("deflate-raw")); const buf=new Uint8Array(await new Response(cs).arrayBuffer());
@@ -18272,7 +18302,6 @@ async function coopRepack(){
   COOP.mySnaps=coopExpand(JSON.parse(JSON.stringify(snaps))); COOP.mySnapz=z; COOP.packN=COOP.mem.length;   // v0.85: 내 것도 받는 쪽과 같은 모양으로(기술 항목 복원)
 }
 const COOP_MAX_CHAT=80;
-function coopHero(){ const ids=rosterIds(); if(!COOP.heroCid||!ids.includes(COOP.heroCid)) COOP.heroCid=(progress.protag&&ids.includes(progress.protag.cid))?progress.protag.cid:ids[0]; return COOP.heroCid; }
 function coopRid(n){ const a="abcdefghijkmnpqrstuvwxyz23456789"; let s=""; for(let i=0;i<n;i++) s+=a[Math.floor(Math.random()*a.length)]; return s; }
 function coopMyPeer(rt){ const me=(rt||COOP.rt).peers().find(p=>p.sameTab); return me?me.peer:null; }
 function coopPeers(rt){ return (rt.peers()||[]).filter(p=>p.kind!=="agent"); }
@@ -18317,11 +18346,6 @@ function coopPushRoom(extra){
 // ---------- v0.143 채팅 차단 · 신고 · 규칙 동의(구글 플레이 사용자 제작 콘텐츠 정책) ----------
 //   차단: 그 계정의 채팅을 내 화면에서 숨김(계정 진행에 기억 · 함께하기 채팅 칸의 '차단'에서 풀기) · 신고: 운영 도구 의견 목록에 '🚩 신고'로(대상 계정 ID · 글)
 //   규칙 동의: 처음 채팅을 보낼 때 한 번 — 계정 진행에 기억
-const CHAT_RULES="욕설 · 비방, 음란 · 혐오 표현, 개인정보 공개, 광고 · 도배를 하지 않습니다. 어기면 신고에 따라 채팅이나 접속이 막힐 수 있습니다.";
-function chatUid(p){ return String((p&&(p.uid||String(p.peer||"").split("_")[0]))||"").slice(0,64); }
-function chatBlocked(uid){ return !!uid&&chatBlocks().some(b=>b&&b.u===uid); }
-function chatBlock(uid,nick){ if(!uid||chatBlocked(uid)) return; const L=chatBlocks(); L.push({u:uid,n:String(nick||"?").slice(0,12),at:Date.now()}); if(L.length>200) L.splice(0,L.length-200);
-  for(const k of ["lobbyChat","roomChat"]) COOP[k]=COOP[k].filter(m=>m.u!==uid); saveProgress(); }
 async function chatReport(m,where){ const N=NET(); if(!N||!N.ops||!N.ops.feedback) throw new Error("서버 연결이 없습니다");
   await N.ops.feedback({cat:"🚩 신고", t:`대상: ${m.nick} · 계정 ID ${m.u}\n${where==="room"?"방":"로비"} 채팅: ${m.t}`, tu:m.u, ver:gameVersion(), name:progress&&progress.protag?progress.protag.name:""}); }
 function chatRulesAsk(then){ const md=openModal(`<h3>채팅 규칙</h3><p>${esc(CHAT_RULES)}</p><div class="mfoot"><button class="btn" id="crOk">동의</button><button class="btn ghost" id="crNo">취소</button></div>`);
@@ -18421,21 +18445,16 @@ async function coopHostStart(){
 // ---------- 함께 던전 ----------
 async function coopBuildParty(R){
   const peers=coopPeers(COOP.nr); const me=coopMyPeer(COOP.nr);
-  const units=[]; const k=Math.max(1,Math.min(EG_PARTY,+R.k||1));
+  const L=[];
   for(let i=0;i<R.mem.length;i++){ const pe=R.mem[i];
     let snaps=null, nick="?";
     if(pe===me){ snaps=COOP.mySnaps; nick=coopNick(); }
     else { const p=peers.find(x=>x.peer===pe); if(p&&p.presence){ snaps=await coopUnpack(p.presence.snapz||(COOP.snapCache||{})[pe]); nick=String(p.presence.nick||"?").slice(0,12); } }
-    if(!Array.isArray(snaps)) continue;
-    snaps.slice(0,R.mode?k:1).forEach((snap,j)=>{ if(!snap||typeof snap!=="object") return;
-      const u=JSON.parse(JSON.stringify(snap)); u.id="m"+i+"_"+j; u.side="party"; u.coopNick=nick; u.mine=pe===me;
-      if(typeof u.name!=="string") u.name=nick; u.name=u.name.slice(0,28);
-      units.push(u); });
+    L.push({snaps,nick,mine:pe===me,i});
   }
-  return units.slice(0,R.mode?EG_MULTI_MAX:6);
+  return coopPartyFrom(R,L);
 }
 // 기본 균형은 일반 3명 · 최종 콘텐츠 4명 기준. 인원이 적으면 적을 약하게, 많으면 강하게
-function coopScaleEnemies(enemies,n,base,eg){ return partyScaleEnemies(enemies,n,base||4,eg); }
 function coopSeeded(seed,fn){ const sr=Math.random; Math.random=mulberry32(seed>>>0); try{ return fn(); } finally { Math.random=sr; } }
 function coopGenZones(R){
   if(R.mode){
@@ -18474,11 +18493,11 @@ async function coopLoop(){
     else { const res=await coopBattle(run,z); if(res!=="win"){ coopEnd(res); return; }
       if(run.mode==="fall"){ fallReward(z,true,run.gains); run.eg.won=1; coopEnd("clear"); return; }
       else if(run.mode==="abyss"){ const f=z.floor; run.eg.top=f; abyssReward(z,true,run.gains);
-        if(f%5===0) for(const u of run.party){ if(!u.alive){ u.alive=true; u.hp=1; } u.hp=Math.min(u.hp_max,u.hp+Math.floor(u.hp_max*0.25)); u.mp=Math.min(u.mp_max,u.mp+Math.floor(u.mp_max*0.25)); }
+        if(f%5===0) coopAbyssHeal(run);
         run.zones.push(coopSeeded(run.seed^(0xab55+f*7919),()=>abyssFloor(f+1,run.wk))); }
       else if(z.boss||z.actEnd){ coopEnd("clear"); return; } }
     // 구역 사이 정비(혼자 하기와 같은 규칙)
-    for(const u of run.party){ if(!u.alive){ u.hp=0; continue; } zoneRecover(u); u.buffs={}; u.dots={}; u.taunted_by=""; }   // v0.55.3: 혼자 하기와 같은 규칙(각 10%)
+    coopRecover(run);   // v0.55.3: 혼자 하기와 같은 규칙(각 10%)
     run.z++; coopPushRoom(); saveProgress(); setMainBtn();
     // 방장과 보조 맞추기: 방장이 아니면 방장이 다음 구역에 들어설 때까지(최대 25초) 기다림
     if(!COOP.isHost&&run.z<run.zones.length){ const t0=Date.now();
@@ -18500,10 +18519,7 @@ async function coopBattle(run,z){
   playing=true; setMainBtn(); $("actbar").hidden=true; markAct(null);
   if(z.boss&&!run.mode) markBossSeen(run.rk);   // v0.87
   logLine(`<span class="zone">⟡ 구역 ${run.z+1} — ${esc(z.label)}</span>`);
-  const enemies=coopScaleEnemies(z.mobs.map((m,i)=>buildMobUnit(m,i,run.d,run.rk)), run.party.length, 4, !!run.mode);
-  const seed=(run.seed+7919*(run.z+1))>>>0;
-  applyZoneAllies(z,run.party);
-  const sim=new Sim(run.party,enemies,seed); sim.meterOn=true; sim.resPen=heroResPen(run.d); if(z.law) sim.law=z.law;   // v0.59 밤의 심연 법칙
+  const enemies=coopEnemies(run,z), CS=coopSim(run,z,enemies), seed=CS.seed, sim=CS.sim;
   if(z.envoy){ const E=FALL_ENVOYS.find(x=>x.key===z.envoy); logLine(`<span class="sk">🌠 ${esc(E.name)} — ${esc(E.tip)}</span>`); }
   spawnField(sim.units);
   if(z.law){ const LL=(Array.isArray(z.law)?z.law:[z.law]).map(k=>ABYSS_LAWS[k]); for(const L of LL) logLine(`<span class="sk">${L.icon} ${z.floor}층의 법칙 — ${L.n}: ${esc(L.d)}</span>`);
@@ -18527,14 +18543,14 @@ async function coopBattle(run,z){
   const res=endEv?endEv.result:"lose"; run.endMax=endEv&&endEv.max;
   if(window.__coopTrace) window.__coopTrace.push(run.z+":"+res+":"+run.party.map(u=>u.hp+"/"+u.mp).join(","));
   if(res==="win"){
-    coopZoneWin(run,z,[...new Set([run.myCid].concat((run.myCids||[]).length&&run.mode?coopHeroList(+(COOP.hostRun||{}).k||coopHeroCount()):[]))]);   // v0.151 보상 · 전리품 · 보물상자는 엔진 함수
+    coopZoneWin(run,z,coopMyIds(run));   // v0.151 보상 · 전리품 · 보물상자는 엔진 함수
     renderPtsDot();
   }
   return res;
 }
 function coopEnd(res){
   const run=COOP.run; if(!run) return;
-  if(coopEndCore(run,res,[...new Set([run.myCid].concat((run.myCids||[]).length&&run.mode?coopHeroList(+(COOP.hostRun||{}).k||coopHeroCount()):[]))])==="eg"){ coopEgEnd(run,res); return; }
+  if(coopEndCore(run,res,coopMyIds(run))==="eg"){ coopEgEnd(run,res); return; }
   const R=REGIONS[run.rk], D=DIFFS[run.d], g=run.gains;
   if(res==="clear"){
     logLine(`<span class="win">★ 함께하기 클리어 — ${D.icon} ${D.name} · ${R.chapter} ${esc(R.name)}!</span>`);
